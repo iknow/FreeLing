@@ -50,17 +50,18 @@ install-data-hook:
 	@for lg in $(languages); do \
 	   echo "...Indexing "$$lg" dictionary, please wait."; \
 	   rm -f $(pkgdatadir)/$$lg/maco.db; \
-	   zcat $(pkgdatadir)/$$lg/dicc.src.gz | $(bindir)/indexdict $(pkgdatadir)/$$lg/maco.db; \
+	   zcat -f $(pkgdatadir)/$$lg/dicc.src | $(bindir)/indexdict $(pkgdatadir)/$$lg/maco.db; \
 	   chmod +r $(pkgdatadir)/$$lg/maco.db; \
 	   echo "...Indexing "$$lg" sense dictionary, please wait."; \
-	   for v in $(pkgdatadir)/$$lg/senses*.src.gz; do \
-             name=`echo $$v | sed 's/.src.gz//' `; \
+	   for v in $(pkgdatadir)/$$lg/senses*.src.gz $(pkgdatadir)/$$lg/senses*.src; do \
+             src=`echo $$v | sed 's/.gz//' `; \
+             name=`echo $$v | sed 's/.gz//' | sed 's/.src//' `; \
              rm -f $$name.db; \
-	     zcat $$v | $(bindir)/indexdict $$name.db; \
+	     zcat -f $$src | $(bindir)/indexdict $$name.db; \
 	     chmod +r $$name.db; \
 	   done \
 	done
 	@echo "Indexing WN-based semantic database"
 	@rm -f $(pkgdatadir)/common/wn16.db;
-	@zcat $(pkgdatadir)/common/wn16.src.gz | $(bindir)/indexdict $(pkgdatadir)/common/wn16.db;
+	@zcat -f $(pkgdatadir)/common/wn16.src | $(bindir)/indexdict $(pkgdatadir)/common/wn16.db;
 	@chmod +r $(pkgdatadir)/common/wn16.db;
