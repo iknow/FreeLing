@@ -1,0 +1,66 @@
+
+  ##### Java API for Freeling  ######
+
+
+  This directory contains a jarfile with a generated java API for FreeLing.
+  Setting it in your CLASSPATH (after making sure freeling libraries are
+  properly installed) should do the trick.
+
+  If you experience problems, you may want to re-generate the API
+  following the instructions below:
+
+
+  INSTALLATION
+
+  To get a java API library, after installing Freeling library, follow the steps:
+
+  1.- Edit Makefile in this directory to adjust the right values of
+       FREELING_DIR = directory prefix where you installed freeling (probably /usr/local)
+       LIBS_DIR = directory where FreeLing required libraries (pcre, Berkeley DB, 
+                  fries, omlet) are installed.
+       SWIG_DIR = directory where swig share files are installed in your system (e.g. /usr/local/share/swig/1.3.29)
+
+   2. Check if your swig version includes "std_list.i" template for java 
+       (it should be in $SWIG_DIR/java/std_list.i)
+      If the file is not included, copy the std_list.i provided here to
+      the directory $SWIG_DIR/java 
+
+   3. Copy the std_string.i provided in this directory to 
+      $SWIG_DIR/java in your swig installation, overwriting the 
+      original file installed by swig.
+
+       **WARNING**    If you use swig to generate java APIs for libraries 
+       **WARNING**    other than FreeLing, you probably want to keep the
+       **WARNING**    original swig configuration, so, make sure to backup
+       **WARNING**    the original std_string.i for java before overwriting 
+       **WARNING**    it with the version provided here.
+
+       ***** IMPORTANT WARNING ****   The modifications to swig file std_string.i
+       ***** IMPORTANT WARNING ****   provided here are experimental.
+       ***** IMPORTANT WARNING ****   Use them to your own risk. Report errors, please.
+
+   4. issue 'make' to build the java API
+
+   5.  Make sure that the directory contanining libmorfo.so ($FREELING_DIR/lib) is in your LD_LIBRARY_PATH.
+       Make sure that the directory contanining libmorfo_java.so (just created by make) is in your LD_LIBRARY_PATH.
+
+   6.  Make sure that the path to package "libmorfo_java.jar" created by make is in your CLASSPATH
+ 
+   7.  compile and execute the sample program: 
+         javac analyzer.java
+         java analyzer
+
+   See FreeLing documentation and sample programs in src/main to understand what this sample program is doing.
+
+
+   NOTES
+
+    This java API for FreeLing includes also a java API for Fries. 
+    So, you can call any of the both libraries using this module.
+
+    Neverthless, if you want to use only Omlet and/or Fries, you don't need to use 
+    the whole FreeLing API. 
+    Packages for Omlet+Fries include their own java API to access the services 
+    of these libraries.
+
+

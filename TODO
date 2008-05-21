@@ -1,0 +1,47 @@
+
+  TO-DO list for FreeLing
+
+   * Improve suffix retokenization for ambiguous cases (e.g. "dar+se")
+
+
+   * Improve perl, python and Java APIS created with SWIG. 
+
+   * add native UTF-8 support (is it worth?)
+
+   * Add language identifier
+
+   * Improve chart_parser API to allow the incremental use of different grammars.
+     After an analysis, the grammar can be changed and further analysis performed:
+     either continuing from the status reached by the previous step, or from
+     a "freezed" image in which a parsing has been selected and fixated.
+
+   * Train NE classifiers for all languages but Spanish
+
+   * Develop and train ML-based NE recognizers
+
+   * Develop dependency rules for all languages but Spanish
+
+   * Improve capabilities of dependency parsing rule description language
+
+   * Create dates_en and dates_it classes to recognize English and Italian date/time
+     expressions
+	Affected files: src/libmorfo/dates_modules.cc
+			src/libmorfo/dates.cc
+                        src/include/freeling/dates_modules.h
+		        doc/diagrams/dates.dia
+
+   * Create accents_ca class, to deal with catalan 
+     accentuation in suffixing. Have a look to
+     accents_es to understand the idea.
+	Affected files: src/libmorfo/accents_modules.cc
+			src/libmorfo/accents.cc
+                        src/include/accents_modules.h
+
+   * Create quantitites_en and quantitites_it classes, to deal with
+     ratio expressions in English and Italian. Have a look at
+     quantities_es to get an idea.  
+        Affected files: src/libmorfo/quantities_modules.cc 
+                        src/libmorfo/quantities.cc
+                        src/include/quantities_modules.h
+                        data/en/quantities.dat
+                        data/it/quantities.dat

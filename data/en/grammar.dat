@@ -1,0 +1,41 @@
+
+%% Toy english grammar
+
+sn ==> DT, +grup-n | grup-n.
+
+grup-n ==> NN* | adj, +NN*.
+
+adj ==> JJ* | JJ*, +adj | JJ*, +CC, adj | JJ*, +Fc, adj.
+
+verb ==> VB* | VB*<have>, +VB* | VB*<have>, VBN<be>, +VBG | VB*<be>, +VB* | MD, +verb.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Control directives
+
+%% -------------------------
+%% NOTOP: Categories not considered as valid tree roots.  
+%% -------------------------
+% @NOTOP xyz.
+
+%% -------------------------
+%% START: Specify which is the start symbol of the grammar. If the result of the parsing 
+%% is not a complete tree, or no valid root nodes are found, a fictitious root node is
+%%  created  with this label.
+%% -------------------------
+@START S.
+
+%% -------------------------
+%% FLAT: Trees for "flat" categories are flattened when the category is recursive. 
+%% Only the highest occurrence appears in the final tree.
+%% -------------------------
+@FLAT adj verb.
+
+
+%% -------------------------
+%% Priority definitions: decreasing priority downwards and rightwards in
+%% the following list.  When two chart edges cover the same subsentence,
+%% the edge with highest prioriy will be included the final parse tree.
+%% -------------------------
+%%@PRIOR verb-pass grup-verb grup-verb-inf. 
+%%@PRIOR data s-adj parti-flex.

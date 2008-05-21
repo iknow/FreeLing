@@ -1,0 +1,34 @@
+## list of words that may be included in a Named Entity
+## e.g.  "Bank of England"  "Foundation for the Research of Important Things"
+<FunctionWords>
+the
+a
+an
+of
+for
+'s
+&
+</FunctionWords>
+## Punctuation mark tags after which a capitalized word
+## may be indicating just a sentence (or clause) beginning
+<SpecialPunct>
+Fpa
+Fca
+Fla
+Fp
+Fs
+Fd
+Fg
+Fe
+Fia
+Fit
+Faa
+Fat
+</SpecialPunct>
+## Tag to be assigned to detected NEs
+<NE_Tag>
+NP
+</NE_Tag>
+<TitleLimit>
+0
+</TitleLimit>

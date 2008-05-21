@@ -1,0 +1,102 @@
+ 	
+  FreeLing THANKS file
+
+  FreeLing was originally written by people in TALP Research 
+  Center at Universitat Politecnica de Catalunya (http://talp.upc.es). 
+
+  Spanish and Catalan linguistic data were originally developed 
+  by people in CLiC, Centre de Llenguatge i Computacio at Universitat
+  de Barcelona (http://clic.fil.ub.es).
+
+  Many people further contributed to by reporting problems, suggesting 
+  various improvements, submitting actual code or extending linguistic 
+  databases. Here is a list of these people. Help us keep it complete 
+  and exempt of errors.
+
+  --- Begin of List ----
+
+  2004
+
+  >> Montserrat Civit (civit@clic.fil.ub.es) developed the 
+     shallow parsing grammars for Spanish and Catalan.
+
+  2005
+
+  >> Mikel Forcada and the InterNostrum 
+     team (http://www.internostrum.com) in Universitat d'Alacant 
+     (http://www.dlsi.ua.es) completed the Spanish and Catalan
+     dictionaries to cover the same lemas in both languages, enlarging
+     the dictionaries from 5,000 to 6,500 lemmas.
+
+  >> TALP and CLiC research centers, who developed the 
+     Catalan WordNet, granted the distribution of the synsets
+     for the 6,500 most frequent lemmas.
+
+  >> The feature extraction module is based on the code developed by 
+     Dan Roth's Cognitive Computation Group at University of Illinois 
+     at Urbana Champaign (UIUC), who we thank for allowing us to distribute
+     our modified version under GPL.
+     More info at:  http://l2r.cs.uiuc.edu/~cogcomp/
+     ** This module is no longer distributed as part of FreeLing, but separately 
+     ** as the Fries library (http://www.lsi.upc.edu/~nlp/omlet+fries)
+
+  >> TALP and CLiC research centers and Natural Language Processing 
+     researchers at UNED (Universidad Nacional de Educacion a 
+     Distancia, http://nlp.uned.es), who developed the Spanish 
+     WordNet, granted the distribution of the synsets for the 6,500
+     most frequent lemmas.
+
+  >> The English WordNet was developed by the Cognitive Science Laboratory 
+     at Princeton University under the direction of Professor George A. Miller.
+     Synset information is included in FreeLing under the original WordNet 
+     license terms (see COPYING file).
+     See http://wordnet.princeton.edu for more details on WordNet
+
+  >> The Italian dictionary is extracted from Morph-it! lexicon developed by 
+     Marco Baroni and his colleagues at the Scuola Superiore di Lingue 
+     Moderne per Interpreti e Traduttori (SSLMIT, http://www.ssit.unibo.it/) 
+     of the University of Bologna. These data are included in this package under
+     their original Creative Commons license (See COPYING file).
+     More info at http://sslmitdev-online.sslmit.unibo.it/
+
+  >> The Galician dictionary was obtained from the OpenTrad project 
+     (http://www.opentrad.org), and was developed by Xavier Gómez Guinovart and
+     the members of the Seminario de Lingüística Informática (http://sli.uvigo.es)
+     at Universidade de Vigo. These data are included in this package under
+     their original Creative Commons license (See COPYING file).
+
+  2006
+
+  >> Jordi Atserias managed to compile FreeLing-1.4 for Windows using cygwin.
+
+  >> Montserrat Marimon contributed in debugging and improving several parts 
+     of the Spanish linguistic data. 
+
+  >> Gorka Labaka, Mikel Lersundi, and Aingeru Mayor from IXA group 
+     (http://ixa.si.ehu.es) at Basque Contry University contributed 
+     with a lot of testing and suggestions on the Named Entity recognizer, 
+     the chunker, and the dependency parsing module.
+
+  >> The Spanish Industry Ministry funded part of FreeLing development through
+     the OpenTrad project (http://www.opentrad.org)
+
+  2007
+
+  >> Javier Puche extended the Java API to support access to parse and dependeny trees
+ 
+  >> Bruno Martinez made valuable bugfixing and the necessary changes
+     to enable FreeLing compilation on 64-bit architectures.
+
+  >> The Spanish dictionary was obtained from the Spanish Resource Grammar
+     (http://www.upf.edu/pdi/iula/montserrat.marimon/srg.html)
+     project developed by Montserrat Marimon at the Institut
+     Universitari de Lingüística Aplicada (http://www.iula.upf.edu)
+     of the Universitat Pompeu Fabra. These data are included in this 
+     package under their original Lesser General Public License For 
+     Linguistic Resources (LGPLLR) license (see COPYING file).
+
+  >> The Spanish Education and Science Ministry funded part of
+     FreeLing development through the KNOW project (http://ixa.si.ehu.es/know)
+
+  --- End of List ----
+

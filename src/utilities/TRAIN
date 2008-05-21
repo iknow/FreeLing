@@ -1,0 +1,34 @@
+#! /bin/bash
+
+### Build models for FreeLing Taggers given a tagged corpus
+###
+### The corpus must be in the format:
+#
+# word lemma tag # (lemma tag)+
+#
+# where the lemma-tag pair before the # sign are the right ones for that 
+# word in that context. The list of lemma-tag pairs after the # sign are
+# all the possibilities (including the selecte one, again) for the word.
+#
+# Also, the input file must contain a blank line at each sentence break.
+#
+
+# usage:
+#
+#     ./TRAIN corpus-file use-parole
+#
+
+## Note: use-parole=1 parameter for hmm_smooth and train-relax means that your tagset is parole, 
+##      set  use-parole=0 if otherwise (e.g. for english PTB tagset)
+PAROLE=$2
+
+## Create HMM tagger file
+cat $1 | cut -d' ' -f1-3 | gawk 'NF>0' | ./hmm_smooth.perl $PAROLE >tagger.dat
+
+## Create relax tagger file
+cat $1 | cut -d' ' -f1-3 | ./train-relax.perl $PAROLE | cat constr_gram.manual -  >constr_gram.dat
+
+
+## create lexical probabilities file for morphological analyzer
+cat $1 | gawk 'NF>0' | gawk '{bo=$2"#"$3; printf "%s %s %s",$1,$2,$3; for (i=5;i<=NF; i+=2) {if (bo!=$i"#"$(i+1)) printf " %s %s",$i,$(i+1);} printf "\n"}' | ./make-probs-file.perl $PAROLE >probabilitats.dat
+ 

@@ -1,0 +1,30 @@
+
+  ##### Perl API for FreeLing  (experimental)  ######
+
+
+  INSTALLATION
+
+  To get a perl API library, after installing FreeLing, follow the steps:
+
+  1.- Edit Makefile in this directory to adjust the right values of
+        FREELINGDIR: must be your FreeLing installation directory --e.g. /usr/local
+        LIBSDIR: must be the directory where libdb_cxx and libpcre are found --e.g. /usr/local or /usr/local/mylibs
+        PERLDIR: must be the libraries directory of your local perl installation --e.g /usr/local/perl-5.8.0/lib/5.8.0/i686-linux
+
+   3. issue 'make' to compile the perl API
+
+   4.  Make sure that the directories contanining libdb_cxx.so and libpcre.so (LIBSDIR) are in your LD_LIBRARY_PATH.
+       Make sure that the directory contanining libmorfo.so (FREELINGDIR/lib) is in your LD_LIBRARY_PATH.
+
+   5.  Test the interface with the "sample.perl" script in this directory 
+       (after editing it to adjust FREELINGDIR)
+
+   6.  To use the perl API from any other perl script, put the files "libmorfo.pm" and "libmorfo_perl.so" in some perl @INC directory, or appropriately set your PERL5LIBS environment variable.
+ 
+
+
+   USAGE
+
+    - Write your perl programms using freeling as seen in sample.perl
+    - Current perl API does not support tree templates, so you can not
+      get a FreeLing parse tree into perl... :-(

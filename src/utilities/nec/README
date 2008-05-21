@@ -1,0 +1,15 @@
+
+
+  This directory contains information about how to train a NE classifier for FreeLing.
+  Read the comments in the TRAIN.sh script.
+
+  In fact, the libraries being used here is not FreeLing, but Omlet&Fries
+  (www.lsi.upc.edu/~nlp/omlet)
+
+  Before training, you'll have to compile train.cc and lexicon.cc with the commands:
+
+  g++ -o train train.cc -lomlet -lpcre -lfries
+  g++ -o lexicon lexicon.cc -lpcre -lfries
+
+  You may need to add -I and -L options if your libraries
+  (libomlet.so, libfries.so, libpcre.so) are not in a default location.

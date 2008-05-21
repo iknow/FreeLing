@@ -1,0 +1,51 @@
+
+  This directory contains a main program which interfaces the 
+  LKB HPSG environment to freeling library
+
+  For more information about LKB and related stuff, see 
+    http://www.delph-in.net 
+    http://wiki.delph-in.net/moin/LkbTop
+  
+  If you want to use FreeLing output from inside the LKB, follow these steps:
+
+  1) Make sure you have installed the 'uniconv' unicode conversion tool. 
+     It is found in a package called 'yudit'
+
+  2) Compile the interface program:
+      cd src
+      edit LKBMakefile and adjust the three first lines to your installation:
+        FREELINGDIR=base directory where you installed FreeLing (default /usr/local)
+        MYINCLUDES=non-default directories where includes for required libraries can be found 
+                   (e.g. in some distributions, db_cxx.h may be installed in /usr/include/db4)
+        MYLIBS=non-default directories where required libraries can be found 
+                (e.g. if you installed libcfg+ in somewhere other than /usr/local/lib)
+
+      compile the program with 'make -f LKBMakefile'
+      cd ..
+
+  3) once back to this directory (src/main/LKB in FreeLing package), you'll find three files
+     you want to keep:
+       LKBanalyzer
+       LKB.cfg
+       sppp
+
+     you can move them to somewhere in your user directory. They are your LKB-FreeLing interface
+     (specially the 'sppp' file)
+  
+  4) edit LKB.cfg and replace all occurrences of FREELINGDIR with the actual base directory 
+     where you installed FreeLing  (default /usr/local)
+
+  5) Nothing else on FreeLing part.  
+     Now follow the instructions given in LKB doc on how to 
+     call external analyzers (http://wiki.delph-in.net/moin/LkbSppp)
+
+     Basically, you have to modify the LKB config file --with the appropriate path to sppp--
+
+       (setf *sppp-application* "/path/to/my/sppp")
+
+     And in the load script of your grammar, include
+
+       (initialize-sppp)
+
+     Then, your gramar has to include inflection rules to deal with the tags that
+     FreeLing will provide, and from here onwards, everything is regular LKB stuff.
