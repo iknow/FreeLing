@@ -51,11 +51,12 @@ teli	re|*	^V	*	0	0	0	1	$$+te+li:$$+PP+PP
 telo	re|*	^V	*	0	0	0	1	$$+te+lo:$$+PP+PP
 tene	re|*	^V	*	0	0	0	1	$$+te+ne:$$+PP+PP
 ti	re|*	^V	*	0	0	0	1	$$+ti:$$+PP
-vela	re|*	^V	*	0	0	0	1	$$+ve+la:$$+PP+PP
-vele	re|*	^V	*	0	0	0	1	$$+ve+le:$$+PP+PP
-veli	re|*	^V	*	0	0	0	1	$$+ve+li:$$+PP+PP
-velo	re|*	^V	*	0	0	0	1	$$+ve+lo:$$+PP+PP
-vene	re|*	^V	*	0	0	0	1	$$+ve+ne:$$+PP+PP
+# ve:PP is not in dict. Uncomment this when included 
+#vela	re|*	^V	*	0	0	0	1	$$+ve+la:$$+PP+PP
+#vele	re|*	^V	*	0	0	0	1	$$+ve+le:$$+PP+PP
+#veli	re|*	^V	*	0	0	0	1	$$+ve+li:$$+PP+PP
+#velo	re|*	^V	*	0	0	0	1	$$+ve+lo:$$+PP+PP
+#vene	re|*	^V	*	0	0	0	1	$$+ve+ne:$$+PP+PP
 vi	re|*	^V	*	0	0	0	1	$$+vi:$$+PP
 
 
