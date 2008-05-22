@@ -113,7 +113,20 @@ This version also includes WordNet-based sense dictionaries for languages which 
 
    See next section and INSTALL file for further details.
 
-2. Installation
+2. Installing from SVN
+-----------------------
+
+  if you got this package from the SVN repository, issue the commands:
+
+   aclocal
+   libtoolize
+   autoconf
+   automake -a
+
+  Then, proceed to step 3 (Installation)
+
+
+3. Installation
 ---------------
 
 Installation follows standard GNU autoconfigure installation
@@ -142,7 +155,7 @@ The installation consists of a few basic steps:
  The INSTALL file provides more information on standard installation 
  procedures.
 
-3. Executing
+4. Executing
 ------------
 
   FreeLing is a library, which means that it is a tool to develop 
@@ -159,7 +172,7 @@ new programs which may require linguistic analysis services.
   decompressing the tar.gz distribution package.
 
 
-4. Porting to other platforms
+5. Porting to other platforms
 -----------------------------
 
 The FreeLing library is entirely written in C++, so it should be
