@@ -36,6 +36,7 @@
 #include "freeling/traces.h"
 #include "freeling/dependencies.h"
 #include "freeling/dep_rules.h"
+#include "regexp-pcre++.h"
 
 using namespace std;
 
@@ -54,6 +55,7 @@ set<string> check_wordclass::wordclasses;
 
 completer::completer(const string &filename) {
 
+  RegEx blankline("^[ \t]*$");
   int lnum=0;
   string path=filename.substr(0,filename.find_last_of("/\\")+1);
 
@@ -70,7 +72,8 @@ completer::completer(const string &filename) {
   while (getline(fin,line)) {
     lnum++;
     
-    if (line.empty() || line[0]=='%') {} // ignore comment and empty lines
+
+    if (blankline.Search(line) || line[0]=='%') {} // ignore comment, and blank/empty lines
 
     else if (line == "<CLASS>") reading=1;
     else if (line == "</CLASS>") reading=0;
