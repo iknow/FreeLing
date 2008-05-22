@@ -73,7 +73,7 @@ completer::completer(const string &filename) {
     lnum++;
     
 
-    if (blankline.Search(line) || line[0]=='%') {} // ignore comment, and blank/empty lines
+    if (blankline.Search(line) || line[0]=='%') {} // ignore blank/empty lines, and comments
 
     else if (line == "<CLASS>") reading=1;
     else if (line == "</CLASS>") reading=0;
