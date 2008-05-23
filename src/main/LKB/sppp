@@ -1,0 +1,39 @@
+#!/bin/bash
+
+#
+# sample script to fake the Simple PreProcessing Protocol (use with the ERG)
+#
+
+## Get relative location of this script
+path=$(dirname $0)
+if [ "${path#./}" != "${path}" ]; then
+  path="$(pwd)/${path#./}"
+fi
+if [ "${path#/}" = "${path}" ]; then
+  if [ "${path}" = "." ]; then
+    path="$(pwd)";
+  else
+    path="$(pwd)/${path}"
+  fi
+fi
+
+## define FREELINGSHARE (if not already defined), which is used in default config files
+## you may change this to suit your config file
+if [ "x$FREELINGSHARE" == "x" ]; then
+  export FREELINGSHARE=$path
+fi
+
+# Prepare to execute FreeLing
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/FreeLing/lib/:/usr/local/lib/
+
+file=/tmp/.sppp.$USER.$$
+
+while read -d '' foo; do
+  echo $foo > $file
+  echo "" >> $file
+  /usr/bin/uniconv -decode utf-8  -encode iso-8859-1 < $file \
+  | $path/LKBanalyzer -f $path/LKB.cfg 2>$path/errors \
+  | /usr/bin/uniconv -decode iso-8859-1 -encode utf-8
+done
+
+rm -f $file

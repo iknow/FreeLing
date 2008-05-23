@@ -1,0 +1,27 @@
+#------------------------
+# Suffixation rules file
+#------------------------
+
+# Each line is a suffixation rule
+# 1 Suffix to erase form word form (e.g: gatito - ito = gat)
+# 2 Suffix (* for emtpy string) to add to the resulting root
+#   to rebuild the lemma that must be searched in dictionary 
+#   (e.g:  gat+o = gato)
+# 3 Regexp condition on the parole tag of found dictionary entry
+# 4 Parole tag for suffixed word (* = keep tag in dictionary entry)
+# 5 Check lemma adding accents
+# 6 Enclitic suffix (special accent behaviour in Spanish)
+# 7 Lemma to assign: 0-lemma in matching dict entry, 1-original form, 2-root found in dict.
+# 8 Consider the suffix always, not only for unknown words.
+# 9 How to decompose word if necessary (see uer manual)
+
+
+### Adverbs with -ly
+
+ally    *	^JJ	RB	0	0	1	0	-
+bely    ble	^JJ	RB	0	0	1	0	-
+ly      *|l|le	^JJ	RB	0	0	1	0	-
+ily     y	^JJ	RB	0	0	1	0	-
+ly      *	^VBG	RB	0	0	1	0	-
+
+

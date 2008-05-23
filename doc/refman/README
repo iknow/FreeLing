@@ -1,0 +1,2 @@
+
+ To generate Reference Manual documentation, use doxygen with the configuration file in doc/refman.cfg

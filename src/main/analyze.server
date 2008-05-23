@@ -1,0 +1,81 @@
+#!/bin/bash
+
+#
+#  usage:
+#
+#   analyze.server  NAME  [options] 
+#
+#  Creates two named pipes (NAME.in, NAME.out) and
+#  launches an analyzer with the given options.
+#
+#  The analyzer will read from NAME.in and write the output
+#  to NAME.out until an end-of-file is written to NAME.in
+#
+#  This provides simple but efficient way to call the analyzer from
+#  other programs without having to link with the library, and without
+#  having to launch and load the analyzer for each file to be processed.
+#
+#  This script also checks whether the config file given with option -f
+#  is found in the current directory. If not, it is searched in
+#  share/FreeLing/config under FreeLing installation directory.
+
+
+## Get relative location of this script
+path=$(dirname $0)
+if [ "${path#./}" != "${path}" ]; then
+  path="$(pwd)/${path#./}"
+fi
+if [ "${path#/}" = "${path}" ]; then
+  if [ "${path}" = "." ]; then
+    path="$(pwd)";
+  else
+    path="$(pwd)/${path}"
+  fi
+fi
+
+## Convert relative to absolute, to find out FreeLing install dir.
+pushd $path >/dev/null; cd ..;  FREELING=`pwd`; popd >/dev/null;
+
+## define FREELINGSHARE (if not already defined), which is used in default config files
+if [ "x$FREELINGSHARE" == "x" ]; then
+  export FREELINGSHARE=$FREELING/share/FreeLing
+fi
+
+# Prepare to execute FreeLing
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$FREELING/lib
+
+## use first parameter as I/O pipe basename
+NAME=$1
+
+## pass all other parameters to the executable, fixing the config file if necessary
+i=2;  eval arg=\${$i}
+param=""
+while [[ $i -le $# ]]; do
+
+   param="$param $arg"
+
+   if [ "$arg" == "-f" ]; then
+     let i=$i+1; eval arg=\${$i}
+
+     if [ -e $arg ]; then
+       param="$param $arg"
+     else 
+       param="$param $FREELING/share/FreeLing/config/$arg"
+     fi
+   fi
+
+   let i=$i+1;  eval arg=\${$i}
+done
+
+## create named pipes
+if [[ -e $NAME.in || -e $NAME.out ]]; then
+  echo "Error. File $NAME.in or $NAME.out already exist"
+  exit
+fi
+
+mkfifo $NAME.in
+mkfifo $NAME.out
+
+$FREELING/bin/analyzer $param <$NAME.in >$NAME.out
+rm -f $NAME.in $NAME.out
+

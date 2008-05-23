@@ -1,0 +1,250 @@
+#--------------------------------------
+# Regras de sufixación para o galego
+#--------------------------------------
+#  Xavier Gómez Guinovart
+#  Seminario de Lingüística Informática
+#  Universidade de Vigo
+#  http://sli.uvigo.es
+#--------------------------------------
+# Cada liña ten 7 campos:
+# 1 sufixo para quitar
+# 2 sufixo para engadir na reconstrución da raíz (*=nada)
+# 3 condición sobre a categoría Parole da entrada atopada
+# 4 parole de saída (* = conservar parole)
+# 5 cando é 1, a presenza do sufixo pode provocar a aparición dun til na base
+# 6 cando é 0, a base pode non levar ningún til
+# 7 o lema de saída é a palabra sufixada no canto do lema do dicionario
+# 8 cando é 1, próbase a regra mesmo coas palabras que xa están no dicionario
+# 9 retokenización
+################ ENCLITICOS ###################
+
+
+lle 	*    ^V    *    1    1    0    1	$$+lle:$$+PP
+lles   	*    ^V    *    1    1    0    1	$$+lles:$$+PP
+me    	*    ^V    *    1    1    0    1	$$+me:$$+PP
+te    	*    ^V    *    1    1    0    1	$$+te:$$+PP
+che    	*    ^V    *    1    1    0    1	$$+che:$$+PP
+nos    	*    ^V    *    1    1    0    1	$$+nos:$$+PP
+vos    	*    ^V    *    1    1    0    1	$$+vos:$$+PP
+se    	*    ^V    *    1    1    0    1	$$+se:$$+PP
+o    	*    ^V    *    1    1    0    1	$$+o:$$+PP
+os    	*    ^V    *    1    1    0    1	$$+os:$$+PP
+a    	*    ^V    *    1    1    0    1	$$+a:$$+PP
+as    	*    ^V    *    1    1    0    1	$$+as:$$+PP
+
+## comeuno
+euno    eu    ^V    *    0    0    0    1	$$+o:$$+PP
+eunos   eu    ^V    *    0    0    0    1	$$+os:$$+PP
+euna    eu    ^V    *    0    0    0    1	$$+a:$$+PP
+eunas   eu    ^V    *    0    0    0    1	$$+as:$$+PP
+
+## amouno
+ouno    ou    ^V    *    0    0    0    1	$$+o:$$+PP
+ounos   ou    ^V    *    0    0    0    1	$$+os:$$+PP
+ouna    ou    ^V    *    0    0    0    1	$$+a:$$+PP
+ounas   ou    ^V    *    0    0    0    1	$$+as:$$+PP
+
+## partiuno
+iuno    iu    ^V    *    0    0    0    1	$$+o:$$+PP
+iunos   iu    ^V    *    0    0    0    1	$$+os:$$+PP
+iuna    iu    ^V    *    0    0    0    1	$$+a:$$+PP
+iunas   iu    ^V    *    0    0    0    1	$$+as:$$+PP
+
+## faino
+aino    ai    ^V    *    0    0    0    1	$$+o:$$+PP
+ainos   ai    ^V    *    0    0    0    1	$$+os:$$+PP
+aina    ai    ^V    *    0    0    0    1	$$+a:$$+PP
+ainas   ai    ^V    *    0    0    0    1	$$+as:$$+PP
+
+## comelo
+lo    	r  ^V    *    0    0    0    1		$$+o:$$+PP
+los    	r  ^V    *    0    0    0    1		$$+os:$$+PP
+la    	r  ^V    *    0    0    0    1		$$+a:$$+PP
+las    	r  ^V    *    0    0    0    1		$$+as:$$+PP
+
+## cómelo
+lo    	s    ^V    *    1    1    0    1	$$+o:$$+PP
+los    	s    ^V    *    1    1    0    1	$$+os:$$+PP
+la    	s    ^V    *    1    1    0    1	$$+a:$$+PP
+las    	s    ^V    *    1    1    0    1	$$+as:$$+PP
+
+## combinacións de dous enclíticos
+
+ma    	*    ^V    *    1    1    0    1	$$+me+a:$$+PP+PP
+mas    	*    ^V    *    1    1    0    1	$$+me+as:$$+PP+PP
+mo    	*    ^V    *    1    1    0    1	$$+me+o:$$+PP+PP
+mos    	*    ^V    *    1    1    0    1	$$+me+os:$$+PP+PP
+cha    	*    ^V    *    1    1    0    1	$$+che+a:$$+PP+PP
+chas    *    ^V    *    1    1    0    1	$$+che+as:$$+PP+PP
+cho    	*    ^V    *    1    1    0    1	$$+che+o:$$+PP+PP
+chos    *    ^V    *    1    1    0    1	$$+che+os:$$+PP+PP
+lla    	*    ^V    *    1    1    0    1	$$+lle+a:$$+PP+PP
+llas    *    ^V    *    1    1    0    1	$$+lle+as:$$+PP+PP
+llo    	*    ^V    *    1    1    0    1	$$+lle+o:$$+PP+PP
+llos    *    ^V    *    1    1    0    1	$$+lle+os:$$+PP+PP
+nola    *    ^V    *    1    1    0    1	$$+nos+a:$$+PP+PP
+nolas   *    ^V    *    1    1    0    1	$$+nos+as:$$+PP+PP
+nolo    *    ^V    *    1    1    0    1	$$+nos+o:$$+PP+PP
+nolos   *    ^V    *    1    1    0    1	$$+nos+os:$$+PP+PP
+vola    *    ^V    *    1    1    0    1	$$+vos+a:$$+PP+PP
+volas   *    ^V    *    1    1    0    1	$$+vos+as:$$+PP+PP
+volo    *    ^V    *    1    1    0    1	$$+vos+o:$$+PP+PP
+volos   *    ^V    *    1    1    0    1	$$+vos+os:$$+PP+PP
+llela   *    ^V    *    1    1    0    1	$$+lles+a:$$+PP+PP
+llelas  *    ^V    *    1    1    0    1	$$+lles+as:$$+PP+PP
+llelo   *    ^V    *    1    1    0    1	$$+lles+o:$$+PP+PP
+llelos  *    ^V    *    1    1    0    1	$$+lles+os:$$+PP+PP
+seme    *    ^V    *    1    1    0    1	$$+se+me:$$+PP+PP
+selle   *    ^V    *    1    1    0    1	$$+se+lle:$$+PP+PP
+senos   *    ^V    *    1    1    0    1	$$+se+nos:$$+PP+PP
+sevos   *    ^V    *    1    1    0    1	$$+se+vos:$$+PP+PP
+selles  *    ^V    *    1    1    0    1	$$+se+lles:$$+PP+PP
+
+## combinacións de tres enclíticos
+
+chema     *     ^V    *    1    1    0    1	$$+che+me+a:$$+PP+PP+PP
+chemas    *     ^V    *    1    1    0    1	$$+che+me+as:$$+PP+PP+PP
+chemo     *     ^V    *    1    1    0    1	$$+che+me+o:$$+PP+PP+PP
+chemos    *     ^V    *    1    1    0    1	$$+che+me+os:$$+PP+PP+PP
+chella    *     ^V    *    1    1    0    1	$$+che+lle+a:$$+PP+PP+PP
+chellas    *    ^V    *    1    1    0    1	$$+che+lle+as:$$+PP+PP+PP
+chello     *    ^V    *    1    1    0    1	$$+che+lle+o:$$+PP+PP+PP
+chellos    *    ^V    *    1    1    0    1	$$+che+lle+os:$$+PP+PP+PP
+chenola    *    ^V    *    1    1    0    1	$$+che+nos+a:$$+PP+PP+PP
+chenolas   *    ^V    *    1    1    0    1	$$+che+nos+as:$$+PP+PP+PP
+chenolo    *    ^V    *    1    1    0    1	$$+che+nos+o:$$+PP+PP+PP
+chenolos   *    ^V    *    1    1    0    1	$$+che+nos+os:$$+PP+PP+PP
+chevola    *    ^V    *    1    1    0    1	$$+che+vos+a:$$+PP+PP+PP
+chevolas   *    ^V    *    1    1    0    1	$$+che+vos+as:$$+PP+PP+PP
+chevolo    *    ^V    *    1    1    0    1	$$+che+vos+o:$$+PP+PP+PP
+chevolos   *    ^V    *    1    1    0    1	$$+che+vos+os:$$+PP+PP+PP
+chellela   *    ^V    *    1    1    0    1	$$+che+lles+a:$$+PP+PP+PP
+chellelas  *    ^V    *    1    1    0    1	$$+che+lles+as:$$+PP+PP+PP
+chellelo   *    ^V    *    1    1    0    1	$$+che+lles+o:$$+PP+PP+PP
+chellelos  *    ^V    *    1    1    0    1	$$+che+lles+os:$$+PP+PP+PP
+
+################ ADVERBIOS -mente ##############
+
+mente    *    ^AQ0CS    RG    0    0    0    1 -
+mente    *    ^AQ0FS    RG    0    0    0    1 -
+
+################ DIMINUTIVOS ##############
+
+# irmanciño
+
+nciñas	n	^NCMS	NCFP00D	1	0	0	0	-
+nciña	n	^NCMS	NCFS00D	1	0	0	0	-
+nciños	n	^NCMS	NCMP00D	1	0	0	0	-
+nciño	n	^NCMS	NCMS00D	1	0	0	0	-
+
+# leccionciña
+
+nciñas	n	^NCFS	NCFP00D	1	0	0	0	-
+nciña	n	^NCFS	NCFS00D	1	0	0	0	-
+
+# rapaciño
+
+ciñas	z	^NCMS	NCFP00D	1	0	0	0	-
+ciña	z	^NCMS	NCFS00D	1	0	0	0	-
+ciños	z	^NCMS	NCMP00D	1	0	0	0	-
+ciño	z	^NCMS	NCMS00D	1	0	0	0	-
+
+# luciña
+
+ciñas	z	^NCFS	NCFP00D	1	0	0	0	-
+ciña	z	^NCFS	NCFS00D	1	0	0	0	-
+
+# francesiño
+
+siñas	s	^NCMS	NCFP00D	1	0	0	0	-
+siña	s	^NCMS	NCFS00D	1	0	0	0	-
+siños	s	^NCMS	NCMP00D	1	0	0	0	-
+siño	s	^NCMS	NCMS00D	1	0	0	0	-
+
+
+# directoriño
+
+riñas	r	^NCMS	NCFP00D	1	0	0	0	-
+riña	r	^NCMS	NCFS00D	1	0	0	0	-
+riños	r	^NCMS	NCMP00D	1	0	0	0	-
+riño	r	^NCMS	NCMS00D	1	0	0	0	-
+
+# directorciño
+
+rciñas	r	^NCMS	NCFP00D	1	0	0	0	-
+rciña	r	^NCMS	NCFS00D	1	0	0	0	-
+rciños	r	^NCMS	NCMP00D	1	0	0	0	-
+rciño	r	^NCMS	NCMS00D	1	0	0	0	-
+
+
+# españoliño
+
+liñas	l	^NCMS	NCFP00D	1	0	0	0	-
+liña	l	^NCMS	NCFS00D	1	0	0	0	-
+liños	l	^NCMS	NCMP00D	1	0	0	0	-
+liño	l	^NCMS	NCMS00D	1	0	0	0	-
+
+# avociño
+
+ciñas	*	^NCMS	NCFP00D	1	0	0	0	-
+ciña	*	^NCMS	NCFS00D	1	0	0	0	-
+ciños	*	^NCMS	NCMP00D	1	0	0	0	-
+ciño	*	^NCMS	NCMS00D	1	0	0	0	-
+
+# naiciña
+
+ciñas	*	^NCFS	NCFP00D	1	0	0	0	-
+ciña	*	^NCFS	NCFS00D	1	0	0	0	-
+
+
+# avoíño
+
+íñas	*	^NCMS	NCFP00D	1	0	0	0	-
+íña	*	^NCMS	NCFS00D	1	0	0	0	-
+íños	*	^NCMS	NCMP00D	1	0	0	0	-
+íño	*	^NCMS	NCMS00D	1	0	0	0	-
+
+
+# neniño
+
+iñas	a|e|i|o|u	^NCMS	NCFP00D	1	0	0	0	-
+iña	a|e|i|o|u	^NCMS	NCFS00D	1	0	0	0	-
+iños	a|e|i|o|u	^NCMS	NCMP00D	1	0	0	0	-
+iño	a|e|i|o|u	^NCMS	NCMS00D	1	0	0	0	-
+
+# mesiña
+
+iñas	a|e|i|o|u	^NCFS	NCFP00D	1	0	0	0	-
+iña	a|e|i|o|u	^NCFS	NCFS00D	1	0	0	0	-
+
+# brutanciño
+
+nciñas	n	^AQ0MS	AQDFP0	1	0	0	0	-
+nciña	n	^AQ0MS	AQDFS0	1	0	0	0	-
+nciños	n	^AQ0MS	AQDMP0	1	0	0	0	-
+nciño	n	^AQ0MS	AQDMS0	1	0	0	0	-
+
+# bonitiño
+
+iñas	a|e|i|o|u	^AQ0MS	AQDFP0	1	0	0	0	-
+iña	a|e|i|o|u	^AQ0MS	AQDFS0	1	0	0	0	-
+iños	a|e|i|o|u	^AQ0MS	AQDMP0	1	0	0	0	-
+iño	a|e|i|o|u	^AQ0MS	AQDMS0	1	0	0	0	-
+
+################ SUPERLATIVOS ##############
+
+# altísimo
+
+ísimo	a|e|o|*		^AQ0MS	AQDFP0	1	0	0	0	-
+ísimos	a|e|o|*		^AQ0MS	AQDFP0	1	0	0	0	-
+ísima	a|e|o|*		^AQ0MS	AQDFP0	1	0	0	0	-
+ísimas	a|e|o|* 	^AQ0MS	AQDFP0	1	0	0	0	-
+
+
+# amabilísimo
+bilísimo  ble	^AQ0CS	AQSMS0	0	0	0	0	-
+bilísimos bles	^AQ0CP	AQSMP0	0	0	0	0	-
+bilísima  ble	^AQ0CS	AQSFS0	0	0	0	0	-
+bilísimas bles	^AQ0CP	AQSFP0	0	0	0	0	-
+
+

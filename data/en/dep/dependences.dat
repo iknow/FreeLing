@@ -1,0 +1,1649 @@
+
+<GRPAR>
+
+%% ----------- FORMAT of GRPAR rules ---------- %%
+%
+%
+%  prio enabling_flags context (leftChk,rightChk) operation RELABEL|MATCHING label ((+|-)flag)*
+%
+%  (see user manual at /usr/local/share/FreeLing/doc/userman/html/userman.html )
+%
+% e.g.
+%
+% 20  INIT|PHASE1  $$_~sverb  (sn-chunk,sppart)  top_left  RELABEL  noun-ph   -PHASE1 +PHASE2
+% 10  -            $$_~sverb  (sn-chunk,sppart)  last_left MATCHING sn{^NC.M}
+% 20  -            -          (sn-chunk,sppart)  top_right RELABEL  -         +HAVE_SUB
+%
+%% -------------------------------------------- %%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SINTAGMA NOMINAL %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% Prioritat(Pd) 17 interactua amb / "of]", 16
+17  -  -  (sn-chunk,sppart)   top_left RELABEL - 
+17  -  -  (n-chunk,sppart)   top_left RELABEL - 
+13  -  -  (sp-chunk,sppart)   last_left MATCHING sn-chunk 
+13  -  -  (sp-chunk,sppart)   last_left MATCHING n-chunk 
+16  -  -  (sn-chunk,sppart)   last_left MATCHING sn-chunk 
+16  -  -  (sn-chunk,sppart)   last_left MATCHING n-chunk 
+16  -  -  (n-chunk,sppart)   last_left MATCHING sn-chunk 
+16  -  -  (n-chunk,sppart)   last_left MATCHING n-chunk 
+
+
+%%% PARTICIPIS QUE MODIFIQUEN NOMS
+1  -  -  (attrib,sn-chunk)   top_right RELABEL - 
+1  -  -  (attrib,n-chunk)   top_right RELABEL - 
+
+15  -  vb-chunk_$$  (vb-chunk{VBN},sn-chunk)   top_right RELABEL - 
+15  -  vb-chunk_$$  (vb-chunk{VBN},n-chunk)   top_right RELABEL - 
+35  -  vb-chunk_sn-chunk_$$  (vb-chunk{VBN},sp-chunk)   top_left RELABEL pred 
+35  -  vb-chunk_n-chunk_$$  (vb-chunk{VBN},sp-chunk)   top_left RELABEL pred 
+35  -  vb-chunk_sp-chunk_$$  (vb-chunk{VBN},sp-chunk)   top_left RELABEL pred 
+16  -  -  (sp-chunk,pred)   last_left MATCHING sn-chunk 
+16  -  -  (sp-chunk,pred)   last_left MATCHING n-chunk 
+16  -  -  (sn-chunk,pred)   top_left RELABEL - 
+16  -  -  (n-chunk,pred)   top_left RELABEL - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SINTAGMA PREPOSICIONAL %%%%%%%%%%%%%%%%%%%%%%%
+
+%%% El TO sintagma preposicional
+22  -  -  (TO-chunk,sn-chunk)   top_left RELABEL sp-chunk 
+22  -  -  (TO-chunk,sn-chunk)   top_left RELABEL sp-chunk 
+22  -  -  (TO-chunk,n-chunk)   top_left RELABEL sp-chunk 
+22  -  -  (TO-chunk,n-chunk)   top_left RELABEL sp-chunk 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ALTRES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+28  -  -  (spin,sn-chunk)   top_left RELABEL sp-chunk 
+28  -  -  (spin,n-chunk)   top_left RELABEL sp-chunk 
+
+28  -  -  (spunk,sn-chunk)   top_left RELABEL sp-chunk 
+28  -  -  (spunk,n-chunk)   top_left RELABEL sp-chunk 
+
+27  -  spunk_$$  (sn-chunk,vb-chunk)   top_right RELABEL adv 
+27  -  spunk_$$  (sn-chunk,vb-be)   top_right RELABEL adv 
+27  -  spunk_$$  (sn-chunk,vb-have)   top_right RELABEL adv 
+27  -  spunk_$$  (sn-chunk,vb-do)   top_right RELABEL adv 
+27  -  spunk_$$  (n-chunk,vb-chunk)   top_right RELABEL adv 
+27  -  spunk_$$  (n-chunk,vb-be)   top_right RELABEL adv 
+27  -  spunk_$$  (n-chunk,vb-have)   top_right RELABEL adv 
+27  -  spunk_$$  (n-chunk,vb-do)   top_right RELABEL adv 
+
+26  -  spunk_$$_sn-chunk  (sn-chunk,vb-chunk)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_n-chunk  (sn-chunk,vb-chunk)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_attrib  (sn-chunk,vb-chunk)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_sp-chunk  (sn-chunk,vb-chunk)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_adv  (sn-chunk,vb-chunk)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_sv  (sn-chunk,vb-chunk)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_sn-chunk  (sn-chunk,vb-be)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_n-chunk  (sn-chunk,vb-be)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_attrib  (sn-chunk,vb-be)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_sp-chunk  (sn-chunk,vb-be)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_adv  (sn-chunk,vb-be)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_sv  (sn-chunk,vb-be)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_sn-chunk  (sn-chunk,vb-have)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_n-chunk  (sn-chunk,vb-have)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_attrib  (sn-chunk,vb-have)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_sp-chunk  (sn-chunk,vb-have)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_adv  (sn-chunk,vb-have)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_sv  (sn-chunk,vb-have)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_sn-chunk  (sn-chunk,vb-do)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_n-chunk  (sn-chunk,vb-do)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_attrib  (sn-chunk,vb-do)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_sp-chunk  (sn-chunk,vb-do)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_adv  (sn-chunk,vb-do)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_sv  (sn-chunk,vb-do)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_sn-chunk  (n-chunk,vb-have)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_n-chunk  (n-chunk,vb-have)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_attrib  (n-chunk,vb-have)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_sp-chunk  (n-chunk,vb-have)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_adv  (n-chunk,vb-have)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_sv  (n-chunk,vb-have)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_sn-chunk  (n-chunk,vb-be)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_n-chunk  (n-chunk,vb-be)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_attrib  (n-chunk,vb-be)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_sp-chunk  (n-chunk,vb-be)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_adv  (n-chunk,vb-be)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_sv  (n-chunk,vb-be)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_sn-chunk  (n-chunk,vb-have)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_n-chunk  (n-chunk,vb-have)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_attrib  (n-chunk,vb-have)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_sp-chunk  (n-chunk,vb-have)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_adv  (n-chunk,vb-have)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_sv  (n-chunk,vb-have)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_sn-chunk  (n-chunk,vb-do)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_n-chunk  (n-chunk,vb-do)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_attrib  (n-chunk,vb-do)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_sp-chunk  (n-chunk,vb-do)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_adv  (n-chunk,vb-do)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_sv  (n-chunk,vb-do)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_sn-chunk  (n-chunk,vb-chunk)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_n-chunk  (n-chunk,vb-chunk)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_attrib  (n-chunk,vb-chunk)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_sp-chunk  (n-chunk,vb-chunk)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_adv  (n-chunk,vb-chunk)   top_right RELABEL vb-chunk 
+26  -  spunk_$$_sv  (n-chunk,vb-chunk)   top_right RELABEL vb-chunk 
+
+90  -  -  (spunk,sv)   top_left RELABEL adv 
+95  -  -  (spunk,vb-chunk)   top_left RELABEL adv 
+90  -  -  (spunk,adv)   top_left RELABEL adv 
+
+
+%%% ADVERBIS QUE ACOMPANYEN A VERBS
+3  -  -  (adv,vb-have)   top_right RELABEL - 
+3  -  -  (adv,vb-do)   top_right RELABEL - 
+3  -  -  (vb-have,adv)   top_left RELABEL - 
+3  -  -  (vb-do,adv)   top_left RELABEL - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PUNTUACIO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% GENERACIO DE 'CLAUS'
+99  -  -  (sv,punt)   top_left RELABEL claus 
+98  -  -  (sv,guio)   top_left RELABEL - 
+98  -  -  (discont,claus)   top_left RELABEL claus-coor 
+
+%%% Simbols diversos 
+97  -  -  (guio,sv-coor)   top_right RELABEL - 
+97  -  -  (guio,sv)   top_left RELABEL sv-coor 
+
+95  -  guio_$$  (sv,guio)   top_left RELABEL parent 
+96  -  -  (cometes,parent)   top_left RELABEL parenthetical 
+96  -  -  (guio,parent)   top_left RELABEL parenthetical 
+25  -  -  (cometes,claus)   top_right RELABEL subord 
+25  -  -  (cometes,quote)   top_right RELABEL subord 
+24  -  $$_coma_sv  (cometes,quote)   top_right RELABEL parenthetical 
+50  -  -  (subord,sv)   top_right RELABEL - 
+
+5  -  $$_coma_*_OUT  (sv,punt{Fat})   top_left RELABEL - 
+5  -  $$_coma_*_OUT  (sv,punt{Fit})   top_left RELABEL - 
+50  -  $$_sv  (sv,coma)   top_left RELABEL - 
+50  -  $$_sv-coor  (sv,coma)   top_left RELABEL - 
+36  -  OUT_$$  (parenthetical,coma)   top_left RELABEL - 
+34  -  OUT_$$_sv  (sv{VBG},coma)   top_left RELABEL parenthetical 
+37  -  OUT_$$  (parenthetical,sv)   top_right RELABEL - 
+
+
+1  -  $$_cometes  (punt{Fd},cometes)   top_left RELABEL nex-comp 
+3  -  cometes_$$_*_OUT  (sv,cometes)   top_left RELABEL quote 
+4  -  $$_OUT  (sv,cometes)   top_left RELABEL claus 
+2  -  cometes_$$_coma_sv  (sv,cometes)   top_left RELABEL quote 
+2  -  cometes_$$_punt  (sv,cometes)   top_left RELABEL quote 
+1  -  cometes_$$_cometes  (sv,punt)   top_left RELABEL sv 
+1  -  cometes_$$  (sn-chunk,cometes)   top_left RELABEL parent 
+1  -  cometes_$$  (sp-chunk,cometes)   top_left RELABEL parent 
+1  -  cometes_$$  (n-chunk,cometes)   top_left RELABEL parent 
+1  -  cometes_$$  (attrib,cometes)   top_left RELABEL parent 
+1  -  cometes_$$  (adv,cometes)   top_left RELABEL parent 
+
+2  -  -  (sn-chunk,parenthetical)   top_left RELABEL - 
+2  -  -  (n-chunk,parenthetical)   top_left RELABEL - 
+2  -  -  (sp-chunk,parenthetical)   top_left RELABEL - 
+2  -  -  (vb-chunk,parenthetical)   top_left RELABEL - 
+2  -  -  (sv,parenthetical)   top_left RELABEL - 
+2  -  -  (claus,parenthetical)   top_left RELABEL - 
+1  -  -  (sppart,parenthetical)   last_left MATCHING sn-chunk 
+1  -  -  (sppart,parenthetical)   last_left MATCHING n-chunk 
+1  -  -  (sp-chunk,parenthetical)   last_left MATCHING sn-chunk 
+1  -  -  (sp-chunk,parenthetical)   last_left MATCHING n-chunk 
+1  -  -  (n-chunk,parenthetical)   last_left MATCHING sppart 
+
+%%% APOSICIONS NOMINALS
+6  -  coma_$$  (sn-chunk,coma)   top_left RELABEL parent 
+6  -  coma_$$  (n-chunk,coma)   top_left RELABEL parent 
+7  -  -  (coma,parent)   top_left RELABEL parenthetical 
+8  -  $$_punt  (coma,sn-chunk)   top_left RELABEL parenthetical 
+8  -  $$_punt  (coma,n-chunk)   top_left RELABEL parenthetical 
+6  -  guio_$$  (sn-chunk,guio)   top_left RELABEL parent 
+6  -  guio_$$  (n-chunk,guio)   top_left RELABEL parent 
+7  -  -  (guio,parent)   top_left RELABEL parenthetical 
+
+%%% SERIES
+1  -  $$_sn-chunk_coma  (sn-chunk,coma)   top_left RELABEL item 
+1  -  $$_n-chunk_coma  (sn-chunk,coma)   top_left RELABEL item 
+
+1  -  $$_sn-chunk  (coma,parent)   top_left RELABEL series 
+1  -  $$_n-chunk  (coma,parent)   top_left RELABEL series 
+2  -  $$_coma  (series,sn-chunk)   top_left RELABEL - 
+2  -  $$_coma  (series,n-chunk)   top_left RELABEL - 
+1  -  $$_sn-chunk  (series,coma)   top_left RELABEL - 
+1  -  $$_n-chunk  (series,coma)   top_left RELABEL - 
+2  -  $$_sn-coor  (series,sn-chunk)   top_left RELABEL parenthetical 
+2  -  $$_sn-coor  (series,n-chunk)   top_left RELABEL parenthetical 
+
+1  -  sn-chunk_coma_$$_sn-chunk  (sn-chunk,coma)   top_right RELABEL item 
+1  -  n-chunk_coma_$$_sn-chunk  (sn-chunk,coma)   top_right RELABEL item 
+1  -  sn-chunk_coma_$$_n-chunk  (sn-chunk,coma)   top_right RELABEL item 
+1  -  n-chunk_coma_$$_n-chunk  (sn-chunk,coma)   top_right RELABEL item 
+1  -  sn-chunk_coma_$$_sn-chunk  (n-chunk,coma)   top_right RELABEL item 
+1  -  n-chunk_coma_$$_sn-chunk  (n-chunk,coma)   top_right RELABEL item 
+1  -  sn-chunk_coma_$$_n-chunk  (n-chunk,coma)   top_right RELABEL item 
+1  -  n-chunk_coma_$$_n-chunk  (n-chunk,coma)   top_right RELABEL item 
+2  -  $$_item  (sn-chunk,coma)   top_right RELABEL item 
+2  -  $$_item  (n-chunk,coma)   top_right RELABEL item 
+3  -  -  (item,item)   top_left RELABEL series 
+4  -  -  (series,n-chunk{CC})   top_right RELABEL - 
+
+
+%%% ALTRES ELEMENTS
+86  -  OUT_$$  (sp-chunk,coma)   top_left RELABEL - 
+86  -  -  (adv,coma)   top_left RELABEL - 
+85  -  -  (coma,adv)   top_right RELABEL - 
+87  -  -  (adv,sv)   top_right RELABEL - 
+87  -  -  (sp-chunk,sv)   top_right RELABEL - 
+86  -  -  (sv,adv)   top_left RELABEL - 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% COORDINACIO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+1  -  OUT_$$  (nex-coord,sn-chunk)   top_right RELABEL - 
+1  -  OUT_$$  (nex-coord,n-chunk)   top_right RELABEL - 
+1  -  OUT_sn-chunk_$$  (nex-coord,sn-chunk)   top_left RELABEL sn-coor 
+1  -  OUT_n-chunk_$$  (nex-coord,sn-chunk)   top_left RELABEL sn-coor 
+1  -  OUT_sn-chunk_$$  (nex-coord,n-chunk)   top_left RELABEL sn-coor 
+1  -  OUT_n-chunk_$$  (nex-coord,n-chunk)   top_left RELABEL sn-coor 
+
+20  -  !$$_vb-chunk  (nex-coord,sn-chunk)   top_left RELABEL sn-coor 
+20  -  !$$_vb-chunk  (nex-coord,n-chunk)   top_left RELABEL sn-coor 
+99  -  -  (nex-coord,sn-chunk)   top_left RELABEL sn-coor 
+99  -  -  (nex-coord,n-chunk)   top_left RELABEL sn-coor 
+98  -  !$$_nex-coord  (nex-coord,sv)   top_left RELABEL sv-coor 
+98  -  !$$_coma  (nex-coord,sv)   top_left RELABEL sv-coor 
+97  -  OUT_$$  (nex-coord,sv)   top_right RELABEL sv 
+97  -  -  (nex-coord,claus)   top_left RELABEL claus-coor 
+
+2  -  OUT_$$  (sn-chunk,sn-coor)   top_right RELABEL sn-chunk 
+2  -  OUT_$$  (n-chunk,sn-coor)   top_right RELABEL n-chunk 
+35  -  -  (sn-chunk,sn-coor)   top_right RELABEL sn-chunk 
+35  -  -  (n-chunk,sn-coor)   top_right RELABEL n-chunk 
+95  -  -  (sv,sv-coor)   top_right RELABEL sv 
+94  -  -  (n-chunk,sv-coor)   last_left MATCHING sv 
+99  -  -  (sv,claus-coor)   top_right RELABEL claus 
+
+10  -  $$_sp-chunk  (sp-chunk,nex-coord)   top_right RELABEL sp-coor 
+10  -  $$_sppart  (sppart,nex-coord)   top_right RELABEL sppart-coor 
+11  -  -  (sp-coor,sp-chunk)   top_left RELABEL sp-chunk 
+11  -  -  (sppart,sppart-coor)   top_left RELABEL sppart 
+10  -  $$_sn-chunk_vb-chunk  (sp-chunk,sn-coor)   top_right RELABEL sp-chunk 
+10  -  $$_sn-chunk_vb-be  (sp-chunk,sn-coor)   top_right RELABEL sp-chunk 
+10  -  $$_sn-chunk_vb-do  (sp-chunk,sn-coor)   top_right RELABEL sp-chunk 
+10  -  $$_sn-chunk_vb-have  (sp-chunk,sn-coor)   top_right RELABEL sp-chunk 
+10  -  $$_n-chunk_vb-chunk  (sp-chunk,sn-coor)   top_right RELABEL sp-chunk 
+10  -  $$_n-chunk_vb-be  (sp-chunk,sn-coor)   top_right RELABEL sp-chunk 
+10  -  $$_n-chunk_vb-do  (sp-chunk,sn-coor)   top_right RELABEL sp-chunk 
+10  -  $$_n-chunk_vb-have  (sp-chunk,sn-coor)   top_right RELABEL sp-chunk 
+80  -  -  (sp-chunk,sn-coor)   top_right RELABEL sp-chunk 
+10  -  $$_sn-chunk_vb-chunk  (sppart,sn-coor)   top_right RELABEL sppart 
+10  -  $$_sn-chunk_vb-be  (sppart,sn-coor)   top_right RELABEL sppart 
+10  -  $$_sn-chunk_vb-do  (sppart,sn-coor)   top_right RELABEL sppart 
+10  -  $$_sn-chunk_vb-have  (sppart,sn-coor)   top_right RELABEL sppart 
+10  -  $$_n-chunk_vb-chunk  (sppart,sn-coor)   top_right RELABEL sppart 
+10  -  $$_n-chunk_vb-be  (sppart,sn-coor)   top_right RELABEL sppart 
+10  -  $$_n-chunk_vb-do  (sppart,sn-coor)   top_right RELABEL sppart 
+10  -  $$_n-chunk_vb-have  (sppart,sn-coor)   top_right RELABEL sppart 
+80  -  -  (sppart,sn-coor)   top_right RELABEL sppart 
+
+98  -  -  (nex-coord,attrib)   top_left RELABEL att-coor 
+98  -  -  (nex-coord,adv)   top_left RELABEL adv-coor 
+99  -  -  (attrib,att-coor)   top_right RELABEL attrib 
+99  -  -  (attrib,adv-coor)   top_right RELABEL adv 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SINTAGMA VERBAL %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% Temps de perfet i temps continu
+10  -  -  (vb-be,vb-chunk{VBG})   top_right RELABEL - 
+10  -  -  (vb-be,vb-chunk{VBN})   top_right RELABEL - 
+10  -  -  (vb-chunk<get>,vb-chunk{VBN})   top_right RELABEL - 
+10  -  $$_sn-chunk  (vb-be,vb-do{VBG})   top_right RELABEL - 
+10  -  $$_n-chunk  (vb-be,vb-do{VBG})   top_right RELABEL - 
+10  -  -  (vb-chunk<get>,vb-do{VBN})   top_right RELABEL sv 
+10  -  -  (vb-be,vb-do{VBN})   top_right RELABEL sv 
+9  -  -  (vb-be,vb-be{VBG})   top_right RELABEL - 
+
+8  -  -  (vb-have,vb-be{VBN})   top_right RELABEL - 
+8  -  -  (vb-have,vb-chunk{VBN})   top_right RELABEL - 
+8  -  -  (vb-have,vb-be{VBN})   top_right RELABEL - 
+8  -  $$_sn-chunk  (vb-have,vb-do{VBN})   top_right RELABEL - 
+8  -  $$_n-chunk  (vb-have,vb-do{VBN})   top_right RELABEL - 
+
+8  -  -  (mod-chunk,vb-chunk{VB$})   top_right RELABEL - 
+8  -  -  (mod-chunk,vb-be{VB$})   top_right RELABEL vb-be 
+8  -  -  (mod-chunk,vb-have{VB$})   top_right RELABEL vb-have 
+7  -  $$_sn-chunk  (mod-chunk,vb-be{VB$})   top_right RELABEL vb-chunk 
+7  -  $$_sp-chunk  (mod-chunk,vb-be{VB$})   top_right RELABEL vb-chunk 
+7  -  $$_n-chunk  (mod-chunk,vb-be{VB$})   top_right RELABEL vb-chunk 
+7  -  $$_sub-that  (mod-chunk,vb-be{VB$})   top_right RELABEL vb-chunk 
+7  -  $$_attrib  (mod-chunk,vb-be{VB$})   top_right RELABEL vb-chunk 
+7  -  $$_multi-qu  (mod-chunk,vb-be{VB$})   top_right RELABEL vb-chunk 
+7  -  $$_sn-chunk  (mod-chunk,vb-have{VB$})   top_right RELABEL vb-chunk 
+7  -  $$_n-chunk  (mod-chunk,vb-have{VB$})   top_right RELABEL vb-chunk 
+7  -  $$_sn-chunk  (mod-chunk,vb-do{VB$})   top_right RELABEL vb-chunk 
+7  -  $$_n-chunk  (mod-chunk,vb-do{VB$})   top_right RELABEL vb-chunk 
+
+96  -  -  (vb-chunk,vb-chunk{^VB$})   top_left RELABEL - 
+96  -  -  (vb-chunk,sv{^VB$})   top_left RELABEL - 
+
+5  -  !OUT_$$  (vb-do,vb-chunk{VB})   top_right RELABEL - 
+5  -  !OUT_$$  (vb-do,vb-chunk{VB})   top_right RELABEL - 
+
+%%% SUBORDINADES RELATIVES EXPLICATIVES REFERIDES A NOMS
+5  -  -  (sub-rel,coma)   top_left RELABEL - 
+5  -  -  (sub-rel,coma)   top_left RELABEL - 
+5  -  -  (sub-rel,coma)   top_left RELABEL - 
+6  -  sn-chunk_$$  (coma,sub-rel)   top_right RELABEL - 
+6  -  n-chunk_$$  (coma,sub-rel)   top_right RELABEL - 
+6  -  sp-chunk_$$  (coma,sub-rel)   top_right RELABEL - 
+
+%%% SUBORDINADES RELATIVES EXPLICATIVES REFERIDES A ORACIONS
+51  -  -  (coma,sub-rel<which>)   top_right RELABEL apos 
+51  -  -  (coma,sub-rel<which>)   top_right RELABEL apos 
+51  -  -  (coma,sub-rel<which>)   top_right RELABEL apos 
+98  -  -  (sv,apos)   last_left MATCHING sv 
+97  -  -  (sv,apos)   last_left MATCHING vb-chunk 
+96  -  -  (sv,apos)   last_left MATCHING sp-chunk 
+96  -  -  (sv,apos)   last_left MATCHING adv 
+96  -  -  (sv,apos)   last_left MATCHING n-chunk 
+
+%%% SUBORDINADES RELATIVES DE VERB FINIT
+%%% AMB NEXE
+%%% El subjecte de la relativa es el mateix que el de la principal o la relativa es transitiva pero el subjecte es diferent del de la principal 
+20  -  -  (sn-chunk,sub-rel)   top_left RELABEL - 
+20  -  -  (n-chunk,sub-rel)   top_left RELABEL - 
+20  -  -  (sp-chunk,sub-rel)   last_left MATCHING sn-chunk 
+20  -  -  (sp-chunk,sub-rel)   last_left MATCHING n-chunk 
+19  -  -  (sn-chunk,sub-rel)   last_left MATCHING sn-chunk 
+19  -  -  (sn-chunk,sub-rel)   last_left MATCHING n-chunk 
+19  -  -  (n-chunk,sub-rel)   last_left MATCHING sn-chunk 
+19  -  -  (n-chunk,sub-rel)   last_left MATCHING n-chunk 
+21  -  -  (adv,sub-rel)   last_left MATCHING sn-chunk 
+21  -  -  (adv,sub-rel)   last_left MATCHING n-chunk 
+21  -  -  (sv,sub-rel)   last_left MATCHING sp-chunk 
+22  -  -  (sv,sub-rel)   last_left MATCHING n-chunk 
+22  -  -  (sv,sub-rel)   last_left MATCHING sn-chunk 
+
+20  -  -  (spin,rel)   top_left RELABEL sub-rel 
+20  -  -  (TO-chunk,rel)   top_left RELABEL sub-rel 
+20  -  -  (wh-pro,rel)   top_left RELABEL sub-rel 
+20  -  -  (wh-pro,sv)   top_left RELABEL rel 
+19  -  sn-chunk_$$_vb-chunk  (wh-pro,vb-chunk)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-chunk  (wh-pro,vb-chunk)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-be  (wh-pro,vb-chunk)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-be  (wh-pro,vb-chunk)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-have  (wh-pro,vb-chunk)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-have  (wh-pro,vb-chunk)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-do  (wh-pro,vb-chunk)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-do  (wh-pro,vb-chunk)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-chunk  (wh-pro,vb-chunk)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-chunk  (wh-pro,vb-chunk)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-be  (wh-pro,vb-chunk)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-be  (wh-pro,vb-chunk)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-have  (wh-pro,vb-chunk)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-have  (wh-pro,vb-chunk)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-do  (wh-pro,vb-chunk)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-do  (wh-pro,vb-chunk)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-chunk  (wh-pro,vb-do)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-chunk  (wh-pro,vb-do)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-be  (wh-pro,vb-do)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-be  (wh-pro,vb-do)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-have  (wh-pro,vb-do)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-have  (wh-pro,vb-do)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-do  (wh-pro,vb-do)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-do  (wh-pro,vb-do)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-chunk  (wh-pro,vb-do)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-chunk  (wh-pro,vb-do)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-be  (wh-pro,vb-do)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-be  (wh-pro,vb-do)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-have  (wh-pro,vb-do)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-have  (wh-pro,vb-do)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-do  (wh-pro,vb-do)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-do  (wh-pro,vb-do)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-chunk  (wh-pro,vb-be)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-chunk  (wh-pro,vb-be)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-be  (wh-pro,vb-be)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-be  (wh-pro,vb-be)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-have  (wh-pro,vb-be)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-have  (wh-pro,vb-be)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-do  (wh-pro,vb-be)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-do  (wh-pro,vb-be)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-chunk  (wh-pro,vb-be)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-chunk  (wh-pro,vb-be)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-be  (wh-pro,vb-be)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-be  (wh-pro,vb-be)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-have  (wh-pro,vb-be)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-have  (wh-pro,vb-be)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-do  (wh-pro,vb-be)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-do  (wh-pro,vb-be)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-chunk  (wh-pro,vb-have)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-chunk  (wh-pro,vb-have)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-be  (wh-pro,vb-have)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-be  (wh-pro,vb-have)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-have  (wh-pro,vb-have)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-have  (wh-pro,vb-have)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-do  (wh-pro,vb-have)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-do  (wh-pro,vb-have)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-chunk  (wh-pro,vb-have)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-chunk  (wh-pro,vb-have)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-be  (wh-pro,vb-have)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-be  (wh-pro,vb-have)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-have  (wh-pro,vb-have)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-have  (wh-pro,vb-have)   top_left RELABEL sub-rel 
+19  -  sn-chunk_$$_vb-do  (wh-pro,vb-have)   top_left RELABEL sub-rel 
+19  -  n-chunk_$$_vb-do  (wh-pro,vb-have)   top_left RELABEL sub-rel 
+
+%%% SENSE NEXE
+25  -  -  (sn-chunk,sv)   top_left RELABEL - 
+25  -  -  (n-chunk,sv)   top_left RELABEL - 
+50  -  -  (sppart,sv)   last_left MATCHING sn-chunk 
+50  -  -  (sppart,sv)   last_left MATCHING n-chunk 
+50  -  -  (sp-chunk,sv)   last_left MATCHING sn-chunk 
+50  -  -  (sp-chunk,sv)   last_left MATCHING n-chunk 
+
+40  -  -  (sp-chunk,rel)   last_left MATCHING sn-chunk 
+40  -  -  (sp-chunk,rel)   last_left MATCHING n-chunk 
+40  -  -  (sn-chunk,rel)   last_left MATCHING sn-chunk 
+40  -  -  (sn-chunk,rel)   last_left MATCHING n-chunk 
+40  -  -  (n-chunk,rel)   last_left MATCHING sn-chunk 
+40  -  -  (n-chunk,rel)   last_left MATCHING n-chunk 
+
+
+
+%%% SUBORDINADES COMPLETIVES DE VERB FINIT
+%%% AMB NEXE
+50  -  -  (nex-comp,sv)   top_left RELABEL n-chunk 
+
+9  -  -  (wh-pro<what>,sv)   top_left RELABEL n-chunk 
+
+%%% SUBORDINADES ADVERBIALS
+1  -  -  (spsub,sv)   top_left RELABEL adv 
+90  -  -  (wh-adv,sv)   top_left RELABEL adv 
+25  -  cometes_$$  (coma,vb-chunk)   top_right RELABEL - 
+90  -  $$_punt  (coma,sv)   top_right RELABEL adv 
+90  -  $$_punt  (coma,vb-chunk{VBG})   top_right RELABEL adv 
+90  -  OUT_$$_*_punt  (vb-chunk{VBG},coma)   top_right RELABEL adv 
+
+%%% SUBORDINADES ADVERBIALS COMPARATIVES "as X as"
+49  -  -  (spunk,attrib)   top_left RELABEL adv 
+49  -  $$_adv  (adv,attrib)   top_left RELABEL adv 
+
+
+%%% SINTAGMES NOMINALS AMB TO
+24  -  TO-chunk_$$_?_vb-chunk  (vb-chunk{VB$},sn-chunk)   top_left RELABEL vb-chunk 
+24  -  TO-chunk_$$_?_vb-chunk  (vb-chunk{VB$},n-chunk)   top_left RELABEL vb-chunk 
+24  -  TO-chunk_$$_?_vb-be  (vb-chunk{VB$},sn-chunk)   top_left RELABEL vb-chunk 
+24  -  TO-chunk_$$_?_vb-be  (vb-chunk{VB$},n-chunk)   top_left RELABEL vb-chunk 
+24  -  TO-chunk_$$_?_vb-have  (vb-chunk{VB$},sn-chunk)   top_left RELABEL vb-chunk 
+24  -  TO-chunk_$$_?_vb-have  (vb-chunk{VB$},n-chunk)   top_left RELABEL vb-chunk 
+24  -  TO-chunk_$$_?_vb-do  (vb-chunk{VB$},sn-chunk)   top_left RELABEL vb-chunk 
+24  -  TO-chunk_$$_?_vb-do  (vb-chunk{VB$},n-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-chunk  (vb-chunk{VB$},sn-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-chunk  (vb-chunk{VB$},n-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-be  (vb-chunk{VB$},sn-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-be  (vb-chunk{VB$},n-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-have  (vb-chunk{VB$},sn-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-have  (vb-chunk{VB$},n-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-do  (vb-chunk{VB$},sn-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-do  (vb-chunk{VB$},n-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-chunk  (vb-be{VB$},sn-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-chunk  (vb-be{VB$},n-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-be  (vb-be{VB$},sn-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-be  (vb-be{VB$},n-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-have  (vb-be{VB$},sn-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-have  (vb-be{VB$},n-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-do  (vb-be{VB$},sn-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-do  (vb-be{VB$},n-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-chunk  (vb-do{VB$},sn-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-chunk  (vb-do{VB$},n-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-be  (vb-do{VB$},sn-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-be  (vb-do{VB$},n-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-have  (vb-do{VB$},sn-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-have  (vb-do{VB$},n-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-do  (vb-do{VB$},sn-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-do  (vb-do{VB$},n-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-chunk  (vb-have{VB$},sn-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-chunk  (vb-have{VB$},n-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-be  (vb-have{VB$},sn-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-be  (vb-have{VB$},n-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-have  (vb-have{VB$},sn-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-have  (vb-have{VB$},n-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-do  (vb-have{VB$},sn-chunk)   top_left RELABEL vb-chunk 
+25  -  TO-chunk_$$_vb-do  (vb-have{VB$},n-chunk)   top_left RELABEL vb-chunk 
+26  -  OUT_$$_vb-chunk  (TO-chunk,vb-chunk{VB$})   top_left RELABEL n-chunk 
+26  -  OUT_$$_vb-be  (TO-chunk,vb-chunk{VB$})   top_left RELABEL n-chunk 
+26  -  OUT_$$_vb-do  (TO-chunk,vb-chunk{VB$})   top_left RELABEL n-chunk 
+26  -  OUT_$$_vb-have  (TO-chunk,vb-chunk{VB$})   top_left RELABEL n-chunk 
+26  -  OUT_$$_vb-chunk  (TO-chunk,vb-be{VB$})   top_left RELABEL n-chunk 
+26  -  OUT_$$_vb-be  (TO-chunk,vb-be{VB$})   top_left RELABEL n-chunk 
+26  -  OUT_$$_vb-do  (TO-chunk,vb-be{VB$})   top_left RELABEL n-chunk 
+26  -  OUT_$$_vb-have  (TO-chunk,vb-be{VB$})   top_left RELABEL n-chunk 
+26  -  OUT_$$_vb-chunk  (TO-chunk,vb-do{VB$})   top_left RELABEL n-chunk 
+26  -  OUT_$$_vb-be  (TO-chunk,vb-do{VB$})   top_left RELABEL n-chunk 
+26  -  OUT_$$_vb-do  (TO-chunk,vb-do{VB$})   top_left RELABEL n-chunk 
+26  -  OUT_$$_vb-have  (TO-chunk,vb-do{VB$})   top_left RELABEL n-chunk 
+57  -  OUT_$$_vb-chunk  (TO-chunk,vb-have{VB$})   top_left RELABEL n-chunk 
+57  -  OUT_$$_vb-be  (TO-chunk,vb-have{VB$})   top_left RELABEL n-chunk 
+57  -  OUT_$$_vb-do  (TO-chunk,vb-have{VB$})   top_left RELABEL n-chunk 
+57  -  OUT_$$_vb-have  (TO-chunk,vb-have{VB$})   top_left RELABEL n-chunk 
+57  -  OUT_$$_vb-chunk  (TO-chunk,sv{VB$})   top_left RELABEL n-chunk 
+57  -  OUT_$$_vb-be  (TO-chunk,sv{VB$})   top_left RELABEL n-chunk 
+57  -  OUT_$$_vb-do  (TO-chunk,sv{VB$})   top_left RELABEL n-chunk 
+57  -  OUT_$$_vb-have  (TO-chunk,sv{VB$})   top_left RELABEL n-chunk 
+57  -  -  (TO-chunk,sv{VB$})   top_left RELABEL sp-chunk 
+
+55  -  TO-chunk_$$  (vb-do,sn-chunk)   top_left RELABEL vb-chunk 
+55  -  TO-chunk_$$  (vb-do,n-chunk)   top_left RELABEL vb-chunk 
+55  -  TO-chunk_$$  (vb-have,sn-chunk)   top_left RELABEL vb-chunk 
+55  -  TO-chunk_$$  (vb-have,n-chunk)   top_left RELABEL vb-chunk 
+55  -  TO-chunk_$$  (vb-be,sp-chunk)   top_left RELABEL vb-chunk 
+55  -  TO-chunk_$$  (vb-be,sn-chunk)   top_left RELABEL vb-chunk 
+55  -  TO-chunk_$$  (vb-be,n-chunk)   top_left RELABEL vb-chunk 
+55  -  TO-chunk_$$  (vb-be,attrib)   top_left RELABEL vb-chunk 
+55  -  TO-chunk_$$  (vb-be,adv)   top_left RELABEL vb-chunk 
+
+%%% SINTAGMES PREPOSICIONALS AMB TO
+57  -  -  (TO-chunk,sv{VB$})   top_left RELABEL sp-chunk 
+57  -  -  (TO-chunk,sv{VB$})   top_left RELABEL sp-chunk 
+57  -  -  (TO-chunk,sv{VB$})   top_left RELABEL sp-chunk 
+57  -  -  (TO-chunk,sv{VB$})   top_left RELABEL sp-chunk 
+81  -  -  (TO-chunk,vb-chunk{VB$})   top_left RELABEL sp-chunk 
+81  -  -  (TO-chunk,vb-be{VB$})   top_left RELABEL sp-chunk 
+81  -  -  (TO-chunk,vb-do{VB$})   top_left RELABEL sp-chunk 
+81  -  -  (TO-chunk,vb-have{VB$})   top_left RELABEL sp-chunk 
+
+%%% GERUNDIS NOMINALITZATS 
+20  -  $$_punt  (vb-chunk{VBG},vb-have)   top_right RELABEL claus 
+20  -  $$_punt  (vb-chunk{VBG},vb-do)   top_right RELABEL claus 
+20  -  $$_punt  (vb-chunk{VBG},vb-be)   top_right RELABEL claus 
+20  -  $$_punt  (vb-chunk{VBG},vb-chunk)   top_right RELABEL claus 
+
+21  -  -  (vb-chunk{VBG},vb-chunk)   top_right RELABEL - 
+21  -  -  (vb-be{VBG},vb-chunk)   top_right RELABEL - 
+21  -  -  (vb-have{VBG},vb-chunk)   top_right RELABEL - 
+21  -  -  (vb-do{VBG},vb-chunk)   top_right RELABEL - 
+30  -  -  (vb-chunk{VBG},vb-be)   top_right RELABEL vb-chunk 
+30  -  -  (vb-be{VBG},vb-be)   top_right RELABEL vb-chunk 
+30  -  -  (vb-have{VBG},vb-be)   top_right RELABEL vb-chunk 
+30  -  -  (vb-do{VBG},vb-be)   top_right RELABEL vb-chunk 
+30  -  -  (vb-chunk{VBG},vb-have)   top_right RELABEL vb-chunk 
+30  -  -  (vb-be{VBG},vb-have)   top_right RELABEL vb-chunk 
+30  -  -  (vb-have{VBG},vb-have)   top_right RELABEL vb-chunk 
+30  -  -  (vb-do{VBG},vb-have)   top_right RELABEL vb-chunk 
+30  -  -  (vb-chunk{VBG},vb-do)   top_right RELABEL vb-chunk 
+30  -  -  (vb-be{VBG},vb-do)   top_right RELABEL vb-chunk 
+30  -  -  (vb-have{VBG},vb-do)   top_right RELABEL vb-chunk 
+30  -  -  (vb-do{VBG},vb-do)   top_right RELABEL vb-chunk 
+
+51  -  -  (spin,sv{VBG})   top_left RELABEL sp-chunk 
+90  -  -  (spin,vb-chunk{VBG})   top_left RELABEL sp-chunk 
+51  -  -  (TO-chunk,sv{VBG})   top_left RELABEL sp-chunk 
+25  -  spin_$$  (vb-be{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+25  -  spin_$$  (vb-be{VBG},n-chunk)   top_left RELABEL vb-chunk 
+25  -  spin_$$  (vb-be{VBG},sp-chunk)   top_left RELABEL vb-chunk 
+25  -  spin_$$  (vb-be{VBG},sppart)   top_left RELABEL vb-chunk 
+25  -  spin_$$  (vb-be{VBG},attrib)   top_left RELABEL vb-chunk 
+25  -  spin_$$  (vb-do{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+25  -  spin_$$  (vb-do{VBG},n-chunk)   top_left RELABEL vb-chunk 
+25  -  spin_$$  (vb-have{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+25  -  spin_$$  (vb-have{VBG},n-chunk)   top_left RELABEL vb-chunk 
+
+50  -  -  (vb-chunk,sv{VBG})   top_left RELABEL - 
+71  -  -  (sv{VBG},sv)   top_right RELABEL - 
+50  -  $$_punt  (sv{VBG},vb-chunk)   top_right RELABEL claus 
+50  -  $$_punt  (sv{VBG},vb-be)   top_right RELABEL claus 
+50  -  $$_punt  (sv{VBG},vb-have)   top_right RELABEL claus 
+50  -  $$_punt  (sv{VBG},vb-do)   top_right RELABEL claus 
+51  -  -  (sv{VBG},vb-chunk)   top_right RELABEL vb-chunk 
+51  -  -  (sv{VBG},vb-be)   top_right RELABEL vb-chunk 
+51  -  -  (sv{VBG},vb-have)   top_right RELABEL vb-chunk 
+51  -  -  (sv{VBG},vb-do)   top_right RELABEL vb-chunk 
+
+65  -  -  (sv,sv{VBG})   top_left RELABEL - 
+
+64  -  OUT_$$_sn-chunk_vb-chunk  (vb-chunk{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+64  -  OUT_$$_sn-chunk_vb-chunk  (vb-chunk{VBG},n-chunk)   top_left RELABEL vb-chunk 
+64  -  OUT_$$_sn-chunk_vb-be  (vb-chunk{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+64  -  OUT_$$_sn-chunk_vb-be  (vb-chunk{VBG},n-chunk)   top_left RELABEL vb-chunk 
+64  -  OUT_$$_sn-chunk_vb-have  (vb-chunk{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+64  -  OUT_$$_sn-chunk_vb-have  (vb-chunk{VBG},n-chunk)   top_left RELABEL vb-chunk 
+64  -  OUT_$$_sn-chunk_vb-do  (vb-chunk{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+64  -  OUT_$$_sn-chunk_vb-do  (vb-chunk{VBG},n-chunk)   top_left RELABEL vb-chunk 
+64  -  OUT_$$_n-chunk_vb-chunk  (vb-chunk{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+64  -  OUT_$$_n-chunk_vb-chunk  (vb-chunk{VBG},n-chunk)   top_left RELABEL vb-chunk 
+64  -  OUT_$$_n-chunk_vb-be  (vb-chunk{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+64  -  OUT_$$_n-chunk_vb-be  (vb-chunk{VBG},n-chunk)   top_left RELABEL vb-chunk 
+64  -  OUT_$$_n-chunk_vb-have  (vb-chunk{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+64  -  OUT_$$_n-chunk_vb-have  (vb-chunk{VBG},n-chunk)   top_left RELABEL vb-chunk 
+64  -  OUT_$$_n-chunk_vb-do  (vb-chunk{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+64  -  OUT_$$_n-chunk_vb-do  (vb-chunk{VBG},n-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-chunk  (vb-chunk{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-chunk  (vb-chunk{VBG},n-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-be  (vb-chunk{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-be  (vb-chunk{VBG},n-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-have  (vb-chunk{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-have  (vb-chunk{VBG},n-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-do  (vb-chunk{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-do  (vb-chunk{VBG},n-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-chunk  (vb-be{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-chunk  (vb-be{VBG},n-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-be  (vb-be{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-be  (vb-be{VBG},n-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-have  (vb-be{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-have  (vb-be{VBG},n-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-do  (vb-be{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-do  (vb-be{VBG},n-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-chunk  (vb-do{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-chunk  (vb-do{VBG},n-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-be  (vb-do{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-be  (vb-do{VBG},n-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-have  (vb-do{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-have  (vb-do{VBG},n-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-do  (vb-do{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-do  (vb-do{VBG},n-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-chunk  (vb-have{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-chunk  (vb-have{VBG},n-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-be  (vb-have{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-be  (vb-have{VBG},n-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-have  (vb-have{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-have  (vb-have{VBG},n-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-do  (vb-have{VBG},sn-chunk)   top_left RELABEL vb-chunk 
+65  -  OUT_$$_vb-do  (vb-have{VBG},n-chunk)   top_left RELABEL vb-chunk 
+
+
+
+
+%%% Gerundis CC CC
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%                                 %%%%%
+%%%%%     MODALITATS IL.LOCUTIVES     %%%%%
+%%%%%                                 %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% IMPERATIVES 
+% Imperatives = principals sense subjecte, perque claus = vb-chunk, i.e. incloent-hi
+% vb-chunk{VB$}, no nomes vb-chunk{VBZ|VBP|VBD}
+70  -  OUT_$$  (vb-chunk{^VB$},punt)   top_left RELABEL claus 
+67  -  OUT_$$  (vb-chunk{^VB$},sn-chunk)   top_left RELABEL sv 
+67  -  OUT_$$  (vb-chunk{^VB$},n-chunk)   top_left RELABEL sv 
+66  -  OUT_$$  (vb-chunk{^VB$},sp)   top_left RELABEL sv 
+65  -  OUT_$$  (vb-chunk{^VB$},multi-qu)   top_left RELABEL sv 
+65  -  OUT_$$  (vb-chunk{^VB$},attrib)   top_left RELABEL sv 
+65  -  OUT_$$  (vb-chunk{^VB$},sub-that)   top_left RELABEL sv 
+65  -  OUT_$$  (vb-chunk{^VB$},sv)   top_left RELABEL sv 
+65  -  OUT_$$  (vb-chunk{^VB$},sub-adv)   top_left RELABEL sv 
+
+%%% INTERROGATIVES
+%%% PUNTUACIO
+100  -  -  (sv,Fit)   top_left RELABEL claus 
+
+
+%%% INTERROGATIVES TOTALS AMB VERS LEXICS
+%%% Combinacio de subjecte i verb en forma base
+35  -  vb-do_$$_Fit  (sn-chunk,vb-chunk{VB$})   top_right RELABEL inter 
+35  -  vb-do_$$_?_*_Fit  (sn-chunk,vb-chunk{VB$})   top_right RELABEL inter 
+35  -  vb-do_$$_Fit  (n-chunk,vb-chunk{VB$})   top_right RELABEL inter 
+35  -  vb-do_$$_?_*_Fit  (n-chunk,vb-chunk{VB$})   top_right RELABEL inter 
+35  -  vb-have_$$_Fit  (sn-chunk,vb-chunk{VBG})   top_right RELABEL inter 
+35  -  vb-have_$$_?_*_Fit  (sn-chunk,vb-chunk{VBG})   top_right RELABEL inter 
+35  -  vb-have_$$_Fit  (n-chunk,vb-chunk{VBG})   top_right RELABEL inter 
+35  -  vb-have_$$_?_*_Fit  (n-chunk,vb-chunk{VBG})   top_right RELABEL inter 
+35  -  vb-have_$$_Fit  (sn-chunk,vb-chunk{VBN})   top_right RELABEL inter 
+35  -  vb-have_$$_?_*_Fit  (sn-chunk,vb-chunk{VBN})   top_right RELABEL inter 
+35  -  vb-have_$$_Fit  (n-chunk,vb-chunk{VBN})   top_right RELABEL inter 
+35  -  vb-have_$$_?_*_Fit  (n-chunk,vb-chunk{VBN})   top_right RELABEL inter 
+35  -  vb-be_$$_Fit  (sn-chunk,vb-chunk{VBG})   top_right RELABEL inter 
+35  -  vb-be_$$_?_*_Fit  (sn-chunk,vb-chunk{VBG})   top_right RELABEL inter 
+35  -  vb-be_$$_Fit  (n-chunk,vb-chunk{VBG})   top_right RELABEL inter 
+35  -  vb-be_$$_?_*_Fit  (n-chunk,vb-chunk{VBG})   top_right RELABEL inter 
+35  -  vb-be_$$_Fit  (sn-chunk,vb-chunk{VBN})   top_right RELABEL inter 
+35  -  vb-be_$$_?_*_Fit  (sn-chunk,vb-chunk{VBN})   top_right RELABEL inter 
+35  -  vb-be_$$_Fit  (n-chunk,vb-chunk{VBN})   top_right RELABEL inter 
+35  -  vb-be_$$_?_*_Fit  (n-chunk,vb-chunk{VBN})   top_right RELABEL inter 
+35  -  vb-do_$$_Fit  (sn-chunk,vb-do{VB$})   top_right RELABEL inter 
+35  -  vb-do_$$_?_*_Fit  (sn-chunk,vb-do{VB$})   top_right RELABEL inter 
+35  -  vb-do_$$_Fit  (n-chunk,vb-do{VB$})   top_right RELABEL inter 
+35  -  vb-do_$$_?_*_Fit  (n-chunk,vb-do{VB$})   top_right RELABEL inter 
+35  -  vb-have_$$_Fit  (sn-chunk,vb-do{VBG})   top_right RELABEL inter 
+35  -  vb-have_$$_?_*_Fit  (sn-chunk,vb-do{VBG})   top_right RELABEL inter 
+35  -  vb-have_$$_Fit  (n-chunk,vb-do{VBG})   top_right RELABEL inter 
+35  -  vb-have_$$_?_*_Fit  (n-chunk,vb-do{VBG})   top_right RELABEL inter 
+35  -  vb-have_$$_Fit  (sn-chunk,vb-do{VBN})   top_right RELABEL inter 
+35  -  vb-have_$$_?_*_Fit  (sn-chunk,vb-do{VBN})   top_right RELABEL inter 
+35  -  vb-have_$$_Fit  (n-chunk,vb-do{VBN})   top_right RELABEL inter 
+35  -  vb-have_$$_?_*_Fit  (n-chunk,vb-do{VBN})   top_right RELABEL inter 
+35  -  vb-be_$$_Fit  (sn-chunk,vb-do{VBG})   top_right RELABEL inter 
+35  -  vb-be_$$_?_*_Fit  (sn-chunk,vb-do{VBG})   top_right RELABEL inter 
+35  -  vb-be_$$_Fit  (n-chunk,vb-do{VBG})   top_right RELABEL inter 
+35  -  vb-be_$$_?_*_Fit  (n-chunk,vb-do{VBG})   top_right RELABEL inter 
+35  -  vb-be_$$_Fit  (sn-chunk,vb-do{VBN})   top_right RELABEL inter 
+35  -  vb-be_$$_?_*_Fit  (sn-chunk,vb-do{VBN})   top_right RELABEL inter 
+35  -  vb-be_$$_Fit  (n-chunk,vb-do{VBN})   top_right RELABEL inter 
+35  -  vb-be_$$_?_*_Fit  (n-chunk,vb-do{VBN})   top_right RELABEL inter 
+
+%%% Combinacio de verb i auxiliar interrogatiu, temps verbal base
+51  -  $$_Fit  (vb-do,inter{VB$})   top_right RELABEL claus 
+51  -  $$_?_*_Fit  (vb-do,inter{VB$})   top_right RELABEL vb-chunk 
+51  -  $$_Fit  (vb-have,inter{VBN})   top_right RELABEL claus 
+51  -  $$_?_*_Fit  (vb-have,inter{VBN})   top_right RELABEL vb-chunk 
+51  -  $$_Fit  (vb-have,inter{VBG})   top_right RELABEL claus 
+51  -  $$_?_*_Fit  (vb-have,inter{VBG})   top_right RELABEL vb-chunk 
+51  -  $$_Fit  (vb-be,inter{VBG})   top_right RELABEL claus 
+51  -  $$_?_*_Fit  (vb-be,inter{VBG})   top_right RELABEL vb-chunk 
+51  -  $$_Fit  (vb-be,inter{VBN})   top_right RELABEL claus 
+51  -  $$_?_*_Fit  (vb-be,inter{VBN})   top_right RELABEL vb-chunk 
+
+%%% Combinacio de verb i auxiliar, altres temps
+51  -  $$_Fit  (vb-have,vb-chunk{VBN})   top_right RELABEL claus 
+51  -  $$_?_*_Fit  (vb-have,vb-chunk{VBN})   top_right RELABEL vb-chunk 
+51  -  $$_Fit  (vb-have,vb-chunk{VBG})   top_right RELABEL claus 
+51  -  $$_?_*_Fit  (vb-have,vb-chunk{VBG})   top_right RELABEL vb-chunk 
+51  -  $$_Fit  (vb-be,vb-chunk{VBN})   top_right RELABEL claus 
+51  -  $$_?_*_Fit  (vb-be,vb-chunk{VBN})   top_right RELABEL vb-chunk 
+51  -  $$_Fit  (vb-be,vb-chunk{VBG})   top_right RELABEL claus 
+51  -  $$_?_*_Fit  (vb-be,vb-chunk{VBG})   top_right RELABEL vb-chunk 
+
+%%% INTERROGATIVES TOTALS AMB TO BE
+50  -  OUT_$$_Fit  (vb-be,sn-chunk)   top_left RELABEL claus 
+50  -  OUT_$$_?_*_Fit  (vb-be,sn-chunk)   top_left RELABEL vb-chunk 
+50  -  OUT_$$_Fit  (vb-be,n-chunk)   top_left RELABEL claus 
+50  -  OUT_$$_?_*_Fit  (vb-be,n-chunk)   top_left RELABEL vb-chunk 
+50  -  OUT_wh-pro_$$_Fit  (vb-be,sn-chunk)   top_left RELABEL claus 
+50  -  OUT_wh-pro_$$_?_*_Fit  (vb-be,sn-chunk)   top_left RELABEL vb-chunk 
+50  -  OUT_wh-pro_$$_Fit  (vb-be,n-chunk)   top_left RELABEL claus 
+50  -  OUT_wh-pro_$$_?_*_Fit  (vb-be,n-chunk)   top_left RELABEL vb-chunk 
+50  -  OUT_wh-adv_$$_Fit  (vb-be,sn-chunk)   top_left RELABEL claus 
+50  -  OUT_wh-adv_$$_?_*_Fit  (vb-be,sn-chunk)   top_left RELABEL vb-chunk 
+50  -  OUT_wh-adv_$$_Fit  (vb-be,n-chunk)   top_left RELABEL claus 
+50  -  OUT_wh-adv_$$_?_*_Fit  (vb-be,n-chunk)   top_left RELABEL vb-chunk 
+
+%%% INTERROGATIVES PARCIALS
+%%% No centrades en el subjecte
+1  -  OUT_$$_Fit  (wh-adv,claus)   top_right RELABEL - 
+1  -  OUT_$$_Fit  (wh-adv,sv)   top_right RELABEL - 
+1  -  OUT_$$_Fit  (wh-pro,claus)   top_right RELABEL - 
+1  -  OUT_$$_Fit  (wh-pro,sv)   top_right RELABEL - 
+
+%%% Centrades en el subjecte
+9  -  OUT_$$_Fit  (wh-pro,rel)   top_right RELABEL sv 
+8  -  OUT_$$_?_*_Fit  (wh-pro,vb-chunk)   top_right RELABEL - 
+
+10  -  OUT_$$_Fit  (wh-pro,vb-chunk)   top_right RELABEL claus 
+10  -  OUT_$$_Fit  (wh-pro,vb-be)   top_right RELABEL claus 
+10  -  OUT_$$_Fit  (wh-pro,vb-have)   top_right RELABEL claus 
+10  -  OUT_$$_Fit  (wh-pro,vb-do)   top_right RELABEL claus 
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%                                 %%%%%
+%%%%%     ESTRUCTURES ARGUMENTALS     %%%%%
+%%%%%                                 %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%% EXISTENCIALS
+16  -  -  (exs,sn-chunk)   top_left RELABEL vb-chunk 
+16  -  -  (exs,n-chunk)   top_left RELABEL vb-chunk 
+
+15  -  -  (adv{EX},vb-be)   top_right RELABEL exs 
+15  -  -  (adv{EX},vb-chunk)   top_right RELABEL exs 
+14  -  adv_$$  (mod-chunk,vb-be)   top_right RELABEL exs-mod 
+15  -  -  (adv{EX},exs-mod)   top_right RELABEL exs 
+
+
+
+%%% SUBJECTES
+%%% Veure Filtre 1
+%%% Subjectes de transitives, intransitives i doble datives amb ssnn (regla per defecte)
+70  -  $$_sn-chunk  (sn-chunk,vb-chunk)   top_right RELABEL vb-chunk 
+70  -  $$_n-chunk  (sn-chunk,vb-chunk)   top_right RELABEL vb-chunk 
+70  -  $$_sn-chunk  (n-chunk,vb-chunk)   top_right RELABEL vb-chunk 
+70  -  $$_n-chunk  (n-chunk,vb-chunk)   top_right RELABEL vb-chunk 
+70  -  $$_nex-comp  (sn-chunk,vb-chunk[compl])   top_right RELABEL vb-chunk 
+70  -  $$_nex-comp  (n-chunk,vb-chunk[compl])   top_right RELABEL vb-chunk 
+70  -  $$_sp-chunk  (sn-chunk,vb-chunk)   top_right RELABEL vb-chunk 
+70  -  $$_sp-chunk  (n-chunk,vb-chunk)   top_right RELABEL vb-chunk 
+70  -  $$_TO-chunk  (sn-chunk,vb-chunk)   top_right RELABEL vb-chunk 
+70  -  $$_TO-chunk  (n-chunk,vb-chunk)   top_right RELABEL vb-chunk 
+70  -  $$_spin  (sn-chunk,vb-chunk)   top_right RELABEL vb-chunk 
+70  -  $$_spin  (n-chunk,vb-chunk)   top_right RELABEL vb-chunk 
+70  -  $$_adv  (sn-chunk,vb-chunk)   top_right RELABEL vb-chunk 
+70  -  $$_adv  (n-chunk,vb-chunk)   top_right RELABEL vb-chunk 
+70  -  $$_attrib  (sn-chunk,vb-chunk)   top_right RELABEL vb-chunk 
+70  -  $$_attrib  (n-chunk,vb-chunk)   top_right RELABEL vb-chunk 
+71  -  -  (sn-chunk,vb-chunk)   top_right RELABEL sv 
+71  -  -  (n-chunk,vb-chunk)   top_right RELABEL sv 
+
+
+%%% Subjectes de completives (demostradament completives)
+%%% Subjectes de completives sense nexe que depenen de verbs transitius
+32  -  $$_sn-chunk_vb-chunk  (sn-chunk,vb-chunk[compl])   top_right RELABEL vb-compl 
+32  -  $$_n-chunk_vb-chunk  (sn-chunk,vb-chunk[compl])   top_right RELABEL vb-compl 
+32  -  $$_sn-chunk_vb-be  (sn-chunk,vb-chunk[compl])   top_right RELABEL vb-compl 
+32  -  $$_n-chunk_vb-be  (sn-chunk,vb-chunk[compl])   top_right RELABEL vb-compl 
+32  -  $$_sn-chunk_vb-have  (sn-chunk,vb-chunk[compl])   top_right RELABEL vb-compl 
+32  -  $$_n-chunk_vb-have  (sn-chunk,vb-chunk[compl])   top_right RELABEL vb-compl 
+32  -  $$_sn-chunk_vb-do  (sn-chunk,vb-chunk[compl])   top_right RELABEL vb-compl 
+32  -  $$_n-chunk_vb-do  (sn-chunk,vb-chunk[compl])   top_right RELABEL vb-compl 
+32  -  $$_sn-chunk_vb-chunk  (n-chunk,vb-chunk[compl])   top_right RELABEL vb-compl 
+32  -  $$_n-chunk_vb-chunk  (n-chunk,vb-chunk[compl])   top_right RELABEL vb-compl 
+32  -  $$_sn-chunk_vb-be  (n-chunk,vb-chunk[compl])   top_right RELABEL vb-compl 
+32  -  $$_n-chunk_vb-be  (n-chunk,vb-chunk[compl])   top_right RELABEL vb-compl 
+32  -  $$_sn-chunk_vb-have  (n-chunk,vb-chunk[compl])   top_right RELABEL vb-compl 
+32  -  $$_n-chunk_vb-have  (n-chunk,vb-chunk[compl])   top_right RELABEL vb-compl 
+32  -  $$_sn-chunk_vb-do  (n-chunk,vb-chunk[compl])   top_right RELABEL vb-compl 
+32  -  $$_n-chunk_vb-do  (n-chunk,vb-chunk[compl])   top_right RELABEL vb-compl 
+52  -  -  (vb-compl,sv)   top_left RELABEL sv 
+
+
+%%% Subjectes de completives sense nexe que van amb estructures de doble datiu
+38  -  $$_sn-chunk_sn-chunk_vb-chunk  (sn-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_sn-chunk_n-chunk_vb-chunk  (sn-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_n-chunk_sn-chunk_vb-chunk  (sn-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_n-chunk_n-chunk_vb-chunk  (sn-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_sn-chunk_sn-chunk_vb-be  (sn-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_sn-chunk_n-chunk_vb-be  (sn-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_n-chunk_sn-chunk_vb-be  (sn-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_n-chunk_n-chunk_vb-be  (sn-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_sn-chunk_sn-chunk_vb-have  (sn-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_sn-chunk_n-chunk_vb-have  (sn-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_n-chunk_sn-chunk_vb-have  (sn-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_n-chunk_n-chunk_vb-have  (sn-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_sn-chunk_sn-chunk_vb-do  (sn-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_sn-chunk_n-chunk_vb-do  (sn-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_n-chunk_sn-chunk_vb-do  (sn-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_n-chunk_n-chunk_vb-do  (sn-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_sn-chunk_sn-chunk_vb-chunk  (n-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_sn-chunk_n-chunk_vb-chunk  (n-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_n-chunk_sn-chunk_vb-chunk  (n-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_n-chunk_n-chunk_vb-chunk  (n-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_sn-chunk_sn-chunk_vb-be  (n-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_sn-chunk_n-chunk_vb-be  (n-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_n-chunk_sn-chunk_vb-be  (n-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_n-chunk_n-chunk_vb-be  (n-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_sn-chunk_sn-chunk_vb-have  (n-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_sn-chunk_n-chunk_vb-have  (n-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_n-chunk_sn-chunk_vb-have  (n-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_n-chunk_n-chunk_vb-have  (n-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_sn-chunk_sn-chunk_vb-do  (n-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_sn-chunk_n-chunk_vb-do  (n-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_n-chunk_sn-chunk_vb-do  (n-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+38  -  $$_n-chunk_n-chunk_vb-do  (n-chunk,vb-chunk[2xtr2])   top_right RELABEL vb-2xcompl 
+39  -  -  (vb-2xcompl,sn-chunk)   top_left RELABEL vb2xcompl 
+39  -  -  (vb-2xcompl,n-chunk)   top_left RELABEL vb2xcompl 
+41  -  -  (vb2xcompl[compl],sv)   top_left RELABEL sv 
+
+70  -  $$_sn-chunk  (sn-chunk,vb-have)   top_right RELABEL vb-chunk 
+70  -  $$_n-chunk  (sn-chunk,vb-have)   top_right RELABEL vb-chunk 
+70  -  $$_attrib  (sn-chunk,vb-have)   top_right RELABEL vb-chunk 
+70  -  $$_sp-chunk  (sn-chunk,vb-have)   top_right RELABEL vb-chunk 
+70  -  $$_adv  (sn-chunk,vb-have)   top_right RELABEL vb-chunk 
+70  -  $$_nex-comp  (sn-chunk,vb-have)   top_right RELABEL vb-chunk 
+70  -  $$_TO-chunk  (sn-chunk,vb-have)   top_right RELABEL vb-chunk 
+70  -  $$_spin  (sn-chunk,vb-have)   top_right RELABEL vb-chunk 
+71  -  -  (sn-chunk,vb-have)   top_right RELABEL sv 
+70  -  $$_sn-chunk  (n-chunk,vb-have)   top_right RELABEL vb-chunk 
+70  -  $$_n-chunk  (n-chunk,vb-have)   top_right RELABEL vb-chunk 
+70  -  $$_attrib  (n-chunk,vb-have)   top_right RELABEL vb-chunk 
+70  -  $$_sp-chunk  (n-chunk,vb-have)   top_right RELABEL vb-chunk 
+70  -  $$_adv  (n-chunk,vb-have)   top_right RELABEL vb-chunk 
+70  -  $$_nex-comp  (n-chunk,vb-have)   top_right RELABEL vb-chunk 
+70  -  $$_TO-chunk  (n-chunk,vb-have)   top_right RELABEL vb-chunk 
+70  -  $$_spin  (n-chunk,vb-have)   top_right RELABEL vb-chunk 
+71  -  -  (n-chunk,vb-have)   top_right RELABEL sv 
+
+70  -  $$_sn-chunk  (sn-chunk,vb-do)   top_right RELABEL vb-chunk 
+70  -  $$_n-chunk  (sn-chunk,vb-do)   top_right RELABEL vb-chunk 
+70  -  $$_sn-chunk  (n-chunk,vb-do)   top_right RELABEL vb-chunk 
+70  -  $$_n-chunk  (n-chunk,vb-do)   top_right RELABEL vb-chunk 
+70  -  $$_attrib  (sn-chunk,vb-do)   top_right RELABEL vb-chunk 
+70  -  $$_attrib  (n-chunk,vb-do)   top_right RELABEL vb-chunk 
+70  -  $$_sp-chunk  (sn-chunk,vb-do)   top_right RELABEL vb-chunk 
+70  -  $$_TO-chunk  (sn-chunk,vb-do)   top_right RELABEL vb-chunk 
+70  -  $$_spin  (sn-chunk,vb-do)   top_right RELABEL vb-chunk 
+70  -  $$_sp-chunk  (n-chunk,vb-do)   top_right RELABEL vb-chunk 
+70  -  $$_TO-chunk  (n-chunk,vb-do)   top_right RELABEL vb-chunk 
+70  -  $$_spin  (n-chunk,vb-do)   top_right RELABEL vb-chunk 
+70  -  $$_adv  (sn-chunk,vb-do)   top_right RELABEL vb-chunk 
+70  -  $$_adv  (n-chunk,vb-do)   top_right RELABEL vb-chunk 
+71  -  !$$_vb-chunk  (sn-chunk,vb-do)   top_right RELABEL sv 
+71  -  !$$_vb-chunk  (n-chunk,vb-do)   top_right RELABEL sv 
+70  -  $$_nex-comp  (sn-chunk,vb-do)   top_right RELABEL sv 
+70  -  $$_nex-comp  (n-chunk,vb-do)   top_right RELABEL sv 
+
+70  -  $$_sn-chunk  (sn-chunk,vb-be)   top_right RELABEL vb-chunk 
+70  -  $$_n-chunk  (sn-chunk,vb-be)   top_right RELABEL vb-chunk 
+70  -  $$_sn-chunk  (n-chunk,vb-be)   top_right RELABEL vb-chunk 
+70  -  $$_n-chunk  (n-chunk,vb-be)   top_right RELABEL vb-chunk 
+70  -  $$_attrib  (sn-chunk,vb-be)   top_right RELABEL vb-chunk 
+70  -  $$_attrib  (n-chunk,vb-be)   top_right RELABEL vb-chunk 
+70  -  $$_sp-chunk  (sn-chunk,vb-be)   top_right RELABEL vb-chunk 
+70  -  $$_sp-chunk  (n-chunk,vb-be)   top_right RELABEL vb-chunk 
+70  -  $$_TO-chunk  (sn-chunk,vb-be)   top_right RELABEL vb-chunk 
+70  -  $$_TO-chunk  (n-chunk,vb-be)   top_right RELABEL vb-chunk 
+70  -  $$_spin  (sn-chunk,vb-be)   top_right RELABEL vb-chunk 
+70  -  $$_spin  (n-chunk,vb-be)   top_right RELABEL vb-chunk 
+70  -  $$_adv  (sn-chunk,vb-be)   top_right RELABEL vb-chunk 
+70  -  $$_adv  (n-chunk,vb-be)   top_right RELABEL vb-chunk 
+71  -  -  (sn-chunk,vb-be)   top_right RELABEL sv 
+71  -  -  (n-chunk,vb-be)   top_right RELABEL sv 
+70  -  $$_nex-comp  (sn-chunk,vb-be)   top_right RELABEL sv 
+70  -  $$_nex-comp  (n-chunk,vb-be)   top_right RELABEL sv 
+
+%%% PREDICATS 
+78  -  -  (vb-chunk,sp-chunk{TO})   top_left RELABEL sv 
+16  -  $$_sn-chunk_vb-chunk  (vb-chunk,sp-chunk{TO})   top_left RELABEL vb-chunk 
+16  -  $$_n-chunk_vb-chunk  (vb-chunk,sp-chunk{TO})   top_left RELABEL vb-chunk 
+16  -  $$_sn-chunk_vb-be  (vb-chunk,sp-chunk{TO})   top_left RELABEL vb-chunk 
+16  -  $$_n-chunk_vb-be  (vb-chunk,sp-chunk{TO})   top_left RELABEL vb-chunk 
+16  -  $$_sn-chunk_vb-have  (vb-chunk,sp-chunk{TO})   top_left RELABEL vb-chunk 
+16  -  $$_n-chunk_vb-have  (vb-chunk,sp-chunk{TO})   top_left RELABEL vb-chunk 
+16  -  $$_sn-chunk_vb-do  (vb-chunk,sp-chunk{TO})   top_left RELABEL vb-chunk 
+16  -  $$_n-chunk_vb-do  (vb-chunk,sp-chunk{TO})   top_left RELABEL vb-chunk 
+78  -  -  (vb-chunk,sp-chunk{IN})   top_left RELABEL sv 
+78  -  -  (vb-chunk,sn-chunk)   top_left RELABEL sv 
+78  -  -  (vb-chunk,n-chunk)   top_left RELABEL sv 
+78  -  -  (vb-chunk,attrib)   top_left RELABEL sv 
+78  -  -  (vb-chunk,adv)   top_left RELABEL sv 
+78  -  -  (vb-chunk,sv)   top_left RELABEL sv 
+75  -  $$_sn-chunk  (vb-chunk,sp-chunk)   top_left RELABEL - 
+75  -  $$_sn-chunk  (vb-chunk,sn-chunk)   top_left RELABEL - 
+75  -  $$_sn-chunk  (vb-chunk,n-chunk)   top_left RELABEL - 
+75  -  $$_sn-chunk  (vb-chunk,attrib)   top_left RELABEL - 
+75  -  $$_sn-chunk  (vb-chunk,adv)   top_left RELABEL - 
+75  -  $$_sn-chunk  (vb-chunk,sv)   top_left RELABEL - 
+75  -  $$_n-chunk  (vb-chunk,sp-chunk)   top_left RELABEL - 
+75  -  $$_n-chunk  (vb-chunk,sn-chunk)   top_left RELABEL - 
+75  -  $$_n-chunk  (vb-chunk,n-chunk)   top_left RELABEL - 
+75  -  $$_n-chunk  (vb-chunk,attrib)   top_left RELABEL - 
+75  -  $$_n-chunk  (vb-chunk,adv)   top_left RELABEL - 
+75  -  $$_n-chunk  (vb-chunk,sv)   top_left RELABEL - 
+75  -  $$_sp-chunk  (vb-chunk,sp-chunk)   top_left RELABEL - 
+75  -  $$_sp-chunk  (vb-chunk,sn-chunk)   top_left RELABEL - 
+75  -  $$_sp-chunk  (vb-chunk,n-chunk)   top_left RELABEL - 
+75  -  $$_sp-chunk  (vb-chunk,attrib)   top_left RELABEL - 
+75  -  $$_sp-chunk  (vb-chunk,adv)   top_left RELABEL - 
+75  -  $$_sp-chunk  (vb-chunk,sv)   top_left RELABEL - 
+75  -  $$_attrib  (vb-chunk,sp-chunk)   top_left RELABEL - 
+75  -  $$_attrib  (vb-chunk,sn-chunk)   top_left RELABEL - 
+75  -  $$_attrib  (vb-chunk,n-chunk)   top_left RELABEL - 
+75  -  $$_attrib  (vb-chunk,attrib)   top_left RELABEL - 
+75  -  $$_attrib  (vb-chunk,adv)   top_left RELABEL - 
+75  -  $$_attrib  (vb-chunk,sv)   top_left RELABEL - 
+75  -  $$_adv  (vb-chunk,sp-chunk)   top_left RELABEL - 
+75  -  $$_adv  (vb-chunk,sn-chunk)   top_left RELABEL - 
+75  -  $$_adv  (vb-chunk,n-chunk)   top_left RELABEL - 
+75  -  $$_adv  (vb-chunk,attrib)   top_left RELABEL - 
+75  -  $$_adv  (vb-chunk,adv)   top_left RELABEL - 
+75  -  $$_adv  (vb-chunk,sv)   top_left RELABEL - 
+75  -  $$_TO-chunk  (vb-chunk,sp-chunk)   top_left RELABEL - 
+75  -  $$_TO-chunk  (vb-chunk,sn-chunk)   top_left RELABEL - 
+75  -  $$_TO-chunk  (vb-chunk,n-chunk)   top_left RELABEL - 
+75  -  $$_TO-chunk  (vb-chunk,attrib)   top_left RELABEL - 
+75  -  $$_TO-chunk  (vb-chunk,adv)   top_left RELABEL - 
+75  -  $$_TO-chunk  (vb-chunk,sv)   top_left RELABEL - 
+75  -  $$_spin  (vb-chunk,sp-chunk)   top_left RELABEL - 
+75  -  $$_spin  (vb-chunk,sn-chunk)   top_left RELABEL - 
+75  -  $$_spin  (vb-chunk,n-chunk)   top_left RELABEL - 
+75  -  $$_spin  (vb-chunk,attrib)   top_left RELABEL - 
+75  -  $$_spin  (vb-chunk,adv)   top_left RELABEL - 
+75  -  $$_spin  (vb-chunk,sv)   top_left RELABEL - 
+
+%%% PREDICATS DE LES RELATIVES AMB NEXE AMB ANTECEDENT SUBJECTE DE LA RELATIVA
+60  -  wh-pro_$$_sn-chunk  (vb-chunk,sn-chunk)   top_left RELABEL - 
+60  -  wh-pro_$$_n-chunk  (vb-chunk,sn-chunk)   top_left RELABEL - 
+60  -  wh-pro_$$_attrib  (vb-chunk,sn-chunk)   top_left RELABEL - 
+60  -  wh-pro_$$_adv  (vb-chunk,sn-chunk)   top_left RELABEL - 
+60  -  wh-pro_$$_sp-chunk  (vb-chunk,sn-chunk)   top_left RELABEL - 
+60  -  wh-pro_$$_TO-chunk  (vb-chunk,sn-chunk)   top_left RELABEL - 
+60  -  wh-pro_$$_spin  (vb-chunk,sn-chunk)   top_left RELABEL - 
+60  -  wh-pro_$$_sn-chunk  (vb-chunk,n-chunk)   top_left RELABEL - 
+60  -  wh-pro_$$_n-chunk  (vb-chunk,n-chunk)   top_left RELABEL - 
+60  -  wh-pro_$$_attrib  (vb-chunk,n-chunk)   top_left RELABEL - 
+60  -  wh-pro_$$_adv  (vb-chunk,n-chunk)   top_left RELABEL - 
+60  -  wh-pro_$$_sp-chunk  (vb-chunk,n-chunk)   top_left RELABEL - 
+60  -  wh-pro_$$_TO-chunk  (vb-chunk,n-chunk)   top_left RELABEL - 
+60  -  wh-pro_$$_spin  (vb-chunk,n-chunk)   top_left RELABEL - 
+60  -  wh-pro_$$_sn-chunk  (vb-chunk,sp-chunk)   top_left RELABEL - 
+60  -  wh-pro_$$_n-chunk  (vb-chunk,sp-chunk)   top_left RELABEL - 
+60  -  wh-pro_$$_attrib  (vb-chunk,sp-chunk)   top_left RELABEL - 
+60  -  wh-pro_$$_adv  (vb-chunk,sp-chunk)   top_left RELABEL - 
+60  -  wh-pro_$$_sp-chunk  (vb-chunk,sp-chunk)   top_left RELABEL - 
+60  -  wh-pro_$$_TO-chunk  (vb-chunk,sp-chunk)   top_left RELABEL - 
+60  -  wh-pro_$$_spin  (vb-chunk,sp-chunk)   top_left RELABEL - 
+60  -  wh-pro_$$_sv  (vb-chunk,sp-chunk)   top_left RELABEL - 
+60  -  wh-pro_$$_sn-chunk  (vb-chunk,attrib)   top_left RELABEL - 
+60  -  wh-pro_$$_n-chunk  (vb-chunk,attrib)   top_left RELABEL - 
+60  -  wh-pro_$$_attrib  (vb-chunk,attrib)   top_left RELABEL - 
+60  -  wh-pro_$$_adv  (vb-chunk,attrib)   top_left RELABEL - 
+60  -  wh-pro_$$_sp-chunk  (vb-chunk,attrib)   top_left RELABEL - 
+60  -  wh-pro_$$_TO-chunk  (vb-chunk,attrib)   top_left RELABEL - 
+60  -  wh-pro_$$_spin  (vb-chunk,attrib)   top_left RELABEL - 
+60  -  wh-pro_$$_sv  (vb-chunk,attrib)   top_left RELABEL - 
+60  -  wh-pro_$$_sn-chunk  (vb-chunk,adv)   top_left RELABEL - 
+60  -  wh-pro_$$_n-chunk  (vb-chunk,adv)   top_left RELABEL - 
+60  -  wh-pro_$$_attrib  (vb-chunk,adv)   top_left RELABEL - 
+60  -  wh-pro_$$_adv  (vb-chunk,adv)   top_left RELABEL - 
+60  -  wh-pro_$$_sp-chunk  (vb-chunk,adv)   top_left RELABEL - 
+60  -  wh-pro_$$_TO-chunk  (vb-chunk,adv)   top_left RELABEL - 
+60  -  wh-pro_$$_spin  (vb-chunk,adv)   top_left RELABEL - 
+60  -  wh-pro_$$_sv  (vb-chunk,adv)   top_left RELABEL - 
+61  -  wh-pro_$$  (vb-chunk,sn-chunk)   top_left RELABEL rel 
+61  -  wh-pro_$$  (vb-chunk,n-chunk)   top_left RELABEL rel 
+61  -  wh-pro_$$  (vb-chunk,sp-chunk)   top_left RELABEL rel 
+61  -  wh-pro_$$  (vb-chunk,attrib)   top_left RELABEL rel 
+61  -  wh-pro_$$  (vb-chunk,adv)   top_left RELABEL rel 
+61  -  wh-pro_$$  (vb-chunk,sv)   top_left RELABEL rel 
+
+58  -  wh-pro_$$_sn-chunk_vb-chunk  (vb-chunk[2xtr2],sn-chunk)   top_left RELABEL rel-compl 
+58  -  wh-pro_$$_sn-chunk_vb-chunk  (vb-chunk[2xtr2],n-chunk)   top_left RELABEL rel-compl 
+58  -  wh-pro_$$_n-chunk_vb-chunk  (vb-chunk[2xtr2],sn-chunk)   top_left RELABEL rel-compl 
+58  -  wh-pro_$$_n-chunk_vb-chunk  (vb-chunk[2xtr2],n-chunk)   top_left RELABEL rel-compl 
+58  -  wh-pro_$$_sn-chunk_vb-be  (vb-chunk[2xtr2],sn-chunk)   top_left RELABEL rel-compl 
+58  -  wh-pro_$$_sn-chunk_vb-be  (vb-chunk[2xtr2],n-chunk)   top_left RELABEL rel-compl 
+58  -  wh-pro_$$_n-chunk_vb-be  (vb-chunk[2xtr2],sn-chunk)   top_left RELABEL rel-compl 
+58  -  wh-pro_$$_n-chunk_vb-be  (vb-chunk[2xtr2],n-chunk)   top_left RELABEL rel-compl 
+58  -  wh-pro_$$_sn-chunk_vb-have  (vb-chunk[2xtr2],sn-chunk)   top_left RELABEL rel-compl 
+58  -  wh-pro_$$_sn-chunk_vb-have  (vb-chunk[2xtr2],n-chunk)   top_left RELABEL rel-compl 
+58  -  wh-pro_$$_n-chunk_vb-have  (vb-chunk[2xtr2],sn-chunk)   top_left RELABEL rel-compl 
+58  -  wh-pro_$$_n-chunk_vb-have  (vb-chunk[2xtr2],n-chunk)   top_left RELABEL rel-compl 
+58  -  wh-pro_$$_sn-chunk_vb-do  (vb-chunk[2xtr2],sn-chunk)   top_left RELABEL rel-compl 
+58  -  wh-pro_$$_sn-chunk_vb-do  (vb-chunk[2xtr2],n-chunk)   top_left RELABEL rel-compl 
+58  -  wh-pro_$$_n-chunk_vb-do  (vb-chunk[2xtr2],sn-chunk)   top_left RELABEL rel-compl 
+58  -  wh-pro_$$_n-chunk_vb-do  (vb-chunk[2xtr2],n-chunk)   top_left RELABEL rel-compl 
+58  -  wh-pro_$$_nex-comp  (vb-chunk[2xtr2],sn-chunk)   top_left RELABEL rel-compl 
+58  -  wh-pro_$$_nex-comp  (vb-chunk[2xtr2],n-chunk)   top_left RELABEL rel-compl 
+
+54  -  wh-pro_$$  (vb-chunk[compl],sv)   top_left RELABEL rel 
+54  -  wh-pro_$$  (vb-chunk[compl],n-chunk<that>)   top_left RELABEL rel 
+65  -  wh-pro_$$  (rel-compl[compl],sv)   top_left RELABEL rel 
+54  -  wh-pro_$$  (rel-compl[compl],n-chunk<that>)   top_left RELABEL rel 
+
+60  -  wh-pro_$$_sn-chunk  (vb-be,sn-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_n-chunk  (vb-be,sn-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_attrib  (vb-be,sn-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_adv  (vb-be,sn-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_sp-chunk  (vb-be,sn-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_TO-chunk  (vb-be,sn-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_spin  (vb-be,sn-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_sn-chunk  (vb-be,n-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_n-chunk  (vb-be,n-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_attrib  (vb-be,n-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_adv  (vb-be,n-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_sp-chunk  (vb-be,n-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_TO-chunk  (vb-be,n-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_spin  (vb-be,n-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_sn-chunk  (vb-be,sp-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_n-chunk  (vb-be,sp-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_attrib  (vb-be,sp-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_adv  (vb-be,sp-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_sp-chunk  (vb-be,sp-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_TO-chunk  (vb-be,sp-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_spin  (vb-be,sp-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_sv  (vb-be,sp-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_sn-chunk  (vb-be,attrib)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_n-chunk  (vb-be,attrib)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_attrib  (vb-be,attrib)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_adv  (vb-be,attrib)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_sp-chunk  (vb-be,attrib)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_TO-chunk  (vb-be,attrib)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_spin  (vb-be,attrib)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_sv  (vb-be,attrib)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_sn-chunk  (vb-be,adv)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_n-chunk  (vb-be,adv)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_attrib  (vb-be,adv)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_adv  (vb-be,adv)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_sp-chunk  (vb-be,adv)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_TO-chunk  (vb-be,adv)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_spin  (vb-be,adv)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_sv  (vb-be,adv)   top_left RELABEL vb-chunk 
+61  -  wh-pro_$$  (vb-be,sn-chunk)   top_left RELABEL rel 
+61  -  wh-pro_$$  (vb-be,n-chunk)   top_left RELABEL rel 
+61  -  wh-pro_$$  (vb-be,sp-chunk)   top_left RELABEL rel 
+61  -  wh-pro_$$  (vb-be,attrib)   top_left RELABEL rel 
+61  -  wh-pro_$$  (vb-be,adv)   top_left RELABEL rel 
+61  -  wh-pro_$$  (vb-be,sv)   top_left RELABEL rel 
+
+60  -  wh-pro_$$_sn-chunk  (vb-have,sn-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_n-chunk  (vb-have,sn-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_attrib  (vb-have,sn-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_adv  (vb-have,sn-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_sp-chunk  (vb-have,sn-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_TO-chunk  (vb-have,sn-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_spin  (vb-have,sn-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_sn-chunk  (vb-have,n-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_n-chunk  (vb-have,n-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_attrib  (vb-have,n-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_adv  (vb-have,n-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_sp-chunk  (vb-have,n-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_TO-chunk  (vb-have,n-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_spin  (vb-have,n-chunk)   top_left RELABEL vb-chunk 
+61  -  wh-pro_$$  (vb-have,sn-chunk)   top_left RELABEL rel 
+61  -  wh-pro_$$  (vb-have,n-chunk)   top_left RELABEL rel 
+
+60  -  wh-pro_$$_sn-chunk  (vb-do,sn-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_n-chunk  (vb-do,sn-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_attrib  (vb-do,sn-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_adv  (vb-do,sn-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_sp-chunk  (vb-do,sn-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_TO-chunk  (vb-do,sn-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_spin  (vb-do,sn-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_sn-chunk  (vb-do,n-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_n-chunk  (vb-do,n-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_attrib  (vb-do,n-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_adv  (vb-do,n-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_sp-chunk  (vb-do,n-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_TO-chunk  (vb-do,n-chunk)   top_left RELABEL vb-chunk 
+60  -  wh-pro_$$_spin  (vb-do,n-chunk)   top_left RELABEL vb-chunk 
+61  -  wh-pro_$$  (vb-do,sn-chunk)   top_left RELABEL rel 
+61  -  wh-pro_$$  (vb-do,n-chunk)   top_left RELABEL rel 
+
+
+
+%%% Regles per Preposicio exigida, ab les llistes. Altrament, sp-chunk poster hauria de combinar-se amb l'ultim sp-chunk per la dreta. Tambe "sn-chunks" amb expressions temporals.
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%                  %%%%%
+%%%%%     FILTRE 0     %%%%%
+%%%%%                  %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% EXTENSIO
+50  -  -  (sv,sp-chunk)   last_left MATCHING sv 
+49  -  -  (sv,sp-chunk)   last_left MATCHING sp-chunk 
+
+49  -  -  (sp-chunk,adv)   last_left MATCHING sv 
+49  -  -  (sp-chunk,sp-chunk)   last_left MATCHING sv 
+49  -  -  (sp-chunk,sp-chunk)   last_left MATCHING vb-chunk 
+49  -  -  (sp-chunk,adv)   last_left MATCHING sub-rel 
+
+9  -  -  (sn-chunk,sub-rel)   last_left MATCHING sn-chunk 
+
+96  -  -  (sv,sppart)   top_left RELABEL - 
+
+85  -  $$_vb-chunk  (sn-chunk,sp-chunk)   top_left RELABEL - 
+85  -  $$_vb-be  (sn-chunk,sp-chunk)   top_left RELABEL - 
+85  -  $$_vb-do  (sn-chunk,sp-chunk)   top_left RELABEL - 
+85  -  $$_vb-have  (sn-chunk,sp-chunk)   top_left RELABEL - 
+85  -  $$_vb-chunk  (n-chunk,sp-chunk)   top_left RELABEL - 
+85  -  $$_vb-be  (n-chunk,sp-chunk)   top_left RELABEL - 
+85  -  $$_vb-do  (n-chunk,sp-chunk)   top_left RELABEL - 
+85  -  $$_vb-have  (n-chunk,sp-chunk)   top_left RELABEL - 
+61  -  $$_vb-chunk  (sn-chunk,sp-chunk)   top_left RELABEL - 
+61  -  $$_vb-be  (sn-chunk,sp-chunk)   top_left RELABEL - 
+61  -  $$_vb-have  (sn-chunk,sp-chunk)   top_left RELABEL - 
+61  -  $$_vb-do  (sn-chunk,sp-chunk)   top_left RELABEL - 
+61  -  $$_vb-chunk  (sp-chunk,sp-chunk)   top_left RELABEL - 
+61  -  $$_vb-be  (sp-chunk,sp-chunk)   top_left RELABEL - 
+61  -  $$_vb-have  (sp-chunk,sp-chunk)   top_left RELABEL - 
+61  -  $$_vb-do  (sp-chunk,sp-chunk)   top_left RELABEL - 
+61  -  $$_vb-chunk  (n-chunk,sp-chunk)   top_left RELABEL - 
+61  -  $$_vb-be  (n-chunk,sp-chunk)   top_left RELABEL - 
+61  -  $$_vb-have  (n-chunk,sp-chunk)   top_left RELABEL - 
+61  -  $$_vb-do  (n-chunk,sp-chunk)   top_left RELABEL - 
+61  -  $$_vb-chunk  (adv,sp-chunk)   top_left RELABEL - 
+61  -  $$_vb-be  (adv,sp-chunk)   top_left RELABEL - 
+61  -  $$_vb-have  (adv,sp-chunk)   top_left RELABEL - 
+61  -  $$_vb-do  (adv,sp-chunk)   top_left RELABEL - 
+14  -  $$_sp-chunk  (sn-chunk,adv)   top_left RELABEL - 
+14  -  $$_vb-chunk  (sn-chunk,adv)   top_left RELABEL - 
+14  -  $$_vb-be  (sn-chunk,adv)   top_left RELABEL - 
+14  -  $$_vb-have  (sn-chunk,adv)   top_left RELABEL - 
+14  -  $$_vb-do  (sn-chunk,adv)   top_left RELABEL - 
+14  -  $$_sp-chunk  (sp-chunk,adv)   top_left RELABEL - 
+14  -  $$_vb-chunk  (sp-chunk,adv)   top_left RELABEL - 
+14  -  $$_vb-be  (sp-chunk,adv)   top_left RELABEL - 
+14  -  $$_vb-have  (sp-chunk,adv)   top_left RELABEL - 
+14  -  $$_vb-do  (sp-chunk,adv)   top_left RELABEL - 
+14  -  OUT_$$_coma  (sp-chunk,sp-chunk)   top_left RELABEL - 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%                  %%%%%
+%%%%%     FILTRE 1     %%%%%
+%%%%%                  %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% Per al complement directe de les oracions preposades, que sempre es confon amb el subjecte de la
+%%% principal que va al darrera
+65  -  ?_$$_vb-chunk  (vb-chunk,sn-chunk)   top_left RELABEL sv2-c 
+65  -  ?_$$_vb-chunk  (vb-chunk,n-chunk)   top_left RELABEL sv2-c 
+65  -  ?_$$_vb-be  (vb-chunk,sn-chunk)   top_left RELABEL sv2-c 
+65  -  ?_$$_vb-be  (vb-chunk,n-chunk)   top_left RELABEL sv2-c 
+65  -  ?_$$_vb-have  (vb-chunk,sn-chunk)   top_left RELABEL sv2-c 
+65  -  ?_$$_vb-have  (vb-chunk,n-chunk)   top_left RELABEL sv2-c 
+65  -  ?_$$_vb-do  (vb-chunk,sn-chunk)   top_left RELABEL sv2-c 
+65  -  ?_$$_vb-do  (vb-chunk,n-chunk)   top_left RELABEL sv2-c 
+65  -  ?_$$_vb-chunk  (vb-be,sn-chunk)   top_left RELABEL sv2-b 
+65  -  ?_$$_vb-chunk  (vb-be,n-chunk)   top_left RELABEL sv2-b 
+65  -  ?_$$_vb-be  (vb-be,sn-chunk)   top_left RELABEL sv2-b 
+65  -  ?_$$_vb-be  (vb-be,n-chunk)   top_left RELABEL sv2-b 
+65  -  ?_$$_vb-have  (vb-be,sn-chunk)   top_left RELABEL sv2-b 
+65  -  ?_$$_vb-have  (vb-be,n-chunk)   top_left RELABEL sv2-b 
+65  -  ?_$$_vb-do  (vb-be,sn-chunk)   top_left RELABEL sv2-b 
+65  -  ?_$$_vb-do  (vb-be,n-chunk)   top_left RELABEL sv2-b 
+65  -  ?_$$_vb-chunk  (vb-do,sn-chunk)   top_left RELABEL sv2-d 
+65  -  ?_$$_vb-chunk  (vb-do,n-chunk)   top_left RELABEL sv2-d 
+65  -  ?_$$_vb-be  (vb-do,sn-chunk)   top_left RELABEL sv2-d 
+65  -  ?_$$_vb-be  (vb-do,n-chunk)   top_left RELABEL sv2-d 
+65  -  ?_$$_vb-have  (vb-do,sn-chunk)   top_left RELABEL sv2-d 
+65  -  ?_$$_vb-have  (vb-do,n-chunk)   top_left RELABEL sv2-d 
+65  -  ?_$$_vb-do  (vb-do,sn-chunk)   top_left RELABEL sv2-d 
+65  -  ?_$$_vb-do  (vb-do,n-chunk)   top_left RELABEL sv2-d 
+65  -  ?_$$_vb-chunk  (vb-have,sn-chunk)   top_left RELABEL sv2-h 
+65  -  ?_$$_vb-chunk  (vb-have,n-chunk)   top_left RELABEL sv2-h 
+65  -  ?_$$_vb-be  (vb-have,sn-chunk)   top_left RELABEL sv2-h 
+65  -  ?_$$_vb-be  (vb-have,n-chunk)   top_left RELABEL sv2-h 
+65  -  ?_$$_vb-have  (vb-have,sn-chunk)   top_left RELABEL sv2-h 
+65  -  ?_$$_vb-have  (vb-have,n-chunk)   top_left RELABEL sv2-h 
+65  -  ?_$$_vb-do  (vb-have,sn-chunk)   top_left RELABEL sv2-h 
+65  -  ?_$$_vb-do  (vb-have,n-chunk)   top_left RELABEL sv2-h 
+
+%%% Per al seu corresponent subjecte
+57  -  -  (sn-chunk,sv2-c)   top_right RELABEL vb-chunk 
+57  -  -  (sn-chunk,sv2-d)   top_right RELABEL vb-do 
+57  -  -  (sn-chunk,sv2-h)   top_right RELABEL vb-have 
+57  -  -  (sn-chunk,sv2-b)   top_right RELABEL vb-be 
+57  -  -  (n-chunk,sv2-h)   top_right RELABEL vb-have 
+57  -  -  (n-chunk,sv2-c)   top_right RELABEL vb-chunk 
+57  -  -  (n-chunk,sv2-d)   top_right RELABEL vb-do 
+57  -  -  (n-chunk,sv2-b)   top_right RELABEL vb-be 
+56  -  $$_vb-chunk  (sn-chunk,sv2-c)   top_right RELABEL sv 
+56  -  $$_vb-be  (sn-chunk,sv2-c)   top_right RELABEL sv 
+56  -  $$_vb-do  (sn-chunk,sv2-c)   top_right RELABEL sv 
+56  -  $$_vb-have  (sn-chunk,sv2-c)   top_right RELABEL sv 
+56  -  $$_vb-chunk  (n-chunk,sv2-c)   top_right RELABEL sv 
+56  -  $$_vb-do  (n-chunk,sv2-c)   top_right RELABEL sv 
+56  -  $$_vb-be  (n-chunk,sv2-c)   top_right RELABEL sv 
+56  -  $$_vb-have  (n-chunk,sv2-c)   top_right RELABEL sv 
+56  -  $$_vb-chunk  (sn-chunk,sv2-d)   top_right RELABEL sv 
+56  -  $$_vb-be  (sn-chunk,sv2-d)   top_right RELABEL sv 
+56  -  $$_vb-do  (sn-chunk,sv2-d)   top_right RELABEL sv 
+56  -  $$_vb-have  (sn-chunk,sv2-d)   top_right RELABEL sv 
+56  -  $$_vb-chunk  (n-chunk,sv2-d)   top_right RELABEL sv 
+56  -  $$_vb-be  (n-chunk,sv2-d)   top_right RELABEL sv 
+56  -  $$_vb-do  (n-chunk,sv2-d)   top_right RELABEL sv 
+56  -  $$_vb-have  (n-chunk,sv2-d)   top_right RELABEL sv 
+56  -  $$_vb-chunk  (sn-chunk,sv2-h)   top_right RELABEL sv 
+56  -  $$_vb-be  (sn-chunk,sv2-h)   top_right RELABEL sv 
+56  -  $$_vb-do  (sn-chunk,sv2-h)   top_right RELABEL sv 
+56  -  $$_vb-have  (sn-chunk,sv2-h)   top_right RELABEL sv 
+56  -  $$_vb-chunk  (n-chunk,sv2-h)   top_right RELABEL sv 
+56  -  $$_vb-be  (n-chunk,sv2-h)   top_right RELABEL sv 
+56  -  $$_vb-do  (n-chunk,sv2-h)   top_right RELABEL sv 
+56  -  $$_vb-have  (n-chunk,sv2-h)   top_right RELABEL sv 
+56  -  $$_vb-chunk  (sn-chunk,sv2-b)   top_right RELABEL sv 
+56  -  $$_vb-be  (sn-chunk,sv2-b)   top_right RELABEL sv 
+56  -  $$_vb-do  (sn-chunk,sv2-b)   top_right RELABEL sv 
+56  -  $$_vb-have  (sn-chunk,sv2-b)   top_right RELABEL sv 
+56  -  $$_vb-chunk  (n-chunk,sv2-b)   top_right RELABEL sv 
+56  -  $$_vb-be  (n-chunk,sv2-b)   top_right RELABEL sv 
+56  -  $$_vb-do  (n-chunk,sv2-b)   top_right RELABEL sv 
+56  -  $$_vb-have  (n-chunk,sv2-b)   top_right RELABEL sv 
+
+57  -  -  (wh-pro,sv2-c)   top_right RELABEL vb-chunk 
+57  -  -  (wh-pro,sv2-d)   top_right RELABEL vb-do 
+57  -  -  (wh-pro,sv2-h)   top_right RELABEL vb-have 
+57  -  -  (wh-pro,sv2-b)   top_right RELABEL vb-be 
+56  -  $$_vb-chunk  (wh-pro,sv2-c)   top_right RELABEL sv 
+56  -  $$_vb-be  (wh-pro,sv2-c)   top_right RELABEL sv 
+56  -  $$_vb-do  (wh-pro,sv2-c)   top_right RELABEL sv 
+56  -  $$_vb-have  (wh-pro,sv2-c)   top_right RELABEL sv 
+56  -  $$_vb-chunk  (wh-pro,sv2-d)   top_right RELABEL sv 
+56  -  $$_vb-be  (wh-pro,sv2-d)   top_right RELABEL sv 
+56  -  $$_vb-do  (wh-pro,sv2-d)   top_right RELABEL sv 
+56  -  $$_vb-have  (wh-pro,sv2-d)   top_right RELABEL sv 
+56  -  $$_vb-chunk  (wh-pro,sv2-b)   top_right RELABEL sv 
+56  -  $$_vb-be  (wh-pro,sv2-b)   top_right RELABEL sv 
+56  -  $$_vb-do  (wh-pro,sv2-b)   top_right RELABEL sv 
+56  -  $$_vb-have  (wh-pro,sv2-b)   top_right RELABEL sv 
+56  -  $$_vb-chunk  (wh-pro,sv2-h)   top_right RELABEL sv 
+56  -  $$_vb-be  (wh-pro,sv2-h)   top_right RELABEL sv 
+56  -  $$_vb-do  (wh-pro,sv2-h)   top_right RELABEL sv 
+56  -  $$_vb-have  (wh-pro,sv2-h)   top_right RELABEL sv 
+
+58  -  -  (nex-comp,sv2-c)   top_left RELABEL n-chunk 
+58  -  -  (nex-comp,sv2-d)   top_left RELABEL n-chunk 
+58  -  -  (nex-comp,sv2-b)   top_left RELABEL n-chunk 
+58  -  -  (nex-comp,sv2-h)   top_left RELABEL n-chunk 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%                  %%%%%
+%%%%%     FILTRE 2     %%%%%
+%%%%%                  %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+49  -  -  (vb-chunk,adv)   top_left RELABEL - 
+49  -  -  (adv,vb-chunk)   top_right RELABEL - 
+47  -  -  (vb-be,adv)   top_left RELABEL - 
+47  -  -  (adv,vb-be)   top_right RELABEL - 
+48  -  -  (vb-have,adv)   top_left RELABEL - 
+48  -  -  (adv,vb-have)   top_right RELABEL - 
+48  -  -  (vb-do,adv)   top_left RELABEL - 
+48  -  -  (adv,vb-do)   top_right RELABEL - 
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%                  %%%%%
+%%%%%     FILTRE 3     %%%%%
+%%%%%                  %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+5  -  OUT_$$  (sp-chunk,coma)   top_left RELABEL adv 
+90  -  OUT_$$  (adv,sv)   top_right RELABEL - 
+
+5  -  $$_coma  (coma,adv)   top_right RELABEL - 
+5  -  !$$_nex-coord  (adv,coma)   top_left RELABEL - 
+
+25  -  -  (date,vb-chunk)   top_right RELABEL - 
+25  -  -  (vb-chunk,date)   top_left RELABEL - 
+25  -  -  (date,vb-chunk)   top_right RELABEL - 
+25  -  -  (sn-chunk,date)   top_left RELABEL - 
+25  -  -  (n-chunk,date)   top_left RELABEL - 
+25  -  -  (date,sn-chunk)   top_right RELABEL - 
+25  -  -  (date,n-chunk)   top_right RELABEL - 
+
+
+20  -  OUT_$$  (sn-chunk,sp-chunk)   top_left RELABEL - 
+20  -  nex-comp_$$  (sn-chunk,sp-chunk)   top_left RELABEL - 
+20  -  OUT_$$  (sn-chunk,n-chunk)   top_left RELABEL - 
+20  -  nex-comp_$$  (sn-chunk,n-chunk)   top_left RELABEL - 
+20  -  OUT_$$  (n-chunk,sp-chunk)   top_left RELABEL - 
+20  -  nex-comp_$$  (n-chunk,sp-chunk)   top_left RELABEL - 
+20  -  OUT_$$  (n-chunk,n-chunk)   top_left RELABEL - 
+20  -  nex-comp_$$  (n-chunk,n-chunk)   top_left RELABEL - 
+
+50  -  -  (attrib{JJR},sp-chunk)   top_left RELABEL n-chunk 
+
+
+</GRPAR>
+
+
+<GRLAB>
+%%% COORDINACIONS
+claus		conj	d.label=sv	p.lemma=but|or|and|nor|either|neither
+sn-chunk	conj	d.label=nex-coord
+n-chunk		conj	d.label=nex-coord
+sp-chunk	conj	d.label=n-chunk|sn-chunk|NN|NNS|NP|NNP	p.label=and|or|but|either|neither
+
+%%% SUBJECTE I OBJECTE
+claus		ncsubj	d.side=left	d.label=sn-chunk
+claus		ncsubj	d.side=left	d.label=n-chunk		d.lemma!=that
+claus		dobj	d.side=right	d.label=sn-chunk
+claus		dobj	d.side=right	d.label=n-chunk		d.lemma!=that
+sv		ncsubj	d.side=left	d.label=sn-chunk
+sv		ncsubj	d.side=left	d.label=n-chunk
+sv		dobj	d.side=right	d.label=sn-chunk
+sv		dobj	d.side=right	d.label=n-chunk		d.lemma!=that
+claus		cmod	d.label=sv	d.side=right		p.class=compl
+
+n-chunk		ncsubj	d.side=left	d.label=sn-chunk	p.lemma=VB*
+n-chunk		ccomp	d.label=sv
+
+claus		csubj-that	d.side=left	d.label=n-chunk		d.lemma=that
+sv		csubj-that	d.side=left	d.label=n-chunk		d.lemma=that
+
+%%% cmod (CLAUSAL MODIFIER)
+claus		ccomp	d.side=right	d.label=n-chunk		d.lemma=that
+claus		cmod	d.label=adv
+sv		cmod	d.label=adv
+sp-chunk	cmod	d.label=adv
+adv		ccomp	d.label=sv
+sv		cmod	d.label=sv
+sn-chunk	cmod	d.label=sv
+n-chunk		cmod	d.label=sv	p.lemma!=that
+sp-chunk	cmod	d.label=sv
+sppart		cmod	d.label=sv
+sn-chunk	cmod	d.label=sub-rel
+n-chunk		cmod	d.label=sub-rel
+sp-chunk	cmod	d.label=sub-rel
+sppart		cmod	d.label=sub-rel
+
+
+%%% MORFOLOGIA
+sn-chunk	conj	d.label=sn-coor
+n-chunk		conj	d.label=CC
+sp-chunk	conj	d.label=sp-coor
+adv		conj	d.label=adv-coor
+attrib		conj	d.label=att-coor
+claus		conj	d.label=sv-coor
+claus-coor	conj	d.label=claus-coor
+sv		conj	d.label=sv-coor
+
+%%% SINTAGMA VERBAL
+claus		aux		d.label=mod-chunk
+sv		aux		d.label=mod-chunk
+vb-chunk	aux		d.label=mod-chunk
+vb-be		aux		d.label=mod-chunk
+vb-have		aux		d.label=mod-chunk
+vb-do		aux		d.label=mod-chunk
+claus		xsubj		d.label=vb-chunk	d.side=left
+claus		aux		d.label=vb-chunk	d.side=left	d.lemma=help
+claus		aux		d.label=vb-chunk
+claus		aux		d.label=vb-have
+claus		aux		d.label=vb-be
+claus		aux		d.label=vb-do
+sv		xsubj		d.label=vb-chunk	d.side=left
+sv		aux		d.label=vb-chunk	d.side=left	d.lemma=help
+sv		aux		d.label=vb-have
+sv		aux		d.label=vb-be
+sv		aux		d.label=vb-do
+vb-chunk	aux		d.label=vb-chunk
+vb-chunk	aux		d.label=vb-have
+vb-chunk	aux		d.label=vb-be
+vb-chunk	aux		d.label=vb-do
+vb-have		aux		d.label=vb-chunk
+vb-have		aux		d.label=vb-have
+vb-have		aux		d.label=vb-be
+vb-have		aux		d.label=vb-do
+vb-be		subj		d.label=vb-chunk	d.side=left
+vb-be		subj		d.label=vb-chunk	d.side=left	d.lemma=help
+vb-be		aux		d.label=vb-have
+vb-be		aux		d.label=vb-be
+vb-be		aux		d.label=vb-do
+vb-do		aux		d.label=vb-chunk
+vb-do		aux		d.label=vb-have
+vb-do		aux		d.label=vb-be
+vb-do		aux		d.label=vb-do
+claus		ncmod		d.label=adv
+sv		ncmod		d.label=adv
+vb-chunk	ncmod		d.label=adv
+vb-be		ncmod		d.label=adv
+vb-have		ncmod		d.label=adv
+vb-do		ncmod		d.label=adv
+rel		ncmod		d.label=adv
+claus		ncmod-prt	d.label=RP
+sv		ncmod-prt	d.label=RP
+rel		ncmod-prt	d.label=RP
+vb-chunk	ncmod-prt	d.label=RP
+vb-be		ncmod-prt	d.label=RP
+vb-have		ncmod-prt	d.label=RP
+vb-do		ncmod-prt	d.label=RP
+claus		aux		d.label=VB	d.lemma=help
+claus		ncmod		d.label=sp-chunk
+sv		ncmod		d.label=sp-chunk
+rel		ncmod		d.label=sp-chunk
+claus		dobj		d.label=sppart
+sv		dobj		d.label=sppart
+rel		dobj		d.label=sppart
+rel		ncmod		d.label=RB
+sv		ncmod		d.label=RB
+claus		ncmod		d.label=RB
+rel		aux		d.label=vb-do
+rel		aux		d.label=vb-have
+rel		aux		d.label=vb-be
+rel		aux		d.label=mod-chunk
+
+vb-chunk	ncsubj		d.label=sn-chunk	d.side=left
+vb-chunk	ncsubj		d.label=n-chunk		d.side=left
+vb-chunk	dobj		d.label=sn-chunk	d.side=right
+vb-chunk	dobj		d.label=n-chunk		d.side=right
+vb-chunk	ccomp		d.label=rel
+vb-chunk	ncmod		d.label=sp-chunk
+vb-chunk	iobj		d.label=sppart
+
+sub-rel		ncsubj		d.label=sn-chunk	d.side=left
+sub-rel		ncsubj		d.label=n-chunk		d.side=left
+sub-rel		dobj		d.label=sn-chunk	d.side=right
+sub-rel		dobj		d.label=n-chunk		d.side=right
+sub-rel		ccomp		d.label=rel
+rel		ncsubj		d.label=sn-chunk	d.side=left
+rel		ncsubj		d.label=n-chunk		d.side=left
+rel		dobj		d.label=sn-chunk	d.side=right
+rel		dobj		d.label=n-chunk		d.side=right
+rel		aux		d.label=vb-be
+rel		aux		d.label=vb-do
+rel		aux		d.label=vb-have
+rel		aux		d.label=vb-chunk
+rel		ncmod		d.label=sp-chunk
+rel		iobj		d.label=sppart
+adv		ncsubj		d.label=sn-chunk	d.side=left
+adv		ncsubj		d.label=n-chunk		d.side=left
+adv 		dobj		d.label=sn-chunk	d.side=right
+adv 		dobj		d.label=n-chunk		d.side=right
+adv 		aux		d.label=vb-be
+adv 		aux		d.label=vb-do
+adv 		aux		d.label=vb-have
+adv 		aux		d.label=vb-chunk
+adv 		ncmod		d.label=sp-chunk
+adv 		iobj		d.label=sppart
+
+sp-chunk	ncmod		d.label=sub-rel		
+sn-chunk	ncmod		d.label=sub-rel		
+n-chunk		ncmod		d.label=sub-rel		
+
+claus		ncmod		d.label=attrib
+sv		ncmod		d.label=attrib
+rel		ncmod		d.label=attrib
+
+%%% SINTAGMA PREPOSICIONAL
+sppart		dobj		d.label=sn-chunk
+sppart		dobj		d.label=n-chunk
+sp-chunk	ncmod		d.label=sp-chunk	p.lemma=TO
+sp-chunk	pmod		d.label=sp-chunk	p.lemma!=TO
+sp-chunk	pmod		d.label=sppart
+sp-chunk	pmod		d.label=sp-chunk
+sp-chunk	dobj		d.label=sn-chunk
+sp-chunk	dobj		d.label=n-chunk
+sp-chunk	dobj		d.label=PRP
+
+%%% SINTAGMA NOMINAL
+sn-chunk	cmod		d.label=sub-rel
+n-chunk		cmod		d.label=sub-rel
+
+sp-chunk	ta		d.label=parenthetical
+sppart		ta		d.label=parenthetical
+sn-chunk	ta		d.label=parenthetical
+n-chunk		ta		d.label=parenthetical
+sn-chunk	ncmod		d.label=sp-chunk
+sn-chunk	ccomp		d.label=n-chunk		d.lemma=TO
+
+sn-chunk	det		d.label=DT
+sn-chunk	ncmod-num	d.label=Z
+sn-chunk	det		d.label=PDT
+sn-chunk	ncmod-part	d.lemma=all
+sn-chunk	ncmod-poss	d.label=POS
+sn-chunk	ncmod		d.label=n-chunk		d.lemma!=TO
+sn-chunk	xmod		d.label=n-chunk		d.lemma=TO
+sn-chunk	ncmod		d.label=sn-chunk
+sn-chunk	ncmod		d.label=NN
+sn-chunk	ncmod		d.label=NNS
+sn-chunk	ncmod		d.label=NP
+sn-chunk	ncmod		d.label=NNP
+sn-chunk	ncmod		d.label=attrib
+sn-chunk	ncmod		d.label=sppart
+sn-chunk	ncmod-poss	d.label=PRP$
+
+n-chunk		det		d.label=DT
+n-chunk		ncmod-num	d.label=Z
+n-chunk		det		d.label=PDT
+n-chunk		ncmod-part	d.lemma=all
+n-chunk		ncmod-poss	d.label=POS
+n-chunk		ncmod		d.label=NN
+n-chunk		ncmod		d.label=n-chunk		d.lemma!=TO
+n-chunk		xmod		d.label=n-chunk		d.lemma=TO
+n-chunk		ncmod		d.label=sn-chunk
+n-chunk		ncmod		d.label=NNS
+n-chunk		ncmod		d.label=NP
+n-chunk		ncmod		d.label=NNP
+n-chunk		ncmod		d.label=attrib
+n-chunk		ncmod		d.label=sppart
+n-chunk		ncmod-poss	d.label=PRP$
+
+parent		det		d.label=DT
+parent		ncmod-num	d.label=Z
+parent	 	det		d.label=PDT
+parent 		ncmod-part	d.lemma=all
+parent 		ncmod-poss	d.label=POS
+parent 		ncmod		d.label=n-chunk		d.lemma!=TO
+parent 		xmod		d.label=n-chunk		d.lemma=TO
+parent 		ncmod		d.label=sn-chunk
+parent 		ncmod		d.label=NN
+parent 		ncmod		d.label=NNS
+parent    	ncmod		d.label=NP
+parent    	ncmod		d.label=NNP
+parent    	ncmod		d.label=attrib
+parent    	ncmod		d.label=sppart
+parent    	ncmod-poss	d.label=PRP$
+
+parenthetical	ta		d.label=parent
+parenthetical	ta		d.label=sn-chunk
+parenthetical	ta		d.label=n-chunk
+parenthetical	ncmod-part	d.label=RP
+
+attrib		ncmod		d.label=sp-chunk
+
+claus		ta		d.label=parenthetical
+
+%%% ADVERBIS
+attrib		ncmod		d.label=adv
+
+%%% TOs
+sp-chunk	xcomp		d.label=sv
+sp-chunk	xcomp-to	d.label=vb-chunk	p.lemma=to
+
+%%% PUNTUACIO
+claus		ta		d.label=punt|coma|cometes|guio
+sv		ta		d.label=punt|coma|cometes|guio
+adv		ta		d.label=punt|coma|cometes|guio
+sn-chunk	ta		d.label=punt|coma|cometes|guio
+n-chunk		ta		d.label=punt|coma|cometes|guio
+parent		ta		d.label=punt|coma|cometes|guio
+sub-rel		ta		d.label=punt|coma|cometes|guio
+
+%%% PREDs
+sn-chunk	ncsubj		d.label=pred
+n-chunk		ncsubj		d.label=pred
+sp-chunk	ncsubj		d.label=pred
+pred		ncmod		d.label=sp-chunk
+sn-chunk	xmod		d.label=part
+n-chunk		xmod		d.label=part
+part		ncmod		d.label=RB|RP|adv
+pred		ncmod		d.label=RB|RP|adv
+sn-chunk	cmod		d.label=vb-chunk
+n-chunk		cmod		d.label=vb-chunk
+
+</GRLAB>
+
+
+<CLASS>
+as	as
+
+compl		"compl.dicc"
+2xtr2		"interseccio.2xtr.suj+sub-that.dicc"
+
+</CLASS>

@@ -1,0 +1,184 @@
+FreeLing: Natural language analysis libraries
+=============================================
+
+The FreeLing package consists of a library providing language analysis
+services (such as morfological analysis, date recognition, PoS
+tagging, etc.)
+
+The current version (2.0) of the package provides tokenizing, sentence
+splitting, morphological analysis, NE detection and classification,
+recognition of dates/numbers/physical magnitudes/currency/ratios, PoS
+tagging, shallow parsing, dependency parsing, and WN-based sense
+annotation. Future versions are expected to improve performance in 
+existing functionalities, as well as incorporate new features, such
+as word sense disambiguation, document classification, anaphora resolution, etc.
+
+The distributed version includes the following morphological
+dictionaries. Although the dictionaries for some latin languages may
+seem small, it must be taken into account that many more forms than
+those in the dictionary are reconginzed thanks to a powerful suffix
+analysis module able to detect enclitic pronoun verbal forms and
+diminutive/augmentative suffixed nouns and adjectives.
+
+  * The English dictionary was automatically extracted from
+WSJ, with minimum manual post-edition, and thus may be a little noisy.
+It contains over 160,000 forms corresponding to some 102,000 different
+combinations lemma-PoS.</li>
+
+  * The Spanish and Catalan dictionaries are hand build, and contain the 6,500 most frequent open-category lemmas for each language, plus all closed-category lemmas. The Spanish and Catalan dictionaries try to maintain the same coverage (that is, the same lemmas are expected to appear in both dictionaries).
+  The Spanish dictionary contains over 81,000 forms corresponding to more than 7,100 different combinations lemma-PoS, and the Catalan dictionary contains near 67,000 forms corresponding to more than 7,400 different combinations lemma-PoS.
+  Spanish and catalan dictionaries are expected to cover over 80%  of open-category tokens in a text. For words not found in the dictionary, all open categories are assumed, with a probability distribution based on word suffixes, and the tagger makes a choice based on most likely tag sequence.
+
+  * Italian dictionary contains over 355,000 forms corresponding to over 36,000 lemma-PoS combinations.
+
+  * Galician dictionary contains more than 90,000 forms, corresponding to near 7,400 lemma-PoS combinations.
+
+
+This version also includes WordNet-based sense dictionaries for languages which it is available for:
+
+ * The English sense dictionary is straightforwardly extracted from WN 1.6 and therefore is distributed under the terms of WN license. You'll find a copy in the LICENSE.WordNet file.
+
+ * The Catalan and Spanish sense dictionaries are extracted from EuroWordNet, and the reduced subsets included in this FreeLing package are distibuted under Gnu LGPL, as the rest of the code and data in this package. Find a copy of the license in the COPYING file.
+
+
+   See http://wordnet.princeton.edu for details on WordNet, 
+   and http://www.illc.uva.nl/EuroWordNet for more information on EuroWordNet.
+
+
+1. Requirements
+---------------
+
+ To install FreeLing you'll need:
+
+ * A typical Linux box with usual development tools:
+    
+     bash
+     make
+     C++ compiler with basic STL support (e.g. g++ version 3.x)    
+
+ * Enough hard disk space (about 40Mb)
+
+ * Some external libraries are required to compile FreeLing:
+
+       [pcre] (version 4.3 or higher)
+               Perl C Regular Expressions. Included in most
+               usual Linux distributions. Just make sure
+               you have it installed.
+               Also available from http://www.pcre.org
+
+       [db] (version 4.1.25 or higher)
+               Berkeley DB. Included in all usual
+               Linux distributions. You probably 
+               have it already installed. Make sure of it, and that
+               C++ support is also installed (may come in a separate
+               package).  
+               Also available from http://www.sleepycat.com. Do
+               not install it twice unless you know what you are doing.
+
+       [libcfg+] (version 0.6.1 or higher)
+               Configuration file and command-line options
+               management. May not be in your linux distribution.
+               Available from http://www.platon.sk/projects/libcfg+,
+               follow installation instructions provided in the libcfg+ package.
+
+       [Omlet & Fries] (omlet v.0.95 or later, fries v.0.91 or later)
+               Machine Learning utility libraries, used by Named
+               Entity Classifier. Installation scrips are not very
+               clever yet, so these libraries are required even if you do
+               not plan to use the NEC ability of FreeLing.
+               Available from http://www.lsi.upc.edu/~nlp/omlet+fries
+
+   Note that you'll need both the binary libraries and their source headers
+   (in some distributions the headers come in a separate package tagged -devel, e.g.
+   the libpcre library may be distributed in two packages: the first,
+   say libpcre-4.3.rpm, contains the binary libraries, and the second,
+   say libpcre-devel-4.3.rpm, provides the source headers)
+
+   Note also that if you (or the library package) install those libraries
+   or headers in non-standard directories (that is, other than /usr/lib
+   or /usr/local/lib for libraries, or other than  /usr/include or 
+    /usr/local/include for headers) you may need to use the  CPPFLAGS
+   or  LDFLAGS variables to properly run  ./configure script.
+
+    For instance, if you installed BerkeleyDB from a  rpm
+   package, the  db_cxx.h file may be located at 
+   /usr/include/db4 instead of the default  /usr/include.
+   So, you'll have to tell  ./configure where to find it:
+    ./configure CPPFLAGS='-I/usr/include/db4' 
+
+    The BerkeleyDB package is probably installed in your system, but 
+   you may need to install C++ support, which (depending on your
+   distribution) may be found in a separate package (such as
+   db4-cxx.rpm, db4-cxx-devel.rpm, or the like).
+
+   See next section and INSTALL file for further details.
+
+2. Installing from SVN
+-----------------------
+
+  if you got this package from the SVN repository, issue the commands:
+
+   aclocal
+   libtoolize
+   autoconf
+   automake -a
+
+  Then, proceed to step 3 (Installation)
+
+
+3. Installation
+---------------
+
+Installation follows standard GNU autoconfigure installation
+procedures. See the file INSTALL for further details.
+
+The installation consists of a few basic steps:
+
+ * Decompress the FreeLing-1.3.tgz package in a temporary subdirectory.
+   Issue the commands:
+
+   ./configure
+   make
+   make install
+
+ The last command may be issued as root.
+
+ You may control the installation defaults providing appropriate
+ parametres to the  ./configure script. The command: 
+
+   ./configure --help  
+
+   will provide help about installation options (e.g. non-default
+   installation directory, non standard locations for required
+   libraries, etc.) 
+
+ The INSTALL file provides more information on standard installation 
+ procedures.
+
+4. Executing
+------------
+
+  FreeLing is a library, which means that it is a tool to develop 
+new programs which may require linguistic analysis services. 
+
+  Nevertheless, a simple main program is included in the package for
+ those who just want a text analyzer. This small program may easily
+ be adapted to fit your needs (e.g. customized input/output formats).
+  
+  Chapter 2 in the user manual describes usage of this sample main
+  program.
+  The user manual is found in the /usr/local/share/FreeLing/doc/userman
+  directory after FreeLing installation, or in the doc/userman directory after 
+  decompressing the tar.gz distribution package.
+
+
+5. Porting to other platforms
+-----------------------------
+
+The FreeLing library is entirely written in C++, so it should be
+possible to compile it on non-unix platforms with a reasonable
+effort (additional pcre/db/cfg+ libraries porting might be 
+required also...). 
+
+Success have been reported on compiling FreeLing on MacOS, as well as on
+MS-Windows using cygwin (http://www.cygwin.com/).

@@ -1,0 +1,27 @@
+
+  ##### Python API for FreeLing  (experimental)  ######
+
+
+  INSTALLATION
+
+  To get a python API library, after installing FreeLing, follow the steps:
+
+  1.- Edit Makefile in this directory to adjust the right values of
+        FREELINGDIR: must be your FreeLing installation directory --e.g. /usr/local
+        LIBSDIR: must be the directory where libdb_cxx and libpcre are found --e.g. /usr/local or /usr/local/mylibs
+        PYTHONDIR: must be the libraries directory of your local python installation --e.g /usr/local/python2.4
+
+   3. issue 'make' to compile the python API
+
+   4.  Make sure that the directories contanining libdb_cxx.so and libpcre.so (LIBSDIR) are in your LD_LIBRARY_PATH.
+       Make sure that the directory contanining libmorfo.so (FREELINGDIR/lib) is in your LD_LIBRARY_PATH.
+
+   5.  Test the interface with the "sample.py" script in this directory 
+       (after editing it to adjust FREELINGDIR)
+
+   USAGE
+
+    - Write your python programms using freeling as seen in sample.py
+    - Current perl API does not support tree templates, so you can not
+      get a FreeLing parse tree into python... :-(
+

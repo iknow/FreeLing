@@ -1,0 +1,2745 @@
+\documentclass[a4paper]{book}
+\usepackage{a4wide}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+
+\setcounter{tocdepth}{1}
+
+\begin{document}
+
+\begin{titlepage}
+\vspace*{7cm}
+\begin{center}
+{\Large FreeLing User Manual\\[1ex]\large 2.1}\\
+\vspace*{1cm}
+{\small June 2008}\\
+\end{center}
+\end{titlepage}
+
+{\newpage{\pagestyle{empty}\cleardoublepage}}
+\pagenumbering{roman}
+
+\tableofcontents
+
+{\newpage{\pagestyle{empty}\cleardoublepage}}
+\pagenumbering{arabic}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{FreeLing: Natural language analysis libraries}
+
+The FreeLing package consists of a library providing language analysis
+services (such as morfological analysis, date recognition, PoS
+tagging, etc.)
+
+The current version (2.0) of the package provides tokenizing, sentence
+splitting, morphological analysis, NE detection and classification,
+recognition of dates/numbers/physical magnitudes/currency/ratios, PoS
+tagging, shallow parsing, dependency parsing, and WN-based sense
+annotation. Future versions are expected to improve performance in 
+existing functionalities, as well as incorporate new features, such
+as word sense disambiguation, document classification, anaphora resolution, etc.
+
+FreeLing is designed to be used as an external library from any
+application requiring this kind of services. Nevertheless, a simple
+main program is also provided as a basic interface to the library,
+which enables the user to analyze text files from the command line.
+
+%..................................................
+\section{Supported Languages}
+
+The distributed version includes morphological dictionaries for 
+covered languages (English, Spanish, Catalan, Galician, and Italian):
+\begin{itemize}
+    \item The Spanish dictionary was obtained from the 
+      Spanish Resource Grammar project developed at the 
+      Universitat Pompeu Fabra, and contains over 550,000
+      forms corresponding to more than 76.000 lemma-PoS combinations.
+      These data are distributed under their original Lesser General
+      Public License For Linguistic Resources (LGPL-LR) license.
+      See THANKS and COPYING files for further information.
+
+    \item The Catalan dictionary is hand build and contains
+      near 67,000 forms corresponding to more than
+      7,400 different combinations lemma-PoS.
+ 
+   \item The Galician dictionary was obtained from OpenTrad project
+     (a nice open source Machine Translation project at {\tt
+     www.opentrad.org}), and contains over 90,000
+     forms corresponding to near 7,500 lemma-PoS combinations.
+     These data are distributed under their original Creative Commons
+     license, see THANKS and COPYING files for further information.
+
+    \item The English dictionary was automatically extracted from WSJ,
+    with accurate manual post-edition and completion.
+    It contains over 65,000 forms corresponding to some 40,000 
+    different combinations lemma-PoS.    
+    
+    \item The Italian dictionary is extracted from Morph-it! lexicon 
+     developed the University of Bologna, and contains over 360,000
+     forms corresponding to more than 40,000 lemma-PoS combinations.
+     These data are distributed under their original Creative Commons
+     license, see THANKS and COPYING files for further information.
+\end{itemize}
+
+    Smaller dictionaries (Catalan and Galician) are expected to cover
+    over 80\% of open-category tokens in a text. Larger dictionaries
+    are expected to cover between 90-95\% of open-category tokens in a
+    text.  For words not found in the dictionary, all open categories
+    are assumed, with a probability distribution based on word
+    suffixes, which includes the right tag for 99\% of the words, and
+    allow the tagger to make the most suitable choice based on tag
+    sequence probability.
+ 
+    This version also includes WordNet-based sense dictionaries for covered languages,
+    as well as some knowledge extracted from WordNet, such as semantic file codes, or 
+    hypernymy relationships.
+\begin{itemize}
+   \item The English sense dictionary is straightforwardly extracted from WN 1.6
+     and therefore is distributed under the terms of WN license, as is all 
+     knowledge extracted from WN contained in thos package. You'll
+     find a copy in the LICENSES/WN.license file in the distribution tarball.
+
+   \item Catalan and Spanish sense dictionaries are extracted from EuroWordNet, and the
+     reduced subsets included in this FreeLing package are distibuted under Gnu GPL,
+     as the rest of the code and data in this package. Find a copy of the license
+     in the LICENSES/GPL.license file.
+
+   See http://wordnet.princeton.edu for details on WordNet, 
+   and http://www.illc.uva.nl/EuroWordNet for more information on EuroWordNet.
+   
+\end{itemize}
+
+%..................................................
+\section{Contributions}
+ 
+   Many people contributed, directly or indirectly,  to enlarge and
+   enhance this software.  See the THANKS file in the distribution
+   package or the THANKS section in FreeLing webpage to learn more.
+
+%..................................................
+\section{Requirements}
+
+ To install FreeLing you'll need:
+
+ \begin{itemize}
+ \item A typical Linux box with usual development tools:
+    \begin{itemize}
+    \item bash
+    \item make
+    \item C++ compiler with basic STL support (e.g. g++ version 3.x)
+    \end{itemize}
+
+ \item Enough hard disk space (about 50Mb)
+
+ \item Some external libraries are required to compile FreeLing:
+    \begin{itemize}
+    \item[pcre] (version 4.3 or higher)
+               Perl C Regular Expressions. Included in most
+               usual Linux distributions. Just make sure
+               you have it installed.\\
+               Also available from {\tt http://www.pcre.org}
+
+     \item[db] (version 4.1.25 or higher)
+               Berkeley DB. Included in all usual
+               Linux distributions. You probably 
+               have it already installed. Make sure of it, and that
+               C++ support is also installed (may come in a separate
+               package).  \\
+               Also available from {\tt http://www.sleepycat.com}. Do
+               not install it twice unless you know what you are doing.
+
+     \item[libcfg+] (version 0.6.1 or higher)
+               Configuration file and command-line options
+               management. May not be in your linux distribution.\\
+               Available from {\tt http://www.platon.sk/projects/libcfg+/},
+               follow installation instructions provided in the
+               libcfg+ package.
+
+     \item[Omlet \& Fries] (omlet v.0.96 or higher, fries v.0.93 or higher)
+               Machine Learning utility libraries, used by Named
+               Entity Classifier. Installation scrips are not very
+               clever, so these libraries are required even if you do
+               not plan to use the NEC ability of FreeLing.
+               Available from {\tt http://www.lsi.upc.edu/\~{\ }/nlp/omlet+fries}
+    \end{itemize}
+\end{itemize}
+
+   Note that you'll need both the binary libraries and their source headers
+   (in some distributions the headers come in a separate package
+   tagged {\tt -devel} or {\tt -dev}, e.g.
+   the libpcre library may be distributed in two packages: the first,
+   say {\tt libpcre-4.3.rpm}, contains the binary libraries, and the second,
+   say {\tt libpcre-devel-4.3.rpm}, provides the source headers)
+          
+   Note also that if you (or the library package) install those libraries
+   or headers in non-standard directories (that is, other than {\tt /usr/lib}
+   or {\tt /usr/local/lib} for libraries, or other than {\tt /usr/include} or 
+   {\tt /usr/local/include} for headers) you may need to use the {\tt CPPFLAGS}
+   or {\tt LDFLAGS} variables to properly run {\tt ./configure} script.
+
+    For instance, if you installed BerkeleyDB from a {\tt rpm}
+   package, the {\tt db\_cxx.h} header file may be located at {\tt
+   /usr/include/db4} instead of the default {\tt /usr/include}.  So,
+   if {\tt ./configure} complains about not finding the library
+   header, you'll have to specify where to find it:\\ 
+     {\tt ./configure CPPFLAGS='-I/usr/include/db4'} 
+
+    The BerkeleyDB package is probably installed in your system, but 
+   you may need to install C++ support, which (depending on your
+   distribution) may be found in a separate package (such as
+   db4-cxx.rpm, db4-cxx-devel.rpm, or the like).
+
+   See next section and INSTALL file for further details.
+
+%..................................................
+\section{Installation}
+
+Installation follows standard GNU autoconfigure installation
+procedures. See the file INSTALL for further details.
+
+More detailed installation instructions and tricks can be found in
+FreeLing web page and discussion forums.
+
+The installation consists of a few basic steps:
+\begin{itemize}
+ \item Decompress the FreeLing-X.X.tgz package in a temporary subdirectory.
+ \item Issue the commands:\\
+   {\tt
+   ./configure\\
+   make\\
+   make install\\
+   }
+\end{itemize}
+The last command may be issued as root.
+
+You may control the installation defaults providing appropriate
+ parametres to the {\tt ./configure} script. The command: \\
+  {\tt ./configure --help } 
+
+   will provide help about installation options (e.g. non-default
+   installation directory, non standard locations for required
+   libraries, etc.) 
+
+ The INSTALL file provides more information on standard installation 
+ procedures.
+
+%..................................................
+\section{Executing}
+
+  FreeLing is a library, which means that it is a tool to develop 
+new programs which may require linguistic analysis services. 
+
+  Nevertheless, a simple main program is included in the package for
+ those who just want a text analyzer. This small program may easily
+ be adapted to fit your needs (e.g. customized input/output formats).
+  
+  Next chapter describes usage of this sample main program.
+
+%..................................................
+\section{Porting to other platforms}
+
+The FreeLing library is entirely written in C++, so it should be
+possible to compile it on non-unix platforms with a reasonable
+effort (additional pcre/db/cfg+ libraries porting might be 
+required also...). 
+
+Success have been reported on compiling FreeLing on MacOS, as well as on
+MS-Windows using cygwin (http://www.cygwin.com/).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Using the sample main program to process corpora}
+
+ The simplest way to use the FreeLing libraries is via the provided
+ sample main program, which allows the user to process an input text
+ to obtain several linguistic processings.
+
+ The sample main program is called with the command:
+\begin{verbatim}
+ analyzer [-f <config-file>] [options]
+\end{verbatim}
+
+  If \verb#<config-file># is not specified, a file named 
+ {\tt analyzer.cfg} is searched in the current working 
+ directory. Extra options may be specified in the command 
+ line to override any config-file contents.
+
+  The FreeLing package includes default configuration files for
+ Spanish, Catalan and English. They may be found at 
+ {\tt share/FreeLing/config} directory under the FreeLing installation
+ directory (by default, {\tt /usr/local}).
+
+  The {\tt analyzer} program reads from standard input and prints
+  results to standard output, with a plain formats.
+  You may adapt the print formats of this program to suit your needs.
+
+%..................................................
+\section{Usage example}
+
+   Assuming we have the folowing input file {\tt mytext.txt}:
+{\small {\tt 
+\begin{center}
+\begin{tabular}{p{6cm}}
+El gato come pescado. Pero a Don Jaime no le gustan los gatos.
+\end{tabular}
+\end{center}
+}}
+   we could issue the command:
+\begin{verbatim}
+analyzer -f myconfig.cfg <mytext.txt >mytext.mrf
+\end{verbatim}
+   Let's assume that {\tt myconfig.cfg} is the file presented in
+   section~\ref{ss-config}. Given the options there, the produced
+   output would correspond to {\tt morfo} format (i.e. morphological
+   analysis but no PoS tagging). The expected results are:
+{\small {\tt 
+\begin{center}
+\begin{tabular}{p{12cm}}
+ El el DA0MS0 1 \\
+ gato gato NCMS000 1 \\
+ come comer VMIP3S0 0.75 comer VMM02S0 0.25 \\
+ pescado pescado NCMS000 0.833333 pescar VMP00SM 0.166667 \\
+ . . Fp 1 \\
+ \  \\
+ Pero pero CC 0.99878 pero NCMS000 0.00121951 Pero NP00000 0.00121951 \\
+ a a NCFS000 0.0054008 a SPS00 0.994599 \\
+ Don\_Jaime Don\_Jaime NP00000 1 \\
+ no no NCMS000 0.00231911 no RN 0.997681 \\
+ le él PP3CSD00 1 \\
+ gustan gustar VMIP3P0 1 \\
+ los el DA0MP0 0.975719 lo NCMP000 0.00019425 él PP3MPA00 0.024087 \\
+ gatos gato NCMP000 1 \\
+ . . Fp 1 \\
+ \  \\ 
+\end{tabular}
+\end{center}
+}}
+
+   If we also wanted PoS tagging, we could have issued the command:
+\begin{verbatim}
+analyzer -f myconfig.cfg --outf tagged <mytext.txt >mytext.tag
+\end{verbatim}
+
+   to obtain the tagged output:
+{\small {\tt 
+\begin{center}
+\begin{tabular}{p{12cm}}
+ El el DA0MS0\\
+ gato gato NCMS000\\
+ come comer VMIP3S0\\
+ pescado pescado NCMS000\\
+ . . Fp\\
+ \ \\
+ Pero pero CC\\
+ a a SPS00\\
+ Don\_Jaime Don\_Jaime NP00000\\
+ no no RN\\
+ le él PP3CSD00\\
+ gustan gustar VMIP3P0\\
+ los el DA0MP0\\
+ gatos gato NCMP000\\
+ . . Fp\\
+ \ \\ 
+\end{tabular}
+\end{center}
+}}
+
+   We can also ask for the synsets of the tagged words:
+\begin{verbatim}
+analyzer -f myconfig.cfg --outf sense --sense=all  <mytext.txt >mytext.sen
+\end{verbatim}
+
+   obtaining the output:
+{\small {\tt 
+\begin{center}
+\begin{tabular}{p{12cm}}
+ El el DA0MS0\\
+ gato gato NCMS000 01630731:07221232:01631653\\
+ come comer VMIP3S0 00794578:00793267\\
+ pescado pescado NCMS000 05810856:02006311\\
+ . . Fp\\
+ \ \\
+ Pero pero CC\\
+ a a SPS00\\
+ Don\_Jaime Don\_Jaime NP00000\\
+ no no RN\\
+ le él PP3CSD00\\
+ gustan gustar VMIP3P0 01244897:01213391:01241953\\
+ los el DA0MP0\\
+ gatos gato NCMP000 01630731:07221232:01631653\\
+ . . Fp\\
+ \ \\ 
+\end{tabular}
+\end{center}
+}}
+
+   Alternatively, if we don't want to repeat the first steps that we
+   had already performed, we could use the output of the morphological
+   analyzer as input to the tagger:
+\begin{verbatim}
+analyzer -f myconfig.cfg --inpf morfo --outf tagged <mytext.mrf >mytext.tag
+\end{verbatim}
+ 
+   See options InputFormat and OutputFormat in
+   section~\ref{ss-options} for details on which are valid input and
+   output formats.
+
+%..................................................
+\section{Configuration File and Command Line Options}
+
+   Almost all options may be specified either in the configuration
+   file or in the command line, having the later precedence over the
+   former.
+
+   Valid options are presented in section~\ref{ss-options}, both in
+   their command-line and configuration file notations. Configuration
+   file follows the usual linux standards, a sample file may be seen
+   in section~\ref{ss-config}.
+
+
+%······························································
+\subsection{Valid options}
+\label{ss-options}
+
+\begin{itemize}
+
+\item {\bf Help}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#-h#, \verb#--help#   &  {\tt N/A}   \\ \hline
+\end{tabular}
+
+ Prints to stdout a help screen with valid options and exits.
+
+\item {\bf Trace Level}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#-l <int>#, \verb#--tlevel <int>#   & \verb#TraceLevel=<int>#  \\ \hline
+\end{tabular}
+
+ Set the trace level (0:no trace - 3:maximum trace), for debugging purposes.
+ Only valid if program was compiled with {\tt -DVERBOSE} flag.
+
+\item {\bf Trace Module}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#-m <mask>#, \verb#--tmod <mask>#  & \verb#TraceModule=<mask>#  \\ \hline
+\end{tabular}
+
+  Specify modules to trace. Each module is identified with an hexadecimal flag.
+ All flags may be OR-ed to specificy the set of modules to be traced.
+
+ Valid masks are:
+
+\begin{tabular}{ll}
+   {\bf Module}           & {\bf Mask}  \\ \hline
+Splitter               & 0x00000001 \\
+Tokenizer              & 0x00000002 \\
+Morphological analyzer & 0x00000004 \\
+Options management     & 0x00000008 \\
+Number detection       & 0x00000010 \\
+Date identification         & 0x00000020 \\
+Punctuation detection       & 0x00000040 \\
+Dictionary search           & 0x00000080 \\
+Suffixation rules           & 0x00000100 \\
+Multiword detection         & 0x00000200 \\
+Named entity detection      & 0x00000400 \\
+Probability assignment      & 0x00000800 \\
+Quantities detection        & 0x00001000 \\
+Named entity classification & 0x00002000 \\
+Automata (abstract)         & 0x00004000 \\
+PoS Tagger (abstract)       & 0x00008000 \\
+HMM tagger                  & 0x00010000 \\
+Relaxation labelling        & 0x00020000 \\
+RL tagger                   & 0x00040000 \\
+RL tagger constr. grammar   & 0x00080000 \\
+Sense annotation            & 0x00100000 \\
+Chart parser                & 0x00200000 \\
+Parser grammar              & 0x00400000 \\
+Dependency parser           & 0x00800000 \\
+Utilities                   & 0x01000000 \\ \hline
+\end{tabular}
+
+
+\item {\bf Configuration file}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#-f <filename>#  &  {\tt N/A}        \\ \hline 
+\end{tabular}
+
+ Specify configuration file to use (default: analyzer.cfg).
+
+\item {\bf Language of input text}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--lang <language>#  & \verb#Lang=<language>#    \\ \hline
+\end{tabular}
+
+   Language of input text (es: Spanish, ca: Catalan, en:
+   English). Other languages may be added to the library. See
+   chapter~\ref{c-adding-lang} for details.
+
+\item {\bf Splitter Buffer Flushing}
+
+\begin{tabular}{|l|l|}
+Command line                      & Configuration file   \\ \hline
+\verb#--flush#, \verb#--noflush#  & \verb#AlwaysFlush=(yes|y|on|no|n|off)#   \\ \hline
+\end{tabular}
+
+   When inactive (most usual choice) sentence splitter buffers lines
+   until a sentence marker is found. Then, it outputs a complete
+   sentence. 
+   When active, the splitter never buffers any token, and 
+   considers each newline as sentence end, thus processing each line
+   as an independent sentence.
+
+\item {\bf Input Format}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--inpf <string>#  & \verb#InputFormat=<string># \\ \hline
+\end{tabular}
+
+  Format of input data (plain, token, splitted, morfo, tagged, sense, parsed, dep).
+ \begin{itemize}
+  \item plain: plain text.
+  \item token: tokenized text (one token per line).
+  \item splitted : tokenized and sentence-splitted text (one token per line, sentences separated with one blank line).
+  \item morfo: tokenized, sentence-splitted, and morphologically analyzed text. 
+    One token per line, sentences separated with one blank line.\\
+    Each line has the format:  {\tt word lemma1 tag1 prob1 lemma2 tag2 prob2 \ldots }
+  \item tagged:  tokenized, sentence-splitted, morphologically analyzed, and PoS-tagged text. 
+    One token per line, sentences separated with one blank line.\\
+    Each line has the format:  {\tt word lemma tag}.
+  \item sense:  tokenized, sentence-splitted, morphologically
+    analyzed, PoS-tagged text, and sense-annotated. 
+    One token per line, sentences separated with one blank line.\\
+    Each line has the format:  {\tt word lemma1 tag1 prob1 sense11:\ldots:sense1N lemma2 tag2 prob2 sense21:\ldots:sense2N \ldots}
+ \end{itemize}
+
+\item {\bf Output Format}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--outf <string>#  & \verb#OutputFormat=<string># \\ \hline
+\end{tabular}
+
+  Format of output data (plain, token, splitted, morfo, tagged, parsed, dep).
+ \begin{itemize}
+  \item plain: plain text.
+  \item token: tokenized text (one token per line).
+  \item splitted : tokenized and sentence-splitted text (one token per line, sentences separated with one blank line).
+  \item morfo: tokenized, sentence-splitted, and morphologically analyzed text. 
+    One token per line, sentences separated with one blank line.\\
+    Each line has the format:  {\tt word lemma1 tag1 prob1 lemma2 tag2 prob2 \ldots }
+    or the format {\tt word lemma1 tag1 prob1 sense11:\ldots:sense1N lemma2 tag2 prob2 sense21:\ldots:sense2N \ldots} if sense tagging has been activated.
+  \item tagged:  tokenized, sentence-splitted, morphologically analyzed, and PoS-tagged text. 
+    One token per line, sentences separated with one blank line.\\
+    Each line has the format:  {\tt word lemma tag prob}.
+    or the format {\tt word lemma tag prob sense1:\ldots:senseN} if sense tagging has been activated.
+  \item parsed:  tokenized, sentence-splitted, morphologically
+  analyzed, PoS-tagged, optionally sense--annotated, and parsed text. 
+  \item dep:  tokenized, sentence-splitted, morphologically analyzed, PoS-tagged, optionally sense--annotated, and dependency-parsed text. 
+ \end{itemize}
+
+\item {\bf Tokenizer File}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--abrev <filename># & \verb#TokenizerFile=<filename>#  \\ \hline
+\end{tabular}
+
+  File of tokenization rules. See section~\ref{file-tok} for details.
+
+\item {\bf Splitter File}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--fsplit <filename># & \verb#SplitterFile=<filename>#  \\ \hline
+\end{tabular}
+
+  File of splitter options rules. See section~\ref{file-split} for details.
+
+\item {\bf Suffix Analysis}
+
+\begin{tabular}{|l|l|}
+Command line                     & Configuration file   \\ \hline
+\verb#--sufx#, \verb#--nosufx#   & \verb#SuffixAnalysis=(yes|y|on|no|n|off)# \\ \hline
+\end{tabular}
+
+  Whether to perform suffix analysis on unknown words. 
+  Suffix analysis applies known suffixation rules to the word to check whether it is a derived form of a known word  (see option Suffix Rules File, below).
+
+\item {\bf Multiword Detection}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--loc#, \verb#--noloc#     & \verb#MultiwordsDetection=(yes|y|on|no|n|off)#  \\ \hline 
+\end{tabular}
+
+ Whether to perform multiword detection. Multiwords may be detected if a multiword file is provided, (see
+ Multiword File option, below).
+
+\item {\bf Number Detection}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--numb#, \verb#--nonumb#   & \verb#NumbersDetection=(yes|y|on|no|n|off)# \\ \hline
+\end{tabular}
+
+ Whether to perform nummerical expression detection. Deactivating this
+ feature will affect the behaviour of date/time and ratio/currency detection modules.
+
+\item {\bf Punctuation Detection}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--punt#, \verb#--nopunt#    & \verb#PunctuationDetection=(yes|y|on|no|n|off)# \\ \hline
+\end{tabular}
+
+ Whether to assign PoS tag to punctuation signs
+
+\item {\bf Date Detection}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--date#, \verb#--nodate#    & \verb#DatesDetection=(yes|y|on|no|n|off)# \\ \hline
+\end{tabular}
+
+  Whether to perform date and time expression detection.
+
+\item {\bf Quantities Detection}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--quant#, \verb#--noquant#   & \verb#QuantitiesDetection=(yes|y|on|no|n|off)# \\ \hline
+\end{tabular}
+
+ Whether to perform currency amounts, physical magnitudes, and ratio detection. 
+
+\item {\bf Dictionary Search}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--dict#, \verb#--nodict#    & \verb#DictionarySearch=(yes|y|on|no|n|off)#    \\ \hline
+\end{tabular}
+
+ Whether to search word forms in dictionary. Deactivating this feature
+ also deactivates SuffixAnalysis option.
+
+\item {\bf Probability Assignment}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--prob#, \verb#--noprob#    & \verb#ProbabilityAssignment=(yes|y|on|no|n|off)#  \\ \hline
+\end{tabular}
+
+ Whether to compute a lexical probability for each tag of each word. 
+ Deactivating this feature will affect the behaviour of the PoS tagger.
+
+\item {\bf Decimal Point}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--dec <string>#   & \verb#DecimalPoint=<string>#\\ \hline 
+\end{tabular}
+
+   Specify decimal point character (for instance, in English is a dot, but in Spanish is a comma).
+
+\item {\bf Thousand Point} 
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--thou <string>#  & \verb#ThousandPoint=<string>#  \\ \hline
+\end{tabular}
+
+   Specify thousand point character (for instance, in English is a comma, but in Spanish is a dot).
+
+\item {\bf Multiword File}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#-L <filename>#, \verb#--floc <filename># & \verb#LocutionsFile=<filename>#  \\ \hline
+\end{tabular}
+
+  Multiword definition file. See section \ref{file-mw} for details.
+
+\item {\bf Quantity Recognition File}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#-Q <filename>#, \verb#--fqty <filename>#  & \verb#QuantitiesFile=<filename>#  \\ \hline
+\end{tabular}
+
+ Quantitiy recognition configuration file. See section \ref{file-quant} for details.
+
+\item {\bf Suffixation Rules File}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#-S <filename>#, \verb#--fsuf <filename>#  & \verb#SuffixFile=<filename># \\ \hline  
+\end{tabular}
+
+   Suffix rules file. See section \ref{file-suf} for details.
+
+
+\item {\bf Unknown Words Probability Threshold.}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--thres <float>#   & \verb#ProbabilityThreshold=<float>#   \\ \hline   
+\end{tabular}
+
+ Threshold that must be reached by the probability of a tag given the
+ suffix of an unknown word in order to be included in the list of
+ possible tags for that word. Default is zero (all tags are included
+ in the list). A non--zero value (e.g. 0.0001, 0.001) is recommended.
+
+\item {\bf Lexical Probabilities File}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#-P <filename>#, \verb#--fprob <filename># & \verb#ProbabilityFile=<filename># \\ \hline
+\end{tabular}
+
+ Lexical probabilities file. The probabilities in this file are used
+ to compute the most likely tag for a word, as well to estimate the
+ likely tags for unknown words. See section \ref{file-prob} for details.
+
+\item {\bf Dictionary File}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#-D <filename>#, \verb#--fdict <filename># & \verb#DictionaryFile=<filename>#  \\ \hline
+\end{tabular}
+
+ Dictionary database. Must be a Berkeley DB indexed file. 
+ See section \ref{file-dict} and chapter \ref{c-adding-lang} for details.
+
+
+\item {\bf Named Entity Recognition}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--ner#, \verb#--noner#    & \verb#NERecognition=(yes|y|on|no|n|off)#    \\ \hline
+\end{tabular}
+
+  Whether to perform NE recognition. Deactivating this feature will affect the behaviour of the NE Classification module.
+
+
+\item {\bf Named Entity Recognizer File}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#-N <filename>#, \verb#--fnp <filename>#   & \verb#NPDataFile=<filename>#  \\ \hline
+\end{tabular}
+
+  Configuration data file for simple heuristic Proper Noun recognizer.
+  See section \ref{file-ner} for details.
+
+
+\item {\bf Named Entity Classification}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--nec#, \verb#--nonec#     & \verb#NEClassification=(yes|y|on|no|n|off)#    \\ \hline
+\end{tabular}
+
+   Whether to perform NE classification.
+
+
+\item {\bf Named Entity Classifier File Prefix}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--fnec <filename>#   & \verb#NECFilePrefix=<filename>#  \\ \hline
+\end{tabular}
+
+  Prefix to find files for Named Entity Classifier configuration. 
+
+  The searched files will be the given prefix with the following
+  extensions: 
+ \begin{itemize}
+   \item {\tt .rfg}: Feature extractor rule file. 
+   \item {\tt .lex}: Feature dictionary.
+   \item {\tt .abm}: AdaBoost model for NEC.
+ \end{itemize}
+
+  See section \ref{file-nec} for details.
+
+\item {\bf Sense Annotation}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--sense <string>#    & \verb#SenseAnnotation=<string>#    \\ \hline
+\end{tabular}
+
+   Kind of sense annotation to perform
+ \begin{itemize}
+  \item no, none: Deactivate sense annotation.
+  \item all: annotate with all possible senses in sense dictionary.
+  \item mfs: annotate with most frequent sense.
+ \end{itemize}
+
+   Whether to perform sense anotation. If active, the PoS tag selected
+   by the tagger for each word is enriched with a list of all its
+   possible WN synsets. The sense repository used depends on the contents
+   of the ``Sense Dictionary File'' described below.
+
+\item {\bf Sense Dictionary File}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--fsense <filename>#   & \verb#SenseFile=<filename>#  \\ \hline
+\end{tabular}
+
+  Word sense data file. It is a Berkeley DB indexed file.
+  See section \ref{file-sense} for details.
+
+\item {\bf Duplicate Analysis for each Sense}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--dup#, \verb#--nodup#   & \verb#DuplicateAnalysis=(yes|y|on|no|n|off)#  \\ \hline
+\end{tabular}
+
+  When this option is set, the senses annotator will duplicate the analysis once for each of its possible senses.
+  For instance, analyzing the sentence {\em el gato come pescado} with \verb#--senses all# and \verb#--nodup# options, would enrich each analysis of each word with {\em a list} of all possible senses for that lemma and part--of--speech.
+
+\begin{tabular}{|l|l|l|r|l|}
+ Form & Lemma & Tag     & Prob  & Senses \\ \hline\hline
+ el   & el    & DA0MS0  &  1.0  &  -     \\ \hline
+ gato & gato  & NCMS000 &  1.0  & 01630731:07221232:01631653 \\ \hline
+ come & comer & VMIP3S0 &  0.75 & 00794578:00793267 \\
+      & comer & VMM02S0 &  0.25 & 00794578:00793267 \\ \hline
+ pescado & pescado & NCMS000 & 0.84 & 05810856:02006311 \\
+         & pescar  & VMP00SM & 0.16 & 00491793:00775186 \\ \hline
+\end{tabular}
+
+  Alternatively, if we use option \verb#--dup#, each analysis is
+  duplicated as many times as possible senses, so that each analysis
+  has only one sense:
+
+\begin{tabular}{|l|l|l|r|l|}
+ Form & Lemma & Tag     & Prob  & Senses \\ \hline\hline
+ el   & el    & DA0MS0  &  1.0  &  -     \\ \hline
+ gato & gato  & NCMS000 &  0.33  & 01630731 \\ 
+      & gato  & NCMS000 &  0.33  & 07221232 \\ 
+      & gato  & NCMS000 &  0.33  & 01631653 \\ \hline
+ come & comer & VMIP3S0 &  0.375 & 00794578 \\
+      & comer & VMIP3S0 &  0.375 & 00793267 \\
+      & comer & VMM02S0 &  0.125 & 00794578 \\ 
+      & comer & VMM02S0 &  0.125 & 00793267 \\ \hline
+ pescado & pescado & NCMS000 & 0.42 & 05810856 \\
+         & pescado & NCMS000 & 0.42 & 02006311 \\
+         & pescar  & VMP00SM & 0.08 & 00491793 \\
+         & pescar  & VMP00SM & 0.08 & 00775186 \\ \hline
+\end{tabular}
+
+   This may be useful if one wants to perform WSD, or to use the {\em sense} field in the analysis in the constraint grammar (see section \ref{file-relax}).
+
+\item {\bf Punctuation Detection File}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#-M <filename>#, \verb#--fpunct <filename># & \verb#PunctuationFile=<filename># \\ \hline
+\end{tabular}
+
+  Punctuation symbols file.  See section \ref{file-punt} for details.
+
+\item {\bf Tagger algorithm}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#-T <string>#, \verb#--tag <string>#   & \verb#Tagger=<string>#  \\ \hline
+\end{tabular}
+
+   Algorithm to use for PoS tagging
+ \begin{itemize}
+  \item hmm:  Hidden Markov Model tagger, based on \cite{brants00}.
+  \item relax: Relaxation Labelling tagger, based on \cite{padro98a}.
+ \end{itemize}
+
+\item {\bf HMM Tagger configuration File}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#-H <filename>#, \verb#--hmm <filename>#   & \verb#TaggerHMMFile=<filename>#  \\ \hline
+\end{tabular}
+
+  Parameters file for HMM tagger. 
+  See section \ref{file-hmm} for details.
+
+
+\item {\bf Relaxation labelling tagger iteration limit}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--iter <int>#   & \verb#TaggerRelaxMaxIter=<int>#  \\ \hline
+\end{tabular}
+
+   Maximum numbers of iterations to perform in case relaxation does
+   not converge.
+
+\item {\bf Relaxation labelling tagger scale factor}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--sf <float>#   & \verb#TaggerRelaxScaleFactor=<float>#  \\ \hline
+\end{tabular}
+
+   Scale factor to normalize supports inside RL algorithm. It is
+   comparable to the step lenght in a hill-climbing algorithm: The
+   larger scale factor, the smaller step.
+
+\item {\bf Relaxation labelling tagger epsilon value}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--eps <float>#   & \verb#TaggerRelaxEpsilon=<float>#  \\ \hline
+\end{tabular}
+
+   Real value used to determine when a relaxation labelling iteration
+   has produced no significant changes. The algorithm stops when no
+   weight has changed above the specified epsilon.
+
+\item {\bf Relaxation labelling tagger constraints file}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#-R <filename>#   & \verb#TaggerRelaxFile=<filename>#  \\ \hline
+\end{tabular}
+
+   File containing the constraints to apply to solve the PoS tagging.
+   See section \ref{file-relax} for details.
+
+\item {\bf Retokenize after tagging}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--retk#, \verb#--noretk#    & \verb#TaggerRetokenize=(yes|y|on|no|n|off)#    \\ \hline
+\end{tabular}
+
+   Determine whether the tagger must perform retokenization after
+   the appropriate analysis has been selected for each word.  
+   This is closely related to suffix analysis, see section \ref{file-suf} for details.
+
+
+\item {\bf Force the selection of one unique tag}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--force <string>#     & \verb#TaggerForceSelect=(none,tagger,retok)#    \\ \hline
+\end{tabular}
+
+   Determine whether the tagger must be forced to (probably randomly) make a unique choice and when.
+   \begin{itemize}
+    \item   {\tt none}: Do not force the tagger, allow ambiguous output.
+    \item   {\tt tagger}: Force the tagger to choose before retokenization (i.e. if retokenization introduces any ambiguity, it will be present in the final output.
+    \item   {\tt retok}: Force the tagger to choose after retokenization (no remaining ambiguity)
+   \end{itemize}
+
+
+\item {\bf Chart Parser Grammar File}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#-G <filename>#, \verb#--grammar <filename>#   & \verb#GrammarFile=<filename>#  \\ \hline
+\end{tabular}
+
+   This file contains a CFG grammar for the chart parser, and some
+  directives to control which chart edges are selected to build the
+  final tree.
+   See section \ref{file-cfg} for details.
+
+
+\item {\bf Dependency Parser Rule File}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#-J <filename>#, \verb#--dep <filename>#   & \verb#DepRulesFile==<filename>#  \\ \hline
+\end{tabular}
+
+  Rules to be used to perform dependency analysis.
+  See section \ref{file-dep} for details.
+
+\end{itemize}
+
+
+\newpage
+%······························································
+\subsection{Sample Configuration File}
+\label{ss-config}
+
+  A sample configuration file follows.  This is only a sample, and
+  probably won't work if you use it as is.  You can start using
+  freeling with the default configuration files which --after
+  installation-- are located in {\tt /usr/local/share/FreeLing/config}
+  (note than prefix {\tt /usr/local} may differ if you specified an
+  alternative location when installing FreeLing).
+  You also can use those files as a starting point to customize 
+  one config file to suit your needs.
+
+{\small{\tt
+\begin{center}
+\begin{tabular}{p{28cm}}
+\#\#\#\# default configuration file for spanish analyzer\\
+\ \\
+\#\#\#\#---------------- Trace options. Only effective if we have compiled with -DVERBOSE. \\
+\#\#\#\#---------------- For development purposes only.\\
+TraceLevel=0\\
+TraceModule=0x0000\\
+\#\#\#\#---------------- General options \\
+Lang=es\\
+\# Input/output formats. (plain, token, splitted, morfo, tagged, sense, parsed, dep) \\
+InputFormat=plain\\
+OutputFormat=morfo\\
+\# consider each newline as a sentence end\\
+AlwaysFlush=no\\
+\#\#\#\#---------------- Tokenizer options\\
+TokenizerFile="/usr/local/share/FreeLing/es/tokenizer.dat"\\
+\#\#\#\#---------------- Splitter options\\
+SplitterFile="/usr/local/share/FreeLing/es/splitter.dat"
+\#\#\#\#---------------- Morfo options\\
+SuffixAnalysis=yes\\
+MultiwordsDetection=yes\\
+NumbersDetection=yes\\
+PunctuationDetection=yes\\
+DatesDetection=yes\\
+QuantitiesDetection=yes\\
+DictionarySearch=yes\\
+ProbabilityAssignment=yes\\
+NERecognition=yes\\
+DecimalPoint=","\\
+ThousandPoint="."\\
+LocutionsFile=/usr/local/share/FreeLing/es/locucions.dat \\
+QuantitiesFile=/usr/local/share/FreeLing/es/quantities.dat\\
+SuffixFile=/usr/local/share/FreeLing/es/sufixos.dat\\
+ProbabilityFile=/usr/local/share/FreeLing/es/probabilitats.dat\\
+DictionaryFile=/usr/local/share/FreeLing/es/maco.db\\
+NPDataFile=/usr/local/share/FreeLing/es/np.dat\\
+PunctuationFile=/usr/local/share/FreeLing/common/punct.dat\\
+ProbabilityThreshold=0.001\\
+TitleLength=0\\
+\#\#\#\#----------------Tagger options\\
+Tagger=hmm\\
+TaggerHMMFile=/usr/local/share/FreeLing/es/tagger.dat\\
+TaggerRelaxFile=/usr/local/share/FreeLing/es/constr\_gram.dat\\
+TaggerRelaxMaxIter=500\\
+TaggerRelaxScaleFactor=670.0\\
+TaggerRelaxEpsilon=0.001\\
+\#\#\#\#----------------- NEC options\\
+NEClassification=no\\
+NECFilePrefix=/usr/local/share/FreeLing/es/nec\\
+\#\#\#\#----------------- Sense annotation options\\
+SenseAnnotation=none\\
+SenseFile=/usr/local/share/FreeLing/es/senses16.db\\
+WNFile=/usr/local/share/FreeLing/common/wn16.db\\
+DuplicateAnalysis=no\\
+\#\#\#\#----------------- Parser options\\
+GrammarFile=/usr/local/share/FreeLing/es/grammar-dep.dat\\
+\#\#\#\#----------------- Dependency Parser options\\
+DepRulesFile=/usr/local/share/FreeLing/es/dependences.dat\\
+\end{tabular}
+\end{center}
+}}
+
+%..................................................
+\section{Tokenizer rules file}
+\label{file-tok}
+
+  The file is divided in three sections \verb#<Macros>#, \verb#<RegExps># and \verb#<Abbreviations>#.
+  Each section is closed by \verb#</Macros>#, \verb#</RegExps># and \verb#</Abbreviations># tags respectively.
+  
+   The \verb#<Macros># section allows the user to define regexp macros
+   that will be used later in the rules. Macros are defined with a name and
+   a Perl regexp.\\
+   E.g. {\tt ALPHA  [A-Za-z]}
+
+    The \verb#<RegExps># section defines the tokenization
+   rules. Previously defined macros may be referred to with their name
+   in curly brackets. \\
+   E.g. \verb#*ABREVIATIONS1  0  ((\{ALPHA\}+\.)+)(?!\.\.)#
+
+   Rules are regular expressions, and are applied in the order of definition. 
+   The first rule matching the {\em beginning} of the line is applied,
+   a token is built, and the rest of the rules are ignored.
+   The process is repeated until the line has been completely processed.
+  \begin{itemize}
+    \item The first field in the rule is the rule name. If it starts
+     with a {\tt *}, the RegExp will only produce a token if the 
+     match is found in abbreviation list (\verb#<Abbreviations># section).
+    \item The second field in the rule is the substring to form the token/s with
+     It may be 0 (the match of the whole expression) or any number
+     from 1 to the number of substrings (up to 9). A token will be
+     created for each substring from 1 to the specified value.
+    \item The third field is the regexp to match against the input.
+   line. Any Perl regexp convention may be used.
+  \end{itemize}
+
+  The \verb#<Abbreviations># section defines common abbreviations (one per line) that must not be separated of their following dot (e.g. {\tt etc.}, {\tt mrs.}). They must be lowercased.
+
+
+%..................................................
+\section{Splitter options file}
+\label{file-split}
+
+The file contains four sections: \verb#<General>#, \verb#<Markers>#,
+\verb#<SentenceEnd>#, and \verb#<SentenceStart>#.
+
+The \verb#<General># section contains general options for the
+splitter: Namely, {\tt AllowBetweenMarkers} and {\tt MaxLines}
+options. The former may take values 1 or 0 (on/off). The
+later may be any integer. An example of the  \verb#<General># section is:
+\begin{verbatim}
+<General>
+AllowBetweenMarkers 0
+MaxLines 0
+</General>
+\end{verbatim}
+
+If {\tt AllowBetweenMarkers} is off, a sentence split will never be
+introduced inside a pair of parenthesis-like markers, which is useful
+to prevent splitting in sentences such as {\em ``I hate'' (Mary
+said. Angryly.) ``apple pie''.}
+ If this option is on, a sentence end is allowed to be introduced inside such a pair.
+
+{\tt MaxLines} states how many text lines are read before forcing
+a sentence split inside parenthesis-like markers (this option is intended to
+avoid infinite loops in case the markers are not properly closed in
+the text).  A value of zero means ``Never split, I'll risk to infinite
+loops''.
+ Obviously, this option is only effective if {\tt AllowBetweenMarkers} is on.
+
+The \verb#<Markers># section lists the pairs of characters (or
+character groups) that have to be considered open-close markers. For instance:
+\begin{verbatim}
+<Markers>
+" "
+( )
+{ }
+/* */
+</Markers>
+\end{verbatim}
+
+The \verb#<SentenceEnd># section lists which characters are considered
+as possible sentence endings. Each character is followed by a binary
+value stating whether the character is an unambiguous sentence endig
+or not. For instance, in the following example, ``?'' is an unabiguous
+sentence marker, so a sentence split will be introduced
+unconditionally after each ``?''.  The other two characters are not
+unambiguous, so a sentence split will only be introduced if they are
+followed by a capitalized word or a sentence start character.
+\begin{verbatim}
+<SentenceEnd>
+. 0
+? 1
+! 0
+</SentenceEnd>
+\end{verbatim}
+
+The \verb#<SentenceStart># section lists characters known to appear
+only at sentence beggining. For instance, open question/exclamation
+marks in Spanish:\\
+\verb#<SentenceStart>#\\
+{\tt ?` }\\
+{\tt !` }\\
+\verb#</SentenceStart>#
+
+
+
+%..................................................
+\section{Multiword definition file}
+\label{file-mw}
+
+The file contains a list of multiwords to be recognized. The format of
+the file is one multiword per line. Each line has three fields: the
+multiword form, the multiword lemma, and the multiword PoS tag.
+
+The multiword form may admit lemmas in angle brackets, meaning that
+any form with that lemma will be considered a valid component for the
+multiword.
+
+ For instance:
+\begin{verbatim}
+a_buenas_horas a_buenas_horas RG
+a_causa_de a_causa_de SPS00
+<accidente>_de_trabajo accidente_de_trabajo $1:NC
+\end{verbatim}
+ 
+ The tag may be specified directly, or as a reference to the tag of
+some of the multiword components. In the previous example, the last
+multiword specification will build a multiword with any of the forms {\tt
+ accidente de trabajo} or {\tt accidentes de trabajo}. The tag of the
+multiword will be that of its first form ({\tt \$1}) which starts with
+{\tt NC}.  This will assign the right singular/plural tag to the
+multiword, depending on whether the form was ``accidente'' or ``accidentes''.
+
+
+%..................................................
+\section{Quantity recognition data file}
+\label{file-quant}
+
+This file contains the data necessary to perform currency amount and
+physical magnitude recognition.  
+It consists of three sections:  \verb#<Currency>#, \verb#<Measure>#,
+and \verb#</MeasureNames>#.
+
+Section \verb#<Currency># contains a single line indicating which is
+the code, among those used in section \verb#<Measure>#, that stands for
+ 'currency amount'.
+
+E.g.:
+\begin{verbatim}
+<Currency>
+CUR
+</Currency>
+\end{verbatim}
+
+Section \verb#<Measure># indicates the type of measure corresponding
+to each possible unit. Each line contains two fields: the measure code
+and the unit code. The codes may be anything, at user's choice, and
+will be used to build the lemma of the recognized quantity multiword.
+
+E.g., the following section states that {\tt USD} and {\tt FRF} are of
+type {\tt CUR} (currency), {\tt mm} is of type {\tt LN} (length), and 
+{\tt ft/s} is of type {\tt SP} (speed):
+\begin{verbatim}
+<Measure>
+CUR USD
+CUR FRF
+LN mm
+SP ft/s
+</Measure>
+\end{verbatim}
+
+Finally, section \verb#<MeasureNames># describes which multiwords have
+to be interpreted as a measure, and which unit they represent. The
+unit must appear in section \verb#<Measure># with its associated code.
+Each line has the format:
+\begin{verbatim}
+multiword_description code tag
+\end{verbatim}
+where {\tt multiword\_description} is a multiword pattern as in
+multiwords file described in section~\ref{file-mw}, {\tt code} is the
+type of magnitude the unit describes (currency, speed, etc.), and {\tt
+tag} is a constraint on the lemmatized components of the multiword,
+following the same conventions than in multiwords file
+(section~\ref{file-mw}).
+
+E.g., 
+\begin{verbatim}
+<MeasureNames>
+french_<franc> FRF $2:N
+<franc> FRF $1:N
+<dollar> USD $1:N
+american_<dollar> USD $2:N
+us_<dollar> USD $2:N
+<milimeter> mm $1:N
+<foot>_per_second ft/s $1:N
+<foot>_Fh_second ft/s $1:N
+<foot>_Fh_s ft/s $1:N
+<foot>_second ft/s $1:N
+</MeasureNames>
+\end{verbatim}
+
+This section will recognize strings such as the following:
+\begin{verbatim}
+ 234_french_francs CUR_FRF:234 Zm
+ one_dollar CUR_USD:1 Zm
+ two_hundred_fifty_feet_per_second SP_ft/s:250 Zu
+\end{verbatim}
+
+ Quantity multiwords will be recognized only when following a number,
+ that is, in the sentence {\em There were many french francs}, the
+ multiword won't be recognized since it is not assigning units to a
+ determined quantity.
+
+ It is important to note that the lemmatized multiword expressions
+ (the ones that containt angle brackets) will only be recognized if
+ the lemma is present in the dictionary with its corresponding
+ inflected forms.
+
+
+%..................................................
+\section{Suffixation rules file}
+\label{file-suf}
+
+One rule per line, each rule has eight fields:
+\begin{enumerate}
+ \item Suffix to erase form word form (e.g: crucecita - cecita = cru)
+ \item Suffix (* for emtpy string) to add to the resulting root to rebuild the lemma that must be searched in dictionary  (e.g. cru + z = cruz)
+ \item Condition on the parole tag of found dictionary entry
+ (e.g. cruz is NCFS). The condition is a perl RegExp
+ \item Parole tag for suffixed word (* = keep tag in dictionary entry)
+ \item Check lemma adding accents
+ \item Enclitic suffix (special accent behaviour in Spanish)
+ \item Use original form as lemma instead of the lemma in dictionary entry
+ \item Consider the suffix always, not only for unknown words.
+ \item Retokenization info, explained below.. (or "-" if the suffix doesn't cause retokenization).
+\end{enumerate}
+
+ E.g. 
+\begin{verbatim}
+ cecita  z|za  ^NCFS  NCFS00A  0  0  0  0  -
+ les     *     ^V      *       0  1  0  1  $$+les:$$+PP
+\end{verbatim}
+
+  The first line ({\tt cecita}) states a suffix rule that will be
+  applied to unknown words, to see whether a valid feminine singular
+  noun is obtained when substituting the suffix {\tt cecita} with {\tt
+  z} ot {\tt za}. This is the case of {\tt crucecita} (diminutive of
+  {\tt cruz}). If such a base form is found, the original word is
+  analyzed as diminutive suffixed form. No retokenization is performed.
+
+  The second rule ({\tt mela}) applies to all words and tries to check
+  whether a valid verb form is obtained when removing the suffix {\tt
+  les}. This is the case of words such as {\tt viles} (which may mean 
+  {\sl I saw them}, but also is the plural of the adjective {\tt
+  vil}). In this case, the retokenization info states that if
+  eventually the verb tag is selected for this word, it may be
+  retokenized in two words: The base verb form (referred to as {\tt
+  \$\$}, {\tt vi} in the example) plus the word {\tt les}. The tags
+  for these new words are expressed after the colon: The base form
+  must keep its PoS tag (this is what the second {\tt \$\$} means)
+  and the second word may take any tag starting with PP it may have in
+  the dictionary.
+
+  So, for word {\tt viles} would obtain its adjective analysis from
+  the dictionary, plus its verb + clitic pronoun from the suffix
+  rule:
+\begin{verbatim}
+    viles vil AQ0CP0 ver VMIS1S0
+\end{verbatim}
+
+  The second analysis will carry the retokenization information, so if
+  eventually the PoS tagger selects the {\tt VMI} analysis (and the
+  TaggerRetokenize option is set), the word will be retokenized into:
+
+\begin{verbatim}
+   vi ver VMIS1S0
+   les ellos PP3CPD00
+\end{verbatim}
+
+%..................................................
+\section{Lexical Probabilities file}
+\label{file-prob}
+
+Define lexical probabilities for each tag of each word. 
+
+This file can be generated from a tagged corpus using the script {\tt
+ src/utilitities/make-probs-file.perl} provided in FreeLing
+package. See comments in the script file to find out in which format
+ the file must be set.
+
+The probabilities file has six sections:
+\verb#<UnknownTags>#, \verb#<Theeta>#, \verb#<Suffixes>#, \verb#<SingleTagFreq>#, \verb#<ClassTagFreq>#, \verb#<FormTagFreq>#. Each section is closed by it corresponding tag \verb#</UnknownTags>#, \verb#</Theeta>#, \verb#</Suffixes>#,  \verb#</SingleTagFreq>#, \verb#</ClassTagFreq>#, \verb#</FormTagFreq>#.
+ \begin{itemize} 
+
+  \item Section \verb#<FormTagFreq>#.  Probability data of some high frequency forms.
+
+   If the word is found in this list, lexical probabilities are computed using data in \verb#<FormTagFreq># section.
+ 
+   The list consists of one form per line, each line with format: \\
+   {\tt form ambiguity-class, tag1 \#observ1 tag2 \#observ2 ...}
+   
+   E.g. {\tt japonesas AQ-NC AQ 1 NC 0}
+
+   Form probabilities are smoothed to avoid zero-probabilities. 
+
+   \item Section \verb#<ClassTagFreq>#. Probability data of ambiguity  classes.
+
+   If the word is not found in the \verb#<FormTagFreq>#, frequencies for its ambiguity class are used.
+
+   The list consists of class per line, each line with format:\\
+   {\tt class tag1 \#observ1 tag2 \#observ2 ...}
+
+   E.g. {\tt AQ-NC AQ 2361 NC 2077}
+
+   Class probabilities are smoothed to avoid zero-probabilities.  
+
+   \item Section \verb#<SingleTagFreq>#. Unigram probabilities. 
+
+   If the ambiguity class is not found in the \verb#<ClassTagFreq>#, individual
+   frequencies for its possible tags are used.
+
+   One tag per line, each line with format: {\tt tag \#observ}
+
+    E.g. {\tt AQ 7462}
+
+   Tag probabilities are smoothed to avoid zero-probabilities.
+
+
+  \item Section \verb#<Theeta>#.    Value for parameter {\it theeta} used  in smoothing of tag probabilities based on word suffixes.
+
+   If the word is not found in dictionary (and so the list of its
+   possible tags is unknown), the distribution is computed using the
+   data in the \verb#<Theeta>#, \verb#<Suffixes>#, and \verb#<UnknownTags># sections.
+
+   The  section has exactly one line, with one real number.
+
+   E.g. \\
+   {\tt \verb#<Theeta>#\\
+   0.00834\\
+   \verb#</Theeta>#}
+
+  \item Section \verb#<Suffixes>#.  List of suffixes obtained from a
+    train corpus, with information about which tags were assigned to
+    the word with that suffix. 
+
+   The list has one suffix per line, each line with format: {\tt suffix \#observ tag1 \#observ1 tag2 \#observ2 ...}
+
+   E.g. \\
+   {\tt orada 133 AQ0FSP 17 VMP00SF 8 NCFS000 108}
+
+  \item Section \verb#<UnknownTags>#. List of open-category tags to
+  consider as possible candidates for any unknown word. 
+
+   One tag per line, each line with format: {\tt tag \#observ}.  The tag is the complete Parole label. The count is the number of occurrences in a training corpus.
+
+   E.g. {\tt NCMS000 33438}
+\end{itemize}
+
+%..................................................
+\section{Word form dictionary file}
+\label{file-dict}
+
+  Berkeley DB indexed file.
+
+  It may be created with the
+  {\tt src/utilities/indexdict} program provided with FreeLing. The source
+  file must have the lemma--PoS list for a word form at each line.\\
+
+  Each line has format: {\tt form lemma1 PoS1 lemma2 PoS2 ...}.  E.g. \\
+  \verb#casa casa NCFS000 casar VMIP3S0 casar VMM02S0#
+
+  Lines corresponding to word that are contractions may have an
+  alternative format if the contraction is to be splitted. The format
+  is  {\tt form form1+form2+... PoS1+PoS2+...}. \\
+  For instance:
+
+  \verb#del de+el SPS+DA#
+  
+  This line expresses that whenever the form {\sl del} is found, it is
+  replaced with two words:  {\sl de} and {\sl el}. Each of the new two
+  word forms are searched in the dictionary, and assigned any tag
+  matching their correspondig tag in the third field. So, {\sl de}
+  will be assigned all tags starting with {\tt SPS} that this
+  entry may have in the dictionary, and {\sl el} will get any
+  tag starting with {\tt DA}.
+  
+   If all tags for one of the new forms are to be used, a wildcard may
+   be written as a tag. E.g.:\\
+
+  \verb#pal para+el SPS+*#
+
+   This will replace {\sl pal} with two words, {\sl para} with only its
+   {\tt SPS} analysis, plus {\sl el} with all its possible tags.  
+
+  Note that a contraction cannot be splitted in two different ways, so
+  only a combination of lemmas and a combination of tags may appear
+  in the dictionary.
+
+%..................................................
+\section{Named entity recognition data file}
+\label{file-ner}
+
+  This file controls the behaviour of the simple NE recognizer. It
+  consists of the following sections:
+
+\begin{itemize}
+  \item Section \verb#<FunctionWords># lists the function words that can be
+  embeeded inside a proper noun (e.g. preposisions and articles such
+  as those in ``Banco de España'' or ``Foundation for the Eradication
+  of Poverty''). For instance:
+\begin{verbatim}
+<FunctionWords>
+el
+la
+los
+las
+de
+del
+para
+</FunctionWords>
+\end{verbatim}
+
+ \item Section \verb#<SpecialPunct># lists the PoS tags (according to
+  punctuation tags definition file, section \ref{file-punt}) after
+  which a capitalized word {\sl may} be indicating just a sentence or clause
+  beggining and not necessarily a named entity. Typical cases are
+  colon, open parenthesis, dot, hyphen..
+\begin{verbatim}
+<SpecialPunct>
+Fpa
+Fp
+Fd
+Fg
+</SpecialPunct>
+\end{verbatim}
+
+  \item Section \verb#<NE_Tag># contains only one line with the PoS tag that
+  will be assigned to the recognized entities. If the NE classifier is
+  going to be used later, it will have to be informed of this tag at
+  creation time.
+\begin{verbatim}
+<NE_Tag>
+NP00000
+</NE_Tag>
+\end{verbatim}
+
+  \item Section \verb#<Ignore># contains a list of lemmas that are no considered to be a named entity even when they appear capitalized in the middle of a sentence.  For instance, the word {\em Spanish} in the sentence {\em He started studying Spanish two years ago} is not a named entity. If the words in the list appear with other capitalized words, they are considered to form a named entity (e.g. {\em An announcement of the Spanish Bank of Commerce was issued yesterday}). The same distinction applies to the word {\em I} in the sentences {\em whatever you say, I don't believe}, and {\em That was the death of Henry I}.
+\begin{verbatim}
+<Ignore>
+i
+english
+dutch
+spanish
+</Ignore>
+\end{verbatim}
+
+  \item Sections \verb#<RE_NounAdj># \verb#<RE_Closed># and \verb#<RE_DateNumPunct># allow to modify the default regular expressions for PAROLE Part-of-Speech tags. For instance, if Penn-Treebank-like tags are used for English, we should define:
+\begin{verbatim}
+<RE_NounAdj>
+^(NN$|NNS|JJ)
+</RE_NounAdj>
+<RE_Closed>
+^(D|IN|C)
+</RE_Closed>
+\end{verbatim}
+  
+  \item Section \verb#<TitleLimit># contains only one line with an integer
+  value stating the length beyond which a sentence written {\sl
+  entirely} in uppercase will be considered a title and not a proper
+  noun. Example:
+\begin{verbatim}
+<TitleLimit>
+3
+</TitleLimit>
+\end{verbatim}
+
+  If \verb#TitleLimit=0# (the default) title detection is
+  deactivated (i.e, all-uppercase sentences are always marked as
+  named entities).
+
+  The idea of this heuristic is that newspaper titles are usually
+  written in uppercase, and tend to have at least two or three
+  words, while named entities written in this way tend to be acronyms
+  (e.g. IBM, DARPA, ...) and usually have at most one or two words.
+
+  For instance, if \verb#TitleLimit=3# the sentence 
+  {\tt FREELING ENTERS NASDAC UNDER CLOSE INTEREST OF MARKET ANALISTS}
+  will not be recognized as a named entity, and will have its words analyzed
+  independently. On the other hand, the sentence {\tt IBM INC.}, having less than
+  3 words, will be considered a proper noun.
+
+  Obviously this heuristic is not 100\% accurate, but in some cases
+  (e.g. if you are analyzing newspapers) it may be preferrable to the
+  default behaviour (which is not 100\% accurate, either).
+\end{itemize}
+
+%..................................................
+\section{Named entity classification data files}
+\label{file-nec}
+
+  The Named Entity Classification module requires three configuration
+  files, with the same path and name, with suffixes {\tt .rgf}, {\tt
+  .lex}, and {\tt .abm}.  Only the basename must be given as a
+  configuration option, suffixes are automatically added.
+
+  The {\tt .abm} file contains an AdaBoost model based on shallow
+  Decision Trees (see \cite{carreras03} for details). You don't need
+  to understand this, unless you want to enter into the code of the
+  AdaBoost classifier.
+
+  The {\tt .lex} file is a dictionary that assigns a number to each
+  symbolic feature used in the AdaBoost model. You don't need to
+  understand this either unless you are a Machine Learning hacker..
+
+  Both {\tt .abm} and {\tt .lex} files may be generated from an
+  annotated corpus using the training programs in the Omlet package,
+  a great machine-learning library, available at
+  {\tt http://www.lsi.upc.edu/\~{\ }nlp/omlet+fries}
+
+  The important file in the set is the {\tt .rgf} file. This contains
+  a definition of the context features that must be extracted for each
+  named entity.  The feature extraction language is that of
+  \cite{roth04} with some useful extensions.
+
+  If you need to know more about this (e.g. to develop a NE classifier
+  for your language) please contact FreeLing authors.
+
+
+%..................................................
+\section{Sense dictionary file}
+\label{file-sense}
+
+  Berkeley DB indexed file.
+
+  It may be created with the
+  {\tt src/utilities/indexdict} program provided with FreeLing. The source
+  file must have the sense list for one lemma--PoS per line.\\
+
+  Each line has format: {\tt type:lemma:PoS synset1 synset2 ...}.  E.g. \\
+  \verb#W:cebolla:N 05760066 08734429 08734702#
+  \verb#S:07389783:N chaval chico joven mozo muchacho niño#
+  
+  The {\em type} field may be either {\tt W} (for Word) or {\tt S}
+  (for Sense), and indicates whether the rest of the line contains
+  either a word and all its sense codes, or a sense code and all
+  its synonym words.
+
+  For {\tt W} entries, the sense code list is assumed to be ordered
+  from most to least frequent sense for that lemma--PoS by the sense
+  annotation module.  This is used when value {\tt msf} is
+  selected for the {\tt SenseAnnotation} option.
+
+  Type {\tt S} entries are used by dependency parsing rules.
+
+  Sense codes can be anything (assuming your later processes know what
+  to do with them). The provided files contain WordNet 1.6 synset
+  codes.
+
+  Currently, only the PoS tag selected by the tagger is annotated, though
+  the library is designed to support sense annotation for all possible
+  tags of each word.
+
+%..................................................
+\section{Punctuation symbol file}
+\label{file-punt}
+
+ One punctuation symbol per line. \\
+  Each line has format: {\tt punctuation-symbol tag}.  E.g. \\
+    {\tt ! Fat}\\
+    {\tt , Fc} \\
+    {\tt : Fd} \\
+
+  One special line may be included for undefined punctuation symbols
+  (any word with no alphanumeric character is considered a punctuation
+  symbol). 
+
+  This special line has the format: \verb#<Other> tag#.  E.g. \\
+    \verb#<Other> Fz#
+
+%..................................................
+\section{HMM tagger parameter file}
+\label{file-hmm}
+
+  Initial probabilities, transition
+  probabilities, lexical probabilities, etc.  The file has six
+  sections: \verb#<Tag>#, \verb#<Bigram>#, \verb#<Trigram>#, \verb#<Initial>#,
+  \verb#<Word>#, and \verb#<Smoothing>#. Each section is closed by it
+  corresponding tag \verb#</Tag>#, \verb#</Bigram>#, \verb#</Trigram>#, etc.
+
+  The tag (unigram), bigram, and trigram probabilities are used in
+  Linear Interpolation smoothing by the tagger.
+  The package includes a perl script that may be used to generate an 
+  appropriate config file from a tagged corpus. See the file 
+   {\tt src/utilities/hmm\_smooth.perl} for details.
+
+  \begin{itemize} 
+\itemsep 0.2cm
+    \item Section \verb#<Tag>#. List of unigram tag probabilities
+  (estimated via your preferred method). 
+  Each line is a tag probability {\tt P(t)} with format \\
+  {\tt Tag Probability}
+
+   Lines for zero tag (for initial states) and
+  for {\tt x} (unobserved tags) must be included.
+
+  E.g.\\
+    {\tt 0  0.03747}\\
+    {\tt AQ 0.00227}\\
+    {\tt NC 0.18894}\\
+    {\tt x  1.07312e-06}
+
+    \item Section \verb#<Bigram>#. List of bigram
+  transition probabilities (estimated via your preferred method), 
+   Each line is a transition probability, with the format:\\
+ {\tt Tag1.Tag2 Probability}
+
+  Tag zero indicates sentence-beggining.
+
+    E.g. the following line indicates the transition probability between a
+    sentence start and the tag of the first word being {\tt AQ}.\\
+    {\tt 0.AQ 0.01403}
+
+    E.g. the following line indicates the transition probability between two
+    consecutive tags.\\
+    {\tt AQ.NC 0.16963}
+
+    \item Section \verb#<Trigram>#. List of trigram
+  transition probabilities (estimated via your preferred method), 
+
+   Each line is a transition probability, with the format:\\
+ {\tt Tag1.Tag2.Tag3 Probability}.
+   Tag zero indicates sentence-beggining.
+
+    E.g. the following line indicates the transition probability that
+    after a {\tt 0.AQ} sequence, the next word has {\tt NC} tag.\\
+    {\tt 0.AQ.NC 0.204081}
+
+    E.g. the following line indicates the probability of a tag {\tt
+    SP} appearing after two words tagged {\tt DA} and {\tt NC}.\\
+    {\tt DA.NC.SP 0.33312}
+
+    \item Section \verb#<Initial>#. List of initial state probabilities
+  (estimated via your preferred method), i.e. the ``pi'' parameters of
+  the HMM. 
+
+   Each line is an initial probability, with the format {\tt
+   InitialState LogProbability}.
+
+   Each state is a PoS-bigram code with the
+   form {\tt 0.tag}. Probabilities are given in logarithmic form to avoid
+   underflows.
+
+    E.g. the following line indicates the probability that the
+    sequence starts with a determiner.\\
+    {\tt 0.DA -1.744857}
+
+    E.g. the following line indicates the probability that the
+    sequence starts with an unknown tag.\\
+    {\tt 0.x -10.462703}
+
+    \item Section \verb#<Word>#. Contains a list of word probabilities
+  {\tt P(w)}
+  (estimated via your preferred method). It is used to compute
+  observation probability toghether with the tag probabilities above.
+
+  Each line is a word probability {\tt P(w)} with format {\tt word
+  LogProbability}. A special line for \verb#<UNOBSERVED\_WORD># must be
+  included.
+
+  E.g.
+   \begin{verbatim}
+    afortunado -13.69500
+    sutil -13.57721
+    <UNOBSERVED_WORD> -13.82853
+   \end{verbatim}
+\end{itemize}
+
+%..................................................
+\section{Relaxation Labelling constraint grammar file}
+\label{file-relax}
+
+   The syntax of the file is based on that of Constraint Grammars
+   \cite{karlsson95}, but simplified in many aspects, and modified to 
+   include weighted constraints.
+
+   An initial file based on statistical constraints may be generated
+   from a tagged corpus using the {\tt src/utilities/train-relax.perl}
+   script provided with FreeLing.
+   Later, hand written constraints can be added to the file to improve
+   the tagger behaviour.
+
+   The file consists of two sections: {\tt SETS} and {\tt CONSTRAINTS}.
+
+   The {\tt SETS} section consists of a list of set definitions, each of the form
+   {\tt Set-name = element1 element2 ... elementN ; }
+    
+    Where the {\tt Set-name} is any alphanumeric string starting with a capital letter, and the elements are either forms, lemmas, plain PoS tags, or senses. Forms   are enclosed in parenthesis --e.g. \verb#(comimos)#--, lemmas in angle brackets --e.g. \verb#<comer>#--, PoS tags are alphanumeric strings starting with a capital letter --e.g. \verb#NCMS000#--, and senses are enclosed in square brackets --e.g. \verb#[00794578]#.
+   The sets must be homogeneous: That is, all the elements of a set
+   have to be of the same kind. 
+
+   Examples of set definitions:\\
+\begin{verbatim}
+   DetMasc = DA0MS0 DA0MP0 DD0MS0 DD0MP0 DI0MS0 DI0MP0 DP1MSP DP1MPP
+             DP2MSP DP2MPP DT0MS0 DT0MP0 DE0MS0 DE0MP0 AQ0MS0 AQ0MP0;
+   VerbPron = <dar_cuenta> <atrever> <arrepentir> <equivocar> <inmutar>
+              <morir> <ir> <manifestar> <precipitar> <referir> <reír> <venir>;
+   Animal = [00008019] [00862484] [00862617] [00862750] [00862871] [00863425]
+            [00863992] [00864099] [00864394] [00865075] [00865379] [00865569]
+            [00865638] [00867302] [00867448] [00867773] [00867864] [00868028]
+            [00868297] [00868486] [00868585] [00868729] [00911889] [00985200]
+            [00990770] [01420347] [01586897] [01661105] [01661246] [01664986] 
+            [01813568] [01883430] [01947400] [07400072] [07501137];
+\end{verbatim}
+
+   The {\tt CONSTRAINTS} section consists of a series of context
+   constraits, each of the form: {\tt weight core context;}
+
+    Where:
+    \begin{itemize}
+      \item {\tt weight} is a real value stating the compatibility (or
+	incompatibility if negative) degree of the {\tt label} with the
+	{\tt context}.
+      \item {\tt core} indicates the analysis or
+	analyses  (form interpretation) in a word that will 
+        be affected by the constraint. It may be:
+	\begin{itemize}
+	\item Plain tag:  A plain complete PoS tag,  e.g. {\tt VMIP3S0}
+	\item Wildcarded tag:  A PoS tag prefix, right-wilcarded, 
+              e.g. {\tt VMI*}, {\tt VMIP*}. 
+	\item Lemma: A lemma enclosed in angle brackets, optionaly
+	  preceded by a tag or a wildcarded tag.
+	  e.g.  \verb#<comer>#, \verb#VMIP3S0<comer>#,
+	  \verb#VMI*<comer># will match any
+	  word analysis with those tag/prefix and lemma.
+	\item Form: Form enclosed in parenthesis, preceded by a PoS tag (or a
+	  wilcarded tag).
+	  e.g.  {\tt VMIP3S0(comi\'o)},  {\tt VMI*(comi\'o)} will match any
+	  word analysis with those tag/prefix and form.
+          Note that the form alone {\em is not} allowed in the rule core,
+	  since the rule woull to distinguish among different analysis of
+	  the same form.
+	\item Sense: A sense code enclosed in square brackets, optionaly
+	  preceded by a tag or a wildcarded tag.
+	  e.g.  \verb#[00862617]#, \verb#NCMS000[00862617]#,
+          \verb#NC*[00862617]# will match any
+	  word analysis with those tag/prefix and sense.
+	\end{itemize}
+      \item {\tt context} is a list of conditions that the context of
+        the word must satisfy for the constraint to be applied.
+	Each condition is enclosed in parenthesis and the list (and
+        thus the constraint) is finished with a semicolon.
+	Each condition has the form: \\
+	{\tt (position terms)} \\
+	or either:\\
+	{\tt (position terms barrier terms)} 
+ 
+        Conditions may be negated using the token {\tt not},
+         i.e. {\tt (not pos terms)}
+
+	Where: 
+	\begin{itemize}
+	\item {\tt position} is the relative position where the condition
+	  must be satisfied: -1 indicates the previous word and +1 the
+	  next word. A position with a star (e.g. -2*) indicates that
+	  any word is allowed to match starting from the indicated
+	  position and advancing towards the beggining/end of the sentence.
+ 	\item {\tt terms} is a list of one or more terms separated by
+ 	the token {\tt or}. Each term may be:
+    	   \begin{itemize}
+  	     \item Plain tag:  A plain complete PoS tag,  e.g. {\tt VMIP3S0}
+	     \item Wildcarded tag:  A PoS tag prefix, right-wilcarded, 
+               e.g. {\tt VMI*}, {\tt VMIP*}. 
+	     \item Lemma: A lemma enclosed in angle brackets, optionaly
+	       preceded by a tag or a wildcarded tag.
+	       e.g.  \verb#<comer>#, \verb#VMIP3S0<comer>#,
+	       \verb#VMI*<comer># will match any
+	       word analysis with those tag/prefix and lemma.
+	     \item Form: Form enclosed in parenthesis, optionally
+	       preceded by a PoS tag (or a wilcarded tag).
+	       e.g.  {\tt (comi\'o)}, {\tt VMIP3S0(comi\'o)}, 
+               {\tt VMI*(comi\'o)} will match any
+	       word analysis with those tag/prefix and form.
+               Note that --contrarily to when defining the rule core-- 
+               the form alone {\em is} allowed in the context.
+    	     \item Sense: A sense code enclosed in square brackets, optionaly
+	       preceded by a tag or a wildcarded tag.
+	       e.g.  \verb#[00862617]#, \verb#NCMS000[00862617]#, 
+               \verb#NC*[00862617]# will match any
+	       word analysis with those tag/prefix and sense.
+    	     \item Set reference: A name of a previously defined {\em SET}
+	       in curly brackets.
+	       e.g.  \verb#{DetMasc}#, \verb#{VerbPron}#  will match any
+	       word analysis with a tag, lemma or sense in the
+	       specified set.
+	   \end{itemize}
+
+	\item {\tt barrier} states that the a match of the first term
+	list is only acceptable if between the focus word and the
+	matching word there is no match for the second term list.
+	\end{itemize}
+    \end{itemize}
+
+    Note that the use of sense information in the rules of 
+    the constraint grammar (either in the core or in the context) 
+    only makes sense when this information distinguishes one analysis
+    from another. If the sense tagging has been performed with the 
+    option \verb#DuplicateAnalysis=no#, each PoS tag will have a list
+    with all analysis, so the sense information will not distinguish
+    one analysis from the other (there will be only one analysis with
+    that sense, which will have at the same time all the other senses
+    as well). 
+    If the option \verb#DuplicateAnalysis# was active, the sense
+    tagger duplicates the analysis, creating a new entry for each
+    sense. So, when a rule selects an analysis having a certain sense,
+    it is unselecting the other copies of the same analysis with 
+    different senses.
+
+
+	Examples:\\
+	The next constraint states a high incompatibility for a word
+	being a definite determiner ({\tt DA*}) if the next word is a personal form
+	of a verb ({\tt VMI*}):\\
+        {\tt -8.143  DA*  (1 VMI*); }
+	
+        The next constraint states a very high compatibility for the
+        word {\sl mucho} (much) being an indefinite determiner ({\tt DI*}) 
+        --and thus not being a pronoun or an adverb, or any
+        other analysis it may have-- if the following word is a noun ({\tt NC*}):\\
+        {\tt 60.0 DI* (mucho) (1 NC*);}
+
+	The next constraint states a positive compatibility value for
+	a word being a noun ({\tt NC*}) if somewhere to its left
+	there is a determiner or an adjective ({\tt DA* or AQ*}), and
+	between them there is not any other noun:\\
+        {\tt 5.0 NC* (-1* DA* or AQ* barrier NC*);}
+
+	The next constraint states a positive compatibility value for
+	a word being a masculine noun ({\tt NCM*}) if the word to its
+	left is a masculine determiner. It refers to a previously
+	defined {\em SET} which should contain the list of all tags
+	that are masculine determiners. This rule could be useful to
+	correctly tag Spanish words which have two different NC
+	analysis differing in gender: e.g. {\em el cura} (the priest)
+	vs. {\em la cura} (the cure):\\
+        {\tt 5.0 NCM* (-1* {DetMasc};}
+
+	The next constraint adds some positive compatibility to a
+	3rd person personal pronoun being of undefined gender and
+	number ({\tt PP3CNA00}) if it has the possibility of being
+        masculine singular ({\tt PP3MSA00}), the next word may have
+        lemma {\sl estar} (to be), and the sencond word to the right
+	is not a gerund ({\tt VMG}). This rule is intended to solve the 
+        different behaviour of the Spanish word {\sl lo} in sentences 
+        such as {\sl si, lo estoy} or {\sl lo estoy viendo}.\\
+	{\tt 0.5 PP3CNA00   (0 PP3MSA00) (1 \verb#<estar>#) (not 2 VMG*);}
+
+%..................................................
+\section{Chart parser CFG file}
+\label{file-cfg}
+
+   This file contains a CFG grammar for the chart parser, and some
+  directives to control which chart edges are selected to build the
+  final tree.
+  Comments may be introduced in the file, starting with ``\%'', the
+  comment will finish at the end of the line.
+
+   Grammar rules have the form: {\tt x ==> y, A, B.} 
+
+   That is, the head of the rule is a non-terminal specified at the
+   left hand side of the arrow symbol. The body of the rule is a
+   sequence of terminals and nonterminals separated with commas and
+   ended with a dot.
+
+   Empty rules are not allowed, since they dramatically slow chart
+   parsers. Nevertheless, any grammar may be written without empty
+   rules (assuming you are not going to accept empty sentences).
+  
+   Rules with the same head may be or-ed using the bar symbol,
+  as in: {\tt x ==> A, y | B, C.}
+
+   The head component for the rule maybe specified prefixing it with a
+   plus (+) sign, e.g.: {\tt nounphrase ==> DT, ADJ, +N, prepphrase. }.  
+   If the head is not specified, the first symbol on
+   the right hand side is assumed to be the head.  The head marks are
+   not used in the chart parsing module, but are necessary for later
+   dependency tree building.
+
+   The grammar is case-sensitive, so make sure to write your terminals
+  (PoS tags)  exactly as they are output by the tagger. Also, make
+  sure that you capitalize your non-terminals in the same way
+  everywhere they appear.
+
+   Terminals are PoS tags, but some variations are allowed for
+   flexibility:
+   \begin{itemize}
+     \item Plain tag:  A terminal may be a plain complete PoS tag,
+     e.g. {\tt VMIP3S0}
+     \item Wildcarding:  A terminal may be a PoS tag prefix,
+     right-wilcarded, e.g. {\tt VMI*}, {\tt VMIP*}. 
+    \item Specifying lemma: A terminal may be a PoS tag (or a
+    wilcarded prefix) with a lemma enclosed in angle brackets,
+     e.g  \verb#VMIP3S0<comer>#,  \verb#VMI*<comer># will match only
+    words with those tag/prefix and lemma.
+    \item Specifying form: A terminal may be a PoS tag (or a
+    wilcarded prefix) with a form enclosed in parenthesis,
+     e.g  {\tt VMIP3S0(comió)},  {\tt VMI*(comió)} will match only
+    words with those tag/prefix and form.
+    \item  If a double-quoted file name
+    is given inside the angle (or round) brackets 
+     (e.g  \verb#VMIP3S0<"mylemmas.dat">#, \verb#VMI*<"myforms.dat">#)
+    the terminal will match any lemma (or word form) found in that file.
+    If the file name is not an absolute path, it is interpreted as a 
+    relative path based  at the location of the grammar file.
+   \end{itemize}
+
+   The grammar file may contain also some directives to help
+   the parser decide which chart edges must be selected to build the
+   tree.
+   Directive commands start with the directive name (always prefixed
+   with ``@''), followed by one or  more non-terminal symbols,
+   separated with spaces. The list must end with a dot.
+   \begin{itemize}
+     \item {\tt @NOTOP} Non-terminal symbols listed under this
+     directive will not be considered as valid tree roots, even if
+     they cover the complete sentence.
+     \item {\tt @START} Specify which is the start symbol of the
+       grammar. Exactly one non-terminal must be specified under this
+       directive. 
+       The parser will attempt to build a tree with this symbol as a
+       root. If the result of the parsing is not a complete tree, or 
+       no valid root nodes are found, a fictitious root node is
+       created  with this label.
+     \item {\tt @FLAT} Subtrees for "flat" non-terminal symbols are flattened when
+     the symbol is recursive. Only the highest occurrence appears 
+     in the final parse tree.
+     \item {\tt @HIDEN} Non-teminal symbols specified under this
+     directive will not appear in the final parse tree (their
+     descendant nodes will be attached to their parent).
+   \end{itemize}
+
+%..................................................
+\section{Dependency parser rule file}
+\label{file-dep}
+
+  This file contains a set of rules to perform dependency parsing.
+
+  The file consists of four sections:
+  sections: \verb#<GRPAR>#, \verb#<GRLAB>#, \verb#<SEMDB>#, and \verb#<VCLASS>#,
+  respectively closed by tags \verb#</GRPAR>#, \verb#</GRLAB>#, \verb#</SEMDB>#, and \verb#</VCLASS>#.
+
+\begin{itemize} 
+ \itemsep 0.2cm
+    \item Section \verb#<GRPAR># contains rules to complete the
+    partial parsing provided by the chart parser. The tree is
+    completed by combining chunk pairs as stated by the rules. Rules
+    are applied from highest priority (lower values) to lowest
+    priority (higher values), and left-to right.
+    That is, the pair of adjacent chunks matching the most prioritary
+    rule is found, and the rule is applied, joining both chunks in
+    one. The process is repeated until only one chunk is left.
+
+    The rules can be enabled/disabled via the activation of global flags.
+    Each rule may be stated to be enabled only if certain flags are on. 
+    If none of its enabling flags are on, the rule is not applied.
+    Each rule may also state which flags have to be toggled on/off after
+    its application, thus enabling/disabling other rule subsets.
+
+    Each line contains a rule, with the format:
+\begin{verbatim}
+  priority enabling_flags context (ancestor-label,descendant-label) operation MATCHING|RELABEL label ((+|-)flags)*
+\end{verbatim}
+  where:
+  \begin{itemize}
+    \item \verb#priority# is a number stating the priority of a rule
+      (the lower the number, the higher the priority).
+
+    \item\verb#enabling_flags# is a list of strings separated by vertical bars (``|'').
+      Each string is the name of a flag that will cause the rule to be enabled. 
+      If \verb#enabling_flags# equals ``-'', the rule will be always enabled.
+
+    \item \verb#context# is a context limiting the application of the
+      rule only to chunk pairs that are surrounded by the appropriate
+      context (``-'' means no limitations, and the rule is applied to
+      any matching chunk pair) (see below).
+
+    \item \verb#(ancestor-label,descendant-label)# is the adjacent pair of
+    chunks the rule will be applied to. The labels are either assigned by
+    the chunk parser, or by a RELABEL operation on some other completion rule.
+    The pair must be enclosed in parenthesis, separated by a comma, and 
+    contain NO whitespaces.
+
+    The chunk labels may be suffixed with one extra condition of the form:
+    \verb#(form)#, \verb#<lemma>#, \verb#[class]#, or \verb#{PoS_regex}#.
+
+    For instance,
+ 
+    \begin{tabular}{|l|l|}
+    The label: & Would match: \\ \hline\hline
+    \verb#np#  & any chunk labeled \verb#np# by the chunker \\ \hline
+    \verb#np(cats)# & any chunk labeled \verb#np# by the chunker \\
+                    & with a head word with form \verb#cats# \\ \hline
+    \verb#np<cat>#  & any chunk labeled \verb#np# by the chunker \\
+                    & with a head word with lemma \verb#cat# \\ \hline
+    \verb#np[animal]# & any chunk labeled \verb#np# by the chunker \\
+                      & with a head word with a lemma in \verb#animal# \\
+                      & category (see \verb#VCLASS# section below) \\ \hline
+    \verb#np{^N.M}# & any chunk labeled \verb#np# by the chunker \\
+                    & with a head word with a PoS tag matching \\
+                    & the \verb#^N.M# regular expression\\ \hline
+    \end{tabular}
+
+    \item \verb#operation# is the way in which \verb#ancestor-label#
+    and \verb#descendant-label# nodes are to be combined (see below).
+    \verb#top_left# and \verb#top_right# operations must be followed 
+    by the literal \verb#RELABEL#. Other operations must be followed
+    by the literal \verb#MATCHING#.
+
+    \item The field \verb#label# has two meanings, depending on the
+      \verb#operation# field value.  For \verb#top_left# and
+      \verb#top_right# operations, it states the label with with the
+      root node of the resulting tree must be relabelled (``-'' means
+      no relabelling).  For \verb#last_left#, \verb#last_right# and
+      \verb#cover_last_left# operations, it states the label that the
+      node to be considered ``last'' must have in order to get the
+      subtree as a new child. This label may carry the same modifying
+      suffixes than the chunk labels. If no node with this label is
+      found in the tree, the rule is not applied.
+
+   \item After the \verb#label# field, a list of flags to be toggled on/off
+      may follow. The list may be empty (meaning the rule doesn't change
+      the status of any flag).  
+        If a flag name is preceded by a ``+'', it will be toggled on. If the 
+       leading symbol is a ``-'', it will be toggled off.
+
+  \end{itemize}
+
+  For instance, the rule:
+\begin{verbatim}
+  20 - - (np,pp<of>) top_left RELABEL -
+\end{verbatim}
+
+  states that if two subtrees labelled \verb#np# and \verb#pp# are
+  found contiguous in the partial tree, and the second head word has
+  lemma \verb#of#, then the later is added as a new child of the
+  former, whatever the context is, without need of any special flag active, 
+  and performing no relabelling of the new tree root.
+
+   The supported tree-building operations are the following:
+  \begin{itemize}
+   \item \verb#top_left#: The right subtree is added as a daughter of
+     the left subtree. The root of the new tree is the root of the
+     left subtree. If a \verb#label# value other than ``-'' is
+     specified, the root is relabelled with that string.
+   \item \verb#last_left#: The right subtree is added as a daughter of
+     the last node inside the left subtree matching \verb#label# value
+     (or to the root if none is found). The root of the new tree is
+     the root of the left subtree.
+   \item \verb#top_right#: The left subtree is added as a new daughter
+     of the right subtree. The root of the new tree is the root of the
+     right subtree. If a \verb#label# value other than ``-'' is
+     specified, the root is relabelled with that string.
+   \item \verb#last_right#: The left subtree is added as a daughter of
+     the last node inside the right subtree matching \verb#label#
+     value (or to the root if none is found). The root of the new tree
+     is the root of the right subtree.
+   \item \verb#cover_last_left#: The left subtree ($s$) takes the
+     position of the last node ($x$) inside the right subtree matching
+     \verb#label# value. The node $x$ is hanged as new child of $s$.
+     The root of the new tree is the root of the right subtree.
+  \end{itemize}
+
+  The context may be specified as a sequence of chunk labels,
+  separated by underscores ``\_''
+   One of the chunk labels must be \verb#$$#, and refers to the pair of chunks
+  which the rule is being applied to.
+
+  For instance, the rule:
+\begin{verbatim}
+   20 - $$_vp (np,pp<of>) top_left RELABEL -
+\end{verbatim}
+
+  would add the left \verb#pp<of># under the right \verb#np# only if
+  the chunk immediate to the right of the pair is labeled \verb#vp#.
+
+  Other admitted labels in the context are: \verb#?# (matching exactly
+  one chunk, with any label), \verb#*# (matching zero or more chunks
+  with any label), and \verb#OUT# (matching a sentence boundary).
+
+  For instance the context \verb#np_$$_*_vp_?_OUT# would match a
+  sentence in which the focus pair of chunks is immediately after an
+  \verb#np#, and the second-to-last chunk is labeled \verb#vp#.
+
+  Context conditions can be globally negated preceding them with an exclamation
+  mark (\verb#!#). E.g. \verb#!np_$$_*_vp# would cause the rule to be applied only
+  if that particular context is {\em not satisfied}.
+
+  Context condition components may also be individually negated
+  preceding them with the symbol \verb#~#. E.g. the rule
+  \verb#np_$$_~vp# would be satisfied if the preceding chunk is
+  labeled \verb#np# and the following chunk has any label but
+  \verb#vp#.
+
+  Enabling flags may be used at the grammarian's will. 
+  For instance, the rule:
+\begin{verbatim}
+   20 INIT|PHASE1 $$_vp (np,pp<of>) last_left MATCHING npms[animal] +PHASE2 -INIT -PHASE1
+\end{verbatim}
+
+   Will be applied if either \verb#INIT# or \verb#PHASE1# flags are
+   on, the chunk pair is a \verb#np# followed by a \verb#pp# with head
+   lemma \verb#of#, and the context (one \verb#vp# chunk following the
+   pair) is met. Then, the deepest rightmost node matching the label
+   \verb#npms[animal]# will be sought in the left chunk, and the right
+   chunk will be linked as one of its children. If no such node is found,
+   the rule will not be applied. 
+   
+    After applying the rule, the flag \verb#PHASE2# will be toggled
+    on, and the flags \verb#INIT# and \verb#PHASE1# will be toggled
+    off.
+
+    The only predefined flag is \verb#INIT#, which is toggled on when
+    the parsing starts.  The grammarian can define any alphanumerical
+    string as a flag, simply toggling it on in some rule.
+
+
+\item Section \verb#<GRLAB># contains rules to label the
+  dependences extracted from the full parse tree build with the
+  rules in previous section:
+  
+  Each line contains a rule, with the format:
+\begin{verbatim}
+  ancestor-label dependence-label condition1 condition2 ...
+\end{verbatim}
+
+  where:
+  \begin{itemize}
+    \item  \verb#ancestor-label# is the label of the node which is
+    head of the dependence.
+    \item \verb#dependence-label# is the label to be assigned to the dependence
+    \item \verb#condition# is a list of conditions that the dependence
+    has to match to satisfy the rule.
+  \end{itemize}
+
+   Each \verb#condition# has one of the forms:
+\begin{verbatim}
+  node.attribute = value
+  node.attribute != value
+\end{verbatim}
+
+   Where {\tt node} is a string describing a node on which the {\tt attribute} has to be checked.
+
+   The {\tt node} expresses a path to locate the node to be checked. The path must start with \verb#p# (parent node) or \verb#d# (descendant node), and may be followed by a colon-separated list of labels. For instance \verb#p:sn:n# refers to the first node labeled \verb#n# found under a node labeled \verb#sn# which is under the dependency parent \verb#p#. 
+ 
+   Possible {\tt attribute} to be used:
+  \begin{itemize}
+    \item \verb#label#: chunk label (or PoS tag) of the node.
+    \item \verb#side#: (left or right) position of the specified node with respect to the other.
+    \item \verb#lemma#: lemma of dathe node head word.
+    \item \verb#class#: word class (see below) of lemma of the node head word.
+    \item \verb#tonto#: EWN Top Ontology properties of the node head word.
+    \item \verb#semfile#: WN semantic file of the node head word.
+    \item \verb#synon#: Synonym lemmas of the node head word (according to WN).
+    \item \verb#asynon#: Synonym lemmas of the node head word ancestors (according to WN).
+  \end{itemize}
+
+  Note that since no disambiguation is requiered, the attributes dealing with semantic properties will be satisfied if any of the word senses matches the condition.
+
+   For instance, the rule:
+\begin{verbatim}
+verb-phr    subj    d.label=np*      d.side=left
+\end{verbatim}
+  states that if a \verb#verb-phr# node has a daughter to its left, with a label
+  starting by \verb#np#, this dependence is to be labeled as \verb#subj#.
+ 
+   Similarly, the rule:
+\begin{verbatim}
+verb-phr    obj    d.label=np*  d:sn.tonto=Edible  p.lemma=eat
+\end{verbatim}
+  states that if a \verb#verb-phr# node has {\tt eat} as lemma, and a
+  descendant with a label starting by \verb#np# and with a daughter
+  labeled \verb#sn# that has {\tt Edible} property in EWN Top
+  ontology, this dependence is to be labeled as \verb#obj#.
+ 
+   \item Section \verb#<SEMDB># is only necessary if the dependency labeling rules in section \verb#<GRLAB># use conditions on semantic values (that is, any of \verb#tonto#, \verb#semfile#, \verb#synon#, or \verb#asynon#).
+  The section must contain two lines specifying two semantic information files, a {\tt SenseFile} and a {\tt WNFile}. The filenames may be absolute or relative to the location of the dependency rules file.
+\begin{verbatim}
+<SEMDB>
+SenseFile ../senses16.db
+WNFile    ../../common/wn16.db
+</SEMDB>
+\end{verbatim}
+
+   The {\em SenseFile} must be a BerkeleyDB indexed file as described in the \ref{senses-file} section.
+   The {\em WNFile} must be a BerkeleyDB indexed file, obtained with the same procedure from a source plain text file. This file must contain a sense per line, with the following format:
+\begin{verbatim}
+synset:PoS  hypern:hypern:...:hypern  semfile  TopOnto:TopOnto:...:TopOnto
+\end{verbatim}
+
+ That is: the first field is the synset code plus its PoS, separated by a colon. The second field is a colon-separated list of its hypernym synsets. The third field is the WN semantic file the synset belongs to, and the last field is a colon-separated list of EuroWN TopOntology codes valid for the synset.
+
+
+   \item Section \verb#<CLASS># contains class definitions which may
+   be used as attributes in the dependency labelling rules.
+
+   Each line contains a class assignation for a lemma, with two possible formats:
+\begin{verbatim}
+  class-name  lemma   comments
+  class-name  "filename"   comments
+\end{verbatim}
+
+   For instance, the following lines assign to the class \verb#mov#
+   the four listed verbs, and to the class \verb#animal# all lemmas
+   found in \verb#animals.dat# file.  In the later case, if the file
+   name is not an absolute path, it is interpreted as a relative path
+   based at the location of the rule file.
+
+    Anything to the right of the second field is considered a comment and ignored.
+\begin{verbatim}
+mov     go      prep= to,towards
+mov     come    prep= from
+mov     walk    prep= through
+mov     run     prep= to,towards   D.O.
+
+animal "animals.dat"
+\end{verbatim}
+
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Using the library from your own application}
+
+ The library may be used to develop your own NLP application (e.g. a
+ machine translation system, or an intelligent indexation module for a
+ search engine).
+
+  To achieve this goal you have to link your application to the
+ library, and access it via the provided API.  Currently, the library
+ provides only C++ API.
+
+ \section{Basic Classes}
+
+ This section briefs the basic C++ classes any application needs to
+know. For detailed API definition, consult the technical documentation
+in {\tt doc/html} and {\tt doc/latex} directories.
+
+\subsection{Linguistic Data Classes}
+
+  The different processing modules work on objects containing
+  linguistic data (such as a word, a PoS tag, a sentence...).
+   Your application must be aware of those classes in order to
+  be able to provide to each processing module the right data,
+  and to correctly interpret the module results.
+
+   The linguistic classes are:
+\begin{itemize}
+\itemsep 0cm
+\item {\tt analysis}: A tuple  \verb#<lemma, PoS tag, probability, sense list>#
+\item {\tt word}:     A word form with a list of possible analysis.
+\item {\tt sentence}: A list of words known to be a complete
+  sentence. A sentence may have associated a {\tt parse\_tree} object.
+\item {\tt parse\_tree}: An {\it n}-ary tree where each node contains
+  either a non-terminal label, or --if the node is a leaf-- a pointer
+  to the appropriate {\tt word} object in the sentence the tree
+  belongs to.
+\item {\tt dep\_tree}: An {\it n}-ary tree where each node contains a 
+  reference to a node in a {\tt parse\_tree}. The structure of the {\tt dep\_tree}
+  establishes syntactyc dependency relationships between sentence constituents.
+\end{itemize}
+
+\subsection{Processing modules}
+
+  The main processing classes in the library are:
+\begin{itemize}
+\itemsep 0cm
+\item {\tt tokenizer}: Receives plain text and returns a list of {\tt word} objects.
+\item {\tt splitter}: Receives a list of {\tt word} objects and
+  returns a list of {\tt sentence} objects.
+\item {\tt maco}: Receives a list of {\tt sentence} objects and
+  morphologically annotates each {\tt word} object in the given
+  sentences. Includes specific submodules (e.g, detectiion of date,
+  number, multiwords, etc.) which can be activated at will.
+\item {\tt tagger}: Receives a list of {\tt sentence} objects and
+  disambiguates the PoS of each {\tt word} object in the given
+  sentences.
+\item {\tt parser}: Receives a list of {\tt sentence} objects and
+  associates to each of them a {\tt parse\_tree} object.
+\item {\tt dependency}: Receives a list of parsed {\tt sentence}
+ objects associates to each of them a {\tt dep\_tree} object.
+\end{itemize}
+
+  You may create as many instances of each as you need. 
+  Constructors for each of them receive the appropriate options
+  (e.g. the name of a dictionary, hmm, or grammar file), so you can 
+  create each instance with the required capabilities (for instance,
+  a tagger for English and another for Spanish).
+
+
+\section{Sample program}
+
+ A very simple sample program using the library is depicted below. It
+ reads text from stdin, morphologically analyzes it, and processes 
+ the obtained results. Depending on the application, the input text
+ could be obtained from a speech recongnition system, or from a 
+ XML parser, or from any source suiting the application goals.
+
+{\footnotesize
+\begin{verbatim}
+int main() {
+  string text;
+  list<word> lw;
+  list<sentence> ls;
+  
+  // create analyzers
+  tokenizer tk("myTokenizerFile.dat"); 
+  splitter sp(false,0);
+  
+  // morphological analysis has a lot of options, and for simplicity they are packed up
+  // in a maco_options object. First, create the maco_options object with default values.
+  maco_options opt("es");
+  
+  // set required options  
+  opt.noQuantitiesDetection = true;  // deactivate quantities submodule
+  
+  // Data files for morphological submodules. Note that it is not necessary
+  // to set opt.CurrencyFile, since quantities module was deactivated.
+  opt.LocutionsFile="myMultiwordsFile.dat";       opt.SuffixFile="mySuffixesFile.dat";
+  opt.ProbabilityFile="myProbabilitiesFile.dat";  opt.DictionaryFile="myDictionaryFile.dat";
+  opt.NPdataFile="myNPdatafile.dat";              opt.PunctuationFile="myPunctuationFile.dat"; 
+  
+  // create the analyzer with the given set of maco_options
+  maco morfo(opt);    
+  
+  // create a hmm tagger
+  hmm_tagger tagger("es", "myTaggerFile.dat"); 
+  
+  // get plain text input lines while not EOF.
+  while (getline(cin,text)) {
+    
+    // clear temporary lists;
+    lw.clear(); ls.clear();
+    
+    // tokenize input line into a list of words
+    lw=tk.tokenize(text);
+    
+    // accumulate list of words in splitter buffer, returning a list of sentences.
+    // The resulting list of sentences may be empty if the splitter has still not 
+    // enough evidence to decide that a complete sentence has been found. The list
+    // may contain more than one sentence (since a single input line may consist 
+    // of several complete sentences).
+    ls=sp.split(lw, false);
+    
+    // analyze all words in all sentences of the list, enriching them with lemma and PoS 
+    // information. Some of the words may be glued in one (e.g. dates, multiwords, etc.)
+    morfo.analyze(ls);
+    
+    // disambiguate words in each sentence of given sentence list.
+    tagger.analyze(ls);
+    
+    // Process the enriched/disambiguated objects in the list of sentences
+    ProcessResults(ls);
+  }
+  
+  // No more lines to read. Make sure the splitter doesn't retain anything  
+  ls=sp.split(lw, true);  
+  
+  // morphologically enrich and disambiguate last sentence(s)
+  morfo.analyze(ls);
+  tagger.analyze(ls);
+  
+  // process last sentence(s)   
+  ProcessResults(ls);
+}
+\end{verbatim}
+}
+
+ The processing performed on the obtained results would obviously
+ depend on the goal of the application (translation, indexation,
+ etc.). In order to illustrate the structure of the linguistic data
+ objects, a simple procedure is presented below, in which the processing
+ consists of merely printing the results to stdout in XML format.
+
+{\footnotesize
+\begin{verbatim}
+
+void ProcessResults(const list<sentence> &ls) {
+  
+  list<sentence>::const_iterator s;
+  word::const_iterator a;   //iterator over all analysis of a word
+  sentence::const_iterator w;
+  
+  // for each sentence in list
+  for (s=ls.begin(); s!=ls.end(); s++) {
+    
+    // print sentence XML tag
+    cout<<"<SENT>"<<endl;
+      
+    // for each word in sentence
+    for (w=s->begin(); w!=s->end(); w++) {
+      
+      // print word form, with PoS and lemma chosen by the tagger
+      cout<<"  <WORD form=\""<<w->get_form();
+      cout<<"\" lemma=\""<<w->get_lemma();
+      cout<<"\" pos=\""<<w->get_parole();
+      cout<<"\">"<<endl;
+      
+      // for each possible analysis in word, output lemma, parole and probability
+      for (a=w->analysis_begin(); a!=w->analysis_end(); ++a) {
+	
+        // print analysis info
+        cout<<"    <ANALYSIS lemma=\""<<a->get_lemma();
+        cout<<"\" pos=\""<<a->get_parole();
+        cout<<"\" prob=\""<<a->get_prob();
+        cout<<"\"/>"<<endl;
+      }
+      
+      // close word XML tag after list of analysis
+      cout<<"</WORD>"<<endl;
+    }
+    
+    // close sentence XML tag
+    cout<<"</SENT>"<<endl;
+  }
+}  
+\end{verbatim}
+}
+
+ The above sample program may be found in  file {\sl FreeLing-build-dir}{\tt /src/main/sample.cc}
+
+ Once you have compiled and installed FreeLing, you can build this
+ sample program (or any other you may want to write) with the command:\\
+ {\tt g++ -o sample sample.cc -lmorfo -ldb\_cxx -lpcre -lomlet -fries}
+
+ Option {\tt -lmorfo} links with libmorfo library, which is the final result of the
+ FreeLing compilation process.  The oher options refer to above
+ mentioned libraries required by FreeLing.
+  You may have to add some  {\tt -I} and/or  {\tt -L} options to the
+ compilation command depending on where the headers and code of
+ required libraries are located. For instance, if you installed some
+ of the libraries in {\tt /usr/local/mylib} instead of the default 
+place {\tt /usr/local}, you'll have to add the options \\
+ {\tt -I/usr/local/mylib/include -L/usr/local/mylib/lib} \\
+to the command above.
+
+ More clues on how to use the freeling library from your own program
+ may be obtained by looking at the source code of the main program
+ provided in the package. The program is quite simple and commented,
+ so it should be easy to understand what it does. The source can be
+ found in file {\sl FreeLing-build-dir}{\tt /src/main/analyzer.cc}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+\chapter{Extending the library with analizers for new languages}
+\label{c-adding-lang}
+ 
+  It is possible to extend the library with capability to deal with a
+  new language. In some cases, this may be done without reprogramming,
+  but for accurate results, some modules would require entering into
+  the code.
+
+  Since the text input language is an configuration option of the
+  system, a new configuration file must be created for the language to
+  be added (e.g. copying and modifying an existing one, such as the example
+  presented in section~\ref{ss-config}). 
+
+  \section{Tokenizer}
+  The first module in the processing chain is the tokenizer. As
+  described in section~\ref{ss-options}, the behaviour of the
+  tokenizer is controlled via the TokenizerFile option in
+  configuration file. 
+
+  To create a tokenizer for a new language, just create a new
+  tokenization rules file (e.g. copying an existing one and adapting 
+  its regexps to particularities of your language), and set 
+  it as the value for the TokenizerFile option in your new 
+  configuration file.
+
+  \section{Morphological analyzer}
+
+   The morphological analyzer module consists of several sub-modules
+   that may require language customization. See
+   section~\ref{ss-options} for details on data file formats for each
+   option.
+
+   \subsection{Multiword detection} 
+    The LocutionsFile option in
+    configuration file must be set to the name of a file that contains
+    the multiwords you want to detect in your language. 
+
+   \subsection{Nummerical expression detection} 
+    If no specialized module is defined to detect nummerical
+    expressions, the default behaviour is to recognize only numbers
+    and codes written in digits (or mixing digits and non-digit
+    characters).
+  
+    If you want to recognize language dependent expressions (such as
+    numbers expressed in words --e.g. ``one hundred thirthy-six''),
+    you have to program a {\em numbers\_mylanguage} class derived from
+    abstract class {\em numbers\_module}.  Those classes are finite
+    automata that recognize word sequences. An abstract class {\em
+    automat} controls the sequence advance, so your derived class has
+    little work to do apart from defining states and transitions for
+    the automaton.
+
+    A good idea to start with this issue is having a look at the 
+    {\em numbers\_es}, {\em numbers\_en}, and {\em numbers\_ca} classes.
+    State/transition diagrams of those automata can be found in the
+    directory {\tt doc/diagrams}.
+ 
+   \subsection{Date/time expression detection} 
+    If no specialized module is defined to detect date/time
+    expressions, the default behaviour is to recognize only simple
+    date expressions (such as DD/MM/YYYY).
+  
+    If you want to recognize language dependent expressions (such as
+    complex time expressions --e.g. ``wednesday, July 12th at half
+    past nine''), you have to program a {\em date\_mylanguage} class
+    derived from abstract class {\em dates\_module}.  Those classes
+    are finite automata that recognize word sequences. An abstract
+    class {\em automat} controls the sequence advance, so your derived
+    class has little work to do apart from defining states and
+    transitions for the automaton.
+
+    A good idea to start with this issue is having a look at the 
+    {\em dates\_es}, {\em dates\_en}, and {\em dates\_ca} classes.
+    State/transition diagrams of those automata can be found in the
+    directory {\tt doc/diagrams}.
+
+   \subsection{Currency/ratio expression detection} If no specialized
+    module is defined to detect date/time expressions, the default
+    behaviour is to recognize only simple percentage expressions (such
+    as ``23\%'').
+  
+    If you want to recognize language dependent expressions (such as
+    complex ratio expressions --e.g. ``three out of four''-- or
+    currency expression --e.g. ``2,000 australian dollar''), you have
+    to program a {\em quantities\_mylanguage} class derived from
+    abstract class {\em quantities\_module}.  Those classes are finite
+    automata that recognize word sequences. An abstract class {\em
+    automat} controls the sequence advance, so your derived class has
+    little work to do apart from defining states and transitions for
+    the automaton.
+
+    A good idea to start with this issue is having a look at the {\em
+    quantities\_es} and {\em quantities\_ca}
+    classes.  
+
+    In the case your language is a roman language (or at least, has a
+    similar structure for currency expressions) you can easily develop
+    your currency expression detector by copying the {\em quantities\_es}
+    class, and modifying the CurrencyFile option to provide a file in
+    which lexical items are adapted to your language.
+    For instance: Catalan currency recognizer uses a copy of the 
+    {\em quantities\_es} class, but a different CurrencyFile, since
+    the syntactical structure for currency expression is the same in
+    both languages, but lexical forms are different.
+
+    If your language has a very different structure for those
+    expressions, you may require a different format for the 
+    CurrencyFile contents. Since that file will be used only 
+    for your language, feel free to readjust its format.
+
+   \subsection{Dictionary search} 
+    The lexical forms for each language are sought in a Berkeley
+    Database. You only have to specify in which file it is found
+    with the DictionaryFile option.
+
+    The dictionary file can be build with the {\tt indexdict} program
+    you'll find in the binaries directory of FreeLing. This program
+    reads data from stdin and indexes them into a DB file with the
+    name given as a parameter.
+   
+    The input data is expected to contain one word form per line, each line
+    with the format: \\
+    {\tt form lemma1 tag1 lemma2 tag2 ...}\\
+    E.g.\\
+    {\tt abalanzaría abalanzar VMIC1S0 abalanzar VMIC3S0\\
+    bajo bajar VMIP1S0 bajo AQ0MS0 bajo NCMS000 bajo SPS00\\
+    efusivas efusivo AQ0FP0}
+
+   \subsection{Suffixed forms search} 
+    Forms not found in dictionary may be submitted to a suffix
+    analysis to devise whether they are derived forms. The valid
+    suffixes and their application contexts are defined in the 
+    suffix rule file referred by SuffixFile configuration option. 
+    See section~\ref{file-suf} for details on suffixation rules
+    format.
+   
+     If your language has ortographic accentuation (such as Spanish,
+    Catalan, and many other roman languages), the suffixation rules
+    may have to deal with accent restoration when rebuilding the
+    original roots. To do this, you have to to program a {\em
+    accents\_mylanguage} class derived from abstract class {\em
+    accents\_module}, which provides the service of restoring
+    (according to the accentuation rules in your languages)
+    accentuation in a root obtained after removing a given suffix.
+
+    A good idea to start with this issue is having a look at the 
+    {\em accents\_es} class.
+
+   \subsection{Probability assignment} 
+
+     The module in charge of assigning lexical probabilities to each
+    word analysis only requires a data file, referenced by the 
+    ProbabilityFile configuration option. See section~\ref{file-prob}
+    for format details.
+
+  \section{HMM PoS Tagger}
+
+   The HMM PoS tagger only requires an appropriate HMM parameters file, 
+   given by the TaggerHMMFile option. See section~\ref{file-hmm}
+   for format details.
+ 
+  To build a HMM tagger for a new language, you will need corpus 
+   (preferably tagged), and you will have to write some probability 
+   estimation scripts (e.g. you may use MLE with a simple add-one 
+   smoothing).
+
+   Nevertheless, the easiest way (if you have a tagged corpus) is
+   using the estimation and smoothing script {\tt
+   src/utilities/hmm\_smooth.perl} provided in FreeLing package.
+
+  \section{Relaxation Labelling PoS Tagger}
+
+   The Relaxation Labelling PoS tagger only requires an appropriate
+   pseudo- constraint grammar file,  given by the RelaxTaggerFile
+   option. See section~\ref{file-relax} for format details.
+
+   To build a Relax tagger for a new language, you will need corpus (preferably
+   tagged), and you will have to write some compatibility estimation
+   scripts. You can also write from scratch a knowledge-based constraint grammar.
+
+   Nevertheless, the easiest way (if you have an annotated corpus) is
+   using the estimation and smoothing script {\tt
+   src/utilities/train-relax.perl} provided in FreeLing package.  
+
+   The produced constraint grammar files contain only simple bigram
+   constraints, but the model may be improved by hand coding more
+   complex context constraint, as can be seen in the Spanish data file
+   in {\tt share/FreeLing/es/constr\_grammar.dat}
+
+  \section{Sense annotation}
+\label{senses-file}
+  The sense annotation module uses a BerkeleyDB indexed file. This file may also be used by the dependency labeling module  (see section \ref{file-dep}).
+ 
+  It may be created for a new language (or or form a new knowledge source) with the
+  {\tt src/utilities/indexdict} program provided with FreeLing. 
+
+  The source file must have the sense list for one lemma--PoS at each line.\\
+
+  Each line has format: {\tt W:lemma:PoS synset1 synset2 ...}.  E.g. \\
+  \verb#W:cebolla:N 05760066 08734429 08734702#
+
+  The first sense code in the list is assumed to be the most frequent
+  sense for that lemma--PoS by the sense annotation module.
+  This only takes effect when value {\tt msf} is selected for the {\tt SenseAnnotation} option. 
+
+  The file may also contain the same information indexed by synset (that is, the list of synonyms for a given synset). This is needed if you are using the \verb#synon# function in your dependency rules (see section \ref{file-dep}), or if you want to access that information for your own purposes.
+  The lines with this information have the format:
+
+  Each line has format: {\tt S:synset:PoS lemma1 lemma2 ...}.  E.g. \\
+   \verb#S:07389783:N chaval chico joven mozo muchacho niño#
+
+  To create a sense file for a new language, just list the sense codes
+  for each lemma-PoS combination in a text file
+  (e.g. \verb#sensefile.txt#), with lines in the format described above, and
+  then issue:\\
+  \verb#indexdict sense.db < sensefile.txt#
+
+   This will produce an indexed file {\tt sense.db} which is to be
+   given to the analyzer via the {\tt SenseFile} option in
+   configuration file, or via the {\tt --fsense} option at command line.
+   It can also be referred to in the entry {\tt WNFile} of the \verb#<SEMDB># section of a file of dependency labeling rules (section \ref{file-dep}).
+
+  \section{Chart Parser}
+
+   The parser only requires a grammar which is consistent with the
+   tagset used in the morphological and tagging steps.
+   The grammar file must be specified in the GrammarFile option
+   (or passed to the parser constructor). See section~\ref{file-cfg}
+   for format details.
+
+  \section{Dependency Parser}
+
+   The depencency parser only requires a set of rules which is consistent with the
+   PoS tagset and the non-terminal categories generated by the Chart
+   Parser grammar.
+   The grammar file must be specified in the DepRulesFile option
+   (or passed to the parser constructor). See section~\ref{file-dep}
+   for format details.
+
+\bibliographystyle{alpha}
+\bibliography{biblio} 
+
+\end{document}
+
