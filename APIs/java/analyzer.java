@@ -26,7 +26,7 @@ public class analyzer {
 	hmm_tagger tg = new hmm_tagger("es",DATA+"es/tagger.dat",true,2);
         chart_parser parser = new chart_parser(DATA+"es/grammar-dep.dat");
         dependencyMaker dep = new dependencyMaker(DATA+"es/dep/dependences.dat", parser.get_start_symbol());
-
+        senses sen = new senses(DATA+"es/senses16.db",false);
 
 	BufferedReader input = new BufferedReader(new InputStreamReader(System.in, "iso-8859-15"));
 	// BufferedReader input = new BufferedReader(new InputStreamReader(System.in,"utf-8"));
@@ -37,6 +37,8 @@ public class analyzer {
 	    ListSentence ls = sp.split(l,false);  // split sentences
 	    ls=mf.analyze(ls);                       // morphological analysis
 	    ls=tg.analyze(ls);                       // PoS tagging
+
+            sen.analyze(ls);
             printResults(ls,"tagged");
 
 	    // Chunk parser
@@ -52,6 +54,17 @@ public class analyzer {
 
     } // main
 
+
+    static void print_senses(word w) {
+	
+	ListString ss = w.get_senses();
+	if (ss.size()>0) {
+	    System.out.print(" "+ss.get(0));
+	    for (int k=1; k<ss.size(); k++) {
+		System.out.print(":"+ss.get(k));
+	    }
+	}
+    }
 
     static void printResults(ListSentence ls, String format) {
 
@@ -76,7 +89,9 @@ public class analyzer {
 		sentence s=ls.get(i);
 		for (int j=0; j<s.size(); j++) {
 		    word w=s.get(j);
-		    System.out.println(w.get_form()+" "+w.get_lemma()+" "+w.get_parole());
+		    System.out.print(w.get_form()+" "+w.get_lemma()+" "+w.get_parole());
+                    print_senses(w);
+		    System.out.println();
 		}
 		System.out.println();
 	    }
@@ -99,7 +114,9 @@ public class analyzer {
 	    // it's a leaf
 	    if (tr.get_info().is_head()) System.out.print("+");
 	    w = tr.get_info().get_word();
-	    System.out.println("(" + w.get_form() + " " + w.get_lemma() + " " + w.get_parole() + ")" );
+	    System.out.print("("+w.get_form()+" "+w.get_lemma()+" "+w.get_parole());
+	    print_senses(w);
+	    System.out.println(")");
 	}
 	else {
             // not a leaf
@@ -130,7 +147,9 @@ public class analyzer {
 	
 	System.out.print(tr.get_info().get_link_ref().get_info().get_label() + "/" + tr.get_info().get_label() + "/");
 	word w = tr.get_info().get_word();
-	System.out.print("(" + w.get_form() + " " + w.get_lemma() + " " + w.get_parole() + ")" );
+	System.out.print("(" + w.get_form() + " " + w.get_lemma() + " " + w.get_parole());
+	print_senses(w);
+	System.out.print(")");
 	
 	nch = tr.num_children();
 	if (nch>0) {
