@@ -1,0 +1,41 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Verbs transitius %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+<CLASS>
+trans  abrir
+trans  adquirir
+trans  alcanzar
+trans  analizar
+trans  anunciar
+trans  añadir
+trans  buscar
+trans  calificar
+trans  cambiar
+trans  celebrar
+trans  comer
+trans  comprar
+trans  convocar
+trans  costar
+trans  crear
+trans  cumplir
+trans  decir
+trans  dedicar
+trans  defender
+trans  descubrir
+trans  detectar
+trans  durar
+trans  empezar
+trans  entender
+trans  escribir
+trans  estudiar
+trans  evitar
+trans  examinar
+trans  financiar
+trans  leer
+trans  recibir
+trans  reconocer
+trans  renovar
+trans  resolver
+trans  saber
+trans  vender
+</CLASS>
