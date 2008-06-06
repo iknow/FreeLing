@@ -99414,7 +99414,7 @@ thinned VBD-VBN VBD 0 VBN 2
 third JJ-NN JJ 422 LS 2 NN 9 NNP 2 RB 2
 third-quarter JJ-NN JJ 256 NN 76
 thirtysomething JJ-NN JJ 1 NN 2 NNP 1
-this DT-PRP-RB DT 2848 NN 1 NNP 3 PRP 0 RB 1
+this DT-PRP-RB DT 2848 PRP 50 RB 0
 thoroughbred JJ-NN JJ 4 NN 1
 those DT-PRP DT 710 PRP 0
 though IN-RB IN 194 NNP 14 RB 64
