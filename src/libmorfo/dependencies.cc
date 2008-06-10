@@ -959,6 +959,8 @@ list<sentence>::iterator s;
     parse_tree ntr = comp.complete(buff,start);
     s->set_parse_tree(ntr);
 
+    // PrintTree(ntr.begin(),0); // debugging
+
     // We need to keep the original parse tree as we are storing iterators!!
     dep_tree* deps = dependencies(s->get_parse_tree().begin(),s->get_parse_tree().begin());
     // Set labels on the dependencies
@@ -1008,7 +1010,7 @@ dep_tree * dependencyMaker::dependencies(parse_tree::iterator tr, parse_tree::it
     // locate head child
     parse_tree::sibling_iterator head;
     parse_tree::sibling_iterator k;
-    for (k=tr->sibling_begin(); !k->info.is_head() && k!=tr->sibling_end(); ++k);
+    for (k=tr->sibling_begin(); k!=tr->sibling_end() && !k->info.is_head(); ++k);
     if (k==tr->sibling_end()) {
       WARNING("NO HEAD Found!!! Check your chunking grammar and your dependency-building rules.");
       k=tr->sibling_begin();
