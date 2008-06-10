@@ -32,3 +32,13 @@ NP
 <TitleLimit>
 0
 </TitleLimit>
+<Ignore>
+i
+english
+spanish
+dutch
+german
+french
+basque
+catalan
+</Ignore>

@@ -1504,6 +1504,20 @@ spanish
 </Ignore>
 \end{verbatim}
 
+  \item Section \verb#<Names># contains a list of lemmas that may be names, even if they conflict with some of the heuristic criteria used by the NE recognizer. This is useful when they appear capitalized at sentence beggining. For instance, the basque name {\em Miren} (Mary) or the nickname {\em Pelé} may appear at the beggining of a Spanish sentence. Since both of them are verbal forms in Spanish, they would not be considered candidates to form named entities. 
+ 
+   Including the form in the \verb#<Names># section, causes the NE choice to be added to the possible tags of the form, giving the tagger the chance to decide whether it is actually a verb or a proper noun.
+\begin{verbatim}
+<Names>
+miren
+pelé
+zapatero
+china
+</Names>
+\end{verbatim}
+
+
+
   \item Sections \verb#<RE_NounAdj># \verb#<RE_Closed># and \verb#<RE_DateNumPunct># allow to modify the default regular expressions for PAROLE Part-of-Speech tags. For instance, if Penn-Treebank-like tags are used for English, we should define:
 \begin{verbatim}
 <RE_NounAdj>
