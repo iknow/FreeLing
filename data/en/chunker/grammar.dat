@@ -5,6 +5,12 @@
 %%%%%%%                            %%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%% QA morfologia
+quant ==> WRB(how), +JJ | WRB(how), +RB.
+quant ==> PR*<how_much> | PR*<how_many>.
+quant ==> +quant, NN | +quant, NNS | +quant, sppart.
+sp-chunk ==> +spin, quant | +spunk, quant | +IN(of), quant.
+
 sn-chunk ==> P*<"sn-chunkPRP.data">, +n-chunk.
 sn-chunk ==> DT, +n-chunk | Z, +n-chunk | DT, +sn-chunk.
 
@@ -228,10 +234,17 @@ nex-coord ==> CC*("conjuncions.dat").
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 wh-adv ==> WRB*<"WH-words.dat">.
+
+%wh-adv ==> +WRB*(how),RB*(much) | +WRB*(how),RB*(many).
+%wh-adv ==> +WRB*(how),JJ*(much) | +WRB*(how),JJ*(many).
+%wh-pro ==> +WRB*(how),PRP.
+%wh-quant ==> wh-adj, +n-chunk | wh-adj, +sn-chunk.
+
 wh-pro ==> WP*<"WH-words.dat"> | WDT(that) | WD*(which).
 wh-pro ==> +WDT(what), sn-chunk | +WDT(which), sn-chunk.
 wh-pro ==> +IN, wh-pro.
 wh-pro ==> +IN, wh-adv.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -393,8 +406,9 @@ sp-chunk ==> +spin, adv.
 %% the edge with highest prioriy will be included the final parse tree.
 %% -------------------------
 @PRIOR exs adv.
-@PRIOR attrib vb-be vb-do vb-have vb-chunk.
-@PRIOR vb-be vb-have vb-do mod-chunk vb-chunk.
+@PRIOR quant sn-chunk n-chunk.
+@PRIOR wh-adv attrib vb-be vb-do vb-have vb-chunk.
+@PRIOR wh-adv vb-be vb-have vb-do mod-chunk vb-chunk.
 @PRIOR adv spin sn-chunk n-chunk.
 
 %%@HIDDEN

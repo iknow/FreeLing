@@ -683,6 +683,22 @@
 
 %%% INTERROGATIVES TOTALS AMB VERS LEXICS
 %%% Combinacio de subjecte i verb en forma base
+35  -  mod-chunk_$$_Fit  (sn-chunk,vb-chunk{VB$})   top_right RELABEL inter 
+35  -  mod-chunk_$$_?_*_Fit  (sn-chunk,vb-chunk{VB$})   top_right RELABEL inter 
+35  -  mod-chunk_$$_Fit  (n-chunk,vb-chunk{VB$})   top_right RELABEL inter 
+35  -  mod-chunk_$$_?_*_Fit  (n-chunk,vb-chunk{VB$})   top_right RELABEL inter 
+35  -  mod-chunk_$$_Fit  (sn-chunk,vb-do{VB$})   top_right RELABEL inter 
+35  -  mod-chunk_$$_?_*_Fit  (sn-chunk,vb-do{VB$})   top_right RELABEL inter 
+35  -  mod-chunk_$$_Fit  (n-chunk,vb-do{VB$})   top_right RELABEL inter 
+35  -  mod-chunk_$$_?_*_Fit  (n-chunk,vb-do{VB$})   top_right RELABEL inter 
+35  -  mod-chunk_$$_Fit  (sn-chunk,vb-have{VB$})   top_right RELABEL inter 
+35  -  mod-chunk_$$_?_*_Fit  (sn-chunk,vb-have{VB$})   top_right RELABEL inter 
+35  -  mod-chunk_$$_Fit  (n-chunk,vb-have{VB$})   top_right RELABEL inter 
+35  -  mod-chunk_$$_?_*_Fit  (n-chunk,vb-have{VB$})   top_right RELABEL inter 
+35  -  mod-chunk_$$_Fit  (sn-chunk,vb-be{VB$})   top_right RELABEL inter 
+35  -  mod-chunk_$$_?_*_Fit  (sn-chunk,vb-be{VB$})   top_right RELABEL inter 
+35  -  mod-chunk_$$_Fit  (n-chunk,vb-be{VB$})   top_right RELABEL inter 
+35  -  mod-chunk_$$_?_*_Fit  (n-chunk,vb-be{VB$})   top_right RELABEL inter 
 35  -  vb-do_$$_Fit  (sn-chunk,vb-chunk{VB$})   top_right RELABEL inter 
 35  -  vb-do_$$_?_*_Fit  (sn-chunk,vb-chunk{VB$})   top_right RELABEL inter 
 35  -  vb-do_$$_Fit  (n-chunk,vb-chunk{VB$})   top_right RELABEL inter 
@@ -695,6 +711,18 @@
 35  -  vb-have_$$_?_*_Fit  (sn-chunk,vb-chunk{VBN})   top_right RELABEL inter 
 35  -  vb-have_$$_Fit  (n-chunk,vb-chunk{VBN})   top_right RELABEL inter 
 35  -  vb-have_$$_?_*_Fit  (n-chunk,vb-chunk{VBN})   top_right RELABEL inter 
+35  -  vb-have_$$_Fit  (sn-chunk,vb-be{VBN})   top_right RELABEL inter 
+35  -  vb-have_$$_?_*_Fit  (sn-chunk,vb-be{VBN})   top_right RELABEL inter 
+35  -  vb-have_$$_Fit  (n-chunk,vb-be{VBN})   top_right RELABEL inter 
+35  -  vb-have_$$_?_*_Fit  (n-chunk,vb-be{VBN})   top_right RELABEL inter 
+35  -  vb-have_$$_Fit  (sn-chunk,vb-do{VBN})   top_right RELABEL inter 
+35  -  vb-have_$$_?_*_Fit  (sn-chunk,vb-do{VBN})   top_right RELABEL inter 
+35  -  vb-have_$$_Fit  (n-chunk,vb-do{VBN})   top_right RELABEL inter 
+35  -  vb-have_$$_?_*_Fit  (n-chunk,vb-do{VBN})   top_right RELABEL inter 
+35  -  vb-have_$$_Fit  (sn-chunk,vb-have{VBN})   top_right RELABEL inter 
+35  -  vb-have_$$_?_*_Fit  (sn-chunk,vb-have{VBN})   top_right RELABEL inter 
+35  -  vb-have_$$_Fit  (n-chunk,vb-have{VBN})   top_right RELABEL inter 
+35  -  vb-have_$$_?_*_Fit  (n-chunk,vb-have{VBN})   top_right RELABEL inter 
 35  -  vb-be_$$_Fit  (sn-chunk,vb-chunk{VBG})   top_right RELABEL inter 
 35  -  vb-be_$$_?_*_Fit  (sn-chunk,vb-chunk{VBG})   top_right RELABEL inter 
 35  -  vb-be_$$_Fit  (n-chunk,vb-chunk{VBG})   top_right RELABEL inter 
@@ -724,62 +752,138 @@
 35  -  vb-be_$$_Fit  (n-chunk,vb-do{VBN})   top_right RELABEL inter 
 35  -  vb-be_$$_?_*_Fit  (n-chunk,vb-do{VBN})   top_right RELABEL inter 
 
-%%% Combinacio de verb i auxiliar interrogatiu, temps verbal base
-51  -  $$_Fit  (vb-do,inter{VB$})   top_right RELABEL claus 
+%%% Temps compostos de les interrogatives. Inter + VBG, VBN
+34  -  mod-chunk_$$_Fit  (sn-chunk,vb-chunk{VBG})   top_right RELABEL inter
+34  -  mod-chunk_$$_?_*_Fit  (sn-chunk,vb-chunk{VBG})   top_right RELABEL inter
+34  -  mod-chunk_$$_Fit  (n-chunk,vb-chunk{VBG})   top_right RELABEL inter
+34  -  mod-chunk_$$_?_*_Fit  (n-chunk,vb-chunk{VBG})   top_right RELABEL inter
+34  -  mod-chunk_$$_Fit  (sn-chunk,vb-chunk{VBN})   top_right RELABEL inter
+34  -  mod-chunk_$$_?_*_Fit  (sn-chunk,vb-chunk{VBN})   top_right RELABEL inter
+34  -  mod-chunk_$$_Fit  (n-chunk,vb-chunk{VBN})   top_right RELABEL inter
+34  -  mod-chunk_$$_?_*_Fit  (n-chunk,vb-chunk{VBN})   top_right RELABEL inter 
+34  -  mod-chunk_$$_Fit  (sn-chunk,vb-be{VBG})   top_right RELABEL inter
+34  -  mod-chunk_$$_?_*_Fit  (sn-chunk,vb-be{VBG})   top_right RELABEL inter
+34  -  mod-chunk_$$_Fit  (n-chunk,vb-be{VBG})   top_right RELABEL inter
+34  -  mod-chunk_$$_?_*_Fit  (n-chunk,vb-be{VBG})   top_right RELABEL inter 
+34  -  mod-chunk_$$_Fit  (sn-chunk,vb-be{VBN})   top_right RELABEL inter
+34  -  mod-chunk_$$_?_*_Fit  (sn-chunk,vb-be{VBN})   top_right RELABEL inter
+34  -  mod-chunk_$$_Fit  (n-chunk,vb-be{VBN})   top_right RELABEL inter
+34  -  mod-chunk_$$_?_*_Fit  (n-chunk,vb-be{VBN})   top_right RELABEL inter
+
+
+%%% Combinacio de verb i auxiliar interrogatiu
+51  -  $$_Fit  (vb-do,inter{VB$})   top_right RELABEL sv 
 51  -  $$_?_*_Fit  (vb-do,inter{VB$})   top_right RELABEL vb-chunk 
-51  -  $$_Fit  (vb-have,inter{VBN})   top_right RELABEL claus 
+51  -  $$_Fit  (mod-chunk,inter)   top_right RELABEL sv
+51  -  $$_?_*_Fit  (mod-chunk,inter)   top_right RELABEL vb-chunk 
+51  -  $$_Fit  (vb-have,inter{VBN})   top_right RELABEL sv
 51  -  $$_?_*_Fit  (vb-have,inter{VBN})   top_right RELABEL vb-chunk 
-51  -  $$_Fit  (vb-have,inter{VBG})   top_right RELABEL claus 
+51  -  $$_Fit  (vb-have,inter{VBG})   top_right RELABEL sv 
 51  -  $$_?_*_Fit  (vb-have,inter{VBG})   top_right RELABEL vb-chunk 
-51  -  $$_Fit  (vb-be,inter{VBG})   top_right RELABEL claus 
+51  -  $$_Fit  (vb-be,inter{VBG})   top_right RELABEL sv 
 51  -  $$_?_*_Fit  (vb-be,inter{VBG})   top_right RELABEL vb-chunk 
-51  -  $$_Fit  (vb-be,inter{VBN})   top_right RELABEL claus 
+51  -  $$_Fit  (vb-be,inter{VBN})   top_right RELABEL sv 
 51  -  $$_?_*_Fit  (vb-be,inter{VBN})   top_right RELABEL vb-chunk 
 
 %%% Combinacio de verb i auxiliar, altres temps
-51  -  $$_Fit  (vb-have,vb-chunk{VBN})   top_right RELABEL claus 
-51  -  $$_?_*_Fit  (vb-have,vb-chunk{VBN})   top_right RELABEL vb-chunk 
-51  -  $$_Fit  (vb-have,vb-chunk{VBG})   top_right RELABEL claus 
-51  -  $$_?_*_Fit  (vb-have,vb-chunk{VBG})   top_right RELABEL vb-chunk 
-51  -  $$_Fit  (vb-be,vb-chunk{VBN})   top_right RELABEL claus 
-51  -  $$_?_*_Fit  (vb-be,vb-chunk{VBN})   top_right RELABEL vb-chunk 
-51  -  $$_Fit  (vb-be,vb-chunk{VBG})   top_right RELABEL claus 
-51  -  $$_?_*_Fit  (vb-be,vb-chunk{VBG})   top_right RELABEL vb-chunk 
+51  -  $$_Fit  (vb-have,inter{VBN})   top_right RELABEL sv 
+51  -  $$_?_*_Fit  (vb-have,inter{VBN})   top_right RELABEL vb-chunk 
+51  -  $$_Fit  (vb-have,inter{VBG})   top_right RELABEL sv 
+51  -  $$_?_*_Fit  (vb-have,inter{VBG})   top_right RELABEL vb-chunk 
+51  -  $$_Fit  (vb-be,inter{VBN})   top_right RELABEL sv
+51  -  $$_?_*_Fit  (vb-be,inter{VBN})   top_right RELABEL vb-chunk 
+51  -  $$_Fit  (vb-be,inter{VBG})   top_right RELABEL sv 
+51  -  $$_?_*_Fit  (vb-be,inter{VBG})   top_right RELABEL vb-chunk 
 
 %%% INTERROGATIVES TOTALS AMB TO BE
-50  -  OUT_$$_Fit  (vb-be,sn-chunk)   top_left RELABEL claus 
+50  -  OUT_$$_Fit  (vb-be,sn-chunk)   top_left RELABEL sv 
 50  -  OUT_$$_?_*_Fit  (vb-be,sn-chunk)   top_left RELABEL vb-chunk 
-50  -  OUT_$$_Fit  (vb-be,n-chunk)   top_left RELABEL claus 
+50  -  OUT_$$_Fit  (vb-be,n-chunk)   top_left RELABEL sv
 50  -  OUT_$$_?_*_Fit  (vb-be,n-chunk)   top_left RELABEL vb-chunk 
-50  -  OUT_wh-pro_$$_Fit  (vb-be,sn-chunk)   top_left RELABEL claus 
+50  -  OUT_wh-pro_$$_Fit  (vb-be,sn-chunk)   top_left RELABEL sv
 50  -  OUT_wh-pro_$$_?_*_Fit  (vb-be,sn-chunk)   top_left RELABEL vb-chunk 
-50  -  OUT_wh-pro_$$_Fit  (vb-be,n-chunk)   top_left RELABEL claus 
+50  -  OUT_wh-pro_$$_Fit  (vb-be,n-chunk)   top_left RELABEL sv
 50  -  OUT_wh-pro_$$_?_*_Fit  (vb-be,n-chunk)   top_left RELABEL vb-chunk 
-50  -  OUT_wh-adv_$$_Fit  (vb-be,sn-chunk)   top_left RELABEL claus 
+50  -  OUT_wh-adv_$$_Fit  (vb-be,sn-chunk)   top_left RELABEL sv
 50  -  OUT_wh-adv_$$_?_*_Fit  (vb-be,sn-chunk)   top_left RELABEL vb-chunk 
-50  -  OUT_wh-adv_$$_Fit  (vb-be,n-chunk)   top_left RELABEL claus 
+50  -  OUT_wh-adv_$$_Fit  (vb-be,n-chunk)   top_left RELABEL sv
 50  -  OUT_wh-adv_$$_?_*_Fit  (vb-be,n-chunk)   top_left RELABEL vb-chunk 
 
 %%% INTERROGATIVES PARCIALS
 %%% No centrades en el subjecte
-1  -  OUT_$$_Fit  (wh-adv,claus)   top_right RELABEL - 
+1  -  OUT_$$_Fit  (wh-adv,vb-chunk)   top_right RELABEL - 
 1  -  OUT_$$_Fit  (wh-adv,sv)   top_right RELABEL - 
-1  -  OUT_$$_Fit  (wh-pro,claus)   top_right RELABEL - 
+1  -  OUT_$$_Fit  (wh-pro,vb-chunk)   top_right RELABEL - 
 1  -  OUT_$$_Fit  (wh-pro,sv)   top_right RELABEL - 
 
 %%% Centrades en el subjecte
 9  -  OUT_$$_Fit  (wh-pro,rel)   top_right RELABEL sv 
 8  -  OUT_$$_?_*_Fit  (wh-pro,vb-chunk)   top_right RELABEL - 
 
-10  -  OUT_$$_Fit  (wh-pro,vb-chunk)   top_right RELABEL claus 
-10  -  OUT_$$_Fit  (wh-pro,vb-be)   top_right RELABEL claus 
-10  -  OUT_$$_Fit  (wh-pro,vb-have)   top_right RELABEL claus 
-10  -  OUT_$$_Fit  (wh-pro,vb-do)   top_right RELABEL claus 
+10  -  OUT_$$_Fit  (wh-pro,vb-chunk)   top_right RELABEL sv 
+10  -  OUT_$$_Fit  (wh-pro,vb-be)   top_right RELABEL sv 
+10  -  OUT_$$_Fit  (wh-pro,vb-have)   top_right RELABEL sv 
+10  -  OUT_$$_Fit  (wh-pro,vb-do)   top_right RELABEL sv
 
+%%% Apendix QA: morfologia
+%%% raw Quant
+60  -  -  (quant,vb-chunk)   top_right RELABEL -
+60  -  -  (quant,vb-be)   top_right RELABEL -
+60 -  -   (quant,vb-have)   top_right RELABEL -
+60 -  -  (quant,vb-do)   top_right RELABEL -
+59 -  OUT_$$_Fit  (quant,vb-chunk)   top_right RELABEL sv
+59 -  OUT_$$_Fit  (quant,vb-be)   top_right RELABEL sv
+59 -  OUT_$$_Fit  (quant,vb-have)   top_right RELABEL sv
+59 -  OUT_$$_Fit  (quant,vb-do)   top_right RELABEL sv
+59 -  OUT_$$_Fit  (quant,sv)   top_right RELABEL sv
+59 -  $$_?_OUT  (quant,vb-chunk)   top_right RELABEL quest
+59 -  $$_?_OUT  (quant,vb-be)   top_right RELABEL quest
+59 -  $$_?_OUT  (quant,vb-have)   top_right RELABEL quest
+59 -  $$_?_OUT  (quant,vb-do)   top_right RELABEL quest
+59 -  $$_?_OUT  (quant,sv)   top_right RELABEL quest
 
+60 -  OUT_$$  (sp-chunk,vb-chunk)   top_right RELABEL -
+60 -  OUT_$$  (sp-chunk,vb-be)   top_right RELABEL -
+60 -  OUT_$$  (sp-chunk,vb-have)   top_right RELABEL -
+60 -  OUT_$$  (sp-chunk,vb-do)   top_right RELABEL -
+59 -  OUT_$$_Fit  (sp-chunk,vb-chunk)   top_right RELABEL sv
+59 -  OUT_$$_Fit  (sp-chunk,vb-be)   top_right RELABEL sv
+59 -  OUT_$$_Fit  (sp-chunk,vb-have)   top_right RELABEL sv
+59 -  OUT_$$_Fit  (sp-chunk,vb-do)   top_right RELABEL sv
+59 -  OUT_$$_Fit  (sp-chunk,sv)   top_right RELABEL sv
 
+80  -  $$_?_OUT  (vb-chunk,spin)  top_left RELABEL sv
+80  -  $$_*_OUT   (vb-chunk,spin)  top_left RELABEL vb-chunk
+80  -  $$_?_OUT  (vb-be,spin)  top_left RELABEL sv
+80  -  $$_*_OUT   (vb-be,spin)  top_left RELABEL vb-chunk
+80  -  $$_?_OUT  (vb-do,spin)  top_left RELABEL sv
+80  -  $$_*_OUT   (vb-do,spin)  top_left RELABEL vb-chunk
+80  -  $$_?_OUT  (vb-have,spin)  top_left RELABEL sv
+80  -  $$_*_OUT   (vb-have,spin)  top_left RELABEL vb-chunk
+80  -  $$_?_OUT  (vb-chunk,spunk)  top_left RELABEL sv
+80  -  $$_*_OUT   (vb-chunk,spunk)  top_left RELABEL vb-chunk
+80  -  $$_?_OUT  (vb-be,spunk)  top_left RELABEL sv
+80  -  $$_*_OUT   (vb-be,spunk)  top_left RELABEL vb-chunk
+80  -  $$_?_OUT  (vb-do,spunk)  top_left RELABEL sv
+80  -  $$_*_OUT   (vb-do,spunk)  top_left RELABEL vb-chunk
+80  -  $$_?_OUT  (vb-have,spunk)  top_left RELABEL sv
+80  -  $$_*_OUT   (vb-have,spunk)  top_left RELABEL vb-chunk
+80  -  $$_?_OUT  (vb-chunk,TO-chunk)  top_left RELABEL sv
+80  -  $$_*_OUT   (vb-chunk,TO-chunk)  top_left RELABEL vb-chunk
+80  -  $$_?_OUT  (vb-be,TO-chunk)  top_left RELABEL sv
+80  -  $$_*_OUT   (vb-be,TO-chunk)  top_left RELABEL vb-chunk
+80  -  $$_?_OUT  (vb-do,TO-chunk)  top_left RELABEL sv
+80  -  $$_*_OUT   (vb-do,TO-chunk)  top_left RELABEL vb-chunk
+80  -  $$_?_OUT  (vb-have,TO-chunk)  top_left RELABEL sv
+80  -  $$_*_OUT   (vb-have,TO-chunk)  top_left RELABEL vb-chunk
 
-
+%%% Ex QA: indirectes
+1  -  sv_$$  (wh-pro,sv)  top_left RELABEL quest
+1  -  sv_$$  (wh-pro,vb-chunk)  top_left RELABEL quest
+1  -  sv_$$  (wh-adv,sv)  top_left RELABEL quest
+1  -  sv_$$  (wh-adv,vb-chunk)  top_left RELABEL quest
+1  -  -   (sv,quest)   top_left RELABEL -
+%1  -  -   (sv[compl],vb-chunk)   top_left RELABEL -
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1381,18 +1485,23 @@ n-chunk		conj	d.label=nex-coord
 sp-chunk	conj	d.label=n-chunk|sn-chunk|NN|NNS|NP|NNP	p.label=and|or|but|either|neither
 
 %%% SUBJECTE I OBJECTE
+claus		topic	d.side=left	d.label=quant
 claus		ncsubj	d.side=left	d.label=sn-chunk
 claus		ncsubj	d.side=left	d.label=n-chunk		d.lemma!=that
 claus		dobj	d.side=right	d.label=sn-chunk
-claus		dobj	d.side=right	d.label=n-chunk		d.lemma!=that
+claus		dobj	d.side=right	d.label=n-chunk
 sv		ncsubj	d.side=left	d.label=sn-chunk
 sv		ncsubj	d.side=left	d.label=n-chunk
-sv		dobj	d.side=right	d.label=sn-chunk
-sv		dobj	d.side=right	d.label=n-chunk		d.lemma!=that
-claus		cmod	d.label=sv	d.side=right		p.class=compl
+sv		dobj	d.side=right	d.label=sn-chunk	d.lemma!=VB
+sv		dobj	d.side=right	d.label=n-chunk		d.lemma!=VB	d.lemma!=that
+claus		ccomp	d.label=sv	d.side=right		p.class=compl
+claus		topic	d.side=left	d.label=wh-adv
+claus		topic	d.side=left	d.label=wh-pro
 
-n-chunk		ncsubj	d.side=left	d.label=sn-chunk	p.lemma=VB*
+n-chunk		ncsubj	d.side=left	d.label=sn-chunk	p.lemma!=that
 n-chunk		ccomp	d.label=sv
+claus		ccomp	d.label=quest 	d.side=right	p.class=compl
+claus		cmod	d.label=quest	d.side=right	p.class!=compl
 
 claus		csubj-that	d.side=left	d.label=n-chunk		d.lemma=that
 sv		csubj-that	d.side=left	d.label=n-chunk		d.lemma=that
@@ -1530,6 +1639,9 @@ claus		ncmod		d.label=attrib
 sv		ncmod		d.label=attrib
 rel		ncmod		d.label=attrib
 
+claus		ncmod		d.label=spin|spunk|TO-chunk
+
+
 %%% SINTAGMA PREPOSICIONAL
 sppart		dobj		d.label=sn-chunk
 sppart		dobj		d.label=n-chunk
@@ -1540,6 +1652,7 @@ sp-chunk	pmod		d.label=sp-chunk
 sp-chunk	dobj		d.label=sn-chunk
 sp-chunk	dobj		d.label=n-chunk
 sp-chunk	dobj		d.label=PRP
+sp-chunk	dobj		d.label=quant
 
 %%% SINTAGMA NOMINAL
 sn-chunk	cmod		d.label=sub-rel
@@ -1624,6 +1737,7 @@ sn-chunk	ta		d.label=punt|coma|cometes|guio
 n-chunk		ta		d.label=punt|coma|cometes|guio
 parent		ta		d.label=punt|coma|cometes|guio
 sub-rel		ta		d.label=punt|coma|cometes|guio
+claus		ta		d.lemma=?
 
 %%% PREDs
 sn-chunk	ncsubj		d.label=pred
