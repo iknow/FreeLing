@@ -225,7 +225,22 @@ parse_tree completer::complete(parse_tree &tr, const string & startSymbol) {
   
   for(parse_tree::sibling_iterator ichunk=tr.sibling_begin(); ichunk!=tr.sibling_end(); ++ichunk,++nchunk) {
     TRACE(4,"Creating empty tree");
+
     parse_tree * mtree = new parse_tree(ichunk);
+    if (ichunk->num_children()==0) {
+      // the chunk is a leaf. Create a non-terminal node to ease 
+      // the job in case no rules are found
+      node nod(ichunk->info.get_label());
+      nod.set_chunk(true);
+      nod.set_head(false);
+      parse_tree *taux=new parse_tree(nod);
+      // hang the original node under the new one.
+      mtree->info.set_head(true);
+      taux->hang_child(*mtree);
+      // use the new tree
+      mtree=taux;
+    }
+
     mtree->info.set_chunk(nchunk);
     trees.push_back(mtree);
     TRACE(4,"    Done");
