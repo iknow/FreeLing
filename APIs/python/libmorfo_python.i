@@ -34,14 +34,17 @@
 ////////////////////////////////////////////////////////////////
 
 %module libmorfo_python
-
 %{
- #include "traces.h"
+ #include "freeling/traces.h"
  #include "freeling.h"
+ #include "fries.h"
+ #include "omlet.h"
+ using namespace std;
 %}
 
 %include std_string.i
 %include std_list.i
+%include std_map.i
 %include std_vector.i
 
 %template(VectorWord) std::vector<word>;
@@ -50,27 +53,100 @@
 %template(ListSentence) std::list<sentence>;
 %template(ListParagraph) std::list<paragraph>;
 
-template<class T> class tree {};
-%template(TreeNode) tree<node>;
-%template(TreeDepNode) tree<depnode>;
-%rename(operator_assignment) operator=;
+%template(ListString) std::list<std::string>;
+%template(ListInt) std::list<int >;
+%template(VectorListInt) std::vector<std::list<int > >;
+%template(VectorListString) std::vector<std::list<std::string > >;
 
-class traces {
+
+###############  FRIES #####################
+
+template <class T> class tree { 
  public:
-    // current trace level
-    static int TraceLevel;
-    // modules to trace
-    static unsigned long TraceModule;
+  T info;
+  class generic_iterator;
+  class preorder_iterator;
+  class sibling_iterator;
+  typedef preorder_iterator iterator;
+ 
+  tree();
+  tree(const T&);
+  tree(const tree<T>&);
+  tree(const preorder_iterator&);
+  ~tree();
+  ##tree<T>& operator=(const tree<T>&);
+
+  unsigned int num_children() const;
+  sibling_iterator nth_child(unsigned int) const;
+  tree<T>& nth_child_ref(unsigned int) const;
+  T& get_info();
+  void append_child(const tree<T> &);
+  void hang_child(tree<T> &);
+  void clear();
+  bool empty() const;
+
+  sibling_iterator sibling_begin();
+  sibling_iterator sibling_end() const;
+
+  preorder_iterator begin();
+  preorder_iterator end() const;
+
+  class generic_iterator  { 
+    protected:
+       tree *pnode;
+    public:
+       generic_iterator();
+       generic_iterator(tree *);
+       tree<T>& operator*() const;
+       tree<T>* operator->() const;
+       bool operator==(const generic_iterator &) const;
+       bool operator!=(const generic_iterator &) const;
+  };
+
+  /// traverse the tree in preorder (parent first, then children)
+  class preorder_iterator : public generic_iterator { 
+    public:
+       preorder_iterator();
+       preorder_iterator(tree *);
+       preorder_iterator(sibling_iterator&);
+
+       preorder_iterator& operator++();
+       preorder_iterator& operator--();
+       preorder_iterator& operator+=(unsigned int);
+       preorder_iterator& operator-=(unsigned int);
+  };
+
+ /// traverse all children of the same node
+ class sibling_iterator : public generic_iterator {
+    friend class preorder_iterator;
+    public:
+       sibling_iterator();
+       sibling_iterator(tree *);
+
+       sibling_iterator& operator++();
+       sibling_iterator& operator--();
+       sibling_iterator& operator+=(unsigned int);
+       sibling_iterator& operator-=(unsigned int);
+  };
 };
+
+%template(TreeNode) tree<node>;
+%template(TreeDepnode) tree<depnode>;
+%rename(operator_assignment) operator=;
 
 
 class analysis {
    public:
+      /// user-managed data, we just store it.
+      std::vector<std::string> user;
+
       /// constructor
       analysis();
       /// constructor
       analysis(const std::string &, const std::string &);
-       
+      /// assignment
+      analysis& operator=(const analysis&);
+
       void set_lemma(const std::string &);
       void set_parole(const std::string &);
       void set_prob(double);
@@ -83,8 +159,10 @@ class analysis {
       double get_prob(void) const;
       bool is_retokenizable(void) const;
       std::list<word> get_retokenizable(void) const;
+
       std::list<std::string> get_senses(void) const;
       void set_senses(const std::list<std::string> &);
+
 };
 
 
@@ -95,6 +173,9 @@ class analysis {
 
 class word : public std::list<analysis> {
    public:
+      /// user-managed data, we just store it.
+      std::vector<std::string> user;
+
       /// constructor
       word();
       /// constructor
@@ -108,8 +189,10 @@ class word : public std::list<analysis> {
       /// assignment
       word& operator=(const word&);
 
-      /// true iff the word has more than one analysis
-      bool is_ambiguous(void) const;
+      /// Get the number of selected analysis
+      int get_n_selected(void) const;
+      /// get the number of unselected analysis
+      int get_n_unselected(void) const;
       /// true iff the word is a multiword compound
       bool is_multiword(void) const;
       /// get number of words in compound
@@ -118,10 +201,22 @@ class word : public std::list<analysis> {
       std::list<word> get_words_mw(void) const;
       /// get word form
       std::string get_form(void) const;
-      /// Get the selected analysis
-      analysis get_selected_analysis(void) const;
-      /// Get an iterator to the selected analysis
-      word::iterator selected_analysis(void) const;
+      /// Get an iterator to the first selected analysis
+      word::iterator selected_begin(void);
+      /// Get an iterator to the first selected analysis
+      word::const_iterator selected_begin(void) const;
+      /// Get an iterator to the end of selected analysis list
+      word::iterator selected_end(void);
+      /// Get an iterator to the end of selected analysis list
+      word::const_iterator selected_end(void) const;
+      /// Get an iterator to the first unselected analysis
+      word::iterator unselected_begin(void);
+      /// Get an iterator to the first unselected analysis
+      word::const_iterator unselected_begin(void) const;
+      /// Get an iterator to the end of unselected analysis list
+      word::iterator unselected_end(void);
+      /// Get an iterator to the end of unselected analysis list
+      word::const_iterator unselected_end(void) const;
       /// get lemma for the selected analysis in list
       std::string get_lemma(void) const;
       /// get parole for the selected analysis  
@@ -133,13 +228,17 @@ class word : public std::list<analysis> {
       std::list<std::string> get_senses(void) const;
       /// set sense list for the selected analysis  
       void set_senses(const std::list<std::string> &);
+   
       /// get token span.
-      int get_span_start(void) const;
-      int get_span_finish(void) const;
+      unsigned long get_span_start(void) const;
+      unsigned long get_span_finish(void) const;
+
       /// get in_dict
       bool found_in_dict(void) const;
       /// set in_dict
       void set_found_in_dict(bool);
+      /// check if there is any retokenizable analysis
+      bool has_retokenizable(void) const;
 
       /// add one analysis to current analysis list  (no duplicate check!)
       void add_analysis(const analysis &);
@@ -150,22 +249,29 @@ class word : public std::list<analysis> {
       /// set word form
       void set_form(const std::string &);
       /// set token span
-      void set_span(int,int);
-      /// set user data
-      void set_user_data(void *);
+      void set_span(unsigned long, unsigned long);
       
+      /// look for an analysis with a parole matching given regexp
+      bool find_tag_match(RegEx &);
+
       /// get number of analysis in current list
       int get_n_analysis(void) const; 
       /// copy analysis list
       void copy_analysis(const word &);
-      /// mark the given analysis as the selected one.
+      /// empty the list of selected analysis
+      void unselect_all_analysis();
+      /// mark all analysisi as selected
+      void select_all_analysis();
+      /// add the given analysis to selected list.
       void select_analysis(word::iterator);
-      /// get list of analysis (only useful for perl API)
+      /// remove the given analysis from selected list.
+      void unselect_analysis(word::iterator);
+      /// get list of analysis (useful for perl API)
       std::list<analysis> get_analysis(void) const; 
-      /// get begin iterator to analysis list.
+      /// get begin iterator to analysis list (useful for perl/java API)
       word::iterator analysis_begin(void);
       word::const_iterator analysis_begin(void) const;
-      /// get end iterator to analysis list.
+      /// get end iterator to analysis list (useful for perl/java API)
       word::iterator analysis_end(void);
       word::const_iterator analysis_end(void) const;
 };
@@ -211,13 +317,8 @@ class depnode : public node {
     depnode(const node &);
     void set_link(const parse_tree::iterator);
     parse_tree::iterator get_link(void);
+    tree<node>& get_link_ref(void);
     void set_label(const std::string &);
-    void set_dep_source(const std::string &);
-    void set_dep_target(const std::string &); 
-    void set_dep_result(const std::string &); 
-    std::string get_dep_source(void) const; 
-    std::string get_dep_target(void) const;
-    std::string get_dep_result(void) const;
 };
 
 ////////////////////////////////////////////////////////////////
@@ -240,17 +341,20 @@ class dep_tree :  public tree<depnode> {
 class sentence : public std::vector<word> {
  public:
   sentence();
+  
   void set_parse_tree(const parse_tree &);
-  parse_tree get_parse_tree();
-  bool is_parsed() const;
-  std::vector<word> get_words() const;
-  dep_tree get_dep_tree();
+  parse_tree & get_parse_tree(void);
+  bool is_parsed() const;  
+  dep_tree & get_dep_tree();
   void set_dep_tree(const dep_tree &);
   bool is_dep_parsed() const;
-  sentence::iterator words_begin();
-  sentence::const_iterator words_begin() const;
-  sentence::iterator words_end();
-  sentence::const_iterator words_end() const;
+  /// get word list (useful for perl API)
+  std::vector<word> get_words() const;
+  /// get iterators to word list (useful for perl/java API)
+  sentence::iterator words_begin(void);
+  sentence::const_iterator words_begin(void) const;
+  sentence::iterator words_end(void);
+  sentence::const_iterator words_end(void) const;
 };
 
 ////////////////////////////////////////////////////////////////
@@ -268,6 +372,42 @@ class paragraph : public std::list<sentence> {};
 class document : public std::list<paragraph> {
   paragraph title;
 };
+
+
+/*----------------------------- fex.h ----------------------------------*/
+
+class fex {
+ 
+ public:
+      /// Constructor
+      fex(const std::string &, const std::string &lex=""); 
+
+      /// For Perl/java APIs, encode given sentence in feature names, return result as vector
+      std::vector<std::list<std::string> > encode_name(const sentence &, bool);
+      /// For Perl/java APIs, encode given sentence in feature codes, return result as vector
+      std::vector<std::list<int> > encode_int(const sentence &);
+
+      /// empty lexicon
+      void clear_lexicon(); 
+      /// add feature occurrence to lexicon
+      void add_lexicon(const std::string &);
+      /// save lexicon to a file, filtering features with low occurrence rate
+      void save_lexicon(const std::string &, double min=0.0) const;
+      /// load lexicon from a file
+      void load_lexicon(const std::string &);
+};
+
+
+###############  FREEELING  #####################
+
+class traces {
+ public:
+    // current trace level
+    static int TraceLevel;
+    // modules to trace
+    static unsigned long TraceModule;
+};
+
 
 /*------------------------------------------------------------------------*/
 class tokenizer {
@@ -332,20 +472,20 @@ class maco {
       maco(const maco_options &);
 
       /// analyze sentences
-      void analyze(std::list<sentence> &);
+      //void analyze(std::list<sentence> &);
       /// analyze sentences, return analyzed copy
       std::list<sentence> analyze(const std::list<sentence> &);
 };
+
 
 /*------------------------------------------------------------------------*/
 class hmm_tagger {
    public:
        /// Constructor
-       hmm_tagger(const std::string &, const std::string &, bool);
+       hmm_tagger(const std::string &, const std::string &, bool, unsigned int);
 
        /// analyze sentences with default options
-       void analyze(std::list<sentence> &);
-       /// analyze sentences, return analyzed copy
+       //void analyze(std::list<sentence> &);
        std::list<sentence> analyze(const std::list<sentence> &);
 };
 
@@ -354,11 +494,10 @@ class hmm_tagger {
 class relax_tagger {
    public:
        /// Constructor, given the constraints file and config parameters
-       relax_tagger(const std::string &, int, double, double, bool);
+       relax_tagger(const std::string &, int, double, double, bool, unsigned int);
 
        /// analyze sentences with default options
-       void analyze(std::list<sentence> &);
-       /// analyze sentences, return analyzed copy
+       //void analyze(std::list<sentence> &);
        std::list<sentence> analyze(const std::list<sentence> &);
 };
 
@@ -371,8 +510,6 @@ class chart_parser {
    std::string get_start_symbol(void) const;
    /// parse sentences in list
    void analyze(std::list<sentence> &);
-   /// parse sentences, return analyzed copy
-   std::list<sentence> analyze(const std::list<sentence> &);
 };
 
 
@@ -383,6 +520,66 @@ class dependencyMaker {
    dependencyMaker(const std::string &, const std::string &);
    /// Enrich all sentences in given list with a depenceny tree.
    void analyze(std::list<sentence> &);
-   /// Enrich all sentences, return copy
-   std::list<sentence> analyze(const std::list<sentence> &);
 };
+
+
+/*------------------------------------------------------------------------*/
+class senses {
+   public:
+      /// Constructor
+      senses(const std::string &, bool); 
+      /// Destructor
+      ~senses(); 
+ 
+      /// sense annotate selected analysis for each word in given sentences
+      void analyze(std::list<sentence> &);
+};
+
+
+/*------------------------------------------------------------------------*/
+class sense_info {
+ public:
+  /// sense code
+  std::string sense;
+  /// Part-of-speech
+  std::string pos;
+  /// hyperonyms
+  std::list<std::string> parents;
+  /// WN semantic file code
+  std::string semfile;
+  /// list of synonyms (words in the synset)
+  std::list<std::string> words;
+  /// list of EWN top ontology properties
+  std::list<std::string> tonto;
+
+  /// constructor
+  sense_info(const std::string &,const std::string &,const std::string &);
+};
+
+
+////////////////////////////////////////////////////////////////
+/// Class semanticDB implements a semantic DB interface
+////////////////////////////////////////////////////////////////
+
+class semanticDB {
+   private:
+      /// C++ Interface to BerkeleyDB C API
+      Db sensesdb;
+      Db wndb;
+      /// acces indexed file to find a key
+      std::string access_semantic_db(Db &,const std::string &);
+
+   public:
+      /// Constructor
+      semanticDB(const std::string &, const std::string &);
+      /// Destructor
+      ~semanticDB();
+
+      /// get list of words for a sense+pos
+      std::list<std::string> get_sense_words(const std::string &, const std::string &);
+      /// get list of senses for a lemma+pos
+      std::list<std::string> get_word_senses(const std::string &, const std::string &);
+      /// get sense info for a sensecode+pos
+      sense_info get_sense_info(const std::string &, const std::string &);
+};
+
