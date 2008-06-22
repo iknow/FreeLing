@@ -1,6 +1,7 @@
 #! /usr/bin/python
 
 from libmorfo_python import *
+import sys
 
 ## Modify this line to be your FreeLing installation directory
 FREELINGDIR = "/home/padro/test";
@@ -19,7 +20,7 @@ sp=splitter(DATA+"es/splitter.dat");
 mf=maco(op);
 
 ## exchange comments in two following lines to change the tagger type used
-tg=hmm_tagger("es",DATA+"es/tagger.dat",true);
+tg=hmm_tagger("es",DATA+"es/tagger.dat",1,2);
 
 lin=sys.stdin.readline();
 while (lin) :
@@ -32,8 +33,8 @@ while (lin) :
     for s in ls :
        ws = s.get_words();
        for w in ws :
-         print w.get_form()+" "+w.get_lemma()+" "+w.get_parole()+"\n";
+         print w.get_form()+" "+w.get_lemma()+" "+w.get_parole();
 
-       print "\n";
+       print;
 
     lin=sys.stdin.readline();
