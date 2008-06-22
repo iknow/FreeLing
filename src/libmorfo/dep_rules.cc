@@ -138,6 +138,15 @@ bool rule_expression::find(const string &v) const {
   return (valueList.find(v) != valueList.end());
 }
 
+///////////////////////////////////////////////////////////////
+/// Match the value against a RegExp
+///////////////////////////////////////////////////////////////
+
+bool rule_expression::match(const string &v) const {
+  RegEx re(util::set2string(valueList,"|"));
+  return (re.Search(v));
+}
+
 
 ///////////////////////////////////////////////////////////////
 /// Search for any value of a list in the list of an expression
@@ -158,7 +167,7 @@ bool rule_expression::find_any(const list<string> &ls) const {
 
 bool rule_expression::find_match(const string &v) const {
   for (set<string>::const_iterator i=valueList.begin(); i!=valueList.end(); i++) {
-    TRACE(4,"      eval "+node+".category="+(*i)+" (it is "+v+")");
+    TRACE(4,"      eval "+node+".label="+(*i)+" (it is "+v+")");
     // check for plain match
     if (v==(*i)) return true;  
     // not straight, check for a wildcard
@@ -313,8 +322,18 @@ bool check_lemma::eval(dep_tree::iterator  ancestor, dep_tree::iterator  descend
   return (find(n->info.get_word().get_lemma()));
 }
 
+/// check head PoS
 
-/// check PoS category
+check_pos::check_pos(const string &n,const string &l) : rule_expression(n,l) {}
+bool check_pos::eval(dep_tree::iterator  ancestor, dep_tree::iterator  descendant) const {
+  dep_tree::iterator n = node_to_check(ancestor, descendant);  
+  if (n==NULL) return false;
+  TRACE(4,"      eval. "+node+".pos "+n->info.get_word().get_lemma());
+  return (match(n->info.get_word().get_parole()));
+}
+
+
+/// check chunk label
 
 check_category::check_category(const string &n,const string &p) : rule_expression(n,p) {}
 bool check_category::eval(dep_tree::iterator ancestor, dep_tree::iterator descendant) const {

@@ -2212,6 +2212,7 @@ china
 \end{verbatim}
 
    Where {\tt node} is a string describing a node on which the {\tt attribute} has to be checked.
+   The {\tt value} is a string to be matched, or a set of strings (separated by ``|''). The strings can be right-wildcarded (e.g. {\tt np*} is allowed, but not {\tt n*p}. For the {\tt pos} attribute, {\tt value} can be any valid regular expression.
 
    The {\tt node} expresses a path to locate the node to be checked. The path must start with \verb#p# (parent node) or \verb#d# (descendant node), and may be followed by a colon-separated list of labels. For instance \verb#p:sn:n# refers to the first node labeled \verb#n# found under a node labeled \verb#sn# which is under the dependency parent \verb#p#. 
  
@@ -2219,7 +2220,8 @@ china
   \begin{itemize}
     \item \verb#label#: chunk label (or PoS tag) of the node.
     \item \verb#side#: (left or right) position of the specified node with respect to the other.
-    \item \verb#lemma#: lemma of dathe node head word.
+    \item \verb#lemma#: lemma of the node head word.
+    \item \verb#pos#: PoS tag of the node head word
     \item \verb#class#: word class (see below) of lemma of the node head word.
     \item \verb#tonto#: EWN Top Ontology properties of the node head word.
     \item \verb#semfile#: WN semantic file of the node head word.
@@ -2227,7 +2229,7 @@ china
     \item \verb#asynon#: Synonym lemmas of the node head word ancestors (according to WN).
   \end{itemize}
 
-  Note that since no disambiguation is requiered, the attributes dealing with semantic properties will be satisfied if any of the word senses matches the condition.
+  Note that since no disambiguation is required, the attributes dealing with semantic properties will be satisfied if any of the word senses matches the condition.
 
    For instance, the rule:
 \begin{verbatim}
@@ -2238,12 +2240,12 @@ verb-phr    subj    d.label=np*      d.side=left
  
    Similarly, the rule:
 \begin{verbatim}
-verb-phr    obj    d.label=np*  d:sn.tonto=Edible  p.lemma=eat
+verb-phr    obj    d.label=np*  d:sn.tonto=Edible  p.lemma=eat|gulp
 \end{verbatim}
-  states that if a \verb#verb-phr# node has {\tt eat} as lemma, and a
-  descendant with a label starting by \verb#np# and with a daughter
-  labeled \verb#sn# that has {\tt Edible} property in EWN Top
-  ontology, this dependence is to be labeled as \verb#obj#.
+  states that if a \verb#verb-phr# node has {\tt eat} or {\tt gulp} as
+  lemma, and a descendant with a label starting by \verb#np# and with
+  a daughter labeled \verb#sn# that has {\tt Edible} property in EWN
+  Top ontology, this dependence is to be labeled as \verb#obj#.
  
    \item Section \verb#<SEMDB># is only necessary if the dependency labeling rules in section \verb#<GRLAB># use conditions on semantic values (that is, any of \verb#tonto#, \verb#semfile#, \verb#synon#, or \verb#asynon#).
   The section must contain two lines specifying two semantic information files, a {\tt SenseFile} and a {\tt WNFile}. The filenames may be absolute or relative to the location of the dependency rules file.

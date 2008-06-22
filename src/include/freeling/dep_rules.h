@@ -121,6 +121,7 @@ class rule_expression {
     // search a value in expression list
     bool find(const std::string &) const;
     bool find_match(const std::string &) const;
+    bool match(const std::string &) const;
     bool find_any(const std::list<std::string> &) const;
     bool find_any_match(const std::list<std::string> &) const;
     // virtual, evaluate expression
@@ -186,6 +187,16 @@ class check_side : public rule_expression {
 class check_lemma : public rule_expression {
   public:
     check_lemma(const std::string &,const std::string &);
+    bool eval(dep_tree::iterator, dep_tree::iterator) const;
+};
+
+////////////////////////////////////////////////////////////////
+/// match pos against regexp
+////////////////////////////////////////////////////////////////
+
+class check_pos : public rule_expression {
+  public:
+    check_pos(const std::string &,const std::string &);
     bool eval(dep_tree::iterator, dep_tree::iterator) const;
 };
 
