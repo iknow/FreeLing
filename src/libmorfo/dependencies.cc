@@ -876,6 +876,7 @@ rule_expression* depLabeler::build_expression(const string &condition) {
     if (func=="label")        re=new check_category(node,value);
     else if (func=="side")    re=new check_side(node,value);
     else if (func=="lemma")   re=new check_lemma(node,value);
+    else if (func=="pos")     re=new check_pos(node,value);
     else if (func=="class")   re=new check_wordclass(node,value);
     else if (func=="tonto")   re=new check_tonto(*semdb,node,value);
     else if (func=="semfile") re=new check_semfile(*semdb,node,value);

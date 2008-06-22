@@ -22,8 +22,8 @@ my $sp=new libmorfo_perl::splitter($DATA."es/splitter.dat");
 my $mf=new libmorfo_perl::maco($op);
 
 ## exchange comments in two following lines to change the tagger type used
-my $tg=new libmorfo_perl::hmm_tagger("es",$DATA."es/tagger.dat",1);
-#my $tg=new libmorfo_perl::relax_tagger($DATA."es/constr_gram.dat", 500,670.0,0.001, 1);
+my $tg=new libmorfo_perl::hmm_tagger("es",$DATA."es/tagger.dat",1,2);
+#my $tg=new libmorfo_perl::relax_tagger($DATA."es/constr_gram.dat", 500,670.0,0.001, 1,2);
 
 ## read input text and analyze it.
 while (<STDIN>) {
