@@ -77,7 +77,7 @@ AC_CHECK_LIB([fries],[main],[echo "OK">/dev/null],[echo "" &&
                       echo "   Make sure libfries is" &&
                       echo "   installed and can be found in a standard path." &&
                       echo "   You may need to set LDFLAGS to specify search path." &&
-                      echo "" && exit])
+                      echo "" && exit],[-lpcre])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
