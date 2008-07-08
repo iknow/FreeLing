@@ -93,7 +93,7 @@ semanticDB::semanticDB(const std::string &SensesFile, const std::string &WNFile)
     }
   }
 
-  TRACE(1,"analyzer succesfully created");
+  TRACE(1,"module succesfully created");
 }
 
 ////////////////////////////////////////////////

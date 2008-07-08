@@ -177,6 +177,7 @@ int np::ComputeToken(int state, sentence::iterator &j, sentence &se)
   
   // ignorable word
   if (ignore.find(form)!=ignore.end()) {
+    TRACE(3,"Ignorable word ("+form+")");
     if (state==NP) 
       token=TK_mUpper;  // if inside a NE, do not ignore
     else {
@@ -189,6 +190,7 @@ int np::ComputeToken(int state, sentence::iterator &j, sentence &se)
   }
   // non-ignorable
   else if (sbegin) { 
+    TRACE(3,"non-ignorable word, sbegin ("+form+")");
     // first word in sentence (or word preceded by special punctuation sign), and not locked
     if (!j->is_locked() && util::isuppercase(formU[0]) &&
         func.find(form)==func.end() &&
@@ -208,6 +210,7 @@ int np::ComputeToken(int state, sentence::iterator &j, sentence &se)
     }
   }
   else if (!j->is_locked()) {
+    TRACE(3,"non-ignorable word, non-locked ("+form+")");
     // non-ignorable, not at sentence beggining, non-locked word
     if (util::isuppercase(formU[0]) && !j->find_tag_match(RE_DateNumPunct))
       // Capitalized and not number/date
