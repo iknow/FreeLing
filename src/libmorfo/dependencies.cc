@@ -535,12 +535,15 @@ bool completer::matching_operation(const vector<parse_tree *> &trees, const size
   else if (r.operation=="last_right") t=chk+1;
 
   // locate last_left/right matching node 
+  r.last=NULL;
   parse_tree::iterator i;
-  for (i=trees[t]->begin(); i!=trees[t]->end(); ++i) 
+  for (i=trees[t]->begin(); i!=trees[t]->end(); ++i) {
+    TRACE(5,"           matching operation: "+r.operation+". Rule expects "+r.newNode+", node is "+i->info.get_label());
     if (match_pattern(&(*i),r.newNode)) 
       r.last=&(*i);  // remember node location in case the rule is finally selected.
+  }
 
-  return i!=trees[t]->end();
+  return r.last!=NULL;
 }
 
 
@@ -772,7 +775,10 @@ depLabeler::depLabeler(const string &filename) : semdb(NULL) {
     else if (line == "</GRLAB>") reading=0;
 
     else if (line == "<SEMDB>") reading=3;
-    else if (line == "</SEMDB>") reading=0;
+    else if (line == "</SEMDB>") {
+      reading=0;
+      if ( !(sf.empty() && wf.empty()) ) semdb= new semanticDB(sf,wf);
+    }
 
     else if (reading==1) {
       // load CLASS section
@@ -833,8 +839,6 @@ depLabeler::depLabeler(const string &filename) : semdb(NULL) {
 	WARNING("Unknown parameter "+key+" in SEMDB section of file "+filename+". SemDB not loaded");
     }
   }
-
-  if (sf!="" || wf!="") semdb= new semanticDB(sf,wf);
 
   TRACE(1,"depLabeler successfully created");
 }
