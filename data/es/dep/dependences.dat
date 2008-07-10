@@ -10675,3 +10675,8 @@ pred    "verbs-pred-es.dat"
 mov     "verbs-mov-es.dat"
 que	"verbs-que-es.dat"
 </CLASS>
+
+<SEMDB>
+SenseFile /home/padro/test/share/FreeLing/es/senses16.db
+WNFile /home/padro/test/share/FreeLing/common/wn16.db
+</SEMDB>

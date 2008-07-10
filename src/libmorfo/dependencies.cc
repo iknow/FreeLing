@@ -754,14 +754,35 @@ depLabeler::depLabeler(const string &filename) : semdb(NULL) {
 
   int lnum=0;
   string path=filename.substr(0,filename.find_last_of("/\\")+1);
+  string sf,wf,line;
 
   ifstream fin;
+
   fin.open(filename.c_str());  
   if (fin.fail()) ERROR_CRASH("Cannot open the labeler rules file "+filename);
 
-  string sf,wf,line;
-  check_wordclass::wordclasses.clear();
+  ///// -------- locate and load SEMDB section, if any.
+  while (getline(fin,line) && line!="<SEMDB>");
+  while (getline(fin,line) && line!="</SEMDB>") {
+    istringstream sin;  sin.str(line);
+    string key,fname;
+    sin>>key>>fname;
+    
+    if (key=="SenseFile")   sf= util::absolute(fname,path); 
+    else if (key=="WNFile") wf= util::absolute(fname,path); 
+    else 
+      WARNING("Unknown parameter "+key+" in SEMDB section of file "+filename+". SemDB not loaded");
+  }
+  if ( !(sf.empty() && wf.empty()) ) {
+    semdb= new semanticDB(sf,wf);
+    TRACE(2,"depLabeler loaded SemDB");
+  }
+  fin.close();
 
+  ///// -------- load GRLAB and CLASS sections
+  fin.open(filename.c_str());  
+
+  check_wordclass::wordclasses.clear();
   int reading=0; 
   while (getline(fin,line)) {
     lnum++;
@@ -773,12 +794,6 @@ depLabeler::depLabeler(const string &filename) : semdb(NULL) {
 
     else if (line == "<GRLAB>") reading=2;
     else if (line == "</GRLAB>") reading=0;
-
-    else if (line == "<SEMDB>") reading=3;
-    else if (line == "</SEMDB>") {
-      reading=0;
-      if ( !(sf.empty() && wf.empty()) ) semdb= new semanticDB(sf,wf);
-    }
 
     else if (reading==1) {
       // load CLASS section
@@ -827,17 +842,6 @@ depLabeler::depLabeler(const string &filename) : semdb(NULL) {
       r.re=expr;
       rules[r.ancestorLabel].push_back(r);      
     }
-    else if (reading==3) {
-      ////// load SEMDB definition section
-      istringstream sin;  sin.str(line);
-      string key,fname;
-      sin>>key>>fname;
-      
-      if (key=="SenseFile")   sf= util::absolute(fname,path); 
-      else if (key=="WNFile") wf= util::absolute(fname,path); 
-      else 
-	WARNING("Unknown parameter "+key+" in SEMDB section of file "+filename+". SemDB not loaded");
-    }
   }
 
   TRACE(1,"depLabeler successfully created");
@@ -873,7 +877,7 @@ rule_expression* depLabeler::build_expression(const string &condition) {
 
     // check we do not request impossible things
     if (semdb==NULL && (func=="tonto" || func=="semfile" || func=="synon" || func=="asynon")) {
-      ERROR_CRASH("Dependency labeler created without SemanticDB access, but semantic function '"+func+"' was used in labeling rules.");
+      ERROR_CRASH("Semantic function '"+func+"' was used in labeling rules, but no previous <SEMDB> section was found. Make sure <SEMDB> section is defined before <GRLAB> section.");
     }
 
     // create rule checker for function requested in condition
