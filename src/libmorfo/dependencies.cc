@@ -761,27 +761,6 @@ depLabeler::depLabeler(const string &filename) : semdb(NULL) {
   fin.open(filename.c_str());  
   if (fin.fail()) ERROR_CRASH("Cannot open the labeler rules file "+filename);
 
-  ///// -------- locate and load SEMDB section, if any.
-  while (getline(fin,line) && line!="<SEMDB>");
-  while (getline(fin,line) && line!="</SEMDB>") {
-    istringstream sin;  sin.str(line);
-    string key,fname;
-    sin>>key>>fname;
-    
-    if (key=="SenseFile")   sf= util::absolute(fname,path); 
-    else if (key=="WNFile") wf= util::absolute(fname,path); 
-    else 
-      WARNING("Unknown parameter "+key+" in SEMDB section of file "+filename+". SemDB not loaded");
-  }
-  if ( !(sf.empty() && wf.empty()) ) {
-    semdb= new semanticDB(sf,wf);
-    TRACE(2,"depLabeler loaded SemDB");
-  }
-  fin.close();
-
-  ///// -------- load GRLAB and CLASS sections
-  fin.open(filename.c_str());  
-
   check_wordclass::wordclasses.clear();
   int reading=0; 
   while (getline(fin,line)) {
@@ -794,6 +773,15 @@ depLabeler::depLabeler(const string &filename) : semdb(NULL) {
 
     else if (line == "<GRLAB>") reading=2;
     else if (line == "</GRLAB>") reading=0;
+
+    else if (line == "<SEMDB>") reading=3;
+    else if (line == "</SEMDB>") {
+      reading=0;
+      if ( !(sf.empty() && wf.empty()) ) {
+	semdb= new semanticDB(sf,wf);
+	TRACE(3,"depLabeler loaded SemDB");
+      }
+    }
 
     else if (reading==1) {
       // load CLASS section
@@ -841,6 +829,17 @@ depLabeler::depLabeler(const string &filename) : semdb(NULL) {
       
       r.re=expr;
       rules[r.ancestorLabel].push_back(r);      
+    }
+    else if (reading==3) {
+      ////// load SEMDB section 
+      istringstream sin;  sin.str(line);
+      string key,fname;
+      sin>>key>>fname;
+      
+      if (key=="SenseFile")   sf= util::absolute(fname,path); 
+      else if (key=="WNFile") wf= util::absolute(fname,path); 
+      else 
+	WARNING("Unknown parameter "+key+" in SEMDB section of file "+filename+". SemDB not loaded");      
     }
   }
 

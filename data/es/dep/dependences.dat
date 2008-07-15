@@ -10233,6 +10233,11 @@
 1705  -  -  (Fc,coor-sadv)	top_right RELABEL -
 </GRPAR>
 
+<SEMDB>
+SenseFile /home/padro/test/share/FreeLing/es/senses16.db
+WNFile /home/padro/test/share/FreeLing/common/wn16.db
+</SEMDB>
+
 <GRLAB>
 grup-verb       subj   		d.label=sn*             		d.side=right				p.class=intr
 grup-verb       subj   		d.label=coor-n          		d.side=right				p.class=intr
@@ -10675,8 +10680,3 @@ pred    "verbs-pred-es.dat"
 mov     "verbs-mov-es.dat"
 que	"verbs-que-es.dat"
 </CLASS>
-
-<SEMDB>
-SenseFile /home/padro/test/share/FreeLing/es/senses16.db
-WNFile /home/padro/test/share/FreeLing/common/wn16.db
-</SEMDB>
