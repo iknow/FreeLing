@@ -2186,7 +2186,6 @@ china
     the parsing starts.  The grammarian can define any alphanumerical
     string as a flag, simply toggling it on in some rule.
 
-
 \item Section \verb#<GRLAB># contains rules to label the
   dependences extracted from the full parse tree build with the
   rules in previous section:
@@ -2246,8 +2245,9 @@ verb-phr    obj    d.label=np*  d:sn.tonto=Edible  p.lemma=eat|gulp
   lemma, and a descendant with a label starting by \verb#np# and with
   a daughter labeled \verb#sn# that has {\tt Edible} property in EWN
   Top ontology, this dependence is to be labeled as \verb#obj#.
+
  
-   \item Section \verb#<SEMDB># is only necessary if the dependency labeling rules in section \verb#<GRLAB># use conditions on semantic values (that is, any of \verb#tonto#, \verb#semfile#, \verb#synon#, or \verb#asynon#).
+   \item Section \verb#<SEMDB># is only necessary if the dependency labeling rules in section \verb#<GRLAB># use conditions on semantic values (that is, any of \verb#tonto#, \verb#semfile#, \verb#synon#, or \verb#asynon#).  Since it is needed by \verb#<GRLAB># rules, section \verb#<SEMDB># must be defined {\em before} section \verb#<GRLAB>#.
   The section must contain two lines specifying two semantic information files, a {\tt SenseFile} and a {\tt WNFile}. The filenames may be absolute or relative to the location of the dependency rules file.
 \begin{verbatim}
 <SEMDB>
