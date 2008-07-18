@@ -11,7 +11,7 @@ ad_val ad_val RB I
 ad_valorem ad_valorem RB I
 alma_mater alma_mater NN I
 along_with along_with IN I
-and_so_forth RB I
+and_so_forth and_so_forth RB I
 a_lot a_lot RB I
 a_lot_of a_lot_of DT I
 also_known_as also_known_as JJ I
@@ -36,7 +36,7 @@ by_hand by_hand RB I
 by_heart by_heart RB I
 by_surprise by_surprise RB I
 center_stage center_stage RB I
-<change>_hands $1:VB I
+<change>_hands change_hands $1:VB I
 en_bloc en_bloc RB I
 en_clair en_clair RB I
 en_famille en_famille RB I
@@ -60,7 +60,7 @@ from_outside from_outside RB I
 further_ahead further_ahead RB I
 further_back further_back RB I
 further_down further_down RB I
-<get>_out_of_hand $1:VB I
+<get>_out_of_hand get_out_of_hand $1:VB I
 hand_over_fist hand_over_fist RB I
 high_up high_up RB I
 how_much how_much PRP I
@@ -88,8 +88,8 @@ hand_in_hand hand_in_hand RB I
 just_in_case just_in_case CC I
 later_on later_on RB I
 lead_times lead_times NNS I
-lead_<underwriter> $2:NN I
-night_after_night RB I
+lead_<underwriter> lead_underwriter $2:NN I
+night_after_night night_after_night RB I
 no_doubt no_doubt RB I
 no_longer no_longer RB I
 no_one no_one PRP I
