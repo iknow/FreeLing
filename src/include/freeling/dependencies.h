@@ -27,12 +27,13 @@
 ////////////////////////////////////////////////////////////////
 
 
-#ifndef _DEPENDENCIES
-#define _DEPENDENCIES
+#ifndef _DEP_TXALA
+#define _DEP_TXALA
 
 #include "fries/language.h"
 #include "freeling/dep_rules.h"
 #include "freeling/semdb.h"
+#include "freeling/dependency_parser.h"
 
 #include <string>
 #include <map>
@@ -122,7 +123,7 @@ class depLabeler {
 ///
 ///////////////////////////////////////////////////////////////////////
 
-class dependencyMaker {
+class dep_txala : public dependency_parser {
 
  private:
    /// tree completer  
@@ -136,7 +137,7 @@ class dependencyMaker {
 
  public:   
    /// constructor
-   dependencyMaker(const std::string &, const std::string &);
+   dep_txala(const std::string &, const std::string &);
    /// Enrich all sentences in given list with a depenceny tree.
    void analyze(std::list<sentence> &);
    /// Enrich all sentences in given list, return a copy.

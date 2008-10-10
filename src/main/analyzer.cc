@@ -236,7 +236,7 @@ void PrintResults(list<sentence> &ls, const config &cfg) {
 //---------------------------------------------
 // Plain text, start with tokenizer.
 //---------------------------------------------
-void ProcessPlain(const config &cfg, tokenizer *tk, splitter *sp, maco *morfo, POS_tagger *tagger, nec* neclass, senses* sens, chart_parser *parser, dependencyMaker *dep) {
+void ProcessPlain(const config &cfg, tokenizer *tk, splitter *sp, maco *morfo, POS_tagger *tagger, nec* neclass, senses* sens, chart_parser *parser, dependency_parser *dep) {
   string text;
   unsigned long offs=0;
   list<word> av;
@@ -285,7 +285,7 @@ void ProcessPlain(const config &cfg, tokenizer *tk, splitter *sp, maco *morfo, P
 // Process already tokenized text.
 // This sample program expects one token per line.
 //----------------------------------------------
-void ProcessToken(const config &cfg, splitter *sp, maco *morfo, POS_tagger *tagger, nec *neclass, senses *sens, chart_parser *parser, dependencyMaker *dep) {
+void ProcessToken(const config &cfg, splitter *sp, maco *morfo, POS_tagger *tagger, nec *neclass, senses *sens, chart_parser *parser, dependency_parser *dep) {
   string text;
   list<word> av;
   list<sentence> ls;
@@ -338,7 +338,7 @@ void ProcessToken(const config &cfg, splitter *sp, maco *morfo, POS_tagger *tagg
 //   - of variable length (morfological analysis)
 //   - of length 1 (tagged)
 //---------------------------------------------
-void ProcessSplitted(const config &cfg, maco *morfo, POS_tagger *tagger, nec *neclass, senses *sens, chart_parser *parser, dependencyMaker *dep) {
+void ProcessSplitted(const config &cfg, maco *morfo, POS_tagger *tagger, nec *neclass, senses *sens, chart_parser *parser, dependency_parser *dep) {
   string text,form,lemma,tag,sn,spr;
   sentence av;
   double prob;
@@ -433,7 +433,7 @@ int main(int argc, char **argv) {
   senses *sens=NULL;
   POS_tagger *tagger=NULL;
   chart_parser *parser=NULL;
-  dependencyMaker *dep=NULL;
+  dependency_parser *dep=NULL;
 
   // read configuration file and command-line options
   config cfg(argv);
@@ -505,7 +505,7 @@ int main(int argc, char **argv) {
   
   // Dependency parsing requested
   if(cfg.InputFormat<DEP && cfg.OutputFormat>=DEP) {
-    dep = new dependencyMaker(cfg.DEP_GrammarFile, parser->get_start_symbol());
+    dep = new dep_txala(cfg.DEP_TxalaFile, parser->get_start_symbol());
   }
 
   // Input is plain text.
