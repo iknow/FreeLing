@@ -816,19 +816,30 @@ depLabeler::depLabeler(const string &filename) : semdb(NULL) {
       ////// load GRLAB section defining labeling rules
       check_and * expr= new check_and();
 
-      ruleLabeler r;
-      r.line=lnum;
-
+      // Read first word in line
+      string s;
       istringstream sin;  sin.str(line);
-      sin>>r.ancestorLabel>>r.label; 
-      
-      TRACE(4,"RULE FOR:"+r.ancestorLabel+" -> "+r.label);
-      string condition;
-      while (sin>>condition) 
-	expr->add(build_expression(condition));
-      
-      r.re=expr;
-      rules[r.ancestorLabel].push_back(r);      
+      sin>>s;
+      if (s=="UNIQUE") {
+	// "UNIQUE" key found, add labels in the line to the set
+	string lab; 
+	while (sin>>lab) unique.insert(lab);
+      }
+      else {
+	// not "UNIQUE" key, it is a normal rule.
+	ruleLabeler r;
+	r.line=lnum;
+	r.ancestorLabel=s;  // we had already read the first word.
+	sin>>r.label;       // second word is the label
+	
+	TRACE(4,"RULE FOR:"+r.ancestorLabel+" -> "+r.label);
+	string condition;
+	while (sin>>condition) 
+	  expr->add(build_expression(condition));
+	
+	r.re=expr;
+	rules[r.ancestorLabel].push_back(r);      
+      }
     }
     else if (reading==3) {
       ////// load SEMDB section 
@@ -919,8 +930,8 @@ void depLabeler::label(dep_tree * dependency) {
 ///////////////////////////////////////////////////////////////
 
 void depLabeler::label(dep_tree* dependency, dep_tree::iterator ancestor) {
-  dep_tree::sibling_iterator d;
 
+  dep_tree::sibling_iterator d,d1;
 
   // there must be only one top 
   for (d=ancestor->sibling_begin(); d!=ancestor->sibling_end(); ++d) {
@@ -934,16 +945,30 @@ void depLabeler::label(dep_tree* dependency, dep_tree::iterator ancestor) {
       list<ruleLabeler>::iterator rl=frule->second.begin();
       bool found=false;
 
-      while (rl!=frule->second.end() && !found){
-	found = (rl->eval(ancestor,d)); 
-	if (found) { 
-	  d->info.set_label(rl->label);
-	  TRACE(3,"  Trying rule: [line "+util::int2string(rl->line)+"] "+rl->ancestorLabel+" "+rl->label+" -- rule matches!");
-	  TRACE(2,"  APPLIED rule: [line "+util::int2string(rl->line)+"]  Dependence labeled as "+rl->label);
+      while (rl!=frule->second.end() && !found) {
+
+	TRACE(3,"  Trying rule: [line "+util::int2string(rl->line)+"] ");
+	bool skip=false;
+	// if the label is declared as unique and a sibling already has it, skip the rule.
+        if (unique.find(rl->label)!=unique.end())
+	  for (d1=ancestor->sibling_begin(); d1!=ancestor->sibling_end() && !skip; ++d1)
+	    skip = (rl->label == d1->info.get_label());
+	
+	if (!skip) {
+	  found = (rl->eval(ancestor,d)); 
+	  if (found) { 
+	    d->info.set_label(rl->label);
+	    TRACE(3,"      [line "+util::int2string(rl->line)+"] "+rl->ancestorLabel+" "+rl->label+" -- rule matches!");
+	    TRACE(2,"      RULE APPLIED. Dependence labeled as "+rl->label);
+	  }
+	  else {
+	    TRACE(3,"      [line "+util::int2string(rl->line)+"] "+rl->ancestorLabel+" "+rl->label+" -- no match");
+	  }
 	}
 	else {
-	  TRACE(3,"  Trying rule: [line "+util::int2string(rl->line)+"] "+rl->ancestorLabel+" "+rl->label+" -- no match");
+	  TRACE(3,"      RULE SKIPPED -- Unique label "+rl->label+" already present.");
 	}
+
 	++rl;
       }
        

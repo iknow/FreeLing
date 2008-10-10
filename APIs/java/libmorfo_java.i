@@ -161,6 +161,7 @@ class analysis {
       std::list<word> get_retokenizable(void) const;
 
       std::list<std::string> get_senses(void) const;
+      std::string get_senses_string(void) const;
       void set_senses(const std::list<std::string> &);
 
 };
@@ -226,6 +227,7 @@ class word : public std::list<analysis> {
 
       /// get sense list for the selected analysis  
       std::list<std::string> get_senses(void) const;
+      std::string get_senses_string(void) const;
       /// set sense list for the selected analysis  
       void set_senses(const std::list<std::string> &);
    
@@ -554,6 +556,7 @@ class sense_info {
 
   /// constructor
   sense_info(const std::string &,const std::string &,const std::string &);
+  std::string get_parents_string() const;
 };
 
 

@@ -2186,7 +2186,27 @@ china
     the parsing starts.  The grammarian can define any alphanumerical
     string as a flag, simply toggling it on in some rule.
 
-\item Section \verb#<GRLAB># contains rules to label the
+\item Section \verb#<GRLAB># contains two kind of lines.
+
+  The first kind are the lines defining \verb#UNIQUE# labels, which
+  have the format:
+\begin{verbatim}
+  UNIQUE label1 label2 label3 ...
+\end{verbatim}
+
+  You can specify many \verb#UNIQUE# lines, each with one or more
+  labels. The effect is the same than having all of them in a single
+  line, and the order is not relevant.
+
+  Labels in \verb#UNIQUE# lists will be assigned only once per
+  head. That is, if a head has a daugther with a dependency already
+  labeled as \verb#label1#, rules assigning this label will be ignored
+  for all other daugthers of the same head. (e.g. if a verb has got a
+  \verb#subject# label for one of its dependencies, no other
+  dependency will get that label, even if it meets the conditions to
+  do so).
+
+   The second kind of lines state the rules to label the
   dependences extracted from the full parse tree build with the
   rules in previous section:
   

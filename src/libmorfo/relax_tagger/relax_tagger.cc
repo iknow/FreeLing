@@ -69,6 +69,7 @@ void relax_tagger::analyze(list<sentence> &ls) {
     analysis an("OUT_OF_BOUNDS","OUT_OF_BOUNDS"); an.set_prob(1.0);
     word outofbounds("OUT_OF_BOUNDS"); outofbounds.add_analysis(an);
     s->insert(s->begin(),outofbounds);
+    s->insert(s->end(),outofbounds);
 
     // build a RL problem for the current sentence (basically a table Vars x Labels)
     problem prb(s->size());
@@ -157,7 +158,10 @@ void relax_tagger::analyze(list<sentence> &ls) {
     TRACE(1, "Interpreting CLP solution");
     // Fetch results and apply them to our sentence
 
-    s->erase(s->begin()); v=1; // remove and skip the OUT_OF_BOUNDS mark.
+    s->erase(s->begin());  // remove the OUT_OF_BOUNDS marks.
+    w=s->end(); w--; s->erase(w);
+
+    v=1;   // skip first mark in the table
     for (w=s->begin(); w!=s->end(); w++) {
       if (w->get_n_selected()>1) {
 	// erase any previous selection 

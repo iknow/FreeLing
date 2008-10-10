@@ -93,6 +93,8 @@ class depLabeler {
   private:
     // set of rules
     std::map<std::string, std::list<ruleLabeler> > rules;
+    // "unique" labels
+    std::set<std::string> unique;
     // semantic database to check for semantic conditions in rules
     semanticDB * semdb;
     // parse a condition and create checkers.
