@@ -286,7 +286,8 @@ class config {
       // if no config file given, use default
       if (ConfigFile == NULL) {
 	WARNING("No config file specified (option -f). Trying to open default file '"+string(DefaultConfigFile)+"'");
-	ConfigFile = DefaultConfigFile;
+	ConfigFile = (char *)malloc(sizeof(char)*(1+strlen(DefaultConfigFile)));
+	strcpy(ConfigFile,DefaultConfigFile);
       }
       
       // parse and load options from ConfigFile

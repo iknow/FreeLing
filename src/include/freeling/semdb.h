@@ -58,6 +58,8 @@ class sense_info {
 
   /// constructor
   sense_info(const std::string &,const std::string &,const std::string &);
+  /// useful for java API
+  std::string get_parents_string() const;
 };
 
 ////////////////////////////////////////////////////////////////
