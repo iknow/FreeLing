@@ -51,6 +51,10 @@
 #define HMM   0
 #define RELAX 1
 
+// codes for dependency parsers
+#define TXALA	0
+#define MALT	1
+
 // codes for sense annotation
 #define NONE  0
 #define ALL   1
@@ -125,15 +129,15 @@ class config {
     char * PARSER_GrammarFile;
 
     /// Dependency options
-    char * DEP_GrammarFile;
- 
+    char * DEP_TxalaFile;    
+
     /// constructor
     config(char **argv) {
       CFG_CONTEXT con;
       register int ret;
       int help;
       // Auxiliary for string translation
-      char *InputF, *OutputF, *Tagger, *SenseAnot, *Force;
+      char *InputF, *OutputF, *Tagger, *SenseAnot, *Force, *DepParser;
       // Auxiliary for boolean handling
       int flush,noflush, sufx,nosufx,   loc,noloc,   numb,nonumb,
           punt,nopunt,   date,nodate,   quant,noquant,  dict,nodict,   prob,noprob,
@@ -193,17 +197,17 @@ class config {
 	{"fqty",    'Q',  "QuantitiesFile",          CFG_STR,  (void *) &MACO_QuantitiesFile, 0},
 	{"fsuf",    'S',  "SuffixFile",              CFG_STR,  (void *) &MACO_SuffixFile, 0},
 	{"fprob",   'P',  "ProbabilityFile",         CFG_STR,  (void *) &MACO_ProbabilityFile, 0},
-	{"thres",   '\0', "ProbabilityThreshold",    CFG_DOUBLE, (void *) &MACO_ProbabilityThreshold, 0},
+	{"thres",   'e', "ProbabilityThreshold",     CFG_DOUBLE, (void *) &MACO_ProbabilityThreshold, 0},
 	{"fdict",   'D',  "DictionaryFile",          CFG_STR,  (void *) &MACO_DictionaryFile, 0},
 	{"fnp",     'N',  "NPDataFile",              CFG_STR,  (void *) &MACO_NPdataFile, 0},
-	{"fpunct",  'M',  "PunctuationFile",         CFG_STR,  (void *) &MACO_PunctuationFile, 0},
+	{"fpunct",  'F',  "PunctuationFile",         CFG_STR,  (void *) &MACO_PunctuationFile, 0},
 	// NEC options
 	{"nec",     '\0', NULL,                      CFG_BOOL, (void *) &nec, 0},
 	{"nonec",   '\0', NULL,                      CFG_BOOL, (void *) &nonec, 0},
 	{NULL,      '\0', "NEClassification",        CFG_STR,  (void *) &cf_nec, 0},
 	{"fnec",    '\0', "NECFilePrefix",           CFG_STR,  (void *) &NEC_FilePrefix, 0},
 	// Sense options
-	{"sense",   '\0', "SenseAnnotation",         CFG_STR,  (void *) &SenseAnot, 0},
+	{"sense",   's', "SenseAnnotation",          CFG_STR,  (void *) &SenseAnot, 0},
 	{"fsense",  'W',  "SenseFile",               CFG_STR,  (void *) &SENSE_SenseFile, 0},
 	{"dup",     '\0', NULL,                      CFG_BOOL, (void *) &dup, 0},
 	{"nodup",   '\0', NULL,                      CFG_BOOL, (void *) &nodup, 0},
@@ -211,18 +215,18 @@ class config {
 	// tagger options
 	{"hmm",  'H',  "TaggerHMMFile",              CFG_STR,  (void *) &TAGGER_HMMFile, 0},
 	{"rlx",  'R',  "TaggerRelaxFile",            CFG_STR,  (void *) &TAGGER_RelaxFile, 0},
-	{"tag",  'T',  "Tagger",                     CFG_STR,  (void *) &Tagger, 0},
-	{"iter", '\0', "TaggerRelaxMaxIter",         CFG_INT,  (void *) &TAGGER_RelaxMaxIter, 0},
-	{"sf",   '\0', "TaggerRelaxScaleFactor",     CFG_DOUBLE, (void *) &TAGGER_RelaxScaleFactor, 0},
+	{"tag",  't',  "Tagger",                     CFG_STR,  (void *) &Tagger, 0},
+	{"iter", 'i', "TaggerRelaxMaxIter",          CFG_INT,  (void *) &TAGGER_RelaxMaxIter, 0},
+	{"sf",   'r', "TaggerRelaxScaleFactor",      CFG_DOUBLE, (void *) &TAGGER_RelaxScaleFactor, 0},
 	{"eps",  '\0', "TaggerRelaxEpsilon",         CFG_DOUBLE, (void *) &TAGGER_RelaxEpsilon, 0},
 	{"rtk",   '\0', NULL,                        CFG_BOOL, (void *) &retok, 0},
 	{"nortk", '\0', NULL,                        CFG_BOOL, (void *) &noretok, 0},
-	{NULL,      '\0', "TaggerRetokenize",        CFG_STR,  (void *) &cf_retok, 0},
+	{NULL,    '\0', "TaggerRetokenize",          CFG_STR,  (void *) &cf_retok, 0},
 	{"force", '\0', "TaggerForceSelect",         CFG_STR,  (void *) &Force, 0},
 	// parser options
-	{"grammar", 'G',  "GrammarFile",             CFG_STR,  (void *) &PARSER_GrammarFile, 0},
+	{"grammar", 'G',  "GrammarFile",             CFG_STR, (void *) &PARSER_GrammarFile, 0},
         // dep options
-	{"dep", 'J',  "DepRulesFile",              CFG_STR,  (void *) &DEP_GrammarFile, 0},
+	{"txala", 'T', "DepTxalaFile",               CFG_STR, (void *) &DEP_TxalaFile, 0},
 	CFG_END_OF_LIST
       };
       
@@ -233,7 +237,7 @@ class config {
       }
       
       // init auxiliary variables
-      InputF=NULL; OutputF=NULL; Tagger=NULL; SenseAnot=NULL; Force=NULL;
+      InputF=NULL; OutputF=NULL; Tagger=NULL; SenseAnot=NULL; Force=NULL; DepParser=NULL;
       flush=false; noflush=false; sufx=false;   nosufx=false; 
       loc=false;   noloc=false;   numb=false;   nonumb=false;   punt=false; nopunt=false;
       date=false;  nodate=false;  quant=false;  noquant=false;  dict=false; nodict=false; 
@@ -266,7 +270,8 @@ class config {
       TAGGER_which=0; TAGGER_HMMFile=NULL; TAGGER_RelaxFile=NULL; 
       TAGGER_RelaxMaxIter=0; TAGGER_RelaxScaleFactor=0.0; TAGGER_RelaxEpsilon=0.0;
       TAGGER_Retokenize=0; TAGGER_ForceSelect=0;
-      PARSER_GrammarFile=NULL; DEP_GrammarFile=NULL;
+      PARSER_GrammarFile=NULL;
+      DEP_TxalaFile=NULL; 
 
        // parse comand line
       cfg_set_cmdline_context(con, 1, -1, argv);
@@ -287,7 +292,7 @@ class config {
       if (ConfigFile == NULL) {
 	WARNING("No config file specified (option -f). Trying to open default file '"+string(DefaultConfigFile)+"'");
 	ConfigFile = (char *)malloc(sizeof(char)*(1+strlen(DefaultConfigFile)));
-	strcpy(ConfigFile,DefaultConfigFile);
+ 	strcpy(ConfigFile,DefaultConfigFile);
       }
       
       // parse and load options from ConfigFile
@@ -334,7 +339,7 @@ class config {
       ExpandFileName(TAGGER_HMMFile);
       ExpandFileName(TAGGER_RelaxFile); 
       ExpandFileName(PARSER_GrammarFile); 
-      ExpandFileName(DEP_GrammarFile);
+      ExpandFileName(DEP_TxalaFile);
 	     
       // Handle boolean options expressed with --myopt or --nomyopt in command line
       SetBooleanOptionCL(flush,noflush,AlwaysFlush,"flush");
@@ -437,7 +442,7 @@ class config {
       cout<<"-h, --help             This screen "<<endl;
       cout<<"-f filename            Use alternative configuration file (default: analyzer.cfg)"<<endl;
       cout<<"--lang language        Language (sp: Spanish, ca: Catalan, en: English)"<<endl;
-      cout<<"--flush                Consider each newline as a sentence end"<<endl;
+      cout<<"--flush, --noflush     Consider each newline as a sentence end"<<endl;
       cout<<"--inpf string          Input format (plain,token,splitted,morfo,sense,tagged)"<< endl;
       cout<<"--outf string          Output format (plain,token,splitted,morfo,tagged,parsed,dep)"<< endl;
       cout<<"--ftok filename        Tokenizer rules file "<<endl;
@@ -457,26 +462,25 @@ class config {
       cout<<"--fqty,-Q filename     Quantities file"<<endl;
       cout<<"--fsuf,-S filename     Suffix rules file"<<endl;
       cout<<"--fprob,-P filename    Probabilities file"<<endl;
-      cout<<"--thres float          Probability threshold for unknown word tags"<<endl;
-      cout<<"--title int            Length beyond which an all_caps sentence is considered a title and not a proper noun"<<endl;
+      cout<<"--thres,-e float       Probability threshold for unknown word tags"<<endl;
       cout<<"--fdict,-D filename    Dictionary database"<<endl;
       cout<<"--fnp,-N filename      NP recognizer data file"<<endl;
       cout<<"--nec, --nonec         Whether to perform NE classification"<<endl;
       cout<<"--fnec filename        Filename prefix for NEC data XX.rgf, XX.lex, XX.abm"<<endl;
-      cout<<"--sense string         Type of sense annotation (no|none,all,mfs)"<<endl;
+      cout<<"--sense,-s string      Type of sense annotation (no|none,all,mfs)"<<endl;
       cout<<"--fsense,-W filename   Sense dictionary file"<<endl;
       cout<<"--dup, --nodup         Whether to duplicate analysis for each different sense"<<endl;
-      cout<<"--fpunct,-M filename   Punctuation symbols file"<<endl;
-      cout<<"--tag,-T string        Tagging alogrithm to use (hmm, relax)"<<endl;
+      cout<<"--fpunct,-F filename   Punctuation symbols file"<<endl;
+      cout<<"--tag,-t string        Tagging alogrithm to use (hmm, relax)"<<endl;
       cout<<"--hmm,-H filename      Data file for HMM tagger"<<endl;
       cout<<"--rlx,-R filename      Data file for RELAX tagger"<<endl;
       cout<<"--rtk, --nortk         Whether to perform retokenization after PoS tagging"<<endl;
       cout<<"--force string         Whether/when the tagger must be forced to select only one tag per word (none,tagger,retok)"<<endl;
-      cout<<"--iter int             Maximum number of iterations allowed for RELAX tagger."<<endl;
-      cout<<"--sf float             Support scale factor for RELAX tagger (affects step size)"<<endl;
+      cout<<"--iter,-i int          Maximum number of iterations allowed for RELAX tagger."<<endl;
+      cout<<"--sf,-r float          Support scale factor for RELAX tagger (affects step size)"<<endl;
       cout<<"--eps float            Epsilon value to decide when RELAX tagger achieves no more changes"<<endl;
       cout<<"--grammar,-G filename  Grammar file for chart parser"<<endl;
-      cout<<"--dep,-J filename  Rule file for dependency parser"<<endl;
+      cout<<"--txala,-T filename    Rule file for Txala dependency parser"<<endl;
       cout<<endl;
     }
 

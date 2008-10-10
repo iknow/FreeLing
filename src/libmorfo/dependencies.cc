@@ -40,7 +40,7 @@
 
 using namespace std;
 
-#define MOD_TRACENAME "DEPENDENCIES"
+#define MOD_TRACENAME "DEP_TXALA"
 #define MOD_TRACECODE DEP_TRACE
 
 
@@ -990,14 +990,14 @@ void depLabeler::label(dep_tree* dependency, dep_tree::iterator ancestor) {
 /// constructor. Load a dependecy rule file.
 ///////////////////////////////////////////////////////////////
 
-dependencyMaker::dependencyMaker(const string & fullgram, const string & startSymbol) : comp(fullgram), labeler(fullgram), start(startSymbol) {}
+dep_txala::dep_txala(const string & fullgram, const string & startSymbol) : comp(fullgram), labeler(fullgram), start(startSymbol) {}
 
 
 ///////////////////////////////////////////////////////////////
 /// Enrich all sentences in given list with a depenceny tree.
 ///////////////////////////////////////////////////////////////
 
-void dependencyMaker::analyze(list<sentence> & ls) {
+void dep_txala::analyze(list<sentence> & ls) {
 list<sentence>::iterator s;
 
   for (s=ls.begin(); s!=ls.end(); ++s) {
@@ -1026,7 +1026,7 @@ list<sentence>::iterator s;
 /// and return a copy. Useful for Perl API
 ///////////////////////////////////////////////////////////////
 
-list<sentence>  dependencyMaker::analyze(const list<sentence> & ls) {
+list<sentence> dep_txala::analyze(const list<sentence> & ls) {
 list<sentence> x;
 
   x=ls;
@@ -1041,7 +1041,7 @@ list<sentence> x;
 /// Obtain a depencendy tree from a parse tree.
 ///////////////////////////////////////////////////////////////
 
-dep_tree * dependencyMaker::dependencies(parse_tree::iterator tr, parse_tree::iterator link) {
+dep_tree * dep_txala::dependencies(parse_tree::iterator tr, parse_tree::iterator link) {
 
   dep_tree * result;
 

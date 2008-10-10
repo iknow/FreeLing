@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 //
 //    FreeLing - Open Source Language Analyzers
 //
@@ -26,19 +26,29 @@
 //
 ////////////////////////////////////////////////////////////////
 
-#ifndef _FREELING
-#define _FREELING
+#ifndef _DEP_PARSER
+#define _DEP_PARSER
 
-#include "freeling/tokenizer.h"
-#include "freeling/splitter.h"
-#include "freeling/maco.h"
-#include "freeling/nec.h"
-#include "freeling/senses.h"
-#include "freeling/semdb.h"
-#include "freeling/hmm_tagger.h"
-#include "freeling/relax_tagger.h"
-#include "freeling/chart_parser.h"
-#include "freeling/dependency_parser.h"
-#include "freeling/dependencies.h"
+#include <list> 
+#include "fries/language.h"
+
+////////////////////////////////////////////////////////////////
+///
+///  The class dependency_parser is just an abstract class
+///   generalizing any dependency parser
+///
+////////////////////////////////////////////////////////////////
+
+class dependency_parser {
+
+   public: 
+      dependency_parser() {};
+      virtual ~dependency_parser() {};
+      /// Enrich all sentences in given list with a depenceny tree.
+      virtual void analyze(std::list<sentence> &)=0;
+      /// Enrich all sentences in given list, return a copy.
+      virtual std::list<sentence> analyze(const std::list<sentence> &)=0;
+};
+
 
 #endif
