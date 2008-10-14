@@ -32,6 +32,8 @@
 #include <iostream>
 #include <string>
 #include <list>
+#include <cstdlib>
+
 #include "fries/language.h"
 #include "fries/util.h"
 

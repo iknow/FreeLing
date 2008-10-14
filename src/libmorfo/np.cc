@@ -73,6 +73,7 @@ np::np(const std::string &npFile): automat(), RE_NounAdj(RE_NA), RE_Closed(RE_CL
   
   // default
   Title_length = 0;
+  splitNPs=false;
   
   // load list of functional words that may be included in a NE.
   reading=0;
@@ -289,14 +290,24 @@ void np::SetMultiwordAnalysis(sentence::iterator i, int fstate) {
   // Setting the analysis for the Named Entity. 
   // The new MW is just created, so its list is empty.
   
-  // if the MW has only one word, and is an initial noun, copy its possible analysis.
-  if (initialNoun && i->get_n_words_mw()==1) {
-    TRACE(3,"copying first word analysis list");
-    i->copy_analysis(i->get_words_mw().front());
+
+  if (!splitNPs) {
+
+    // if the MW has only one word, and is an initial noun, copy its possible analysis.
+    if (initialNoun && i->get_n_words_mw()==1) {
+      TRACE(3,"copying first word analysis list");
+      i->copy_analysis(i->get_words_mw().front());
+    }
+    
+    TRACE(3,"adding NP analysis");
+    // Add an NP analysis, with the compound form as lemma.
+    i->add_analysis(analysis(util::lowercase(i->get_form()),NE_tag));
   }
 
-  TRACE(3,"adding NP analysis");
-  // Add an NP analysis, with the compound form as lemma.
-  i->add_analysis(analysis(util::lowercase(i->get_form()),NE_tag));
-}
+  else {
 
+    // recover the words inside the Multiword, and substitute
+    // the multiword by teh original words with "NE_tag"
+  }
+
+}

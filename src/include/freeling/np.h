@@ -62,6 +62,8 @@ class np: public automat {
       /// A value of zero deactivates this behaviour.
       unsigned int Title_length;
 
+      bool splitNPs;
+
       RegEx RE_NounAdj;
       RegEx RE_Closed;
       RegEx RE_DateNumPunct;

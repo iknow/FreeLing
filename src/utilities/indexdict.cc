@@ -42,6 +42,7 @@
 #include <iostream>
 #include <string>
 #include <db_cxx.h>
+#include <cstdlib>
 
 using namespace std;
 
@@ -59,8 +60,6 @@ int main(int argc, char *argv[])
     exit(res);
   }
 
-
-
   // read stdin and insert records in database
   for (nlin=0; getline(cin,s); nlin++) {
  
@@ -77,13 +76,14 @@ int main(int argc, char *argv[])
     // insert record in DB.
     res = mydbase.put(NULL, &key, &data, DB_NOOVERWRITE);
     if (res == DB_KEYEXIST) {
-      cerr<<"Unexpected duplicate key "<<s_form<<" at line "<<nlin<<endl;
-      exit(1);
+      mydbase.err(res,"Unexpected duplicate key %s at line %d",
+ 	 	      s_form.c_str(),nlin);
+      exit(res);
     }
   }
   
   if ((res=mydbase.close(0))) {
-    cerr<<"Error "<<res<<" while closing database";
-    exit(1);
+    mydbase.err(res,"Error %d while closing database");
+    exit(res);
   }
 }
