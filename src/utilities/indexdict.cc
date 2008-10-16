@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
   }
   
   if ((res=mydbase.close(0))) {
-    mydbase.err(res,"Error %d while closing database");
+    mydbase.err(res,"Error %d while closing database",res);
     exit(res);
   }
 }
