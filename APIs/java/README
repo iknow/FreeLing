@@ -15,10 +15,14 @@
   To get a java API library, after installing Freeling library, follow the steps:
 
   1.- Edit Makefile in this directory to adjust the right values of
-       FREELING_DIR = directory prefix where you installed freeling (probably /usr/local)
-       LIBS_DIR = directory where FreeLing required libraries (pcre, Berkeley DB, 
-                  fries, omlet) are installed.
-       SWIG_DIR = directory where swig share files are installed in your system (e.g. /usr/local/share/swig/1.3.29)
+       FREELING_DIR = directory prefix where you installed freeling, omlet,
+                      and fries (probably /usr/local)
+       LIBS_DIR = directory where FreeLing required libraries (pcre, Berkeley DB) 
+                  are installed, which contains lib and include directories
+                  (probably /usr/local if you compiled the libraries, or /usr if 
+                   you installed them from distribution packages)
+       SWIG_DIR = directory where swig share files are installed in your system
+                  (e.g. /usr/local/share/swig/1.3.29)
 
    2. Check if your swig version includes "std_list.i" template for java 
        (it should be in $SWIG_DIR/java/std_list.i)
