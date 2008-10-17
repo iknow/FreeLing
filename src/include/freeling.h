@@ -40,5 +40,6 @@
 #include "freeling/chart_parser.h"
 #include "freeling/dependency_parser.h"
 #include "freeling/dependencies.h"
+#include "freeling/malt_plugin.h"
 
 #endif

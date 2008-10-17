@@ -129,7 +129,9 @@ class config {
     char * PARSER_GrammarFile;
 
     /// Dependency options
+    int DEP_which;
     char * DEP_TxalaFile;    
+    char * DEP_MaltFile;
 
     /// constructor
     config(char **argv) {
@@ -227,6 +229,8 @@ class config {
 	{"grammar", 'G',  "GrammarFile",             CFG_STR, (void *) &PARSER_GrammarFile, 0},
         // dep options
 	{"txala", 'T', "DepTxalaFile",               CFG_STR, (void *) &DEP_TxalaFile, 0},
+	{"malt",  'M', "DepMaltFile",		     CFG_STR, (void *) &DEP_MaltFile,0},
+	{"dep",   'd', "DepParser",		     CFG_STR, (void *) &DepParser, 0},
 	CFG_END_OF_LIST
       };
       
@@ -271,7 +275,7 @@ class config {
       TAGGER_RelaxMaxIter=0; TAGGER_RelaxScaleFactor=0.0; TAGGER_RelaxEpsilon=0.0;
       TAGGER_Retokenize=0; TAGGER_ForceSelect=0;
       PARSER_GrammarFile=NULL;
-      DEP_TxalaFile=NULL; 
+      DEP_which=0; DEP_TxalaFile=NULL; DEP_MaltFile=NULL;
 
        // parse comand line
       cfg_set_cmdline_context(con, 1, -1, argv);
@@ -340,6 +344,7 @@ class config {
       ExpandFileName(TAGGER_RelaxFile); 
       ExpandFileName(PARSER_GrammarFile); 
       ExpandFileName(DEP_TxalaFile);
+      ExpandFileName(DEP_MaltFile);
 	     
       // Handle boolean options expressed with --myopt or --nomyopt in command line
       SetBooleanOptionCL(flush,noflush,AlwaysFlush,"flush");
@@ -380,6 +385,10 @@ class config {
       if (string(Tagger)=="hmm") TAGGER_which = HMM;
       else if (string(Tagger)=="relax") TAGGER_which = RELAX;
       else WARNING("Invalid tagger algorithm '"+string(Tagger)+"'. Using default.");
+
+      if (string(DepParser) == "malt") DEP_which = MALT;
+      else if (string(DepParser) == "txala") DEP_which = TXALA;
+      else WARNING("Invalid DEP parser '"+string(DepParser)+"'. Using default.");
 
       // Translate ForceSelect string to more useful integer values.
       if (string(Force)=="none" || string(Force)=="no") TAGGER_ForceSelect = FORCE_NONE;
@@ -480,7 +489,9 @@ class config {
       cout<<"--sf,-r float          Support scale factor for RELAX tagger (affects step size)"<<endl;
       cout<<"--eps float            Epsilon value to decide when RELAX tagger achieves no more changes"<<endl;
       cout<<"--grammar,-G filename  Grammar file for chart parser"<<endl;
+      cout<<"--dep,-d string        Dependency parser to use (txala, malt)"<<endl;
       cout<<"--txala,-T filename    Rule file for Txala dependency parser"<<endl;
+      cout<<"--malt,-M filename     Data file for dependency parser"<<endl;
       cout<<endl;
     }
 
