@@ -3,8 +3,14 @@ INCLUDES = -I$(top_srcdir)/src/include
 bin_PROGRAMS = analyzer
 
 analyzer_SOURCES = analyzer.cc
-analyzer_LDADD = -lmorfo -lomlet -lfries -lcfg+ -lpcre -ldb_cxx
-analyzer_LDFLAGS = -L$(top_srcdir)/src/libmorfo
+
+if ENABLE_MALT
+  LJVM = -ljvm
+else
+  LJVM =
+endif
+analyzer_LDADD = -lmorfo -lomlet -lfries -lcfg+ -lpcre -ldb_cxx $(LJVM)
+analyzer_LDFLAGS = -L$(top_srcdir)/src/libmorfo 
 
 install-exec-hook:
 	cp analyze analyze.utf analyze.server $(bindir)
