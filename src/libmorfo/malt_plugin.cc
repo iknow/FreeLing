@@ -31,6 +31,7 @@
 
 #ifdef ENABLE_MALT
 
+#include <cstdlib>
 #include "freeling/traces.h"
 #include "freeling/malt_plugin.h"
 
@@ -52,7 +53,9 @@ malt_parser::malt_parser (string file, string lang) {
 	jint res;
 	
 	// Create the classpath char
-	string path("-Djava.class.path=malt.jar:log4j.jar:libsvm.jar:libsvm28.jar");
+
+        string path="-Djava.class.path="+string(getenv("CLASSPATH"));
+	//	string path("-Djava.class.path=malt.jar:log4j.jar:libsvm.jar:libsvm28.jar");
 	options[0].optionString = const_cast<char *> (path.c_str());
 	// Debug options
 	//options[1].optionString = "-Xdebug";
