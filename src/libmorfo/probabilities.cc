@@ -290,7 +290,8 @@ void probabilities::smoothing(word &w) {
       m++;
     }
   }
-  c=c.substr(1);
+  if (c.empty()) WARNING("Empty ambiguity class for word '"+w.get_form()+"'. Duplicate NP analysis??");
+  else c=c.substr(1);
   
   TRACE(3,"Ambiguity class ("+c+") with "+util::double2string(m)+" tags.");
   
