@@ -1987,6 +1987,9 @@ china
      \item {\tt @NOTOP} Non-terminal symbols listed under this
      directive will not be considered as valid tree roots, even if
      they cover the complete sentence.
+    %% \item {\tt @ONLYTOP} Non-terminal symbols listed under this
+    %% directive will be considered only if they are rooting a tree 
+    %% covering the whole sentence.  (NOT IMPLEMENTED)
      \item {\tt @START} Specify which is the start symbol of the
        grammar. Exactly one non-terminal must be specified under this
        directive. 
@@ -1997,9 +2000,15 @@ china
      \item {\tt @FLAT} Subtrees for "flat" non-terminal symbols are flattened when
      the symbol is recursive. Only the highest occurrence appears 
      in the final parse tree.
-     \item {\tt @HIDEN} Non-teminal symbols specified under this
+     \item {\tt @HIDDEN} Non-teminal symbols specified under this
      directive will not appear in the final parse tree (their
      descendant nodes will be attached to their parent).
+     \item {\tt @PRIOR} lists of non-terminal symbols in decreasing 
+     priority order (the later in the list, the lower priority).
+     When a top cell can be covered with two different non-terminals,
+     the one with highest priority is chosen.  This has no effect
+     on non-top cells (in fact, if you want that, your grammar
+     is probably ambiguous and you should rethink it...)
    \end{itemize}
 
 %..................................................
