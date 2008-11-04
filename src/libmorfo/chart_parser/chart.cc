@@ -292,7 +292,6 @@ parse_tree chart::get_tree(int x, int y, const string &lab) const {
     for (ed=(*this)[index(x,y)].begin(); ed!=(*this)[index(x,y)].end(); ed++) {
       if (!ed->active() && !gram->is_hidden(ed->get_head()) && better_edge(*ed,best)) {
 	label=ed->get_head();
-	TRACE(3, "  selected best: "+label);
 	best=(*ed);
       }
     }
@@ -304,11 +303,15 @@ parse_tree chart::get_tree(int x, int y, const string &lab) const {
   TRACE(3, "  building tree for ("+util::int2string(x)+","+util::int2string(y)+"): "+label);
   if (label==gram->get_start_symbol() || !gram->is_terminal(label)) {
 
+    TRACE(3, "  Checking: "+label);
     // select edge to expand
     edge best;
     for (ed=(*this)[index(x,y)].begin(); ed!=(*this)[index(x,y)].end(); ed++) {
-      if (!ed->active() && label==ed->get_head() && better_edge(*ed,best)) 
+      if (!ed->active() && label==ed->get_head() && better_edge(*ed,best)) {
+
          best=(*ed);
+ 	 TRACE(3, "  selected best: "+best.get_head());
+      }
     }
     TRACE(3, "    expanding..");
 
@@ -332,7 +335,7 @@ parse_tree chart::get_tree(int x, int y, const string &lab) const {
 	// skip 'child' and append its daughters
 	for (parse_tree::sibling_iterator x=child.sibling_begin(); x!=child.sibling_end(); ++x)	{
           // if the skipped child was the head, preserve its head as new head for the father.
-          // other wise, make sure the child's head won't interfere
+          // otherwise, make sure the child's head won't interfere
           if (ch == g) headset=true; 
 	  else x->info.set_head(false);
 	  tr.append_child(*x);
