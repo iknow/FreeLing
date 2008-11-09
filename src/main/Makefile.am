@@ -13,5 +13,5 @@ analyzer_LDADD = -lmorfo -lomlet -lfries -lcfg+ -lpcre -ldb_cxx $(LJVM)
 analyzer_LDFLAGS = -L$(top_srcdir)/src/libmorfo 
 
 install-exec-hook:
-	cp analyze analyze.utf analyze.server $(bindir)
+	cp analyze analyze.utf analyze.server initialize $(bindir)
 	chmod +x $(bindir)/analyze $(bindir)/analyze.utf $(bindir)/analyze.server
