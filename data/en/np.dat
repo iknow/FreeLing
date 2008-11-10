@@ -27,7 +27,7 @@ Fat
 </SpecialPunct>
 ## Tag to be assigned to detected NEs
 <NE_Tag>
-NP
+NNP
 </NE_Tag>
 <TitleLimit>
 0
