@@ -29,7 +29,7 @@
 \chapter{FreeLing: Natural language analysis libraries}
 
 The FreeLing package consists of a library providing language analysis
-services (such as morfological analysis, date recognition, PoS
+services (such as morphological analysis, date recognition, PoS
 tagging, etc.)
 
 The current version (2.0) of the package provides tokenizing, sentence
@@ -1556,6 +1556,14 @@ china
   Obviously this heuristic is not 100\% accurate, but in some cases
   (e.g. if you are analyzing newspapers) it may be preferrable to the
   default behaviour (which is not 100\% accurate, either).
+  
+    \item Section \verb#<SplitMultiwords># contains only one line with either \verb#yes# or \verb#no#. If \verb#SplitMultiwords# is activated Named Entities still will be recognized but they will not be treated as a unit with only one Part-of-Speech tag for the whole compound. Each word gets its own Part-of-Speech tag instead.\\
+    Capitalized words get the Part-of-Speech tag as specified in \verb#NE_Tag#, The Part-of-Speech tags of non-capitalized words inside a Named Entity (typically, prepositions and articles) will be left untouched.
+\begin{verbatim}
+<SplitMultiwords>
+no
+</SplitMultiwords>
+\end{verbatim}
 \end{itemize}
 
 %..................................................
@@ -1987,9 +1995,9 @@ china
      \item {\tt @NOTOP} Non-terminal symbols listed under this
      directive will not be considered as valid tree roots, even if
      they cover the complete sentence.
-    %% \item {\tt @ONLYTOP} Non-terminal symbols listed under this
-    %% directive will be considered only if they are rooting a tree 
-    %% covering the whole sentence.  (NOT IMPLEMENTED)
+     %% \item {\tt @ONLYTOP} Non-terminal symbols listed under this
+     %% directive will be considered only if they are rooting a tree 
+     %% covering the whole sentence.  (NOT IMPLEMENTED)
      \item {\tt @START} Specify which is the start symbol of the
        grammar. Exactly one non-terminal must be specified under this
        directive. 

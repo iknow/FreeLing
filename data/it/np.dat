@@ -49,3 +49,6 @@ NP00000
 <TitleLimit>
 0
 </TitleLimit>
+<SplitMultiwords>
+no
+</SplitMultiwords>

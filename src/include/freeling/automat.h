@@ -103,7 +103,7 @@ class automat {
       virtual bool ValidMultiWord(const word &);
 
       /// Private function to re-arrange sentence when match found
-      sentence::iterator BuildMultiword(sentence &,sentence::iterator,sentence::iterator, int, bool &);
+      virtual sentence::iterator BuildMultiword(sentence &,sentence::iterator,sentence::iterator, int, bool &);
 
  protected:
       /// state code of initial state
