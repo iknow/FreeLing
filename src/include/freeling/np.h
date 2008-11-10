@@ -73,11 +73,10 @@ class np: public automat {
       void StateActions(int, int, int, sentence::const_iterator);
       void SetMultiwordAnalysis(sentence::iterator, int);
       bool ValidMultiWord(const word &);
-
+      sentence::iterator BuildMultiword(sentence &, sentence::iterator,sentence::iterator, int, bool &);
    public:
       /// Constructor
       np(const std::string &); 
 };
 
 #endif
-

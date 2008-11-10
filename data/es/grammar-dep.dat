@@ -733,6 +733,10 @@ verb ==>  VASF3S0.  	%hubiere%
 
 vaux==> VAI* | VAM* | VAS*.
 
+%% estar ha de formar grup-verb si esta sol ("yo estoy irresistible.")
+verb ==> VA*<estar>.
+
+
 % aquests participis nomes apareixen en  perífrasis determinades 
 parti-aux ==> VAP00SM.  	%habido
 parti-ser ==> VSP00SM.  	%sido

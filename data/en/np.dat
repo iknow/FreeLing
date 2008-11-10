@@ -42,3 +42,6 @@ french
 basque
 catalan
 </Ignore>
+<SplitMultiwords>
+no
+</SplitMultiwords>

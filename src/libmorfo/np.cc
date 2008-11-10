@@ -27,6 +27,7 @@
 ////////////////////////////////////////////////////////////////
 
 #include <fstream>  
+#include <iostream>  
 
 #include "freeling/np.h"
 #include "fries/util.h"
@@ -96,6 +97,8 @@ np::np(const std::string &npFile): automat(), RE_NounAdj(RE_NA), RE_Closed(RE_CL
     else if (line == "</RE_Closed>") reading=0;
     else if (line == "<RE_DateNumPunct>") reading=9;
     else if (line == "</RE_DateNumPunct>") reading=0;
+    else if (line == "<SplitMultiwords>") reading = 10;
+    else if (line == "</SplitMultiwords>") reading = 0;
     else if (reading==1)   // reading Function words
       func.insert(line);
     else if (reading==2)   // reading special punctuation tags
@@ -120,6 +123,8 @@ np::np(const std::string &npFile): automat(), RE_NounAdj(RE_NA), RE_Closed(RE_CL
       RegEx re(line);     
       RE_DateNumPunct=re;
     }
+    else if (reading==10)
+      splitNPs = (line.compare("yes")==0);
   }
   fabr.close(); 
   
@@ -262,7 +267,7 @@ void np::StateActions(int origin, int state, int token, sentence::const_iterator
 ///////////////////////////////////////////////////////////////
 
 bool np::ValidMultiWord(const word &w) {
-
+	
   // We do not consider a valid proper noun if all words are capitalized and there 
   // are more than Title_length words (it's probably a news title, e.g. "TITANIC WRECKS IN ARTIC SEAS!!")
   // Title_length==0 deactivates this feature
@@ -290,9 +295,6 @@ void np::SetMultiwordAnalysis(sentence::iterator i, int fstate) {
   // Setting the analysis for the Named Entity. 
   // The new MW is just created, so its list is empty.
   
-
-  if (!splitNPs) {
-
     // if the MW has only one word, and is an initial noun, copy its possible analysis.
     if (initialNoun && i->get_n_words_mw()==1) {
       TRACE(3,"copying first word analysis list");
@@ -302,12 +304,60 @@ void np::SetMultiwordAnalysis(sentence::iterator i, int fstate) {
     TRACE(3,"adding NP analysis");
     // Add an NP analysis, with the compound form as lemma.
     i->add_analysis(analysis(util::lowercase(i->get_form()),NE_tag));
-  }
-
-  else {
-
-    // recover the words inside the Multiword, and substitute
-    // the multiword by teh original words with "NE_tag"
-  }
 
 }
+
+sentence::iterator np::BuildMultiword(sentence &se, sentence::iterator start, sentence::iterator end, int fs, bool &built)
+{
+	sentence::iterator i;
+	list<word> mw;
+	string form;
+	
+	TRACE(3,"Building multiword");
+	for (i=start; i!=end; i++){
+		mw.push_back(*i);           
+		form += i->get_form()+"_";
+		TRACE(3,"added next ["+form+"]");
+	} 
+	// don't forget last word
+	mw.push_back(*i);           
+	form += i->get_form();
+	TRACE(3,"added last ["+form+"]");
+	
+	// build new word with the mw list, and check whether it is acceptable
+	word w(form,mw);
+	
+	if (ValidMultiWord(w)) {  
+		if (splitNPs) {
+			for (sentence::iterator j=start; j!=end+1; j++){
+				if (util::isuppercase(j->get_form()[0]))
+				{
+					j->set_analysis(analysis(util::lowercase(j->get_form()),NE_tag));
+				}
+			}
+			i=end+1;			
+			built=true;
+		}
+		else {
+			TRACE(3,"Valid Multiword. Modifying the sentence");
+			// erasing from the sentence the words that composed the multiword
+			end++;
+			i=se.erase(start, end);
+			// insert new multiword it into the sentence
+			i=se.insert(i,w); 
+			TRACE(3,"New word inserted");
+			// Set morphological info for new MW
+			SetMultiwordAnalysis(i,fs);
+			built=true;
+		}
+	}
+	else {
+		TRACE(3,"Multiword found, but rejected. Sentence untouched");
+		ResetActions();
+		i=end+1;
+		built=false;
+	}
+	
+	return(i);
+}
+
