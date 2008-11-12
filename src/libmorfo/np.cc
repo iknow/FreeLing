@@ -144,7 +144,7 @@ np::np(const std::string &npFile): automat(), RE_NounAdj(RE_NA), RE_Closed(RE_CL
   trans[NP][TK_mUpper]=NP;
   trans[NP][TK_mFun]=FUN;
   // State FUN
-  trans[FUN][TK_mUpper]=NP;
+  trans[FUN][TK_sUnkUpp]=NP; trans[FUN][TK_sNounUpp]=NP; trans[FUN][TK_mUpper]=NP;
   trans[FUN][TK_mFun]=FUN;
 
   TRACE(3,"analyzer succesfully created");
