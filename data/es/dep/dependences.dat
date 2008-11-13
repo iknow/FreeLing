@@ -19,12 +19,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%%% Incorporacions (juliol 2008) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Incorporacions (setembre 2008) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %									 %
-% classes verb preposicionals noves (GRPAR i GRLAB)			 %
-% classe marcadors discursius						 %
-% informacio semantica (GRLAB)						 %
-% reduccio de regles GRPAR						 %
+% modificacio regles d.tonto=Human					 %
 %									 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -54,13 +51,14 @@
 
 909  -  -   (sn,coor-subord)   top_left  RELABEL  -  % (la persona (con quien ha venido))
 
-911  -  -   (sn,subord-rel)	  top_left  RELABEL  -  % (la persona (con quien ha venido))
-911  -  -   (sn,subord-rel)	  top_left  RELABEL  -  % (el libro (que explica la novela))
+911  -  -   (sn,subord-rel)  top_left  RELABEL  -  % (la persona (con quien ha venido))
+911  -  -   (sn,subord-rel)  top_left  RELABEL  -  % (el libro (que explica la novela))
+911  -  -   (sn,subord-rel)  last_left MATCHING -
 
-921  -  grup-verb_*_$$_sp-de_grup-sp   (sn,sp-de) top_left  RELABEL - % mueve (los muebles (de madera)) de la tineda al taller
-%921  -  ~grup-verb[mov]_$$   (sn,sp-de)  top_left  RELABEL  -  % mueve (la mesa (de madera))
-921  -  ~$$_grup-verb[vprep-de]   (sn,sp-de)  top_left  RELABEL  -  % 
-921  -  $$_grup-verb   (sn,sp-de)  top_left  RELABEL  -  % (el presidente (del Parlamento Europeo))
+921  -  grup-verb[mov]_*_$$_sp-de  (sn,sp-de) top_left RELABEL - % mueve (los muebles (de madera)) del comedor
+921  -  grup-verb[mov]_*_$$_sp-de_grup-sp   (sn,sp-de) top_left  RELABEL - % mueve (los muebles (de madera)) de la tienda al taller
+921  -  ~grup-verb[mov]_$$   (sn,sp-de)  top_left  RELABEL  -  % mueve (la mesa (de madera))
+921  -  $$_grup-verb   (sn,sp-de)  top_left  RELABEL  -  % (el presidente (del Parlamento Europeo)) ha hablado
 
 923  -  -   (sn[np-a],grup-sp<a>)   top_left  RELABEL  -  % (la aproximacion (al analisis de cultivos))
 923  -  -   (sn[np-ante],grup-sp<ante>) top_left  RELABEL  -  % (la indignacion (ante la reforma laboral))
@@ -96,6 +94,7 @@
 %107  -  grup-verb_$$  (sp-de,sn)   last_left MATCHING sn
 
 121  -  -    (sp-de,sp-de)   last_left MATCHING sn[np-de]
+121  -  grup-verb_$$  (sp-de,sp-de) last_left MATCHING sn
 
 123  -  -    (sp-de,grup-sp<a>)   last_left MATCHING sn[np-a]
 123  -  -    (sp-de,grup-sp<ante>)   last_left MATCHING sn[np-ante]
@@ -124,7 +123,8 @@
 %207  -  grup-verb_$$  (grup-sp,sn)   last_left MATCHING sn
 %207  -  -  (grup-sp,sn)   last_left MATCHING grup-verb
 
-%221  -  -    (grup-sp,sp-de)   last_left MATCHING sn[np-de]
+221  -  OUT_$$_grup-verb  (grup-sp,sp-de) last_left MATCHING sn
+221  -  ~grup-verb[mov]_$$ (grup-sp,sp-de) last_left MATCHING sn
 
 %223  -  -    (grup-sp,grup-sp<a>)   last_left MATCHING sn[np-a]
 %223  -  -    (grup-sp,grup-sp<ante>)   last_left MATCHING sn[np-ante]
@@ -156,6 +156,13 @@
 9301 -  -  (grup-sp-inf,Fc)   top_left RELABEL -
 9301  -  -  (grup-sp-inf,Fc)   last_left MATCHING sn
 9989  -  -  (grup-sp-inf,F-term)   top_left RELABEL -
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% Sintagma adverbial									  	    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+1    -  -  (neg<no>,sadv<sólo>)  top_right RELABEL sadv
+650  -  -  (sadv<sólo>,grup-sp)  top_left RELABEL grup-verb-el % no solo en la escenografia %%% CALDRA DISTINGIR-LO DE LA COORDINACIO
+721  -  -  (sadv<a_bordo>,sp-de) top_left RELABEL - % (a bordo (de)) 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 % Sintagma verbal: CHUNKS POSTVERBALS	  							    %
@@ -4383,10 +4390,10 @@
 
 %%% PRONOMS RELATIUS COMPOSTOS %%%
 
-4000 -  -  (prep,espec-ms)	top_left RELABEL -
-4000 -  -  (prep,espec-fs)	top_left RELABEL -
-4000 -  -  (prep,espec-mp)	top_left RELABEL -
-4000 -  -  (prep,espec-fp)	top_left RELABEL -
+4000 -  -  (prep,espec-ms)	top_left RELABEL - % ha canviat: ESPEC depen del RELATIU
+4000 -  -  (prep,espec-fs)	top_left RELABEL - % ha canviat: ESPEC depen del RELATIU
+4000 -  -  (prep,espec-mp)	top_left RELABEL - % ha canviat: ESPEC depen del RELATIU
+4000 -  -  (prep,espec-fp)	top_left RELABEL - % ha canviat: ESPEC depen del RELATIU
 
 4000 -  -  (prep,prel)   top_left RELABEL relatiu  % el ordenador (con (que trabajais))
 4000  -  -  (prep,prel-ms)   top_left RELABEL relatiu % el ordenador (con (que trabajais))
@@ -4394,73 +4401,75 @@
 4000  -  -  (prep,prel-mp)   top_left RELABEL relatiu % los ordenadors (con (que trabajais))
 4000  -  -  (prep,prel-fp)   top_left RELABEL relatiu % las libretas (con (que trabajais))
 4000  -  -  (prep,quien-s)   top_left RELABEL relatiu  % la persona (con quien (hablais))
-4000  -  -  (prep,quien-p)   top_left RELABEL relatiu  % las personas (amb quienes (hablais))
+4000  -  -  (prep,quien-p)   top_left RELABEL relatiu  % las personas (con quienes (hablais))
+4000  -  -  (prep,cual-s)  top_left RELABEL relatiu % la persona (con la cual (hablais))
+4000  -  -  (prep,cual-p)  top_left RELABEL relatiu % la persona (con las cuales (hablais))
 
 %%% SUBSTANTIVACIONS DE SUBORDINADES %%%
 
-4100  -  conj-subord_*_$$  (espec-ms,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  prel_*_$$  (espec-ms,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  prel-ms_*_$$  (espec-ms,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  prel-fs_*_$$  (espec-ms,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  prel-mp_*_$$  (espec-ms,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  prel-fp_*_$$  (espec-ms,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  cuyo-ms_*_$$  (espec-ms,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  cuyo-fs_*_$$  (espec-ms,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  cuyo-mp_*_$$  (espec-ms,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  cuyo-fp_*_$$  (espec-ms,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  quien-s_*_$$  (espec-ms,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  quien-p_*_$$  (espec-ms,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  relatiu_*_$$  (espec-ms,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  prel-adv_*_$$  (espec-ms,subord-rel)   top_right RELABEL sn  % dins de subordinada
-6100  -  -  (espec-ms,subord-rel)   top_right RELABEL sn  % (el (que habla))
+4100  -  conj-subord_*_$$  (espec-ms,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  prel_*_$$  (espec-ms,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  prel-ms_*_$$  (espec-ms,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  prel-fs_*_$$  (espec-ms,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  prel-mp_*_$$  (espec-ms,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  prel-fp_*_$$  (espec-ms,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  cuyo-ms_*_$$  (espec-ms,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  cuyo-fs_*_$$  (espec-ms,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  cuyo-mp_*_$$  (espec-ms,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  cuyo-fp_*_$$  (espec-ms,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  quien-s_*_$$  (espec-ms,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  quien-p_*_$$  (espec-ms,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  relatiu_*_$$  (espec-ms,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  prel-adv_*_$$  (espec-ms,subord-rel)   top_right RELABEL subord  % dins de subordinada
+6100  -  -  (espec-ms,subord-rel)   top_right RELABEL subord  % (el (que habla))
 
-4100  -  conj-subord_*_$$  (espec-fs,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  prel_*_$$  (espec-fs,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  prel-ms_*_$$  (espec-fs,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  prel-fs_*_$$  (espec-fs,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  prel-mp_*_$$  (espec-fs,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  prel-fp_*_$$  (espec-fs,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  cuyo-ms_*_$$  (espec-fs,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  cuyo-fs_*_$$  (espec-fs,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  cuyo-mp_*_$$  (espec-fs,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  cuyo-fp_*_$$  (espec-fs,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  quien-s_*_$$  (espec-fs,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  quien-p_*_$$  (espec-fs,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  relatiu_*_$$  (espec-fs,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  prel-adv_*_$$  (espec-fs,subord-rel)   top_right RELABEL sn  % dins de subordinada
-6100  -  -  (espec-fs,subord-rel)   top_right RELABEL sn  % (la (que habla))
+4100  -  conj-subord_*_$$  (espec-fs,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  prel_*_$$  (espec-fs,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  prel-ms_*_$$  (espec-fs,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  prel-fs_*_$$  (espec-fs,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  prel-mp_*_$$  (espec-fs,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  prel-fp_*_$$  (espec-fs,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  cuyo-ms_*_$$  (espec-fs,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  cuyo-fs_*_$$  (espec-fs,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  cuyo-mp_*_$$  (espec-fs,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  cuyo-fp_*_$$  (espec-fs,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  quien-s_*_$$  (espec-fs,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  quien-p_*_$$  (espec-fs,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  relatiu_*_$$  (espec-fs,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  prel-adv_*_$$  (espec-fs,subord-rel)   top_right RELABEL subord  % dins de subordinada
+6100  -  -  (espec-fs,subord-rel)   top_right RELABEL subord  % (la (que habla))
 
-4100  -  conj-subord_*_$$  (espec-mp,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  prel_*_$$  (espec-mp,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  prel-ms_*_$$  (espec-mp,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  prel-fs_*_$$  (espec-mp,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  prel-mp_*_$$  (espec-mp,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  prel-fp_*_$$  (espec-mp,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  cuyo-ms_*_$$  (espec-mp,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  cuyo-fs_*_$$  (espec-mp,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  cuyo-mp_*_$$  (espec-mp,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  cuyo-fp_*_$$  (espec-mp,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  quien-s_*_$$  (espec-mp,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  quien-p_*_$$  (espec-mp,subord-rel)   top_right RELABEL sn  % dins de subordinada               
-4100  -  relatiu_*_$$  (espec-mp,subord-rel)   top_right RELABEL sn  % dins de subordinada               
-4100  -  prel-adv_*_$$  (espec-mp,subord-rel)   top_right RELABEL sn  % dins de subordinada              
-6100  -  -  (espec-mp,subord-rel)   top_right RELABEL sn  % (los (que hablan))
+4100  -  conj-subord_*_$$  (espec-mp,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  prel_*_$$  (espec-mp,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  prel-ms_*_$$  (espec-mp,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  prel-fs_*_$$  (espec-mp,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  prel-mp_*_$$  (espec-mp,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  prel-fp_*_$$  (espec-mp,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  cuyo-ms_*_$$  (espec-mp,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  cuyo-fs_*_$$  (espec-mp,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  cuyo-mp_*_$$  (espec-mp,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  cuyo-fp_*_$$  (espec-mp,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  quien-s_*_$$  (espec-mp,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  quien-p_*_$$  (espec-mp,subord-rel)   top_right RELABEL subord  % dins de subordinada               
+4100  -  relatiu_*_$$  (espec-mp,subord-rel)   top_right RELABEL subord  % dins de subordinada               
+4100  -  prel-adv_*_$$  (espec-mp,subord-rel)   top_right RELABEL subord  % dins de subordinada              
+6100  -  -  (espec-mp,subord-rel)   top_right RELABEL subord  % (los (que hablan))
 
-4100  -  conj-subord_*_$$  (espec-fp,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  prel_*_$$  (espec-fp,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  prel-ms_*_$$  (espec-fp,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  prel-fs_*_$$  (espec-fp,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  prel-mp_*_$$  (espec-fp,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  prel-fp_*_$$  (espec-fp,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  cuyo-ms_*_$$  (espec-fp,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  cuyo-fs_*_$$  (espec-fp,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  cuyo-mp_*_$$  (espec-fp,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  cuyo-fp_*_$$  (espec-fp,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  quien-s_*_$$  (espec-fp,subord-rel)   top_right RELABEL sn  % dins de subordinada
-4100  -  quien-p_*_$$  (espec-fp,subord-rel)   top_right RELABEL sn  % dins de subordinada               
-4100  -  relatiu_*_$$  (espec-fp,subord-rel)   top_right RELABEL sn  % dins de subordinada               
-4100  -  prel-adv_*_$$  (espec-fp,subord-rel)   top_right RELABEL sn  % dins de subordinada              
-6100  -  -  (espec-fp,subord-rel)   top_right RELABEL sn  % (las (que hablan))
+4100  -  conj-subord_*_$$  (espec-fp,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  prel_*_$$  (espec-fp,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  prel-ms_*_$$  (espec-fp,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  prel-fs_*_$$  (espec-fp,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  prel-mp_*_$$  (espec-fp,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  prel-fp_*_$$  (espec-fp,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  cuyo-ms_*_$$  (espec-fp,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  cuyo-fs_*_$$  (espec-fp,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  cuyo-mp_*_$$  (espec-fp,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  cuyo-fp_*_$$  (espec-fp,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  quien-s_*_$$  (espec-fp,subord-rel)   top_right RELABEL subord  % dins de subordinada
+4100  -  quien-p_*_$$  (espec-fp,subord-rel)   top_right RELABEL subord  % dins de subordinada               
+4100  -  relatiu_*_$$  (espec-fp,subord-rel)   top_right RELABEL subord  % dins de subordinada               
+4100  -  prel-adv_*_$$  (espec-fp,subord-rel)   top_right RELABEL subord  % dins de subordinada              
+6100  -  -  (espec-fp,subord-rel)   top_right RELABEL subord  % (las (que hablan))
 
 %%% PUNTUACIO DE LES SUBORDINADES FINITES %%%
 
@@ -4525,8 +4534,6 @@ WNFile 		../../common/wn16.db
 </SEMDB>
 
 <GRLAB>
-UNIQUE iobj dobj subj
-
 grup-verb       subj   		d.label=sn*             		d.side=right			p.class=intr
 grup-verb       subj   		d.label=sn*     			d.side=left
 
@@ -4568,17 +4575,17 @@ grup-verb-inf   att             d.label=numero                          d.side=r
 subord-ger      att             d.label=numero                          d.side=right                    p.class=atrib
 subord-part     att             d.label=numero                          d.side=right                    p.class=atrib
 
-grup-verb       dobj            d.label=grup-sp                         d.side=right	d.lemma=a|al    d:sn.tonto=Human	p.class!=viobj|ditr|vp-a
-verb-pass       dobj            d.label=grup-sp                         d.side=right    d.lemma=a|al    d:sn.tonto=Human        p.class!=viobj|ditr|vp-a
-grup-verb-inf   dobj            d.label=grup-sp                         d.side=right    d.lemma=a|al	d:sn.tonto=Human	p.class!=viobj|ditr|vp-a
-subord-ger      dobj            d.label=grup-sp                         d.side=right    d.lemma=a|al	d:sn.tonto=Human	p.class!=viobj|ditr|vp-a
-subord-part     dobj            d.label=grup-sp                         d.side=right    d.lemma=a|al	d:sn.tonto=Human	p.class!=viobj|ditr|vp-a
+grup-verb       dobj            d.label=grup-sp                         d.side=right	d.lemma=a|al    d:sn.tonto=Human	p.class!=viobj|ditr
+verb-pass       dobj            d.label=grup-sp                         d.side=right    d.lemma=a|al    d:sn.tonto=Human        p.class!=viobj|ditr
+grup-verb-inf   dobj            d.label=grup-sp                         d.side=right    d.lemma=a|al	d:sn.tonto=Human	p.class!=viobj|ditr
+subord-ger      dobj            d.label=grup-sp                         d.side=right    d.lemma=a|al	d:sn.tonto=Human	p.class!=viobj|ditr
+subord-part     dobj            d.label=grup-sp                         d.side=right    d.lemma=a|al	d:sn.tonto=Human	p.class!=viobj|ditr
 
-grup-verb       dobj            d.label=coor-sp                         d.side=right    d.lemma=a|al    d:grup-sp:sn.tonto=Human        p.class!=viobj|ditr|vp-a
-verb-pass       dobj            d.label=coor-sp                         d.side=right    d.lemma=a|al    d:grup-sp:sn.tonto=Human        p.class!=viobj|ditr|vp-a
-grup-verb-inf   dobj            d.label=coor-sp                         d.side=right    d.lemma=a|al    d:grup-sp:sn.tonto=Human        p.class!=viobj|ditr|vp-a
-subord-ger      dobj            d.label=coor-sp                         d.side=right    d.lemma=a|al    d.grup-sp:sn.tonto=Human        p.class!=viobj|ditr|vp-a
-subord-part     dobj            d.label=coor-sp                         d.side=right    d.lemma=a|al    d.grup-sp:sn.tonto=Human        p.class!=viobj|ditr|vp-a
+grup-verb       dobj            d.label=coor-sp                         d.side=right    d.lemma=a|al    d:grup-sp:sn.tonto=Human        p.class!=viobj|ditr
+verb-pass       dobj            d.label=coor-sp                         d.side=right    d.lemma=a|al    d:grup-sp:sn.tonto=Human        p.class!=viobj|ditr
+grup-verb-inf   dobj            d.label=coor-sp                         d.side=right    d.lemma=a|al    d:grup-sp:sn.tonto=Human        p.class!=viobj|ditr
+subord-ger      dobj            d.label=coor-sp                         d.side=right    d.lemma=a|al    d.grup-sp:sn.tonto=Human        p.class!=viobj|ditr
+subord-part     dobj            d.label=coor-sp                         d.side=right    d.lemma=a|al    d.grup-sp:sn.tonto=Human        p.class!=viobj|ditr
 
 grup-verb       dobj		d.label=sn*     			d.side=right			p.class!=intr|atrib
 grup-verb-inf	dobj		d.label=sn*				d.side=right			p.class!=intr|atrib
@@ -4642,19 +4649,41 @@ sp-de		prepos		d.label=numero
 grup-sp		prepos		d.label=data
 sp-de		prepos		d.label=data
 
+grup-sp         prepos          d.label=ptonic
+sp-de           prepos          d.label=ptonic
+
 grup-sp-inf	prepos		d.label=grup-verb-inf
 
-grup-verb       iobj            d.label=grup-sp                         d.side=right    d.lemma=a|para		d:sn.tonto=Human	p.class=ditr|viobj|vp-a
-verb-pass       iobj            d.label=grup-sp                         d.side=right    d.lemma=a|para          d:sn.tonto=Human	p.class=ditr|viobj|vp-a
-grup-verb-inf   iobj            d.label=grup-sp                         d.side=right    d.lemma=a|para          d:sn.tonto=Human	p.class=ditr|viobj|vp-a
-subord-ger      iobj            d.label=grup-sp                         d.side=right    d.lemma=a|para          d:sn.tonto=Human	p.class=ditr|viobj|vp-a
-subord-part     iobj            d.label=grup-sp                         d.side=right    d.lemma=a|para          d:sn.tonto=Human	p.class=ditr|viobj|vp-a
+grup-sp         prepos          d.label=sadv
+sp-de           prepos          d.label=sadv
 
-grup-verb       iobj            d.label=coor-sp             d.side=right    d:grup-sp.lemma=a|para  d:grup-sp:sn.tonto=Human    p.class=ditr|viobj|vp-a
-verb-pass       iobj            d.label=coor-sp             d.side=right    d:grup-sp.lemma=a|para  d:grup-sp:sn.tonto=Human	p.class=ditr|viobj|vp-a
-grup-verb-inf   iobj            d.label=coor-sp             d.side=right    d:grup-sp.lemma=a|para  d:grup-sp:sn.tonto=Human	p.class=ditr|viobj|vp-a
-subord-ger      iobj            d.label=coor-sp             d.side=right    d:grup-sp.lemma=a|para  d:grup-sp:sn.tonto=Human	p.class=ditr|viobj|vp-a
-subord-part     iobj            d.label=coor-sp             d.side=right    d:grup-sp.lemma=a|para  d:grup-sp:sn.tonto=Human	p.class=ditr|viobj|vp-a
+grup-sp         prepos          d.label=coor-sadv
+sp-de           prepos          d.label=coor-sadv
+
+subord-rel      prepos          d.label=prel*
+subord-rel      prepos          d.label=quien*
+subord-rel	prepos		d.label=cual*
+
+grup-sp		prepos		d.label=espec*
+sp-de		prepos		d.label=espec*
+
+grup-sp		prepos		d.label=j*
+sp-de		prepos		d.label=j*
+
+subord-rel	prepos		d.label=espec*
+subord-rel	prepos		d.label=j*
+
+grup-verb       iobj            d.label=grup-sp             d.side=right    d.lemma=a|para	    d:sn.tonto=Human	d:sn.tonto!=Building	p.class=ditr|viobj
+verb-pass       iobj            d.label=grup-sp             d.side=right    d.lemma=a|para          d:sn.tonto=Human	d:sn.tonto!=Building	p.class=ditr|viobj
+grup-verb-inf   iobj            d.label=grup-sp             d.side=right    d.lemma=a|para          d:sn.tonto=Human	d:sn.tonto!=Building	p.class=ditr|viobj
+subord-ger      iobj            d.label=grup-sp             d.side=right    d.lemma=a|para          d:sn.tonto=Human	d:sn.tonto!=Building	p.class=ditr|viobj
+subord-part     iobj            d.label=grup-sp             d.side=right    d.lemma=a|para          d:sn.tonto=Human	d:sn.tonto!=Building	p.class=ditr|viobj
+
+grup-verb       iobj            d.label=coor-sp             d.side=right    d:grup-sp.lemma=a|para  d:grup-sp:sn.tonto=Human    d:sn.tonto!=Building	p.class=ditr|viobj
+verb-pass       iobj            d.label=coor-sp             d.side=right    d:grup-sp.lemma=a|para  d:grup-sp:sn.tonto=Human	d:sn.tonto!=Building	p.class=ditr|viobj
+grup-verb-inf   iobj            d.label=coor-sp             d.side=right    d:grup-sp.lemma=a|para  d:grup-sp:sn.tonto=Human	d:sn.tonto!=Building	p.class=ditr|viobj
+subord-ger      iobj            d.label=coor-sp             d.side=right    d:grup-sp.lemma=a|para  d:grup-sp:sn.tonto=Human	d:sn.tonto!=Building	p.class=ditr|viobj
+subord-part     iobj            d.label=coor-sp             d.side=right    d:grup-sp.lemma=a|para  d:grup-sp:sn.tonto=Human	d:sn.tonto!=Building	p.class=ditr|viobj
 
 grup-verb       cc		d.label=grup-sp-inf			d.side=left     d.lemma=a|al
 verb-pass       cc              d.label=grup-sp-inf			d.side=left     d.lemma=a|al
@@ -5043,6 +5072,13 @@ grup-verb-inf   cc              d.label=forma-ger
 subord-ger      cc              d.label=forma-ger            
 subord-part     cc              d.label=forma-ger
 
+grup-verb       cc              d.label=subord-part
+verb-pass       cc              d.label=subord-part
+grup-verb-inf   cc              d.label=subord-part
+grup-verb-inf   cc              d.label=subord-part
+subord-ger      cc              d.label=subord-part   
+subord-part     cc              d.label=subord-part     
+
 sn		sn-mod		d.label=sn*
 sn		sn-mod		d.label=w*
 sn		sn-mod		d.label=n*
@@ -5050,6 +5086,7 @@ sn		sn-mod		d.label=coor-n
 sn		sn-mod		d.label=numero
 
 sn		sp-mod		d.label=grup-sp|sp-de|grup-sp-inf|coor-sp
+sadv		sp-mod		d.label=grup-sp|sp-de|grup-sp-inf|coor-sp
 
 sn              adj-mod    	d.label=s-a*
 sn		adj-mod		d.label=coor-s-a*
@@ -5099,6 +5136,7 @@ s-a-fs		espec           d.label=sadv
 s-a-mp		espec           d.label=sadv
 s-a-fp		espec		d.label=sadv
 
+subord		espec		d.label=espec*
 grup-verb-inf	espec		d.label=espec*
 
 grup-verb	aux		d.label=vaux
@@ -5117,6 +5155,18 @@ grup-verb-inf	aux		d.label=parti-flex
 
 verb-pass	aux		d.label=parti-ser
 inf-pass	aux		d.label=parti-ser
+
+grup-verb	aux		d.label=VM*
+verb-pass       aux             d.label=VM*
+verb-pass       aux             d.label=VM*
+grup-verb-inf   aux             d.label=VM*
+inf-pas         aux             d.label=VM*
+grup-verb-inf   aux             d.label=VM*
+verb-pass       aux             d.label=VM*
+inf-pas         aux             d.label=VM*
+grup-verb-inf   aux             d.label=VM*
+verb-pass       aux             d.label=VM*
+inf-pass        aux             d.label=VM*
 
 grup-verb	es		d.label=morf-pron
 grup-verb-inf	es		d.label=morf-pron
@@ -5140,13 +5190,33 @@ coor-inf	co-inf		d.label=grup-verb-inf
 coor-ger	co-ger		d.label=subord-ger
 coor-part 	co-part		d.label=subord-part
 
-subord		dep		d.label=grup-verb
+subord		vsubord		d.label=grup-verb
+subord-rel	vsubord		d.label=grup-verb
 
-subord-rel	dep		d.label=grup-verb
-subord-rel	dep		d.label=espec*
-subord-rel	dep		d.label=prel*
+sn		vsubord		d.label=grup-verb
 
-sn		dep		d.label=grup-verb
+grup-verb	dprep		d.label=SPS00
+numero-nopart	dprep		d.label=SPS00
+
+grup-verb	dconj		d.label=CS
+
+grup-verb-el	dep-noun	d.label=sn
+grup-verb-el	dep-noun	d.label=w*
+grup-verb-el	dep-noun	d.label=coor-n
+
+grup-verb-el	dep-prep	d.label=grup-sp
+grup-verb-el	dep-prep	d.label=sp-de
+grup-verb-el	dep-prep	d.label=grup-sp-inf
+grup-verb-el	dep-prep	d.label=coor-sp
+
+grup-verb-el	dep-adv		d.label=sadv
+grup-verb-el	dep-adv		d.label=coor-sadv
+grup-verb-el	dep-adv		d.label=neg
+
+grup-verb-el    dep-subord      d.label=subord
+grup-verb-el    dep-inf         d.label=grup-verb-inf
+grup-verb-el    dep-ger         d.label=subord-ger
+grup-verb-el    dep-part        d.label=subord-part
 
 grup-verb	term		d.label=F-term
 verb-pass	term		d.label=F-term
