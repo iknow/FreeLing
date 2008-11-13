@@ -60,10 +60,16 @@
 
 919 -  -   (sn,coor-sp)  last_left MATCHING sn  % (el representant (dels professors i dels alumnes))
 
-921  -  $$_sp-de_grup-sp  (sn,sp-de)  top_left  RELABEL -  % traslladar (els mobles (de l'oficina)) de la botiga al taller
+921  -  grup-verb[mov]_*_$$_sp-de  (sn,sp-de) top_left RELABEL - % mou (els mobles (de fusta)) del menjador
+921  -  grup-verb[mov]_*_$$_sp-de_grup-sp   (sn,sp-de) top_left  RELABEL - % mou (els mobles (de fusta)) de la botiga al taller
+921  -  ~grup-verb[mov]_$$   (sn,sp-de)  top_left  RELABEL  -  % moue (la taula (de fusta))
+921  -  $$_grup-verb   (sn,sp-de)  top_left  RELABEL  -  % (el president (del Parlament Europeu)) ha parlat
+
+%921  -  $$_sp-de_grup-sp  (sn,sp-de)  top_left  RELABEL -  % traslladar (els mobles (de l'oficina)) de la botiga al taller
 %921  -  sn_*_~grup-verb[mov]_$$  (sn,sp-de) top_left  RELABEL -  % mou (la taula (de fusta))
 %921  -  $$_~grup-verb[vprep-de]   (sn,sp-de)  top_left  RELABEL  -  %
-921  -	$$_grup-verb   (sn,sp-de)   top_left  RELABEL - % (el timbre (de la cuina)) sona
+%921  -	$$_grup-verb   (sn,sp-de)   top_left  RELABEL - % (el timbre (de la cuina)) sona
+%921  -  ~grup-verb[mov]_$$  (sn,sp-de)  top_left RELABEL -
 
 923  -  -   (sn[np-a],grup-sp<a>)   top_left  RELABEL  -  % (l'assitencia (a la conferencia))
 923  -  -   (sn[np-amb],grup-sp<amb>) top_left  RELABEL  -  % (el conflicte (amb els paisos veins))
@@ -108,6 +114,8 @@
 2107  -  sadv{^PT}_$$  (sp-de,sn)   last_left MATCHING infinitiu  % dins de subordinada
 2107  -  -  (sp-de,sn)   last_left MATCHING infinitiu  % parla d'(acabar (la feina))
 
+121  -  -    (sp-de,sp-de)   last_left MATCHING sn[np-de]             
+121  -  grup-verb_$$  (sp-de,sp-de) last_left MATCHING sn           
 921  -  grup-verb_$$  (sp-de,sp-de)   last_left MATCHING sn 
 2121  -  -  (sp-de,sp-de)   last_left MATCHING infinitiu 
 
@@ -130,8 +138,6 @@
 
 %%% SINTAGMA PREPOSICIONAL %%%
 
-%907  -  grup-verb_$$  (grup-sp,sn)   last_left MATCHING sn 
-
 2103  -  conj-subord_$$  (grup-sp,patons)   last_left MATCHING infinitiu  % dins de subordinada
 2103  -  que-a_$$  (grup-sp,patons)   last_left MATCHING infinitiu  % dins de subordinada
 2103  -  qui_$$  (grup-sp,patons)   last_left MATCHING infinitiu  % dins de subordinada
@@ -149,6 +155,9 @@
 2107  -  sn{^PT}_$$  (grup-sp,sn)   last_left MATCHING infinitiu  % dins de subordinada
 2107  -  sadv{^PT}_$$  (grup-sp,sn)   last_left MATCHING infinitiu  % dins de subordinada
 2107  -  -  (grup-sp,sn)   last_left MATCHING infinitiu  % deixa les claus (en acabar (la feina))
+
+221  -  OUT_$$_grup-verb  (grup-sp,sp-de) last_left MATCHING sn
+221  -  ~grup-verb[mov]_$$ (grup-sp,sp-de) last_left MATCHING sn
 
 223  -  -    (grup-sp,grup-sp<a>)   last_left MATCHING sn[np-a]
 223  -  -    (grup-sp,grup-sp<amb>)   last_left MATCHING sn[np-amb]
@@ -746,8 +755,8 @@
 %%% PUNTUACIO DEL SINTAGMA VERBAL %%%
 
 9401  -  -  (grup-verb,Fc)   top_left RELABEL -  % (menjar (,))
-9001  -  -  (grup-verb,F-term<.>)   top_left RELABEL -  % (pensar (.))
-9001 -  -  (grup-verb,F-term)   top_left RELABEL -  % (acordar (-))
+9001  -  -  (grup-verb,F-no-c<.>)   top_left RELABEL -  % (pensar (.))
+9001 -  -  (grup-verb,F-no-c)   top_left RELABEL -  % (acordar (-))
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Modalitat passiva: CHUNKS POSTVERBALS		                                                    %
@@ -2995,6 +3004,8 @@
 
 7071 -  OUT_$$  (sn{^PT},grup-verb)   top_right RELABEL - % ((que) va passar)?
 7071 -  OUT_$$  (sn{^PT},vaux)   top_right RELABEL - % ((qui) va) a la festa?
+7071 -  OUT_$$  (sadv{^PT},grup-verb) top_right RELABEL -
+7071 -  OUT_$$  (sadv{^PT},vaux) top_right RELABEL -
 6001 -  OUT_$$_~grup-verb  (conj-subord<on>,grup-verb)   top_right RELABEL - % ((on) ets)?
 6001 -  OUT_$$_~grup-verb  (conj-subord<on>,vaux)   top_right RELABEL - % ((on) vas)?
 6001 -  OUT_$$_~grup-verb  (conj-subord<quan>,grup-verb)   top_right RELABEL - % ((quan) marxes)?
@@ -3087,14 +3098,14 @@
 
 %%% SUBSTANTIVACIONS DE SUBORDINADES %%%
 
-4100  -  -  (espec-ms,subord-rel)   top_right RELABEL sn  % ((el) que ha fallat)
-4100  -  -  (espec-fs,subord-rel)   top_right RELABEL sn  % ((la) que ha arribat)
-4100  -  -  (espec-mp,subord-rel)   top_right RELABEL sn  % ((els) que han menjat pollastre)
-4100  -  -  (espec-fp,subord-rel)   top_right RELABEL sn  % ((les) que han desaparegut)
-4100  -  -  (espec-ms,sn{^N}<qui>)   top_right RELABEL sn  % ((el) qui avisa)
-4100  -  -  (espec-fs,sn{^N}<qui>)   top_right RELABEL sn  % ((la) qui parla)
-4100  -  -  (espec-mp,sn{^N}<qui>)   top_right RELABEL sn  % ((els) qui vinguin)
-4100  -  -  (espec-fp,sn{^N}<qui>)   top_right RELABEL sn  % ((les) qui mengin abans d'hora)
+4100  -  -  (espec-ms,subord-rel)   top_right RELABEL subord  % ((el) que ha fallat)
+4100  -  -  (espec-fs,subord-rel)   top_right RELABEL subord  % ((la) que ha arribat)
+4100  -  -  (espec-mp,subord-rel)   top_right RELABEL subord  % ((els) que han menjat pollastre)
+4100  -  -  (espec-fp,subord-rel)   top_right RELABEL subord  % ((les) que han desaparegut)
+4100  -  -  (espec-ms,sn{^N}<qui>)   top_right RELABEL subord  % ((el) qui avisa)
+4100  -  -  (espec-fs,sn{^N}<qui>)   top_right RELABEL subord  % ((la) qui parla)
+4100  -  -  (espec-mp,sn{^N}<qui>)   top_right RELABEL subord  % ((els) qui vinguin)
+4100  -  -  (espec-fp,sn{^N}<qui>)   top_right RELABEL subord  % ((les) qui mengin abans d'hora)
 
 %%% PUNTUACIO DE LES SUBORDINADES FINITES %%%
 
@@ -3152,10 +3163,8 @@
 </GRPAR>
 
 <SEMDB>
-
 SenseFile       ../senses16.db
 WNFile          ../../common/wn16.db
-
 </SEMDB>
 
 <GRLAB>
@@ -3268,6 +3277,21 @@ sp-de           prepos          d.label=numero
 grup-sp		prepos		d.label=data
 sp-de		prepos		d.label=data
 
+subord-rel      prepos          d.label=prel*
+subord-rel	prepos		d.label=que-t
+subord-rel      prepos          d.label=qui
+subord-rel      prepos          d.label=qual*
+subord-rel      prepos          d.label=DR*
+
+grup-sp         prepos          d.label=espec*
+sp-de           prepos          d.label=espec*
+
+grup-sp         prepos          d.label=j*
+sp-de           prepos          d.label=j*
+
+subord-rel      prepos          d.label=espec*
+subord-rel      prepos          d.label=j*
+
 grup-verb	cc		d.label=grup-sp			d.side=left	d:inf.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que	d.lemma=en
 verb-pass	cc              d.label=grup-sp                 d.side=left     d:inf.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que        d.lemma=en
 inf		cc		d.label=grup-sp			d.side=left	d:inf.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que        d.lemma=en
@@ -3282,12 +3306,12 @@ infinitiu	cc		d.label=grup-sp			d.side=left	d:infinitiu.class=trans|ditr|intr|pr
 subord-ger	cc		d.label=grup-sp			d.side=left	d:infinitiu.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que  d.lemma=en
 subord-part	cc		d.label=grup-sp			d.side=left	d:infinitiu.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que  d.lemma=en
 
-grup-verb       iobj            d.label=grup-sp         	d.side=right    d.lemma=a|per	d:sn.tonto=Human	p.class=ditr|trans|vp-a
-verb-pass       iobj            d.label=grup-sp                 d.side=right    d.lemma=a|per   d:sn.tonto=Human        p.class=ditr|trans|vp-a
-inf		iobj		d.label=grup-sp			d.side=right	d.lemma=a|per	d:sn.tonto=Human	p.class=ditr|trans|vp-a
-infinitiu	iobj		d.label=grup-sp			d.side=right	d.lemma=a|per	d:sn.tonto=Human	p.class=ditr|trans|vp-a
-subord-ger	iobj		d.label=grup-sp			d.side=right	d.lemma=a|per	d:sn.tonto=Human	p.class=ditr|trans|vp-a
-subord-part	iobj		d.label=grup-sp			d.side=right	d.lemma=a|per	d:sn.tonto=Human	p.class=ditr|trans|vp-a
+grup-verb       iobj            d.label=grup-sp         d.side=right    d.lemma=a|per	d:sn.tonto=Human	d:sn.tonto!=Building	p.class=ditr|trans|vp-a
+verb-pass       iobj            d.label=grup-sp         d.side=right    d.lemma=a|per   d:sn.tonto=Human        d:sn.tonto!=Building	p.class=ditr|trans|vp-a
+inf		iobj		d.label=grup-sp		d.side=right	d.lemma=a|per	d:sn.tonto=Human	d:sn.tonto!=Building	p.class=ditr|trans|vp-a
+infinitiu	iobj		d.label=grup-sp		d.side=right	d.lemma=a|per	d:sn.tonto=Human	d:sn.tonto!=Building	p.class=ditr|trans|vp-a
+subord-ger	iobj		d.label=grup-sp		d.side=right	d.lemma=a|per	d:sn.tonto=Human	d:sn.tonto!=Building	p.class=ditr|trans|vp-a
+subord-part	iobj		d.label=grup-sp		d.side=right	d.lemma=a|per	d:sn.tonto=Human	d:sn.tonto!=Building	p.class=ditr|trans|vp-a
 
 grup-verb       iobj            d.label=coor-sp                 d.side=right    d.lemma=a|per   d:grup-sp:sn.tonto=Human        p.class=ditr|trans|vp-a
 verb-pass       iobj            d.label=coor-sp                 d.side=right    d.lemma=a|per   d:grup-sp:sn.tonto=Human        p.class=ditr|trans|vp-a
@@ -3620,19 +3644,19 @@ infinitiu	pred            d.label=subord-part                                   
 subord-ger      pred            d.label=subord-part                                                             p.class=pred
 subord-part     pred            d.label=subord-part                                                             p.class=pred
 
-grup-verb       pred            d.label=s-adj|coor-s-a
-verb-pass       pred            d.label=s-adj|coor-s-a
-inf             pred            d.label=s-adj|coor-s-a
-infinitiu       pred            d.label=s-adj|coor-s-a
-subord-ger      pred            d.label=s-adj|coor-s-a
-subord-part     pred            d.label=s-adj|coor-s-a
+grup-verb       cc              d.label=s-adj|coor-s-a
+verb-pass       cc              d.label=s-adj|coor-s-a
+inf             cc              d.label=s-adj|coor-s-a
+infinitiu       cc              d.label=s-adj|coor-s-a
+subord-ger      cc              d.label=s-adj|coor-s-a
+subord-part     cc              d.label=s-adj|coor-s-a
 
-grup-verb       pred            d.label=subord-part
-verb-pass       pred            d.label=subord-part
-inf             pred            d.label=subord-part
-infinitiu       pred            d.label=subord-part
-subord-ger      pred            d.label=subord-part
-subord-part     pred            d.label=subord-part
+grup-verb       cc              d.label=subord-part
+verb-pass       cc              d.label=subord-part
+inf             cc              d.label=subord-part
+infinitiu       cc              d.label=subord-part
+subord-ger      cc              d.label=subord-part
+subord-part     cc              d.label=subord-part
 
 grup-verb       cc              d.label=subord					d.lemma!=que|qui                p.class!=que
 verb-pass       cc              d.label=subord                                  d.lemma!=que|qui                p.class!=que
@@ -3699,12 +3723,18 @@ data		espec			d.label=indef*
 
 s-adj		espec			d.label=sadv
 s-a-ms		espec			d.label=sadv
-s-a-fs		espec                     d.label=sadv
-s-a-mp		espec                     d.label=sadv
+s-a-fs		espec                   d.label=sadv
+s-a-mp		espec                   d.label=sadv
 s-a-fp		espec			d.label=sadv
+
+subord          espec           	d.label=espec*
+inf   		espec           	d.label=espec*
 
 grup-verb	aux			d.label=vaux
 verb-pass	aux			d.label=vaux
+
+grup-verb       aux                     d.label=VA*
+verb-pass       aux                     d.label=VA*
 
 grup-verb       aux                     d.label=parti-flex
 verb-pass       aux                     d.label=parti-flex
@@ -3743,11 +3773,34 @@ coor-sp		co-sp			d.label=grup-sp
 coor-sadj       co-adj			d.label=s-a*  
 coor-sadv	co-adv			d.label=sadv
 
-subord          dep                     d.label=grup-verb
+subord          vsubord         d.label=grup-verb
+subord-rel      vsubord         d.label=grup-verb
 
-subord-rel      dep                     d.label=grup-verb
-subord-rel      dep                     d.label=espec*
-subord-rel      dep                     d.label=prel*
+sn              vsubord         d.label=grup-verb
+
+grup-verb       dprep           d.label=SPS00 
+grup-verb	dprep		d.label=prep-de
+numero-nopart   dprep           d.label=SPS00 
+
+grup-verb       dconj           d.label=CS  
+
+grup-verb-el    dep-noun        d.label=sn  
+grup-verb-el    dep-noun        d.label=w*  
+grup-verb-el    dep-noun        d.label=coor-n
+
+grup-verb-el    dep-prep        d.label=grup-sp  
+grup-verb-el    dep-prep        d.label=sp-de    
+grup-verb-el    dep-prep        d.label=grup-sp-inf
+grup-verb-el    dep-prep        d.label=coor-sp       
+
+grup-verb-el    dep-adv         d.label=sadv          
+grup-verb-el    dep-adv         d.label=coor-sadv
+grup-verb-el    dep-adv         d.label=neg     
+
+grup-verb-el    dep-subord      d.label=subord  
+grup-verb-el    dep-inf         d.label=grup-verb-inf
+grup-verb-el    dep-ger         d.label=subord-ger
+grup-verb-el    dep-part        d.label=subord-part
 
 grup-verb	dep			d.label=patons
 verb-pass	dep			d.label=patons
@@ -3807,6 +3860,7 @@ np-a            "nom-prep-a-ca.dat"
 np-amb		"nom-prep-amb-ca.dat"
 np-contra	"nom-prep-contra-ca.dat"
 np-davant	"nom-prep-davant-ca.dat"
+np-de		"nom-prep-de-ca.dat"
 np-en           "nom-prep-en-ca.dat"
 np-entre        "nom-prep-entre-ca.dat"
 np-per		"nom-prep-per-ca.dat"
