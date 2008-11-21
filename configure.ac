@@ -120,6 +120,9 @@ AC_ARG_ENABLE([maltplugin],
               ],
 	      [AM_CONDITIONAL([ENABLE_MALT],[test 0 = 1])])
 
+
+AM_CONDITIONAL(OS_SOLARIS, [test x"$host_os" = xsolaris])
+
 # Checks for programs.
 AC_PROG_CXX
 AC_PROG_LIBTOOL
