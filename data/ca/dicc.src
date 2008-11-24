@@ -387,8 +387,6 @@ abordés abordar VMSI1S0 abordar VMSI3S0
 abordéssim abordar VMSI1P0
 abordéssiu abordar VMSI2P0
 abordí abordar VMIS1S0
-abr abril NCMS000
-abr. abril NCMS000
 abracem abraçar VMIP1P0 abraçar VMM01P0 abraçar VMSP1P0
 abracen abraçar VMIP3P0
 abraces abraçar VMIP2S0
@@ -3214,8 +3212,6 @@ afuselléssim afusellar VMSI1P0
 afuselléssiu afusellar VMSI2P0
 afusellí afusellar VMIS1S0
 afí afí AQ0CS0
-ago agost NCMS000
-ago. agost NCMS000
 agafa agafar VMIP3S0 agafar VMM02S0
 agafada agafar VMP00SF agafat AQ0FSP
 agafades agafar VMP00PF agafat AQ0FPP
@@ -33321,8 +33317,6 @@ feble feble AQ0CS0
 febles feble AQ0CP0
 feblesa feblesa NCFS000
 febleses feblesa NCFP000
-feb febrer NCMS000
-feb. febrer NCMS000
 febre febre NCFS000
 febrer febrer NCMS000
 febrers febrer NCMP000
@@ -35579,8 +35573,7 @@ gemegàreu gemegar VMIS2P0
 gemegàvem gemegar VMII1P0
 gemegàveu gemegar VMII2P0
 gemes gema NCFP000
-gen gen NCMS000 gener NCMS000
-gen. gener NCMS000
+gen gen NCMS000
 gener gener NCMS000
 genera generar VMIP3S0 generar VMM02S0
 generacions generació NCFP000
@@ -40519,8 +40512,6 @@ jugàreu jugar VMIS2P0
 jugàvem jugar VMII1P0
 jugàveu jugar VMII2P0
 juins juí NCMP000
-jul juliol NCMS000
-jul. juliol NCMS000
 juliol juliol NCMS000
 juliols juliol NCMP000
 junt junt AQ0MS0 junt RG
@@ -45199,8 +45190,6 @@ nou-centenes nou-centè AO0FP0
 nou-centens nou-centè AO0MP0
 nou-centè nou-centè AO0MS0
 nous nou AQ0MP0 nou NCFP000 nou NCMP000
-nov novembre NCMS000
-nov. novembre NCMS000
 nova nou AQ0FS0 nova NCFS000
 novell novell AQ0MS0
 novella novell AQ0FS0
@@ -45836,8 +45825,6 @@ ocorris ocórrer VMSP2S0
 ocorro ocórrer VMIP1S0
 ocorríem ocórrer VMII1P0
 ocorríeu ocórrer VMII2P0
-oct octubre NCMS000
-oct. octubre NCMS000
 octau octau AO0MS0
 octaus octau AO0MP0
 octava octau AO0FS0
@@ -59807,7 +59794,6 @@ seríeu ser VSIC2P0
 ses es DA0FP0 son DP3FPC
 sessions sessió NCFP000
 sessió sessió NCFS000
-set. setembre NCMS000
 set set NCFS000 set NCMS000
 set-centena set-centè AO0FS0
 set-centenes set-centè AO0FP0
