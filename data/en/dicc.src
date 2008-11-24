@@ -2549,6 +2549,7 @@ appurtenantly appurtenant RB
 apracticly apractic RB
 apraxicly apraxic RB
 apres-skily apres-ski RB
+april april NN
 aproposly apropos RB
 apsidally apsidal RB
 apt apt JJ
@@ -3369,7 +3370,7 @@ augmentedly augmented RB
 augmenting augment VBG
 augmentingly augmenting RB
 augments augment VBZ
-august august JJ
+august august JJ august NN
 augustanly augustan RB
 auldly auld RB
 aunt aunt NN
@@ -11834,6 +11835,7 @@ decelerate decelerate VB decelerate VBP
 decelerated decelerate VBD decelerate VBN
 decelerates decelerate VBZ
 decelerating decelerate VBG
+december december NN
 decencies decency NNS
 decency decency NN
 decent decent JJ
@@ -17219,6 +17221,7 @@ featureless featureless JJ
 features feature NNS feature VBZ
 featuring feature VBG
 febrilely febrile RB
+february february NN
 fecal fecal JJ
 feckless feckless JJ
 feculently feculent RB
@@ -24483,6 +24486,7 @@ janglily jangly RB
 janglingly jangling RB
 janitor janitor NN
 janitors janitor NNS
+january january NN
 january-june january-june JJ
 janus-facedly janus-faced RB
 japan-u.s. japan-u.s. JJ
@@ -24718,6 +24722,7 @@ juicelessly juiceless RB
 juices juice NNS
 juicily juicy RB
 julianly julian RB
+july july NN
 jumbledly jumbled RB
 jumbo jumbo JJ jumbo NN
 jumbos jumbo NNS
@@ -24735,6 +24740,7 @@ junction junction NN
 junctions junction NNS
 juncture juncture NN
 junctures juncture NNS
+june june NN
 jungianly jungian RB
 jungle jungle NN
 jungles jungle NNS
@@ -27404,7 +27410,7 @@ maximizingly maximizing RB
 maxims maxim NNS
 maximum maximum JJ maximum NN
 maximums maximum NNS
-may may MD
+may may MD may NN
 mayan mayan JJ
 maybe maybe RB
 mayonnaise mayonnaise NN
@@ -28542,6 +28548,7 @@ monarchy monarchy NN
 monasteries monastery NNS
 monastery monastery NN
 monastically monastical RB
+monday monday NN
 monday-morning monday-morning JJ
 mondays mondays NNS
 moneciously monecious RB
@@ -30388,6 +30395,7 @@ novelists novelist NNS
 novels novel NNS
 novelties novelty NNS
 novelty novelty NN
+november november NN
 novice novice NN
 novicely novice RB
 novices novice NNS
@@ -30687,6 +30695,7 @@ octave octave JJ
 octaves octave NNS
 octel octel NN
 octels octel NNS
+october october NN
 octogenarianly octogenarian RB
 octogenarians octogenarian NNS
 octuplely octuple RB
@@ -39396,6 +39405,7 @@ saturated saturate VBD saturate VBN
 saturatedly saturated RB
 saturates saturate VBZ
 saturating saturate VBG
+saturday saturday NN
 saturninely saturnine RB
 satyrically satyrical RB
 satyricly satyric RB
@@ -40357,6 +40367,7 @@ sept. sept. JJ sept. NN
 sept.s sept. NNS
 septally septal RB
 septately septate RB
+september september NN
 septicemicly septicemic RB
 septrionally septrional RB
 septuagenarian septuagenarian NN
@@ -44326,6 +44337,7 @@ sunburns sunburn NNS
 sunburntly sunburnt RB
 sunburstly sunburst RB
 sundaily sunday RB
+sunday sunday NN
 sunday-go-to-meetingly sunday-go-to-meeting RB
 sundays sundays NNS
 sundrenchedly sundrenched RB
@@ -45977,6 +45989,7 @@ thunders thunder NNS thunder VBZ
 thunderstorm thunderstorm NN
 thunderstorms thunderstorm NNS
 thunderstruckly thunderstruck RB
+thursday thursday NN
 thus thus RB
 thwart thwart VB thwart VBP
 thwarted thwart VBD thwart VBN
@@ -47109,6 +47122,7 @@ tuckedly tucked RB
 tucking tuck VBG
 tucks tuck VBZ
 tudorly tudor RB
+tuesday tuesday NN
 tuftedly tufted RB
 tug tug NN tug VB tug VBP
 tug-of-war tug-of-war NN
@@ -50584,6 +50598,7 @@ wedgedly wedged RB
 wedges wedge NNS wedge VBZ
 wedging wedge VBG
 wedly wed RB
+wednesday wednesday NN
 wednesdays wednesdays NNS
 weds wed VBZ
 weed weed NN

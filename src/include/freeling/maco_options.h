@@ -31,7 +31,6 @@
 
 #include <string>
 
-
 ////////////////////////////////////////////////////////////////
 ///  Class maco_options implements a set of specific options
 /// of the morphological analyzer. Other modules do not have
