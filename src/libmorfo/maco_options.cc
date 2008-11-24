@@ -26,8 +26,6 @@
 //
 ////////////////////////////////////////////////////////////////
 
-#include <string>
-
 #include "freeling/maco_options.h"
 #include "freeling/traces.h"
 
