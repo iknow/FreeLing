@@ -3214,8 +3214,8 @@ afuselléssim afusellar VMSI1P0
 afuselléssiu afusellar VMSI2P0
 afusellí afusellar VMIS1S0
 afí afí AQ0CS0
-ag agost NCMS000
-ag. agost NCMS000
+ago agost NCMS000
+ago. agost NCMS000
 agafa agafar VMIP3S0 agafar VMM02S0
 agafada agafar VMP00SF agafat AQ0FSP
 agafades agafar VMP00PF agafat AQ0FPP
@@ -20373,7 +20373,7 @@ derrotés derrotar VMSI1S0 derrotar VMSI3S0
 derrotéssim derrotar VMSI1P0
 derrotéssiu derrotar VMSI2P0
 derrotí derrotar VMIS1S0
-des des SPS00 desembre NCMS000 donar VMSI1S0 donar VMSI3S0
+des des SPS00 donar VMSI1S0 donar VMSI3S0
 des. desembre NCMS000
 desafiament desafiament NCMS000
 desafiaments desafiament NCMP000
@@ -22919,6 +22919,9 @@ diluïssis diluir VMSI2S0
 diluït diluir VMP00SM
 diluïts diluir VMP00PM
 diluïu diluir VMIP2P0 diluir VMM02P0 diluir VMSP2P0
+dimarts dimarts NCMN000
+dm dimarts NCMN000
+dm. dimarts NCMN000
 dimecres dimecres NCMN000
 dimensions dimensió NCFP000
 dimensió dimensió NCFS000
@@ -33318,8 +33321,8 @@ feble feble AQ0CS0
 febles feble AQ0CP0
 feblesa feblesa NCFS000
 febleses feblesa NCFP000
-febr febrer NCMS000
-febr. febrer NCMS000
+feb febrer NCMS000
+feb. febrer NCMS000
 febre febre NCFS000
 febrer febrer NCMS000
 febrers febrer NCMP000
@@ -59804,6 +59807,7 @@ seríeu ser VSIC2P0
 ses es DA0FP0 son DP3FPC
 sessions sessió NCFP000
 sessió sessió NCFS000
+set. setembre NCMS000
 set set NCFS000 set NCMS000
 set-centena set-centè AO0FS0
 set-centenes set-centè AO0FP0
