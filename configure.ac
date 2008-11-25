@@ -133,11 +133,11 @@ AC_LANG([C++])
 
 
 # Checks for header files.
-#AC_CHECK_HEADERS([cfg+.h],[],[echo "" && echo "   cfg+.h not found." &&
-#                      echo "   Make sure libcfg+ headers are installed" &&
-#                      echo "   and can be found in a standard path." &&
-#                      echo "   You may need to set CPPFLAGS to specify search path." &&
-#                      echo "" && exit])
+AC_CHECK_HEADERS([cfg+.h],[],[echo "" && echo "   cfg+.h not found." &&
+                      echo "   Make sure libcfg+ headers are installed" &&
+                      echo "   and can be found in a standard path." &&
+                      echo "   You may need to set CPPFLAGS to specify search path." &&
+                      echo "" && exit])
 AC_CHECK_HEADERS([pcre.h],[],[echo "" && echo "   pcre.h not found." &&
                       echo "   Make sure pcre headers for C++ are" &&
                       echo "   installed and can be found in a standard path." &&
@@ -148,24 +148,24 @@ AC_CHECK_HEADERS([db_cxx.h],[],[echo "" && echo "   db_cxx.h not found." &&
                       echo "   installed and can be found in a standard path." &&
                       echo "   You may need to set CPPFLAGS to specify search path." &&
                       echo "" && exit])
-#AC_CHECK_HEADERS([omlet.h],[],[echo "" && echo "   omlet.h not found." &&
-#                      echo "   Make sure libomlet headers are installed" &&
-#                      echo "   and can be found in a standard path." &&
-#                      echo "   You may need to set CPPFLAGS to specify search path." &&
-#                      echo "" && exit])
-#AC_CHECK_HEADERS([fries.h],[],[echo "" && echo "   fries.h not found." &&
-#                      echo "   Make sure libfries headers are installed" &&
-#                      echo "   and can be found in a standard path." &&
-#                      echo "   You may need to set CPPFLAGS to specify search path." &&
-#                      echo "" && exit])
+AC_CHECK_HEADERS([omlet.h],[],[echo "" && echo "   omlet.h not found." &&
+                      echo "   Make sure libomlet headers are installed" &&
+                      echo "   and can be found in a standard path." &&
+                      echo "   You may need to set CPPFLAGS to specify search path." &&
+                      echo "" && exit])
+AC_CHECK_HEADERS([fries.h],[],[echo "" && echo "   fries.h not found." &&
+                      echo "   Make sure libfries headers are installed" &&
+                      echo "   and can be found in a standard path." &&
+                      echo "   You may need to set CPPFLAGS to specify search path." &&
+                      echo "" && exit])
 
 # Checks for libraries.
-#AC_CHECK_LIB([cfg+],[main],[echo "OK">/dev/null],[echo "" && 
-#                      echo "   cfg+ library not found." &&
-#                      echo "   Make sure libcfg+ is installed and" &&
-#                      echo "   can be found in a standard path." &&
-#                      echo "   You may need to set LDFLAGS to specify search path." &&
-#                      echo "" && exit])
+AC_CHECK_LIB([cfg+],[main],[echo "OK">/dev/null],[echo "" && 
+                      echo "   cfg+ library not found." &&
+                      echo "   Make sure libcfg+ is installed and" &&
+                      echo "   can be found in a standard path." &&
+                      echo "   You may need to set LDFLAGS to specify search path." &&
+                      echo "" && exit])
 AC_CHECK_LIB([pcre],[main],[echo "OK">/dev/null],[echo "" && 
                       echo "   pcre library not found." &&
                       echo "   Make sure libpcre is installed and" &&
@@ -178,18 +178,18 @@ AC_CHECK_LIB([db_cxx],[main],[echo "OK">/dev/null],[echo "" &&
                       echo "   installed and can be found in a standard path." &&
                       echo "   You may need to set LDFLAGS to specify search path." &&
                       echo "" && exit])
-#AC_CHECK_LIB([omlet],[main],[echo "OK">/dev/null],[echo "" &&
-#                      echo "   Omlet library not found." &&
-#                      echo "   Make sure libomlet is" &&
-#                      echo "   installed and can be found in a standard path." &&
-#                      echo "   You may need to set LDFLAGS to specify search path." &&
-#                      echo "" && exit])
-#AC_CHECK_LIB([fries],[main],[echo "OK">/dev/null],[echo "" &&
-#                      echo "   Fries library not found." &&
-#                      echo "   Make sure libfries is" &&
-#                      echo "   installed and can be found in a standard path." &&
-#                      echo "   You may need to set LDFLAGS to specify search path." &&
-#                      echo "" && exit],[-lpcre])
+AC_CHECK_LIB([omlet],[main],[echo "OK">/dev/null],[echo "" &&
+                      echo "   Omlet library not found." &&
+                      echo "   Make sure libomlet is" &&
+                      echo "   installed and can be found in a standard path." &&
+                      echo "   You may need to set LDFLAGS to specify search path." &&
+                      echo "" && exit])
+AC_CHECK_LIB([fries],[main],[echo "OK">/dev/null],[echo "" &&
+                      echo "   Fries library not found." &&
+                      echo "   Make sure libfries is" &&
+                      echo "   installed and can be found in a standard path." &&
+                      echo "   You may need to set LDFLAGS to specify search path." &&
+                      echo "" && exit],[-lpcre])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
@@ -208,10 +208,6 @@ AC_CONFIG_FILES([Makefile
                  src/libmorfo/Makefile
                  src/main/Makefile
                  src/utilities/Makefile])
-
-AC_CONFIG_SUBDIRS([libcfg+])
-AC_CONFIG_SUBDIRS([libfries])
-AC_CONFIG_SUBDIRS([libomlet])
 
 AC_OUTPUT
 

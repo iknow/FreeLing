@@ -1,3 +1,3 @@
-EXTRA_DIST = data doc APIs LICENSES libomlet
-SUBDIRS = libcfg+ libfries libomlet src data doc 
+EXTRA_DIST = data doc APIs LICENSES
+SUBDIRS = src data doc 
 

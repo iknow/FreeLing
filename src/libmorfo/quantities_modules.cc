@@ -1199,8 +1199,17 @@ int quantities_gl::ComputeToken(int state, sentence::iterator &j, sentence &se)
     // in state B a currency name, a measure unit, or a fraction may come
     if (measures.annotate(se,j))
       token=TK_unit;
-    else if (fract.find(lema)!=fract.end())
-      token=TK_avo;
+    else {
+      // look if any lemma is found in "fract" map
+      word::iterator a;
+      for (a=j->begin(); a!=j->end() && fract.find(a->get_lemma())==fract.end(); a++);
+      // if any, consider this a fraction word (fifth, eleventh, ...) 
+      if (a!=j->end()) {
+	j->unselect_all_analysis();
+	j->select_analysis(a);
+	token=TK_avo;
+      }
+    }
     break;
   case E: 
     // in state E a currency name or a measure unit may come
@@ -1573,8 +1582,17 @@ int quantities_en::ComputeToken(int state, sentence::iterator &j, sentence &se)
     // in state B a currency name, a measure unit, or a fraction may come
     if (measures.annotate(se,j))
       token=TK_unit;
-    else if (fract.find(lema)!=fract.end())
-      token=TK_avo;
+    else {
+      // look if any lemma is found in "fract" map
+      word::iterator a;
+      for (a=j->begin(); a!=j->end() && fract.find(a->get_lemma())==fract.end(); a++);
+      // if any, consider this a fraction word (fifth, eleventh, ...) 
+      if (a!=j->end()) {
+	j->unselect_all_analysis();
+	j->select_analysis(a);
+	token=TK_avo;
+      }
+    }
     break;
   case E: 
     // in state E a currency name or a measure unit may come
