@@ -11,14 +11,14 @@
 ##
 ## a la TDFS0
 ## escritora escritor NCFS000
-## Begoña_Ameztoy begoña_ameztoy NP00SP0
+## Begoï¿½a_Ameztoy begoï¿½a_ameztoy NP00SP0
 ## ha haber VAIP3S0
 ## presentado presentar VMP00SM
 ## hoy 24/5/2000 W
 ## en en SPS00
 ## Barcelona barcelona NP00G00
 ## su su DP3CS00
-## última último AQ0FS00
+## ï¿½ltima ï¿½ltimo AQ0FS00
 ## novela novela NCFS000
 ##  . . Fp
 ##
@@ -52,9 +52,9 @@ mymodel=modelname
 ###### Build a lexicon file ######
 
 ## extract all features appearing in your train corpus. The gawk
-## sample "lexicon" program produces three lexicons: one will all
+## sample "lexicon" program produces three lexicons: one with all
 ## features, one with those appearing more than 3 times, and one with
-## those apperaing more than 1% of the times.  You shoulf modify the
+## those apperaing more than 1% of the times.  You should modify the
 ## sample program to adjust this to your needs, and check which value
 ## suits your trainig data better.
 ./lexicon $mymodel <$mycorpus >/dev/null
