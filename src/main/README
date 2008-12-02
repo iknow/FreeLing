@@ -35,7 +35,7 @@
 
   To compile sample.cc, do:
 
-   g++ -o sample sample.cc -ldb_cxx -lmorfo -lfries -lomlet 
+   g++ -o sample sample.cc -ldb_cxx -lmorfo -lfries -lomlet -lpcre
 
   You may have to add -I and -L options with the right location of the berkeley DB
   libraries and headers. Also, you may have to add the paths where you installed 
