@@ -26,6 +26,7 @@
 //
 ////////////////////////////////////////////////////////////////
 
+using namespace std;
 
 //------------------------------------------------------------------//
 //
@@ -58,12 +59,9 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "util.h"
-#include "language.h"
-#include "fex.h"
-#include "example.h"
-#include "dataset.h"
-#include "adaboost.h"
+#include "freeling.h"
+#include "fries.h"
+#include "omlet.h"
 
 adaboost* learner;
 fex* extractor;

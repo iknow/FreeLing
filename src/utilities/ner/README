@@ -1,6 +1,6 @@
 
 
-  This directory contains information about how to train a NE Recognizer for FreeLing.
+  This directory contains information about how to train a NE classifier for FreeLing.
   Read the comments in the TRAIN.sh script.
 
   In fact, the libraries being used here is not FreeLing, but Omlet&Fries
