@@ -26,21 +26,27 @@
 //
 ////////////////////////////////////////////////////////////////
 
-
 using namespace std;
 
 
-// ####  Convert a corpus prepared for NEC into features and produce
+// ####  Convert a corpus prepared for NER into features and produce
 // ####  lexicon files.  See TRAIN.sh in this directory to learn more.
 
 #include <iostream>
 #include <fstream>
+#include <stdlib.h>
+//#include <map>
 #include "freeling.h"
+//#include "freeling/traces.h"
+//#include "fries/language.h"
 #include "fries.h"
 #include "omlet.h"
+//#include "fries/fex.h"
+
+
 
 fex* extractor;
-map<string,int> lexicon;
+map <string,int> lexicon;
 
 void ProcessResults(const list<sentence> &ls) {
   
@@ -57,20 +63,17 @@ void ProcessResults(const list<sentence> &ls) {
 
     // extract sentence features
     features.clear();
-    extractor->encode_name(*s,features,true);
+    extractor->encode_name(*s,features, true); // boolean "true" means we are building the lexicon
 
-    for (w=s->begin(),i=0; w!=s->end(); w++,i++) {
-      // if the word is a NE, output list of features
-      if (w->get_short_parole("es")=="NP") {	
-	// store and print features (print is for debugging
-        // purposes only, it is not actually necessary)
-	cout<<w->get_parole();
-	for (f=features[i].begin(); f!=features[i].end(); f++) {
-	  extractor->add_lexicon(*f);
-	  cout<<" "+(*f);
-	}
-	cout<<endl;
+    for (w=s->begin(),i=0; w!=s->end(); w++,i++) {	
+      // store and print features (print is for debugging
+      // purposes only, it is not actually necessary)
+      cout<<w->get_form();
+      for (f=features[i].begin(); f!=features[i].end(); f++) {
+	extractor->add_lexicon(*f);
+	cout<<" "+(*f);
       }
+      cout<<endl;
     }
   }
 }
@@ -80,7 +83,7 @@ void ProcessResults(const list<sentence> &ls) {
 
 int main(int argc, char* argv[]) {
 
-  string text,form,lemma,tag;
+  string text,form,lemma,tag, BIOtag, prob;
   sentence av;
   list<sentence> ls;
   string snam;
@@ -92,17 +95,28 @@ int main(int argc, char* argv[]) {
     
     if (text != "") { // got a word line
       istringstream sin; sin.str(text);
+      cerr<<text<<endl;
+
+      // first field is the B-I-O tag
+      sin>>BIOtag;
+      cerr<<"tag: "<<BIOtag<<endl;
+
+
       // get word form
-      sin>>form; 	
-      
+      sin>>form; 
+      cerr<<"form: "<<form<<endl;
+
       // build new word
       word w(form);
+
       // add all analysis in line to the word.
-      sin>>lemma>>tag;
-      analysis an(lemma,tag);
-      an.set_prob(1.0);
-      w.add_analysis(an);	
-      
+      while (sin>>lemma>>tag>>prob){
+	cerr<<"  analisis: "<<lemma<<" "<<tag<<" "<<prob<<endl;
+	analysis an(lemma,tag);
+	an.set_prob(atof(prob.c_str()));
+	w.add_analysis(an);
+      }
+      cerr<<"   number of analysis: "<<w.get_n_analysis()<<endl;
       // append new word to sentence
       av.push_back(w);
     }
