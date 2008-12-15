@@ -398,7 +398,7 @@ ac·ft ac·ft NNS I
 <acre-foot> acre-foot $1:NN
 <acre>_foot ac·ft $1:NN I
 <acre> ac $1:NN I
-<bit> bit $1:NNM I
+<bit> bit $1:NN I
 <bushel> bu $1:NN I
 <byte> byte $1:NN I
 <centiliter> cl $1:NN I
