@@ -2623,7 +2623,7 @@ int dates_en::ComputeToken(int state, sentence::iterator &j, sentence &se)
   bool ordinal=false;
   word::iterator a;
   for (a=j->begin(); a!=j->end() && !ordinal; a++) {
-    ordinal = (a->get_parole()=="JJ" && util::isnumber(a->get_lemma()) &&
+    ordinal = (a->get_parole()=="JJ" && util::isanumber(a->get_lemma()) &&
 	       util::string2int(a->get_lemma())>0 && util::string2int(a->get_lemma())<=31);
     TRACE(3, "studying possible analysis of word ["+form+"]:"+a->get_parole()+" "+a->get_lemma());
   }
