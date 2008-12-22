@@ -328,34 +328,32 @@ sentence::iterator np::BuildMultiword(sentence &se, sentence::iterator start, se
 	word w(form,mw);
 	
 	if (ValidMultiWord(w)) {  
-		if (splitNPs) {
-			for (sentence::iterator j=start; j!=end+1; j++){
-				if (util::isuppercase(j->get_form()[0]))
-				{
-					j->set_analysis(analysis(util::lowercase(j->get_form()),NE_tag));
-				}
-			}
-			i=end+1;			
-			built=true;
-		}
-		else {
-			TRACE(3,"Valid Multiword. Modifying the sentence");
-			// erasing from the sentence the words that composed the multiword
-			end++;
-			i=se.erase(start, end);
-			// insert new multiword it into the sentence
-			i=se.insert(i,w); 
-			TRACE(3,"New word inserted");
-			// Set morphological info for new MW
-			SetMultiwordAnalysis(i,fs);
-			built=true;
-		}
+	  if (splitNPs) {
+	    for (sentence::iterator j=start; j!=se.end() && j!=end+1; j++) {
+	      if (util::isuppercase(j->get_form()[0]))
+		j->set_analysis(analysis(util::lowercase(j->get_form()),NE_tag));
+	    }
+	    i=end+1;			
+	    built=true;
+	  }
+	  else {
+	    TRACE(3,"Valid Multiword. Modifying the sentence");
+	    // erasing from the sentence the words that composed the multiword
+	    end++;
+	    i=se.erase(start, end);
+	    // insert new multiword it into the sentence
+	    i=se.insert(i,w); 
+	    TRACE(3,"New word inserted");
+	    // Set morphological info for new MW
+	    SetMultiwordAnalysis(i,fs);
+	    built=true;
+	  }
 	}
 	else {
-		TRACE(3,"Multiword found, but rejected. Sentence untouched");
-		ResetActions();
-		i=end+1;
-		built=false;
+	  TRACE(3,"Multiword found, but rejected. Sentence untouched");
+	  ResetActions();
+	  i=end+1;
+	  built=false;
 	}
 	
 	return(i);
