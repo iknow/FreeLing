@@ -47,8 +47,8 @@ class maco_options {
     bool SuffixAnalysis,   MultiwordsDetection, 
          NumbersDetection, PunctuationDetection, 
          DatesDetection,   QuantitiesDetection, 
-         DictionarySearch, ProbabilityAssignment, 
-         NERecognition;
+         DictionarySearch, ProbabilityAssignment;
+    int NERecognition;
     /// Morphological analyzer options
     std::string Decimal, Thousand;
     /// Morphological analyzer options
@@ -64,7 +64,7 @@ class maco_options {
     /// Since option data members are public and can be accessed directly
     /// from C++, the following methods are not necessary, but may become
     /// convenient sometimes.
-    void set_active_modules(bool,bool,bool,bool,bool,bool,bool,bool,bool);
+    void set_active_modules(bool,bool,bool,bool,bool,bool,bool,bool,int);
     void set_nummerical_points(const std::string &,const std::string &);
     void set_data_files(const std::string &,const std::string &,const std::string &,const std::string &,
                         const std::string &,const std::string &,const std::string &);

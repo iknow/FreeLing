@@ -38,7 +38,9 @@
 #include "freeling/quantities.h"
 #include "freeling/punts.h"
 #include "freeling/probabilities.h"
+#include "freeling/ner.h"
 #include "freeling/np.h"
+#include "freeling/bioner.h"
 
 ////////////////////////////////////////////////////////////////
 ///  Class maco implements the morphological analyzer, which
@@ -57,7 +59,7 @@ class maco {
       quantities* quant;
       punts* punt;
       probabilities* prob;
-      np* npm;
+      ner* npm;
       
    public:
       /// Constructor

@@ -1,0 +1,45 @@
+<Lexicon>
+/home/mpadro/freeling/data/es/ner/ner.lex
+</Lexicon>
+
+<RGF>
+/home/mpadro/freeling/data/es/ner/ner.rgf
+</RGF>
+
+<AdaBoostModel>
+/home/mpadro/freeling/data/es/ner/ner.abm
+</AdaBoostModel>
+
+<Classes>
+0 B 1 I 2 O
+</Classes>
+
+<NE_Tag>
+NP
+</NE_Tag>
+
+<TitleLimit>
+10
+</TitleLimit>
+
+<SplitMultiwords>
+no
+</SplitMultiwords>
+
+<InitialProb>
+B 0.200072
+I 0.0
+O 0.799928
+</InitialProb>
+
+<TransitionProb>
+B B 1.0
+B I 1.0
+B O 1.0
+I B 1.0
+I I 1.0
+I O 1.0
+O B 1.0
+O I 0.0
+O O 1.0
+</TransitionProb>

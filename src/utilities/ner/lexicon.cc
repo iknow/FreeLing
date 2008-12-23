@@ -68,7 +68,7 @@ void ProcessResults(const list<sentence> &ls) {
     for (w=s->begin(),i=0; w!=s->end(); w++,i++) {	
       // store and print features (print is for debugging
       // purposes only, it is not actually necessary)
-      cout<<w->get_form();
+      cout<<w->get_form()
       for (f=features[i].begin(); f!=features[i].end(); f++) {
 	extractor->add_lexicon(*f);
 	cout<<" "+(*f);
@@ -95,28 +95,28 @@ int main(int argc, char* argv[]) {
     
     if (text != "") { // got a word line
       istringstream sin; sin.str(text);
-      cerr<<text<<endl;
+      //cerr<<"["<<text<<"]"<<endl;
 
       // first field is the B-I-O tag
       sin>>BIOtag;
-      cerr<<"tag: "<<BIOtag<<endl;
+      //cerr<<"tag: "<<BIOtag<<endl;
 
 
       // get word form
       sin>>form; 
-      cerr<<"form: "<<form<<endl;
+      //cerr<<"form: "<<form<<endl;
 
       // build new word
       word w(form);
 
       // add all analysis in line to the word.
       while (sin>>lemma>>tag>>prob){
-	cerr<<"  analisis: "<<lemma<<" "<<tag<<" "<<prob<<endl;
+	//cerr<<"  analisis: "<<lemma<<" "<<tag<<" "<<prob<<endl;
 	analysis an(lemma,tag);
 	an.set_prob(atof(prob.c_str()));
 	w.add_analysis(an);
       }
-      cerr<<"   number of analysis: "<<w.get_n_analysis()<<endl;
+      // cerr<<"   number of analysis: "<<w.get_n_analysis()<<endl;
       // append new word to sentence
       av.push_back(w);
     }
