@@ -573,7 +573,7 @@ main (int argc, char **argv)
 			      cfg.MACO_QuantitiesDetection,
 			      cfg.MACO_DictionarySearch,
 			      cfg.MACO_ProbabilityAssignment,
-			      cfg.MACO_NERecognition);
+			      cfg.MACO_NER_which);
       // decimal/thousand separators used by number detection
       opt.set_nummerical_points (cfg.MACO_Decimal, cfg.MACO_Thousand);
       // Minimum probability for a tag for an unkown word

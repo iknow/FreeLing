@@ -62,7 +62,7 @@ using namespace std;
 ///     Create a proper noun recognizer
 ///////////////////////////////////////////////////////////////
 
-np::np(const std::string &npFile): automat(), RE_NounAdj(RE_NA), RE_Closed(RE_CLO), RE_DateNumPunct(RE_DNP)
+np::np(const std::string &npFile): ner(), automat(), RE_NounAdj(RE_NA), RE_Closed(RE_CLO), RE_DateNumPunct(RE_DNP)
 {
   int reading;
 
@@ -103,7 +103,7 @@ np::np(const std::string &npFile): automat(), RE_NounAdj(RE_NA), RE_Closed(RE_CL
       func.insert(line);
     else if (reading==2)   // reading special punctuation tags
       punct.insert(line); 
-    else if (reading==3)  // reading tag to assgin to detected NEs
+    else if (reading==3)  // reading tag to assign to detected NEs
       NE_tag=line;
     else if (reading==4)  // reading value for Title_length 
       Title_length = util::string2int(line);
@@ -152,6 +152,13 @@ np::np(const std::string &npFile): automat(), RE_NounAdj(RE_NA), RE_Closed(RE_CL
 
 
 //-- Implementation of virtual functions from class automat --//
+
+///////////////////////////////////////////////////////////////
+/// Specify that "annotate" must be inherited from "automat" and not from "ner"
+///////////////////////////////////////////////////////////////
+void np::annotate(sentence &se){
+  automat::annotate(se);
+}
 
 ///////////////////////////////////////////////////////////////
 ///  Compute the right token code for word j from given state.

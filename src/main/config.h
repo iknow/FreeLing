@@ -95,8 +95,8 @@ class config {
     int MACO_SuffixAnalysis, MACO_MultiwordsDetection, 
         MACO_NumbersDetection, MACO_PunctuationDetection, 
         MACO_DatesDetection, MACO_QuantitiesDetection, 
-        MACO_DictionarySearch, MACO_ProbabilityAssignment, 
-        MACO_NERecognition;
+        MACO_DictionarySearch, MACO_ProbabilityAssignment;
+    int MACO_NER_which;
     /// Morphological analyzer options
     char *MACO_Decimal, *MACO_Thousand;
 
@@ -139,14 +139,14 @@ class config {
       register int ret;
       int help;
       // Auxiliary for string translation
-      char *InputF, *OutputF, *Tagger, *SenseAnot, *Force, *DepParser;
+      char *InputF, *OutputF, *Ner, *Tagger, *SenseAnot, *Force, *DepParser;
       // Auxiliary for boolean handling
       int flush,noflush, sufx,nosufx,   loc,noloc,   numb,nonumb,
           punt,nopunt,   date,nodate,   quant,noquant,  dict,nodict,   prob,noprob,
-  	  ner,noner,     nec,nonec,     dup,nodup,      retok,noretok;
+          nec,nonec,     dup,nodup,      retok,noretok;
       char *cf_flush, *cf_sufx, *cf_loc,   *cf_numb,
            *cf_punt,  *cf_date, *cf_quant, *cf_dict, *cf_prob,
-	   *cf_ner,   *cf_nec,  *cf_dup,   *cf_retok;
+	   *cf_nec,  *cf_dup,   *cf_retok;
  
       // Options structure
       struct cfg_option OptionList[] = {  // initialization
@@ -190,16 +190,14 @@ class config {
 	{"prob",    '\0', NULL,                      CFG_BOOL, (void *) &prob, 0},
 	{"noprob",  '\0', NULL,                      CFG_BOOL, (void *) &noprob, 0},
 	{NULL,      '\0', "ProbabilityAssignment",   CFG_STR,  (void *) &cf_prob, 0},
-	{"ner",     '\0', NULL,                      CFG_BOOL, (void *) &ner, 0},
-	{"noner",   '\0', NULL,                      CFG_BOOL, (void *) &noner, 0},
-	{NULL,      '\0', "NERecognition",           CFG_STR,  (void *) &cf_ner, 0},
+	{"ner",     '\0', "NERecognition",           CFG_STR,  (void *) &Ner, 0},
 	{"dec",     '\0', "DecimalPoint",            CFG_STR,  (void *) &MACO_Decimal, 0},
 	{"thou",    '\0', "ThousandPoint",           CFG_STR,  (void *) &MACO_Thousand, 0},
 	{"floc",    'L',  "LocutionsFile",           CFG_STR,  (void *) &MACO_LocutionsFile, 0},
 	{"fqty",    'Q',  "QuantitiesFile",          CFG_STR,  (void *) &MACO_QuantitiesFile, 0},
 	{"fsuf",    'S',  "SuffixFile",              CFG_STR,  (void *) &MACO_SuffixFile, 0},
 	{"fprob",   'P',  "ProbabilityFile",         CFG_STR,  (void *) &MACO_ProbabilityFile, 0},
-	{"thres",   'e', "ProbabilityThreshold",     CFG_DOUBLE, (void *) &MACO_ProbabilityThreshold, 0},
+	{"thres",   'e',  "ProbabilityThreshold",    CFG_DOUBLE, (void *) &MACO_ProbabilityThreshold, 0},
 	{"fdict",   'D',  "DictionaryFile",          CFG_STR,  (void *) &MACO_DictionaryFile, 0},
 	{"fnp",     'N',  "NPDataFile",              CFG_STR,  (void *) &MACO_NPdataFile, 0},
 	{"fpunct",  'F',  "PunctuationFile",         CFG_STR,  (void *) &MACO_PunctuationFile, 0},
@@ -241,15 +239,15 @@ class config {
       }
       
       // init auxiliary variables
-      InputF=NULL; OutputF=NULL; Tagger=NULL; SenseAnot=NULL; Force=NULL; DepParser=NULL;
+      InputF=NULL; OutputF=NULL;  Ner=NULL; Tagger=NULL; SenseAnot=NULL; Force=NULL; DepParser=NULL;
       flush=false; noflush=false; sufx=false;   nosufx=false; 
       loc=false;   noloc=false;   numb=false;   nonumb=false;   punt=false; nopunt=false;
       date=false;  nodate=false;  quant=false;  noquant=false;  dict=false; nodict=false; 
-      prob=false;  noprob=false;  ner=false;    noner=false;    nec=false;  nonec=false; 
+      prob=false;  noprob=false;  nec=false;  nonec=false; 
       dup=false;   nodup=false;   retok=false; noretok=false;
       cf_flush=NULL; cf_sufx=NULL;  cf_loc=NULL;   cf_numb=NULL; 
       cf_punt=NULL;  cf_date=NULL;  cf_quant=NULL; cf_dict=NULL;  cf_prob=NULL;
-      cf_ner=NULL;   cf_nec=NULL;   cf_dup=NULL;   cf_retok=NULL; 
+      cf_nec=NULL;   cf_dup=NULL;   cf_retok=NULL; 
       
 
       // Set built-in default values.
@@ -262,12 +260,12 @@ class config {
       MACO_NumbersDetection=false; MACO_PunctuationDetection=false; 
       MACO_DatesDetection=false;   MACO_QuantitiesDetection=false; 
       MACO_DictionarySearch=false; MACO_ProbabilityAssignment=false; 
-      MACO_NERecognition=false; 
       MACO_Decimal=NULL; MACO_Thousand=NULL;
       MACO_LocutionsFile=NULL; MACO_QuantitiesFile=NULL; MACO_SuffixFile=NULL; 
       MACO_ProbabilityFile=NULL; MACO_DictionaryFile=NULL; 
       MACO_NPdataFile=NULL; MACO_PunctuationFile=NULL;
-      MACO_ProbabilityThreshold=0.0;
+      MACO_ProbabilityThreshold=0.0; 
+      MACO_NER_which=0;
       NEC_NEClassification=false; NEC_FilePrefix=NULL; 
       SENSE_SenseAnnotation=NONE; SENSE_SenseFile=NULL; 
       SENSE_DuplicateAnalysis=false; 
@@ -316,7 +314,6 @@ class config {
       SetBooleanOptionCF(string(cf_quant),MACO_QuantitiesDetection,"QuantitiesDetection");
       SetBooleanOptionCF(string(cf_dict),MACO_DictionarySearch,"DictionarySearch");
       SetBooleanOptionCF(string(cf_prob),MACO_ProbabilityAssignment,"ProbabilityAssignment");
-      SetBooleanOptionCF(string(cf_ner),MACO_NERecognition,"NERecognition");
       SetBooleanOptionCF(string(cf_nec),NEC_NEClassification,"NEClassification");
       SetBooleanOptionCF(string(cf_dup),SENSE_DuplicateAnalysis,"DuplicateAnalysis");
       SetBooleanOptionCF(string(cf_retok),TAGGER_Retokenize,"TaggerRetokenize");
@@ -356,7 +353,6 @@ class config {
       SetBooleanOptionCL(quant,noquant,MACO_QuantitiesDetection,"quant");
       SetBooleanOptionCL(dict,nodict,MACO_DictionarySearch,"dict");
       SetBooleanOptionCL(prob,noprob,MACO_ProbabilityAssignment,"prob");
-      SetBooleanOptionCL(ner,noner,MACO_NERecognition,"ner");
       SetBooleanOptionCL(nec,nonec,NEC_NEClassification,"nec");
       SetBooleanOptionCL(dup,nodup,SENSE_DuplicateAnalysis,"dup");
       SetBooleanOptionCL(retok,noretok,TAGGER_Retokenize,"retk");
@@ -380,6 +376,12 @@ class config {
       else if (string(OutputF)=="parsed") OutputFormat = PARSED;
       else if (string(OutputF)=="dep") OutputFormat = DEP;
       else { ERROR_CRASH("UNKNOWN Output format: "+string(OutputF));}
+
+      // translate Ner string to more useful integer values.
+      if (string(Ner)=="basic") MACO_NER_which = NER_BASIC;
+      else if (string(Ner)=="bio") MACO_NER_which = NER_BIO;
+      else if (string(Ner)=="none" || string(Ner)=="no") MACO_NER_which = NER_NONE;
+      else WARNING("Invalid NER algorithm '"+string(Ner)+"'. Using default.");
 
       // translate Tagger string to more useful integer values.
       if (string(Tagger)=="hmm") TAGGER_which = HMM;
@@ -464,7 +466,7 @@ class config {
       cout<<"--quant, --noquant     Whether to perform quantities detection"<<endl;
       cout<<"--dict, --nodict       Whether to perform dictionary search"<<endl;
       cout<<"--prob, --noprob       Whether to perform probability assignment"<<endl;
-      cout<<"--ner, --noner         Whether to perform NE recognition"<<endl;
+      cout<<"--ner string           Which kind of NE recognition is to be performed (basic, bio, none)"<<endl;
       cout<<"--dec string           Decimal point character"<<endl;
       cout<<"--thou string          Thousand point character"<<endl;
       cout<<"--floc,-L filename     Multiwords file"<<endl;

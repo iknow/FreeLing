@@ -46,7 +46,7 @@ maco_options::maco_options(const std::string &lg) {
   NumbersDetection=false; PunctuationDetection=false;
   DatesDetection=false;   QuantitiesDetection=false;
   DictionarySearch=false; ProbabilityAssignment=false;
-  NERecognition=false;    
+  NERecognition=0;    
 
   Decimal=",";  Thousand=".";
 
@@ -58,12 +58,12 @@ maco_options::maco_options(const std::string &lg) {
 }
 
 void maco_options::set_active_modules(bool suf, bool mw, bool num, bool pun, bool dat, 
-                                      bool qt, bool dic, bool prb, bool ner) {
+                                      bool qt, bool dic, bool prb, int ner) {
   SuffixAnalysis=suf;    MultiwordsDetection=mw;
   NumbersDetection=num;  PunctuationDetection=pun;
   DatesDetection=dat;    QuantitiesDetection=qt;
   DictionarySearch=dic;  ProbabilityAssignment=prb;
-  NERecognition=ner;  
+  NERecognition=ner;
 }
 
 void maco_options::set_nummerical_points(const std::string &dec,const std::string &tho) {

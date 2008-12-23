@@ -33,6 +33,7 @@
 
 #include "fries/language.h"
 #include "freeling/automat.h"
+#include "freeling/ner.h"
 #include "regexp-pcre++.h"
 
 #define RE_NA "^(NC|AQ)"
@@ -43,40 +44,37 @@
 ///  The class np implements a dummy proper noun recognizer.
 ////////////////////////////////////////////////////////////////
 
-class np: public automat {
-   private: 
-      /// set of function words
-      std::set<std::string> func;
-      /// set of special punctuation tags
-      std::set<std::string> punct;
-      /// set of words to be considered possible NPs at sentence beggining
-      std::set<std::string> names;
-      /// set of words to be ignored as NE parts, even if they are capitalized
-      std::set<std::string> ignore;
-      /// Tag to assign to detected NEs
-      std::string NE_tag;
-      /// it is a noun at the beggining of the sentence
-      bool initialNoun;
-      /// length beyond which a multiword made of all capitialized words ("WRECKAGE: TITANIC 
-      /// DISAPPEARS IN NORTHERN SEA") will be considered a title and not a proper noun.
-      /// A value of zero deactivates this behaviour.
-      unsigned int Title_length;
+class np: public ner, public automat {
+  
+  private: 
+    /// set of function words
+    std::set<std::string> func;
+    /// set of special punctuation tags
+    std::set<std::string> punct;
+    /// set of words to be considered possible NPs at sentence beggining
+    std::set<std::string> names;
+    /// set of words to be ignored as NE parts, even if they are capitalized
+    std::set<std::string> ignore;
+    /// it is a noun at the beggining of the sentence
+    bool initialNoun;
 
-      bool splitNPs;
+    RegEx RE_NounAdj;
+    RegEx RE_Closed;
+    RegEx RE_DateNumPunct;
 
-      RegEx RE_NounAdj;
-      RegEx RE_Closed;
-      RegEx RE_DateNumPunct;
+    int ComputeToken(int,sentence::iterator &, sentence &);
+    void ResetActions();
+    void StateActions(int, int, int, sentence::const_iterator);
+    void SetMultiwordAnalysis(sentence::iterator, int);
+    bool ValidMultiWord(const word &);
+    sentence::iterator BuildMultiword(sentence &, sentence::iterator,sentence::iterator, int, bool &);
+  public:
+    /// Constructor
+    np(const std::string &); 
+    /// Specify that "annotate" must be inherited from "automat" and not from "ner"
+    void annotate(sentence &);
 
-      int ComputeToken(int,sentence::iterator &, sentence &);
-      void ResetActions();
-      void StateActions(int, int, int, sentence::const_iterator);
-      void SetMultiwordAnalysis(sentence::iterator, int);
-      bool ValidMultiWord(const word &);
-      sentence::iterator BuildMultiword(sentence &, sentence::iterator,sentence::iterator, int, bool &);
-   public:
-      /// Constructor
-      np(const std::string &); 
+
 };
 
 #endif

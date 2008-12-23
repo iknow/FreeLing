@@ -51,8 +51,11 @@ maco::maco(const maco_options &opts): defaultOpt(opts) {
                                      : NULL);
   loc = (opts.MultiwordsDetection    ? new locutions(opts.LocutionsFile) 
 	                             : NULL);
-  npm = (opts.NERecognition          ? new np(opts.NPdataFile) 
-                                     : NULL);
+
+  if (opts.NERecognition==NER_BASIC) npm = new np(opts.NPdataFile);
+  else if (opts.NERecognition==NER_BIO) npm= new bioner(opts.NPdataFile);
+  else npm=NULL;
+
   quant = (opts.QuantitiesDetection  ? new quantities(opts.Lang, opts.QuantitiesFile)
                                      : NULL);
   prob = (opts.ProbabilityAssignment ? new probabilities(opts.Lang, opts.ProbabilityFile, opts.ProbabilityThreshold)
@@ -122,9 +125,9 @@ void maco::analyze(std::list<sentence> &ls) {
        TRACE(2,"Sentences annotated by the locutions module.");
      }
 
-     if(defaultOpt.NERecognition){ 
+     if(defaultOpt.NERecognition!=NER_NONE){ 
        for (is=ls.begin(); is!=ls.end(); is++) {
-	 npm->annotate(*is);    
+	 npm->annotate(*is);
        }    
        TRACE(2,"Sentences annotated by the np module.");
      }
