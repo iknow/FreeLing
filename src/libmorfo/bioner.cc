@@ -171,17 +171,6 @@ void bioner::annotate(sentence &se) {
     features.clear();
     extractor->encode_int(se,features);
     TRACE(2,"Sentence encoded.");
-    ///// NOMES POER COMPROBAR: teure-ho!
-    vector<set<string> > features_name;
-    bool ai;
-    extractor->encode_name(se,features_name,ai);
-    for (w=se.begin(),i=0; w!=se.end(); w++,i++) {
-      cerr<<"word: "<<i<<" -- "<<w->get_form()<<" --";
-      for (set<string>::iterator it_set=features_name[i].begin(); it_set!=features_name[i].end(); it_set++)
-	cerr<<" "<<*it_set<<endl;
-	
-    }
-
     
     // process each word
     for (w=se.begin(),i=0; w!=se.end(); w++,i++) {
@@ -204,6 +193,9 @@ void bioner::annotate(sentence &se) {
     // determine which is the most likely class combination
     vector<int> best;
     best = vit.find_best_path(all_pred,se.size());
+    TRACE(5, "best path found: ");
+    for (i=0; i<se.size(); i++)
+      TRACE(5, "       "+util::int2string(i)+": "+util::int2string(best[i]));
     
     // process obtained best_path and join detected NEs, syncronize it with sentence
     bool inNE=false;
@@ -221,9 +213,11 @@ void bioner::annotate(sentence &se) {
 	//  previous NE is finished: build multiword. 	
 	if ((inNE && tag->second=="B") || (inNE && tag->second=="O")) {
 	  w=BuildMultiword(se, beg, w-1, built);
+	  w++; // add one because w point to last word of multiword, which is previous word
 	  inNE=false;
+	  TRACE(5,"  multiword built. Current word: "+w->get_form());
 	}
-	// if we found "B", start new NE (previous if joins possible previous NE that finishes here)
+	// if we found "B", start new NE (previous if statment joins possible previous NE that finishes here)
 	if (tag->second=="B") {
 	  inNE=true;
 	  beg=w;
@@ -478,33 +472,23 @@ vector<int> vis_viterbi::find_best_path(double** predictions, int sent_size) con
   //  most likely path.
   for (int w=1; w<sent_size; w++){ // for each word starting in the second one
     TRACE(4," studying word in position "+util::int2string(w));
-    
-    // sumarize previous probabilities
-    TRACE(4," previous probabilities: ");
-    for (int i=0; i<N; i++){ 
-      TRACE(4,"   "+util::double2string(p_path[i]));
-    }
-    
+
     // normalizing factor to convert weights in probabilities -- p(i)=exp(w(i))/sum(exp(w(j)))
     sum=0;
     for (int i=0; i<N; i++)
       sum+=exp(predictions[i][w]);
     
     for (int i=0; i<N; i++){ // for each class, store the best probability
-      TRACE(5,"    store best probability for class "+util::int2string(i));
-      TRACE(5,"      predictions: "+util::double2string(predictions[i][w])+" p_pred: "+ util::double2string(exp(predictions[i][w])/sum)); 
+      TRACE(5,"   store best probability for class "+util::int2string(i));
       max=0;
       for (int j=0; j<N; j++) { 
 	p=p_path[j]*(exp(predictions[i][w])/sum)*p_trans[j][i];
-	TRACE(5,"      p_trans: "+util::double2string(p_trans[j][i])+" p_path["+util::int2string(j)+"]: "+ util::double2string(p_path[j]));
-	TRACE(5,"     new p: "+util::double2string(p));
 	if(max<p) {
 	  max=p;
 	  argmax=j;
 	}
       }
       // store most likely path for this class.
-      TRACE(5,"    best probability: "+util::double2string(max)+" best_path: "+util::int2string(argmax));
       best_path[i].push_back(argmax);
       p_path_new[i]=max;
     }
