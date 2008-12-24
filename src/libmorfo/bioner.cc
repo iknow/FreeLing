@@ -171,7 +171,18 @@ void bioner::annotate(sentence &se) {
     features.clear();
     extractor->encode_int(se,features);
     TRACE(2,"Sentence encoded.");
+    ///// NOMES POER COMPROBAR: teure-ho!
+    vector<set<string> > features_name;
+    bool ai;
+    extractor->encode_name(se,features_name,ai);
+    for (w=se.begin(),i=0; w!=se.end(); w++,i++) {
+      cerr<<"word: "<<i<<" -- "<<w->get_form()<<" --";
+      for (set<string>::iterator it_set=features_name[i].begin(); it_set!=features_name[i].end(); it_set++)
+	cerr<<" "<<*it_set<<endl;
+	
+    }
 
+    
     // process each word
     for (w=se.begin(),i=0; w!=se.end(); w++,i++) {
       example exmp(classifier->get_nlabels());
