@@ -193,9 +193,6 @@ void bioner::annotate(sentence &se) {
     // determine which is the most likely class combination
     vector<int> best;
     best = vit.find_best_path(all_pred,se.size());
-    TRACE(5, "best path found: ");
-    for (i=0; i<se.size(); i++)
-      TRACE(5, "       "+util::int2string(i)+": "+util::int2string(best[i]));
     
     // process obtained best_path and join detected NEs, syncronize it with sentence
     bool inNE=false;
