@@ -51,17 +51,17 @@ class vis_viterbi {
     ///N:  number of classes
     int N;
     /// p_ini: vector with initial probabilities for each class
-    vector < double > p_ini;
+    std::vector<double> p_ini;
     /// p_trans: matrix with the probability transitions from one class to another
     // e.g. P(B,B), P(O,B), etc
-    vector < vector <double> > p_trans;
+    std::vector<std::vector<double> > p_trans;
 
   public:
     /// Constructor: Create dynammic storage for the best path
-    vis_viterbi (const string &);
+    vis_viterbi (const std::string &);
 
     /// find_best_path: perform viterbi algortihm given the weights matrix
-    vector<int> find_best_path (double**, int) const;
+    std::vector<int> find_best_path (double**, int) const;
 
 };
 
@@ -76,11 +76,11 @@ class bioner: public ner {
   
   private:
     /// translation from name to class number
-    map <int,string> class_name;
+    std::map <int,std::string> class_name;
     /// feature extractor
     fex* extractor;
     /// lexicon to translate symbolic features to integer indexes
-    map<string,int> lexicon;
+    std:map<std::string,int> lexicon;
     /// adaboost classifier
     adaboost* classifier;
     /// viterbi class to compute best path
@@ -88,7 +88,7 @@ class bioner: public ner {
 
   public:
     /// Constructor
-    bioner ( const string & );
+    bioner ( const std::string & );
     /// Destructor
     ~bioner();
 
