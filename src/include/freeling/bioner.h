@@ -76,11 +76,11 @@ class bioner: public ner {
   
   private:
     /// translation from name to class number
-    std::map <int,std::string> class_name;
+    std::map<int,std::string> class_name;
     /// feature extractor
     fex* extractor;
     /// lexicon to translate symbolic features to integer indexes
-    std:map<std::string,int> lexicon;
+    std::map<std::string,int> lexicon;
     /// adaboost classifier
     adaboost* classifier;
     /// viterbi class to compute best path
