@@ -53,7 +53,7 @@ class ner {
     unsigned int Title_length;
     
     /// Tag to assign to detected NEs
-    string NE_tag;
+    std::string NE_tag;
     
     /// if we want to split NEs, set this to true
     bool splitNPs;
