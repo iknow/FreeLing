@@ -3112,7 +3112,7 @@ void dates_en::StateActions(int origin, int state, int token, sentence::const_it
     TRACE(3,"Actions for state EHb/EH1b");
 
     // if it comes from CH, what we stored in temp was an hour
-    if ((origin==CH || origin==CH1) && temp<=24 && temp>=0) {
+    if (origin==CH || (origin==CH1 && temp<=24 && temp>=0)) {
       hour=util::int2string(temp);
       if (temp==24) {
 	meridian="am";
@@ -3141,7 +3141,7 @@ void dates_en::StateActions(int origin, int state, int token, sentence::const_it
     TRACE(3,"Actions for state AH/AH1");
 
     // if it comes from CH, what we stored in temp was an hour
-    if ((origin==CH || origin==CH1 && temp<=24) && temp>=0) {
+    if (origin==CH || (origin==CH1 && temp<=24 && temp>=0)) {
       hour=util::int2string(temp);
       if (temp==24) {
 	meridian="am";
