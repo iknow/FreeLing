@@ -1,3 +1,5 @@
+<CLASS>
+% Verbs whose structure requires two dative arguments %
 accept
 acknowledge
 add
@@ -212,3 +214,4 @@ wire
 wireless
 worry
 write
+</CLASS>
