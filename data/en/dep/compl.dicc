@@ -1,3 +1,5 @@
+<CLASS>
+% Verbs whose argument is a finite clause %
 accept
 acknowledge
 add
@@ -174,3 +176,4 @@ warrant
 weigh
 worry
 write
+</CLASS>
