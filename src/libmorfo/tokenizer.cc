@@ -124,28 +124,30 @@ tokenizer::tokenizer(const std::string &TokFile)
 
 list<word> tokenizer::tokenize(const std::string &p, unsigned long &offset) {
   string t[10];
-  string s;
-  string::iterator c;
+  //string s;
+  //string::iterator c;
   vector<pair<string,RegEx> >::iterator i;
   bool match;
   int j,start;
   int len=0;
   list<word> v;
-
-  // Loop until line is completely processed
-  s=p;
-  while (!s.empty()) {
-
+  
+    // Loop until line is completely processed
+  const char* pchCur = p.c_str();
+  const char* pchFinish = pchCur + p.length();
+  while (pchCur < pchFinish) {
     // find first non-white space and erase leading whitespaces
-    for (c=s.begin(); isspace(*c); c++,offset++);
-    s.erase(s.begin(),c);
-
+    while (isspace(*pchCur)) {
+	pchCur++;
+	offset++;
+    }
+    
     // find first matching rule
     match=false;
     start = offset;
     for (i=rules.begin(); i!=rules.end() && !match; i++) {
-      if (i->second.Search(s)) {
-        // regexp matches, extract substrings
+      if (i->second.Search(pchCur, pchFinish - pchCur)) {
+	// regexp matches, extract substrings
 	match=true; len=0;
 	for (j=(matches[i->first]==0? 0 : 1); j<=matches[i->first] && match; j++) {
 	  // get each requested  substring
@@ -153,14 +155,17 @@ list<word> tokenizer::tokenize(const std::string &p, unsigned long &offset) {
 	  len += t[j].length();
 	  TRACE(2,"Found match "+util::int2string(j)+" ["+t[j]+"] for rule "+i->first);
 	  // if special rule, match must be in abbrev file
-	  if ((i->first)[0]=='*' && abrevs.find(util::lowercase(t[j]))==abrevs.end()) {
-	    match = false;
-	    TRACE(2,"Special rule and found match not in abbrev list. Rule not satisfied");
+	  if ((i->first)[0]=='*') {
+	    string lower = util::lowercase(t[j]);
+	    if (abrevs.find(lower)==abrevs.end()) {
+	      match = false;
+	      TRACE(2,"Special rule and found match not in abbrev list. Rule not satisfied");
+	    }
 	  }
 	}
       }
     }
-
+    
     if (match) {
       i--;
       // create word for each matched substring and append it to token list
@@ -174,17 +179,82 @@ list<word> tokenizer::tokenize(const std::string &p, unsigned long &offset) {
 	}
 	else
 	  TRACE(2,"Skipping matched null substring ["+t[j]+"]");
-      }  
+      } 
+
       // remaining substring
-      s=s.substr(len);
-      TRACE(3,"  remaining... ["+s+"]");
+      pchCur += len;      
+      TRACE(3,"  remaining... ["+string(pchCur)+"]");
     }
   }
-
+  
   TRACE_WORD_LIST(1,v);
- 
   return(v);
 }
+
+
+// list<word> tokenizer::tokenize(const std::string &p, unsigned long &offset) {
+//   string t[10];
+//   string s;
+//   string::iterator c;
+//   vector<pair<string,RegEx> >::iterator i;
+//   bool match;
+//   int j,start;
+//   int len=0;
+//   list<word> v;
+
+//   // Loop until line is completely processed
+//   s=p;
+//   while (!s.empty()) {
+
+//     // find first non-white space and erase leading whitespaces
+//     for (c=s.begin(); isspace(*c); c++,offset++);
+//     s.erase(s.begin(),c);
+
+//     // find first matching rule
+//     match=false;
+//     start = offset;
+//     for (i=rules.begin(); i!=rules.end() && !match; i++) {
+//       if (i->second.Search(s)) {
+//         // regexp matches, extract substrings
+// 	match=true; len=0;
+// 	for (j=(matches[i->first]==0? 0 : 1); j<=matches[i->first] && match; j++) {
+// 	  // get each requested  substring
+// 	  t[j] = i->second.Match(j);
+// 	  len += t[j].length();
+// 	  TRACE(2,"Found match "+util::int2string(j)+" ["+t[j]+"] for rule "+i->first);
+// 	  // if special rule, match must be in abbrev file
+// 	  if ((i->first)[0]=='*' && abrevs.find(util::lowercase(t[j]))==abrevs.end()) {
+// 	    match = false;
+// 	    TRACE(2,"Special rule and found match not in abbrev list. Rule not satisfied");
+// 	  }
+// 	}
+//       }
+//     }
+
+//     if (match) {
+//       i--;
+//       // create word for each matched substring and append it to token list
+//       for (j=(matches[i->first]==0? 0 : 1); j<=matches[i->first]; j++) {
+// 	if (t[j].length() > 0) {
+// 	  TRACE(2,"Accepting matched substring ["+t[j]+"]");
+// 	  word w(t[j]);
+// 	  w.set_span(offset,offset+t[j].length());
+// 	  offset += t[j].length();
+// 	  v.push_back(w);
+// 	}
+// 	else
+// 	  TRACE(2,"Skipping matched null substring ["+t[j]+"]");
+//       }  
+//       // remaining substring
+//       s=s.substr(len);
+//       TRACE(3,"  remaining... ["+s+"]");
+//     }
+//   }
+
+//   TRACE_WORD_LIST(1,v);
+ 
+//   return(v);
+// }
 
 
 list<word> tokenizer::tokenize(const std::string &p) {
