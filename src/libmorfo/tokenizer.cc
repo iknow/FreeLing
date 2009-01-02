@@ -132,9 +132,9 @@ list<word> tokenizer::tokenize(const std::string &p, unsigned long &offset) {
   int len=0;
   list<word> v;
   
-    // Loop until line is completely processed
-  const char* pchCur = p.c_str();
-  const char* pchFinish = pchCur + p.length();
+  // Loop until line is completely processed
+  string::const_pointer pchCur = p.c_str();
+  string::const_pointer pchFinish = pchCur + p.length();
   while (pchCur < pchFinish) {
     // find first non-white space and erase leading whitespaces
     while (isspace(*pchCur)) {
