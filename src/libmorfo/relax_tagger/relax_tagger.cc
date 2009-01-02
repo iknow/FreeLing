@@ -324,7 +324,7 @@ bool relax_tagger::CheckWordMatchCondition(const list<string> &terms, bool is_ne
    
    // If the analysis matches (or if it doesn't and the condition was negated),
    // put the pair var-label in the result list.
-   if (amatch && !is_neg || !amatch && is_neg) {
+   if ((amatch && !is_neg) || (!amatch && is_neg)) {
      lsum.push_back(make_pair(nv,lb));
      b = true;
      TRACE(3,"  word matches condition");
@@ -344,7 +344,7 @@ bool relax_tagger::CheckWordMatchCondition(const list<string> &terms, bool is_ne
 
 bool relax_tagger::check_possible_matching(const string &s, word::const_iterator a,
                                            sentence::const_iterator w) {
-  bool b;
+  bool b=false;
   list<string> lsen=a->get_senses();
 
   // If the condition has a "<>" pair, check lemma stuff
