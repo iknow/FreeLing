@@ -340,11 +340,15 @@ relatiu ==> prel-ms, +grup-nom-ms.
 relatiu ==> prel-fp, +grup-nom-fp.
 relatiu ==> prel-fs, +grup-nom-fs.
 
-relatiu ==> +prepc-ms, cual-s.	%al/del cual (ja no s'usa, no hi ha contraccions)
-relatiu ==> +prep, j-ms, cual-s.	%con el cual / de el cual / a el cual
-relatiu ==> +prep, j-fs, cual-s. %con la cual
-relatiu ==> +prep, j-mp, cual-p. %con los cuales
-relatiu ==> +prep, j-fp, cual-p. %con las cuales
+%relatiu ==> +prepc-ms, cual-s.	%al/del cual (ja no s'usa, no hi ha contraccions)
+%relatiu ==> +prep, j-ms, cual-s.        %con el cual / de el cual / a el cual % es tracten a les dependencies
+%relatiu ==> +prep, j-fs, cual-s. %con la cual % es tracten a les dependencies
+%relatiu ==> +prep, j-mp, cual-p. %con los cuales % es tracten a les dependencies
+%relatiu ==> +prep, j-fp, cual-p. %con las cuales % es tracten a les dependencies
+%relatiu ==> +prep, relatiu.	%con el cual / de el cual / a el cual % equivalent a l'anterior % es tracten a les dependencies
+%relatiu ==> +prep, relatiu. %con la cual % es tracten a les dependencies
+%relatiu ==> +prep, relatiu. %con los cuales % es tracten a les dependencies
+%relatiu ==> +prep, relatiu. %con las cuales % es tracten a les dependencies
 relatiu ==> j-ms, +cual-s | j-fs, +cual-s. %el cual | la cual
 relatiu ==> j-mp, +cual-p | j-fp, +cual-p. %los cuales | las cuales
 
@@ -732,10 +736,6 @@ verb ==>  VASF3S0.  	%hubiere%
 %%%%%%%%%%%%%%%%%% vaux no es reescriu tot sol.
 
 vaux==> VAI* | VAM* | VAS*.
-
-%% estar ha de formar grup-verb si esta sol ("yo estoy irresistible.")
-verb ==> VA*<estar>.
-
 
 % aquests participis nomes apareixen en  perífrasis determinades 
 parti-aux ==> VAP00SM.  	%habido

@@ -19,12 +19,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%%% Incorporacions (juliol 2008) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Incorporacions (desembre 2008) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %									 %
-% incorporacio classes verb preposicionals noves (GRPAR i GRLAB)	 %
-% classe marcadors textuals						 %
-% informacio semantica (GRLAB)						 %
-% reduccio regles GRPAR							 %
+% modificacio agrupacions de relatives amb relatiu compost (GRPAR+GRLAB) %
 %									 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -3048,6 +3045,17 @@
 6000  -  sadv{^PT}_*_$$  (qui,grup-verb)   top_left RELABEL subord-rel  % dins de subordinada
 6001  -  -  (qui,grup-verb)   top_left RELABEL subord-rel  % (qui (vingui)) sera benvingut
 
+%%% SUBORDINADES AMB PRONOM RELATIU COMPLEX INTRODUIT PER PREPOSICIO %%%
+
+6000  -  conj-subord_*_prep_$$  (relatiu,grup-verb)   top_left RELABEL prel-comp  % dins de subordinada
+6000  -  que-a_*_prep_$$  (relatiu,grup-verb)   top_left RELABEL prel-comp  % dins de subordinada
+6000  -  qui_*_prep_$$  (relatiu,grup-verb)   top_left RELABEL prel-comp  % dins de subordinada
+6000  -  relatiu_*_prep_$$  (relatiu,grup-verb)   top_left RELABEL prel-comp  % dins de subordinada
+6000  -  prel-adv_*_prep_$$  (relatiu,grup-verb)   top_left RELABEL prel-comp  % dins de subordinada
+6000  -  sn{^PT}_*_prep_$$  (relatiu,grup-verb)   top_left RELABEL prel-comp  % dins de subordinada
+6000  -  sadv{^PT}_*_prep_$$  (relatiu,grup-verb)   top_left RELABEL prel-comp  % dins de subordinada
+6001  -  prep_$$  (relatiu,grup-verb)   top_left RELABEL prel-comp  % el cotxe (amb el qual (vau aprendre a conduir))
+
 %%% SUBORDINADES AMB PRONOM RELATIU COMPLEX %%%
 
 6000  -  conj-subord_*_$$  (relatiu,grup-verb)   top_left RELABEL subord-rel  % dins de subordinada
@@ -3092,9 +3100,10 @@
 6000  -  sadv{^PT}_*_grup-verb_*_$$  (sadv{^PT},grup-verb)   top_left RELABEL subord % dins de subordinada
 6001  -  grup-verb_*_$$  (sadv{^PT},grup-verb)   top_left RELABEL subord % va preguntar (que (passaria a la festa))
 
-%%% RELATIUS COMPOSTOS %%%
+%%% PRONOMS RELATIUS COMPOSTOS: agrupacio preposicio i pronom relatiu complex (despres de la formacio de la relativa) %%%
 
 4000  -  -  (prep,qui)   top_left RELABEL relatiu  % la persona (amb qui (parlareu))
+4000  -  -  (prep,prel-comp)   top_left RELABEL subord-rel % la noia (amb (la qual (parleu)))
 
 %%% SUBSTANTIVACIONS DE SUBORDINADES %%%
 
@@ -3163,8 +3172,10 @@
 </GRPAR>
 
 <SEMDB>
-SenseFile       ../senses16.db
-WNFile          ../../common/wn16.db
+
+SenseFile       /usr/local/share/FreeLing/ca/senses16.db
+WNFile          /usr/local/share/FreeLing/common/wn16.db
+
 </SEMDB>
 
 <GRLAB>
@@ -3289,8 +3300,9 @@ sp-de           prepos          d.label=espec*
 grup-sp         prepos          d.label=j*
 sp-de           prepos          d.label=j*
 
-subord-rel      prepos          d.label=espec*
-subord-rel      prepos          d.label=j*
+%subord-rel      prepos          d.label=espec*
+%subord-rel      prepos          d.label=j*
+subord-rel	prepos		d.label=relatiu
 
 grup-verb	cc		d.label=grup-sp			d.side=left	d:inf.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que	d.lemma=en
 verb-pass	cc              d.label=grup-sp                 d.side=left     d:inf.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que        d.lemma=en
@@ -3728,6 +3740,8 @@ s-a-mp		espec                   d.label=sadv
 s-a-fp		espec			d.label=sadv
 
 subord          espec           	d.label=espec*
+prel-comp	espec			d.label=espec*
+prel-comp	espec			d.label=j*
 inf   		espec           	d.label=espec*
 
 grup-verb	aux			d.label=vaux
@@ -3775,6 +3789,7 @@ coor-sadv	co-adv			d.label=sadv
 
 subord          vsubord         d.label=grup-verb
 subord-rel      vsubord         d.label=grup-verb
+prel-comp	vsubord		d.label=grup-verb
 
 sn              vsubord         d.label=grup-verb
 

@@ -295,7 +295,8 @@ relatiu ==> +prep, que-t
            | +prepc-ms, qual-s.
 
  %AMB EL/la/els/les QUAL/s
-relatiu ==> +prep, j-ms, qual-s | +prep, j-fs, qual-s | +prep, j-mp, qual-p | +prep, j-fp, qual-p.
+%relatiu ==> +prep, j-ms, qual-s | +prep, j-fs, qual-s | +prep, j-mp, qual-p | +prep, j-fp, qual-p. % es tracten a les dependencies
+%relatiu ==> +prep, relatiu. % equivalent a l'anterio, es tracta a les dependencies
 
 %%%%%%%%%%%%%%%%%%%
 %% ELS PRONOMS PORTEN TOTS "p" DAVANT I DESPRES EL TIPUS%%
