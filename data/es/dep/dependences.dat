@@ -19,9 +19,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%%% Incorporacions (setembre 2008) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Incorporacions (desembre 2008) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %									 %
-% modificacio regles d.tonto=Human					 %
+% modificacio agrupacions de relatives amb relatiu compost (GRPAR+GRLAB) %									 
 %									 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -4154,6 +4154,24 @@
 6000  -  prel-adv_*_$$  (conj-subord,grup-verb)   top_left RELABEL subord % dins de subordinada
 6001  -  -  (conj-subord,grup-verb)   top_left RELABEL subord % (que (vinga))
 
+%%% SUBORDINADES AMB PRONOM RELATIU ATON INTRODUIT PER PREPOSICIO %%%
+
+6000  -  conj-subord_*_prep_$$  (prel,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  prel_*_prep_$$  (prel,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  prel-ms_*_prep_$$  (prel,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  prel-fs_*_prep_$$  (prel,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  prel-mp_*_prep_$$  (prel,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  prel-fp_*_prep_$$  (prel,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  cuyo-ms_*_prep_$$  (prel,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  cuyo-fs_*_prep_$$  (prel,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  cuyo-mp_*_prep_$$  (prel,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  cuyo-fp_*_prep_$$  (prel,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  quien-s_*_prep_$$  (prel,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  quien-p_*_prep_$$  (prel,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  relatiu_*_prep_$$  (prel,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  prel-adv_*_prep_$$  (prel,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6001  -  prep_$$  (prel,grup-verb)   top_left RELABEL prel-comp % la lengua con (que(se expresa))
+
 %%% SUBORDINADES AMB PRONOM RELATIU ATON %%%
 
 6000  -  conj-subord_*_$$  (prel,grup-verb)   top_left RELABEL subord-rel % dins de subordinada
@@ -4316,6 +4334,24 @@
 6000  -  prel-adv_*_$$  (cuyo-fp,grup-verb)   top_left RELABEL subord-rel % dins de subordinada
 6001 -  -  (cuyo-fp,grup-verb)   top_left RELABEL subord-rel % las chicas (cuyas madres (son empresarias))
 
+%%% SUBORDINADES AMB PRONOM RELATIU "QUIEN" SINGULAR INTRODUIT PER PREPOSICIO %%%
+
+6000  -  conj-subord_*_prep_$$  (quien-s,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  prel_*_prep_$$  (quien-s,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  prel-ms_*_prep_$$  (quien-s,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  prel-fs_*_prep_$$  (quien-s,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  prel-mp_*_prep_$$  (quien-s,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  prel-fp_*_prep_$$  (quien-s,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  cuyo-ms_*_prep_$$  (quien-s,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  cuyo-fs_*_prep_$$  (quien-s,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  cuyo-mp_*_prep_$$  (quien-s,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  cuyo-fp_*_prep_$$  (quien-s,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  quien-s_*_prep_$$  (quien-s,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  quien-p_*_prep_$$  (quien-s,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  relatiu_*_prep_$$  (quien-s,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  prel-adv_*_prep_$$  (quien-s,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6001  -  prep_$$  (quien-s,grup-verb)   top_left RELABEL prel-comp % (quien (venga))
+
 %%% SUBORDINADES AMB PRONOM RELATIU "QUIEN" SINGULAR %%%
 
 6000  -  conj-subord_*_$$  (quien-s,grup-verb)   top_left RELABEL subord-rel % dins de subordinada
@@ -4334,6 +4370,24 @@
 6000  -  prel-adv_*_$$  (quien-s,grup-verb)   top_left RELABEL subord-rel % dins de subordinada
 6001  -  -  (quien-s,grup-verb)   top_left RELABEL subord-rel % (quien (venga))
 
+%%% SUBORDINADES AMB PRONOM RELATIU "QUIEN" PLURAL INTRODUIT PER PREPOSICIO %%%
+
+6000  -  conj-subord_*_prep_$$  (quien-p,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  prel_*_prep_$$  (quien-p,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  prel-ms_*_prep_$$  (quien-p,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  prel-fs_*_prep_$$  (quien-p,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  prel-mp_*_prep_$$  (quien-p,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  prel-fp_*_prep_$$  (quien-p,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  cuyo-ms_*_prep_$$  (quien-p,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  cuyo-fs_*_prep_$$  (quien-p,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  cuyo-mp_*_prep_$$  (quien-p,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  cuyo-fp_*_prep_$$  (quien-p,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  quien-s_*_prep_$$  (quien-p,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  quien-p_*_prep_$$  (quien-p,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  relatiu_*_prep_$$  (quien-p,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  prel-adv_*_prep_$$  (quien-p,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6001  -  prep_$$  (quien-p,grup-verb)   top_left RELABEL prel-comp % (quienes (vengan))
+
 %%% SUBORDINADES AMB PRONOM RELATIU "QUIEN" PLURAL %%%
 
 6000  -  conj-subord_*_$$  (quien-p,grup-verb)   top_left RELABEL subord-rel % dins de subordinada
@@ -4351,6 +4405,24 @@
 6000  -  relatiu_*_$$  (quien-p,grup-verb)   top_left RELABEL subord-rel % dins de subordinada
 6000  -  prel-adv_*_$$  (quien-p,grup-verb)   top_left RELABEL subord-rel % dins de subordinada
 6001  -  -  (quien-p,grup-verb)   top_left RELABEL subord-rel % (quienes (vengan))
+
+%%% SUBORDINADES AMB PRONOM RELATIU COMPLEX INTRODUIT PER PREPOSICIO %%%
+
+6000  -  conj-subord_*_prep_$$  (relatiu,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  prel_*_prep_$$  (relatiu,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  prel-ms_*_prep_$$  (relatiu,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  prel-fs_*_prep_$$  (relatiu,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  prel-mp_*_prep_$$  (relatiu,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  prel-fp_*_prep_$$  (relatiu,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  cuyo-ms_*_prep_$$  (relatiu,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  cuyo-fs_*_prep_$$  (relatiu,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  cuyo-mp_*_prep_$$  (relatiu,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  cuyo-fp_*_prep_$$  (relatiu,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  quien-s_*_prep_$$  (relatiu,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  quien-p_*_prep_$$  (relatiu,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  relatiu_*_prep_$$  (relatiu,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6000  -  prel-adv_*_prep_$$  (relatiu,grup-verb)   top_left RELABEL prel-comp % dins de subordinada
+6001  -  prep_$$  (relatiu,grup-verb)   top_left RELABEL prel-comp % el coche (con el cual (aprendisteis a conducir))
 
 %%% SUBORDINADES AMB PRONOM RELATIU COMPLEX %%%
 
@@ -4388,22 +4460,29 @@
 6000  -  prel-adv_*_$$  (prel-adv,grup-verb)   top_left RELABEL subord-rel % dins de subordinada
 6001  -  -  (prel-adv,grup-verb)   top_left RELABEL subord-rel % la tienda (donde (comprasteis el ordenador))
 
-%%% PRONOMS RELATIUS COMPOSTOS %%%
+%%% PRONOMS RELATIUS COMPOSTOS: agrupacio especificador i pronom relatiu %%%
 
-4000 -  -  (prep,espec-ms)	top_left RELABEL - % ha canviat: ESPEC depen del RELATIU
-4000 -  -  (prep,espec-fs)	top_left RELABEL - % ha canviat: ESPEC depen del RELATIU
-4000 -  -  (prep,espec-mp)	top_left RELABEL - % ha canviat: ESPEC depen del RELATIU
-4000 -  -  (prep,espec-fp)	top_left RELABEL - % ha canviat: ESPEC depen del RELATIU
+%4000 -  -  (prep,espec-ms)	top_left RELABEL - % ha canviat: ESPEC depen del RELATIU; veg. les regles (espec*,prel)
+%4000 -  -  (prep,espec-fs)	top_left RELABEL - % ha canviat: ESPEC depen del RELATIU
+%4000 -  -  (prep,espec-mp)	top_left RELABEL - % ha canviat: ESPEC depen del RELATIU
+%4000 -  -  (prep,espec-fp)	top_left RELABEL - % ha canviat: ESPEC depen del RELATIU
 
-4000 -  -  (prep,prel)   top_left RELABEL relatiu  % el ordenador (con (que trabajais))
-4000  -  -  (prep,prel-ms)   top_left RELABEL relatiu % el ordenador (con (que trabajais))
-4000 -  -  (prep,prel-fs)   top_left RELABEL relatiu % la libreta (con (que trabajais))
-4000  -  -  (prep,prel-mp)   top_left RELABEL relatiu % los ordenadors (con (que trabajais))
-4000  -  -  (prep,prel-fp)   top_left RELABEL relatiu % las libretas (con (que trabajais))
-4000  -  -  (prep,quien-s)   top_left RELABEL relatiu  % la persona (con quien (hablais))
-4000  -  -  (prep,quien-p)   top_left RELABEL relatiu  % las personas (con quienes (hablais))
-4000  -  -  (prep,cual-s)  top_left RELABEL relatiu % la persona (con la cual (hablais))
-4000  -  -  (prep,cual-p)  top_left RELABEL relatiu % la persona (con las cuales (hablais))
+4000  -  sn_prep_$$  (espec-ms,prel)   top_right RELABEL relatiu  % (el (que habla))
+4000  -  sn_prep_$$  (espec-fs,prel)   top_right RELABEL relatiu  % (el (que habla))
+4000  -  sn_prep_$$  (espec-mp,prel)   top_right RELABEL relatiu  % (el (que habla))
+4000  -  sn_prep_$$  (espec-fp,prel)   top_right RELABEL relatiu  % (el (que habla))
+
+%%% PRONOMS RELATIUS COMPOSTOS: agrupacio preposicio i pronom relatiu complex (despres de la formacio de la relativa) %%%
+
+6002  -  -  (prep,prel-comp)  top_left RELABEL subord-rel % la persona (con (las cuales)) hablais
+6002  -  -  (prep,prel-ms)   top_left RELABEL relatiu % el ordenador (con (que trabajais))
+6002 -  -  (prep,prel-fs)   top_left RELABEL relatiu % la libreta (con (que trabajais))
+6002  -  -  (prep,prel-mp)   top_left RELABEL relatiu % los ordenadors (con (que trabajais))
+6002  -  -  (prep,prel-fp)   top_left RELABEL relatiu % las libretas (con (que trabajais))
+6002  -  -  (prep,quien-s)   top_left RELABEL relatiu  % la persona (con quien (hablais))
+6002  -  -  (prep,quien-p)   top_left RELABEL relatiu  % las personas (con quienes (hablais))
+6002  -  -  (prep,cual-s)  top_left RELABEL relatiu % la persona (con la cual (hablais))
+6002  -  -  (prep,cual-p)  top_left RELABEL relatiu % la persona (con (las cuales hablais))
 
 %%% SUBSTANTIVACIONS DE SUBORDINADES %%%
 
@@ -4528,8 +4607,8 @@
 
 <SEMDB>
 
-SenseFile	../senses16.db
-WNFile 		../../common/wn16.db
+SenseFile       /usr/local/share/FreeLing/es/senses16.db
+WNFile          /usr/local/share/FreeLing/common/wn16.db                  
 
 </SEMDB>
 
@@ -5137,6 +5216,10 @@ s-a-mp		espec           d.label=sadv
 s-a-fp		espec		d.label=sadv
 
 subord		espec		d.label=espec*
+subord-rel	espec		d.label=espec*
+subord-rel	espec		d.label=j*
+prel-comp	espec		d.label=espec*
+prel-comp	espec		d.label=j*
 grup-verb-inf	espec		d.label=espec*
 
 grup-verb	aux		d.label=vaux
@@ -5192,6 +5275,7 @@ coor-part 	co-part		d.label=subord-part
 
 subord		vsubord		d.label=grup-verb
 subord-rel	vsubord		d.label=grup-verb
+prel-comp	vsubord		d.label=grup-verb
 
 sn		vsubord		d.label=grup-verb
 
