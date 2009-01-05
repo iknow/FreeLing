@@ -115,10 +115,19 @@ string::size_type p;
 
   istringstream sin;
   sin.str(line);
-  sin>>key>>lemma>>tag;
+  sin>>key;
+
+  // read first pair lemma-tag
+  sin>>lemma>>tag;  string data = lemma+" "+tag;
+  // read any other pair, ingoring last unpaired field if present.
+  string t[2];  int i=0;
+  while (sin>>t[i]) {
+    if (i==1) data += "#"+t[0]+" "+t[1];
+    i=1-i;
+  }
   
   // store multiword in multiwords map
-  locut.insert(make_pair(key,lemma+" "+tag));
+  locut.insert(make_pair(key,data));
   
   // store all its prefixes (xxx_, xxx_yyy_, xxx_yyy_zzz_, ...) in prefixes map 
   prefix="";
@@ -272,7 +281,7 @@ bool locutions::ValidMultiWord(const word & w) {
   string::size_type p,q;
   word::const_iterator a;
   list<analysis> la;
-  bool valid;
+  bool valid=false;
 
   // Setting the analysis for the multiword
   
@@ -293,42 +302,46 @@ bool locutions::ValidMultiWord(const word & w) {
   else form=lmw;
   TRACE(3," matched locution: ("+form+")");
    
+  // MW matched, recover its tags 
   mw_data=locut.find(form);
-  if (mw_data!=locut.end()) {
+  list<string> ldata = util::string2list(mw_data->second,"#");
+  
+  for (list<string>::const_iterator k=ldata.begin(); k!=ldata.end(); k++) {
+
     istringstream sin;
-    sin.str(mw_data->second);
+    sin.str(*k);
     sin>>lemma>>tag;
-  }
 
-  // the tag is straighforward, use as is.
-  if (tag[0]!='$') {
-    la.push_back(analysis(lemma,tag));    
-    valid = true;
-  }
-  else {
-    // the tag is NOT straighforward, must be recovered from the components
-
-    // locate end of component number, and extract the number
-    p = tag.find(":",0);
-    if (p==string::npos) ERROR_CRASH("Invalid tag in locution entry: "+form+" "+lemma+" "+tag);
-    check=tag.substr(p+1);
-    // get the condition on the PoS after the component number (e.g. $1:NC)
-    nc=util::string2int(tag.substr(1,p-1));
-    TRACE(3,"Getting tag from word $"+util::int2string(nc)+", constraint: "+check);
-
-    // search all analysis in the given component that match the PoS condition,
-    bool found=false;
-    for (a=components[nc-1].begin(); a!=components[nc-1].end(); a++) { 
-      TRACE(4,"  checking analysis: "+a->get_lemma()+" "+a->get_parole());
-      par=a->get_parole();
-      if (par.find(check)==0) {
-        found=true;
-        la.push_back(analysis(lemma,par));
-      }
+    // the tag is straighforward, use as is.
+    if (tag[0]!='$') {
+      la.push_back(analysis(lemma,tag));    
+      valid = true;
     }
+    else {
+      // the tag is NOT straighforward, must be recovered from the components
+      
+      // locate end of component number, and extract the number
+      p = tag.find(":",0);
+      if (p==string::npos) ERROR_CRASH("Invalid tag in locution entry: "+form+" "+lemma+" "+tag);
+      check=tag.substr(p+1);
+      // get the condition on the PoS after the component number (e.g. $1:NC)
+      nc=util::string2int(tag.substr(1,p-1));
+      TRACE(3,"Getting tag from word $"+util::int2string(nc)+", constraint: "+check);
+      
+      // search all analysis in the given component that match the PoS condition,
+      bool found=false;
+      for (a=components[nc-1].begin(); a!=components[nc-1].end(); a++) { 
+	TRACE(4,"  checking analysis: "+a->get_lemma()+" "+a->get_parole());
+	par=a->get_parole();
+	if (par.find(check)==0) {
+	  found=true;
+	  la.push_back(analysis(lemma,par));
+	}
+      }
 
-    if (!found) TRACE(2,"Validation Failed: Tag "+tag+" not found in word. Locution entry: "+form+" "+lemma+" "+tag);
-    valid = found;
+      if (!found) TRACE(2,"Validation Failed: Tag "+tag+" not found in word. Locution entry: "+form+" "+lemma+" "+tag);
+      valid = found;
+    }
   }
 
   mw_analysis = la;

@@ -1,4 +1,4 @@
-languages = ca es en it gl
+languages = ca es en it gl cy
 
 if OS_SOLARIS
 ZCAT=gzcat
@@ -42,6 +42,15 @@ itdatadir = $(pkgdatadir)/it
 itdata_DATA = it/*
 itnecdatadir = $(pkgdatadir)/it/nec
 itnecdata_DATA = it/nec/*
+
+cydatadir = $(pkgdatadir)/cy
+cydata_DATA = cy/*
+cynecdatadir = $(pkgdatadir)/cy/nec
+cynecdata_DATA = cy/nec/*
+cychunkdir = $(pkgdatadir)/cy/chunker
+cychunk_DATA = cy/chunker/*
+cydepdatadir = $(pkgdatadir)/cy/dep
+cydepdata_DATA = cy/dep/*
 
 commondatadir = $(pkgdatadir)/common
 commondata_DATA = common/*
