@@ -285,6 +285,7 @@ bool np::ValidMultiWord(const word &w) {
     bool lw=false;
     for (p=mw.begin(); p!=mw.end() && !lw; p++) lw=util::has_lowercase(p->get_form());
     // if a word with lowercase chars is found, it is not a title, so it is a valid proper noun.
+
     return (lw);
   }
   else
@@ -336,11 +337,17 @@ sentence::iterator np::BuildMultiword(sentence &se, sentence::iterator start, se
 	
 	if (ValidMultiWord(w)) {  
 	  if (splitNPs) {
-	    for (sentence::iterator j=start; j!=se.end() && j!=end+1; j++) {
+	    TRACE(3,"Valid Multiword. Split NP is on: keeping separate words");
+	    for (sentence::iterator j=start; j!=end; j++) {
 	      if (util::isuppercase(j->get_form()[0]))
 		j->set_analysis(analysis(util::lowercase(j->get_form()),NE_tag));
 	    }
-	    i=end+1;			
+            // don't forget last word in MW 
+	    if (util::isuppercase(end->get_form()[0]))
+	      end->set_analysis(analysis(util::lowercase(end->get_form()),NE_tag));
+
+	    ResetActions();
+	    i=end;
 	    built=true;
 	  }
 	  else {
@@ -359,7 +366,7 @@ sentence::iterator np::BuildMultiword(sentence &se, sentence::iterator start, se
 	else {
 	  TRACE(3,"Multiword found, but rejected. Sentence untouched");
 	  ResetActions();
-	  i=end+1;
+	  i=start;
 	  built=false;
 	}
 	
