@@ -124,29 +124,28 @@ tokenizer::tokenizer(const std::string &TokFile)
 
 list<word> tokenizer::tokenize(const std::string &p, unsigned long &offset) {
   string t[10];
-  //string s;
-  //string::iterator c;
   vector<pair<string,RegEx> >::iterator i;
   bool match;
   int j,start;
   int len=0;
   list<word> v;
   
-  // Loop until line is completely processed
-  string::const_pointer pchCur = p.c_str();
-  string::const_pointer pchFinish = pchCur + p.length();
-  while (pchCur < pchFinish) {
+  // Loop until line is completely processed. We use char* for efficiency. 
+  // when STL supports regexps this should be changed.
+  const char* c = p.c_str();
+  while (strlen(c)>0) {
+
     // find first non-white space and erase leading whitespaces
-    while (isspace(*pchCur)) {
-	pchCur++;
-	offset++;
+    while (isspace(*c)) {
+      c++;
+      offset++;
     }
     
     // find first matching rule
     match=false;
     start = offset;
     for (i=rules.begin(); i!=rules.end() && !match; i++) {
-      if (i->second.Search(pchCur, pchFinish - pchCur)) {
+      if (i->second.Search(c)) {
 	// regexp matches, extract substrings
 	match=true; len=0;
 	for (j=(matches[i->first]==0? 0 : 1); j<=matches[i->first] && match; j++) {
@@ -182,8 +181,8 @@ list<word> tokenizer::tokenize(const std::string &p, unsigned long &offset) {
       } 
 
       // remaining substring
-      pchCur += len;      
-      TRACE(3,"  remaining... ["+string(pchCur)+"]");
+      c += len;
+      TRACE(3,"  remaining... ["+string(c)+"]");
     }
   }
   

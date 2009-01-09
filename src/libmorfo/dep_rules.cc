@@ -289,10 +289,10 @@ check_side::check_side(const string &n,const string &s) : rule_expression(n,s) {
 bool check_side::eval(dep_tree::iterator ancestor, dep_tree::iterator descendant) const {
   string side=*valueList.begin();
   TRACE(4,"      eval SIDE="+side);
-  if (side=="left" && node=="d" || side=="right" && node=="p") {
+  if ((side=="left" && node=="d") || (side=="right" && node=="p")) {
     return ((descendant->info.get_word().get_span_start())<(ancestor->info.get_word().get_span_start()));
   }
-  else if (side=="left" && node=="p" || side=="right" && node=="d") {
+  else if ((side=="left" && node=="p") || (side=="right" && node=="d")) {
     return ((descendant->info.get_word().get_span_start())>(ancestor->info.get_word().get_span_start()));
   }
   else return false;
