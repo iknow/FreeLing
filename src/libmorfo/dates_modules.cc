@@ -1511,7 +1511,7 @@ int dates_ca::ComputeToken(int state, sentence::iterator &j, sentence &se)
     value = util::string2int(j->get_lemma());
     TRACE(3,"Numerical value of form: "+util::int2string(value));
   }
-  
+
   // determine how to interpret that number, or if not number,
   // check for specific regexps.
   switch (state) {
