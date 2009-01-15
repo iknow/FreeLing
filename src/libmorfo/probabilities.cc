@@ -150,8 +150,9 @@ void probabilities::annotate_word(word &w) {
   int na=w.get_n_analysis();
   TRACE(2,"--Assigning probabilitites to: "+form);
   
-  // word found in dictionary, punctuation mark, number, or with retokenizable analysis
-  if (w.found_in_dict() || w.find_tag_match(RE_PunctNum) || w.has_retokenizable() ) {
+  // word found in dictionary, punctuation mark, number, or with retokenizable analysis 
+  //  and with some analysis
+  if ( (w.found_in_dict() || w.find_tag_match(RE_PunctNum) || w.has_retokenizable() ) && na>0 ) {
     TRACE(2,"Form found in dict or punctuation");
     if (na==1) { 
       // form is inambiguous
