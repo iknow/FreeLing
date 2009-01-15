@@ -64,8 +64,6 @@ class probabilities {
       /// length of longest suffix
       std::string::size_type long_suff;
 
-      /// Assign probabilities for each analysis of given word
-      void annotate_word(word &);
       /// Smooth probabilities for the analysis of given word
       void smoothing(word &);
       /// Compute p(tag|suffix) using recursively shorter suffixes.
@@ -77,6 +75,8 @@ class probabilities {
 
       /// Assign probabilities to tags using default options
       void annotate(sentence &);
+      /// Assign probabilities for each analysis of given word
+      void annotate_word(word &);
 
 };
 
