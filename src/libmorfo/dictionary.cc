@@ -60,7 +60,7 @@ dictionary::dictionary(const std::string &Lang, const std::string &dicFile, bool
   // remember if suffix analysis is to be performed
   MACO_SuffixAnalysis = activateSuf;
   // create suffix analyzer if required
-  if (MACO_SuffixAnalysis) suf = new suffixes(Lang, sufFile);
+  suf = (MACO_SuffixAnalysis ? new suffixes(Lang, sufFile) : NULL);
 
   // Opening a 4.0 or higher BerkeleyDB database
   if ((res=morfodb.OPEN(dicFile.c_str(),NULL,DB_UNKNOWN,DB_RDONLY,0))) {
@@ -165,7 +165,7 @@ void dictionary::annotate_word(word &w) {
 
 ////////////////////////////////////////////////////////////////////////
 /// Check whether the given word is a contraction, if so, obtain 
-/// of what words (and store them into lw).
+/// composing words (and store them into lw).
 ////////////////////////////////////////////////////////////////////////
 
 bool dictionary::check_contracted(const word &w, std::list<word> &lw) {
@@ -254,7 +254,7 @@ void dictionary:: annotate(sentence &se) {
       TRACE(1,"Searching in the dictionary the WORD: "+pos->get_form());
       annotate_word(*pos);
 
-      // check whether the word is a contraction, if so, obtain of what words (into lw)
+      // check whether the word is a contraction, if so, obtain composing words (into lw)
       // and replace it with "uncontracted" components.
       list<word> lw;
       if (check_contracted(*pos,lw)) {        
