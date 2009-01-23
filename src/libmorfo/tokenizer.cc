@@ -133,7 +133,8 @@ list<word> tokenizer::tokenize(const std::string &p, unsigned long &offset) {
   // Loop until line is completely processed. We use char* for efficiency. 
   // when STL supports regexps this should be changed.
   const char* c = p.c_str();
-  while (strlen(c)>0) {
+  const char* p_end = c+strlen(c);
+  while (c!=p_end) {
 
     // find first non-white space and erase leading whitespaces
     while (isspace(*c)) {
