@@ -150,6 +150,31 @@ class numbers_gl : public numbers_module {
 
 
 ////////////////////////////////////////////////////////////////
+///   The derived class numbers_it implements a Italian
+///   number recognizer.
+////////////////////////////////////////////////////////////////
+
+class numbers_it : public numbers_module {
+
+   private:
+      int  ComputeToken(int,sentence::iterator&, sentence &);
+      void ResetActions();
+      void StateActions(int, int, int, sentence::const_iterator);
+      void SetMultiwordAnalysis(sentence::iterator, int);
+
+      // !! unify process with other languages !! 
+      long double hundreds;	//this is additional.
+      long double thousands;	//this is additional.
+      long double floatUnits;   // "e tre quarto". This variable will count how
+                                // many "halfs", "quartrs" we have
+
+   public:
+      /// Constructor
+      numbers_it(const std::string &, const std::string &);
+};
+
+
+////////////////////////////////////////////////////////////////
 ///   The derived class numbers_en implements an English
 ///   number recognizer.
 ////////////////////////////////////////////////////////////////
