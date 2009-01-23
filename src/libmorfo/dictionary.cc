@@ -169,7 +169,8 @@ void dictionary::annotate_word(word &w) {
 ////////////////////////////////////////////////////////////////////////
 
 bool dictionary::check_contracted(const word &w, std::list<word> &lw) {
-  string lem,tag,cl,ct;
+  string lem,tag,cl;
+  list<string> ct;
   size_t pl,pt;
   list<analysis>::const_iterator a;
   bool contr;
@@ -179,16 +180,19 @@ bool dictionary::check_contracted(const word &w, std::list<word> &lw) {
   contr=false;
 
   pl=lem.find_first_of("+");   pt=tag.find_first_of("+");
+
+  if (pl!=string::npos && pt!=string::npos && w.get_n_analysis()>1) 
+    WARNING("Contraction "+w.get_form()+" has two analysis in dictionary. All but first ignored.");
+
   while (pl!=string::npos && pt!=string::npos) {
     contr=true;    // at least one "+" found. it's a contraction
 
     // split contracted component out of "lem" and "tag" strings
-    cl=lem.substr(0,pl);   ct=tag.substr(0,pt);
+    cl=lem.substr(0,pl);   ct=util::string2list(tag.substr(0,pt),"/");
     lem=lem.substr(pl+1);  tag=tag.substr(pt+1);
+    TRACE(3,"Searching contraction component... "+cl+"_"+util::list2string(ct,"/"));
 
-    TRACE(3,"Searching contraction component... "+cl+"_"+ct);
-
-    // obtain analysis for contracted component, and keep the first matching the given tag
+    // obtain analysis for contracted component, and keep analysis matching the given tag/s
     list<analysis> la;
     search_form(cl,la);
 
@@ -196,9 +200,11 @@ bool dictionary::check_contracted(const word &w, std::list<word> &lw) {
     word c(cl);
     // add all matching analysis for the component
     for (a=la.begin(); a!=la.end(); a++) {
-      if (a->get_parole().find(ct)==0 || ct=="*") {
-        c.add_analysis(*a); 
-        TRACE(3,"  Matching analysis: "+a->get_parole());
+      for (list<string>::const_iterator t=ct.begin(); t!=ct.end(); t++) {
+	if (a->get_parole().find(*t)==0 || (*t)=="*") {
+	  c.add_analysis(*a); 
+	  TRACE(3,"  Matching analysis: "+a->get_parole());
+	}
       }
     }
     lw.push_back(c);
@@ -212,18 +218,21 @@ bool dictionary::check_contracted(const word &w, std::list<word> &lw) {
 
   // process last component (only if it was a contraction)
   if (contr) {
-    cl=lem.substr(0,pl);  ct=tag.substr(0,pt);
+
+    cl=lem.substr(0,pl);   ct=util::string2list(tag.substr(0,pt),"/");
     lem=lem.substr(pl+1); tag=tag.substr(pt+1);
-    TRACE(3,"Searching contraction component... "+cl+"_"+ct);
+    TRACE(3,"Searching contraction component... "+cl+"_"+util::list2string(ct,"/"));
 
     list<analysis> la;
     search_form(cl,la);
 
     word c(cl);
     for (a=la.begin(); a!=la.end(); a++) {
-      if (a->get_parole().find(ct)==0 || ct=="*") {
-        c.add_analysis(*a); 
-        TRACE(3,"  Matching analysis: "+a->get_parole());
+      for (list<string>::const_iterator t=ct.begin(); t!=ct.end(); t++) {
+	if (a->get_parole().find(*t)==0 || (*t)=="*") {
+	  c.add_analysis(*a); 
+	  TRACE(3,"  Matching analysis: "+a->get_parole());
+	}
       }
     }
     lw.push_back(c);
