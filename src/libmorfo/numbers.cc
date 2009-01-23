@@ -52,6 +52,9 @@ numbers::numbers(const std::string &Lang, const std::string &Decimal, const std:
   else if (string(Lang)=="gl") 
     // Galician numbers handler 
     who = new numbers_gl(Decimal, Thousand);
+  else if (string(Lang)=="it") 
+    // Italian numbers handler 
+    who = new numbers_it(Decimal, Thousand);
   else if (string(Lang)=="en") 
     // English numbers handler 
     who = new numbers_en(Decimal, Thousand);

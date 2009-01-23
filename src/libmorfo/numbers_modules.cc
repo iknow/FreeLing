@@ -1814,6 +1814,693 @@ void numbers_gl::SetMultiwordAnalysis(sentence::iterator i, int fstate)
 #undef TK_code
 #undef TK_other
 
+
+
+//---------------------------------------------------------------------------
+//        Italian number recognizer
+//---------------------------------------------------------------------------
+
+//// State codes 
+#define B1 1  // initial state
+
+#define TUH1 1		//recognizes numbers until 999
+#define TUH2 2
+#define TUH3 3
+#define TUH4 4
+#define TUH5 5
+#define TUH6 6
+#define TUH7 7
+
+#define TUHTMlrd1 8	//recognizes "miliards" until 999 miliardi
+#define TUHTMlrd2 9
+#define TUHTMlrd3 10
+#define TUHTMlrd4 11
+#define TUHTMlrd5 12
+#define TUHTMlrd6 13
+#define TUHTMlrd7 14
+
+#define TUHTM1 15	//recognizes milions untul 999 milions
+#define TUHTM2 16
+#define TUHTM3 17
+#define TUHTM4 18
+#define TUHTM5 19
+#define TUHTM6 20
+#define TUHTM7 21
+
+#define TUHT1 22	//recognizes thousands until 999 thousands
+#define TUHT2 23
+#define TUHT3 24
+#define TUHT4 25
+#define TUHT5 26
+#define TUHT6 27
+#define TUHT7 28
+
+#define COD 49 // got pseudo-numerical code from initial state
+
+#define specialState 50
+
+// stop state
+#define STOP 51
+
+// Token codes
+#define TK_c      1  // hundreds "cento" "duecento" 
+#define TK_d      2  // decines undici, dodici, tredici (eleven,twelf)
+#define TK_t      3  // teens deci, venti, trenta (twent,thirty)
+#define TK_u      4  // units "tre" "quatro"
+#define TK_we     5  // word "e"
+#define TK_whalf  6  // word "medio"
+#define TK_wquarter 7 // word "quarto"
+#define TK_mil    8  // word "mille"   
+#define TK_mill   9  // word "milioni" "milione"
+#define TK_bill   10  // word "miliardo" "miliardi"
+#define TK_num   11  // a number (in digits)
+#define TK_milr  12  // word "miliardo/es"
+#define TK_special 13	//this is the special token. We return a very special state when a number is well defined and there can not be appended anything on the tail of that number
+
+#define TK_TUH 29
+#define TK_TUHTMlrd 30 
+#define TK_TUHTM 31
+#define TK_TUHT 32
+
+#define TK_code  15  // a code (ex. LX-345-2)
+
+#define TK_other 16
+ 
+ 
+///////////////////////////////////////////////////////////////
+///  Create a numbers recognizer for Italian.
+///////////////////////////////////////////////////////////////
+
+numbers_it::numbers_it(const std::string &dec, const std::string &thou): numbers_module(dec,thou)
+{  
+  // Initializing value map
+  value.insert(make_pair("uno",1));     value.insert(make_pair("un",1)); value.insert(make_pair("una",1));
+  value.insert(make_pair("due",2));
+  value.insert(make_pair("tre",3));
+  value.insert(make_pair("tré",3));
+
+  value.insert(make_pair("quattro",4));
+  value.insert(make_pair("quattr",4));
+  value.insert(make_pair("quatro",4));
+
+  value.insert(make_pair("cinque",5));   
+  value.insert(make_pair("sei",6));
+  value.insert(make_pair("sette",7));   
+  value.insert(make_pair("otto",8));
+  value.insert(make_pair("nove",9));   
+  value.insert(make_pair("dieci",10));
+  value.insert(make_pair("undici",11));   
+  value.insert(make_pair("dodici",12));
+  value.insert(make_pair("tredici",13));  
+  value.insert(make_pair("quattordici",14));
+  value.insert(make_pair("quindici",15)); 
+  value.insert(make_pair("sedici",16));
+  value.insert(make_pair("diciassette",17)); 
+  value.insert(make_pair("diciotto",18));
+  value.insert(make_pair("diciott",18));  
+  value.insert(make_pair("diciannove",19));
+  value.insert(make_pair("venti", 20));
+  value.insert(make_pair("trenta",30));
+  value.insert(make_pair("trent",30)); 
+         
+  value.insert(make_pair("quaranta",40));
+  value.insert(make_pair("quarant",40));
+  value.insert(make_pair("cinquanta",50));
+  value.insert(make_pair("cinquant",50));      
+  value.insert(make_pair("sessanta",60));
+  value.insert(make_pair("sessant",60));
+  value.insert(make_pair("settanta",70));
+  value.insert(make_pair("settant",70));
+  value.insert(make_pair("ottanta",80));
+  value.insert(make_pair("ottant",80));
+  value.insert(make_pair("novanta",90));
+  value.insert(make_pair("novant",90));
+
+  value.insert(make_pair("cento",100));
+
+  value.insert(make_pair("mille",1000));
+  value.insert(make_pair("mila",1000));
+  
+  value.insert(make_pair("milioni",1000000));
+
+  /*value.insert(make_pair("meta",0.5));    value.insert(make_pair("mezzo",0.5));  
+  value.insert(make_pair("quarto",0.25));  value.insert(make_pair("quarti",0.25));*/ //still not ready to use. Handling for floating numbers.Processing tokens like Half, et al. 
+
+
+  // Initializing token map
+
+  tok.insert(make_pair("cento",TK_c));
+
+  tok.insert(make_pair("dieci",TK_t));     tok.insert(make_pair("undici",TK_d));
+  tok.insert(make_pair("dodici",TK_d));     tok.insert(make_pair("tredici",TK_d));
+  tok.insert(make_pair("quattordici",TK_d));  tok.insert(make_pair("quindici",TK_d));
+  tok.insert(make_pair("sedici",TK_d));  tok.insert(make_pair("diciassette",TK_d));
+  tok.insert(make_pair("diciotto",TK_d));tok.insert(make_pair("diciott",TK_d));  
+  tok.insert(make_pair("diciannove",TK_d));
+  tok.insert(make_pair("venti",TK_t)); tok.insert(make_pair("vent",TK_t));
+  tok.insert(make_pair("trenta",TK_t));tok.insert(make_pair("trent",TK_t));
+  tok.insert(make_pair("quaranta",TK_t));   tok.insert(make_pair("quarant",TK_t)); 
+  tok.insert(make_pair("cinquanta",TK_t)); tok.insert(make_pair("cinquant",TK_t));
+  tok.insert(make_pair("sessanta",TK_t));  tok.insert(make_pair("sessanti",TK_t));tok.insert(make_pair("sessant",TK_t));
+  tok.insert(make_pair("settanta",TK_t));tok.insert(make_pair("settant",TK_t));
+  tok.insert(make_pair("ottanta",TK_t));tok.insert(make_pair("ottant",TK_t));
+  tok.insert(make_pair("novanta",TK_t));tok.insert(make_pair("novant",TK_t));
+
+
+  tok.insert(make_pair("uno",TK_u));tok.insert(make_pair("un",TK_u));tok.insert(make_pair("una",TK_u));
+  tok.insert(make_pair("due",TK_u));      tok.insert(make_pair("tre",TK_u));
+  tok.insert(make_pair("tré",3));
+  tok.insert(make_pair("quattro",TK_u));tok.insert(make_pair("quattr",TK_u)); tok.insert(make_pair("quatro",TK_u));
+  tok.insert(make_pair("cinque",TK_u));
+  tok.insert(make_pair("sei",TK_u));	tok.insert(make_pair("sette",TK_u));
+  tok.insert(make_pair("otto",TK_u));     tok.insert(make_pair("nove",TK_u));
+  
+  tok.insert(make_pair("e",TK_we));
+
+  tok.insert(make_pair("mila",TK_mil));tok.insert(make_pair("mille",TK_mil)); //a rule in italian. mille for 1 mille and mila for 2,3,4 (plural) mila
+
+  tok.insert(make_pair("milioni",TK_mill));tok.insert(make_pair("milione",TK_mill));tok.insert(make_pair("millioni",TK_mill));tok.insert(make_pair("millione",TK_mill));
+  tok.insert(make_pair("bilione",TK_bill)); //this form is used rarely in italian language
+  tok.insert(make_pair("miliardi",TK_milr));    tok.insert(make_pair("miliardo",TK_milr));
+
+  tok.insert(make_pair("mezzo",TK_whalf)); tok.insert(make_pair("meta",TK_whalf));
+  tok.insert(make_pair("quarto",TK_wquarter));tok.insert(make_pair("quarti",TK_wquarter));
+
+  // Initializing power map
+  power.insert(make_pair(TK_mil,  1000.0));
+  power.insert(make_pair(TK_c,  100.0));
+  power.insert(make_pair(TK_mill, 1000000.0));
+  power.insert(make_pair(TK_bill, 1000000000000.0));
+  power.insert(make_pair(TK_milr, 1000000000.0));
+
+  Final.insert(TUH1);  Final.insert(TUH2);  Final.insert(TUH3);
+
+  //I have to redu this table, since it is not working propertly. 
+  // Initialize special state attributes
+  initialState=B1; stopState=STOP;
+
+  Final.insert(specialState);
+
+  // Initialize transitions table. By default, stop state
+  int s,t;
+  for(s=0;s<MAX_STATES;s++) for(t=0;t<MAX_TOKENS;t++) trans[s][t]=STOP;
+  //state B1
+  //handle sepcial state from automaton. This is the right place to do it. Inside out ComputeToken function we already compute the value of the token, since in italian, alike in german, numbers are compounded (embedded), one word, one number. 
+  trans[B1][TK_special]=specialState;
+  /*
+#########################################################################################################
+##################################### STATE TUH (tens,units, hundreds recognizer) ######################
+#########################################################################################################
+*/  
+  // STATE TU1
+  trans[TUH1][TK_u]=TUH4;   trans[TUH1][TK_t]=TUH2;
+  trans[TUH1][TK_d]=TUH3;   trans[TUH1][TK_c]=TUH5;
+
+  //state TUH2
+  trans[TUH2][TK_u]=TUH3;
+
+  //state TUH4
+  trans[TUH4][TK_c]=TUH5;
+  
+  //state TUH5
+  trans[TUH5][TK_u]=TUH7;  trans[TUH5][TK_d]=TUH7;  trans[TUH5][TK_t]=TUH6;
+
+  //state TUH7
+  trans[TUH6][TK_u]=TUH7;
+	
+  //arcs that goes to TUHTMlrd automaton. That is billion recognizer
+  trans[TUH1][TK_milr]=TUHTMlrd1;  trans[TUH2][TK_milr]=TUHTMlrd1;
+  trans[TUH3][TK_milr]=TUHTMlrd1;  trans[TUH4][TK_milr]=TUHTMlrd1; 
+  trans[TUH5][TK_milr]=TUHTMlrd1;  trans[TUH6][TK_milr]=TUHTMlrd1;
+  trans[TUH7][TK_milr]=TUHTMlrd1;
+
+
+  //arcs that goes to TUHTM automaton. That is milion recognizer numbers
+  trans[TUH1][TK_mill]=TUHTM1;  trans[TUH2][TK_mill]=TUHTM1;
+  trans[TUH3][TK_mill]=TUHTM1;  trans[TUH4][TK_mill]=TUHTM1;
+  trans[TUH5][TK_mill]=TUHTM1;  trans[TUH6][TK_mill]=TUHTM1;
+  trans[TUH7][TK_mill]=TUHTM1;
+
+  //arcs that goes to TUHT automaton. That is thousands numbers
+  trans[TUH1][TK_mil]=TUHT1;  trans[TUH2][TK_mil]=TUHT1;
+  trans[TUH3][TK_mil]=TUHT1;  trans[TUH4][TK_mil]=TUHT1;
+  trans[TUH5][TK_mil]=TUHT1;  trans[TUH6][TK_mil]=TUHT1;
+  trans[TUH7][TK_mil]=TUHT1;
+
+  //STATE TUHTMlrd = TUHT=TUHTM. We have the same rules after the words milion. We can use the same automaton for recognizing thousands
+  // STATE TUHTMlrd1
+  trans[TUHTMlrd1][TK_u]=TUHTMlrd4;  trans[TUHTMlrd1][TK_t]=TUHTMlrd2;
+  trans[TUHTMlrd1][TK_d]=TUHTMlrd3;  trans[TUHTMlrd1][TK_c]=TUHTMlrd5;
+
+  //state TUHTMlrd2
+  trans[TUHTMlrd2][TK_u]=TUHTMlrd3;
+
+  //state TUHTMlrd4
+  trans[TUHTMlrd4][TK_c]=TUHTMlrd5;
+  
+  //state TUHTMlrd5
+  trans[TUHTMlrd5][TK_u]=TUHTMlrd7;  trans[TUHTMlrd5][TK_d]=TUHTMlrd7;
+  trans[TUHTMlrd5][TK_t]=TUHTMlrd6;
+
+  //state TUHTMlrd6
+  trans[TUHTMlrd6][TK_u]=TUHTMlrd7;
+
+  //arcs that goes to TUHT automaton. That is thousands numbers
+  trans[TUHTMlrd1][TK_mil]=TUHT1;  trans[TUHTMlrd2][TK_mil]=TUHT1;
+  trans[TUHTMlrd3][TK_mil]=TUHT1;  trans[TUHTMlrd4][TK_mil]=TUHT1;
+  trans[TUHTMlrd5][TK_mil]=TUHT1;  trans[TUHTMlrd6][TK_mil]=TUHT1;
+  trans[TUHTMlrd7][TK_mil]=TUHT1;
+
+  //arcs that goes to TUHTM automaton. That is milion recognizer numbers
+  trans[TUHTMlrd1][TK_mill]=TUHTM1;  trans[TUHTMlrd2][TK_mill]=TUHTM1;
+  trans[TUHTMlrd3][TK_mill]=TUHTM1;  trans[TUHTMlrd4][TK_mill]=TUHTM1;
+  trans[TUHTMlrd5][TK_mill]=TUHTM1;  trans[TUHTMlrd6][TK_mill]=TUHTM1;
+  trans[TUHTMlrd7][TK_mill]=TUHTM1;
+
+  //STATE TUHTM1 = TUHT1. We have the same rules after the words milion. We can use the same automaton for recognizing thousands
+  // STATE TUHTM1
+  trans[TUHTM1][TK_u]=TUHTM4;  trans[TUHTM1][TK_t]=TUHTM2;
+  trans[TUHTM1][TK_d]=TUHTM3;  trans[TUHTM1][TK_c]=TUHTM5;
+
+  //state TUHTM2
+  trans[TUHTM2][TK_u]=TUHTM3;
+
+  //state TUHTM4
+  trans[TUHTM4][TK_c]=TUHTM5;
+  
+  //state TUHTM5
+  trans[TUHTM5][TK_u]=TUHTM7;  trans[TUHTM5][TK_d]=TUHTM7;  trans[TUHTM5][TK_t]=TUHTM6;
+
+  //state TUHTM6
+  trans[TUHTM6][TK_u]=TUHTM7;
+
+  //arcs that goes to TUHT automaton. That is thousands numbers
+  trans[TUHTM1][TK_mil]=TUHT1;  trans[TUHTM2][TK_mil]=TUHT1;
+  trans[TUHTM3][TK_mil]=TUHT1;  trans[TUHTM4][TK_mil]=TUHT1;
+  trans[TUHTM5][TK_mil]=TUHT1;  trans[TUHTM6][TK_mil]=TUHT1;
+  trans[TUHTM7][TK_mil]=TUHT1;
+
+  // STATE TUHT1
+  trans[TUHT1][TK_u]=TUHT4;  trans[TUHT1][TK_t]=TUHT2;
+  trans[TUHT1][TK_d]=TUHT3;  trans[TUHT1][TK_c]=TUHT5;
+
+  //state TUHT2
+  trans[TUHT2][TK_u]=TUHT3;
+
+  //state TUHT4
+  trans[TUHT4][TK_c]=TUHT5;
+  
+  //state TUHT5
+  trans[TUHT5][TK_u]=TUHT7;  trans[TUHT5][TK_d]=TUHT7;  trans[TUHT5][TK_t]=TUHT6;
+
+  //state TUHT6
+  trans[TUHT6][TK_u]=TUHT7;
+  TRACE(3,"analyzer succesfully created");
+}
+
+
+//-- Implementation of virtual functions from class automat --//
+
+///////////////////////////////////////////////////////////////
+///  Compute the right token code for word j from given state.
+///////////////////////////////////////////////////////////////
+
+int numbers_it::ComputeToken(int state, sentence::iterator &j, sentence &se)
+{
+  // in case we have recognized a previous numbers, we do not want to
+  // recognize the second number as being a part of it. For multiwords
+  // processing, please work in this part
+  if (state==specialState) return TK_other;
+    
+  bool didIRecognize=false;   // we have to know inside this funtion 
+                              // whether we have identified the number or not. 
+  int token;
+  map<string,int>::iterator im;
+  map<string,int>::iterator prefixIm;
+  map<string,int>::iterator suffixIm;
+  
+  int newstate=STOP;
+  string fullForm = util::lowercase(j->get_form());
+
+  // when we search for a token, we will not find it since italian
+  // numbers are compounded (multiwords). i.e. ("duecentotrentasete"="two hundred thirty-seven")
+  // Therefore, a search by substrings is done .
+  token = TK_other;
+  
+  if (fullForm.length()>4) {
+    list<string> detectedNumbers;
+    list<int> detectedNumbersCodes;
+    list<std::string>::iterator dn;
+    list<int>::iterator dnt;
+    int numbersDetected=0;
+    int fullLength=fullForm.length();
+    int insertedNrsLength=0;
+    int fromOffs=fullForm.length()-2;
+    int toOffs=2;
+    int tmpToken=TK_other;
+    
+    while(fromOffs>=0) {	//we assure the exit from this cycle when we fromOffs is zero
+      
+      std::string partForm=fullForm.substr(fromOffs,toOffs);
+      im = tok.find(partForm);
+      
+      prefixIm=tok.find(fullForm.substr(0,fromOffs+toOffs));
+      
+      if (detectedNumbers.size()>0) {
+	std::string suffix=fullForm.substr(fromOffs,toOffs)+detectedNumbers.front();
+	suffixIm=tok.find(suffix);
+	if(suffixIm!=tok.end()) {
+	  // Replace the last in the tail with the found suffix.
+	  // Suffix processing is very important, since in italian we
+	  // can have numbers like millediciotto. In this case this
+	  // processing function will identify otto as a token, and
+	  // milledici as another, and it will fail the
+	  // identification.  If we concatenate last inserted
+	  // identified number like otto with dici, we obtain
+	  // diciotto, and analyzer will remove the last inserted
+	  // number from the list and insert a new one concatenated
+	  if (detectedNumbers.size()>0) {
+	    partForm=suffix; //first of all, save the suffix
+	    im=suffixIm;     //save the suffix
+	    
+	    //update the length checker flag
+	    insertedNrsLength-=detectedNumbers.front().length();
+
+	    detectedNumbers.pop_front();     //remove the last token, since it's not the right one
+	    detectedNumbersCodes.pop_front();//remove the last code, since it's not the right one
+	    toOffs=1;                        //update the toOffset (superior limit of the offset)
+	  }
+	}
+      }
+      
+      if (prefixIm!=tok.end()) {	
+	//this is only for optimization. We can have a full number
+	// prefix.  for example, we can have diciotto mila, where
+	// dicitotto is the prefix. One step and the job is done!!!
+	// This part can be also removed, it will work.
+	partForm=fullForm.substr(0,fromOffs+toOffs);
+	im=prefixIm;
+	fromOffs=-1;
+	toOffs=1;
+      }
+		
+      if (im!=tok.end()) {
+	tmpToken = (*im).second;
+	if (tmpToken!=TK_we) {
+	  toOffs=1;
+	  //insert in the list in inverse.We parse the string from tail to head. 
+	  numbersDetected++;
+	  insertedNrsLength+=partForm.length();
+	  detectedNumbers.push_front(partForm);
+	  detectedNumbersCodes.push_front(tmpToken);
+	}
+	else 
+	  toOffs++;
+      }
+      else
+	toOffs++;
+      
+      fromOffs--; //At everycycle iterator is decreased. It assures the exit from loop
+    }
+    
+    if ((numbersDetected>1)&&(insertedNrsLength==fullLength)) {
+      //first check if it is really a full number. Can be a token
+      //non-numeric which contains numeric tokens such as Trento.
+
+      didIRecognize=true;
+      std::string saveForm=j->get_form();
+      sentence::iterator jReplacer=j;
+      dnt=detectedNumbersCodes.begin();
+      state=B1;
+      
+      for (dn=detectedNumbers.begin();dn!=detectedNumbers.end()&&state!=STOP;dn++) {
+	  
+	token=*dnt;
+	
+	jReplacer->set_form(*dn);
+	// here is the trick. We will move the states in the automaton
+	// inside this function, then pass the last state to
+	// automaton::annotate function
+	newstate = trans[state][token];
+
+	// let the child class perform any actions 
+	// for the new state (e.g. computing date value...)
+	StateActions(state, newstate, token, jReplacer);
+
+	// change state
+	state = newstate;
+	
+	if(dnt!=detectedNumbersCodes.end()) dnt++;	
+      }
+
+      if (dn!=detectedNumbers.end()&&state==STOP) {
+	iscode=true;
+	didIRecognize=false;
+      }
+      
+      j->set_form(saveForm);
+    }
+    else {
+      im = tok.find(fullForm);
+      if (im!=tok.end()) {
+	token = (*im).second;
+	newstate = trans[state][token];
+	StateActions(state, newstate, token, j);
+	didIRecognize=true;
+      }
+    }    
+  }
+  else {	
+    im = tok.find(fullForm);
+    
+    if (im!=tok.end()) {	
+      token = (*im).second;
+      newstate = trans[state][token];
+      StateActions(state, newstate, token, j);
+      didIRecognize=true;
+    }
+  }
+  
+  TRACE(3,"Next word form is: ["+fullForm+"] token="+util::int2string(token));
+  
+  if(didIRecognize && newstate!=STOP) token=TK_special;  
+  else token=TK_other;
+  
+  // if the token was successfully decomposed and identified as a number, we're done
+  if (token != TK_other) return (token);
+  
+  // Token not identified as number, let's have a closer look.
+  // check to see if it is a number
+  if (RE_number.Search(fullForm.c_str(),-1,0)) token = TK_num;
+  else if (RE_code.Search(fullForm.c_str(),-1,0)) token = TK_code;
+  
+  TRACE(3,"Leaving state "+util::int2string(state)+" with token "+util::int2string(token)); 
+  
+  return (token); //here we return the type of number we have 
+}
+
+
+///////////////////////////////////////////////////////////////
+///   Reset acumulators used by state actions:
+///   bilion, milion, units.
+///////////////////////////////////////////////////////////////
+
+void numbers_it::ResetActions() {
+  floatUnits=0;	//used for floating point values
+  iscode=0;	//
+  hundreds=0;	//hundreds keeper
+  thousands=0;	//thousands keeper
+  milion=0; 	//millions keeper
+  bilion=0; 	//billions keeper
+  units=0; 	//units keeper
+  block=0;	//not used in this class
+}
+
+///////////////////////////////////////////////////////////////
+///  Perform necessary actions in "state" reached from state 
+///  "origin" via word j interpreted as code "token":
+///  Basically, when reaching a state, update current 
+///  nummerical value.
+///////////////////////////////////////////////////////////////
+
+void numbers_it::StateActions(int origin, int state, int token, sentence::const_iterator j) {
+  string form;
+  size_t i;
+  long double num;
+
+  form = util::lowercase(j->get_form());
+  TRACE(3,"Reaching state "+util::int2string(state)+" with token "+util::int2string(token)+" for word ["+form+"]");
+
+  // get token numerical value, if any
+  num=0;
+  if (token==TK_num) {
+    // erase thousand points
+    while ((i=form.find_first_of(MACO_Thousand))!=string::npos) {
+      form.erase(i,1);
+    }
+    TRACE(3,"after erasing thousand "+form);
+    // make sure decimal point is "."
+    if ((i=form.find_last_of(MACO_Decimal))!=string::npos) {
+      form[i]='.';
+      TRACE(3,"after replacing decimal "+form);
+    }
+    
+    num = util::string2longdouble(form);
+  }
+  
+
+  // State actions
+  switch (state) {
+    // ---------------------------------
+    case TUH1: case TUH2:  case TUH3: case TUH4:  
+    case TUH6: case TUH7: case TUHT2:  case TUHT3: 
+    case TUHT4: case TUHT6: case TUHT7: case TUHTM2:  
+    case TUHTM3: case TUHTM4: case TUHTM6: case TUHTM7: 
+    case TUHTMlrd2:  case TUHTMlrd3: case TUHTMlrd4: 
+    case TUHTMlrd6: case TUHTMlrd7:
+      //This is the addition operation
+      units+=value[form];
+      break;
+
+    case TUH5: case TUHT1: case TUHT5: 
+    case TUHTM1: case TUHTM5: case TUHTMlrd1: 
+    case TUHTMlrd5:
+
+      switch(token) {
+        case TK_c:
+	  if(units==0)
+	    units=1;
+	  hundreds=units*power[token];
+	  units=0;
+	  break;
+
+        case TK_mil: 
+	  if(units==0 && hundreds==0)	//just in case we have the word "mille"s
+	    units=1;
+	  
+	  thousands=units*power[token];
+	  thousands+=hundreds*power[token];
+	  
+	  units=0;		//release all the numbers after you have computed the new value
+	  hundreds=0;
+	  break;
+
+        case TK_mill:		//the same rules for milions and thousands.
+	  if(units==0 && hundreds==0)	//just in case we have the word "mille"s
+	    units=1;
+	  
+	  milion=units*power[token];
+	  milion+=hundreds*power[token];
+	  
+	  units=0;		//release all the numbers after you have computed the new value
+	  hundreds=0;
+	  break;
+
+        case TK_milr:		//the same rules for milions and thousands.
+	  if(units==0 && hundreds==0)	//just in case we have the word "mille"s
+	    units=1;
+	  
+	  bilion=units*power[token];
+	  bilion+=hundreds*power[token];
+	  
+	  units=0;		//release all the numbers after you have computed the new value
+	  hundreds=0;
+	  break;	
+      }
+      break;
+
+    case COD:
+      TRACE(3,"Actions for COD state");
+      iscode = CODE;
+      break;
+      // ---------------------------------
+    default: break;
+  }
+
+  TRACE(3,"State actions completed. bilion="+util::longdouble2string(bilion)+" milion="+util::longdouble2string(milion)+" units="+util::longdouble2string(units));
+}
+
+
+///////////////////////////////////////////////////////////////
+///   Set the appropriate lemma and parole for the 
+///   new multiword.
+///////////////////////////////////////////////////////////////
+
+void numbers_it::SetMultiwordAnalysis(sentence::iterator i, int fstate) {
+  string lemma;
+
+  // Setting the analysis for the nummerical expression
+  if (iscode==CODE) {
+    lemma=i->get_form();
+  }
+  else {
+    // compute nummerical value as lemma
+    lemma=util::longdouble2string(bilion+milion+thousands+hundreds+units);
+  }
+
+  if(fstate==specialState) {
+    i->set_analysis(analysis(lemma,"Zd"));	//we have successfully recognized the word as number
+    TRACE(3,"Analysis set to: "+lemma+" Zd");
+  }
+  else {
+    i->set_analysis(analysis(lemma,"Z"));
+    TRACE(3,"Analysis set to: "+lemma+" Z");
+  }
+}
+
+
+// undef codes to prepare for next module definition
+//// State codes 
+#undef B1
+#undef TUH1
+#undef TUH2
+#undef TUH3
+#undef TUH4
+#undef TUH5
+#undef TUH6
+#undef TUH7
+#undef TUHTMlrd1
+#undef TUHTMlrd2
+#undef TUHTMlrd3
+#undef TUHTMlrd4
+#undef TUHTMlrd5
+#undef TUHTMlrd6
+#undef TUHTMlrd7
+#undef TUHTM1
+#undef TUHTM2
+#undef TUHTM3
+#undef TUHTM4
+#undef TUHTM5
+#undef TUHTM6
+#undef TUHTM7
+#undef TUHT1
+#undef TUHT2
+#undef TUHT3
+#undef TUHT4
+#undef TUHT5
+#undef TUHT6
+#undef TUHT7
+#undef COD
+#undef specialState
+#undef STOP
+#undef TK_c
+#undef TK_d
+#undef TK_t
+#undef TK_u
+#undef TK_we
+#undef TK_whalf
+#undef TK_wquarter
+#undef TK_mil
+#undef TK_mill
+#undef TK_bill
+#undef TK_num
+#undef TK_milr
+#undef TK_special
+#undef TK_code
+#undef TK_other
+
+
+
 //---------------------------------------------------------------------------
 //        English number recognizer
 //---------------------------------------------------------------------------
