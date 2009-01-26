@@ -1153,6 +1153,8 @@ marks in Spanish:\\
 \verb#</SentenceStart>#
 
 
+Splitter behaviour is also changed by the general-level option {\sl AlwaysFlush} (see section~\ref{ss-options}), which causes the splitter to consider each newline as a sentence end.
+
 
 %..................................................
 \section{Multiword definition file}
@@ -1434,6 +1436,21 @@ The probabilities file has six sections:
   entry may have in the dictionary, and {\sl el} will get any
   tag starting with {\tt DA}.
   
+  Note that a contraction cannot be splitted in two different ways
+  corresponding to different forms (e.g. {\tt he's = he+is | he+has}),
+  so only a combination of forms and a combination of tags may appear
+  in the dictionary.
+
+   Nevertheless, a set of tags may be specified for a given form, e.g.:
+
+  \verb#he'd he+'d PRP+VB/MD#
+
+   This will produce two words: {\sl he} with {\tt PRP} analysis, and
+   {\sl 'd} with its analysis matching any of the two given tags
+   (i.e. {\tt have\_VBZ} and {\tt would\_MD}).  Note that this will
+   work only if the form {\sl 'd} is found in the dictionary with
+   those possible analysis.
+
    If all tags for one of the new forms are to be used, a wildcard may
    be written as a tag. E.g.:\\
 
@@ -1442,9 +1459,7 @@ The probabilities file has six sections:
    This will replace {\sl pal} with two words, {\sl para} with only its
    {\tt SPS} analysis, plus {\sl el} with all its possible tags.  
 
-  Note that a contraction cannot be splitted in two different ways, so
-  only a combination of lemmas and a combination of tags may appear
-  in the dictionary.
+
 
 %..................................................
 \section{Named entity recognition data file}
