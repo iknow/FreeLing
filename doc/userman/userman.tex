@@ -1509,15 +1509,40 @@ NP00000
 </NE_Tag>
 \end{verbatim}
 
-  \item Section \verb#<Ignore># contains a list of lemmas that are no considered to be a named entity even when they appear capitalized in the middle of a sentence.  For instance, the word {\em Spanish} in the sentence {\em He started studying Spanish two years ago} is not a named entity. If the words in the list appear with other capitalized words, they are considered to form a named entity (e.g. {\em An announcement of the Spanish Bank of Commerce was issued yesterday}). The same distinction applies to the word {\em I} in the sentences {\em whatever you say, I don't believe}, and {\em That was the death of Henry I}.
+  \item Section \verb#<Ignore># contains a list of forms (lowercased)
+    or PoS tags (uppercased) that are not to be considered a named
+    entity even when they appear capitalized in the middle of a
+    sentence.  For instance, the word {\em Spanish} in the sentence
+    {\em He started studying Spanish two years ago} is not a named
+    entity. If the words in the list appear with other capitalized
+    words, they are considered to form a named entity (e.g. {\em An
+      announcement of the Spanish Bank of Commerce was issued
+      yesterday}). The same distinction applies to the word {\em I} in
+    the sentences {\em whatever you say, I don't believe}, and {\em
+      That was the death of Henry I}.
+
+     Each word or tag is followed by a $0$ or $1$ indicating whether
+     the {\sl ignore} condition is strict ($0$: non-strict, $1$:
+     strict).  The entries marked as non-strict will have the
+     behaviour described above.  The entries marked as strict will
+     {\sl never} be considered named entities or NE parts.
+
+     For instance, the following \verb#<Ignore># section states that
+     the word ``I'' is not to be a proper noun ({\em whatever you say,
+       I don't believe}) unless some of its neighbour words are ({\em
+       That was the death of Henry I}). It also states that any word
+     with the {\tt RB} tag, and any of the listed language names must
+     {\sl never} be considered as possible NEs.
 \begin{verbatim}
 <Ignore>
-i
-english
-dutch
-spanish
+i  0
+RB 1
+english 1
+dutch 1
+spanish 1
 </Ignore>
 \end{verbatim}
+
 
   \item Section \verb#<Names># contains a list of lemmas that may be names, even if they conflict with some of the heuristic criteria used by the NE recognizer. This is useful when they appear capitalized at sentence beggining. For instance, the basque name {\em Miren} (Mary) or the nickname {\em Pelé} may appear at the beggining of a Spanish sentence. Since both of them are verbal forms in Spanish, they would not be considered candidates to form named entities. 
  

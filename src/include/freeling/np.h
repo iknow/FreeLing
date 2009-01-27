@@ -30,6 +30,7 @@
 #define _NP
 
 #include <set>
+#include <map>
 
 #include "fries/language.h"
 #include "freeling/automat.h"
@@ -53,8 +54,10 @@ class np: public ner, public automat {
     std::set<std::string> punct;
     /// set of words to be considered possible NPs at sentence beggining
     std::set<std::string> names;
-    /// set of words to be ignored as NE parts, even if they are capitalized
-    std::set<std::string> ignore;
+    /// set of words/tags to be ignored as NE parts, even if they are capitalized
+    std::map<std::string,int> ignore_tags;
+    std::map<std::string,int> ignore_words;
+
     /// it is a noun at the beggining of the sentence
     bool initialNoun;
 

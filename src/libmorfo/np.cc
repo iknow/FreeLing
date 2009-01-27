@@ -78,7 +78,7 @@ np::np(const std::string &npFile): ner(), automat(), RE_NounAdj(RE_NA), RE_Close
   
   // load list of functional words that may be included in a NE.
   reading=0;
-  while (fabr >> line) {
+  while (getline(fabr,line)) {
     if (line == "<FunctionWords>") reading=1;
     else if (line == "</FunctionWords>") reading=0;
     else if (line == "<SpecialPunct>") reading=2;
@@ -109,8 +109,14 @@ np::np(const std::string &npFile): ner(), automat(), RE_NounAdj(RE_NA), RE_Close
       Title_length = util::string2int(line);
     else if (reading==5)  // reading list of words to consider names when at line beggining
       names.insert(line);
-    else if (reading==6)  // reading list of words to ignore as possible NEs, even if they are capitalized
-      ignore.insert(line);
+    else if (reading==6) { // reading list of words to ignore as possible NEs, even if they are capitalized
+      istringstream sin;
+      sin.str(line);
+      string key; int type;
+      sin>>key>>type;
+      if (util::isuppercase(key[0])) ignore_tags.insert(make_pair(key,type));
+      else ignore_words.insert(make_pair(key,type));
+    }
     else if (reading==7) {
       RegEx re(line);     
       RE_NounAdj=re;
@@ -188,9 +194,26 @@ int np::ComputeToken(int state, sentence::iterator &j, sentence &se)
       sbegin = (punct.find(a->get_parole())!=punct.end());    
   }
   
-  // ignorable word
-  if (ignore.find(form)!=ignore.end()) {
-    TRACE(3,"Ignorable word ("+form+")");
+  // set ignore flag:  
+  //   0= non-ignorable; 1= ignore only if no capitalized neighbours; 2= ignore always
+  int ignore=0;
+  // check if ignorable word
+  map<string,int>::const_iterator it=ignore_tags.end();
+  map<string,int>::const_iterator iw=ignore_words.find(form);
+  if (iw!=ignore_words.end()) 
+    ignore=iw->second+1;
+  else {
+    // check if any of word tags are ignorable
+    bool found=false;
+    for (word::const_iterator an=j->begin(); an!=j->end() && !found; an++) {
+      it = ignore_tags.find(an->get_parole());
+      found = (it!=ignore_tags.end());
+    }    
+    if (found) ignore=it->second+1;
+  }
+
+  if (ignore==1) {
+    TRACE(3,"Ignorable word ("+form+(it!=ignore_tags.end()?","+it->first+")":")")+". Ignore=0");
     if (state==NP) 
       token=TK_mUpper;  // if inside a NE, do not ignore
     else {
@@ -200,6 +223,10 @@ int np::ComputeToken(int state, sentence::iterator &j, sentence &se)
 	// set token depending on if it's first word in sentence
 	token= (sbegin? TK_sNounUpp: TK_mUpper);
     }
+  }
+  else if (ignore==2) {
+    // leave it be as TK_other (so it will be ignored)
+    TRACE(3,"Ignorable word ("+form+(it!=ignore_tags.end()?","+it->first+")":")")+". Ignore=1");
   }
   // non-ignorable
   else if (sbegin) { 
