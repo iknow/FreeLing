@@ -3016,6 +3016,7 @@
 
 %%% SUBORDINADES AMB NEXE CONJUNTIU %%%
 
+6000  -  conj-subord_*_$$  (conj-subord,grup-verb)   top_left RELABEL subord  % dins de subordinada
 6000  -  que-a_*_$$  (conj-subord,grup-verb)   top_left RELABEL subord  % dins de subordinada
 6000  -  qui_*_$$  (conj-subord,grup-verb)   top_left RELABEL subord  % dins de subordinada
 6000  -  relatiu_*_$$  (conj-subord,grup-verb)   top_left RELABEL subord  % dins de subordinada
