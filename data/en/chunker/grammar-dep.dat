@@ -1,4 +1,4 @@
-%%%%%%%%%%%%%%%%%% FREELING CHUNKING  DEPENDENCY GRAMMAR %%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%% FREELING ENGLISH CHUNKING GRAMMAR %%%%%%%%%%%%%%%%%%%
 %                                                                        %
 %       JORDI CARRERA          MARINA LLOBERES          LLUIS PADRO      %
 %   jcarrera@lsi.upc.edu    mlloberes@lsi.upc.edu    padro@lsi.upc.edu   %
@@ -13,7 +13,9 @@
 %% NEW (January 2009) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %									%
 % Phrasal verbs (file name: ph-particle_name.dat; 31 classes)		%
-% Prepositional phrase revision: most PP are formed during dependencies %
+% PP revision: most PP are formed during dependencies 			%
+% PP name changes: sspart-->OF-chunk | spin-->prt-sp			%
+%		   spunk-->prt-mix | spsub-->prt-sub			%
 %									%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -28,7 +30,7 @@
 %%% QA MORFOLOGIA
 quant ==>   WRB(how), +JJ | WRB(how), +RB
 	  | PR*<how_much> | PR*<how_many>.
-quant ==> +quant, NN | +quant, NNS | +quant, sppart.
+quant ==> +quant, NN | +quant, NNS | +quant, OF-chunk.
 
 %%% NOMS NO DETERMINATS (bare NP)
 n-chunk ==>   NN | NNS | NP | NNP.
@@ -118,36 +120,36 @@ n-ngen ==> POS, +n-chunk.
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%						 %%%%
-%%%%     PREPOSICIONS, ADVERBIS, CONJUNCIONS     %%%%
-%%%%						 %%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%						 	     %%%%
+%%%%     PREPOSICIONS, ADVERBIS, CONJUNCIONS, PARTICULES     %%%%
+%%%%						 	     %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Nexe 'of'
-sppart ==> IN(of).
+OF-chunk ==> IN(of).
 
 % Nexe 'to'
 TO-chunk ==> TO | CC(in_order_to).
 
 % Nexes inherentment preposicionals
-spin ==> IN*("nexes.preposicionals").
+prt-sp ==> IN*("nexes.preposicionals").
 
 % Nexes preposicionals, adverbials y conjuncions (ambigus)
-spunk ==> IN*("nexes.mixtos").
-spsub ==> IN*("nexes.subordinants") | CC*("nexes.subordinants").
+prt-mix ==> IN*("nexes.mixtos").
+prt-sub ==> IN*("nexes.subordinants") | CC*("nexes.subordinants").
 
 %%% SINTAGMES PREPOSICIONALS
 % Three of the/all/some books, three of us, three of all of your books
-%sppart ==> +IN(of), sn-chunk | +IN(of), n-chunk. % V. dependencies
+%OF-chunk ==> +IN(of), sn-chunk | +IN(of), n-chunk. % V. dependencies
 
 % Aquests inclouen totes les preposicions menys 'of'
-%sp-chunk ==> +spin, sn-chunk | +spin, n-chunk. % V. dependencies
-%sp-chunk ==> +spin, sp-chunk | +RB, sp-chunk | +RP, sp-chunk. % V. dependencies
-%sp-chunk ==> +spin, sppart | +RB, sppart | +RP, sppart. % V. dependencies
+%sp-chunk ==> +prt-sp, sn-chunk | +prt-sp, n-chunk. % V. dependencies
+%sp-chunk ==> +prt-sp, sp-chunk | +RB, sp-chunk | +RP, sp-chunk. % V. dependencies
+%sp-chunk ==> +prt-sp, OF-chunk | +RB, OF-chunk | +RP, OF-chunk. % V. dependencies
 
-sp-chunk ==> +IN, sn-chunk, pred | +IN, n-chunk, pred | +TO, sn-chunk, pred | +TO, n-chunk, pred.
-sp-chunk ==> +spin, quant | +spunk, quant | +IN(of), quant.
+%sp-chunk ==> +IN, sn-chunk, pred | +IN, n-chunk, pred | +TO, sn-chunk, pred | +TO, n-chunk, pred. % V. dependencies
+sp-chunk ==> +prt-sp, quant | +prt-mix, quant | +IN(of), quant.
 
 
 
@@ -157,20 +159,10 @@ sp-chunk ==> +spin, quant | +spunk, quant | +IN(of), quant.
 %%%%%%%%%%		   	    		    %%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-spin ==> +NNS(thanks), TO-chunk.
-spin ==> IN(apart_from).
+prt-sp ==> +NNS(thanks), TO-chunk.
+prt-sp ==> IN(apart_from).
 nex-vppt ==> VBN*(provided) | VBN*(given).
-nex-comp ==> IN*(that) | IN*(whether).
-
-
-
-%%%%%
-%%%%%   ALTRES NEXES SUBORDINANTS I IDIOSINCRASIES
-%%%%%
-sub-adv ==> half-nex, +nex-comp.
-
-
+conj ==> IN*(that) | IN*(whether).
 
 
 
@@ -276,6 +268,14 @@ vb-chunk ==> +VB*<"ph-without.dat">, IN*<without> | +VB*<"ph-without.dat">, RB*<
 % Phrasal verbs transitius i intransitius
 vb-chunk ==> +VB*, RP.
 
+%%%%%
+%%%%% GRUPS VERBALS
+%%%%%
+
+vb-chunk ==> mod-chunk,+vb-chunk.
+vb-chunk ==> vb-be,+vb-chunk.
+vb-chunk ==> vb-have,+vb-chunk.
+vb-chunk ==> vb-do,+vb-chunk.
 
 %%% ADVERBIS
 %%%
@@ -365,11 +365,11 @@ sf-brk ==> Fc | Fx | Fd. % soft sentence breaks (coma, semi-colon, colon)
 in-brk ==> Fia | Fit. % interrogation sentence breaks
 ex-brk ==> Faa | Fat. % exclamation sentence breaks
 quot-mk ==> Fe | Fra | Frc. % quotation marks
-inc-mk ==> Fca | Fct | Fla | Flt | Fg | Fpa | Fpt. % sentence digressions (incis)
-oth-mk ==> Fh | Ft | Fz. % special symbols (other)
+inc-mk ==> Fca | Fct | Fla | Flt | Fg | Fpa | Fpt. % digressions marks
+oth-mk ==> Fh | Ft | Fz. % other marks
 
 adv ==> W.
-sp-chunk ==> +spin, adv.
+sp-chunk ==> +prt-sp, adv.
 
 
 % SOFTWARE % SOFTWARE % SOFTWARE % SOFTWARE % SOFTWARE % SOFTWARE % SOFTWARE
@@ -409,6 +409,6 @@ sp-chunk ==> +spin, adv.
 @PRIOR quant sn-chunk n-chunk.
 @PRIOR wh-adv attrib vb-be vb-do vb-have vb-chunk.
 @PRIOR wh-adv vb-be vb-have vb-do mod-chunk vb-chunk.
-@PRIOR adv spin sn-chunk n-chunk.
+@PRIOR adv prt-sp sn-chunk n-chunk.
 
 %%@HIDDEN
