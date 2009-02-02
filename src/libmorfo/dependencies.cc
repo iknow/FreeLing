@@ -116,9 +116,19 @@ completer::completer(const string &filename) {
       r.line=lnum;
 
       istringstream sline; sline.str(line);
-      string flags,chunks,lit;
-      sline>>r.weight>>flags>>r.context>>chunks>>r.operation>>lit>>r.newNode;
+      string flags,chunks,lit,newlabels;
+      sline>>r.weight>>flags>>r.context>>chunks>>r.operation>>lit>>newlabels;
       r.enabling_flags=util::string2set(flags,"|");
+
+      string::size_type p=newlabels.find(":");
+      if (lit=="RELABEL" && p!=string::npos) {
+	r.newNode1 = newlabels.substr(0,p);
+	r.newNode2 = newlabels.substr(p+1);
+      }
+      else {
+        r.newNode1 = newlabels;
+        r.newNode2 = "-";
+      }
 
       // read flags to activate/deactivate until line ends or a comment is found
       bool comm=false;
@@ -141,7 +151,7 @@ completer::completer(const string &filename) {
 	r.context=r.context.substr(1);
       }
 
-      size_t p=chunks.find(",");
+      p=chunks.find(",");
       if (chunks[0]!='(' || chunks[chunks.size()-1]!=')' || p==string::npos)  
 	WARNING("Syntax error reading completer rule at line "+util::int2string(lnum)+". Expected (leftChunk,rightChunk) pair at: "+chunks);
       
@@ -153,7 +163,7 @@ completer::completer(const string &filename) {
       extract_conds(r.leftChk,r.leftConds,r.leftRE);
       extract_conds(r.rightChk,r.rightConds,r.rightRE);
 
-      TRACE(4,"Loaded rule: [line "+util::int2string(r.line)+"] "+util::int2string(r.weight)+" "+util::set2string(r.enabling_flags,"|")+" "+(r.context_neg?"not:":"")+r.context+" ("+r.leftChk+util::list2string(r.leftConds,"")+","+r.rightChk+util::list2string(r.rightConds,"")+") "+r.operation+" "+r.newNode+" +("+util::set2string(r.flags_toggle_on,"/")+") -("+util::set2string(r.flags_toggle_off,"/")+")");
+      TRACE(4,"Loaded rule: [line "+util::int2string(r.line)+"] "+util::int2string(r.weight)+" "+util::set2string(r.enabling_flags,"|")+" "+(r.context_neg?"not:":"")+r.context+" ("+r.leftChk+util::list2string(r.leftConds,"")+","+r.rightChk+util::list2string(r.rightConds,"")+") "+r.operation+" "+r.newNode1+":"+r.newNode2+" +("+util::set2string(r.flags_toggle_on,"/")+") -("+util::set2string(r.flags_toggle_off,"/")+")");
 
       chgram[make_pair(r.leftChk,r.rightChk)].push_back(r);
     }
@@ -279,7 +289,7 @@ parse_tree completer::complete(parse_tree &tr, const string & startSymbol) {
       chk++;
     }
     
-    TRACE(2,"BEST RULE SELECTED. Apply rule [line "+util::int2string(bestR.line)+"] "+util::int2string(bestR.weight)+" "+util::set2string(bestR.enabling_flags,"|")+" "+(bestR.context_neg?"not:":"")+bestR.context+" ("+bestR.leftChk+util::list2string(bestR.leftConds,"")+","+bestR.rightChk+util::list2string(bestR.rightConds,"")+") "+bestR.operation+" "+bestR.newNode+" +("+util::set2string(bestR.flags_toggle_on,"/")+") -("+util::set2string(bestR.flags_toggle_off,"/")+")  to chunk trees["+util::int2string(best_pchunk)+"]");
+    TRACE(2,"BEST RULE SELECTED. Apply rule [line "+util::int2string(bestR.line)+"] "+util::int2string(bestR.weight)+" "+util::set2string(bestR.enabling_flags,"|")+" "+(bestR.context_neg?"not:":"")+bestR.context+" ("+bestR.leftChk+util::list2string(bestR.leftConds,"")+","+bestR.rightChk+util::list2string(bestR.rightConds,"")+") "+bestR.operation+" "+bestR.newNode1+":"+bestR.newNode2+" +("+util::set2string(bestR.flags_toggle_on,"/")+") -("+util::set2string(bestR.flags_toggle_off,"/")+")  to chunk trees["+util::int2string(best_pchunk)+"]");
     
     parse_tree * resultingTree=applyRule(bestR, trees[best_pchunk], trees[best_pchunk+1]);
 
@@ -538,8 +548,8 @@ bool completer::matching_operation(const vector<parse_tree *> &trees, const size
   r.last=NULL;
   parse_tree::iterator i;
   for (i=trees[t]->begin(); i!=trees[t]->end(); ++i) {
-    TRACE(5,"           matching operation: "+r.operation+". Rule expects "+r.newNode+", node is "+i->info.get_label());
-    if (match_pattern(&(*i),r.newNode)) 
+    TRACE(5,"           matching operation: "+r.operation+". Rule expects "+r.newNode1+", node is "+i->info.get_label());
+    if (match_pattern(&(*i),r.newNode1)) 
       r.last=&(*i);  // remember node location in case the rule is finally selected.
   }
 
@@ -590,7 +600,7 @@ completerRule completer::find_grammar_rule(const vector<parse_tree *> &trees, co
     // search list of candidate rules for any rule matching conditions, context, and flags
     for (i=r->second.begin(); i!=r->second.end(); i++) {
 
-      TRACE(4,"    Checking candidate: [line "+util::int2string(i->line)+"] "+util::int2string(i->weight)+" "+util::set2string(i->enabling_flags,"|")+" "+(i->context_neg?"not:":"")+i->context+" ("+i->leftChk+util::list2string(i->leftConds,"")+","+i->rightChk+util::list2string(i->rightConds,"")+") "+i->operation+" "+i->newNode+" +("+util::set2string(i->flags_toggle_on,"/")+") -("+util::set2string(i->flags_toggle_off,"/")+")");
+      TRACE(4,"    Checking candidate: [line "+util::int2string(i->line)+"] "+util::int2string(i->weight)+" "+util::set2string(i->enabling_flags,"|")+" "+(i->context_neg?"not:":"")+i->context+" ("+i->leftChk+util::list2string(i->leftConds,"")+","+i->rightChk+util::list2string(i->rightConds,"")+") "+i->operation+" "+i->newNode1+":"+i->newNode2+" +("+util::set2string(i->flags_toggle_on,"/")+") -("+util::set2string(i->flags_toggle_off,"/")+")");
 
       // check extra conditions on chunks and context
       if (enabled_rule(*i)  
@@ -605,28 +615,20 @@ completerRule completer::find_grammar_rule(const vector<parse_tree *> &trees, co
 	  bprio=i->weight;
 	}
 
-	TRACE(3,"    Candidate: [line "+util::int2string(i->line)+"] "+util::int2string(i->weight)+" "+util::set2string(i->enabling_flags,"|")+" "+(i->context_neg?"not:":"")+i->context+" ("+i->leftChk+util::list2string(i->leftConds,"")+","+i->rightChk+util::list2string(i->rightConds,"")+") "+i->operation+" "+i->newNode+" +("+util::set2string(i->flags_toggle_on,"/")+") -("+util::set2string(i->flags_toggle_off,"/")+")  -- MATCH");
+	TRACE(3,"    Candidate: [line "+util::int2string(i->line)+"] "+util::int2string(i->weight)+" "+util::set2string(i->enabling_flags,"|")+" "+(i->context_neg?"not:":"")+i->context+" ("+i->leftChk+util::list2string(i->leftConds,"")+","+i->rightChk+util::list2string(i->rightConds,"")+") "+i->operation+" "+i->newNode1+":"+i->newNode2+" +("+util::set2string(i->flags_toggle_on,"/")+") -("+util::set2string(i->flags_toggle_off,"/")+")  -- MATCH");
       }
       else  {
-	TRACE(3,"    Candidate: [line "+util::int2string(i->line)+"] "+util::int2string(i->weight)+" "+util::set2string(i->enabling_flags,"|")+" "+(i->context_neg?"not:":"")+i->context+" ("+i->leftChk+util::list2string(i->leftConds,"")+","+i->rightChk+util::list2string(i->rightConds,"")+") "+i->operation+" "+i->newNode+" +("+util::set2string(i->flags_toggle_on,"/")+") -("+util::set2string(i->flags_toggle_off,"/")+")  -- no match");
+	TRACE(3,"    Candidate: [line "+util::int2string(i->line)+"] "+util::int2string(i->weight)+" "+util::set2string(i->enabling_flags,"|")+" "+(i->context_neg?"not:":"")+i->context+" ("+i->leftChk+util::list2string(i->leftConds,"")+","+i->rightChk+util::list2string(i->rightConds,"")+") "+i->operation+" "+i->newNode1+":"+i->newNode2+" +("+util::set2string(i->flags_toggle_on,"/")+") -("+util::set2string(i->flags_toggle_off,"/")+")  -- no match");
       }
     }
   }
 
-  if (found) {
+  if (found) 
     return (*best);
-  }
   else {
-    TRACE(3,"    NO matching candidates found, applying default rule.");
-    
-    if (leftChunk=="0") { 
-      // initial case 
-      return completerRule(rightChunk,"0");
-    } 
-    else { 
-      // Make an unknown node depend always on the current root, not changing the root type.
-      return completerRule(leftChunk,"top_left");
-    }
+    TRACE(3,"    NO matching candidates found, applying default rule.");    
+    // Default rule: top_left, no relabel
+    return completerRule("-","-","top_left");
   }
   
 }
@@ -646,48 +648,44 @@ parse_tree * completer::applyRule(const completerRule & r, parse_tree * chunkLef
     active_flags.erase(*x);
 
   // hang left tree under right tree root
-  if (r.operation=="top_right" && r.newNode=="-") {
+  if (r.operation=="top_right") {
     TRACE(3,"Applying rule: Insert left chunk under top_right");
     // Right is head
     chunkLeft->begin()->info.set_head(false);      
     chunkRight->begin()->info.set_head(true);
-    // insert Left tree under top node in Right
-    chunkRight->hang_child(*chunkLeft);
-    return chunkRight;
-   }
 
-  // hang right tree under left tree root and relabel root
-  else if (r.operation=="top_right" && r.newNode!="-") {
-    TRACE(3,"Applying rule: Insert left chunk under top_right and rename root to "+r.newNode);
-    // Right is head
-    chunkLeft->begin()->info.set_head(false);      
-    chunkRight->begin()->info.set_head(true);
-    // change node label
-    chunkRight->begin()->info.set_label(r.newNode);      
+    // change node labels if required
+    if (r.newNode1!="-") {
+      TRACE(3,"    ... and relabel left chunk (child) as "+r.newNode1);
+      chunkLeft->begin()->info.set_label(r.newNode1);      
+    }
+    if (r.newNode2!="-") {
+      TRACE(3,"    ... and relabel right chunk (parent) as "+r.newNode2);
+      chunkRight->begin()->info.set_label(r.newNode2);   
+    }   
+
     // insert Left tree under top node in Right
     chunkRight->hang_child(*chunkLeft);
     return chunkRight;
    }
   
-  // hang right tree under left tree root
-  else if (r.operation=="top_left" && r.newNode=="-") {
+  // hang right tree under left tree root and relabel root
+  else if (r.operation=="top_left") {
     TRACE(3,"Applying rule: Insert right chunk under top_left");
-    // Left is head
-    chunkRight->begin()->info.set_head(false);      
-    chunkLeft->begin()->info.set_head(true);
-    // insert Right tree under top node in Left
-    chunkLeft->hang_child(*chunkRight);
-    return chunkLeft;
-  }
-
-  // hang left tree under right tree root and relabel root
-  else if (r.operation=="top_left" && r.newNode!="-") {
-    TRACE(3,"Applying rule: Insert right chunk under top_left and rename root to "+r.newNode);
     // Left is head
     chunkRight->begin()->info.set_head(false);
     chunkLeft->begin()->info.set_head(true);
-    // change node label
-    chunkLeft->begin()->info.set_label(r.newNode);
+
+    // change node labels if required
+    if (r.newNode1!="-") {
+      TRACE(3,"    ... and relabel left chunk (parent) as "+r.newNode1);
+      chunkLeft->begin()->info.set_label(r.newNode1);      
+    }   
+    if (r.newNode2!="-") {
+      TRACE(3,"    ... and relabel right chunk (child) as "+r.newNode2);
+      chunkRight->begin()->info.set_label(r.newNode2);   
+    }
+
     // insert Right tree under top node in Left
     chunkLeft->hang_child(*chunkRight);
     return chunkLeft;
@@ -695,7 +693,7 @@ parse_tree * completer::applyRule(const completerRule & r, parse_tree * chunkLef
 
   // hang right tree under last node in left tree
   else if (r.operation=="last_left") {
-    TRACE(3,"Applying rule: Insert right chunk under last_left with label "+r.newNode);
+    TRACE(3,"Applying rule: Insert right chunk under last_left with label "+r.newNode1);
     // Left is head, so unmark Right as head.
     chunkRight->begin()->info.set_head(false); 
     // obtain last node with given label in Left tree
@@ -708,7 +706,7 @@ parse_tree * completer::applyRule(const completerRule & r, parse_tree * chunkLef
   
   // hang left tree under 'last' node in right tree
   else if (r.operation=="last_right") {
-    TRACE(3,"Applying rule: Insert left chunk under last_right with label "+r.newNode);
+    TRACE(3,"Applying rule: Insert left chunk under last_right with label "+r.newNode1);
     // Right is head, so unmark Left as head.
     chunkLeft->begin()->info.set_head(false); 
     // obtain last node with given label in Right tree
@@ -721,7 +719,7 @@ parse_tree * completer::applyRule(const completerRule & r, parse_tree * chunkLef
 
   // hang right tree where last node in left tree is, and put the later under the former
   else if (r.operation=="cover_last_left") {
-    TRACE(3,"Applying rule: Insert right chunk to cover_last_left with label "+r.newNode);
+    TRACE(3,"Applying rule: Insert right chunk to cover_last_left with label "+r.newNode1);
     // Right will be the new head
     chunkRight->begin()->info.set_head(true); 
     chunkLeft->begin()->info.set_head(false); 
