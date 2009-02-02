@@ -51,9 +51,10 @@ completerRule::completerRule() : leftRE(""), rightRE("") {
 ///  Constructor
 ////////////////////////////////////////////////////////////////
 
-completerRule::completerRule(const string &pnewNode, const string &poperation) : leftRE(""), rightRE("") {
+completerRule::completerRule(const string &pnewNode1, const string &pnewNode2, const string &poperation) : leftRE(""), rightRE("") {
   operation=poperation;
-  newNode=pnewNode;
+  newNode1=pnewNode1;
+  newNode2=pnewNode2;
   line=0;
   context="$$";
   context_neg=false;
@@ -69,7 +70,7 @@ completerRule::completerRule(const completerRule & cr) : leftRE(""), rightRE("")
   leftChk=cr.leftChk;     rightChk=cr.rightChk;
   leftConds=cr.leftConds; rightConds=cr.rightConds;
   leftRE=cr.leftRE;       rightRE=cr.rightRE;
-  newNode=cr.newNode;
+  newNode1=cr.newNode1;   newNode2=cr.newNode2;
   operation=cr.operation;
   weight=cr.weight;
   last=cr.last;
@@ -89,7 +90,7 @@ completerRule & completerRule::operator=( const completerRule & cr) {
   leftChk=cr.leftChk;     rightChk=cr.rightChk;
   leftConds=cr.leftConds; rightConds=cr.rightConds;
   leftRE=cr.leftRE;       rightRE=cr.rightRE;
-  newNode=cr.newNode;
+  newNode1=cr.newNode1;   newNode2=cr.newNode2;
   operation=cr.operation;
   weight=cr.weight;
   last=cr.last;

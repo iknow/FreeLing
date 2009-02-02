@@ -58,8 +58,9 @@ class completerRule {
    /// RegExp for extra conditions on the chunks (PoS)
    RegEx leftRE;
    RegEx rightRE;
-   /// new label (if any) for the node after the operation 
-   std::string newNode;
+   /// new label/s (if any) for the nodes after the operation. Also used to store MATCHING labels.
+   std::string newNode1;
+   std::string newNode2;
    /// operation to perform
    std::string operation;
    /// context (if any) required to apply the rule
@@ -83,7 +84,7 @@ class completerRule {
    
    /// constructors
    completerRule();
-   completerRule(const std::string &, const std::string&);
+   completerRule(const std::string &, const std::string &, const std::string&);
    completerRule( const completerRule &);
    /// assignment
    completerRule & operator=( const completerRule &);
