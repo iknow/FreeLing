@@ -123,16 +123,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Coordinacio%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-40  -  -  (coord,grup-sp)   top_left RELABEL coor-sp  %(y)<-(en la montaña)
+40 - - (coord,grup-sp) top_left RELABEL coor-sp:- %(y)<-(en la montaña)
 60  -  -  (grup-sp,coor-sp)   top_right RELABEL -  %(en el mar)->(y en la montaña)
-30  -  -  (coord,sn)   top_left RELABEL coor-n  %(y) (agua)
+30 - - (coord,sn) top_left RELABEL coor-n:- %(y) (agua)
 40  -  -  (sn,coor-n)   top_right RELABEL -  %(pan) (y agua)
-80  -  -  (coord,grup-verb)   top_left RELABEL coor-vb  %(y) (beber)
+80 - - (coord,grup-verb) top_left RELABEL coor-vb:- %(y) (beber)
 90  -  -  (grup-verb,coor-vb)   top_right RELABEL -  %(comer) (y beber)
-40  -  -  (coord,sadj)   top_left RELABEL coor-s-a  %(y) (frías)
-40  -  -  (Fc,sadj)   top_left RELABEL coor-s-a  % , frías
+40 - - (coord,sadj) top_left RELABEL coor-s-a:- %(y) (frías)
+40 - - (Fc,sadj) top_left RELABEL coor-s-a:- % , frías
 %%% sadj	coor-s-a	-		top_right	-	      70  %(crueles) (y frías)
-40  -  -  (coord,sadv)   top_left RELABEL coor-sadv  %(y) alegremente
+40 - - (coord,sadv) top_left RELABEL coor-sadv:- %(y) alegremente
 70  -  -  (sadv,coor-sadv)   top_right RELABEL -  %(abiertamente) (y alegremente)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -152,12 +152,12 @@
 40  -  -  (sn,subord)   top_left RELABEL -  %sn+que -> sn-que
 40  -  -  (sn,subord)   top_left RELABEL - 
 250  -  -  (psubj,prel)   last_right MATCHING sn  %p*+que -> sn-que
-210  -  -  (prel,grup-verb)   top_right RELABEL subord  %que vino
-40  -  -  (prel-adv,grup-verb)   top_left RELABEL subord  %%que vino
+210 - - (prel,grup-verb) top_right RELABEL -:subord %que vino
+40 - - (prel-adv,grup-verb) top_left RELABEL subord:- %%que vino
 200  -  -  (sn-que,grup-verb)   top_right RELABEL - 
-40  -  -  (ger,sn)   top_left RELABEL subord-ger 
+40 - - (ger,sn) top_left RELABEL subord-ger:-
 40  -  -  (grup-verb,subord-ger)   top_left RELABEL - 
-100  -  -  (coord-subord,grup-verb)   top_left RELABEL subord 
+100 - - (coord-subord,grup-verb) top_left RELABEL subord:-
 60  -  -  (grup-sp-inf,sn)   top_left RELABEL - 
 </GRPAR>
 

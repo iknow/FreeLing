@@ -2088,7 +2088,7 @@ no
 
     Each line contains a rule, with the format:
 \begin{verbatim}
-  priority enabling_flags context (ancestor-label,descendant-label) operation MATCHING|RELABEL label ((+|-)flags)*
+  priority enabling_flags context (ancestor-label,descendant-label) operation MATCHING|RELABEL  (label1:label2)|label  ((+|-)flags)*
 \end{verbatim}
   where:
   \begin{itemize}
@@ -2136,19 +2136,26 @@ no
     by the literal \verb#RELABEL#. Other operations must be followed
     by the literal \verb#MATCHING#.
 
-    \item The field \verb#label# has two meanings, depending on the
-      \verb#operation# field value.  For \verb#top_left# and
-      \verb#top_right# operations, it states the label with with the
-      root node of the resulting tree must be relabelled (``-'' means
-      no relabelling).  For \verb#last_left#, \verb#last_right# and
-      \verb#cover_last_left# operations, it states the label that the
-      node to be considered ``last'' must have in order to get the
-      subtree as a new child. This label may carry the same modifying
-      suffixes than the chunk labels. If no node with this label is
-      found in the tree, the rule is not applied.
+    \item The field \verb#label1:label2# has two meanings, depending on the
+      \verb#operation# field value:
+
+      For \verb#top_left# and \verb#top_right# operations, it states
+      the labels with with each chunk will be relabelled. If
+      specified, \verb#label1# will be the new label for the left
+      chunk, and \verb#label2# the one for the right chunk. A dash
+      (``-'') means no relabelling. In none of both chunks is to be
+      relabelled, ``-'' may be used instead of ``-:-''.
+
+       For \verb#last_left#, \verb#last_right# and
+       \verb#cover_last_left# operations, this field has the form
+       \verb#label#, and states the label that a node must have in
+       order to be considered a valid ``last'' and get the subtree as
+       a new child. This label may carry the same modifying suffixes
+       than the chunk labels. If no node with this label is found in
+       the tree, the rule is not applied.
 
    \item After the \verb#label# field, a list of flags to be toggled on/off
-      may follow. The list may be empty (meaning the rule doesn't change
+      may follow. The list may be empty (meaning that the rule doesn't change
       the status of any flag).  
         If a flag name is preceded by a ``+'', it will be toggled on. If the 
        leading symbol is a ``-'', it will be toggled off.
@@ -2221,7 +2228,7 @@ no
   labeled \verb#np# and the following chunk has any label but
   \verb#vp#.
 
-  Enabling flags may be used at the grammarian's will. 
+  Enabling flags may be defined and used at the grammarian's will. 
   For instance, the rule:
 \begin{verbatim}
    20 INIT|PHASE1 $$_vp (np,pp<of>) last_left MATCHING npms[animal] +PHASE2 -INIT -PHASE1
