@@ -19,9 +19,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%%% Incorporacions (desembre 2008) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Incorporacions (gener 2009) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %									 %
-% modificacio agrupacions de relatives amb relatiu compost (GRPAR+GRLAB) %									 
+% verbs de perifrasis verbals (GRLAB)					 %
+% puntuacio interrogatives i exclamatives (GRPAR+GRLAB)			 %
+% subordinades preverbals com a modificadors de nom (GRPAR) 		 %
+% funcio subordinades: rel-mod (abans) --> subord-mod (ara)		 %
+% subjectes postverbals amb PoS NP00000 (GRLAB)				 %
+% subjectes postverbals a les pasives (GRLAB)				 %
+% funcions pronoms atons 3a p singular (GRLAB)				 %
 %									 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -54,6 +60,7 @@
 911  -  -   (sn,subord-rel)  top_left  RELABEL  -  % (la persona (con quien ha venido))
 911  -  -   (sn,subord-rel)  top_left  RELABEL  -  % (el libro (que explica la novela))
 911  -  -   (sn,subord-rel)  last_left MATCHING -
+911  -  !grup-verb_$$   (sn,subord)   top_left  RELABEL - % (la norma (que a cada persona le corresponde un salario))
 
 921  -  grup-verb[mov]_*_$$_sp-de  (sn,sp-de) top_left RELABEL - % mueve (los muebles (de madera)) del comedor
 921  -  grup-verb[mov]_*_$$_sp-de_grup-sp   (sn,sp-de) top_left  RELABEL - % mueve (los muebles (de madera)) de la tienda al taller
@@ -2188,6 +2195,8 @@
 
 9901 -  -  (grup-verb,Fc)   top_right RELABEL -  % (menjar (,))
 9901  -  -  (grup-verb,F-term)   top_right RELABEL -  % (acordar (-)) - qualsevol signe de puntuacio
+9901  -  -  (F-no-c{Fia},grup-verb)   top_right RELABEL -  % interrogant marge esquerre
+9901  -  -  (F-no-c{Faa},grup-verb)   top_right RELABEL -  % exclamacio marge esquerre
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Modalitat passiva: CHUNKS PREVERBALS                                                         	    %
@@ -2615,6 +2624,8 @@
 
 9901 -  -  (verb-pass,Fc)   top_right RELABEL -  % (comer (,))
 9901  -  -  (verb-pass,F-term)   top_right RELABEL -  % (acordar (-)) - qualsevol signe de puntuacio
+9901  -  -  (F-no-c{Fia},verb-pass)   top_right RELABEL -  % interrogant marge esquerre
+9901  -  -  (F-no-c{Faa},verb-pass)   top_right RELABEL -  % exclamacio marge esquerre
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Subordinada no finita d'infinitiu		                                                    %
@@ -4614,6 +4625,7 @@ WNFile          /usr/local/share/FreeLing/common/wn16.db
 
 <GRLAB>
 grup-verb       subj   		d.label=sn*             		d.side=right			p.class=intr
+grup-verb	subj		d.label=sn*				d.side=right	d.pos=NP00000
 grup-verb       subj   		d.label=sn*     			d.side=left
 
 grup-verb       subj   		d.label=coor-n          		d.side=right			p.class=intr
@@ -4630,6 +4642,12 @@ verb-pass       subj-pac	d.label=coor-n         			d.side=left
 verb-pass	subj-pac	d.label=subord				d.side=left	d.lemma=que|qui
 verb-pass	subj-pac	d.label=subord				d.side=left			p.class=que
 verb-pass	subj-pac	d.label=grup-verb-inf			d.side=left
+
+verb-pass       subj-pac	d.label=sn*    				d.side=right
+verb-pass       subj-pac	d.label=coor-n         			d.side=right
+verb-pass	subj-pac	d.label=subord				d.side=right	d.lemma=que|qui
+verb-pass	subj-pac	d.label=subord				d.side=right			p.class=que
+verb-pass	subj-pac	d.label=grup-verb-inf			d.side=right
 
 grup-verb	att		d.label=sn				d.side=right			p.class=atrib
 verb-pass	att		d.label=sn				d.side=right			p.class=atrib
@@ -4676,13 +4694,17 @@ grup-verb-inf	dobj		d.label=coor-n  			d.side=right			p.class!=intr|atrib
 subord-ger	dobj    	d.label=coor-n          		d.side=right			p.class!=intr|atrib
 subord-part	dobj		d.label=coor-n				d.side=right			p.class!=intr|atrib
 
-grup-verb	iobj		d.label=patons						d.lemma=le|les
-grup-verb-inf   iobj            d.label=patons                                          d.lemma=le|les
-subord-ger      iobj            d.label=patons                                          d.lemma=le|les
+grup-verb       att             d.label=patons				d.pos=PP3CNA00			p.class=atrib
+grup-verb-inf   att             d.label=patons          		d.pos=PP3CNA00			p.class=atrib
+subord-ger      att             d.label=patons          		d.pos=PP3CNA00			p.class=atrib
 
-grup-verb       dobj            d.label=patons								p.class!=intr|atrib
-grup-verb-inf	dobj		d.label=patons
-subord-ger	dobj		d.label=patons
+grup-verb	iobj		d.label=patons				d.pos=PP3CSD00|PP3CPD00
+grup-verb-inf   iobj            d.label=patons                          d.pos=PP3CSD00|PP3CPD00
+subord-ger      iobj            d.label=patons                          d.pos=PP3CSD00|PP3CPD00
+
+grup-verb       dobj            d.label=patons				d.pos=PP3FSA00|PP3FPA00|PP3MSA00|PP3MPA00|PP3CNA00
+grup-verb-inf   dobj            d.label=patons                          d.pos=PP3FSA00|PP3FPA00|PP3MSA00|PP3MPA00|PP3CNA00
+subord-ger      dobj            d.label=patons                          d.pos=PP3FSA00|PP3FPA00|PP3MSA00|PP3MPA00|PP3CNA00
 
 grup-verb	dobj		d.label=subord				d.side=right	d.lemma=qui|que	p.class!=intr|atrib
 grup-verb-inf	dobj		d.label=subord				d.side=right	d.lemma=qui|que	p.class!=intr|atrib
@@ -5173,7 +5195,8 @@ sn		adj-mod		d.label=coor-s-a*
 sn		adj-mod		d.label=subord-part
 sn		adj-mod		d.label=coor-part
 
-sn		rel-mod		d.label=subord-rel	d.side=right
+sn		subord-mod	d.label=subord-rel	d.side=right
+sn		subord-mod	d.label=subord		d.side=right
 
 espec-fp        espec     	d.label=j*
 espec-fs        espec     	d.label=j*
@@ -5239,17 +5262,18 @@ grup-verb-inf	aux		d.label=parti-flex
 verb-pass	aux		d.label=parti-ser
 inf-pass	aux		d.label=parti-ser
 
-grup-verb	aux		d.label=VM*
-verb-pass       aux             d.label=VM*
-verb-pass       aux             d.label=VM*
-grup-verb-inf   aux             d.label=VM*
-inf-pas         aux             d.label=VM*
-grup-verb-inf   aux             d.label=VM*
-verb-pass       aux             d.label=VM*
-inf-pas         aux             d.label=VM*
-grup-verb-inf   aux             d.label=VM*
-verb-pass       aux             d.label=VM*
-inf-pass        aux             d.label=VM*
+%%% PERIFRASIS VERBALS %%%
+grup-verb	dverb		  d.label=VM*
+verb-pass       dverb             d.label=VM*
+verb-pass       dverb             d.label=VM*
+grup-verb-inf   dverb             d.label=VM*
+inf-pas         dverb             d.label=VM*
+grup-verb-inf   dverb             d.label=VM*
+verb-pass       dverb             d.label=VM*
+inf-pas         dverb             d.label=VM*
+grup-verb-inf   dverb             d.label=VM*
+verb-pass       dverb             d.label=VM*
+inf-pass        dverb             d.label=VM*
 
 grup-verb	es		d.label=morf-pron
 grup-verb-inf	es		d.label=morf-pron
@@ -5279,9 +5303,11 @@ prel-comp	vsubord		d.label=grup-verb
 
 sn		vsubord		d.label=grup-verb
 
+%%% PERIFRASIS VERBALS: PREPOSICIONS %%%
 grup-verb	dprep		d.label=SPS00
 numero-nopart	dprep		d.label=SPS00
 
+%%% PERIFRASIS VERBALS: CONJUNCIONS %%%
 grup-verb	dconj		d.label=CS
 
 grup-verb-el	dep-noun	d.label=sn
@@ -5302,6 +5328,15 @@ grup-verb-el    dep-inf         d.label=grup-verb-inf
 grup-verb-el    dep-ger         d.label=subord-ger
 grup-verb-el    dep-part        d.label=subord-part
 
+%%% PRONOMS NO DESAMBIGUATS %%%
+grup-verb       dep                     d.label=patons
+verb-pass       dep                     d.label=patons
+inf             dep                     d.label=patons
+infinitiu       dep                     d.label=patons
+subord-ger      dep                     d.label=patons
+
+
+%%% PUNTUACIO SINTAGMES I ORACIONS %%%
 grup-verb	term		d.label=F-term
 verb-pass	term		d.label=F-term
 sn		term		d.label=F-term
@@ -5313,6 +5348,11 @@ sp-de		term		d.label=F-term
 sadv		term		d.label=F-term
 subord		term		d.label=F-term
 interjeccio	term		d.label=F-term
+grup-verb	term		d.label=F-no-c	d.pos=Fia
+verb-pass	term		d.label=F-no-c	d.pos=Fia
+grup-verb	term		d.label=F-no-c	d.pos=Faa
+verb-pass	term		d.label=F-no-c	d.pos=Faa
+verb-pass	term		d.label=F-no-c
 grup-verb	term		d.label=Fc
 verb-pass	term		d.label=Fc
 sn		term		d.label=Fc

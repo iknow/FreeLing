@@ -19,9 +19,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%%% Incorporacions (desembre 2008) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Incorporacions (gener 2009) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %									 %
-% modificacio agrupacions de relatives amb relatiu compost (GRPAR+GRLAB) %
+% verbs de perifrasis verbals (GRLAB)					 %
+% puntuacio interrogatives i exclamatives (GRPAR+GRLAB)			 %
+% subordinades preverbals com a modificadors del nom (GRPAR)		 %
+% etiqueta subordinades: rel-mod (abans) --> subord-mod (ara)		 %
+% subjectes postverbals a les passives (GRLAB)				 %
+% funcions pronoms febles 3a p singular (GRLAB)				 %
 %									 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -54,6 +59,7 @@
 
 911  -  -  (sn,subord-rel) top_left  RELABEL -  % (la persona (amb qui ha vingut))
 911  -  -  (sn,subord-rel) top_left  RELABEL -  % (el llibre (que explica l'obra))
+911  -  !grup-verb_$$   (sn,subord)   top_left  RELABEL - % (el suport(perque el tandem funcioni))
 
 919 -  -   (sn,coor-sp)  last_left MATCHING sn  % (el representant (dels professors i dels alumnes))
 
@@ -753,6 +759,8 @@
 
 9401  -  -  (grup-verb,Fc)   top_left RELABEL -  % (menjar (,))
 9001  -  -  (grup-verb,F-no-c<.>)   top_left RELABEL -  % (pensar (.))
+9901  -  -  (F-no-c{Fia},grup-verb)   top_right RELABEL -  % interrogant marge esquerre
+9901  -  -  (F-no-c{Faa},grup-verb)   top_right RELABEL -  % exclamacio marge esquerre
 9001 -  -  (grup-verb,F-no-c)   top_left RELABEL -  % (acordar (-))
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1267,6 +1275,8 @@
 9401  -  -  (verb-pass,Fc)   top_left RELABEL -  % (menjar (,))
 9001  -  -  (verb-pass,F-term<.>)   top_left RELABEL -  % (pensar (.))
 9001 -  -  (verb-pass,F-term)   top_left RELABEL -  % (acordar (-))
+9901  -  -  (F-no-c{Fia},verb-pass)   top_right RELABEL -  % interrogant marge esquerre
+9901  -  -  (F-no-c{Faa},verb-pass)   top_right RELABEL -  % exclamacio marge esquerre
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 % Sintagma verbal: CHUNKS PREVERBALS	  							    %
@@ -3199,6 +3209,12 @@ verb-pass	subj-pac	d.label=subord			d.side=left	d.lemma=que|qui
 verb-pass	subj-pac	d.label=subord			d.side=left					p.class=que
 verb-pass	subj-pac	d.label=inf			d.side=left
 
+verb-pass       subj-pac	d.label=sn*    			d.side=right
+verb-pass       subj-pac 	d.label=coor-n         		d.side=right
+verb-pass	subj-pac	d.label=subord			d.side=right	d.lemma=que|qui
+verb-pass	subj-pac	d.label=subord			d.side=right					p.class=que
+verb-pass	subj-pac	d.label=inf			d.side=right
+
 grup-verb	att		d.label=sn			d.side=right					p.class=atrib
 inf		att		d.label=sn			d.side=right					p.class=atrib
 infinitiu       att             d.label=sn                      d.side=right                                    p.class=atrib
@@ -3216,6 +3232,10 @@ inf             att             d.label=subord                  d.side=right    
 infinitiu       att             d.label=subord                  d.side=right                                    p.class=atrib
 subord-ger      att             d.label=subord                  d.side=right                                    p.class=atrib
 subord-part     att             d.label=subord                  d.side=right                                    p.class=atrib
+
+grup-verb       att             d.label=patons                  d.pos=PP3FSA00|PP3FPA00|PP3MSA00|PP3MPA00|PP3NN000	p.class=atrib
+grup-verb-inf   att             d.label=patons                  d.pos=PP3FSA00|PP3FPA00|PP3MSA00|PP3MPA00|PP3NN000	p.class=atrib
+subord-ger      att             d.label=patons                  d.pos=PP3FSA00|PP3FPA00|PP3MSA00|PP3MPA00|PP3NN000	p.class=atrib
 
 grup-verb       att             d.label=numero                  d.side=right                                    p.class=atrib
 inf             att             d.label=numero                  d.side=right                                    p.class=atrib
@@ -3259,6 +3279,10 @@ inf		dobj		d.label=inf|inf-pas		d.side=right					p.class!=intr|atrib
 infinitiu	dobj		d.label=inf|inf-pas		d.side=right					p.class!=intr|atrib
 subord-ger	dobj		d.label=inf|inf-pas		d.side=right					p.class!=intr|atrib
 subord-part	dobj		d.label=inf|inf-pas		d.side=right					p.class!=intr|atrib
+
+grup-verb       dobj            d.label=patons                  d.pos=PP3FSA00|PP3FPA00|PP3MSA00|PP3MPA00|PP3NN000
+grup-verb-inf   dobj            d.label=patons                  d.pos=PP3FSA00|PP3FPA00|PP3MSA00|PP3MPA00|PP3NN000
+subord-ger      dobj            d.label=patons                  d.pos=PP3FSA00|PP3FPA00|PP3MSA00|PP3MPA00|PP3NN000
 
 grup-verb       dobj            d.label=numero                  d.side=right                                    p.class!=intr|atrib
 inf   		dobj            d.label=numero                  d.side=right                                    p.class!=intr|atrib
@@ -3318,6 +3342,10 @@ inf		cc		d.label=grup-sp			d.side=left	d:infinitiu.class=trans|ditr|intr|prep1|p
 infinitiu	cc		d.label=grup-sp			d.side=left	d:infinitiu.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que	d.lemma=en
 subord-ger	cc		d.label=grup-sp			d.side=left	d:infinitiu.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que  d.lemma=en
 subord-part	cc		d.label=grup-sp			d.side=left	d:infinitiu.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que  d.lemma=en
+
+grup-verb       iobj            d.label=patons                  d.pos=PP3CSD00
+grup-verb-inf   iobj            d.label=patons                  d.pos=PP3CSD00
+subord-ger      iobj            d.label=patons                  d.pos=PP3CSD00
 
 grup-verb       iobj            d.label=grup-sp         d.side=right    d.lemma=a|per	d:sn.tonto=Human	d:sn.tonto!=Building	p.class=ditr|trans|vp-a
 verb-pass       iobj            d.label=grup-sp         d.side=right    d.lemma=a|per   d:sn.tonto=Human        d:sn.tonto!=Building	p.class=ditr|trans|vp-a
@@ -3701,7 +3729,8 @@ sn		adj-mod			d.label=coor-s-a
 sn              adj-mod                 d.label=subord-part
 sn              adj-mod                 d.label=coor-part
 
-sn              rel-mod                 d.label=subord-rel      d.side=right
+sn              subord-mod              d.label=subord-rel      d.side=right
+sn		subord-mod		d.label=subord		d.side=right
 
 espec-fp        espec     		d.label=j*
 espec-fp        espec			d.label=dem*
@@ -3794,10 +3823,20 @@ prel-comp	vsubord		d.label=grup-verb
 
 sn              vsubord         d.label=grup-verb
 
+%%% PERIFRASIS VERBALS: VERBS %%%
+grup-verb	dverb		d.label=VM*
+verb-pass	dverb		d.label=VM*
+verb-pass	dverb		d.label=VM*
+inf-pas		dverb		d.label=VM*
+ger             dverb           d.label=VM*
+subord-ger      dverb           d.label=VM*
+
+%%% PERIFRASIS VERBALS: PREPOSICIONS %%%
 grup-verb       dprep           d.label=SPS00 
 grup-verb	dprep		d.label=prep-de
 numero-nopart   dprep           d.label=SPS00 
 
+%%% PERIFRASIS VERBALS: CONJUNCIONS %%%
 grup-verb       dconj           d.label=CS  
 
 grup-verb-el    dep-noun        d.label=sn  
@@ -3824,6 +3863,7 @@ inf		dep			d.label=patons
 infinitiu	dep			d.label=patons
 subord-ger	dep			d.label=patons
 
+%%% PUNTUACIO SINTAGMES I ORACIONS %%%
 grup-verb	term			d.label=F-no-c
 verb-pass	term			d.label=F-no-c
 sn		term			d.label=F-no-c
