@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 //
 //    FreeLing - Open Source Language Analyzers
 //
@@ -26,21 +26,37 @@
 //
 ////////////////////////////////////////////////////////////////
 
-#ifndef _FREELING
-#define _FREELING
+#ifndef COREF_H
+#define COREF_H
 
-#include "freeling/tokenizer.h"
-#include "freeling/splitter.h"
-#include "freeling/maco.h"
-#include "freeling/nec.h"
-#include "freeling/senses.h"
-#include "freeling/semdb.h"
-#include "freeling/hmm_tagger.h"
-#include "freeling/relax_tagger.h"
-#include "freeling/chart_parser.h"
-#include "freeling/dependency_parser.h"
-#include "freeling/dependencies.h"
-#include "freeling/malt_plugin.h"
-#include "freeling/coref.h"
+#include <set>
+
+#include "fries.h"
+#include "omlet.h"
+#include "coref_fex.h"
+
+////////////////////////////////////////////////////////////////
+///  The class coref implements a ML-based coreference classificator
+////////////////////////////////////////////////////////////////
+
+class coref {
+	private:
+		/// feature extractor
+		coref_fex *extractor;
+		/// adaboost classifier
+		adaboost* classifier;
+
+		bool check_coref(struct SAMPLE & sa1, struct SAMPLE & sa2) const;
+		void set_sample(parse_tree::iterator pt, struct SAMPLE & sample) const;
+		void add_candidates(int sent, int & word, parse_tree::iterator pt, list<struct SAMPLE> & candidates) const;
+
+	public:
+		/// Constructor
+		coref(const std::string &);
+
+		/// Classify SN's in given sentence in groups of coreference
+		void analyze(document &) const;
+
+};
 
 #endif
