@@ -23,6 +23,8 @@ esnecdatadir = $(pkgdatadir)/es/nec
 esnecdata_DATA = es/nec/*
 esdepdatadir = $(pkgdatadir)/es/dep
 esdepdata_DATA = es/dep/*
+escorefdatadir = $(pkgdatadir)/es/coref
+escorefdata_DATA = es/coref/*
 
 cadatadir = $(pkgdatadir)/ca
 cadata_DATA = ca/*

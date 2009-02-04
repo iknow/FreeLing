@@ -1,4 +1,4 @@
-EXTRA_DIST = config.h sample.cc LKB analyze.utf analyze.server analyze initialize README
+EXTRA_DIST = config.h sample.cc LKB analyze.utf analyze.server analyze initialize README coref_sample.cc
 INCLUDES = -I$(top_srcdir)/src/include
 bin_PROGRAMS = analyzer
 
