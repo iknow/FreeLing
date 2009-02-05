@@ -81,7 +81,7 @@ void PrintMyTree(document & doc, parse_tree::iterator n, int depth) {
 	} else {
 		if (n->info.is_head()) { cout<<"+";}
 		//Get the class of coreference and print.
-		int ref = doc.get_coref_id(n->info);
+		int ref = doc.get_coref_group(n->info);
 		if(n->info.get_label() == "sn" && ref != -1){
 			cout<<n->info.get_label()<<"(REF " << ref <<")_["<<endl;
 		} else {
