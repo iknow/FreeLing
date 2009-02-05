@@ -73,7 +73,7 @@ tokenizer::tokenizer(const std::string &TokFile)
     else if (line == "<RegExps>") reading=2;
     else if (line == "</RegExps>") reading=0;
     else if (line == "<Abbreviations>") reading=3;
-    else if (line == "<Abbreviations>") reading=0;
+    else if (line == "</Abbreviations>") reading=0;
     else if (reading==1 && rul) {
       ERROR_CRASH("Error reading tokenizer rules. Macros must be defined before rules.");
     }
