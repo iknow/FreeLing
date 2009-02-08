@@ -1,8 +1,9 @@
 EXTRA_DIST = config.h sample.cc LKB analyze.utf analyze.server analyze initialize README coref_sample.cc
 INCLUDES = -I$(top_srcdir)/src/include
-bin_PROGRAMS = analyzer
+bin_PROGRAMS = analyzer coref_sample
 
 analyzer_SOURCES = analyzer.cc
+coref_sample_SOURCES = coref_sample.cc
 
 if ENABLE_MALT
   LJVM = -ljvm
@@ -11,6 +12,8 @@ else
 endif
 analyzer_LDADD = -lmorfo -lfries -lomlet -lcfg+ -lpcre -ldb_cxx $(LJVM)
 analyzer_LDFLAGS = -L$(top_srcdir)/src/libmorfo
+coref_sample_LDADD = -lmorfo -lfries -lomlet -lcfg+ -lpcre -ldb_cxx $(LJVM)
+coref_sample_LDFLAGS = -L$(top_srcdir)/src/libmorfo
 
 install-exec-hook:
 	cp analyze analyze.utf analyze.server initialize $(bindir)

@@ -14,7 +14,7 @@
 
 coref_fex::coref_fex(){
 	typeVector = TYPE_TWO;
-	vectors = DIST | IPRON | JPRON | IPRONM | JPRONM | STRMATCH | DEFNP | DEMNP | NUMBER | GENDER | SEMCLASS | PROPNAME | ALIAS | APPOS;
+	vectors = COREFEX_DIST | COREFEX_IPRON | COREFEX_JPRON | COREFEX_IPRONM | COREFEX_JPRONM | COREFEX_STRMATCH | COREFEX_DEFNP | COREFEX_DEMNP | COREFEX_NUMBER | COREFEX_GENDER | COREFEX_SEMCLASS | COREFEX_PROPNAME | COREFEX_ALIAS | COREFEX_APPOS;
 }
 
 coref_fex::~coref_fex(){
@@ -775,11 +775,11 @@ vector<string> coref_fex::tokenize(const string& str,const string& delimiters){
 //////////////////////////////////////////////////////////////////
 
 void coref_fex::extract(struct EXAMPLE &ex, std::vector<int> *result){
-	if(vectors & DIST)		result->push_back(get_dist(&ex));
-	if(vectors & DIST)		result->push_back(get_dedist(&ex));
-	if(vectors & IPRON)		result->push_back(get_i_pronoum(&ex));
-	if(vectors & JPRON)		result->push_back(get_j_pronoum(&ex));
-	if(vectors & IPRONM){
+	if(vectors & COREFEX_DIST)		result->push_back(get_dist(&ex));
+	if(vectors & COREFEX_DIST)		result->push_back(get_dedist(&ex));
+	if(vectors & COREFEX_IPRON)		result->push_back(get_i_pronoum(&ex));
+	if(vectors & COREFEX_JPRON)		result->push_back(get_j_pronoum(&ex));
+	if(vectors & COREFEX_IPRONM){
 		result->push_back(get_i_pronoum_p(&ex));
 		result->push_back(get_i_pronoum_d(&ex));
 		result->push_back(get_i_pronoum_x(&ex));
@@ -788,7 +788,7 @@ void coref_fex::extract(struct EXAMPLE &ex, std::vector<int> *result){
 		result->push_back(get_i_pronoum_r(&ex));
 		result->push_back(get_i_pronoum_e(&ex));
 	}
-	if(vectors & JPRONM){
+	if(vectors & COREFEX_JPRONM){
 		result->push_back(get_j_pronoum_p(&ex));
 		result->push_back(get_j_pronoum_d(&ex));
 		result->push_back(get_j_pronoum_x(&ex));
@@ -797,20 +797,20 @@ void coref_fex::extract(struct EXAMPLE &ex, std::vector<int> *result){
 		result->push_back(get_j_pronoum_r(&ex));
 		result->push_back(get_j_pronoum_e(&ex));
 	}
-	if(vectors & STRMATCH)	result->push_back(get_str_match(&ex));
-	if(vectors & DEFNP)		result->push_back(get_def_np(&ex));
-	if(vectors & DEMNP)		result->push_back(get_dem_np(&ex));
-	if(vectors & NUMBER)	result->push_back(get_number(&ex));
-	if(vectors & GENDER)	result->push_back(get_gender(&ex));
-	if(vectors & SEMCLASS)	result->push_back(get_semclass(&ex));
-	if(vectors & PROPNAME)	result->push_back(get_proper_name(&ex));
-	if(vectors & ALIAS){
+	if(vectors & COREFEX_STRMATCH)	result->push_back(get_str_match(&ex));
+	if(vectors & COREFEX_DEFNP)		result->push_back(get_def_np(&ex));
+	if(vectors & COREFEX_DEMNP)		result->push_back(get_dem_np(&ex));
+	if(vectors & COREFEX_NUMBER)	result->push_back(get_number(&ex));
+	if(vectors & COREFEX_GENDER)	result->push_back(get_gender(&ex));
+	if(vectors & COREFEX_SEMCLASS)	result->push_back(get_semclass(&ex));
+	if(vectors & COREFEX_PROPNAME)	result->push_back(get_proper_name(&ex));
+	if(vectors & COREFEX_ALIAS){
 		result->push_back(get_alias_acro(&ex));
 		result->push_back(get_alias_fixleft(&ex));
 		result->push_back(get_alias_fixright(&ex));
 		result->push_back(get_alias_order(&ex));
 	}
-	if(vectors & APPOS)		result->push_back(get_appositive(&ex));
+	if(vectors & COREFEX_APPOS)		result->push_back(get_appositive(&ex));
 }
 
 //////////////////////////////////////////////////////////////////

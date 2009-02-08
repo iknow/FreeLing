@@ -144,7 +144,9 @@ int main() {
 	chart_parser parser("/usr/local/share/FreeLing/es/grammar-dep.dat");
 
 	nec *neclass = new nec("NP", "/usr/local/share/FreeLing/es/nec/nec");
-	coref *corefclass = new coref("/usr/local/share/FreeLing/es/coref");
+	int vectors = COREFEX_DIST | COREFEX_IPRON | COREFEX_JPRON | COREFEX_IPRONM | COREFEX_JPRONM | COREFEX_STRMATCH | COREFEX_DEFNP | COREFEX_DEMNP | COREFEX_NUMBER | COREFEX_GENDER | COREFEX_SEMCLASS | COREFEX_PROPNAME | COREFEX_ALIAS | COREFEX_APPOS;
+	int max_distance = 20;
+	coref *corefclass = new coref("/usr/local/share/FreeLing/es/coref", vectors, max_distance);
 
 	// get plain text input lines while not EOF.
 	while (getline(cin,text)) {

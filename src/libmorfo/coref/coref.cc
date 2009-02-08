@@ -98,15 +98,16 @@ void PrintMyTree(document & doc, parse_tree::iterator n, int depth) {
 /// appropriate files.
 ///////////////////////////////////////////////////////////////
 
-coref::coref(const std::string &filepref){
-	int vectors;
+coref::coref(const std::string &filepref, const int vectors, const int dist){
+//	int vectors;
 	string feat,file,line;
 
 	// create feature extractor
 	extractor = new coref_fex();
 	extractor->typeVector = TYPE_TWO;
-	vectors = DIST | IPRON | JPRON | STRMATCH | DEFNP | DEMNP | GENDER | SEMCLASS | PROPNAME | ALIAS | APPOS;
+//	vectors = DIST | IPRON | JPRON | STRMATCH | DEFNP | DEMNP | GENDER | SEMCLASS | PROPNAME | ALIAS | APPOS;
 	extractor->setVectors(vectors);
+	distance = dist;
 
 	// create AdaBoost classifier
 	TRACE(3," Loading adaboost model "+filepref+".abm");
@@ -247,7 +248,7 @@ void coref::analyze(document & doc) const {
 		it1 = it2;
 		--it1;
 		found = false;
-		count = 20;
+		count = distance;
 		while(it1 != candidates.begin() && !found && count > 0){
 			found = check_coref(*it1, *it2);
 			if(found)
@@ -257,11 +258,13 @@ void coref::analyze(document & doc) const {
 		}
 		++it2;
 	}
+/*
 	for (par = doc.begin(); par != doc.end(); ++par){
 		for(se = (*par).begin(); se != (*par).end(); ++se){
 			PrintMyTree(doc, (*se).get_parse_tree().begin(), 0);
 		}
 	}
+*/
 }
 
 
