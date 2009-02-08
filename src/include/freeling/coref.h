@@ -45,6 +45,8 @@ class coref {
 		coref_fex *extractor;
 		/// adaboost classifier
 		adaboost* classifier;
+		/// Max distance to search for a coreference node
+		int distance;
 
 		bool check_coref(struct SAMPLE & sa1, struct SAMPLE & sa2) const;
 		void set_sample(parse_tree::iterator pt, struct SAMPLE & sample) const;
@@ -52,7 +54,7 @@ class coref {
 
 	public:
 		/// Constructor
-		coref(const std::string &);
+		coref(const std::string &, const int, const int);
 
 		/// Classify SN's in given sentence in groups of coreference
 		void analyze(document &) const;
