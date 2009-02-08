@@ -51,48 +51,40 @@ using namespace std;
 
 #include <freeling.h>
 
-
-void ProcessResults(const list<sentence> &ls) {
-  
-  list<sentence>::const_iterator s;
-  word::const_iterator a;
-  sentence::const_iterator w;
-  
-  // for each sentence in list
-  for (s=ls.begin(); s!=ls.end(); s++) {
-    
-    // print sentence XML tag
-    cout<<"<SENT>"<<endl;
-      
-    // for each word in sentence
-    for (w=s->begin(); w!=s->end(); w++) {
-      
-      // print word form, with PoS and lemma chosen by the tagger
-      cout<<"  <WORD form=\""<<w->get_form();
-      cout<<"\" lemma=\""<<w->get_lemma();
-      cout<<"\" pos=\""<<w->get_parole();
-      cout<<"\">"<<endl;
-      
-      // for each possible analysis in word, output lemma, parole and probability
-      for (a=w->analysis_begin(); a!=w->analysis_end(); ++a) {
-	
-	// print analysis info
-	cout<<"    <ANALYSIS lemma=\""<<a->get_lemma();
-	cout<<"\" pos=\""<<a->get_parole();
-	cout<<"\" prob=\""<<a->get_prob();
-	cout<<"\"/>"<<endl;
-      }
-      
-      // close word XML tag after list of analysis
-      cout<<"  </WORD>"<<endl;
-    }
-    
-    // close sentence XML tag
-    cout<<"</SENT>"<<endl;
+void OutputMySenses(const analysis &a) {
+  list<string> ls=a.get_senses();
+  if (ls.size()>0) {
+     cout<<" "<<util::list2string(ls,":");
   }
-}  
+  else cout<<" -";
+}
+//---------------------------------------------
+// print obtained analysis.
+//---------------------------------------------
+void PrintMyTree(document & doc, parse_tree::iterator n, int depth) {
+	parse_tree::sibling_iterator d;
 
-
+	cout<<string(depth*2,' ');
+	if (n->num_children()==0) {
+		if (n->info.is_head()) { cout<<"+";}
+		word w=n->info.get_word();
+		cout<<"("<<w.get_form()<<" "<<w.get_lemma()<<" "<<w.get_parole();
+		OutputMySenses((*w.selected_begin()));
+		cout<<")"<<endl;
+	} else {
+		if (n->info.is_head()) { cout<<"+";}
+		//Get the class of coreference and print.
+		int ref = doc.get_coref_group(n->info);
+		if(n->info.get_label() == "sn" && ref != -1){
+			cout<<n->info.get_label()<<"(REF " << ref <<")_["<<endl;
+		} else {
+			cout<<n->info.get_label()<<"_["<<endl;
+		}
+		for (d=n->sibling_begin(); d!=n->sibling_end(); ++d)
+			PrintMyTree(doc, d, depth+1);
+		cout<<string(depth*2,' ')<<"]"<<endl;
+	}
+}
 
 int main() {
 	string text;
@@ -182,8 +174,15 @@ int main() {
 	neclass->analyze(doc.front());
 	parser.analyze(doc.front());
 	corefclass->analyze(doc);
-	// Process the enriched/disambiguated objects in the list of sentences
-//	ProcessResults(doc.front());
+
+	list<paragraph>::iterator parIt;
+	list<sentence>::iterator seIt;
+	for (parIt = doc.begin(); parIt != doc.end(); ++parIt){
+		for(seIt = (*parIt).begin(); seIt != (*parIt).end(); ++seIt){
+			PrintMyTree(doc, (*seIt).get_parse_tree().begin(), 0);
+		}
+	}
+
 
 }
 

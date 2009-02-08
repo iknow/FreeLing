@@ -58,41 +58,6 @@ void outSample(struct SAMPLE &sa){
 	cout << endl;
 }
 
-void OutputMySenses(const analysis &a) {
-  list<string> ls=a.get_senses();
-  if (ls.size()>0) {
-     cout<<" "<<util::list2string(ls,":");
-  }
-  else cout<<" -";
-}
-//---------------------------------------------
-// print obtained analysis.
-//---------------------------------------------
-void PrintMyTree(document & doc, parse_tree::iterator n, int depth) {
-	parse_tree::sibling_iterator d;
-
-	cout<<string(depth*2,' ');
-	if (n->num_children()==0) {
-		if (n->info.is_head()) { cout<<"+";}
-		word w=n->info.get_word();
-		cout<<"("<<w.get_form()<<" "<<w.get_lemma()<<" "<<w.get_parole();
-		OutputMySenses((*w.selected_begin()));
-		cout<<")"<<endl;
-	} else {
-		if (n->info.is_head()) { cout<<"+";}
-		//Get the class of coreference and print.
-		int ref = doc.get_coref_group(n->info);
-		if(n->info.get_label() == "sn" && ref != -1){
-			cout<<n->info.get_label()<<"(REF " << ref <<")_["<<endl;
-		} else {
-			cout<<n->info.get_label()<<"_["<<endl;
-		}
-		for (d=n->sibling_begin(); d!=n->sibling_end(); ++d)
-			PrintMyTree(doc, d, depth+1);
-		cout<<string(depth*2,' ')<<"]"<<endl;
-	}
-}
-
 ///////////////////////////////////////////////////////////////
 /// Create a coreference module, loading
 /// appropriate files.
@@ -258,13 +223,6 @@ void coref::analyze(document & doc) const {
 		}
 		++it2;
 	}
-/*
-	for (par = doc.begin(); par != doc.end(); ++par){
-		for(se = (*par).begin(); se != (*par).end(); ++se){
-			PrintMyTree(doc, (*se).get_parse_tree().begin(), 0);
-		}
-	}
-*/
 }
 
 
