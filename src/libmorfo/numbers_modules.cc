@@ -2555,6 +2555,7 @@ numbers_en::numbers_en(const std::string &dec, const std::string &thou): numbers
 {
   // Initializing value map
   value.insert(make_pair("a",1));
+  value.insert(make_pair("an",1));
   value.insert(make_pair("one",1));            value.insert(make_pair("two",2)); 
   value.insert(make_pair("three",3));          value.insert(make_pair("four",4));
   value.insert(make_pair("five",5));           value.insert(make_pair("six",6));
@@ -2608,6 +2609,7 @@ numbers_en::numbers_en(const std::string &dec, const std::string &thou): numbers
 
   // Initializing token map
   tok.insert(make_pair("a",TK_a));
+  tok.insert(make_pair("an",TK_a));
   tok.insert(make_pair("one",TK_u));             tok.insert(make_pair("two",TK_u));            
   tok.insert(make_pair("three",TK_u));          tok.insert(make_pair("four",TK_u));
   tok.insert(make_pair("five",TK_u));           tok.insert(make_pair("six",TK_u));
