@@ -62,7 +62,8 @@
 #define CHART_TRACE         0x00200000
 #define GRAMMAR_TRACE       0x00400000
 #define DEP_TRACE           0x00800000
-#define UTIL_TRACE          0x01000000
+#define COREF_TRACE         0x01000000
+#define UTIL_TRACE          0x02000000
 
 /// MOD_TRACECODE and MOD_TRACENAME are empty. The class 
 /// using the trace is expected to set them
