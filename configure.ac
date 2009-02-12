@@ -120,6 +120,19 @@ AC_ARG_ENABLE([maltplugin],
               ],
 	      [AM_CONDITIONAL([ENABLE_MALT],[test 0 = 1])])
 
+AC_ARG_ENABLE([traces],
+              [AS_HELP_STRING([--enable-traces],[Compile with tracing information. Slows down the system, but you can know what's going on. Default is: Not enabled.])],
+	      [if test "$enableval" = yes; then
+	         # define symbol for CPP
+                 AC_DEFINE(VERBOSE)
+		 # check for Java paths
+		 AC_JNI_DIRS
+               fi
+	       # pass info to automake
+	       AM_CONDITIONAL([VERBOSE],[test "$enableval" = yes])
+              ],
+	      [AM_CONDITIONAL([VERBOSE],[test 0 = 1])])
+
 
 AM_CONDITIONAL(OS_SOLARIS, [test x"$host_os" = xsolaris])
 
