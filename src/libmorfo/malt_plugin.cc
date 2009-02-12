@@ -53,8 +53,12 @@ malt_parser::malt_parser (string file, string lang) {
 	jint res;
 	
 	// Create the classpath char
+        string path="-Djava.class.path=";
+        if (getenv("CLASSPATH")==NULL) 
+          WARNING("CLASSPATH not defined, I might fail to find malt.jar...");
+        else 
+          path = path+string(getenv("CLASSPATH"));
 
-        string path="-Djava.class.path="+string(getenv("CLASSPATH"));
 	//	string path("-Djava.class.path=malt.jar:log4j.jar:libsvm.jar:libsvm28.jar");
 	options[0].optionString = const_cast<char *> (path.c_str());
 	// Debug options
@@ -73,7 +77,7 @@ malt_parser::malt_parser (string file, string lang) {
 	vm_args.options = options;
 	vm_args.nOptions = 1;
 	vm_args.ignoreUnrecognized = JNI_TRUE;
-	
+
 	// Create the JAVA VM
 	res = JNI_CreateJavaVM(&jvm,(void **)&env,&vm_args);	
 	if (res < 0) ERROR_CRASH("Can't create Java VM");
@@ -85,7 +89,7 @@ malt_parser::malt_parser (string file, string lang) {
 	  jvm->DestroyJavaVM();
 	  ERROR_CRASH("Class MaltConsoleEngine not found - Killing the JVM");
 	}
-	
+
 	// Get the main method...
 	jmethodID main = env->GetMethodID(EngineClass, "<init>","([Ljava/lang/String;)V");
 	if (main == NULL) {

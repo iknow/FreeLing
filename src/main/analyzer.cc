@@ -620,6 +620,7 @@ main (int argc, char **argv)
   }
 
   // Dependency parsing requested
+
   if (cfg.InputFormat < DEP && cfg.OutputFormat >= DEP) {
     if (cfg.DEP_which == TXALA)
       dep = new dep_txala (cfg.DEP_TxalaFile,
@@ -632,7 +633,7 @@ main (int argc, char **argv)
       cerr <<"        Use option --enable-maltplugin when running ./configure"<<endl;	
       exit (1);
 #endif
-    }      
+    }
   }
   
   // Input is plain text.
