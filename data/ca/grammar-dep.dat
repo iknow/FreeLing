@@ -849,30 +849,52 @@ grup-verb ==> +verb, PP* | +verb, PP*, PP* | +verb, PP*, PP*, PP*.
 verb ==> VM*<començar>, SPS00(a), +infinitiu.
 verb ==> VM*<tornar>, SPS00(a), +infinitiu.
 verb ==> VM*<posar>, SPS00(a), +infinitiu.
+verb ==> VM*<acostumar>, SPS00(a), +infinitiu.
+verb ==> VM*<arrencar>, SPS00(a), +infinitiu.
+verb ==> VM*<arribar>, SPS00(a), +infinitiu.
+verb ==> VM*<entrar>, SPS00(a), +infinitiu.
+verb ==> VM*<esclatar>, SPS00(a), +infinitiu.
+verb ==> VM*<passar>, SPS00(a), +infinitiu.
+verb ==> VM*<posar>, SPS00(a), +infinitiu.
 verb ==> VM*<anar>, +gerundi.
 verb ==> VM*<estar>, +gerundi.
 verb ==> VM*<seguir>, +gerundi.
 verb ==> VM*<continuar>, +gerundi.
+verb ==> VM*<acabar>, +gerundi.
 verb ==> VM*<estar>, SPS00(a_punt_de), +infinitiu.
 verb ==> VM*<estar>, SPS00(a_punt_d'), +infinitiu.
 verb ==> VM*<acabar>, prep-de, +infinitiu.
 verb ==> VM*<parar>, prep-de, +infinitiu.
 verb ==> VM*<deixar>, prep-de, +infinitiu.
 verb ==> VA*<haver>, prep-de, +infinitiu.
+verb ==> VM*<mirar>, prep-de, +infinitiu.
 verb ==> VM*<soler>, +infinitiu.
 verb ==> VM*<poder>, +infinitiu.
 verb ==> VM*<deure>, +infinitiu.
 verb ==> VM*<voler>, +infinitiu.
 verb ==> VM*<saber>, +infinitiu.
 verb ==> VM*<gosar>, +infinitiu.
+verb ==> VM*<deixar>, +infinitiu.
+verb ==> VM*<fer>, +infinitiu.
+verb ==> VM*<pensar>, +infinitiu.
+verb ==> VM*<resultar>, +infinitiu.
+verb ==> VM*<deixar>, +parti-*.
 
 
 %Formes de gerundi de les perífrasis
 gerundi ==> VMG0000(tornant), SPS00(a), +infinitiu.
+gerundi ==> VMG0000(acostumar), SPS00(a), +infinitiu.
+gerundi ==> VMG0000(arrencar), SPS00(a), +infinitiu.
+gerundi ==> VMG0000(arribar), SPS00(a), +infinitiu.
+gerundi ==> VMG0000(entrar), SPS00(a), +infinitiu.
+gerundi ==> VMG0000(esclatar), SPS00(a), +infinitiu.
+gerundi ==> VMG0000(passar), SPS00(a), +infinitiu.
+gerundi ==> VMG0000(posar), SPS00(a), +infinitiu.
 gerundi ==> VMG0000(anant), +gerundi.
 gerundi ==> VMG0000(estant), +gerundi.
 gerundi ==> VMG0000(seguint), +gerundi.
 gerundi ==> VMG0000(continuant), +gerundi.
+gerundi ==> VMG0000(acabar), +gerundi.
 gerundi ==> VMG0000(estant), SPS00(a_punt_de), +infinitiu.
 gerundi ==> VMG0000(estant), SPS00(a_punt_d'), +infinitiu.
 gerundi ==> VMG0000(començant), SPS00(a), +infinitiu.
@@ -880,20 +902,34 @@ gerundi ==> VMG0000(posant), SPS00(a), +infinitiu.
 gerundi ==> VMG0000(acabant), prep-de, +infinitiu.
 gerundi ==> VMG0000(parant), prep-de, +infinitiu.
 gerundi ==> VMG0000(deixant), prep-de, +infinitiu.
+gerundi ==> VAG0000(havent), prep-de, +infinitiu.
+gerundi ==> VMG0000(mirar), prep-de, +infinitiu.
 gerundi ==> VMG0000(solent), +infinitiu.
 gerundi ==> VMG0000(podent), +infinitiu.
 gerundi ==> VMG0000(devent), +infinitiu.
 gerundi ==> VMG0000(volent), +infinitiu.
 gerundi ==> VMG0000(sabent), +infinitiu.
 gerundi ==> VMG0000(gosant), +infinitiu.
-gerundi ==> VAG0000(havent), prep-de, +infinitiu.
+gerundi ==> VMG0000(deixar), +infinitiu.
+gerundi ==> VMG0000(fer), +infinitiu.
+gerundi ==> VMG0000(pensar), +infinitiu.
+gerundi ==> VMG0000(resultar), +infinitiu.
+gerundi ==> VMG0000(deixar), +parti-*.
 
 %Formes infinitives de les perífrasis
 infinitiu ==> VMN0000(tornar), A, +infinitiu.
+infinitiu ==> VMN0000(acostumar), SPS00(a), +infinitiu.
+infinitiu ==> VMN0000(arrencar), SPS00(a), +infinitiu.
+infinitiu ==> VMN0000(arribar), SPS00(a), +infinitiu.
+infinitiu ==> VMN0000(entrar), SPS00(a), +infinitiu.
+infinitiu ==> VMN0000(esclatar), SPS00(a), +infinitiu.
+infinitiu ==> VMN0000(passar), SPS00(a), +infinitiu.
+infinitiu ==> VMN0000(posar), SPS00(a), +infinitiu.
 infinitiu ==> VMN0000(anar), +gerundi.
 infinitiu ==> VMN0000(estar), +gerundi.
 infinitiu ==> VMN0000(seguir), +gerundi.
 infinitiu ==> VMN0000(continuar), +gerundi.
+infinitiu ==> VMN0000(acabar), +gerundi.
 infinitiu ==> VMN0000(estar), SPS00(a_punt_de), +infinitiu.
 infinitiu ==> VMN0000(estar), SPS00(a_punt_d'), +infinitiu.
 infinitiu ==> VMN0000(començar), SPS00(a), +infinitiu.
@@ -901,6 +937,7 @@ infinitiu ==> VMN0000(posar), SPS00(a), +infinitiu.
 infinitiu ==> VMN0000(acabar), prep-de, +infinitiu.
 infinitiu ==> VMN0000(parar), prep-de, +infinitiu.
 infinitiu ==> VMN0000(deixar), prep-de, +infinitiu.
+infinitiu ==> VMN0000(mirar), prep-de, +infinitiu.
 infinitiu ==> VMN0000(soler), +infinitiu.
 infinitiu ==> VMN0000(poder), +infinitiu.
 infinitiu ==> VMN0000(deure), +infinitiu.
@@ -910,27 +947,46 @@ infinitiu ==> VMN0000(gosar), +infinitiu.
 infinitiu ==> VAN0000(haure), prep-de, +infinitiu.
 infinitiu ==> VAN0000(haver), prep-de, +infinitiu.
 infinitiu ==> VAN0000(heure), prep-de, +infinitiu.
+infinitiu ==> VMN0000(deixar), +infinitiu.
+infinitiu ==> VMN0000(fer), +infinitiu.
+infinitiu ==> VMN0000(pensar), +infinitiu.
+infinitiu ==> VMN0000(resultar), +infinitiu.
+infinitiu ==> VMN0000(deixar), +parti-*.
 
 %%Formes participials de les perífrasis
 parti-flex ==> VMP*<començar>, SPS00(a), +infinitiu.
 parti-flex ==> VMP*<tornar>, SPS00(a), +infinitiu.
 parti-flex ==> VMP*<posar>, SPS00(a), +infinitiu.
+parti-flex ==> VMP*<acostumar>, SPS00(a), +infinitiu.
+parti-flex ==> VMP*<arrencar>, SPS00(a), +infinitiu.
+parti-flex ==> VMP*<arribar>, SPS00(a), +infinitiu.
+parti-flex ==> VMP*<entrar>, SPS00(a), +infinitiu.
+parti-flex ==> VMP*<esclatar>, SPS00(a), +infinitiu.
+parti-flex ==> VMP*<passar>, SPS00(a), +infinitiu.
+parti-flex ==> VMP*<posar>, SPS00(a), +infinitiu.
 parti-flex ==> VMP*<anar>, +gerundi.
 parti-flex ==> VMP*<estar>, +gerundi.
 parti-flex ==> VMP*<seguir>, +gerundi.
 parti-flex ==> VMP*<continuar>, +gerundi.
+parti-flex ==> VMP*<acabar>, +gerundi.
 parti-flex ==> VMP*<estar>, SPS00(a_punt_de), +infinitiu.
 parti-flex ==> VMP*<estar>, SPS00(a_punt_d'), +infinitiu.
 parti-flex ==> VMP*<acabar>, prep-de, +infinitiu.
 parti-flex ==> VMP*<parar>, prep-de, +infinitiu.
 parti-flex ==> VMP*<deixar>, prep-de, +infinitiu.
 parti-flex ==> VAP*<haver>, prep-de, +infinitiu.
+parti-flex ==> VMP*<mirar>, prep-de, +infinitiu.
 parti-flex ==> VMP*<soler>, +infinitiu.
 parti-flex ==> VMP*<poder>, +infinitiu.
 parti-flex ==> VMP*<deure>, +infinitiu.
 parti-flex ==> VMP*<voler>, +infinitiu.
 parti-flex ==> VMP*<saber>, +infinitiu.
 parti-flex ==> VMP*<gosar>, +infinitiu.
+parti-flex ==> VMP*<deixar>, +infinitiu.
+parti-flex ==> VMP*<fer>, +infinitiu.
+parti-flex ==> VMP*<pensar>, +infinitiu.
+parti-flex ==> VMP*<resultar>, +infinitiu.
+parti-flex ==> VMP*<deixar>, +parti-*.
 
 
 F-no-c ==> Faa | Fat | Fca | Fct | Fd | Fe | Fg | Fh | Fia | Fit | Fla | Flt | Fp | Fpa | Fpt | Fra

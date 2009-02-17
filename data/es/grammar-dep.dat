@@ -808,7 +808,6 @@ verb-pass ==> vser, +parti-flex | vaux, parti-ser,+parti-flex.
 grup-verb ==> +verb | +verb-pass.
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %PERÍFRASIS VERBALS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -830,6 +829,7 @@ verb ==> vaux, VMP00SM(acostumbrado), SPS00(a), +infinitiu.
 verb ==> vaux, VMP00SM(acabado), SPS00(de), +infinitiu.
 verb ==> vaux, VMP00SM(terminado), SPS00(de), +infinitiu.
 verb ==> vaux, VMP00SM(dejado), SPS00(de), +infinitiu.
+verb ==> vaux, VMP00SM(tratado), SPS00(de), +infinitiu.
 verb ==> vaux, VMP00SM(llegado), SPS00(a), +infinitiu.
 verb ==> vaux, VMP00SM(acertado), SPS00(a), +infinitiu.
 verb ==> vaux, VMP00SM(alcanzado), SPS00(a), +infinitiu.
@@ -846,6 +846,9 @@ verb ==> vaux, VMP00SM(llevado), +gerundi.
 verb ==> vaux, VMP00SM(seguido), +gerundi.
 verb ==> vaux, VMP00SM(terminado), +gerundi.
 verb ==> vaux, VMP00SM(venido), +gerundi.
+
+verb ==> vaux, VMP00SM(ido), +parti-*.
+
 
 %%perífrasis d'infinitiu en infinitiu  
 %Les formes auxiliars de les peri tbé poden
@@ -918,6 +921,10 @@ inf ==> infaux, VMP00SM(terminado), +gerundi.
 inf ==> infaux, VMP00SM(seguido), +gerundi.
 inf ==> infaux, VMP00SM(venido), +gerundi.
 
+%Perífrasis de participi en infinitiu
+inf ==>VMN0000(ir), +parti-*.
+inf ==> infaux, VMP00SM(ido), +parti-*.
+
 %%perífrasis d'infinitiu en gerundi
 ger ==>VMG0000(debiendo), +infinitiu.
 ger ==>VMG0000(debiendo), SPS00(de), +infinitiu.
@@ -953,6 +960,9 @@ ger ==> VMG0000(siguiendo), +gerundi.
 ger ==> VMG0000(terminando), +gerundi.
 ger ==> VMG0000(viniendo), +gerundi.
 
+%Perífrasis de participi en gerundi
+ger ==> VMG0000(yendo), +parti-*.
+
 % perifrasis verbals indicatives i subjuntives
 verb ==> VMI*<deber>, +infinitiu | VMS*<deber>, +infinitiu.
 verb ==> VMI*<deber>, SPS00(de), +infinitiu | VMS*<deber>, SPS00(de), +infinitiu.
@@ -986,6 +996,7 @@ verb ==> VMI*<llevar>, +gerundi | VMS*<llevar>, +gerundi.
 verb ==> VMI*<seguir>, +gerundi | VMS*<seguir>, +gerundi.
 verb ==> VMI*<terminar>, +gerundi | VMS*<terminar>, +gerundi.
 verb ==> VMI*<venir>, +gerundi | VMS*<venir>, +gerundi.
+verb ==> VMI*<ir>, +parti-* | VMS*<ir>, +parti-*.
 
 verb ==> VAI*<haber>, SPS00(de), +infinitiu | VAS*<haber>, SPS00(de), +infinitiu 
        | VAC*<haber>, SPS00(de), +infinitiu.
