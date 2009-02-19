@@ -248,7 +248,7 @@ void relax::solve() {
 	  lab->weight[NEXT] = (CurrW>0 ? CurrW*(1+support[j])/fnorm : 0);
 	}
 	
-	delete support;
+	delete[] support;
       }
     }
     
