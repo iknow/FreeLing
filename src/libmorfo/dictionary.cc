@@ -271,6 +271,7 @@ void dictionary:: annotate(sentence &se) {
         TRACE(2,"Contraction found, replacing... "+pos->get_form()+". span=("+util::int2string(pos->get_span_start())+","+util::int2string(pos->get_span_finish())+")");
         for (i=lw.begin(); i!=lw.end(); i++) {
 	  i->set_span(pos->get_span_start(),pos->get_span_finish());
+	  i->user=pos->user;
 
           TRACE(2,"  Inserting "+i->get_form()+". span=("+util::int2string(i->get_span_start())+","+util::int2string(i->get_span_finish())+")");
           pos=se.insert(pos,*i); 

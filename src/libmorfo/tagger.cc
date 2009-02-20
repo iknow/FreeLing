@@ -105,7 +105,8 @@ void POS_tagger::retokenize(std::list<sentence> &ls) {
 		 p+i->get_form().length() );
 	    i->set_span(p,f);
 	    p = f;  
-	    
+	    i->user=w->user;
+
 	    TRACE(2,"  Inserting "+i->get_form()+". span=("+util::int2string(i->get_span_start())+","+util::int2string(i->get_span_finish())+")");
 	    w=se->insert(w,*i); 
 	    w++;
