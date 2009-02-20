@@ -33,7 +33,49 @@ VerbNoPron = <acumular> <admitir> <alcanzar> <aplicar> <apuntar>
              <sintetizar> <sospechar> <suceder> <sumar> <suponer> 
              <tener> <usar> <utilizar> <vaciar> <vender> <vivir>;
 
+VerbCompl = <acentuar> <aceptar> <aconsejar> <acordar> <admitir> <advertir>
+	    <afirmar> <alegar> <alertar> <anticipar> <anunciar> <añadir> 
+	    <apostar> <apoyar> <apreciar> <aprender> <apuntar> <asegurar>
+	    <asumir> <avalar> <calcular> <comentar> <comunicar> <concluir>
+	    <confesar> <confirmar> <considerar> <contar> <contestar>
+	    <controlar> <convencer> <creer> <decidir> <decir> <declarar> 
+	    <demostrar> <denunciar> <descartar> <desconfiar> <descubrir>
+	    <desestimar> <desmentir> <detectar> <determinar> <discrepar> 
+ 	    <discutir> <disponer> <divulgar> <documentar> <dudar> <encontrar>
+	    <enfatizar> <enseñar> <entender> <escribir> <especificar> 
+	    <especular> <esperar> <establecer> <estimar> <estipular>
+	    <evaluar> <evitar> <excluir> <exigir> <explicar> <exponer> 
+	    <expresar> <favorecer> <figurar> <fomentar> <garantizar> <ignorar>
+	    <ilustrar> <imaginar> <impedir> <implicar> <implorar> <importar>
+	    <indicar> <informar> <insinuar> <insistir> <jurar> <justificar>
+	    <lamentar> <leer> <mandar> <mantener> <mencionar> <molestar> 
+	    <mostrar> <necesitar> <negar> <notar> <observar> <ofrecer>
+	    <olvidar> <omitir> <opinar> <ordenar> <pedir> <pensar> <percibir> 
+	    <permitir> <pedir> <planear> <plantear> <precisar> <predecir>
+	    <preferir> <preguntar> <preocupar> <presumir> <prevenir> <prever>
+	    <probar> <proclamar> <prometer> <pronosticar> <proponer> <publicar>
+	    <querer> <rebatir> <rechazar> <reclamar> <recomendar> <reconocer>
+	    <recordar> <refutar> <reiterar> <reivindicar> <remarcar> <repetir>
+	    <requerir> <responder> <resultar> <revelar> <saber> <sentir>
+	    <señalar> <significar> <solicitar> <sospechar> <sostener> <subrayar>
+	    <sugerir> <suponer> <temer> <teorizar> <transmitir> <valorar> <ver>;
+
+
+
 CONSTRAINTS
+
+%% better tag "que" as a PR0CN000 after a noun without no verb before it
+15.0 PR*<que>
+    (-1 NC*)
+    (-1* OUT_OF_BOUNDS barrier V*);
+
+%% "que" without a completive verb to the left is tagged as PR0CN000
+5.0 PR*<que>
+    (-1* OUT_OF_BOUNDS barrier {VerbCompl});
+
+%% better tag "que" as CS after completive verb
+4.0 CS<que>
+    (-1 {VerbCompl});
 
 %% better tag "que" as a CS after a verb, punctuation, adverb or prepossition 
 1.5 CS<que>
