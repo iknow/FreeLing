@@ -123,7 +123,7 @@ int quantities_default::ComputeToken(int state, sentence::iterator &j, sentence 
   // Token not found in translation table, let's have a closer look.
 
   // check to see if it is a number
-  if (j->get_n_analysis() && j->get_parole()=="Z") {
+  if (j->get_n_analysis() && j->get_parole()[0]=='Z') {
     token = TK_number;
   }
 
@@ -158,7 +158,7 @@ void quantities_default::StateActions(int origin, int state, int token, sentence
 
   // get token numerical value, if any
   value=0;
-  if (token==TK_number &&  j->get_n_analysis() && j->get_parole()=="Z") {
+  if (token==TK_number &&  j->get_n_analysis() && j->get_parole()[0]=='Z') {
     value = util::string2longdouble(j->get_lemma());
   }
 
@@ -431,7 +431,7 @@ int quantities_es::ComputeToken(int state, sentence::iterator &j, sentence &se)
   // Token not found in translation table, let's have a closer look.
 
   // check to see if it is a number
-  if (j->get_n_analysis() && j->get_parole()=="Z") {
+  if (j->get_n_analysis() && j->get_parole()[0]=='Z') {
     token = TK_number;
   }
   TRACE(3,"checked");
@@ -508,7 +508,7 @@ void quantities_es::StateActions(int origin, int state, int token, sentence::con
   // get token numerical value, if any
   value=0;
   if ((token==TK_number || token==TK_n100) && 
-       j->get_n_analysis() && j->get_parole()=="Z") {
+       j->get_n_analysis() && j->get_parole()[0]=='Z') {
     value = util::string2longdouble(lema);
   }
 
@@ -808,7 +808,7 @@ int quantities_ca::ComputeToken(int state, sentence::iterator &j, sentence &se)
   // Token not found in translation table, let's have a closer look.
 
   // check to see if it is a number
-  if (j->get_n_analysis() && j->get_parole()=="Z") {
+  if (j->get_n_analysis() && j->get_parole()[0]=='Z') {
     token = TK_number;
   }
   TRACE(3,"checked");
@@ -885,7 +885,7 @@ void quantities_ca::StateActions(int origin, int state, int token, sentence::con
   // get token numerical value, if any
   value=0;
   if ((token==TK_number || token==TK_n100) && 
-       j->get_n_analysis() && j->get_parole()=="Z") {
+       j->get_n_analysis() && j->get_parole()[0]=='Z') {
     value = util::string2longdouble(j->get_lemma());
   }
 
@@ -1188,7 +1188,7 @@ int quantities_gl::ComputeToken(int state, sentence::iterator &j, sentence &se)
   // Token not found in translation table, let's have a closer look.
 
   // check to see if it is a number
-  if (j->get_n_analysis() && j->get_parole()=="Z") {
+  if (j->get_n_analysis() && j->get_parole()[0]=='Z') {
     token = TK_number;
   }
   TRACE(3,"checked");
@@ -1265,7 +1265,7 @@ void quantities_gl::StateActions(int origin, int state, int token, sentence::con
   // get token numerical value, if any
   value=0;
   if ((token==TK_number || token==TK_n100) && 
-       j->get_n_analysis() && j->get_parole()=="Z") {
+       j->get_n_analysis() && j->get_parole()[0]=='Z') {
     value = util::string2longdouble(j->get_lemma());
   }
 
@@ -1571,7 +1571,7 @@ int quantities_en::ComputeToken(int state, sentence::iterator &j, sentence &se)
   // Token not found in translation table, let's have a closer look.
 
   // check to see if it is a number
-  if (j->get_n_analysis() && j->get_parole()=="Z") {
+  if (j->get_n_analysis() && j->get_parole()[0]=='Z') {
     token = TK_number;
   }
   TRACE(3,"checked");
@@ -1648,7 +1648,7 @@ void quantities_en::StateActions(int origin, int state, int token, sentence::con
   // get token numerical value, if any
   value=0;
   if ((token==TK_number || token==TK_n100) && 
-       j->get_n_analysis() && j->get_parole()=="Z") {
+       j->get_n_analysis() && j->get_parole()[0]=='Z') {
     value = util::string2longdouble(j->get_lemma());
   }
 
