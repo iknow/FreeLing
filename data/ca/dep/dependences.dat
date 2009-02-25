@@ -3811,6 +3811,10 @@ coor-n          co-n    		d.label=sn*
 coor-sp		co-sp			d.label=grup-sp
 coor-sadj       co-adj			d.label=s-a*  
 coor-sadv	co-adv			d.label=sadv
+coor-subord     co-subord       	d.label=subord
+coor-inf        co-inf          	d.label=grup-verb-inf
+coor-ger        co-ger          	d.label=subord-ger
+coor-part       co-part         	d.label=subord-part
 
 subord          vsubord         d.label=grup-verb
 subord-rel      vsubord         d.label=grup-verb
