@@ -19,10 +19,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%% NEW (January 2009) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% NEW (February 2009) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %										   %
-% Subordinate (finite) clauses formation					   %
-% Nonfinite clauses formation							   %
+% PP formation: prep+noun & prep+intransitive/transitive/prepositional verb	   %
+% PP attachment: pp before main verb						   %
+% Subordinate (finite) clauses formation: instransitive & transitive		   %
+% Nonfinite clauses formation: intransitive & transitive			   %
+% Relabeling intransitive verb at the subordinate clause domain: vb-chunk --> sv   %
 %										   %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -43,6 +46,7 @@
 % 20  -            -          (sn-chunk,sp-chunk<of>)  top_right RELABEL  -         +HAVE_SUB
 %
 %% -------------------------------------------- %%
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -76,9 +80,9 @@
 16  -  -  (sp-chunk,pred)   last_left MATCHING sn-chunk % (with (the American flags (draped)))
 16  -  -  (sp-chunk,pred)   last_left MATCHING n-chunk % (with (American flags (draped)))
 16  -  $_~sn-chunk_$  (sp-chunk,vb-chunk{VBD})  last_left MATCHING sn-chunk
-35 - vb-chunk_sn-chunk_$$ (vb-chunk{VBN},sp-chunk) top_left RELABEL pred:- % bought a cup (made (of wood))
-35 - vb-chunk_n-chunk_$$ (vb-chunk{VBN},sp-chunk) top_left RELABEL pred:- % bought cups (made (of wood))
-35 - vb-chunk_sp-chunk_$$ (vb-chunk{VBN},sp-chunk) top_left RELABEL pred:- % drink tea with a cup (made (of wood))
+%35 - vb-chunk_sn-chunk_$$ (vb-chunk{VBN},sp-chunk) top_left RELABEL pred:- % bought a cup (made (of wood))
+%35 - vb-chunk_n-chunk_$$ (vb-chunk{VBN},sp-chunk) top_left RELABEL pred:- % bought cups (made (of wood))
+%35 - vb-chunk_sp-chunk_$$ (vb-chunk{VBN},sp-chunk) top_left RELABEL pred:- % drink tea with a cup (made (of wood))
 
 
 %:::: NP <-- PP 'of' ::::%
@@ -133,43 +137,138 @@
 %           PREPOSITIONAL PHRASE          %
 %:::::::::::::::::::::::::::::::::::::::::%
 
+
 %:::: PP <-- NP ::::%
 
 % Partitive PP %
-12 - - (OF-chunk,sn-chunk) top_left RELABEL sp-chunk:- % (of (the moon))
-12 - - (OF-chunk,n-chunk) top_left RELABEL sp-chunk:- % (of (glass))
-13  -  -  (sp-chunk,sp-chunk<of>)   last_left MATCHING sn-chunk % (with (a pinch (of salt)))
-13  -  -  (sp-chunk,sp-chunk<of>)   last_left MATCHING n-chunk % (with (book (of adventures)))
-22  -  -  (sp-chunk,sp-chunk<of>)   last_left MATCHING sn-chunk
-22  -  -  (sp-chunk,sp-chunk<of>)   last_left MATCHING n-chunk
+28 - !$$_*_vb-chunk (OF-chunk,sn-chunk) top_left RELABEL sp-chunk:- % postposed PP
+28 - !$$_*_vb-chunk (OF-chunk,n-chunk) top_left RELABEL sp-chunk:- % postposed PP
+26 - vb-chunk_*_prt-sub_$$  (OF-chunk,sn-chunk)  top_left RELABEL sp-chunk:- % postposed PP before clauses
+26 - vb-chunk_*_prt-sub_$$  (OF-chunk,n-chunk)  top_left RELABEL sp-chunk:- % postposed PP before clauses
+27 - OUT_$$_*_vb-chunk  (OF-chunk,sn-chunk)  top_left RELABEL sp-chunk:- % preposed PP
+27 - OUT_$$_*_vb-chunk  (OF-chunk,n-chunk)  top_left RELABEL sp-chunk:- % preposed PP
+27 - ~vb-chunk_$$_*_vb-chunk  (OF-chunk,sn-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses
+27 - ~vb-chunk_$$_*_vb-chunk  (OF-chunk,n-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses
+27 - ~vb-chunk_~vb-chunk_$$_*_vb-chunk  (OF-chunk,sn-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses
+27 - ~vb-chunk_~vb-chunk_$$_*_vb-chunk  (OF-chunk,n-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses
+27 - ~vb-chunk_~vb-chunk_~vb-chunk_$$_*_vb-chunk  (OF-chunk,sn-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses
+27 - ~vb-chunk_~vb-chunk_~vb-chunk_$$_*_vb-chunk  (OF-chunk,n-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses 
+27 -  $$_sn-chunk (OF-chunk,sn-chunk) top_left RELABEL sp-chunk:- % preposed or postposed PP before a NP
+27 -  $$_n-chunk (OF-chunk,sn-chunk) top_left RELABEL sp-chunk:- % preposed or postposed PP before a NP
+27 -  $$_sn-chunk (OF-chunk,n-chunk) top_left RELABEL sp-chunk:- % preposed or postposed PP before a NP
+27 -  $$_n-chunk (OF-chunk,n-chunk) top_left RELABEL sp-chunk:- % preposed or postposed PP before a NP
+%29 - - (OF-chunk,sn-chunk) top_left RELABEL sp-chunk:- % (since (last year)) % DEFAULT RULES
+%29 - - (OF-chunk,n-chunk) top_left RELABEL sp-chunk:- % (since (tomorrow)) % DEFAULT RULES
+
+13  -  -  (sp-chunk,sp-chunk<of>)   last_left MATCHING sn-chunk % PP attachment to noun
+13  -  -  (sp-chunk,sp-chunk<of>)   last_left MATCHING n-chunk % PP attachment to noun
+22  -  -  (sp-chunk,sp-chunk<of>)   last_left MATCHING sn-chunk % PP attachment to noun
+22  -  -  (sp-chunk,sp-chunk<of>)   last_left MATCHING n-chunk % PP attachment to noun
 
 % 'To' PP %
-22 - - (TO-chunk,sn-chunk) top_left RELABEL sp-chunk:- % (to (the girl))
-22 - - (TO-chunk,n-chunk) top_left RELABEL sp-chunk:- % (to (girl))
+28 - !$$_*_vb-chunk (TO-chunk,sn-chunk) top_left RELABEL sp-chunk:- % postposed PP
+28 - !$$_*_vb-chunk (TO-chunk,n-chunk) top_left RELABEL sp-chunk:- % postposed PP
+26 - vb-chunk_*_prt-sub_$$  (TO-chunk,sn-chunk)  top_left RELABEL sp-chunk:- % postposed PP before clauses
+26 - vb-chunk_*_prt-sub_$$  (TO-chunk,n-chunk)  top_left RELABEL sp-chunk:- % postposed PP before clauses
+27 - OUT_$$_*_vb-chunk  (TO-chunk,sn-chunk)  top_left RELABEL sp-chunk:- % preposed PP
+27 - OUT_$$_*_vb-chunk  (TO-chunk,n-chunk)  top_left RELABEL sp-chunk:- % preposed PP
+27 - ~vb-chunk_$$_*_vb-chunk  (TO-chunk,sn-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses
+27 - ~vb-chunk_$$_*_vb-chunk  (TO-chunk,n-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses
+27 - ~vb-chunk_~vb-chunk_$$_*_vb-chunk  (TO-chunk,sn-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses
+27 - ~vb-chunk_~vb-chunk_$$_*_vb-chunk  (TO-chunk,n-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses
+27 - ~vb-chunk_~vb-chunk_~vb-chunk_$$_*_vb-chunk  (TO-chunk,sn-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses
+27 - ~vb-chunk_~vb-chunk_~vb-chunk_$$_*_vb-chunk  (TO-chunk,n-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses 
+27 -  $$_sn-chunk (TO-chunk,sn-chunk) top_left RELABEL sp-chunk:- % preposed or postposed PP before a NP
+27 -  $$_n-chunk (TO-chunk,sn-chunk) top_left RELABEL sp-chunk:- % preposed or postposed PP before a NP
+27 -  $$_sn-chunk (TO-chunk,n-chunk) top_left RELABEL sp-chunk:- % preposed or postposed PP before a NP
+27 -  $$_n-chunk (TO-chunk,n-chunk) top_left RELABEL sp-chunk:- % preposed or postposed PP before a NP
+%29 - - (TO-chunk,sn-chunk) top_left RELABEL sp-chunk:- % (since (last year)) % DEFAULT RULES
+%29 - - (TO-chunk,n-chunk) top_left RELABEL sp-chunk:- % (since (tomorrow)) % DEFAULT RULES
 
 % 'Prt-sp' PP (s. /chunker/nexes.preposicionals) %
-28 - - (prt-sp,sn-chunk) top_left RELABEL sp-chunk:- % (during (the week))
-28 - - (prt-sp,n-chunk) top_left RELABEL sp-chunk:- % (during (week))
+28 - !$$_*_vb-chunk (prt-sp,sn-chunk) top_left RELABEL sp-chunk:- % postposed PP
+28 - !$$_*_vb-chunk (prt-sp,n-chunk) top_left RELABEL sp-chunk:- % postposed PP
+26 - vb-chunk_*_prt-sub_$$  (prt-sp,sn-chunk)  top_left RELABEL sp-chunk:- % postposed PP before clauses
+26 - vb-chunk_*_prt-sub_$$  (prt-sp,n-chunk)  top_left RELABEL sp-chunk:- % postposed PP before clauses
+27 - OUT_$$_*_vb-chunk  (prt-sp,sn-chunk)  top_left RELABEL sp-chunk:- % preposed PP
+27 - OUT_$$_*_vb-chunk  (prt-sp,n-chunk)  top_left RELABEL sp-chunk:- % preposed PP
+27 - ~vb-chunk_$$_*_vb-chunk  (prt-sp,sn-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses
+27 - ~vb-chunk_$$_*_vb-chunk  (prt-sp,n-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses
+27 - ~vb-chunk_~vb-chunk_$$_*_vb-chunk  (prt-sp,sn-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses
+27 - ~vb-chunk_~vb-chunk_$$_*_vb-chunk  (prt-sp,n-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses
+27 - ~vb-chunk_~vb-chunk_~vb-chunk_$$_*_vb-chunk  (prt-sp,sn-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses
+27 - ~vb-chunk_~vb-chunk_~vb-chunk_$$_*_vb-chunk  (prt-sp,n-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses 
+27 -  $$_sn-chunk (prt-sp,sn-chunk) top_left RELABEL sp-chunk:- % preposed or postposed PP before a NP
+27 -  $$_n-chunk (prt-sp,sn-chunk) top_left RELABEL sp-chunk:- % preposed or postposed PP before a NP
+27 -  $$_sn-chunk (prt-sp,n-chunk) top_left RELABEL sp-chunk:- % preposed or postposed PP before a NP
+27 -  $$_n-chunk (prt-sp,n-chunk) top_left RELABEL sp-chunk:- % preposed or postposed PP before a NP
+%29 - - (prt-sp,sn-chunk) top_left RELABEL sp-chunk:- % (since (last year)) % DEFAULT RULES
+%29 - - (prt-sp,n-chunk) top_left RELABEL sp-chunk:- % (since (tomorrow)) % DEFAULT RULES
+
 
 % 'Prt-mix' PP (s. /chunker/nexes.mixtos) %
-28 - - (prt-mix,sn-chunk) top_left RELABEL sp-chunk:- % (before (the class))
-28 - - (prt-mix,n-chunk) top_left RELABEL sp-chunk:- % (before (class))
+28 - !$$_*_vb-chunk (prt-mix,sn-chunk) top_left RELABEL sp-chunk:- % postposed PP
+28 - !$$_*_vb-chunk (prt-mix,n-chunk) top_left RELABEL sp-chunk:- % postposed PP
+26 - vb-chunk_*_prt-sub_$$  (prt-mix,sn-chunk)  top_left RELABEL sp-chunk:- % postposed PP before clauses
+26 - vb-chunk_*_prt-sub_$$  (prt-mix,n-chunk)  top_left RELABEL sp-chunk:- % postposed PP before clauses
+27 - OUT_$$_*_vb-chunk  (prt-mix,sn-chunk)  top_left RELABEL sp-chunk:- % preposed PP
+27 - OUT_$$_*_vb-chunk  (prt-mix,n-chunk)  top_left RELABEL sp-chunk:- % preposed PP
+27 - ~vb-chunk_$$_*_vb-chunk  (prt-mix,sn-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses
+27 - ~vb-chunk_$$_*_vb-chunk  (prt-mix,n-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses
+27 - ~vb-chunk_~vb-chunk_$$_*_vb-chunk  (prt-mix,sn-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses
+27 - ~vb-chunk_~vb-chunk_$$_*_vb-chunk  (prt-mix,n-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses
+27 - ~vb-chunk_~vb-chunk_~vb-chunk_$$_*_vb-chunk  (prt-mix,sn-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses
+27 - ~vb-chunk_~vb-chunk_~vb-chunk_$$_*_vb-chunk  (prt-mix,n-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses 
+27 -  $$_sn-chunk (prt-mix,sn-chunk) top_left RELABEL sp-chunk:- % preposed or postposed PP before a NP
+27 -  $$_n-chunk (prt-mix,sn-chunk) top_left RELABEL sp-chunk:- % preposed or postposed PP before a NP
+27 -  $$_sn-chunk (prt-mix,n-chunk) top_left RELABEL sp-chunk:- % preposed or postposed PP before a NP
+27 -  $$_n-chunk (prt-mix,n-chunk) top_left RELABEL sp-chunk:- % preposed or postposed PP before a NP
+%29 - - (prt-mix,sn-chunk) top_left RELABEL sp-chunk:- % (since (last year)) % DEFAULT RULES
+%29 - - (prt-mix,n-chunk) top_left RELABEL sp-chunk:- % (since (tomorrow)) % DEFAULT RULES
 
 % 'Prt-sub' PP (s. /chunker/nexes.subordinants) %
-28 - - (prt-sub,sn-chunk) top_left RELABEL sp-chunk:- % (since (last year))
-28 - - (prt-sub,n-chunk) top_left RELABEL sp-chunk:- % (since (tomorrow))
+28 - !$$_*_vb-chunk (prt-sub,sn-chunk) top_left RELABEL sp-chunk:- % postposed PP
+28 - !$$_*_vb-chunk (prt-sub,n-chunk) top_left RELABEL sp-chunk:- % postposed PP
+26 - vb-chunk_*_prt-sub_$$  (prt-sub,sn-chunk)  top_left RELABEL sp-chunk:- % postposed PP before clauses
+26 - vb-chunk_*_prt-sub_$$  (prt-sub,n-chunk)  top_left RELABEL sp-chunk:- % postposed PP before clauses
+27 - OUT_$$_*_vb-chunk  (prt-sub,sn-chunk)  top_left RELABEL sp-chunk:- % preposed PP
+27 - OUT_$$_*_vb-chunk  (prt-sub,n-chunk)  top_left RELABEL sp-chunk:- % preposed PP
+27 - ~vb-chunk_$$_*_vb-chunk  (prt-sub,sn-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses
+27 - ~vb-chunk_$$_*_vb-chunk  (prt-sub,n-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses
+27 - ~vb-chunk_~vb-chunk_$$_*_vb-chunk  (prt-sub,sn-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses
+27 - ~vb-chunk_~vb-chunk_$$_*_vb-chunk  (prt-sub,n-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses
+27 - ~vb-chunk_~vb-chunk_~vb-chunk_$$_*_vb-chunk  (prt-sub,sn-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses
+27 - ~vb-chunk_~vb-chunk_~vb-chunk_$$_*_vb-chunk  (prt-sub,n-chunk)  top_left RELABEL sp-chunk:- % preposed PP inside clauses 
+27 -  $$_sn-chunk (prt-sub,sn-chunk) top_left RELABEL sp-chunk:- % preposed or postposed PP before a NP
+27 -  $$_n-chunk (prt-sub,sn-chunk) top_left RELABEL sp-chunk:- % preposed or postposed PP before a NP
+27 -  $$_sn-chunk (prt-sub,n-chunk) top_left RELABEL sp-chunk:- % preposed or postposed PP before a NP
+27 -  $$_n-chunk (prt-sub,n-chunk) top_left RELABEL sp-chunk:- % preposed or postposed PP before a NP
+%29 - - (prt-sub,sn-chunk) top_left RELABEL sp-chunk:- % (since (last year)) % DEFAULT RULES
+%29 - - (prt-sub,n-chunk) top_left RELABEL sp-chunk:- % (since (tomorrow)) % DEFAULT RULES
 
 
 %:::: PP <-- VP ::::%
-%!!!Desenvolupar despres de les regles de subordinades!!!
-% Partitive PP %
-% 'To' PP %
-% 'Prt-sp' PP %
-% 'Prt-mix' %
-% 'Prt-sub' PP %
 
-%22 - - (IN,vb-chunk) top_left RELABEL sp-chunk:- % (about (going home))
-%22 - - (IN,vb-be) top_left RELABEL sp-chunk:- % (of (being slashed))
+% Infinitive clause with 'to' %
+57 - - (TO-chunk,sv{VB$}) top_left RELABEL sp-chunk:- % (to (climb the tree))
+81 - - (TO-chunk,vb-chunk{VB}) top_left RELABEL sp-chunk:sv % (to (talk))
+81 - - (TO-chunk,vb-be{VB$}) top_left RELABEL sp-chunk:sv
+81 - - (TO-chunk,vb-do{VB$}) top_left RELABEL sp-chunk:sv
+81 - - (TO-chunk,vb-have{VB$}) top_left RELABEL sp-chunk:sv
+
+% Gerund clause & verbal complements/adjuncts with preposition %
+% Particles that can be a conjunction are treated with conjunction rules.
+
+51 - - (OF-chunk,sv) top_left RELABEL sp-chunk:-
+51 - - (TO-chunk,sv) top_left RELABEL sp-chunk:-
+51 - - (prt-sp,sv) top_left RELABEL sp-chunk:-
+51 - - (prt-mix,sv) top_left RELABEL sp-chunk:-
+51 - - (prt-sub,sv) top_left RELABEL sp-chunk:-
+51 - - (OF-chunk,vb-chunk{VBG}) top_left RELABEL sp-chunk:sv
+51 - - (TO-chunk,vb-chunk{VBG}) top_left RELABEL sp-chunk:sv
+79 - - (prt-sp,vb-chunk{VBG}) top_left RELABEL sp-chunk:sv
+51 - - (prt-mix,sv{VBG}) top_left RELABEL sp-chunk:sv
+51 - - (prt-sub,sv{VBG}) top_left RELABEL sp-chunk:sv
 
 
 %:::::::::::::::::::::::::::::::::::::::::%
@@ -392,7 +491,7 @@
 70 - $$_sn-coor (sn-coor,vb-do) top_right RELABEL -:vb-chunk
 
 
-%:::: NP --> VP followed by PP or clause with 'PRT' ::::%
+%:::: NP --> VP followed by PP or 'PRT' ::::%
 
 % Base form %
 70  -  $$_sp-chunk  (sn-chunk,vb-chunk)   top_right RELABEL - % ((the girl) looks) at the book
@@ -446,6 +545,14 @@
 70 - $$_TO-chunk (sn-coor,vb-do) top_right RELABEL -:vb-chunk
 70 - $$_prt-sp (sn-coor,vb-do) top_right RELABEL -:vb-chunk
 70 - $$_sp-coor (sn-coor,vb-do) top_right RELABEL -:vb-chunk
+
+
+%:::: NP --> VP preceded by 'PRT' ::::%
+% Preposed sn attachment to verb inside clause forms a previous clause node (sv-cl) which
+% will be used to distinguish finite and nonfinite clauses with 'prt-*'.
+%
+% All conjunction particles are possible in this context except OF-CHUNK & TO-CHUNK particles
+% because they can't form finite clauses.
 
 
 %:::: NP --> VP followed by adjective ::::%
@@ -768,9 +875,30 @@
 75  -  $$_adv-coor  (vb-chunk,sn-coor)   top_left RELABEL - % (make (the dinner and the lunck)) fast and bad
 
 %:::: VP <-- NP default rules ::::%
+20 - OF-chunk_$$_~vb-chunk (vb-chunk,sn-chunk) top_left RELABEL sv:- % (told me (the tale)) % PROVA: sn postverbal dins subordinada
+20 - TO-chunk_$$_~vb-chunk (vb-chunk,sn-chunk) top_left RELABEL sv:- % (told me (the tale)) % PROVA: sn postverbal dins subordinada
+20 - prt-sp_$$_~vb-chunk (vb-chunk,sn-chunk) top_left RELABEL sv:- % (told me (the tale)) % PROVA: sn postverbal dins subordinada
+20 - prt-mix_$$_~vb-chunk (vb-chunk,sn-chunk) top_left RELABEL sv:- % (told me (the tale)) % PROVA: sn postverbal dins subordinada
+20 - prt-sub_$$_~vb-chunk (vb-chunk,sn-chunk) top_left RELABEL sv:- % (told me (the tale)) % PROVA: sn postverbal dins subordinada
 78 - - (vb-chunk,sn-chunk) top_left RELABEL sv:- % (told me (the tale))
 78 - - (vb-chunk,n-chunk) top_left RELABEL sv:- % (told me (tales))
 78 - - (vb-chunk,sn-coor) top_left RELABEL sv:- % (told me (tales))
+
+
+%:::::::::::::::::::::::::::::::::::::::::%
+%               PREPOSED PP               %
+%:::::::::::::::::::::::::::::::::::::::::%
+
+% This dependency relation is made before those relative clauses without relative pronoun
+% that are linked to a noun phrase whose head is a prepositional phrase.
+
+% PP before verb at subordinate clause domain %
+49 -  prt-sub_$$  (sp-chunk,sv)  top_right RELABEL -
+49 -  prt-mix_$$  (sp-chunk,sv)  top_right RELABEL -
+49 -  OUT_$$  (sp-chunk,sv) top_right RELABEL -
+
+% PP before verb at main clause domain %
+49 -  OUT_$$  (sp-chunk,sv)  top_right RELABEL -
 
 
 %:::::::::::::::::::::::::::::::::::::::::%
@@ -842,6 +970,12 @@
 75  -  $$_adv  (vb-chunk,sp-coor)   top_left RELABEL - % don't (argue (with me and with them)) always
 75  -  $$_adv-coor  (vb-chunk,sp-coor)   top_left RELABEL - % don't (argue (with me and with them)) always and ever
 
+
+%:::: VP <-- PP when they are part of a preposed clause ::::%
+49 - OUT_TO-chunk_$$_sv (vb-chunk,sp-chunk{IN}) top_left RELABEL sv:-
+49 - OUT_prt-sp_$$_sv (vb-chunk,sp-chunk{IN}) top_left RELABEL sv:-
+49 - OUT_prt-mix_$$_sv (vb-chunk,sp-chunk{IN}) top_left RELABEL sv:-
+49 - OUT_prt-sub_$$_sv (vb-chunk,sp-chunk{IN}) top_left RELABEL sv:-
 
 %:::: VP <-- PP default rules ::::%
 78 - - (vb-chunk,sp-chunk{TO}) top_left RELABEL sv:- % (sing (to us))
@@ -963,7 +1097,8 @@
 
 
 %:::: VP <-- CLAUSE default rule ::::%
-78 - - (vb-chunk,sv) top_left RELABEL sv:-
+78 - !prt-sp_$$ (vb-chunk,sv) top_left RELABEL sv:-
+%78 - - (vb-chunk,sv) top_left RELABEL sv:-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1514,6 +1649,47 @@
 %:::::::::::::::::::::::::::::::::::::::::%
 
 
+% Base form %
+26  -  prt-sp_$$  (sn-chunk,vb-chunk)   top_right RELABEL -:-
+26  -  prt-mix_$$  (sn-chunk,vb-chunk)   top_right RELABEL -:-
+26  -  prt-sub_$$  (sn-chunk,vb-chunk)   top_right RELABEL -:-
+26  -  prt-sp_$$  (n-chunk,vb-chunk)   top_right RELABEL -:-
+26  -  prt-mix_$$  (n-chunk,vb-chunk)   top_right RELABEL -:-
+26  -  prt-sub_$$  (n-chunk,vb-chunk)   top_right RELABEL -:-
+26  -  prt-sp_$$  (sn-coor,vb-chunk)   top_right RELABEL -:-
+26  -  prt-mix_$$  (sn-coor,vb-chunk)   top_right RELABEL -:-
+26  -  prt-sub_$$  (sn-coor,vb-chunk)   top_right RELABEL -:-
+% Auxiliar 'BE' %
+26  -  prt-sp_$$  (sn-chunk,vb-be)   top_right RELABEL -:vb-chunk
+26  -  prt-mix_$$  (sn-chunk,vb-be)   top_right RELABEL -:vb-chunk
+26  -  prt-sub_$$  (sn-chunk,vb-be)   top_right RELABEL -:vb-chunk
+26  -  prt-sp_$$  (n-chunk,vb-be)   top_right RELABEL -:vb-chunk
+26  -  prt-mix_$$  (n-chunk,vb-be)   top_right RELABEL -:vb-chunk
+26  -  prt-sub_$$  (n-chunk,vb-be)   top_right RELABEL -:vb-chunk
+26  -  prt-sp_$$  (sn-coor,vb-be)   top_right RELABEL -:vb-chunk
+26  -  prt-mix_$$  (sn-coor,vb-be)   top_right RELABEL -:vb-chunk
+26  -  prt-sub_$$  (sn-coor,vb-be)   top_right RELABEL -:vb-chunk
+% Auxiliar 'HAVE' %
+26  -  prt-sp_$$  (sn-chunk,vb-have)   top_right RELABEL -:vb-chunk
+26  -  prt-mix_$$  (sn-chunk,vb-have)   top_right RELABEL -:vb-chunk
+26  -  prt-sub_$$  (sn-chunk,vb-have)   top_right RELABEL -:vb-chunk
+26  -  prt-sp_$$  (n-chunk,vb-have)   top_right RELABEL -:vb-chunk
+26  -  prt-mix_$$  (n-chunk,vb-have)   top_right RELABEL -:vb-chunk
+26  -  prt-sub_$$  (n-chunk,vb-have)   top_right RELABEL -:vb-chunk
+26  -  prt-sp_$$  (sn-coor,vb-have)   top_right RELABEL -:vb-chunk
+26  -  prt-mix_$$  (sn-coor,vb-have)   top_right RELABEL -:vb-chunk
+26  -  prt-sub_$$  (sn-coor,vb-have)   top_right RELABEL -:vb-chunk
+% Auxiliar 'DO' %
+26  -  prt-sp_$$  (sn-chunk,vb-do)   top_right RELABEL -:vb-chunk
+26  -  prt-mix_$$  (sn-chunk,vb-do)   top_right RELABEL -:vb-chunk
+26  -  prt-sub_$$  (sn-chunk,vb-do)   top_right RELABEL -:vb-chunk
+26  -  prt-sp_$$  (n-chunk,vb-do)   top_right RELABEL -:vb-chunk
+26  -  prt-mix_$$  (n-chunk,vb-do)   top_right RELABEL -:vb-chunk
+26  -  prt-sub_$$  (n-chunk,vb-do)   top_right RELABEL -:vb-chunk
+26  -  prt-sp_$$  (sn-coor,vb-do)   top_right RELABEL -:vb-chunk
+26  -  prt-mix_$$  (sn-coor,vb-do)   top_right RELABEL -:vb-chunk
+26  -  prt-sub_$$  (sn-coor,vb-do)   top_right RELABEL -:vb-chunk
+
 %:::: NP --> VP transitive finite 'PRT-MIX' clauses ::::%
 
 % Base form %
@@ -1677,41 +1853,41 @@
 %:::: Relative pronoun <-- VP ::::%
 
 % Base form %
-19 - sn-chunk_$$_vb-chunk (wh-pro,vb-chunk) top_left RELABEL rel-cl:- % the man (who (laughs)) looks at you
-19 - n-chunk_$$_vb-chunk (wh-pro,vb-chunk) top_left RELABEL rel-cl:- % men (who (laugh)) looks at you
-19 - sn-chunk_$$_vb-be (wh-pro,vb-chunk) top_left RELABEL rel-cl:- % the man (who (laughs)) is his uncle
-19 - n-chunk_$$_vb-be (wh-pro,vb-chunk) top_left RELABEL rel-cl:- % men (who (laugh)) are his uncles
-19 - sn-chunk_$$_vb-have (wh-pro,vb-chunk) top_left RELABEL rel-cl:- % the man (who (laughs)) has three nieces
-19 - n-chunk_$$_vb-have (wh-pro,vb-chunk) top_left RELABEL rel-cl:- % men (who (laugh)) have three nieces
-19 - sn-chunk_$$_vb-do (wh-pro,vb-chunk) top_left RELABEL rel-cl:- % the man (who (laughs)) did the work
-19 - n-chunk_$$_vb-do (wh-pro,vb-chunk) top_left RELABEL rel-cl:- % men (who (laugh)) did the work
+19 - sn-chunk_$$_vb-chunk (wh-pro,vb-chunk) top_left RELABEL rel-cl:sv % the man (who (laughs)) looks at you
+19 - n-chunk_$$_vb-chunk (wh-pro,vb-chunk) top_left RELABEL rel-cl:sv % men (who (laugh)) looks at you
+19 - sn-chunk_$$_vb-be (wh-pro,vb-chunk) top_left RELABEL rel-cl:sv % the man (who (laughs)) is his uncle
+19 - n-chunk_$$_vb-be (wh-pro,vb-chunk) top_left RELABEL rel-cl:sv % men (who (laugh)) are his uncles
+19 - sn-chunk_$$_vb-have (wh-pro,vb-chunk) top_left RELABEL rel-cl:sv % the man (who (laughs)) has three nieces
+19 - n-chunk_$$_vb-have (wh-pro,vb-chunk) top_left RELABEL rel-cl:sv % men (who (laugh)) have three nieces
+19 - sn-chunk_$$_vb-do (wh-pro,vb-chunk) top_left RELABEL rel-cl:sv % the man (who (laughs)) did the work
+19 - n-chunk_$$_vb-do (wh-pro,vb-chunk) top_left RELABEL rel-cl:sv % men (who (laugh)) did the work
 % Auxiliar 'BE' %
-19 - sn-chunk_$$_vb-chunk (wh-pro,vb-be) top_left RELABEL rel-cl:-
-19 - n-chunk_$$_vb-chunk (wh-pro,vb-be) top_left RELABEL rel-cl:-
-19 - sn-chunk_$$_vb-be (wh-pro,vb-be) top_left RELABEL rel-cl:-
-19 - n-chunk_$$_vb-be (wh-pro,vb-be) top_left RELABEL rel-cl:-
-19 - sn-chunk_$$_vb-have (wh-pro,vb-be) top_left RELABEL rel-cl:-
-19 - n-chunk_$$_vb-have (wh-pro,vb-be) top_left RELABEL rel-cl:-
-19 - sn-chunk_$$_vb-do (wh-pro,vb-be) top_left RELABEL rel-cl:-
-19 - n-chunk_$$_vb-do (wh-pro,vb-be) top_left RELABEL rel-cl:-
+19 - sn-chunk_$$_vb-chunk (wh-pro,vb-be) top_left RELABEL rel-cl:sv
+19 - n-chunk_$$_vb-chunk (wh-pro,vb-be) top_left RELABEL rel-cl:sv
+19 - sn-chunk_$$_vb-be (wh-pro,vb-be) top_left RELABEL rel-cl:sv
+19 - n-chunk_$$_vb-be (wh-pro,vb-be) top_left RELABEL rel-cl:sv
+19 - sn-chunk_$$_vb-have (wh-pro,vb-be) top_left RELABEL rel-cl:sv
+19 - n-chunk_$$_vb-have (wh-pro,vb-be) top_left RELABEL rel-cl:sv
+19 - sn-chunk_$$_vb-do (wh-pro,vb-be) top_left RELABEL rel-cl:sv
+19 - n-chunk_$$_vb-do (wh-pro,vb-be) top_left RELABEL rel-cl:sv
 % Auxiliar 'HAVE' %
-19 - sn-chunk_$$_vb-chunk (wh-pro,vb-have) top_left RELABEL rel-cl:-
-19 - n-chunk_$$_vb-chunk (wh-pro,vb-have) top_left RELABEL rel-cl:-
-19 - sn-chunk_$$_vb-be (wh-pro,vb-have) top_left RELABEL rel-cl:-
-19 - n-chunk_$$_vb-be (wh-pro,vb-have) top_left RELABEL rel-cl:-
-19 - sn-chunk_$$_vb-have (wh-pro,vb-have) top_left RELABEL rel-cl:-
-19 - n-chunk_$$_vb-have (wh-pro,vb-have) top_left RELABEL rel-cl:-
-19 - sn-chunk_$$_vb-do (wh-pro,vb-have) top_left RELABEL rel-cl:-
-19 - n-chunk_$$_vb-do (wh-pro,vb-have) top_left RELABEL rel-cl:-
+19 - sn-chunk_$$_vb-chunk (wh-pro,vb-have) top_left RELABEL rel-cl:sv
+19 - n-chunk_$$_vb-chunk (wh-pro,vb-have) top_left RELABEL rel-cl:sv
+19 - sn-chunk_$$_vb-be (wh-pro,vb-have) top_left RELABEL rel-cl:sv
+19 - n-chunk_$$_vb-be (wh-pro,vb-have) top_left RELABEL rel-cl:sv
+19 - sn-chunk_$$_vb-have (wh-pro,vb-have) top_left RELABEL rel-cl:sv
+19 - n-chunk_$$_vb-have (wh-pro,vb-have) top_left RELABEL rel-cl:sv
+19 - sn-chunk_$$_vb-do (wh-pro,vb-have) top_left RELABEL rel-cl:sv
+19 - n-chunk_$$_vb-do (wh-pro,vb-have) top_left RELABEL rel-cl:sv
 % Auxiliar 'DO' %
-19 - sn-chunk_$$_vb-chunk (wh-pro,vb-do) top_left RELABEL rel-cl:-
-19 - n-chunk_$$_vb-chunk (wh-pro,vb-do) top_left RELABEL rel-cl:-
-19 - sn-chunk_$$_vb-be (wh-pro,vb-do) top_left RELABEL rel-cl:-
-19 - n-chunk_$$_vb-be (wh-pro,vb-do) top_left RELABEL rel-cl:-
-19 - sn-chunk_$$_vb-have (wh-pro,vb-do) top_left RELABEL rel-cl:-
-19 - n-chunk_$$_vb-have (wh-pro,vb-do) top_left RELABEL rel-cl:-
-19 - sn-chunk_$$_vb-do (wh-pro,vb-do) top_left RELABEL rel-cl:-
-19 - n-chunk_$$_vb-do (wh-pro,vb-do) top_left RELABEL rel-cl:-
+19 - sn-chunk_$$_vb-chunk (wh-pro,vb-do) top_left RELABEL rel-cl:sv
+19 - n-chunk_$$_vb-chunk (wh-pro,vb-do) top_left RELABEL rel-cl:sv
+19 - sn-chunk_$$_vb-be (wh-pro,vb-do) top_left RELABEL rel-cl:sv
+19 - n-chunk_$$_vb-be (wh-pro,vb-do) top_left RELABEL rel-cl:sv
+19 - sn-chunk_$$_vb-have (wh-pro,vb-do) top_left RELABEL rel-cl:sv
+19 - n-chunk_$$_vb-have (wh-pro,vb-do) top_left RELABEL rel-cl:sv
+19 - sn-chunk_$$_vb-do (wh-pro,vb-do) top_left RELABEL rel-cl:sv
+19 - n-chunk_$$_vb-do (wh-pro,vb-do) top_left RELABEL rel-cl:sv
 
 % Default rules %
 20 - - (prt-sp,rel) top_right RELABEL -:rel-cl
@@ -1728,105 +1904,151 @@
 
 % Subordinate clauses with postosed arguments and/or adjuncts (transitive main sentence) %
 95 - vb-chunk_$$_*_st-brk (conj,sv) top_left RELABEL sub-cl:-
-95 - vb-chunk_$$_*_st-brk (conj,vb-chunk) top_left RELABEL sub-cl:-
+95 - vb-chunk_$$_*_st-brk (conj,vb-chunk) top_left RELABEL sub-cl:sv
 95 - vb-chunk_$$_*_st-brk (conj,clause) top_left RELABEL sub-cl:-
 95 - sv_$$_*_st-brk (conj,sv) top_left RELABEL sub-cl:-
-95 - sv_$$_*_st-brk (conj,vb-chunk) top_left RELABEL sub-cl:-
+95 - sv_$$_*_st-brk (conj,vb-chunk) top_left RELABEL sub-cl:sv
 95 - sv_$$_*_st-brk (conj,clause) top_left RELABEL sub-cl:-
 
 % Subordinate clauses without postosed arguments and/or adjuncts (transitive main sentence) %
 95 - vb-chunk_$$_st-brk (conj,sv) top_left RELABEL sub-cl:-
-95 - vb-chunk_$$_st-brk (conj,vb-chunk) top_left RELABEL sub-cl:-
+95 - vb-chunk_$$_st-brk (conj,vb-chunk) top_left RELABEL sub-cl:sv
 95 - vb-chunk_$$_st-brk (conj,clause) top_left RELABEL sub-cl:-
 95 - sv_$$_st-brk (conj,sv) top_left RELABEL sub-cl:-
-95 - sv_$$_st-brk (conj,vb-chunk) top_left RELABEL sub-cl:-
+95 - sv_$$_st-brk (conj,vb-chunk) top_left RELABEL sub-cl:sv
 95 - sv_$$_st-brk (conj,clause) top_left RELABEL sub-cl:-
 
 % Subordinate clauses with postosed arguments and/or adjuncts (ditransitive main sentence) %
 95 - vb-chunk_*_$$_*_st-brk (conj,sv) top_left RELABEL sub-cl:-
-95 - vb-chunk_*_$$_*_st-brk (conj,vb-chunk) top_left RELABEL sub-cl:-
+95 - vb-chunk_*_$$_*_st-brk (conj,vb-chunk) top_left RELABEL sub-cl:sv
 95 - vb-chunk_*_$$_*_st-brk (conj,clause) top_left RELABEL sub-cl:-
 95 - sv_*_$$_*_st-brk (conj,sv) top_left RELABEL sub-cl:-
-95 - sv_*_$$_*_st-brk (conj,vb-chunk) top_left RELABEL sub-cl:-
+95 - sv_*_$$_*_st-brk (conj,vb-chunk) top_left RELABEL sub-cl:sv
 95 - sv_*_$$_*_st-brk (conj,clause) top_left RELABEL sub-cl:-
 
 % Subordinate clauses without postosed arguments and/or adjuncts (ditransitive main sentence) %
 95 - vb-chunk_*_$$_st-brk (conj,sv) top_left RELABEL sub-cl:-
-95 - vb-chunk_*_$$_st-brk (conj,vb-chunk) top_left RELABEL sub-cl:-
+95 - vb-chunk_*_$$_st-brk (conj,vb-chunk) top_left RELABEL sub-cl:sv
 95 - vb-chunk_*_$$_st-brk (conj,clause) top_left RELABEL sub-cl:-
 95 - sv_*_$$_st-brk (conj,sv) top_left RELABEL sub-cl:-
-95 - sv_*_$$_st-brk (conj,vb-chunk) top_left RELABEL sub-cl:-
+95 - sv_*_$$_st-brk (conj,vb-chunk) top_left RELABEL sub-cl:sv
 95 - sv_*_$$_st-brk (conj,clause) top_left RELABEL sub-cl:-
+
+
+%:::: PREPOSED 'PRT-SP' CHUNK CLAUSES ::::%
+
+% Subordinate clauses with intransitive verbs %
+27 - OUT_$$_sv (prt-sp,vb-chunk) top_left RELABEL sp-chunk:sv
+27 - OUT_$$_sv (prt-mix,vb-chunk) top_left RELABEL sp-chunk:sv
+27 - OUT_$$_sv (prt-sub,vb-chunk) top_left RELABEL sp-chunk:sv
+
+% Subordinate clauses with transitive verbs %
+% They are resolved by NP postposed default rules.
+
+
+%:::: POSTPOSED 'PRT-SP' CHUNK CLAUSES ::::%
+
+% Subordinate clauses with postosed arguments and/or adjuncts (transitive main sentence) %
+27 - vb-chunk_$$_*_st-brk (prt-sp,sv) top_left RELABEL sp-chunk:-
+27 - vb-chunk_$$_*_st-brk (prt-sp,vb-chunk) top_left RELABEL sp-chunk:sv
+27 - vb-chunk_$$_*_st-brk (prt-sp,clause) top_left RELABEL sp-chunk:-
+27 - sv_$$_*_st-brk (prt-sp,sv) top_left RELABEL sp-chunk:-
+27 - sv_$$_*_st-brk (prt-sp,vb-chunk) top_left RELABEL sp-chunk:sv
+27 - sv_$$_*_st-brk (prt-sp,clause) top_left RELABEL sp-chunk:-
+
+% Subordinate clauses without postosed arguments and/or adjuncts (transitive main sentence) %
+27 - vb-chunk_$$_st-brk (prt-sp,sv) top_left RELABEL sp-chunk:-
+27 - vb-chunk_$$_st-brk (prt-sp,vb-chunk) top_left RELABEL sp-chunk:sv
+27 - vb-chunk_$$_st-brk (prt-sp,clause) top_left RELABEL sp-chunk:-
+27 - sv_$$_st-brk (prt-sp,sv) top_left RELABEL sp-chunk:-
+27 - sv_$$_st-brk (prt-sp,vb-chunk) top_left RELABEL sp-chunk:sv
+27 - sv_$$_st-brk (prt-sp,clause) top_left RELABEL sp-chunk:-
+
+% Subordinate clauses with postosed arguments and/or adjuncts (ditransitive main sentence) %
+27 - vb-chunk_*_$$_*_st-brk (prt-sp,sv) top_left RELABEL sp-chunk:-
+27 - vb-chunk_*_$$_*_st-brk (prt-sp,vb-chunk) top_left RELABEL sp-chunk:sv
+27 - vb-chunk_*_$$_*_st-brk (prt-sp,clause) top_left RELABEL sp-chunk:-
+27 - sv_*_$$_*_st-brk (prt-sp,sv) top_left RELABEL sp-chunk:-
+27 - sv_*_$$_*_st-brk (prt-sp,vb-chunk) top_left RELABEL sp-chunk:sv
+27 - sv_*_$$_*_st-brk (prt-sp,clause) top_left RELABEL sp-chunk:-
+
+% Subordinate clauses without postosed arguments and/or adjuncts (ditransitive main sentence) %
+27 - vb-chunk_*_$$_st-brk (prt-sp,sv) top_left RELABEL sp-chunk:-
+27 - vb-chunk_*_$$_st-brk (prt-sp,vb-chunk) top_left RELABEL sp-chunk:sv
+27 - vb-chunk_*_$$_st-brk (prt-sp,clause) top_left RELABEL sp-chunk:-
+27 - sv_*_$$_st-brk (prt-sp,sv) top_left RELABEL sp-chunk:-
+27 - sv_*_$$_st-brk (prt-sp,vb-chunk) top_left RELABEL sp-chunk:sv
+27 - sv_*_$$_st-brk (prt-sp,clause) top_left RELABEL sp-chunk:-
 
 
 %:::: POSTPOSED 'PRT-MIX' CHUNK CLAUSES ::::%
 
 % Subordinate clauses with postosed arguments and/or adjuncts (transitive main sentence) %
-27 - vb-chunk_$$_*_st-brk (prt-mix,sv) top_left RELABEL sub-cl:-
-27 - vb-chunk_$$_*_st-brk (prt-mix,vb-chunk) top_left RELABEL sub-cl:-
-27 - vb-chunk_$$_*_st-brk (prt-mix,clause) top_left RELABEL sub-cl:-
-27 - sv_$$_*_st-brk (prt-mix,sv) top_left RELABEL sub-cl:-
-27 - sv_$$_*_st-brk (prt-mix,vb-chunk) top_left RELABEL sub-cl:-
-27 - sv_$$_*_st-brk (prt-mix,clause) top_left RELABEL sub-cl:-
+27 - vb-chunk_$$_*_st-brk (prt-mix,sv) top_left RELABEL sp-chunk:-
+27 - vb-chunk_$$_*_st-brk (prt-mix,vb-chunk) top_left RELABEL sp-chunk:sv
+27 - vb-chunk_$$_*_st-brk (prt-mix,clause) top_left RELABEL sp-chunk:-
+27 - sv_$$_*_st-brk (prt-mix,sv) top_left RELABEL sp-chunk:-
+27 - sv_$$_*_st-brk (prt-mix,vb-chunk) top_left RELABEL sp-chunk:sv
+27 - sv_$$_*_st-brk (prt-mix,clause) top_left RELABEL sp-chunk:-
 
 % Subordinate clauses without postosed arguments and/or adjuncts (transitive main sentence) %
-27 - vb-chunk_$$_st-brk (prt-mix,sv) top_left RELABEL sub-cl:-
-27 - vb-chunk_$$_st-brk (prt-mix,vb-chunk) top_left RELABEL sub-cl:-
-27 - vb-chunk_$$_st-brk (prt-mix,clause) top_left RELABEL sub-cl:-
-27 - sv_$$_st-brk (prt-mix,sv) top_left RELABEL sub-cl:-
-27 - sv_$$_st-brk (prt-mix,vb-chunk) top_left RELABEL sub-cl:-
-27 - sv_$$_st-brk (prt-mix,clause) top_left RELABEL sub-cl:-
+27 - vb-chunk_$$_st-brk (prt-mix,sv) top_left RELABEL sp-chunk:-
+27 - vb-chunk_$$_st-brk (prt-mix,vb-chunk) top_left RELABEL sp-chunk:sv
+27 - vb-chunk_$$_st-brk (prt-mix,clause) top_left RELABEL sp-chunk:-
+27 - sv_$$_st-brk (prt-mix,sv) top_left RELABEL sp-chunk:-
+27 - sv_$$_st-brk (prt-mix,vb-chunk) top_left RELABEL sp-chunk:sv
+27 - sv_$$_st-brk (prt-mix,clause) top_left RELABEL sp-chunk:-
 
 % Subordinate clauses with postosed arguments and/or adjuncts (ditransitive main sentence) %
-27 - vb-chunk_*_$$_*_st-brk (prt-mix,sv) top_left RELABEL sub-cl:-
-27 - vb-chunk_*_$$_*_st-brk (prt-mix,vb-chunk) top_left RELABEL sub-cl:-
-27 - vb-chunk_*_$$_*_st-brk (prt-mix,clause) top_left RELABEL sub-cl:-
-27 - sv_*_$$_*_st-brk (prt-mix,sv) top_left RELABEL sub-cl:-
-27 - sv_*_$$_*_st-brk (prt-mix,vb-chunk) top_left RELABEL sub-cl:-
-27 - sv_*_$$_*_st-brk (prt-mix,clause) top_left RELABEL sub-cl:-
+27 - vb-chunk_*_$$_*_st-brk (prt-mix,sv) top_left RELABEL sp-chunk:-
+27 - vb-chunk_*_$$_*_st-brk (prt-mix,vb-chunk) top_left RELABEL sp-chunk:sv
+27 - vb-chunk_*_$$_*_st-brk (prt-mix,clause) top_left RELABEL sp-chunk:-
+27 - sv_*_$$_*_st-brk (prt-mix,sv) top_left RELABEL sp-chunk:-
+27 - sv_*_$$_*_st-brk (prt-mix,vb-chunk) top_left RELABEL sp-chunk:sv
+27 - sv_*_$$_*_st-brk (prt-mix,clause) top_left RELABEL sp-chunk:-
 
 % Subordinate clauses without postosed arguments and/or adjuncts (ditransitive main sentence) %
-27 - vb-chunk_*_$$_st-brk (prt-mix,sv) top_left RELABEL sub-cl:-
-27 - vb-chunk_*_$$_st-brk (prt-mix,vb-chunk) top_left RELABEL sub-cl:-
-27 - vb-chunk_*_$$_st-brk (prt-mix,clause) top_left RELABEL sub-cl:-
-27 - sv_*_$$_st-brk (prt-mix,sv) top_left RELABEL sub-cl:-
-27 - sv_*_$$_st-brk (prt-mix,vb-chunk) top_left RELABEL sub-cl:-
-27 - sv_*_$$_st-brk (prt-mix,clause) top_left RELABEL sub-cl:-
+27 - vb-chunk_*_$$_st-brk (prt-mix,sv) top_left RELABEL sp-chunk:-
+27 - vb-chunk_*_$$_st-brk (prt-mix,vb-chunk) top_left RELABEL sp-chunk:sv
+27 - vb-chunk_*_$$_st-brk (prt-mix,clause) top_left RELABEL sp-chunk:-
+27 - sv_*_$$_st-brk (prt-mix,sv) top_left RELABEL sp-chunk:-
+27 - sv_*_$$_st-brk (prt-mix,vb-chunk) top_left RELABEL sp-chunk:sv
+27 - sv_*_$$_st-brk (prt-mix,clause) top_left RELABEL sp-chunk:-
 
 
 %:::: POSTPOSED 'PRT-SUB' CHUNK CLAUSES ::::%
 
 % Subordinate clauses with postosed arguments and/or adjuncts (transitive main sentence) %
-27 - vb-chunk_$$_*_st-brk (prt-sub,sv) top_left RELABEL sub-cl:-
-27 - vb-chunk_$$_*_st-brk (prt-sub,vb-chunk) top_left RELABEL sub-cl:-
-27 - vb-chunk_$$_*_st-brk (prt-sub,clause) top_left RELABEL sub-cl:-
-27 - sv_$$_*_st-brk (prt-sub,sv) top_left RELABEL sub-cl:-
-27 - sv_$$_*_st-brk (prt-sub,vb-chunk) top_left RELABEL sub-cl:-
-27 - sv_$$_*_st-brk (prt-sub,clause) top_left RELABEL sub-cl:-
+27 - vb-chunk_$$_*_st-brk (prt-sub,sv) top_left RELABEL sp-chunk:-
+27 - vb-chunk_$$_*_st-brk (prt-sub,vb-chunk) top_left RELABEL sp-chunk:sv
+27 - vb-chunk_$$_*_st-brk (prt-sub,clause) top_left RELABEL sp-chunk:-
+27 - sv_$$_*_st-brk (prt-sub,sv) top_left RELABEL sp-chunk:-
+27 - sv_$$_*_st-brk (prt-sub,vb-chunk) top_left RELABEL sp-chunk:sv
+27 - sv_$$_*_st-brk (prt-sub,clause) top_left RELABEL sp-chunk:-
 
 % Subordinate clauses without postosed arguments and/or adjuncts (transitive main sentence) %
-27 - vb-chunk_$$_st-brk (prt-sub,sv) top_left RELABEL sub-cl:-
-27 - vb-chunk_$$_st-brk (prt-sub,vb-chunk) top_left RELABEL sub-cl:-
-27 - vb-chunk_$$_st-brk (prt-sub,clause) top_left RELABEL sub-cl:-
-27 - sv_$$_st-brk (prt-sub,sv) top_left RELABEL sub-cl:-
-27 - sv_$$_st-brk (prt-sub,vb-chunk) top_left RELABEL sub-cl:-
-27 - sv_$$_st-brk (prt-sub,clause) top_left RELABEL sub-cl:-
+27 - vb-chunk_$$_st-brk (prt-sub,sv) top_left RELABEL sp-chunk:-
+27 - vb-chunk_$$_st-brk (prt-sub,vb-chunk) top_left RELABEL sp-chunk:sv
+27 - vb-chunk_$$_st-brk (prt-sub,clause) top_left RELABEL sp-chunk:-
+27 - sv_$$_st-brk (prt-sub,sv) top_left RELABEL sp-chunk:-
+27 - sv_$$_st-brk (prt-sub,vb-chunk) top_left RELABEL sp-chunk:sv
+27 - sv_$$_st-brk (prt-sub,clause) top_left RELABEL sp-chunk:-
 
 % Subordinate clauses with postosed arguments and/or adjuncts (ditransitive main sentence) %
-27 - vb-chunk_*_$$_*_st-brk (prt-sub,sv) top_left RELABEL sub-cl:-
-27 - vb-chunk_*_$$_*_st-brk (prt-sub,vb-chunk) top_left RELABEL sub-cl:-
-27 - vb-chunk_*_$$_*_st-brk (prt-sub,clause) top_left RELABEL sub-cl:-
-27 - sv_*_$$_*_st-brk (prt-sub,sv) top_left RELABEL sub-cl:-
-27 - sv_*_$$_*_st-brk (prt-sub,vb-chunk) top_left RELABEL sub-cl:-
-27 - sv_*_$$_*_st-brk (prt-sub,clause) top_left RELABEL sub-cl:-
+27 - vb-chunk_*_$$_*_st-brk (prt-sub,sv) top_left RELABEL sp-chunk:-
+27 - vb-chunk_*_$$_*_st-brk (prt-sub,vb-chunk) top_left RELABEL sp-chunk:sv
+27 - vb-chunk_*_$$_*_st-brk (prt-sub,clause) top_left RELABEL sp-chunk:-
+27 - sv_*_$$_*_st-brk (prt-sub,sv) top_left RELABEL sp-chunk:-
+27 - sv_*_$$_*_st-brk (prt-sub,vb-chunk) top_left RELABEL sp-chunk:sv
+27 - sv_*_$$_*_st-brk (prt-sub,clause) top_left RELABEL sp-chunk:-
 
 % Subordinate clauses without postosed arguments and/or adjuncts (ditransitive main sentence) %
-27 - vb-chunk_*_$$_st-brk (prt-sub,sv) top_left RELABEL sub-cl:-
-27 - vb-chunk_*_$$_st-brk (prt-sub,vb-chunk) top_left RELABEL sub-cl:-
-27 - vb-chunk_*_$$_st-brk (prt-sub,clause) top_left RELABEL sub-cl:-
-27 - sv_*_$$_st-brk (prt-sub,sv) top_left RELABEL sub-cl:-
-27 - sv_*_$$_st-brk (prt-sub,vb-chunk) top_left RELABEL sub-cl:-
-27 - sv_*_$$_st-brk (prt-sub,clause) top_left RELABEL sub-cl:-
+27 - vb-chunk_*_$$_st-brk (prt-sub,sv) top_left RELABEL sp-chunk:-
+27 - vb-chunk_*_$$_st-brk (prt-sub,vb-chunk) top_left RELABEL sp-chunk:sv
+27 - vb-chunk_*_$$_st-brk (prt-sub,clause) top_left RELABEL sp-chunk:-
+27 - sv_*_$$_st-brk (prt-sub,sv) top_left RELABEL sp-chunk:-
+27 - sv_*_$$_st-brk (prt-sub,vb-chunk) top_left RELABEL sp-chunk:sv
+27 - sv_*_$$_st-brk (prt-sub,clause) top_left RELABEL sp-chunk:-
 
 
 % With conjunction or relative pronoun %
@@ -1934,14 +2156,6 @@
 55 - TO-chunk_$$ (vb-be,adv) top_left RELABEL vb-chunk:-
 
 
-%%% SINTAGMES PREPOSICIONALS AMB TO
-57 - - (TO-chunk,sv{VB$}) top_left RELABEL sp-chunk:- % (to (climb the tree))
-81 - - (TO-chunk,vb-chunk{VB}) top_left RELABEL sp-chunk:- % (to (talk))
-81 - - (TO-chunk,vb-be{VB$}) top_left RELABEL sp-chunk:-
-81 - - (TO-chunk,vb-do{VB$}) top_left RELABEL sp-chunk:-
-81 - - (TO-chunk,vb-have{VB$}) top_left RELABEL sp-chunk:-
-
-
 % Gerund clauses with preposition %
 
 19  -  IN_$$  (vb-chunk{VBG},vb-chunk)   top_left RELABEL - 
@@ -1970,6 +2184,7 @@
 19  -  prt-sub_$$  (vb-chunk{VBG},vb-chunk)   top_left RELABEL -
 
 %%% GERUNDIS NOMINALITZATS 
+%!!! NO REVISAT !!!
 
 20 - $$_st-brk (vb-chunk{VBG},vb-have) top_right RELABEL -:claus
 20 - $$_st-brk (vb-chunk{VBG},vb-do) top_right RELABEL -:claus
@@ -1996,10 +2211,6 @@
 30 - - (vb-have{VBG},vb-do) top_right RELABEL -:vb-chunk
 30 - - (vb-do{VBG},vb-do) top_right RELABEL -:vb-chunk
 
-51 - - (prt-sp,sv{VBG}) top_left RELABEL sp-chunk:-
-79 - - (prt-sp,vb-chunk{VBG}) top_left RELABEL sp-chunk:-
-
-51 - - (TO-chunk,sv{VBG}) top_left RELABEL sp-chunk:-
 25 - prt-sp_$$ (vb-be{VBG},sn-chunk) top_left RELABEL vb-chunk:-
 25 - prt-sp_$$ (vb-be{VBG},n-chunk) top_left RELABEL vb-chunk:-
 25 - prt-sp_$$ (vb-be{VBG},sp-chunk) top_left RELABEL vb-chunk:-
@@ -2217,13 +2428,13 @@
 %                  COMA                   %
 %:::::::::::::::::::::::::::::::::::::::::%
 
-3  -  $$_sv_st-brk (claus,sl-brk)  top_left RELABEL - % (he ate the cake(,))
-3  -  $$_sv (sub-cl,sl-brk)  top_left RELABEL - 
+3  -  $$_sv_st-brk (claus,sf-brk)  top_left RELABEL - % (he ate the cake(,))
+3  -  $$_sv (sub-cl,sf-brk)  top_left RELABEL - 
 30 -  -  (sf-brk,sub-cl{IN}) top_right RELABEL -
-86  -  OUT_$$  (sp-chunk,sl-brk)   top_left RELABEL - 
+86  -  OUT_$$  (sp-chunk,sf-brk)   top_left RELABEL - 
 
-86  -  -  (adv,sl-brk)   top_left RELABEL - 
-85  -  -  (sl-brk,adv)   top_right RELABEL - 
+86  -  -  (adv,sf-brk)   top_left RELABEL - 
+85  -  -  (sf-brk,adv)   top_right RELABEL - 
 
 
 %:::::::::::::::::::::::::::::::::::::::::%
@@ -2344,7 +2555,7 @@
 % Imperative = main sentence without subject because 'claus' = 'vb-chunk' (by adding
 % 'vb-chunk{VB$}', not only 'vb-chunk{VBZ|VBP|VBD}')
 
-%70 - OUT_$$ (vb-chunk{^VB$},st-brk) top_left RELABEL claus:-
+%26 - OUT_$$ (vb-chunk{^VB$},st-brk) top_left RELABEL claus:-
 %67 - OUT_$$ (vb-chunk{^VB$},sn-chunk) top_left RELABEL sv:- % (eat (your soup))
 %67 - OUT_$$ (vb-chunk{^VB$},n-chunk) top_left RELABEL sv:- % (read (books))
 %66 - OUT_$$ (vb-chunk{^VB$},sp-chunk) top_left RELABEL sv:- % (think (about it))
@@ -2622,8 +2833,8 @@
 61  -  $$_vb-be  (adv,sp-chunk)   top_left RELABEL - 
 61  -  $$_vb-have  (adv,sp-chunk)   top_left RELABEL - 
 61  -  $$_vb-do  (adv,sp-chunk)   top_left RELABEL - 
-14  -  $$_sp-chunk  (sn-chunk,adv)   top_left RELABEL - 
-14  -  $$_vb-chunk  (sn-chunk,adv)   top_left RELABEL - 
+%14  -  $$_sp-chunk  (sn-chunk,adv)   top_left RELABEL - 
+%14  -  $$_vb-chunk  (sn-chunk,adv)   top_left RELABEL - 
 14  -  $$_vb-be  (sn-chunk,adv)   top_left RELABEL - 
 14  -  $$_vb-have  (sn-chunk,adv)   top_left RELABEL - 
 14  -  $$_vb-do  (sn-chunk,adv)   top_left RELABEL - 
@@ -2645,7 +2856,7 @@
 
 %%% Per al complement directe de les oracions preposades, que sempre es confon amb el subjecte de la
 %%% principal que va al darrera
-65 - ?_$$_vb-chunk (vb-chunk,sn-chunk) top_left RELABEL sv2-c:-
+65 - ?_$$_sn-chunk_vb-chunk (vb-chunk,sn-chunk) top_left RELABEL sv2-c:-
 65 - ?_$$_vb-chunk (vb-chunk,n-chunk) top_left RELABEL sv2-c:-
 65 - ?_$$_vb-be (vb-chunk,sn-chunk) top_left RELABEL sv2-c:-
 65 - ?_$$_vb-be (vb-chunk,n-chunk) top_left RELABEL sv2-c:-
