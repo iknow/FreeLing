@@ -332,16 +332,22 @@ void probabilities::smoothing(word &w) {
 /////////////////////////////////////////////////////////////////////////////
 
 double probabilities::compute_probability(const std::string &tag, double prob, std::string s) {
-  map<string,map<string,double> >::iterator is;
-  double x;
+  map<string,map<string,double> >::const_iterator is;
+  map<string,double>::const_iterator it;
+  double x,pt;
 
-  if (s == "") {
+  if (s == "") 
     return (prob);
-  }
   else {
     x = compute_probability(tag, prob, s.substr(1));
+    
+    // search suffix in map.  It should be there.
     is = unk_suffs.find(s);
-    return ((is->second)[tag] + theeta*x)/(1+theeta);
+    // search tag in suffix probability list. It should be there.
+    it = (is->second).find(tag);
+    // obtain probability
+    pt = it->second;
+    return (pt + theeta*x)/(1+theeta);
   }
-
+  
 }
