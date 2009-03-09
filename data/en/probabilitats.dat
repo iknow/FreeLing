@@ -52912,7 +52912,7 @@ sarco 7 NNP 7
 drange 2 JJ 1 NN 1
 shpoint 1 NN 1
 mckesson 3 NNP 3
-oads 34 NNS 34
+oads 40 NNS 10 VBZ 30
 wave 45 NNP 1 JJ 2 NN 42
 mailers 3 NNS 3
 -using 1 JJ 1
@@ -70635,7 +70635,7 @@ timental 4 JJ 4
 ntifies 3 VBZ 3
 le_rock 9 NNP 9
 duke 5 NNP 4 NN 1
-loads 7 NNS 7
+loads 14 NNS 7 VBZ 7
 gabriele 1 NNP 1
 ni_evans 1 NNP 1
 gum 9 NN 9
@@ -93487,7 +93487,7 @@ characterize VB-VBP VB 3 VBP 1
 characterized VBD-VBN VBD 4 VBN 5
 charge NN-VB-VBP NN 197 NNP 1 VB 18 VBP 16
 charged VBD-VBN VBD 16 VBN 54
-charges NNS-VBZ NNS 178 VBZ 21
+charges NNS-VBZ NNS 178 VBZ 25
 chart NN-VB-VBP NN 7 VB 3 VBP 1
 charter JJ-NN-VB-VBP JJ 1 NN 20 VB 0 VBP 0
 chartered JJ-VBD-VBN JJ 4 VBD 2 VBN 3
@@ -94095,7 +94095,7 @@ cushioned VBD-VBN VBD 0 VBN 3
 customized JJ-VBD-VBN JJ 2 VBD 0 VBN 3
 customs NNP-NNS NNP 1 NNS 9
 cut JJ-NN-VB-VBD-VBN-VBP JJ 1 NN 86 VB 126 VBD 48 VBN 58 VBP 4
-cuts NNS-VBZ NNS 82 VBZ 13
+cuts NNS-VBZ NNS 82 VBZ 82
 cycle NN-VB-VBP NN 35 VB 0 VBP 0
 cycles NNS-VBZ NNS 15 VBZ 0
 cyclical JJ-NN JJ 19 NN 0
@@ -96319,9 +96319,9 @@ little DT-JJ-PRP-RB DT 0 JJ 267 NNP 2 PRP 0 RB 87
 live JJ-RB-VB-VBP JJ 17 RB 1 VB 33 VBP 21
 lived VBD-VBN VBD 15 VBN 6
 lives NNS-VBZ NNS 33 VBZ 15
-load NN-VB-VBP NN 24 VB 4 VBP 0
+load NN-VB-VBP NN 24 VB 14 VBP 7
 loaded JJ-VBD-VBN JJ 1 VBD 3 VBN 4
-loads NNS-VBZ NNS 4 VBZ 0
+loads NNS-VBZ NNS 4 VBZ 4
 loan NN-VB-VBP NN 191 VB 1 VBP 0
 loan-loss JJ-NN JJ 12 NN 13
 loaned VBD-VBN VBD 1 VBN 1
@@ -96996,6 +96996,8 @@ overheated VBD-VBN VBD 0 VBN 1
 overlap VB-VBP VB 1 VBP 1
 overlay NN-VB-VBP NN 1 VB 0 VBP 0
 overlays NNS-VBZ NNS 0 VBZ 1
+overload NN-VB-VBP NN 24 VB 7 VBP 14
+overloads NNS-VBZ NNS 4 VBZ 4
 overlook VB-VBP VB 1 VBP 2
 overlooked VBD-VBN VBD 1 VBN 1
 overnight JJ-RB JJ 32 RB 4
@@ -97730,7 +97732,7 @@ re-establish VB-VBP VB 2 VBP 0
 re-evaluate VB-VBP VB 2 VBP 1
 re-examine VB-VBP VB 4 VBP 0
 re-supplied VBD-VBN VBD 0 VBN 1
-reach NN-VB-VBP NN 9 VB 69 VBP 11
+reach NN-VB-VBP NN 9 VB 69 VBP 40
 reached VBD-VBN VBD 60 VBN 123
 reaches NNS-VBZ NNS 2 VBZ 16
 react VB-VBP VB 8 VBP 2
@@ -99215,7 +99217,7 @@ surpassed VBD-VBN VBD 1 VBN 1
 surplus JJ-NN JJ 3 NN 30
 surprise JJ-NN-VB-VBP JJ 1 NN 31 RB 1 VB 3 VBP 0
 surprised JJ-VBD-VBN JJ 10 VBD 11 VBN 21
-surprises NNS-VBZ NNS 5 VBZ 0
+surprises NNS-VBZ NNS 5 VBZ 7
 surrender NN-VB-VBP NN 5 VB 7 VBP 0
 surrendered VBD-VBN VBD 6 VBN 2
 surrogate JJ-NN JJ 1 NN 1
