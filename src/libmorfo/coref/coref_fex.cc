@@ -5,16 +5,34 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "freeling.h"
+#include "freeling/coref_fex.h"
 #include "freeling/traces.h"
+
+using namespace std;
+
+#define MOD_TRACENAME "COREF_FEX"
+#define MOD_TRACECODE COREF_TRACE
 
 //////////////////////////////////////////////////////////////////
 ///    Constructor. Sets de defaults
 //////////////////////////////////////////////////////////////////
 
-coref_fex::coref_fex(){
-	typeVector = TYPE_TWO;
-	vectors = COREFEX_DIST | COREFEX_IPRON | COREFEX_JPRON | COREFEX_IPRONM | COREFEX_JPRONM | COREFEX_STRMATCH | COREFEX_DEFNP | COREFEX_DEMNP | COREFEX_NUMBER | COREFEX_GENDER | COREFEX_SEMCLASS | COREFEX_PROPNAME | COREFEX_ALIAS | COREFEX_APPOS;
+coref_fex::coref_fex(const int t, const int v, const string &sf, const string &wf) {
+
+  typeVector = t;
+
+  if (v==0) 
+    vectors = COREFEX_DIST | COREFEX_IPRON | COREFEX_JPRON | COREFEX_IPRONM | COREFEX_JPRONM 
+              | COREFEX_STRMATCH | COREFEX_DEFNP | COREFEX_DEMNP | COREFEX_NUMBER | COREFEX_GENDER 
+              | COREFEX_SEMCLASS | COREFEX_PROPNAME | COREFEX_ALIAS | COREFEX_APPOS; 
+  else 
+    vectors = v;
+
+  if ( !(sf.empty() && wf.empty()) ) {
+    semdb= new semanticDB(sf,wf);
+    TRACE(3,"Coreference solver loaded SemDB");
+  }
+
 }
 
 coref_fex::~coref_fex(){
@@ -24,7 +42,7 @@ coref_fex::~coref_fex(){
 ///    Function that jumps in the list of tags the tags that aren't relevant.
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::jump(vector<string> &list){
+int coref_fex::jump(const vector<string> &list){
 	unsigned int pos = 0;
 
 	//If the first word is a preposition, an interjection, a conjunction, punctuation or an adverb, get the next.
@@ -40,16 +58,16 @@ int coref_fex::jump(vector<string> &list){
 ///    Returns the distance in sentences of the example.
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_dist(struct EXAMPLE *ex){
-	return ex->sent;
+int coref_fex::get_dist(const EXAMPLE &ex){
+  return ex.sent;
 }
 
 //////////////////////////////////////////////////////////////////
 ///    Returns the distance in DE's of the example.
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_dedist(struct EXAMPLE *ex){
-	int res = ex->sample2.posbegin - ex->sample1.posend;
+int coref_fex::get_dedist(const EXAMPLE &ex){
+	int res = ex.sample2.posbegin - ex.sample1.posend;
 	if(res > 0)
 		return res;
 	else
@@ -60,11 +78,11 @@ int coref_fex::get_dedist(struct EXAMPLE *ex){
 ///    Returns if 'i' are a pronoun
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_i_pronoum(struct EXAMPLE *ex){
+int coref_fex::get_i_pronoum(const EXAMPLE &ex){
 	int pos = 0;
 
-	pos = jump(ex->sample1.tags);
-	if(ex->sample1.tags[pos].compare(0, 1, "p") == 0)
+	pos = jump(ex.sample1.tags);
+	if(ex.sample1.tags[pos].compare(0, 1, "p") == 0)
 		return 1;
 	else
 		return 0;
@@ -74,11 +92,11 @@ int coref_fex::get_i_pronoum(struct EXAMPLE *ex){
 ///    Returns if 'j' are a pronoun
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_j_pronoum(struct EXAMPLE *ex){
+int coref_fex::get_j_pronoum(const EXAMPLE &ex){
 	int pos = 0;
 
-	pos = jump(ex->sample2.tags);
-	if(ex->sample2.tags[0].compare(0, 1, "p") == 0)
+	pos = jump(ex.sample2.tags);
+	if(ex.sample2.tags[0].compare(0, 1, "p") == 0)
 		return 1;
 	else
 		return 0;
@@ -88,11 +106,11 @@ int coref_fex::get_j_pronoum(struct EXAMPLE *ex){
 ///    Returns if 'i' are a pronoun of type 'personal'
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_i_pronoum_p(struct EXAMPLE *ex){
+int coref_fex::get_i_pronoum_p(const EXAMPLE &ex){
 	int pos = 0;
 
-	pos = jump(ex->sample1.tags);
-	if(ex->sample1.tags[pos].compare(0, 2, "pp") == 0)
+	pos = jump(ex.sample1.tags);
+	if(ex.sample1.tags[pos].compare(0, 2, "pp") == 0)
 		return 1;
 	else
 		return 0;
@@ -102,11 +120,11 @@ int coref_fex::get_i_pronoum_p(struct EXAMPLE *ex){
 ///    Returns if 'j' are a pronoun of type 'personal'
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_j_pronoum_p(struct EXAMPLE *ex){
+int coref_fex::get_j_pronoum_p(const EXAMPLE &ex){
 	int pos = 0;
 
-	pos = jump(ex->sample2.tags);
-	if(ex->sample2.tags[0].compare(0, 2, "pp") == 0)
+	pos = jump(ex.sample2.tags);
+	if(ex.sample2.tags[0].compare(0, 2, "pp") == 0)
 		return 1;
 	else
 		return 0;
@@ -116,11 +134,11 @@ int coref_fex::get_j_pronoum_p(struct EXAMPLE *ex){
 ///    Returns if 'i' are a pronoun of type 'demostrativo'
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_i_pronoum_d(struct EXAMPLE *ex){
+int coref_fex::get_i_pronoum_d(const EXAMPLE &ex){
 	int pos = 0;
 
-	pos = jump(ex->sample1.tags);
-	if(ex->sample1.tags[pos].compare(0, 2, "pd") == 0)
+	pos = jump(ex.sample1.tags);
+	if(ex.sample1.tags[pos].compare(0, 2, "pd") == 0)
 		return 1;
 	else
 		return 0;
@@ -130,11 +148,11 @@ int coref_fex::get_i_pronoum_d(struct EXAMPLE *ex){
 ///    Returns if 'j' are a pronoun of type 'demostrativo'
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_j_pronoum_d(struct EXAMPLE *ex){
+int coref_fex::get_j_pronoum_d(const EXAMPLE &ex){
 	int pos = 0;
 
-	pos = jump(ex->sample2.tags);
-	if(ex->sample2.tags[0].compare(0, 2, "pd") == 0)
+	pos = jump(ex.sample2.tags);
+	if(ex.sample2.tags[0].compare(0, 2, "pd") == 0)
 		return 1;
 	else
 		return 0;
@@ -144,11 +162,11 @@ int coref_fex::get_j_pronoum_d(struct EXAMPLE *ex){
 ///    Returns if 'i' are a pronoun of type 'posesivo'
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_i_pronoum_x(struct EXAMPLE *ex){
+int coref_fex::get_i_pronoum_x(const EXAMPLE &ex){
 	int pos = 0;
 
-	pos = jump(ex->sample1.tags);
-	if(ex->sample1.tags[pos].compare(0, 2, "px") == 0)
+	pos = jump(ex.sample1.tags);
+	if(ex.sample1.tags[pos].compare(0, 2, "px") == 0)
 		return 1;
 	else
 		return 0;
@@ -158,11 +176,11 @@ int coref_fex::get_i_pronoum_x(struct EXAMPLE *ex){
 ///    Returns if 'j' are a pronoun of type 'posesivo'
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_j_pronoum_x(struct EXAMPLE *ex){
+int coref_fex::get_j_pronoum_x(const EXAMPLE &ex){
 	int pos = 0;
 
-	pos = jump(ex->sample2.tags);
-	if(ex->sample2.tags[0].compare(0, 2, "px") == 0)
+	pos = jump(ex.sample2.tags);
+	if(ex.sample2.tags[0].compare(0, 2, "px") == 0)
 		return 1;
 	else
 		return 0;
@@ -172,11 +190,11 @@ int coref_fex::get_j_pronoum_x(struct EXAMPLE *ex){
 ///    Returns if 'i' are a pronoun of type 'indefinido'
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_i_pronoum_i(struct EXAMPLE *ex){
+int coref_fex::get_i_pronoum_i(const EXAMPLE &ex){
 	int pos = 0;
 
-	pos = jump(ex->sample1.tags);
-	if(ex->sample1.tags[pos].compare(0, 2, "pi") == 0)
+	pos = jump(ex.sample1.tags);
+	if(ex.sample1.tags[pos].compare(0, 2, "pi") == 0)
 		return 1;
 	else
 		return 0;
@@ -186,11 +204,11 @@ int coref_fex::get_i_pronoum_i(struct EXAMPLE *ex){
 ///    Returns if 'j' are a pronoun of type 'indefinido'
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_j_pronoum_i(struct EXAMPLE *ex){
+int coref_fex::get_j_pronoum_i(const EXAMPLE &ex){
 	int pos = 0;
 
-	pos = jump(ex->sample2.tags);
-	if(ex->sample2.tags[0].compare(0, 2, "pi") == 0)
+	pos = jump(ex.sample2.tags);
+	if(ex.sample2.tags[0].compare(0, 2, "pi") == 0)
 		return 1;
 	else
 		return 0;
@@ -200,11 +218,11 @@ int coref_fex::get_j_pronoum_i(struct EXAMPLE *ex){
 ///    Returns if 'i' are a pronoun of type 'interrogativo'
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_i_pronoum_t(struct EXAMPLE *ex){
+int coref_fex::get_i_pronoum_t(const EXAMPLE &ex){
 	int pos = 0;
 
-	pos = jump(ex->sample1.tags);
-	if(ex->sample1.tags[pos].compare(0, 2, "pt") == 0)
+	pos = jump(ex.sample1.tags);
+	if(ex.sample1.tags[pos].compare(0, 2, "pt") == 0)
 		return 1;
 	else
 		return 0;
@@ -214,11 +232,11 @@ int coref_fex::get_i_pronoum_t(struct EXAMPLE *ex){
 ///    Returns if 'j' are a pronoun of type 'interrogativo'
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_j_pronoum_t(struct EXAMPLE *ex){
+int coref_fex::get_j_pronoum_t(const EXAMPLE &ex){
 	int pos = 0;
 
-	pos = jump(ex->sample2.tags);
-	if(ex->sample2.tags[0].compare(0, 2, "pt") == 0)
+	pos = jump(ex.sample2.tags);
+	if(ex.sample2.tags[0].compare(0, 2, "pt") == 0)
 		return 1;
 	else
 		return 0;
@@ -228,11 +246,11 @@ int coref_fex::get_j_pronoum_t(struct EXAMPLE *ex){
 ///    Returns if 'i' are a pronoun of type 'relativo'
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_i_pronoum_r(struct EXAMPLE *ex){
+int coref_fex::get_i_pronoum_r(const EXAMPLE &ex){
 	int pos = 0;
 
-	pos = jump(ex->sample1.tags);
-	if(ex->sample1.tags[pos].compare(0, 2, "pr") == 0)
+	pos = jump(ex.sample1.tags);
+	if(ex.sample1.tags[pos].compare(0, 2, "pr") == 0)
 		return 1;
 	else
 		return 0;
@@ -242,11 +260,11 @@ int coref_fex::get_i_pronoum_r(struct EXAMPLE *ex){
 ///    Returns if 'j' are a pronoun of type 'relativo'
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_j_pronoum_r(struct EXAMPLE *ex){
+int coref_fex::get_j_pronoum_r(const EXAMPLE &ex){
 	int pos = 0;
 
-	pos = jump(ex->sample2.tags);
-	if(ex->sample2.tags[0].compare(0, 2, "pr") == 0)
+	pos = jump(ex.sample2.tags);
+	if(ex.sample2.tags[0].compare(0, 2, "pr") == 0)
 		return 1;
 	else
 		return 0;
@@ -256,11 +274,11 @@ int coref_fex::get_j_pronoum_r(struct EXAMPLE *ex){
 ///    Returns if 'i' are a pronoun of type 'exclamativo'
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_i_pronoum_e(struct EXAMPLE *ex){
+int coref_fex::get_i_pronoum_e(const EXAMPLE &ex){
 	int pos = 0;
 
-	pos = jump(ex->sample1.tags);
-	if(ex->sample1.tags[pos].compare(0, 2, "pe") == 0)
+	pos = jump(ex.sample1.tags);
+	if(ex.sample1.tags[pos].compare(0, 2, "pe") == 0)
 		return 1;
 	else
 		return 0;
@@ -270,11 +288,11 @@ int coref_fex::get_i_pronoum_e(struct EXAMPLE *ex){
 ///    Returns if 'j' are a pronoun of type 'exclamativo'
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_j_pronoum_e(struct EXAMPLE *ex){
+int coref_fex::get_j_pronoum_e(const EXAMPLE &ex){
 	int pos = 0;
 
-	pos = jump(ex->sample2.tags);
-	if(ex->sample2.tags[0].compare(0, 2, "pe") == 0)
+	pos = jump(ex.sample2.tags);
+	if(ex.sample2.tags[0].compare(0, 2, "pe") == 0)
 		return 1;
 	else
 		return 0;
@@ -284,13 +302,13 @@ int coref_fex::get_j_pronoum_e(struct EXAMPLE *ex){
 ///    Returns if 'i' matches the string of 'j' 
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_str_match(struct EXAMPLE *ex){
-	vector<string>::iterator itT1, itT2, tag1, tag2;
+int coref_fex::get_str_match(const EXAMPLE &ex){
+	vector<string>::const_iterator itT1, itT2, tag1, tag2;
 	string str1, str2;
 
-	itT1 = ex->sample1.texttok.begin();
-	tag1 = ex->sample1.tags.begin();
-	while(itT1 != ex->sample1.texttok.end() && tag1 != ex->sample1.tags.end()){
+	itT1 = ex.sample1.texttok.begin();
+	tag1 = ex.sample1.tags.begin();
+	while(itT1 != ex.sample1.texttok.end() && tag1 != ex.sample1.tags.end()){
 		//Eliminates punctuation, articles and demonstrative pronouns.
 		if((*tag1).compare(0, 1, "f") != 0 && (*tag1).compare(0, 1, "d") != 0  && (*tag1).compare(0, 2, "pd") != 0
 		  && (*tag1).compare(0, 1, "s") != 0 && (*tag1).compare(0, 1, "i") != 0 && (*tag1).compare(0, 1, "r") != 0
@@ -301,9 +319,9 @@ int coref_fex::get_str_match(struct EXAMPLE *ex){
 		++tag1;
 	}
 
-	itT2 = ex->sample2.texttok.begin();
-	tag2 = ex->sample2.tags.begin();
-	while(itT2 != ex->sample2.texttok.end() && tag2 != ex->sample2.tags.end()){
+	itT2 = ex.sample2.texttok.begin();
+	tag2 = ex.sample2.tags.begin();
+	while(itT2 != ex.sample2.texttok.end() && tag2 != ex.sample2.tags.end()){
 		if((*tag2).compare(0, 1, "f") != 0 && (*tag2).compare(0, 1, "d") != 0  && (*tag2).compare(0, 2, "pd") != 0
 		  && (*tag2).compare(0, 1, "s") != 0 && (*tag2).compare(0, 1, "i") != 0 && (*tag2).compare(0, 1, "r") != 0
 		  && (*tag2).compare(0, 1, "c") != 0){
@@ -323,12 +341,12 @@ int coref_fex::get_str_match(struct EXAMPLE *ex){
 ///    Returns if 'j' are definite noun phrase
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_def_np(struct EXAMPLE *ex){
+int coref_fex::get_def_np(const EXAMPLE &ex){
 	unsigned int pos = 0;
 
-	pos = jump(ex->sample2.tags);
-	if(ex->sample2.tags.size() > (pos+1)){
-		if((ex->sample2.tags[pos].compare(0, 2, "da") == 0) && ex->sample2.tags[pos+1].compare(0, 2, "nc") == 0)
+	pos = jump(ex.sample2.tags);
+	if(ex.sample2.tags.size() > (pos+1)){
+		if((ex.sample2.tags[pos].compare(0, 2, "da") == 0) && ex.sample2.tags[pos+1].compare(0, 2, "nc") == 0)
 			return 1;
 		else
 			return 0;
@@ -341,12 +359,12 @@ int coref_fex::get_def_np(struct EXAMPLE *ex){
 ///    Returns if 'j' are demonstrative noun phrase
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_dem_np(struct EXAMPLE *ex){
+int coref_fex::get_dem_np(const EXAMPLE &ex){
 	unsigned int pos = 0;
 
-	pos = jump(ex->sample2.tags);
-	if(ex->sample2.tags.size() > (pos+1)){
-		if(ex->sample2.tags[pos].compare(0, 2, "dd") == 0 && ex->sample2.tags[pos+1].compare(0, 2, "nc") == 0)
+	pos = jump(ex.sample2.tags);
+	if(ex.sample2.tags.size() > (pos+1)){
+		if(ex.sample2.tags[pos].compare(0, 2, "dd") == 0 && ex.sample2.tags[pos+1].compare(0, 2, "nc") == 0)
 			return 1;
 		else
 			return 0;
@@ -359,28 +377,28 @@ int coref_fex::get_dem_np(struct EXAMPLE *ex){
 ///    Returns if 'i' and 'j' agree in number
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_number(struct EXAMPLE *ex){
+int coref_fex::get_number(const EXAMPLE &ex){
 	char num1='0', num2='0';
 	unsigned int pos = 0;
 
-	pos = jump(ex->sample1.tags);
+	pos = jump(ex.sample1.tags);
 
 	//Articulos, adjetivos y pronombres
-	if(ex->sample1.tags[pos].compare(0, 1, "a") == 0 || ex->sample1.tags[pos].compare(0, 1, "d") == 0 || ex->sample1.tags[pos].compare(0, 1, "p") == 0){
-		num1 = ex->sample1.tags[pos][4];
+	if(ex.sample1.tags[pos].compare(0, 1, "a") == 0 || ex.sample1.tags[pos].compare(0, 1, "d") == 0 || ex.sample1.tags[pos].compare(0, 1, "p") == 0){
+		num1 = ex.sample1.tags[pos][4];
 	//Nombres y preposiciones
-	} else if(ex->sample1.tags[pos].compare(0, 2, "nc") == 0 || ex->sample1.tags[pos].compare(0, 3, "spc") == 0 ){
-		num1 = ex->sample1.tags[pos][3];
+	} else if(ex.sample1.tags[pos].compare(0, 2, "nc") == 0 || ex.sample1.tags[pos].compare(0, 3, "spc") == 0 ){
+		num1 = ex.sample1.tags[pos][3];
 	}
 
-	pos = jump(ex->sample2.tags);
+	pos = jump(ex.sample2.tags);
 	
 	//Articulos, adjetivos y pronombres
-	if(ex->sample2.tags[pos].compare(0, 1, "a") == 0 || ex->sample2.tags[pos].compare(0, 1, "d") == 0 || ex->sample2.tags[pos].compare(0, 1, "p") == 0){
-		num2 = ex->sample2.tags[pos][4];
+	if(ex.sample2.tags[pos].compare(0, 1, "a") == 0 || ex.sample2.tags[pos].compare(0, 1, "d") == 0 || ex.sample2.tags[pos].compare(0, 1, "p") == 0){
+		num2 = ex.sample2.tags[pos][4];
 	//Nombres y preposiciones
-	} else if(ex->sample2.tags[pos].compare(0, 2, "nc") == 0 || ex->sample2.tags[pos].compare(0, 3, "spc") == 0 ){
-		num2 = ex->sample2.tags[pos][3];
+	} else if(ex.sample2.tags[pos].compare(0, 2, "nc") == 0 || ex.sample2.tags[pos].compare(0, 3, "spc") == 0 ){
+		num2 = ex.sample2.tags[pos][3];
 	}
 
 	if(num1 == num2 && num1 != '0')
@@ -397,28 +415,28 @@ int coref_fex::get_number(struct EXAMPLE *ex){
 ///    is a common noun
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_semclass(struct EXAMPLE *ex){
+int coref_fex::get_semclass(const EXAMPLE &ex){
 	unsigned int ret = 2, pos1, pos2;
-	vector<string> txt1 = tokenize(ex->sample1.text," ");
-	vector<string> txt2 = tokenize(ex->sample2.text," ");
+	vector<string> txt1 = tokenize(ex.sample1.text," ");
+	vector<string> txt2 = tokenize(ex.sample2.text," ");
 	string t1, t2, tag1, tag2, type1, type2;
 
 	pos1 = 0;
 	pos2 = 0;
-	tag1 = ex->sample1.tags[pos1];
-	tag2 = ex->sample2.tags[pos2];
+	tag1 = ex.sample1.tags[pos1];
+	tag2 = ex.sample2.tags[pos2];
 	t1 = txt1[pos1];
 	t2 = txt2[pos2];
 
 	while (tag1.compare(0, 1, "n") != 0 && txt1.size() > (pos1+1)) {
 		pos1++;
 		t1 = txt1[pos1];
-		tag1 = ex->sample1.tags[pos1];
+		tag1 = ex.sample1.tags[pos1];
 	}
 	while (tag2.compare(0, 1, "n") != 0 && txt2.size() > (pos2+1)) {
 		pos2++;
 		t2 = txt2[pos2];
-		tag2 = ex->sample2.tags[pos2];
+		tag2 = ex.sample2.tags[pos2];
 	}
 	//Gets the NEC if the tag are a proper noun
 	if(tag1.compare(0, 2, "np") == 0){
@@ -429,6 +447,7 @@ int coref_fex::get_semclass(struct EXAMPLE *ex){
 		type2 = tag2[4];
 		type2 += tag2[5];
 	}
+
 	//Gets the class from the wordnet if the tag is a common noun
 	if(tag1.compare(0, 2, "nc") == 0 || tag2.compare(0, 2, "nc") == 0 || type1 == "00" || type2 == "00"){
 		list< std::string > l1, l2;
@@ -451,28 +470,33 @@ int coref_fex::get_semclass(struct EXAMPLE *ex){
 				}
 			}
 		}
+
 		if(tag2.compare(0, 2, "nc") == 0 || type2 == "00"){
-			l2 = sdb->get_word_senses(t2, "N");
-			if((*l2.begin()).size() > 0){
-				sense_info si = sdb->get_sense_info (l2.front(), "N");
-				for(it = si.tonto.begin(); it != si.tonto.end() ; ++it){
-					if((*it) == "Human"){
-						type2 = "sp";
-					} else if((*it) == "Group"){
-						type2 = "o0";
-					} else if((*it) == "Part"){
-						type2 = "g0";
-					} else if(type2 == "00"){
-						type2 = "v0";
-					}
-				}
+
+		  l2 = sdb->get_word_senses(t2, "N");
+		  
+		  if (not l2.empty()) {
+		    if (not l2.begin()->empty()) {
+		      sense_info si = sdb->get_sense_info (l2.front(), "N");
+		      for(it = si.tonto.begin(); it != si.tonto.end() ; ++it){
+			if((*it) == "Human"){
+			  type2 = "sp";
+			} else if((*it) == "Group"){
+			  type2 = "o0";
+			} else if((*it) == "Part"){
+			  type2 = "g0";
+			} else if(type2 == "00"){
+			  type2 = "v0";
 			}
+		      }
+		    }
+		  }
 		}
 		delete(sdb);
 	}
 
-	if(ret != 1 && ex->sample1.tags[pos1].compare(0, 1, "n") == 0 && ex->sample2.tags[pos2].compare(0, 1, "n") == 0 ){
-		if(ex->sample1.tags[pos1].substr(4,2) == ex->sample2.tags[pos2].substr(4,2) && ex->sample1.tags[pos1].substr(4,2) != "00"){
+	if(ret != 1 && ex.sample1.tags[pos1].compare(0, 1, "n") == 0 && ex.sample2.tags[pos2].compare(0, 1, "n") == 0 ){
+		if(ex.sample1.tags[pos1].substr(4,2) == ex.sample2.tags[pos2].substr(4,2) && ex.sample1.tags[pos1].substr(4,2) != "00"){
 			ret = 1;
 		}
 	}
@@ -486,29 +510,29 @@ int coref_fex::get_semclass(struct EXAMPLE *ex){
 ///    Returns if 'i' and 'j' agree in gender
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_gender(struct EXAMPLE *ex){
+int coref_fex::get_gender(const EXAMPLE &ex){
 	char gen1='0', gen2='0';
 	unsigned int pos = 0;
 
-	pos = jump(ex->sample1.tags);
+	pos = jump(ex.sample1.tags);
 	
 	//Articulos, adjetivos y pronombres
-	if(ex->sample1.tags[pos].compare(0, 1, "a") == 0 || ex->sample1.tags[pos].compare(0, 1, "d") == 0 || ex->sample1.tags[pos].compare(0, 1, "p") == 0){
-		gen1 = ex->sample1.tags[pos][3];
+	if(ex.sample1.tags[pos].compare(0, 1, "a") == 0 || ex.sample1.tags[pos].compare(0, 1, "d") == 0 || ex.sample1.tags[pos].compare(0, 1, "p") == 0){
+		gen1 = ex.sample1.tags[pos][3];
 	//Nombres y preposiciones
-	} else if(ex->sample1.tags[pos].compare(0, 1, "n") == 0 || ex->sample1.tags[pos].compare(0, 3, "spc") == 0 ){
-		gen1 = ex->sample1.tags[pos][2];
+	} else if(ex.sample1.tags[pos].compare(0, 1, "n") == 0 || ex.sample1.tags[pos].compare(0, 3, "spc") == 0 ){
+		gen1 = ex.sample1.tags[pos][2];
 	}
 
 
-	pos = jump(ex->sample2.tags);
+	pos = jump(ex.sample2.tags);
 	
 	//Articulos, adjetivos y pronombres
-	if(ex->sample2.tags[pos].compare(0, 1, "a") == 0 || ex->sample2.tags[pos].compare(0, 1, "d") == 0 || ex->sample2.tags[pos].compare(0, 1, "p") == 0){
-		gen2 = ex->sample2.tags[pos][3];
+	if(ex.sample2.tags[pos].compare(0, 1, "a") == 0 || ex.sample2.tags[pos].compare(0, 1, "d") == 0 || ex.sample2.tags[pos].compare(0, 1, "p") == 0){
+		gen2 = ex.sample2.tags[pos][3];
 	//Nombres y preposiciones
-	} else if(ex->sample2.tags[pos].compare(0, 1, "n") == 0 || ex->sample2.tags[pos].compare(0, 3, "spc") == 0 ){
-		gen2 = ex->sample2.tags[pos][2];
+	} else if(ex.sample2.tags[pos].compare(0, 1, "n") == 0 || ex.sample2.tags[pos].compare(0, 3, "spc") == 0 ){
+		gen2 = ex.sample2.tags[pos][2];
 	}
 
 	if(gen1 == gen2 && gen1 != '0')
@@ -523,12 +547,12 @@ int coref_fex::get_gender(struct EXAMPLE *ex){
 ///    Returns if 'i' and 'j' are proper nouns
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_proper_name(struct EXAMPLE *ex){
+int coref_fex::get_proper_name(const EXAMPLE &ex){
 	int pos1, pos2;
 
-	pos1 = jump(ex->sample1.tags);
-	pos2 = jump(ex->sample2.tags);
-	if(ex->sample1.tags[pos1].compare(0, 2, "np") == 0 && ex->sample2.tags[pos2].compare(0, 2, "np") == 0)
+	pos1 = jump(ex.sample1.tags);
+	pos2 = jump(ex.sample2.tags);
+	if(ex.sample1.tags[pos1].compare(0, 2, "np") == 0 && ex.sample2.tags[pos2].compare(0, 2, "np") == 0)
 		return 1;
 	else
 		return 0;
@@ -559,20 +583,20 @@ bool coref_fex::check_word(string w1, string w2){
 ///    Returns if 'j' are an acronim of 'i'
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::check_acronim(struct EXAMPLE *ex){
-	string::iterator si, si2;
+int coref_fex::check_acronim(const EXAMPLE &ex){
+	string::const_iterator si, si2;
 	int ret=1;
 	int cEquals, cTotal;
 
-	if(ex->sample2.tags.size() != 1 && ex->sample2.tags.size() != 3 )
+	if(ex.sample2.tags.size() != 1 && ex.sample2.tags.size() != 3 )
 		return 0;
-	if(ex->sample1.tags[0].compare(0, 2, "np") != 0)
+	if(ex.sample1.tags[0].compare(0, 2, "np") != 0)
 		return 0;
-	if(ex->sample2.tags.size() == 1){
-		if(ex->sample2.tags[0].compare(0, 2, "np") != 0)
+	if(ex.sample2.tags.size() == 1){
+		if(ex.sample2.tags[0].compare(0, 2, "np") != 0)
 			return 0;
-	} else if(ex->sample2.tags.size() == 3){
-		if(ex->sample2.tags[1].compare(0, 2, "np") != 0)
+	} else if(ex.sample2.tags.size() == 3){
+		if(ex.sample2.tags[1].compare(0, 2, "np") != 0)
 			return 0;
 	}
 
@@ -580,9 +604,9 @@ int coref_fex::check_acronim(struct EXAMPLE *ex){
 		bool wbegin = true;
 
 		cEquals=0, cTotal=1;
-		si = ex->sample2.text.begin();
-		si2 = ex->sample1.text.begin();
-		while(si != ex->sample2.text.end() && si2 != ex->sample1.text.end()){
+		si = ex.sample2.text.begin();
+		si2 = ex.sample1.text.begin();
+		while(si != ex.sample2.text.end() && si2 != ex.sample1.text.end()){
 			while(*si == '(' || *si == ')' || *si == '.' || *si == '_' || *si == ' ')
 				++si;
 			if(wbegin && std::toupper(*si) == std::toupper(*si2)){
@@ -597,13 +621,13 @@ int coref_fex::check_acronim(struct EXAMPLE *ex){
 			}
 			++si2;
 		}
-		while(si2 != ex->sample1.text.end()){
+		while(si2 != ex.sample1.text.end()){
 			if( *si2 == ' ' || *si2 == '_'){
 				cTotal++;
 			}
 			++si2;
 		}
-		if(si != ex->sample2.text.end()){
+		if(si != ex.sample2.text.end()){
 			ret=0;
 		} else if(cEquals <= (cTotal/2)){
 			ret=0;
@@ -616,20 +640,20 @@ int coref_fex::check_acronim(struct EXAMPLE *ex){
 ///    Returns if 'j' are an prefix of 'i'
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::check_fixesleft(struct EXAMPLE *ex){
-	vector<string>::iterator itT1, itT2;
-	vector<string>::reverse_iterator ritT1, ritT2;
-	int total1 = ex->sample1.texttok.size();
-	int total2 = ex->sample2.texttok.size();
+int coref_fex::check_fixesleft(const EXAMPLE &ex){
+	vector<string>::const_iterator itT1, itT2;
+	vector<string>::const_reverse_iterator ritT1, ritT2;
+	int total1 = ex.sample1.texttok.size();
+	int total2 = ex.sample2.texttok.size();
 	int max = (total1 > total2) ? total1 : total2;
 	int count;
 	int ret = 0;
 	
 	if(total1 >= 1 && total2 >= 1 && max > 1){
-		itT1 = ex->sample1.texttok.begin();
-		itT2 = ex->sample2.texttok.begin();
+		itT1 = ex.sample1.texttok.begin();
+		itT2 = ex.sample2.texttok.begin();
 		count = 0;
-		while(itT1 != ex->sample1.texttok.end() && itT2 != ex->sample2.texttok.end()){
+		while(itT1 != ex.sample1.texttok.end() && itT2 != ex.sample2.texttok.end()){
 			if(check_word(*itT1, *itT2)){
 				count++;
 			} else {
@@ -649,20 +673,20 @@ int coref_fex::check_fixesleft(struct EXAMPLE *ex){
 ///    Returns if 'j' are an suffix of 'i'
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::check_fixesright(struct EXAMPLE *ex){
-	vector<string>::iterator itT1, itT2;
-	vector<string>::reverse_iterator ritT1, ritT2;
-	int total1 = ex->sample1.texttok.size();
-	int total2 = ex->sample2.texttok.size();
+int coref_fex::check_fixesright(const EXAMPLE &ex){
+	vector<string>::const_iterator itT1, itT2;
+	vector<string>::const_reverse_iterator ritT1, ritT2;
+	int total1 = ex.sample1.texttok.size();
+	int total2 = ex.sample2.texttok.size();
 	int max = (total1 > total2) ? total1 : total2;
 	int count;
 	int ret = 0;
 	
 	if(total1 >= 1 && total2 >= 1 && max > 1){
-		ritT1 = ex->sample1.texttok.rbegin();
-		ritT2 = ex->sample2.texttok.rbegin();
+		ritT1 = ex.sample1.texttok.rbegin();
+		ritT2 = ex.sample2.texttok.rbegin();
 		count = 0;
-		while(ritT1 != ex->sample1.texttok.rend() && ritT2 != ex->sample2.texttok.rend()){
+		while(ritT1 != ex.sample1.texttok.rend() && ritT2 != ex.sample2.texttok.rend()){
 			if(check_word(*ritT1, *ritT2)){
 				count++;
 			} else {
@@ -682,18 +706,18 @@ int coref_fex::check_fixesright(struct EXAMPLE *ex){
 ///    Returns if the words of 'j' appears in ths same order in 'i'
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::check_order(struct EXAMPLE *ex){
-	vector<string>::iterator itT1, itT2;
+int coref_fex::check_order(const EXAMPLE &ex){
+	vector<string>::const_iterator itT1, itT2;
 
-	itT1 = ex->sample1.texttok.begin();
-	itT2 = ex->sample2.texttok.begin();
-	while(itT1 != ex->sample1.texttok.end() && itT2 != ex->sample2.texttok.end()){
+	itT1 = ex.sample1.texttok.begin();
+	itT2 = ex.sample2.texttok.begin();
+	while(itT1 != ex.sample1.texttok.end() && itT2 != ex.sample2.texttok.end()){
 		if(check_word(*itT1, *itT2)){
 			++itT2;
 		}
 		++itT1;
 	}
-	if(itT2 == ex->sample2.texttok.end() && ex->sample2.texttok.size() > 1){
+	if(itT2 == ex.sample2.texttok.end() && ex.sample2.texttok.size() > 1){
 		return 1;
 	}else{
 		return 0;
@@ -704,7 +728,7 @@ int coref_fex::check_order(struct EXAMPLE *ex){
 ///    Returns if 'j' are an acronim of 'i'
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_alias_acro(struct EXAMPLE *ex){
+int coref_fex::get_alias_acro(const EXAMPLE &ex){
 	return(check_acronim(ex));
 }
 
@@ -712,7 +736,7 @@ int coref_fex::get_alias_acro(struct EXAMPLE *ex){
 ///    Returns if 'j' are an prefix of 'i'
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_alias_fixleft(struct EXAMPLE *ex){
+int coref_fex::get_alias_fixleft(const EXAMPLE &ex){
 	return(check_fixesleft(ex));
 }
 
@@ -720,7 +744,7 @@ int coref_fex::get_alias_fixleft(struct EXAMPLE *ex){
 ///    Returns if 'j' are an suffix of 'i'
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_alias_fixright(struct EXAMPLE *ex){
+int coref_fex::get_alias_fixright(const EXAMPLE &ex){
 	return(check_fixesright(ex));
 }
 
@@ -728,7 +752,7 @@ int coref_fex::get_alias_fixright(struct EXAMPLE *ex){
 ///    Returns if the words of 'j' appears in ths same order in 'i'
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_alias_order(struct EXAMPLE *ex){
+int coref_fex::get_alias_order(const EXAMPLE &ex){
 	return(check_order(ex));
 }
 
@@ -736,12 +760,12 @@ int coref_fex::get_alias_order(struct EXAMPLE *ex){
 ///    Returns if 'j' are in apposition of 'i'
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_appositive(struct EXAMPLE *ex){
+int coref_fex::get_appositive(const EXAMPLE &ex){
 	bool ret = 0;
 
-	if( (ex->sample2.posbegin > ex->sample1.posbegin && ex->sample1.posend == ex->sample2.posend) ||
-		(ex->sample2.posbegin == (ex->sample1.posend+1))) {
-		if(ex->sample2.tags[0] == "fpa" || ex->sample2.tags[0] == "fc"){
+	if( (ex.sample2.posbegin > ex.sample1.posbegin && ex.sample1.posend == ex.sample2.posend) ||
+		(ex.sample2.posbegin == (ex.sample1.posend+1))) {
+		if(ex.sample2.tags[0] == "fpa" || ex.sample2.tags[0] == "fc"){
 			ret = 1;
 		}
 	}
@@ -774,43 +798,50 @@ vector<string> coref_fex::tokenize(const string& str,const string& delimiters){
 ///    Extract the features configured to be extracted
 //////////////////////////////////////////////////////////////////
 
-void coref_fex::extract(struct EXAMPLE &ex, std::vector<int> *result){
-	if(vectors & COREFEX_DIST)		result->push_back(get_dist(&ex));
-	if(vectors & COREFEX_DIST)		result->push_back(get_dedist(&ex));
-	if(vectors & COREFEX_IPRON)		result->push_back(get_i_pronoum(&ex));
-	if(vectors & COREFEX_JPRON)		result->push_back(get_j_pronoum(&ex));
-	if(vectors & COREFEX_IPRONM){
-		result->push_back(get_i_pronoum_p(&ex));
-		result->push_back(get_i_pronoum_d(&ex));
-		result->push_back(get_i_pronoum_x(&ex));
-		result->push_back(get_i_pronoum_i(&ex));
-		result->push_back(get_i_pronoum_t(&ex));
-		result->push_back(get_i_pronoum_r(&ex));
-		result->push_back(get_i_pronoum_e(&ex));
-	}
-	if(vectors & COREFEX_JPRONM){
-		result->push_back(get_j_pronoum_p(&ex));
-		result->push_back(get_j_pronoum_d(&ex));
-		result->push_back(get_j_pronoum_x(&ex));
-		result->push_back(get_j_pronoum_i(&ex));
-		result->push_back(get_j_pronoum_t(&ex));
-		result->push_back(get_j_pronoum_r(&ex));
-		result->push_back(get_j_pronoum_e(&ex));
-	}
-	if(vectors & COREFEX_STRMATCH)	result->push_back(get_str_match(&ex));
-	if(vectors & COREFEX_DEFNP)		result->push_back(get_def_np(&ex));
-	if(vectors & COREFEX_DEMNP)		result->push_back(get_dem_np(&ex));
-	if(vectors & COREFEX_NUMBER)	result->push_back(get_number(&ex));
-	if(vectors & COREFEX_GENDER)	result->push_back(get_gender(&ex));
-	if(vectors & COREFEX_SEMCLASS)	result->push_back(get_semclass(&ex));
-	if(vectors & COREFEX_PROPNAME)	result->push_back(get_proper_name(&ex));
-	if(vectors & COREFEX_ALIAS){
-		result->push_back(get_alias_acro(&ex));
-		result->push_back(get_alias_fixleft(&ex));
-		result->push_back(get_alias_fixright(&ex));
-		result->push_back(get_alias_order(&ex));
-	}
-	if(vectors & COREFEX_APPOS)		result->push_back(get_appositive(&ex));
+void coref_fex::extract(EXAMPLE &ex, std::vector<int> &result){
+
+  result.clear();
+
+  if (vectors & COREFEX_DIST)   result.push_back(get_dist(ex));
+  if (vectors & COREFEX_DIST)   result.push_back(get_dedist(ex));
+  if (vectors & COREFEX_IPRON)  result.push_back(get_i_pronoum(ex));
+  if (vectors & COREFEX_JPRON)  result.push_back(get_j_pronoum(ex));
+
+  if (vectors & COREFEX_IPRONM) {
+    result.push_back(get_i_pronoum_p(ex));
+    result.push_back(get_i_pronoum_d(ex));
+    result.push_back(get_i_pronoum_x(ex));
+    result.push_back(get_i_pronoum_i(ex));
+    result.push_back(get_i_pronoum_t(ex));
+    result.push_back(get_i_pronoum_r(ex));
+    result.push_back(get_i_pronoum_e(ex));
+  }
+
+  if (vectors & COREFEX_JPRONM) {
+    result.push_back(get_j_pronoum_p(ex));
+    result.push_back(get_j_pronoum_d(ex));
+    result.push_back(get_j_pronoum_x(ex));
+    result.push_back(get_j_pronoum_i(ex));
+    result.push_back(get_j_pronoum_t(ex));
+    result.push_back(get_j_pronoum_r(ex));
+    result.push_back(get_j_pronoum_e(ex));
+  }
+
+  if (vectors & COREFEX_STRMATCH)  result.push_back(get_str_match(ex));
+  if (vectors & COREFEX_DEFNP)	  result.push_back(get_def_np(ex));
+  if (vectors & COREFEX_DEMNP)	  result.push_back(get_dem_np(ex));
+  if (vectors & COREFEX_NUMBER)	  result.push_back(get_number(ex));
+  if (vectors & COREFEX_GENDER)	  result.push_back(get_gender(ex));
+  if (vectors & COREFEX_SEMCLASS)  result.push_back(get_semclass(ex));
+  if (vectors & COREFEX_PROPNAME)  result.push_back(get_proper_name(ex));
+
+  if (vectors & COREFEX_ALIAS) {
+    result.push_back(get_alias_acro(ex));
+    result.push_back(get_alias_fixleft(ex));
+    result.push_back(get_alias_fixright(ex));
+    result.push_back(get_alias_order(ex));
+  }
+  if (vectors & COREFEX_APPOS) 	result.push_back(get_appositive(ex));
 }
 
 //////////////////////////////////////////////////////////////////

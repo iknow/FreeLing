@@ -1558,8 +1558,9 @@ china
 \end{verbatim}
 
 
+  \item Sections \verb#<RE_NounAdj># \verb#<RE_Closed># and \verb#<RE_DateNumPunct># allow to modify the default regular expressions for PAROLE Part-of-Speech tags. This regular expressions are used by the NER to determine whether a sentence-beginning word has some tag that is Noun or Adj, or any tag that is a closed category, or one of date/punctuation/number. The default is to check against PAROLE tags, thus, the recognizer will fail to identifiy these categories if your dictionary uses another tagset, unless you specify the right patterns to look for.
 
-  \item Sections \verb#<RE_NounAdj># \verb#<RE_Closed># and \verb#<RE_DateNumPunct># allow to modify the default regular expressions for PAROLE Part-of-Speech tags. For instance, if Penn-Treebank-like tags are used for English, we should define:
+  For instance, if our dictionary uses Penn-Treebank-like tags, we should define:
 \begin{verbatim}
 <RE_NounAdj>
 ^(NN$|NNS|JJ)

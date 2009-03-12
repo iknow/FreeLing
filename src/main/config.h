@@ -133,6 +133,9 @@ class config {
     char * DEP_TxalaFile;    
     char * DEP_MaltFile;
 
+    int COREF_CoreferenceResolution;
+    char * COREF_CorefFile;
+
     /// constructor
     config(char **argv) {
       CFG_CONTEXT con;
@@ -143,10 +146,10 @@ class config {
       // Auxiliary for boolean handling
       int flush,noflush, sufx,nosufx,   loc,noloc,   numb,nonumb,
           punt,nopunt,   date,nodate,   quant,noquant,  dict,nodict,   prob,noprob,
-          nec,nonec,     dup,nodup,      retok,noretok;
+  	  nec,nonec,     dup,nodup,      retok,noretok,  coref,nocoref;
       char *cf_flush, *cf_sufx, *cf_loc,   *cf_numb,
            *cf_punt,  *cf_date, *cf_quant, *cf_dict, *cf_prob,
-	   *cf_nec,  *cf_dup,   *cf_retok;
+	   *cf_nec,  *cf_dup,   *cf_retok,  *cf_coref;
  
       // Options structure
       struct cfg_option OptionList[] = {  // initialization
@@ -229,6 +232,11 @@ class config {
 	{"txala", 'T', "DepTxalaFile",               CFG_STR, (void *) &DEP_TxalaFile, 0},
 	{"malt",  'M', "DepMaltFile",		     CFG_STR, (void *) &DEP_MaltFile,0},
 	{"dep",   'd', "DepParser",		     CFG_STR, (void *) &DepParser, 0},
+	// Coreference options
+	{"coref",   '\0', NULL,                        CFG_BOOL, (void *) &coref, 0},
+	{"nocoref", '\0', NULL,                        CFG_BOOL, (void *) &nocoref, 0},
+	{NULL,      '\0', "CoreferenceResolution",     CFG_STR,  (void *) &cf_coref, 0},
+	{"fcorf",   'C', "CorefFile",                 CFG_STR,  (void *) &COREF_CorefFile, 0},
 	CFG_END_OF_LIST
       };
       
@@ -244,12 +252,11 @@ class config {
       loc=false;   noloc=false;   numb=false;   nonumb=false;   punt=false; nopunt=false;
       date=false;  nodate=false;  quant=false;  noquant=false;  dict=false; nodict=false; 
       prob=false;  noprob=false;  nec=false;  nonec=false; 
-      dup=false;   nodup=false;   retok=false; noretok=false;
+      dup=false;   nodup=false;   retok=false; noretok=false; coref=false; nocoref=false;
       cf_flush=NULL; cf_sufx=NULL;  cf_loc=NULL;   cf_numb=NULL; 
       cf_punt=NULL;  cf_date=NULL;  cf_quant=NULL; cf_dict=NULL;  cf_prob=NULL;
-      cf_nec=NULL;   cf_dup=NULL;   cf_retok=NULL; 
+      cf_nec=NULL;   cf_dup=NULL;   cf_retok=NULL;  cf_coref=NULL;
       
-
       // Set built-in default values.
       ConfigFile=NULL; help=false;
       Lang=NULL; traces::TraceLevel=0; traces::TraceModule=0;
@@ -274,6 +281,7 @@ class config {
       TAGGER_Retokenize=0; TAGGER_ForceSelect=0;
       PARSER_GrammarFile=NULL;
       DEP_which=0; DEP_TxalaFile=NULL; DEP_MaltFile=NULL;
+      COREF_CoreferenceResolution=false; COREF_CorefFile=NULL;
 
        // parse comand line
       cfg_set_cmdline_context(con, 1, -1, argv);
@@ -317,6 +325,7 @@ class config {
       SetBooleanOptionCF(string(cf_nec),NEC_NEClassification,"NEClassification");
       SetBooleanOptionCF(string(cf_dup),SENSE_DuplicateAnalysis,"DuplicateAnalysis");
       SetBooleanOptionCF(string(cf_retok),TAGGER_Retokenize,"TaggerRetokenize");
+      SetBooleanOptionCF(string(cf_coref),COREF_CoreferenceResolution,"CoreferenceResolution");
       
       // Reload command line options to override ConfigFile options
       cfg_set_cmdline_context(con, 1, -1, argv);
@@ -342,6 +351,7 @@ class config {
       ExpandFileName(PARSER_GrammarFile); 
       ExpandFileName(DEP_TxalaFile);
       ExpandFileName(DEP_MaltFile);
+      ExpandFileName(COREF_CorefFile); 
 	     
       // Handle boolean options expressed with --myopt or --nomyopt in command line
       SetBooleanOptionCL(flush,noflush,AlwaysFlush,"flush");
@@ -356,6 +366,7 @@ class config {
       SetBooleanOptionCL(nec,nonec,NEC_NEClassification,"nec");
       SetBooleanOptionCL(dup,nodup,SENSE_DuplicateAnalysis,"dup");
       SetBooleanOptionCL(retok,noretok,TAGGER_Retokenize,"retk");
+      SetBooleanOptionCL(coref,nocoref,COREF_CoreferenceResolution,"coref");
 
       // translate InputF and OutputF strings to more useful integer values.
       if (string(InputF)=="plain") InputFormat = PLAIN;
@@ -494,6 +505,8 @@ class config {
       cout<<"--dep,-d string        Dependency parser to use (txala, malt)"<<endl;
       cout<<"--txala,-T filename    Rule file for Txala dependency parser"<<endl;
       cout<<"--malt,-M filename     Data file for dependency parser"<<endl;
+      cout<<"--coref, --nocoref     Whether to perform coreference resolution"<<endl;
+      cout<<"--fcorf,-C filename    Coreference solver data file"<<endl;
       cout<<endl;
     }
 
