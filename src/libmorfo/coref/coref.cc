@@ -29,8 +29,8 @@
 #include <fstream>
 #include <sstream>
 
-#include "freeling/coref.h"
 #include "fries/util.h"
+#include "freeling/coref.h"
 #include "freeling/traces.h"
 
 using namespace std;
@@ -42,20 +42,20 @@ using namespace std;
 ///    Outputs a sample. Only for debug purposes
 //////////////////////////////////////////////////////////////////
 
-void outSample(struct SAMPLE &sa){
-	cout << "SAMPLE" << endl;
-	cout << "	Sent: " << sa.sent << endl;
-	cout << "	Beg: " << sa.posbegin << endl;
-	cout << "	End: " << sa.posend << endl;
-	cout << "	Text: " << sa.text << endl;
-	cout << "	Tok: ";
-	for(vector<string>::iterator it = sa.texttok.begin(); it!= sa.texttok.end();++it)
-		cout << (*it) << " ";
-	cout << endl;
-	cout << "	Tag: ";
-	for(vector<string>::iterator it = sa.tags.begin(); it!= sa.tags.end();++it)
-		cout << (*it) << " ";
-	cout << endl;
+void outSample(SAMPLE &sa){
+  cout << "SAMPLE" << endl;
+  cout << "	Sent: " << sa.sent << endl;
+  cout << "	Beg: " << sa.posbegin << endl;
+  cout << "	End: " << sa.posend << endl;
+  cout << "	Text: " << sa.text << endl;
+  cout << "	Tok: ";
+  for(vector<string>::iterator it = sa.texttok.begin(); it!= sa.texttok.end();++it)
+    cout << (*it) << " ";
+  cout << endl;
+  cout << "	Tag: ";
+  for(vector<string>::iterator it = sa.tags.begin(); it!= sa.tags.end();++it)
+    cout << (*it) << " ";
+  cout << endl;
 }
 
 ///////////////////////////////////////////////////////////////
@@ -63,166 +63,205 @@ void outSample(struct SAMPLE &sa){
 /// appropriate files.
 ///////////////////////////////////////////////////////////////
 
-coref::coref(const std::string &filepref, const int vectors, const int dist){
-//	int vectors;
-	string feat,file,line;
+coref::coref(const std::string &filename, const int vectors) {
+  int lnum=0;
+  string path=filename.substr(0,filename.find_last_of("/\\")+1);
+  string line,sf,wf;
+  
+  ifstream fin;
+  fin.open(filename.c_str());  
+  if (fin.fail()) ERROR_CRASH("Cannot open Coreference config file "+filename);
 
-	// create feature extractor
-	extractor = new coref_fex();
-	extractor->typeVector = TYPE_TWO;
-//	vectors = DIST | IPRON | JPRON | STRMATCH | DEFNP | DEMNP | GENDER | SEMCLASS | PROPNAME | ALIAS | APPOS;
-	extractor->setVectors(vectors);
-	distance = dist;
+  int reading=0; 
+  while (getline(fin,line)) {
+    lnum++;
+    
+    if (line.empty() || line[0]=='%') {} // ignore comment and empty lines
 
-	// create AdaBoost classifier
-	TRACE(3," Loading adaboost model "+filepref+".abm");
-	classifier = new adaboost(filepref+".abm");
+    else if (line == "<ABModel>") reading=1;
+    else if (line == "</ABModel>") reading=0;
 
-	TRACE(3,"analyzer succesfully created");
+    else if (line == "<MaxDistance>") reading=2;
+    else if (line == "</MaxDistance>") reading=0;
+
+    else if (line == "<SEMDB>") reading=3;
+    else if (line == "</SEMDB>") reading=0;
+
+    else if (reading==1) {
+      ////// get .abm file absolute name
+      istringstream sin;  sin.str(line);
+      string fname;
+      sin>>fname;
+      fname = util::absolute(fname,path); 
+      // create AdaBoost classifier
+      TRACE(3," Loading adaboost model "+fname);
+      classifier = new adaboost(fname);
+    }
+    else if (reading==2) {
+      // Read MaxDistance value
+      istringstream sin;  sin.str(line);
+      sin>>MaxDistance ;
+    }
+    else if (reading==3) {
+      ////// load SEMDB section 
+      string key,fname;
+      istringstream sin;  sin.str(line);
+      sin>>key>>fname;
+      
+      if (key=="SenseFile")   sf= util::absolute(fname,path); 
+      else if (key=="WNFile") wf= util::absolute(fname,path); 
+      else 
+	WARNING("Unknown parameter "+key+" in SEMDB section of file "+filename+". SemDB not loaded");      
+    }
+  }
+
+  // create feature extractor
+  extractor = new coref_fex(TYPE_TWO, vectors, sf, wf);
+
+  TRACE(3,"analyzer succesfully created");
 }
 
 ///////////////////////////////////////////////////////////////
 /// Fills a sample from a node info
 ///////////////////////////////////////////////////////////////
 
-void coref::set_sample(parse_tree::iterator pt, struct SAMPLE & sample) const{
-	parse_tree::sibling_iterator d;
+void coref::set_sample(parse_tree::iterator pt, SAMPLE & sample) const{
+  parse_tree::sibling_iterator d;
 
-	if (pt->num_children()==0) {
-		word wo=pt->info.get_word();
-		string w = wo.get_form();
-		string t = wo.get_parole();
-		std::transform(w.begin(), w.end(), w.begin(), (int (*)(int))std::tolower);
-		std::transform(t.begin(), t.end(), t.begin(), (int (*)(int))std::tolower);
-
-		sample.posend++;
-		sample.text += " " + w;
-		sample.texttok.push_back(w);
-		sample.tags.push_back(t);
-	} else {
-		for (d=pt->sibling_begin(); d!=pt->sibling_end(); ++d)
-			set_sample(d, sample);
-	}
+  if (pt->num_children()==0) {
+    word wo=pt->info.get_word();
+    string w = util::lowercase(wo.get_form());
+    string t = util::lowercase(wo.get_parole());
+    
+    sample.posend++;
+    sample.text += " " + w;
+    sample.texttok.push_back(w);
+    sample.tags.push_back(t);
+  } 
+  else {
+    for (d=pt->sibling_begin(); d!=pt->sibling_end(); ++d) {
+      set_sample(d, sample);
+    }
+  }
 }
 
 ///////////////////////////////////////////////////////////////
 /// Finds recursively all the SN and put in a list of samples
 ///////////////////////////////////////////////////////////////
 
-void coref::add_candidates(int sent, int & word, parse_tree::iterator pt, list<struct SAMPLE> & candidates) const{
-	parse_tree::sibling_iterator d;
-
-	if (pt->num_children()==0) {
-		word++;
-	} else {
-		if(pt->info.get_label() == "sn"){
-			struct SAMPLE candidate;
-			candidate.sent = sent;
-			candidate.posbegin = word;
-			candidate.posend = word;
-			set_sample(pt, candidate);
-			word = candidate.posend;
-			candidate.node1 = &(pt->info);
-			candidates.push_back(candidate);
-		} else {
-			for (d=pt->sibling_begin(); d!=pt->sibling_end(); ++d)
-				add_candidates(sent, word, d, candidates);
-		}
-	}
+void coref::add_candidates(int sent, int & word, parse_tree::iterator pt, list<SAMPLE> & candidates) const{
+  parse_tree::sibling_iterator d;
+  
+  if (pt->num_children()==0) {
+    word++;
+  } 
+  else {
+    if (pt->info.get_label() == "sn"){
+      SAMPLE candidate;
+      candidate.sent = sent;
+      candidate.posbegin = word;
+      candidate.posend = word;
+      set_sample(pt, candidate);
+      word = candidate.posend;
+      candidate.node1 = &(pt->info);
+      candidates.push_back(candidate);
+    }
+    else {
+      for (d=pt->sibling_begin(); d!=pt->sibling_end(); ++d)
+	add_candidates(sent, word, d, candidates);
+    }
+  }
 }
 
 ///////////////////////////////////////////////////////////////
 /// Check if the two samples are coreferents. Uses the classifier.
 ///////////////////////////////////////////////////////////////
 
-bool coref::check_coref(struct SAMPLE & sa1, struct SAMPLE & sa2) const{
-	int j;
-	double pred[classifier->get_nlabels()];
-	std::vector<int> *encoded = new std::vector<int>;
-	struct EXAMPLE ex;
-	bool ret = false;
+bool coref::check_coref(const SAMPLE & sa1, const SAMPLE & sa2) const{
+  int j;
+  double pred[classifier->get_nlabels()];
+  std::vector<int> encoded;
+  EXAMPLE ex;
+  
+  TRACE(5,"    -Encoding example");
+  ex.sample1 = sa1;
+  ex.sample2 = sa2;
+  ex.sent = ex.sample2.sent - ex.sample1.sent;
+  //outSample(ex.sample1);
+  //outSample(ex.sample2);
+  extractor->extract(ex, encoded);
+  example exampl(classifier->get_nlabels());
+  for(std::vector<int>::iterator it = encoded.begin(); it!= encoded.end(); ++it) {
+    exampl.add_feature((*it));
+  }
 
-	ex.sample1 = sa1;
-	ex.sample2 = sa2;
-	ex.sent = ex.sample2.sent - ex.sample1.sent;
-	//outSample(ex.sample1);
-	//outSample(ex.sample2);
-	extractor->extract(ex, encoded);
-	example exampl(classifier->get_nlabels());
-	for(std::vector<int>::iterator it = encoded->begin(); it!= encoded->end(); ++it){
-		exampl.add_feature((*it));
-	}
+  TRACE(5,"    -Classifying");  
+  // classify current example
+  classifier->classify(exampl,pred);
+  
+  // find out which class has highest weight (alternatively, we
+  // could select all classes with positive weight, and propose
+  // more than one class per example)
+  double max=pred[0];
+  string tag=classifier->get_label(0);
+  for (j=1; j<classifier->get_nlabels(); j++) {
+    if (pred[j]>max) {
+      max=pred[j];
+      tag=classifier->get_label(j);
+    }
+  }
 
-	// classify current example
-	classifier->classify(exampl,pred);
+  // if no label has a positive prediction and <others> is defined, select <others> label.
+  string def = classifier->default_class();
+  if (max<0 && def!="") tag = def;
+  
+  TRACE(4,"    -Selected class: "+tag);
 
-	// find out which class has highest weight (alternatively, we
-	// could select all classes with positive weight, and propose
-	// more than one class per example)
-	double max=pred[0];
-	string tag=classifier->get_label(0);
-	for (j=1; j<classifier->get_nlabels(); j++) {
-		if (pred[j]>max) {
-			max=pred[j];
-			tag=classifier->get_label(j);
-		}
-	}
-	// if no label has a positive prediction and <others> is defined, select <others> label.
-	string def = classifier->default_class();
-	if (max<0 && def!="") tag = def;
-
-	if(tag == "Positive"){
-		ret = true;
-	}
-	return (ret);
+  return (tag == "Positive");
 }
+
+
 /////////////////////////////////////////////////////////////////////////////
 /// Classify the SN is our group of coreference
 /////////////////////////////////////////////////////////////////////////////
 
 void coref::analyze(document & doc) const {
-	vector<word>::iterator wr1, wr2;
-	list<sentence>::iterator se;
-	list<paragraph>::iterator par;
-	sentence::iterator w;
-	word::iterator a;
-	set<int>::iterator f;
-	vector<set<int> > features;
-	map<string,int>::const_iterator p;
+  
+  list<SAMPLE> candidates;
+  
+  TRACE(3,"Searching for candidate noun phrases");
+  int sent1 = 0;
+  int word1 = 0;
+  for (document::iterator par = doc.begin(); par != doc.end(); ++par) {
+    for (paragraph::iterator se = par->begin(); se != par->end(); ++se) {
+      add_candidates(sent1, word1, se->get_parse_tree().begin(), candidates);
+      sent1++;
+    }
+  }
+  
+  TRACE(3,"Pairing candidates ("+util::int2string(candidates.size())+")");
+  list<SAMPLE>::const_iterator i = candidates.begin();
+  ++i;
+  while (i != candidates.end()) {
 
-	string tag,def;
+    TRACE(4,"   pairing "+i->text+" with all previous");
+    bool found = false; 
+    bool end = false;
+    int count = MaxDistance;
+    list<SAMPLE>::const_iterator j = i; 
+    --j;
+    while (!end && !found && count > 0) {
+      TRACE(4,"   checking pair ("+j->text+","+i->text+")");
+      found = check_coref(*j, *i);
+      if (found) doc.add_positive(*(j->node1), *(i->node1));
+      
+      if (j==candidates.begin()) end=true;
+      else --j;
 
-	list<struct SAMPLE> candidates;
-	list<struct SAMPLE>::iterator it1, it2;
-
-	int sent1;
-	int word1;
-	bool found;
-	int count;
-	sent1 = 0;
-	word1 = 0;
-	for (par = doc.begin(); par != doc.end(); ++par){
-		for(se = (*par).begin(); se != (*par).end(); ++se){
-			add_candidates(sent1, word1, (*se).get_parse_tree().begin(), candidates);
-			sent1++;
-		}
-	}
-	it2 = candidates.begin();
-	++it2;
-	while(it2 != candidates.end()){
-		it1 = it2;
-		--it1;
-		found = false;
-		count = distance;
-		while(it1 != candidates.begin() && !found && count > 0){
-			found = check_coref(*it1, *it2);
-			if(found)
-				doc.add_positive(*(*it1).node1, *(*it2).node1);
-			--it1;
-			count--;
-		}
-		++it2;
-	}
+      count--;
+    }
+    ++i;
+  }
 }
 
 

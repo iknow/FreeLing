@@ -1,0 +1,12 @@
+<ABModel>
+coref.abm
+</ABModel>
+
+<SEMDB>
+SenseFile       /usr/local/share/FreeLing/es/senses16.db
+WNFile          /usr/local/share/FreeLing/common/wn16.db                  
+</SEMDB>
+
+<MaxDistance>
+20
+</MaxDistance>

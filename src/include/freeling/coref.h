@@ -33,7 +33,7 @@
 
 #include "fries.h"
 #include "omlet.h"
-#include "coref_fex.h"
+#include "freeling/coref_fex.h"
 
 ////////////////////////////////////////////////////////////////
 ///  The class coref implements a ML-based coreference classificator
@@ -46,15 +46,15 @@ class coref {
 		/// adaboost classifier
 		adaboost* classifier;
 		/// Max distance to search for a coreference node
-		int distance;
+		int MaxDistance;
 
-		bool check_coref(struct SAMPLE & sa1, struct SAMPLE & sa2) const;
-		void set_sample(parse_tree::iterator pt, struct SAMPLE & sample) const;
-		void add_candidates(int sent, int & word, parse_tree::iterator pt, list<struct SAMPLE> & candidates) const;
+		bool check_coref(const SAMPLE & sa1, const SAMPLE & sa2) const;
+		void set_sample(parse_tree::iterator pt, SAMPLE & sample) const;
+		void add_candidates(int sent, int & word, parse_tree::iterator pt, list<SAMPLE> & candidates) const;
 
 	public:
 		/// Constructor
-		coref(const std::string &, const int, const int);
+		coref(const std::string &, const int);
 
 		/// Classify SN's in given sentence in groups of coreference
 		void analyze(document &) const;
