@@ -21,9 +21,9 @@
 
 %% NEW (March 2009) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %										   %
-% Adverb vs. PP, phrasal verbs & clauses (GRPAR)				   %
-% Quotation marks default rules (GRPAR)						   %
 % Nonfinite infinitive clauses: parsing tag --> inf-cl (GRPAR)			   %
+% Nonfinite participle clauses: parsing tag --> part-cl (GRPAR)			   %
+% GRLAB revision (GRLAB)							   %
 %										   %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -59,8 +59,8 @@
 %:::::::::::::::::::::::::::::::::::::::::%
 
 %:::: NP <-- NP (parenthetical) ::::%
-17  -  -  (sn,sn-parenth)   top_left RELABEL - % (my brother (, John,))
-
+17  -  -  (sn-chunk,sn-parenth)   top_left RELABEL - % (my brother (, John,))
+17  -  -  (n-chunk{NNP},sn-chunk{Z}) top_left RELABEL - % (Room (7))
 
 %::::  NP <-- adjective ::::%
 
@@ -124,23 +124,24 @@
 40  -  -  (n-chunk,rel)   last_left MATCHING n-chunk 
 
 % Non-defining relative clauses (punctuation) %
-5  -  -  (rel-cl,sl-brk)   top_left RELABEL - % (which he found(,))
-6  -  sn-chunk_$$  (sl-brk,rel-cl)   top_right RELABEL - % the flat ((,) where she lived)
-6  -  n-chunk_$$  (sl-brk,rel-cl)   top_right RELABEL - % flats ((,) where she lived)
-6  -  sp-chunk_$$  (sl-brk,rel-cl)   top_right RELABEL - % on that month ((,) when she was promoted)
-51  -  -  (sl-brk,rel-cl<which>)   top_right RELABEL - % the book ((,) which I bought)
+5  -  -  (rel-cl,sf-brk)   top_left RELABEL - % (which he found(,))
+6  -  sn-chunk_$$  (sf-brk,rel-cl)   top_right RELABEL - % the flat ((,) where she lived)
+6  -  n-chunk_$$  (sf-brk,rel-cl)   top_right RELABEL - % flats ((,) where she lived)
+6  -  sp-chunk_$$  (sf-brk,rel-cl)   top_right RELABEL - % on that month ((,) when she was promoted)
+51  -  -  (sf-brk,rel-cl<which>)   top_right RELABEL - % the book ((,) which I bought)
 
 
 %:::::::::::::::::::::::::::::::::::::::::%
 %           PREPOSITIONAL PHRASE          %
 %:::::::::::::::::::::::::::::::::::::::::%
 
-
 %:::: PP <-- NP ::::%
 
 % Partitive PP %
 28 - !$$_*_vb-chunk (OF-chunk,sn-chunk) top_left RELABEL sp-chunk:- % postposed PP
 28 - !$$_*_vb-chunk (OF-chunk,n-chunk) top_left RELABEL sp-chunk:- % postposed PP
+28 - vb-chunk_$$_sf-brk (OF-chunk,sn-chunk) top_left RELABEL sp-chunk:- % postposed PP
+28 - vb-chunk_$$_sf-brk (OF-chunk,n-chunk) top_left RELABEL sp-chunk:- % postposed PP
 26 - vb-chunk_*_prt-sub_$$  (OF-chunk,sn-chunk)  top_left RELABEL sp-chunk:- % postposed PP before clauses
 26 - vb-chunk_*_prt-sub_$$  (OF-chunk,n-chunk)  top_left RELABEL sp-chunk:- % postposed PP before clauses
 27 - OUT_$$_*_vb-chunk  (OF-chunk,sn-chunk)  top_left RELABEL sp-chunk:- % preposed PP
@@ -166,6 +167,8 @@
 % 'To' PP %
 28 - !$$_*_vb-chunk (TO-chunk,sn-chunk) top_left RELABEL sp-chunk:- % postposed PP
 28 - !$$_*_vb-chunk (TO-chunk,n-chunk) top_left RELABEL sp-chunk:- % postposed PP
+28 - vb-chunk_$$_sf-brk (TO-chunk,sn-chunk) top_left RELABEL sp-chunk:- % postposed PP
+28 - vb-chunk_$$_sf-brk (TO-chunk,n-chunk) top_left RELABEL sp-chunk:- % postposed PP
 26 - vb-chunk_*_prt-sub_$$  (TO-chunk,sn-chunk)  top_left RELABEL sp-chunk:- % postposed PP before clauses
 26 - vb-chunk_*_prt-sub_$$  (TO-chunk,n-chunk)  top_left RELABEL sp-chunk:- % postposed PP before clauses
 27 - OUT_$$_*_vb-chunk  (TO-chunk,sn-chunk)  top_left RELABEL sp-chunk:- % preposed PP
@@ -186,6 +189,8 @@
 % 'Prt-sp' PP (s. /chunker/nexes.preposicionals) %
 28 - !$$_*_vb-chunk (prt-sp,sn-chunk) top_left RELABEL sp-chunk:- % postposed PP
 28 - !$$_*_vb-chunk (prt-sp,n-chunk) top_left RELABEL sp-chunk:- % postposed PP
+28 - vb-chunk_$$_sf-brk (prt-sp,sn-chunk) top_left RELABEL sp-chunk:- % postposed PP
+28 - vb-chunk_$$_sf-brk (prt-sp,n-chunk) top_left RELABEL sp-chunk:- % postposed PP
 26 - vb-chunk_*_prt-sub_$$  (prt-sp,sn-chunk)  top_left RELABEL sp-chunk:- % postposed PP before clauses
 26 - vb-chunk_*_prt-sub_$$  (prt-sp,n-chunk)  top_left RELABEL sp-chunk:- % postposed PP before clauses
 27 - OUT_$$_*_vb-chunk  (prt-sp,sn-chunk)  top_left RELABEL sp-chunk:- % preposed PP
@@ -207,6 +212,8 @@
 % 'Prt-mix' PP (s. /chunker/nexes.mixtos) %
 28 - !$$_*_vb-chunk (prt-mix,sn-chunk) top_left RELABEL sp-chunk:- % postposed PP
 28 - !$$_*_vb-chunk (prt-mix,n-chunk) top_left RELABEL sp-chunk:- % postposed PP
+28 - vb-chunk_$$_sf-brk (prt-mix,sn-chunk) top_left RELABEL sp-chunk:- % postposed PP
+28 - vb-chunk_$$_sf-brk (prt-mix,n-chunk) top_left RELABEL sp-chunk:- % postposed PP
 26 - vb-chunk_*_prt-sub_$$  (prt-mix,sn-chunk)  top_left RELABEL sp-chunk:- % postposed PP before clauses
 26 - vb-chunk_*_prt-sub_$$  (prt-mix,n-chunk)  top_left RELABEL sp-chunk:- % postposed PP before clauses
 27 - OUT_$$_*_vb-chunk  (prt-mix,sn-chunk)  top_left RELABEL sp-chunk:- % preposed PP
@@ -227,6 +234,8 @@
 % 'Prt-sub' PP (s. /chunker/nexes.subordinants) %
 28 - !$$_*_vb-chunk (prt-sub,sn-chunk) top_left RELABEL sp-chunk:- % postposed PP
 28 - !$$_*_vb-chunk (prt-sub,n-chunk) top_left RELABEL sp-chunk:- % postposed PP
+28 - vb-chunk_$$_sf-brk (prt-sub,sn-chunk) top_left RELABEL sp-chunk:- % postposed PP
+28 - vb-chunk_$$_sf-brk (prt-sub,n-chunk) top_left RELABEL sp-chunk:- % postposed PP
 26 - vb-chunk_*_prt-sub_$$  (prt-sub,sn-chunk)  top_left RELABEL sp-chunk:- % postposed PP before clauses
 26 - vb-chunk_*_prt-sub_$$  (prt-sub,n-chunk)  top_left RELABEL sp-chunk:- % postposed PP before clauses
 27 - OUT_$$_*_vb-chunk  (prt-sub,sn-chunk)  top_left RELABEL sp-chunk:- % preposed PP
@@ -247,27 +256,32 @@
 
 %:::: PP <-- VP ::::%
 
-% Gerund clause & verbal complements/adjuncts with preposition %
+% Participle clauses & verbal complements/adjuncts with preposition %
 
-51 - - (OF-chunk,sv{VBG}) top_left RELABEL sp-chunk:-
-51 - - (TO-chunk,sv{VBG}) top_left RELABEL sp-chunk:-
-51 - - (prt-sp,sv{VBG}) top_left RELABEL sp-chunk:-
-51 - - (prt-mix,sv{VBG}) top_left RELABEL sp-chunk:-
-51 - - (prt-sub,sv{VBG}) top_left RELABEL sp-chunk:-
-51 - - (OF-chunk,vb-chunk{VBG}) top_left RELABEL sp-chunk:sv
-51 - - (TO-chunk,vb-chunk{VBG}) top_left RELABEL sp-chunk:sv
-79 - - (prt-sp,vb-chunk{VBG}) top_left RELABEL sp-chunk:sv
-51 - - (prt-mix,sv{VBG}) top_left RELABEL sp-chunk:sv
-51 - - (prt-sub,sv{VBG}) top_left RELABEL sp-chunk:sv
+51 - - (OF-chunk,sv{VBG}) top_left RELABEL sp-chunk:part-cl
+51 - - (TO-chunk,sv{VBG}) top_left RELABEL sp-chunk:part-cl
+51 - - (prt-sp,sv{VBG}) top_left RELABEL sp-chunk:part-cl
+51 - - (prt-mix,sv{VBG}) top_left RELABEL sp-chunk:part-cl
+51 - - (prt-sub,sv{VBG}) top_left RELABEL sp-chunk:part-cl
+51 - - (OF-chunk,vb-chunk{VBG}) top_left RELABEL sp-chunk:part-cl
+51 - - (TO-chunk,vb-chunk{VBG}) top_left RELABEL sp-chunk:part-cl
+79 - - (prt-sp,vb-chunk{VBG}) top_left RELABEL sp-chunk:part-cl
+51 - - (prt-mix,sv{VBG}) top_left RELABEL sp-chunk:part-cl
+51 - - (prt-sub,sv{VBG}) top_left RELABEL sp-chunk:part-cl
+
+51 - - (OF-chunk,sv{VBN}) top_left RELABEL sp-chunk:part-cl
+51 - - (TO-chunk,sv{VBN}) top_left RELABEL sp-chunk:part-cl
+51 - - (prt-sp,sv{VBN}) top_left RELABEL sp-chunk:part-cl
+51 - - (prt-mix,sv{VBN}) top_left RELABEL sp-chunk:part-cl
+51 - - (prt-sub,sv{VBN}) top_left RELABEL sp-chunk:part-cl
+51 - - (OF-chunk,vb-chunk{VBN}) top_left RELABEL sp-chunk:part-cl
+51 - - (TO-chunk,vb-chunk{VBN}) top_left RELABEL sp-chunk:part-cl
+79 - - (prt-sp,vb-chunk{VBN}) top_left RELABEL sp-chunk:part-cl
+51 - - (prt-mix,sv{VBN}) top_left RELABEL sp-chunk:part-cl
+51 - - (prt-sub,sv{VBN}) top_left RELABEL sp-chunk:part-cl
 
 
 % Infinitive clause with 'to' %
-57 - - (TO-chunk,sv{VB$}) top_left RELABEL inf-cl:- % (to (climb the tree))
-81 - - (TO-chunk,vb-chunk{VB}) top_left RELABEL inf-cl:sv % (to (talk))
-81 - - (TO-chunk,vb-be{VB$}) top_left RELABEL inf-cl:sv
-81 - - (TO-chunk,vb-do{VB$}) top_left RELABEL inf-cl:sv
-81 - - (TO-chunk,vb-have{VB$}) top_left RELABEL inf-cl:sv
-
 57 - - (TO-chunk,sv{VB$}) top_left RELABEL inf-cl:- % (to (climb the tree))
 81 - - (TO-chunk,vb-chunk{VB}) top_left RELABEL inf-cl:sv % (to (talk))
 81 - - (TO-chunk,vb-be{VB$}) top_left RELABEL inf-cl:sv
@@ -278,7 +292,6 @@
 %:::::::::::::::::::::::::::::::::::::::::%
 %               VERB PHRASE               %
 %:::::::::::::::::::::::::::::::::::::::::%
-
 
 %:::: AUXILIARY VERBS & MODAL VERBS ::::%
 
@@ -413,6 +426,9 @@
 3  -  -  (vb-have,adv)   top_left RELABEL -
 3  -  -  (vb-do,adv)   top_left RELABEL -
 
+% Infinitve negation %
+3 - - (adv<not>,inf-cl) last_right MATCHING sv % ((not) to interfere)
+
 
 %:::: IN (PoS TAG) ADVERBS ::::%
 
@@ -457,7 +473,6 @@
 %:::::::::::::::::::::::::::::::::::::::::%
 %           EXISTENCIAL CLAUSE            %
 %:::::::::::::::::::::::::::::::::::::::::%
-%!!!ampliar postverbal + funcions!!!
 
 %:::: EXISTENCIAL MARK --> VP ::::%
 15 - - (adv{EX},vb-be) top_right RELABEL -:exs % ((there) are) some chairs
@@ -477,7 +492,6 @@
 
 % SN --> VP dependence is created before VP <-- NP.
 % !!! Exception: FILTER 1 !!!
-%!!!ampliar postverbal + funcions!!!
 
 %:::: NP --> VP followed by NP ::::%
 
@@ -858,8 +872,8 @@
 %             POSTPOSED NP                %
 %:::::::::::::::::::::::::::::::::::::::::%
 
-% Because preposed NP rules relavel 'vb-be', 'vb-have', 'vb-do' as 'vb-chunk' and that rules
-% are applied befor postposed NP rules, VP <-- NP rules only refer to base form ('vb-chunk').
+% Because preposed NP rules relabel 'vb-be', 'vb-have', 'vb-do' as 'vb-chunk' and that rules
+% are applied before postposed NP rules, VP <-- NP rules only refer to base form ('vb-chunk').
 
 %:::: VP <-- NP followed by NP ::::%
 75  -  $$_sn-chunk  (vb-chunk,sn-chunk)   top_left RELABEL - % (told (me)) the tale
@@ -1070,42 +1084,42 @@
 %:::::::::::::::::::::::::::::::::::::::::%
 
 %:::: VP <-- adverb followed by NP ::::%
-75  -  $$_sn-chunk  (vb-chunk,adv)   top_left RELABEL - 
-75  -  $$_n-chunk  (vb-chunk,adv)   top_left RELABEL - 
-75  -  $$_sn-coor  (vb-chunk,adv)   top_left RELABEL - 
-75  -  $$_sn-chunk  (vb-chunk,adv-coor)   top_left RELABEL - 
-75  -  $$_n-chunk  (vb-chunk,adv-coor)   top_left RELABEL - 
-75  -  $$_sn-coor  (vb-chunk,adv-coor)   top_left RELABEL - 
+85  -  $$_sn-chunk  (vb-chunk,adv)   top_left RELABEL - 
+85  -  $$_n-chunk  (vb-chunk,adv)   top_left RELABEL - 
+85  -  $$_sn-coor  (vb-chunk,adv)   top_left RELABEL - 
+85  -  $$_sn-chunk  (vb-chunk,adv-coor)   top_left RELABEL - 
+85  -  $$_n-chunk  (vb-chunk,adv-coor)   top_left RELABEL - 
+85  -  $$_sn-coor  (vb-chunk,adv-coor)   top_left RELABEL - 
 
 
 %:::: VP <-- adverb followed by PP ::::%
-75  -  $$_sp-chunk  (vb-chunk,adv)   top_left RELABEL - 
-75  -  $$_TO-chunk  (vb-chunk,adv)   top_left RELABEL - 
-75  -  $$_prt-sp  (vb-chunk,adv)   top_left RELABEL - 
-75  -  $$_sp-coor  (vb-chunk,adv)   top_left RELABEL - 
-75  -  $$_sp-chunk  (vb-chunk,adv-coor)   top_left RELABEL - 
-75  -  $$_TO-chunk  (vb-chunk,adv-coor)   top_left RELABEL - 
-75  -  $$_prt-sp  (vb-chunk,adv-coor)   top_left RELABEL - 
-75  -  $$_sp-coor  (vb-chunk,adv-coor)   top_left RELABEL - 
+85  -  $$_sp-chunk  (vb-chunk,adv)   top_left RELABEL - 
+85  -  $$_TO-chunk  (vb-chunk,adv)   top_left RELABEL - 
+85  -  $$_prt-sp  (vb-chunk,adv)   top_left RELABEL - 
+85  -  $$_sp-coor  (vb-chunk,adv)   top_left RELABEL - 
+85  -  $$_sp-chunk  (vb-chunk,adv-coor)   top_left RELABEL - 
+85  -  $$_TO-chunk  (vb-chunk,adv-coor)   top_left RELABEL - 
+85  -  $$_prt-sp  (vb-chunk,adv-coor)   top_left RELABEL - 
+85  -  $$_sp-coor  (vb-chunk,adv-coor)   top_left RELABEL - 
 
 
 %:::: VP <-- adverb followed by adjective ::::%
-75  -  $$_attrib  (vb-chunk,adv)   top_left RELABEL - 
-75  -  $$_att-coor  (vb-chunk,adv)   top_left RELABEL - 
-75  -  $$_attrib  (vb-chunk,adv-coor)   top_left RELABEL - 
-75  -  $$_att-coor  (vb-chunk,adv-coor)   top_left RELABEL - 
+85  -  $$_attrib  (vb-chunk,adv)   top_left RELABEL - 
+85  -  $$_att-coor  (vb-chunk,adv)   top_left RELABEL - 
+85  -  $$_attrib  (vb-chunk,adv-coor)   top_left RELABEL - 
+85  -  $$_att-coor  (vb-chunk,adv-coor)   top_left RELABEL - 
 
 
 %:::: VP <-- adverb followed by adverb ::::%
-75  -  $$_adv  (vb-chunk,adv)   top_left RELABEL - 
-75  -  $$_adv-coor  (vb-chunk,adv)   top_left RELABEL - 
-75  -  $$_adv  (vb-chunk,adv-coor)   top_left RELABEL - 
-75  -  $$_adv-coor  (vb-chunk,adv-coor)   top_left RELABEL - 
+85  -  $$_adv  (vb-chunk,adv)   top_left RELABEL - 
+85  -  $$_adv-coor  (vb-chunk,adv)   top_left RELABEL - 
+85  -  $$_adv  (vb-chunk,adv-coor)   top_left RELABEL - 
+85  -  $$_adv-coor  (vb-chunk,adv-coor)   top_left RELABEL - 
 
 
 %:::: VP <-- adverb default rules ::::%
-78 - - (vb-chunk,adv) top_left RELABEL sv:-
-78 - - (vb-chunk,adv-coor) top_left RELABEL sv:-
+88 - - (vb-chunk,adv) top_left RELABEL sv:-
+88 - - (vb-chunk,adv-coor) top_left RELABEL sv:-
 
 
 %:::::::::::::::::::::::::::::::::::::::::%
@@ -1687,7 +1701,6 @@
 %    FINITE CLAUSE STRUCTURE FORMATION    %
 %:::::::::::::::::::::::::::::::::::::::::%
 
-
 % Base form %
 26  -  prt-sp_$$  (sn-chunk,vb-chunk)   top_right RELABEL -:-
 26  -  prt-mix_$$  (sn-chunk,vb-chunk)   top_right RELABEL -:-
@@ -2030,7 +2043,7 @@
 27 - sv_$$_*_st-brk (prt-mix,vb-chunk) top_left RELABEL sp-chunk:sv
 27 - sv_$$_*_st-brk (prt-mix,clause) top_left RELABEL sp-chunk:-
 
-% Subordinate clauses without postosed arguments and/or adjuncts (transitive main sentence) %
+% Subordinate clauses without postposed arguments and/or adjuncts (transitive main sentence) %
 27 - vb-chunk_$$_st-brk (prt-mix,sv) top_left RELABEL sp-chunk:-
 27 - vb-chunk_$$_st-brk (prt-mix,vb-chunk) top_left RELABEL sp-chunk:sv
 27 - vb-chunk_$$_st-brk (prt-mix,clause) top_left RELABEL sp-chunk:-
@@ -2095,13 +2108,14 @@
 9 - - (wh-pro<what>,sv) top_left RELABEL sub-cl:-
 
 
-%%% SUBORDINADES ADVERBIALS
+%:::: SUBORDINADES ADVERBIALS ::::%
 1 - - (prt-sub,sv) top_left RELABEL sub-cl:-
 90 - - (wh-adv,sv) top_left RELABEL sub-cl:-
-25  -  quot-mk_$$  (sl-brk,vb-chunk)   top_right RELABEL - 
-% 90  -  $$_st-brk  (sl-brk,sv)   top_right RELABEL sub-cl 
-90 - $$_st-brk (sl-brk,vb-chunk{VBG}) top_right RELABEL -:sub-cl
-90 - OUT_$$_*_st-brk (vb-chunk{VBG},sl-brk) top_right RELABEL -:sub-cl
+25  -  quot-mk_$$  (sf-brk,vb-chunk)   top_right RELABEL - 
+% 90  -  $$_st-brk  (sf-brk,sv)   top_right RELABEL sub-cl 
+90 - $$_st-brk (sf-brk,vb-chunk{VBG}) top_right RELABEL -:sub-cl
+90 - OUT_$$_*_st-brk (vb-chunk{VBG},sf-brk) top_right RELABEL -:sub-cl
+90 - sf-brk_$$_st-brk (n-chunk<how>,inf-cl) top_left RELABEL sub-cl:- % (how (to land))
 
 %%% SUBORDINADES ADVERBIALS COMPARATIVES "as X as"
 49 - - (prt-mix,attrib) top_left RELABEL sub-cl:-
@@ -2348,7 +2362,7 @@
 
 %:::: 2nd coordinated chunk / clause ::::%
 98 - !$$_nex-coord (nex-coord,sv) top_left RELABEL sv-coor:-
-98 - !$$_sl-brk (nex-coord,sv) top_left RELABEL sv-coor:-
+98 - !$$_sf-brk (nex-coord,sv) top_left RELABEL sv-coor:-
 97 - OUT_$$ (nex-coord,sv) top_right RELABEL -:sv
 97 - - (nex-coord,claus) top_left RELABEL claus-coor:-
 97 - - (nex-coord,vb-chunk) top_left RELABEL sv-coor:-
@@ -2481,7 +2495,7 @@
 %:::::::::::::::::::::::::::::::::::::::::%
 
 %:::: Closing quote ::::%
-2 - quot-mk_$$_sl-brk_sv (sv,quot-mk) top_left RELABEL -:- % "(she arrives at school late("))
+2 - quot-mk_$$_sf-brk_sv (sv,quot-mk) top_left RELABEL -:- % "(she arrives at school late("))
 2 - quot-mk_$$_st-brk (sv,quot-mk) top_left RELABEL -:- % "(she is talkative(")).
 3 - quot-mk_$$_*_OUT (sv,quot-mk) top_left RELABEL -:-
 4 - $$_OUT (sv,quot-mk) top_left RELABEL sv-quote:-
@@ -2502,7 +2516,7 @@
 
 
 %:::: Opening quote ::::%
-3 - $$_sl-brk_sv (quot-mk,sv) top_right RELABEL -:- %((")she arrives late at school"), she said
+3 - $$_sf-brk_sv (quot-mk,sv) top_right RELABEL -:- %((")she arrives late at school"), she said
 3 - $$_sv (quot-mk,sv) top_right RELABEL -:- %
 3 - sv_$$ (quot-mk,sv) top_right RELABEL -:-
 3 - - (quot-mk,sv) top_right RELABEL -:- % ((")she is talkative)
@@ -2519,7 +2533,7 @@
 2 - $$_~quot-mk (quot-mk,vb-chunk) top_right RELABEL -:- % DEFAULT RULE
 
 %:::: Opening direct speech ::::%
-1 - $$_quot-mk (sl-brk{Fd},quot-mk) top_left RELABEL conj:-
+1 - $$_quot-mk (sf-brk{Fd},quot-mk) top_left RELABEL conj:-
 
 % Simbols diversos % !!!NO REVISAT!!!
 97  -  -  (inc-mk,sv-coor)   top_right RELABEL -
@@ -2527,12 +2541,12 @@
 %95 - inc-mk_$$ (sv,inc-mk) top_left RELABEL parent:-
 %96 - - (inc-mk,parent) top_left RELABEL parenthetical:-
 50  -  -  (sub-cl,sv)   top_right RELABEL -
-5  -  $$_sl-brk_*_OUT  (sv,ex-brk{Fat})   top_left RELABEL -
-5  -  $$_sl-brk_*_OUT  (sv,in-brk{Fit})   top_left RELABEL -
-50  -  $$_sv  (sv,sl-brk)   top_left RELABEL -
-50  -  $$_sv-coor  (sv,sl-brk)   top_left RELABEL -
-36  -  OUT_$$  (parenthetical,sl-brk)   top_left RELABEL -
-% 34  -  OUT_$$_sv  (sv{VBG},sl-brk)   top_left RELABEL parenthetical
+5  -  $$_sf-brk_*_OUT  (sv,ex-brk{Fat})   top_left RELABEL -
+5  -  $$_sf-brk_*_OUT  (sv,in-brk{Fit})   top_left RELABEL -
+50  -  $$_sv  (sv,sf-brk)   top_left RELABEL -
+50  -  $$_sv-coor  (sv,sf-brk)   top_left RELABEL -
+36  -  OUT_$$  (parenthetical,sf-brk)   top_left RELABEL -
+% 34  -  OUT_$$_sv  (sv{VBG},sf-brk)   top_left RELABEL parenthetical
 37  -  OUT_$$  (parenthetical,sv)   top_right RELABEL -
 %2  -  -  (sn-chunk,parenthetical)   top_left RELABEL - % no funciona
 %2  -  -  (n-chunk,parenthetical)   top_left RELABEL - % no funciona
@@ -2552,10 +2566,10 @@
 %:::::::::::::::::::::::::::::::::::::::::%
 
 %:::: Closing parenthetical units ::::%
-6 - sl-brk_$$ (sn-chunk,sl-brk) top_left RELABEL sn-parenth:- % ,(the boy(,))
-6 - sl-brk_$$ (n-chunk,sl-brk) top_left RELABEL sn-parenth:- % ,(Barcelona(,))
-95 - sl-brk_$$ (sp-chunk,sl-brk) top_left RELABEL sp-parenth:- % (from July(,))
-95 - sl-brk_$$ (sv,sl-brk) top_left RELABEL sv-parenth:- % (sings(,))
+6 - sf-brk_$$ (sn-chunk,sf-brk) top_left RELABEL sn-parenth:- % ,(the boy(,))
+6 - sf-brk_$$ (n-chunk,sf-brk) top_left RELABEL sn-parenth:- % ,(Barcelona(,))
+95 - sf-brk_$$ (sp-chunk,sf-brk) top_left RELABEL sp-parenth:- % (from July(,))
+95 - sf-brk_$$ (sv,sf-brk) top_left RELABEL sv-parenth:- % (sings(,))
 95 - inc-mk_$$ (sn-chunk,inc-mk) top_left RELABEL sn-parenth:- % -(boy(-))
 95 - inc-mk_$$ (n-chunk,inc-mk) top_left RELABEL sn-parenth:- % -(Barcelona(-))
 95 - inc-mk_$$ (sv,inc-mk) top_left RELABEL sv-parenth:- % (sings(-))
@@ -2563,12 +2577,12 @@
 
 
 %:::: Opening parenthetical units ::::%
-96  -  $$_st-brk  (sl-brk,sn-chunk)   top_right RELABEL - % ((,)book).
-96  -  $$_st-brk  (sl-brk,sp-chunk)   top_right RELABEL - % ((,)book).
-96  -  $$_st-brk  (sl-brk,sv)   top_right RELABEL - % ((,)book).
-96  -  -  (sl-brk,sn-parenth)   top_right RELABEL - % ((,)book)
-96  -  -  (sl-brk,sp-parenth)   top_right RELABEL - % ((-)from July-)
-96  -  -  (sl-brk,sv-parenth)   top_right RELABEL - % ((-)sings-)
+96  -  $$_st-brk  (sf-brk,sn-chunk)   top_right RELABEL - % ((,)book).
+96  -  $$_st-brk  (sf-brk,sp-chunk)   top_right RELABEL - % ((,)book).
+96  -  $$_st-brk  (sf-brk,sv)   top_right RELABEL - % ((,)book).
+96  -  -  (sf-brk,sn-parenth)   top_right RELABEL - % ((,)book)
+96  -  -  (sf-brk,sp-parenth)   top_right RELABEL - % ((-)from July-)
+96  -  -  (sf-brk,sv-parenth)   top_right RELABEL - % ((-)sings-)
 96 - $$_st-brk (inc-mk,sn-chunk) top_right RELABEL -:sn-parenth % ((-)the book).
 96 - $$_st-brk (inc-mk,n-chunk) top_right RELABEL -:sn-parenth % ((-)book).
 96 - $$_st-brk (inc-mk,sp-chunk) top_right RELABEL -:sp-parenth % ((-)from July).
@@ -2584,8 +2598,8 @@
 %         OTHER PUNCTUATION MARKS         %
 %:::::::::::::::::::::::::::::::::::::::::%
 
-% 96 - OUT_$$  (n-chunk,sf-brk) top_left RELABEL - % PROVA
-
+% 96 - OUT_$$  (n-chunk,sf-brk) top_left RELABEL -
+% 96 - OUT_$$  (sv,sf-brk) top_left RELABEL -
 
 %%% ALTRES ELEMENTS %%% !!!NO REVISAT!!!
 87  -  -  (adv,sv)   top_right RELABEL - 
@@ -2900,7 +2914,7 @@
 14  -  $$_vb-be  (sp-chunk,adv)   top_left RELABEL - 
 14  -  $$_vb-have  (sp-chunk,adv)   top_left RELABEL - 
 14  -  $$_vb-do  (sp-chunk,adv)   top_left RELABEL - 
-14  -  OUT_$$_sl-brk  (sp-chunk,sp-chunk)   top_left RELABEL - 
+14  -  OUT_$$_sf-brk  (sp-chunk,sp-chunk)   top_left RELABEL - 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -3021,14 +3035,14 @@
 %:::::::::::::::::::::::::::::::::::::::::::::::::::::::%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-49  -  -  (vb-chunk,adv)   top_left RELABEL - 
-49  -  -  (adv,vb-chunk)   top_right RELABEL - 
-47  -  -  (vb-be,adv)   top_left RELABEL - 
-47  -  -  (adv,vb-be)   top_right RELABEL - 
-48  -  -  (vb-have,adv)   top_left RELABEL - 
-48  -  -  (adv,vb-have)   top_right RELABEL - 
-48  -  -  (vb-do,adv)   top_left RELABEL - 
-48  -  -  (adv,vb-do)   top_right RELABEL - 
+89  -  -  (vb-chunk,adv)   top_left RELABEL - 
+89  -  -  (adv,vb-chunk)   top_right RELABEL - 
+87  -  -  (vb-be,adv)   top_left RELABEL - 
+87  -  -  (adv,vb-be)   top_right RELABEL - 
+88  -  -  (vb-have,adv)   top_left RELABEL - 
+88  -  -  (adv,vb-have)   top_right RELABEL - 
+88  -  -  (vb-do,adv)   top_left RELABEL - 
+88  -  -  (adv,vb-do)   top_right RELABEL - 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -3039,11 +3053,11 @@
 
 %!!!NO REVISAT!!!
 
-5 - OUT_$$ (sp-chunk,sl-brk) top_left RELABEL adv:-
+5 - OUT_$$ (sp-chunk,sf-brk) top_left RELABEL adv:-
 90  -  OUT_$$  (adv,sv)   top_right RELABEL - 
 
-5  -  $$_sl-brk  (sl-brk,adv)   top_right RELABEL - 
-5  -  !$$_nex-coord  (adv,sl-brk)   top_left RELABEL - 
+5  -  $$_sf-brk  (sf-brk,adv)   top_right RELABEL - 
+5  -  !$$_nex-coord  (adv,sf-brk)   top_left RELABEL - 
 
 25  -  -  (date,vb-chunk)   top_right RELABEL - 
 25  -  -  (vb-chunk,date)   top_left RELABEL - 
@@ -3070,20 +3084,200 @@
 
 
 <GRLAB>
-%%% COORDINACIONS
-sv		conj	d.label=claus	d.lemma=but|or|and|nor|either|neither
-nex-coord	conj	d.label=sn-chunk
-nex-coord	conj	d.label=n-chunk
-sp-chunk	conj	d.label=n-chunk|sn-chunk|NN|NNS|NP|NNP	p.label=and|or|but|either|neither
+
+%:::: TOPIC ::::%
+claus		topic		d.label=quant	d.side=left
+claus		topic		d.label=wh-adv	d.side=left
+claus		topic		d.label=wh-pro	d.side=left
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%:::::::::::::::::::::::::::::::::::::::::::::::::::::::%
-%::::::::::::    PHRASAL VERBS PARTICLE    :::::::::::::%
-%:::::::::::::::::::::::::::::::::::::::::::::::::::::::%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%:::: NON CLAUSAL SUBJECTS ::::%
 
-%:::: INTRANSITIVE PHRASAL VERBS ::::%
+claus		ncsubj		d.label=sn-chunk	d.side=left
+claus		ncsubj		d.label=n-chunk		d.side=left
+claus		ncsubj		d.label=sn-coor		d.side=left
+sv		ncsubj		d.label=sn-chunk	d.side=left
+sv		ncsubj		d.label=n-chunk		d.side=left
+sv		ncsubj		d.label=sn-coor		d.side=left
+vb-chunk	ncsubj		d.label=sn-chunk	d.side=left
+vb-chunk	ncsubj		d.label=n-chunk		d.side=left
+vb-chunk	ncsubj		d.label=sn-coor		d.side=left
+rel		ncsubj		d.label=sn-chunk	d.side=left
+rel		ncsubj		d.label=n-chunk		d.side=left
+rel		ncsubj		d.label=sn-coor		d.side=left
+
+
+%:::: CLAUSAL SUBJECTS ::::%
+
+claus		csubj-that	d.label=sub-cl		d.side=left	d.lemma=that
+sv		csubj-that	d.label=sub-cl		d.side=left	d.lemma=that
+vb-chunk	csubj-that	d.label=sub-cl		d.side=left	d.lemma=that
+claus		xsubj		d.label=inf-cl		d.side=left
+sv		xsubj		d.label=inf-cl		d.side=left
+vb-chunk	xsubj		d.label=inf-cl		d.side=left
+
+
+%:::: DIRECT OBJECTS ::::%
+
+% Clause/predicate/verb objects %
+claus		dobj		d.label=sn-chunk	d.side=right
+claus		dobj		d.label=n-chunk		d.side=right
+claus		dobj		d.label=sn-coor		d.side=right
+sv		dobj		d.label=sn-chunk	d.side=right
+sv		dobj		d.label=n-chunk		d.side=right
+sv		dobj		d.label=sn-coor		d.side=right
+vb-chunk	dobj		d.label=sn-chunk	d.side=right
+vb-chunk	dobj		d.label=n-chunk		d.side=right
+vb-chunk	dobj		d.label=sn-coor		d.side=right
+rel-cl		dobj		d.label=sn-chunk	d.side=right
+rel-cl		dobj		d.label=n-chunk		d.side=right
+rel-cl		dobj		d.label=sn-coor		d.side=right
+rel		dobj		d.label=sn-chunk	d.side=right
+rel		dobj		d.label=n-chunk		d.side=right
+rel		dobj		d.label=sn-coor		d.side=right
+
+% Preposition objects %
+sp-chunk	dobj		d.label=sn-chunk
+sp-chunk	dobj		d.label=n-chunk
+sp-chunk	dobj		d.label=sn-coor
+sp-chunk	dobj		d.label=PRP
+sp-chunk	dobj		d.label=quant
+
+sp-chunk	dobj		d.label=sv
+sp-chunk	dobj		d.label=vb-chunk
+sp-chunk	dobj		d.label=vb-be
+sp-chunk	dobj		d.label=vb-have
+sp-chunk	dobj		d.label=vb-do
+
+
+%:::: INDIRECT OBJECTS ::::%
+
+adv 		iobj		d.label=sp-chunk
+
+
+%:::: CLAUSAL COMPLEMENTS ::::%
+
+% Clause/predicate/verb complements %
+claus		ccomp		d.label=sv		d.side=right	p.class=compl
+claus		ccomp		d.label=quest 		d.side=right	p.class=compl
+claus		ccomp		d.label=sub-cl		d.side=right	d.lemma=that
+sv		ccomp		d.label=sv		d.side=right	p.class=compl
+sv		ccomp		d.label=quest 		d.side=right	p.class=compl
+sv		ccomp		d.label=sub-cl		d.side=right	d.lemma=that
+
+rel-cl		ccomp		d.label=rel
+
+% Adverb complements %
+adv 		ccomp		d.label=sn-chunk	d.side=right
+adv 		ccomp		d.label=n-chunk		d.side=right
+adv 		ccomp		d.label=sn-coor		d.side=right
+
+adv		ccomp		d.label=sv
+adv		ccomp		d.label=vb-chunk
+adv		ccomp		d.label=vb-be
+adv		ccomp		d.label=vb-have
+adv		ccomp		d.label=vb-do
+
+
+%:::: NON CLAUSAL MODIFIERS ::::%
+
+% Clause/predicate/verb modifiers %
+claus		ncmod		d.label=adv
+sv		ncmod		d.label=adv
+vb-chunk	ncmod		d.label=adv
+vb-be		ncmod		d.label=adv
+vb-have		ncmod		d.label=adv
+vb-do		ncmod		d.label=adv
+rel		ncmod		d.label=adv
+
+vb-chunk	ncmod		d.label=vb-chunk
+vb-be		ncmod		d.label=vb-chunk
+vb-have		ncmod		d.label=vb-chunk
+vb-do		ncmod		d.label=vb-chunk
+
+claus		ncmod		d.label=sp-chunk
+sv		ncmod		d.label=sp-chunk
+vb-chunk	ncmod		d.label=sp-chunk
+vb-be		ncmod		d.label=sp-chunk
+vb-have		ncmod		d.label=sp-chunk
+vb-do		ncmod		d.label=sp-chunk
+rel		ncmod		d.label=sp-chunk
+
+claus		ncmod		d.label=attrib
+sv		ncmod		d.label=attrib
+vb-chunk	ncmod		d.label=attrib
+vb-be		ncmod		d.label=attrib
+vb-have		ncmod		d.label=attrib
+vb-do		ncmod		d.label=attrib
+rel		ncmod		d.label=attrib
+
+% Noun modifiers %
+sn-chunk	ncmod		d.label=sn-chunk
+sn-chunk	ncmod		d.label=n-chunk
+sn-chunk	ncmod		d.label=NN
+sn-chunk	ncmod		d.label=NNS
+sn-chunk	ncmod		d.label=NP
+sn-chunk	ncmod		d.label=NNP
+sn-chunk	ncmod		d.label=attrib
+sn-chunk	ncmod		d.label=pred
+sn-chunk	ncmod		d.label=sp-chunk
+
+n-chunk		ncmod		d.label=NN
+n-chunk		ncmod		d.label=sn-chunk
+n-chunk		ncmod		d.label=n-chunk
+n-chunk		ncmod		d.label=sn-chunk
+n-chunk		ncmod		d.label=NNS
+n-chunk		ncmod		d.label=NP
+n-chunk		ncmod		d.label=NNP
+n-chunk		ncmod		d.label=attrib
+n-chunk		ncmod		d.label=pred
+n-chunk		ncmod		d.label=sp-chunk
+
+sn-parenth 	ncmod		d.label=sn-chunk
+sn-parenth 	ncmod		d.label=n-chunk
+sn-parenth 	ncmod		d.label=sn-chunk
+sn-parenth 	ncmod		d.label=NN
+sn-parenth 	ncmod		d.label=NNS
+sn-parenth    	ncmod		d.label=NP
+sn-parenth    	ncmod		d.label=NNP
+sn-parenth    	ncmod		d.label=attrib
+sn-parenth    	ncmod		d.label=pred
+
+% Noun numeral modifiers %
+sn-chunk	ncmod-num	d.label=Z
+n-chunk		ncmod-num	d.label=Z
+sn-parenth	ncmod-num	d.label=Z
+
+% Noun partitive modifiers %
+sn-chunk	ncmod-part	d.lemma=all
+n-chunk		ncmod-part	d.lemma=all
+sn-parenth 	ncmod-part	d.lemma=all
+sn-parenth	ncmod-part	d.label=RP
+
+% Noun possessive modifiers %
+sn-chunk	ncmod-poss	d.label=POS
+sn-chunk	ncmod-poss	d.label=PRP$
+n-chunk		ncmod-poss	d.label=POS
+n-chunk		ncmod-poss	d.label=PRP$
+sn-parenth 	ncmod-poss	d.label=POS
+sn-parenth    	ncmod-poss	d.label=PRP$
+
+% Adjective & participle modifiers %
+attrib		ncmod		d.label=adv
+attrib		ncmod		d.label=sp-chunk
+
+pred		ncmod		d.label=sp-chunk
+part		ncmod		d.label=RB|RP|adv
+pred		ncmod		d.label=RB|RP|adv
+
+% Preposition modifiers %
+sp-chunk	ncmod		d.label=sp-chunk	p.lemma=TO
+sp-chunk	ncmod		d.label=pred
+
+% Adverb modifiers %
+adv 		ncmod		d.label=sp-chunk
+
+% Phasal verbs particle %
 claus		ncmod-prt	d.label=RP
 sv		ncmod-prt	d.label=RP
 rel		ncmod-prt	d.label=RP
@@ -3091,6 +3285,7 @@ vb-chunk	ncmod-prt	d.label=RP
 vb-be		ncmod-prt	d.label=RP
 vb-have		ncmod-prt	d.label=RP
 vb-do		ncmod-prt	d.label=RP
+
 claus		ncmod-prt	d.label=IN
 sv		ncmod-prt	d.label=IN
 rel		ncmod-prt	d.label=IN
@@ -3106,7 +3301,6 @@ vb-be		ncmod-prt	d.label=RB
 vb-have		ncmod-prt	d.label=RB
 vb-do		ncmod-prt	d.label=RB
 
-%:::: TRANSITIVE PHRASAL VERBS ::::%
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=about	p.class=ph-about
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=about   p.class=ph-about
 rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=about   p.class=ph-about
@@ -3124,52 +3318,52 @@ vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=across  p.class=ph-across
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=across  p.class=ph-across
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=after	p.class=ph-after
-sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=after    p.class=ph-after
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=after    p.class=ph-after
-vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=after    p.class=ph-after
-vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=after    p.class=ph-after
-vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=after    p.class=ph-after
-vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=after    p.class=ph-after
+sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=after   p.class=ph-after
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=after   p.class=ph-after
+vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=after   p.class=ph-after
+vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=after   p.class=ph-after
+vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=after   p.class=ph-after
+vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=after   p.class=ph-after
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=ahead	p.class=ph-ahead
-sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=ahead    p.class=ph-ahead
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=ahead    p.class=ph-ahead
-vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=ahead    p.class=ph-ahead
-vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=ahead    p.class=ph-ahead
-vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=ahead    p.class=ph-ahead
-vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=ahead    p.class=ph-ahead
+sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=ahead   p.class=ph-ahead
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=ahead   p.class=ph-ahead
+vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=ahead   p.class=ph-ahead
+vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=ahead   p.class=ph-ahead
+vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=ahead   p.class=ph-ahead
+vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=ahead   p.class=ph-ahead
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=along	p.class=ph-along
-sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=along    p.class=ph-along
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=along    p.class=ph-along
-vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=along    p.class=ph-along
-vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=along    p.class=ph-along
-vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=along    p.class=ph-along
-vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=along    p.class=ph-along
+sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=along   p.class=ph-along
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=along   p.class=ph-along
+vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=along   p.class=ph-along
+vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=along   p.class=ph-along
+vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=along   p.class=ph-along
+vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=along   p.class=ph-along
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=around	p.class=ph-around
-sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=around    p.class=ph-around
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=around    p.class=ph-around
-vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=around    p.class=ph-around
-vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=around    p.class=ph-around
-vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=around    p.class=ph-around
-vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=around    p.class=ph-around
+sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=around	p.class=ph-around
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=around	p.class=ph-around
+vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=around	p.class=ph-around
+vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=around  p.class=ph-around
+vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=around  p.class=ph-around
+vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=around  p.class=ph-around
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=as	p.class=ph-as
-sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=as    p.class=ph-as
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=as    p.class=ph-as
-vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=as    p.class=ph-as
-vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=as    p.class=ph-as
-vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=as    p.class=ph-as
-vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=as    p.class=ph-as
+sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=as    	p.class=ph-as
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=as    	p.class=ph-as
+vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=as    	p.class=ph-as
+vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=as    	p.class=ph-as
+vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=as    	p.class=ph-as
+vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=as    	p.class=ph-as
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=at	p.class=ph-at
-sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=at    p.class=ph-at
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=at    p.class=ph-at
-vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=at    p.class=ph-at
-vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=at    p.class=ph-at
-vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=at    p.class=ph-at
-vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=at    p.class=ph-at
+sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=at    	p.class=ph-at
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=at    	p.class=ph-at
+vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=at    	p.class=ph-at
+vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=at    	p.class=ph-at
+vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=at    	p.class=ph-at
+vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=at    	p.class=ph-at
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=away	p.class=ph-away
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=away    p.class=ph-away
@@ -3188,12 +3382,12 @@ vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=back    p.class=ph-back
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=back    p.class=ph-back
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=by	p.class=ph-by
-sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=by    p.class=ph-by
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=by    p.class=ph-by
-vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=by    p.class=ph-by
-vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=by    p.class=ph-by
-vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=by    p.class=ph-by
-vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=by    p.class=ph-by
+sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=by    	p.class=ph-by
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=by    	p.class=ph-by
+vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=by    	p.class=ph-by
+vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=by    	p.class=ph-by
+vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=by    	p.class=ph-by
+vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=by    	p.class=ph-by
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=down	p.class=ph-down
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=down    p.class=ph-down
@@ -3204,28 +3398,28 @@ vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=down    p.class=ph-down
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=down    p.class=ph-down
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=for	p.class=ph-for
-sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=for    p.class=ph-for
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=for    p.class=ph-for
-vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=for    p.class=ph-for
-vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=for    p.class=ph-for
-vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=for    p.class=ph-for
-vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=for    p.class=ph-for
+sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=for    	p.class=ph-for
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=for    	p.class=ph-for
+vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=for    	p.class=ph-for
+vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=for    	p.class=ph-for
+vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=for    	p.class=ph-for
+vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=for    	p.class=ph-for
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=forward	p.class=ph-forward
-sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=forward    p.class=ph-forward
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=forward    p.class=ph-forward
-vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=forward    p.class=ph-forward
-vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=forward    p.class=ph-forward
-vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=forward    p.class=ph-forward
-vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=forward    p.class=ph-forward
+sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=forward p.class=ph-forward
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=forward p.class=ph-forward
+vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=forward p.class=ph-forward
+vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=forward p.class=ph-forward
+vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=forward p.class=ph-forward
+vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=forward p.class=ph-forward
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=in	p.class=ph-in
-sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=in    p.class=ph-in
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=in    p.class=ph-in
-vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=in    p.class=ph-in
-vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=in    p.class=ph-in
-vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=in    p.class=ph-in
-vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=in    p.class=ph-in
+sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=in    	p.class=ph-in
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=in    	p.class=ph-in
+vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=in    	p.class=ph-in
+vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=in    	p.class=ph-in
+vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=in    	p.class=ph-in
+vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=in    	p.class=ph-in
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=into	p.class=ph-into
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=into    p.class=ph-into
@@ -3236,28 +3430,28 @@ vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=into    p.class=ph-into
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=into    p.class=ph-into
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=of	p.class=ph-of
-sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=of    p.class=ph-of
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=of    p.class=ph-of
-vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=of    p.class=ph-of
-vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=of    p.class=ph-of
-vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=of    p.class=ph-of
-vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=of    p.class=ph-of
+sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=of    	p.class=ph-of
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=of    	p.class=ph-of
+vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=of    	p.class=ph-of
+vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=of    	p.class=ph-of
+vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=of    	p.class=ph-of
+vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=of    	p.class=ph-of
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=off	p.class=ph-off
-sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=off    p.class=ph-off
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=off    p.class=ph-off
-vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=off    p.class=ph-off
-vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=off    p.class=ph-off
-vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=off    p.class=ph-off
-vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=off    p.class=ph-off
+sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=off    	p.class=ph-off
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=off    	p.class=ph-off
+vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=off    	p.class=ph-off
+vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=off    	p.class=ph-off
+vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=off    	p.class=ph-off
+vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=off    	p.class=ph-off
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=on	p.class=ph-on
-sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=on    p.class=ph-on
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=on    p.class=ph-on
-vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=on    p.class=ph-on
-vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=on    p.class=ph-on
-vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=on    p.class=ph-on
-vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=on    p.class=ph-on
+sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=on    	p.class=ph-on
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=on    	p.class=ph-on
+vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=on    	p.class=ph-on
+vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=on    	p.class=ph-on
+vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=on    	p.class=ph-on
+vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=on    	p.class=ph-on
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=onto	p.class=ph-onto
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=onto    p.class=ph-onto
@@ -3268,12 +3462,12 @@ vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=onto    p.class=ph-onto
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=onto    p.class=ph-onto
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=out	p.class=ph-out
-sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=out    p.class=ph-out
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=out    p.class=ph-out
-vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=out    p.class=ph-out
-vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=out    p.class=ph-out
-vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=out    p.class=ph-out
-vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=out    p.class=ph-out
+sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=out    	p.class=ph-out
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=out    	p.class=ph-out
+vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=out    	p.class=ph-out
+vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=out    	p.class=ph-out
+vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=out    	p.class=ph-out
+vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=out    	p.class=ph-out
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=over	p.class=ph-over
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=over    p.class=ph-over
@@ -3284,52 +3478,52 @@ vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=over    p.class=ph-over
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=over    p.class=ph-over
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=still	p.class=ph-still
-sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=still    p.class=ph-still
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=still    p.class=ph-still
-vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=still    p.class=ph-still
-vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=still    p.class=ph-still
-vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=still    p.class=ph-still
-vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=still    p.class=ph-still
+sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=still   p.class=ph-still
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=still   p.class=ph-still
+vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=still   p.class=ph-still
+vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=still   p.class=ph-still
+vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=still   p.class=ph-still
+vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=still   p.class=ph-still
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=through	p.class=ph-through
-sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=through    p.class=ph-through
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=through    p.class=ph-through
-vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=through    p.class=ph-through
-vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=through    p.class=ph-through
-vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=through    p.class=ph-through
-vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=through    p.class=ph-through
+sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=through p.class=ph-through
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=through p.class=ph-through
+vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=through p.class=ph-through
+vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=through p.class=ph-through
+vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=through p.class=ph-through
+vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=through p.class=ph-through
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=to	p.class=ph-to
-sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=to    p.class=ph-to
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=to    p.class=ph-to
-vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=to    p.class=ph-to
-vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=to    p.class=ph-to
-vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=to    p.class=ph-to
-vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=to    p.class=ph-to
+sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=to    	p.class=ph-to
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=to    	p.class=ph-to
+vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=to    	p.class=ph-to
+vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=to    	p.class=ph-to
+vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=to    	p.class=ph-to
+vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=to    	p.class=ph-to
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=together	p.class=ph-together
-sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=together    p.class=ph-together
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=together    p.class=ph-together
-vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=together    p.class=ph-together
-vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=together    p.class=ph-together
-vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=together    p.class=ph-together
-vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=together    p.class=ph-together
+sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=together    	p.class=ph-together
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=together	p.class=ph-together
+vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=together    	p.class=ph-together
+vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=together    	p.class=ph-together
+vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=together    	p.class=ph-together
+vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=together    	p.class=ph-together
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=under	p.class=ph-under
-sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=under    p.class=ph-under
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=under    p.class=ph-under
-vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=under    p.class=ph-under
-vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=under    p.class=ph-under
-vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=under    p.class=ph-under
-vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=under    p.class=ph-under
+sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=under   p.class=ph-under
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=under   p.class=ph-under
+vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=under   p.class=ph-under
+vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=under   p.class=ph-under
+vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=under   p.class=ph-under
+vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=under   p.class=ph-under
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=up	p.class=ph-up
-sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=up    p.class=ph-up
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=up    p.class=ph-up
-vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=up    p.class=ph-up
-vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=up    p.class=ph-up
-vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=up    p.class=ph-up
-vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=up    p.class=ph-up
+sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=up    	p.class=ph-up
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=up    	p.class=ph-up
+vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=up    	p.class=ph-up
+vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=up    	p.class=ph-up
+vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=up    	p.class=ph-up
+vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=up    	p.class=ph-up
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=upon	p.class=ph-upon
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=upon    p.class=ph-upon
@@ -3348,55 +3542,122 @@ vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=with    p.class=ph-with
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=with    p.class=ph-with
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=without	p.class=ph-without
-sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=without    p.class=ph-without
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=without    p.class=ph-without
-vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=without    p.class=ph-without
-vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=without    p.class=ph-without
-vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=without    p.class=ph-without
-vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=without    p.class=ph-without
+sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=without p.class=ph-without
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=without p.class=ph-without
+vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=without p.class=ph-without
+vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=without p.class=ph-without
+vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=without p.class=ph-without
+vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=without p.class=ph-without
 
-%%% SUBJECTE I OBJECTE
-claus		topic	d.side=left	d.label=quant
-claus		ncsubj	d.side=left	d.label=sn-chunk
-claus		ncsubj	d.side=left	d.label=n-chunk		d.lemma!=that
-claus		dobj	d.side=right	d.label=sn-chunk
-claus		dobj	d.side=right	d.label=n-chunk
-sv		ncsubj	d.side=left	d.label=sn-chunk
-sv		ncsubj	d.side=left	d.label=n-chunk
-sv		dobj	d.side=right	d.label=sn-chunk	d.lemma!=VB
-sv		dobj	d.side=right	d.label=n-chunk		d.lemma!=VB	d.lemma!=that
-claus		ccomp	d.label=sv	d.side=right		p.class=compl
-claus		topic	d.side=left	d.label=wh-adv
-claus		topic	d.side=left	d.label=wh-pro
 
-n-chunk		ncsubj	d.side=left	d.label=sn-chunk	p.lemma!=that
-n-chunk		ccomp	d.label=sv
-claus		ccomp	d.label=quest 	d.side=right	p.class=compl
-claus		cmod	d.label=quest	d.side=right	p.class!=compl
+%:::: CLAUSAL MODIFIERS ::::%
 
-claus		csubj-that	d.side=left	d.label=n-chunk		d.lemma=that
-sv		csubj-that	d.side=left	d.label=n-chunk		d.lemma=that
+% Clause/predicate/verb modifiers %
+claus		cmod		d.label=sub-cl	d.lemma!=that
+sv		cmod		d.label=sub-cl	d.lemma!=that
+sv		cmod		d.label=sv
 
-%%% cmod (CLAUSAL MODIFIER)
-claus		ccomp	d.side=right	d.label=n-chunk		d.lemma=that
-claus		cmod	d.label=adv
-sv		cmod	d.label=adv
-sp-chunk	cmod	d.label=adv
-adv		ccomp	d.label=sv
-sv		cmod	d.label=sv
-sn-chunk	cmod	d.label=sv
-n-chunk		cmod	d.label=sv	p.lemma!=that
-sp-chunk	cmod	d.label=sv
-OF-chunk		cmod	d.label=sv
-sn-chunk	cmod	d.label=rel-cl
-n-chunk		cmod	d.label=rel-cl
-sp-chunk	cmod	d.label=rel-cl
-OF-chunk		cmod	d.label=rel-cl
-claus		cmod	d.label=vb-chunk
+sp-chunk	cmod		d.label=sub-cl	d.lemma!=that
 
-%%% MORFOLOGIA
+% Noun modifiers %
+sn-chunk	cmod		d.label=rel-cl
+n-chunk		cmod		d.label=rel-cl
+sn-chunk	cmod		d.label=sv
+n-chunk		cmod		d.label=sv
+sn-chunk	cmod		d.label=vb-chunk
+n-chunk		cmod		d.label=vb-chunk
+
+sn-chunk	xmod		d.label=inf-cl
+n-chunk		xmod		d.label=inf-cl
+
+sn-chunk	xmod		d.label=part
+n-chunk		xmod		d.label=part
+
+% Preposition modifiers %
+sp-chunk	cmod		d.label=sv
+sp-chunk	cmod		d.label=rel-cl
+
+% Clause modifiers %
+claus		cmod		d.label=vb-chunk
+claus		cmod		d.label=quest	d.side=right	p.class!=compl
+
+
+%:::: PREPOSITIONAL MODIFIERS ::::%
+
+sp-chunk	pmod		d.label=sp-chunk	p.lemma!=TO
+sp-chunk	pmod		d.label=sp-chunk
+
+
+%:::: AUXILIARY ::::%
+
+claus		aux		d.label=mod-chunk
+sv		aux		d.label=mod-chunk
+vb-chunk	aux		d.label=mod-chunk
+vb-be		aux		d.label=mod-chunk
+vb-have		aux		d.label=mod-chunk
+vb-do		aux		d.label=mod-chunk
+
+claus		aux		d.label=vb-chunk	d.side=left	d.lemma=help
+claus		aux		d.label=vb-chunk
+claus		aux		d.label=vb-have
+claus		aux		d.label=vb-be
+claus		aux		d.label=vb-do
+
+sv		aux		d.label=vb-chunk	d.side=left	d.lemma=help
+sv		aux		d.label=vb-have
+sv		aux		d.label=vb-be
+sv		aux		d.label=vb-do
+
+vb-chunk	aux		d.label=vb-chunk
+vb-chunk	aux		d.label=vb-have
+vb-chunk	aux		d.label=vb-be
+vb-chunk	aux		d.label=vb-do
+
+vb-have		aux		d.label=vb-chunk
+vb-have		aux		d.label=vb-have
+vb-have		aux		d.label=vb-be
+vb-have		aux		d.label=vb-do
+
+vb-be		aux		d.label=vb-have
+vb-be		aux		d.label=vb-be
+vb-be		aux		d.label=vb-do
+
+vb-do		aux		d.label=vb-chunk
+vb-do		aux		d.label=vb-have
+vb-do		aux		d.label=vb-be
+vb-do		aux		d.label=vb-do
+
+claus		aux		d.label=VB	d.lemma=help
+
+rel		aux		d.label=vb-do
+rel		aux		d.label=vb-have
+rel		aux		d.label=vb-be
+rel		aux		d.label=mod-chunk
+rel		aux		d.label=vb-be
+rel		aux		d.label=vb-do
+rel		aux		d.label=vb-have
+rel		aux		d.label=vb-chunk
+
+adv 		aux		d.label=vb-be
+adv 		aux		d.label=vb-do
+adv 		aux		d.label=vb-have
+adv 		aux		d.label=vb-chunk
+
+
+%:::: DETERMINERS :::: %
+
+sn-chunk	det		d.label=DT
+sn-chunk	det		d.label=PDT
+n-chunk		det		d.label=DT
+n-chunk		det		d.label=PDT
+sn-parenth		det		d.label=DT
+sn-parenth	 	det		d.label=PDT
+
+
+%:::: COORDINATION ::::%
 
 sn-coor		conj	d.label=sn-chunk
+sn-coor		conj	d.label=n-chunk
 CC		conj	d.label=n-chunk
 sp-coor		conj	d.label=sp-chunk
 adv-coor	conj	d.label=adv
@@ -3405,239 +3666,33 @@ sv-coor		conj	d.label=claus
 claus-coor	conj	d.label=claus-coor
 sv-coor		conj	d.label=sv
 
-%%% SINTAGMA VERBAL
+sv		conj	d.label=claus	d.lemma=but|or|and|nor|either|neither
+nex-coord	conj	d.label=sn-chunk
+nex-coord	conj	d.label=n-chunk
+sp-chunk	conj	d.label=n-chunk|sn-chunk|NN|NNS|NP|NNP	p.label=and|or|but|either|neither
 
-claus		aux		d.label=mod-chunk
-sv		aux		d.label=mod-chunk
-vb-chunk	aux		d.label=mod-chunk
-vb-be		aux		d.label=mod-chunk
-vb-have		aux		d.label=mod-chunk
-vb-do		aux		d.label=mod-chunk
+
+%:::: PUNCTUATION ::::%
+
+claus		ta		d.label=st-brk|sf-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
+sv		ta		d.label=st-brk|sf-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
+adv		ta		d.label=st-brk|sf-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
+sn-chunk	ta		d.label=st-brk|sf-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
+n-chunk		ta		d.label=st-brk|sf-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
+sv-parenth	ta		d.label=st-brk|sf-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
+sn-parenth	ta		d.label=st-brk|sf-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
+rel-cl		ta		d.label=st-brk|sf-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
+claus		ta		d.label=st-brk|sf-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
+sv-coor		ta		d.label=st-brk|sf-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
+
+
+%%% TOs !!!PER REVISAR !!!
 claus		xsubj		d.label=vb-chunk	d.side=left
-claus		aux		d.label=vb-chunk	d.side=left	d.lemma=help
-claus		aux		d.label=vb-chunk
-claus		aux		d.label=vb-have
-claus		aux		d.label=vb-be
-claus		aux		d.label=vb-do
 sv		xsubj		d.label=vb-chunk	d.side=left
-sv		aux		d.label=vb-chunk	d.side=left	d.lemma=help
-sv		aux		d.label=vb-have
-sv		aux		d.label=vb-be
-sv		aux		d.label=vb-do
-vb-chunk	aux		d.label=vb-chunk
-vb-chunk	aux		d.label=vb-have
-vb-chunk	aux		d.label=vb-be
-vb-chunk	aux		d.label=vb-do
-vb-have		aux		d.label=vb-chunk
-vb-have		aux		d.label=vb-have
-vb-have		aux		d.label=vb-be
-vb-have		aux		d.label=vb-do
 vb-be		subj		d.label=vb-chunk	d.side=left
 vb-be		subj		d.label=vb-chunk	d.side=left	d.lemma=help
-vb-be		aux		d.label=vb-have
-vb-be		aux		d.label=vb-be
-vb-be		aux		d.label=vb-do
-vb-do		aux		d.label=vb-chunk
-vb-do		aux		d.label=vb-have
-vb-do		aux		d.label=vb-be
-vb-do		aux		d.label=vb-do
-claus		ncmod		d.label=adv
-sv		ncmod		d.label=adv
-vb-chunk	ncmod		d.label=adv
-vb-be		ncmod		d.label=adv
-vb-have		ncmod		d.label=adv
-vb-do		ncmod		d.label=adv
-rel		ncmod		d.label=adv
-vb-chunk	ncmod		d.label=vb-chunk
-vb-have		ncmod		d.label=vb-chunk
-vb-do		ncmod		d.label=vb-chunk
-vb-be		ncmod		d.label=vb-chunk
-
-claus		aux		d.label=VB	d.lemma=help
-claus		ncmod		d.label=sp-chunk
-sv		ncmod		d.label=sp-chunk
-rel		ncmod		d.label=sp-chunk
-claus		dobj		d.label=OF-chunk
-sv		dobj		d.label=OF-chunk
-rel		dobj		d.label=OF-chunk
-rel		ncmod		d.label=RB
-sv		ncmod		d.label=RB
-claus		ncmod		d.label=RB
-rel		aux		d.label=vb-do
-rel		aux		d.label=vb-have
-rel		aux		d.label=vb-be
-rel		aux		d.label=mod-chunk
-
-vb-chunk	ncsubj		d.label=sn-chunk	d.side=left
-vb-chunk	ncsubj		d.label=n-chunk		d.side=left
-vb-chunk	dobj		d.label=sn-chunk	d.side=right
-vb-chunk	dobj		d.label=n-chunk		d.side=right
-vb-chunk	ccomp		d.label=rel
-vb-chunk	ncmod		d.label=sp-chunk
-vb-chunk	iobj		d.label=OF-chunk
-
-rel-cl		ncsubj		d.label=sn-chunk	d.side=left
-rel-cl		ncsubj		d.label=n-chunk		d.side=left
-rel-cl		dobj		d.label=sn-chunk	d.side=right
-rel-cl		dobj		d.label=n-chunk		d.side=right
-rel-cl		ccomp		d.label=rel
-rel		ncsubj		d.label=sn-chunk	d.side=left
-rel		ncsubj		d.label=n-chunk		d.side=left
-rel		dobj		d.label=sn-chunk	d.side=right
-rel		dobj		d.label=n-chunk		d.side=right
-rel		aux		d.label=vb-be
-rel		aux		d.label=vb-do
-rel		aux		d.label=vb-have
-rel		aux		d.label=vb-chunk
-rel		ncmod		d.label=sp-chunk
-rel		iobj		d.label=OF-chunk
-adv		ncsubj		d.label=sn-chunk	d.side=left
-adv		ncsubj		d.label=n-chunk		d.side=left
-adv 		dobj		d.label=sn-chunk	d.side=right
-adv 		dobj		d.label=n-chunk		d.side=right
-adv 		aux		d.label=vb-be
-adv 		aux		d.label=vb-do
-adv 		aux		d.label=vb-have
-adv 		aux		d.label=vb-chunk
-adv 		ncmod		d.label=sp-chunk
-adv 		iobj		d.label=OF-chunk
-
-sp-chunk	ncmod		d.label=rel-cl		
-sn-chunk	ncmod		d.label=rel-cl		
-n-chunk		ncmod		d.label=rel-cl		
-
-claus		ncmod		d.label=attrib
-sv		ncmod		d.label=attrib
-rel		ncmod		d.label=attrib
-
-claus		ncmod		d.label=prt-sp|prt-mix|TO-chunk
-
-%---------------------------------------------------%
-%                    PP DAUGHTERS                   %
-%---------------------------------------------------%
-
-OF-chunk		dobj		d.label=sn-chunk
-OF-chunk		dobj		d.label=n-chunk
-
-sp-chunk	ncmod		d.label=sp-chunk	p.lemma=TO
-
-sp-chunk	pmod		d.label=sp-chunk	p.lemma!=TO
-sp-chunk	pmod		d.label=OF-chunk
-sp-chunk	pmod		d.label=sp-chunk
-
-sp-chunk	dobj		d.label=sn-chunk
-sp-chunk	dobj		d.label=n-chunk
-sp-chunk	dobj		d.label=PRP
-sp-chunk	dobj		d.label=quant
-sp-chunk	dobj		d.label=vb-chunk
-sp-chunk	dobj		d.label=vb-be
-
-%%% SINTAGMA NOMINAL
-sn-chunk	cmod		d.label=rel-cl
-n-chunk		cmod		d.label=rel-cl
-
-sp-chunk	ta		d.label=parenthetical
-OF-chunk		ta		d.label=parenthetical
-sn-chunk	ta		d.label=parenthetical
-n-chunk		ta		d.label=parenthetical
-sn-chunk	ncmod		d.label=sp-chunk
-sn-chunk	ccomp		d.label=n-chunk		d.lemma=TO
-
-sn-chunk	det		d.label=DT
-sn-chunk	ncmod-num	d.label=Z
-sn-chunk	det		d.label=PDT
-sn-chunk	ncmod-part	d.lemma=all
-sn-chunk	ncmod-poss	d.label=POS
-sn-chunk	ncmod		d.label=n-chunk		d.lemma!=TO
-sn-chunk	xmod		d.label=n-chunk		d.lemma=TO
-sn-chunk	ncmod		d.label=sn-chunk
-sn-chunk	ncmod		d.label=NN
-sn-chunk	ncmod		d.label=NNS
-sn-chunk	ncmod		d.label=NP
-sn-chunk	ncmod		d.label=NNP
-sn-chunk	ncmod		d.label=attrib
-sn-chunk	ncmod		d.label=OF-chunk
-sn-chunk	ncmod		d.label=sp-chunk
-sn-chunk	ncmod-poss	d.label=PRP$
-
-n-chunk		det		d.label=DT
-n-chunk		ncmod-num	d.label=Z
-n-chunk		det		d.label=PDT
-n-chunk		ncmod-part	d.lemma=all
-n-chunk		ncmod-poss	d.label=POS
-n-chunk		ncmod		d.label=NN
-n-chunk		ncmod		d.label=n-chunk		d.lemma!=TO
-n-chunk		xmod		d.label=n-chunk		d.lemma=TO
-n-chunk		ncmod		d.label=sn-chunk
-n-chunk		ncmod		d.label=NNS
-n-chunk		ncmod		d.label=NP
-n-chunk		ncmod		d.label=NNP
-n-chunk		ncmod		d.label=attrib
-n-chunk		ncmod		d.label=OF-chunk
-n-chunk		ncmod		d.label=sp-chunk
-n-chunk		ncmod-poss	d.label=PRP$
-
-parent		det		d.label=DT
-parent		ncmod-num	d.label=Z
-parent	 	det		d.label=PDT
-parent 		ncmod-part	d.lemma=all
-parent 		ncmod-poss	d.label=POS
-parent 		ncmod		d.label=n-chunk		d.lemma!=TO
-parent 		xmod		d.label=n-chunk		d.lemma=TO
-parent 		ncmod		d.label=sn-chunk
-parent 		ncmod		d.label=NN
-parent 		ncmod		d.label=NNS
-parent    	ncmod		d.label=NP
-parent    	ncmod		d.label=NNP
-parent    	ncmod		d.label=attrib
-parent    	ncmod		d.label=OF-chunk
-parent    	ncmod-poss	d.label=PRP$
-
-parenthetical	ta		d.label=parent
-parenthetical	ta		d.label=sn-chunk
-parenthetical	ta		d.label=n-chunk
-parenthetical	ncmod-part	d.label=RP
-
-attrib		ncmod		d.label=sp-chunk
-
-claus		ta		d.label=parenthetical
-
-%%% ADVERBIS
-attrib		ncmod		d.label=adv
-
-%%% TOs
 sp-chunk	xcomp		d.label=sv
 sp-chunk	xcomp-to	d.label=vb-chunk	p.lemma=to
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%:::::::::::::::::::::::::::::::::::::::::::::::::::::::%
-%::::::::::::::::::    PUNCTUATION    ::::::::::::::::::%
-%:::::::::::::::::::::::::::::::::::::::::::::::::::::::%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-claus		ta		d.label=st-brk|sl-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
-sv		ta		d.label=st-brk|sl-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
-adv		ta		d.label=st-brk|sl-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
-sn-chunk	ta		d.label=st-brk|sl-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
-n-chunk		ta		d.label=st-brk|sl-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
-sv-parenth	ta		d.label=st-brk|sl-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
-sn-parenth	ta		d.label=st-brk|sl-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
-rel-cl		ta		d.label=st-brk|sl-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
-claus		ta		d.label=st-brk|sl-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
-sv-coor		ta		d.label=st-brk|sl-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
-
-%%% PREDs
-sn-chunk	ncsubj		d.label=pred
-n-chunk		ncsubj		d.label=pred
-sp-chunk	ncsubj		d.label=pred
-pred		ncmod		d.label=sp-chunk
-sn-chunk	xmod		d.label=part
-n-chunk		xmod		d.label=part
-part		ncmod		d.label=RB|RP|adv
-pred		ncmod		d.label=RB|RP|adv
-sn-chunk	cmod		d.label=vb-chunk
-n-chunk		cmod		d.label=vb-chunk
 
 </GRLAB>
 
