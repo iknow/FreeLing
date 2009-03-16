@@ -5,7 +5,7 @@ import morfo.*;
 public class analyzer {
 
     // Modify this line to be your FreeLing installation directory
-    static final String FREELINGDIR = "/home/padro/test";
+    static final String FREELINGDIR = "/home/padro/package/usr/local/";
     static final String DATA = FREELINGDIR+"/share/FreeLing/";
     
     public static void main(String argv[]) throws IOException {
@@ -13,7 +13,7 @@ public class analyzer {
 	
 	// create options set for maco analyzer. Default values are Ok, except for data files.
 	maco_options op = new maco_options("es");
-        op.set_active_modules(true,true,true,true,true,true,true,true,true);
+        op.set_active_modules(true,true,true,true,true,true,true,true,0);
 	op.set_data_files(DATA+"es/locucions.dat", DATA+"es/quantities.dat", DATA+"es/sufixos.dat",
 			  DATA+"es/probabilitats.dat", DATA+"es/maco.db", DATA+"es/np.dat",  
 			  DATA+"common/punct.dat");
@@ -22,10 +22,10 @@ public class analyzer {
         tokenizer tk=new tokenizer(DATA+"es/tokenizer.dat");
 	splitter sp=new splitter(DATA+"es/splitter.dat");
 	maco mf=new maco(op);
-	
+
 	hmm_tagger tg = new hmm_tagger("es",DATA+"es/tagger.dat",true,2);
         chart_parser parser = new chart_parser(DATA+"es/grammar-dep.dat");
-        dependencyMaker dep = new dependencyMaker(DATA+"es/dep/dependences.dat", parser.get_start_symbol());
+        dep_txala dep = new dep_txala(DATA+"es/dep/dependences.dat", parser.get_start_symbol());
         senses sen = new senses(DATA+"es/senses16.db",false);
 
 	BufferedReader input = new BufferedReader(new InputStreamReader(System.in, "iso-8859-15"));

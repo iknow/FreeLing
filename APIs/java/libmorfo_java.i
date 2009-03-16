@@ -372,7 +372,12 @@ class paragraph : public std::list<sentence> {};
 ////////////////////////////////////////////////////////////////
 
 class document : public std::list<paragraph> {
-  paragraph title;
+ public:
+    document();
+    void add_positive(const node &, const node &);
+    int get_coref_group(const node &);
+    std::list<const node *> get_coref_nodes(const int);
+    bool is_coref(const node &, const node &);
 };
 
 
@@ -460,7 +465,7 @@ class maco_options {
     /// Since option data members are public and can be accessed directly
     /// from C++, the following methods are not necessary, but may become
     /// convenient sometimes.
-    void set_active_modules(bool,bool,bool,bool,bool,bool,bool,bool,bool);
+    void set_active_modules(bool,bool,bool,bool,bool,bool,bool,bool,int);
     void set_nummerical_points(const std::string &,const std::string &);
     void set_data_files(const std::string &,const std::string &,const std::string &,const std::string &,
                         const std::string &,const std::string &,const std::string &);
@@ -514,15 +519,22 @@ class chart_parser {
    void analyze(std::list<sentence> &);
 };
 
+/*------------------------------------------------------------------------*/
+class dependency_parser {
+  public: 
+   dependency_parser();
+   virtual ~dependency_parser() {};
+   virtual std::list<sentence> analyze(const std::list<sentence> &)=0;
+};
+
 
 /*------------------------------------------------------------------------*/
-class dependencyMaker {
+class dep_txala : public dependency_parser {
  public:   
-   /// constructor
-   dependencyMaker(const std::string &, const std::string &);
-   /// Enrich all sentences in given list with a depenceny tree.
-   void analyze(std::list<sentence> &);
+   dep_txala(const std::string &, const std::string &);
+   std::list<sentence> analyze(const std::list<sentence> &);
 };
+
 
 
 /*------------------------------------------------------------------------*/
