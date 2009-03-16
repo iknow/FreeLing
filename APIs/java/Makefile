@@ -1,7 +1,7 @@
-FREELINGDIR = /home/padro/test
-LIBSDIR = /usr/local
+FREELINGDIR = /home/padro/package/usr/local
+SWIGDIR = /usr/share/swig1.3
 JAVADIR = /usr/lib/jvm/java-6-sun
-SWIGDIR = /usr/share/swig/1.3
+LIBSDIR = /usr/local
 
 libmorfo_java.so: libmorfo_wrap.cxx
 	g++ -shared -o libmorfo_java.so libmorfo_wrap.cxx -lmorfo -ldb_cxx -lpcre -lomlet -lfries -I /usr/include/db4 -L $(FREELINGDIR)/lib  -I $(FREELINGDIR)/include -I $(LIBSDIR)/include -L $(LIBSDIR)/lib -I $(JAVADIR)/include -I $(JAVADIR)/include/linux
