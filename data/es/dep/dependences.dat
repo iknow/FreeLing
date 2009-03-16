@@ -4618,13 +4618,20 @@
 
 <SEMDB>
 
-SenseFile       ../senses16.db
-WNFile          ../../common/wn16.db                  
+SenseFile       /usr/local/share/FreeLing/es/senses16.db
+WNFile          /usr/local/share/FreeLing/common/wn16.db                  
 
 </SEMDB>
 
 <GRLAB>
-grup-verb       subj   		d.label=sn*             		d.side=right			p.class=intr
+
+grup-verb	cc		d.label=sn*		d.tonto=Time
+verb-pass	cc		d.label=sn*		d.tonto=Time
+grup-verb-inf	cc		d.label=sn*		d.tonto=Time
+subord-ger	cc		d.label=sn*		d.tonto=Time
+subord-part	cc		d.label=sn*		d.tonto=Time
+
+grup-verb       subj   		d.label=sn*             		d.side=right		p.class=intr
 grup-verb	subj		d.label=sn*				d.side=right	d.pos=NP00000
 grup-verb       subj   		d.label=sn*     			d.side=left
 
