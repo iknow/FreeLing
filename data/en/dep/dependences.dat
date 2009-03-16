@@ -21,9 +21,9 @@
 
 %% NEW (March 2009) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %										   %
-% Nonfinite infinitive clauses: parsing tag --> inf-cl (GRPAR)			   %
-% Nonfinite participle clauses: parsing tag --> part-cl (GRPAR)			   %
-% GRLAB revision (GRLAB)							   %
+% Nonfinite infinitive clauses: parsing tag --> inf (GRPAR)			   %
+% Nonfinite participle clauses: parsing tag --> part (GRPAR)			   %
+% Labeling rules revision (GRLAB)						   %
 %										   %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -258,35 +258,35 @@
 
 % Participle clauses & verbal complements/adjuncts with preposition %
 
-51 - - (OF-chunk,sv{VBG}) top_left RELABEL sp-chunk:part-cl
-51 - - (TO-chunk,sv{VBG}) top_left RELABEL sp-chunk:part-cl
-51 - - (prt-sp,sv{VBG}) top_left RELABEL sp-chunk:part-cl
-51 - - (prt-mix,sv{VBG}) top_left RELABEL sp-chunk:part-cl
-51 - - (prt-sub,sv{VBG}) top_left RELABEL sp-chunk:part-cl
-51 - - (OF-chunk,vb-chunk{VBG}) top_left RELABEL sp-chunk:part-cl
-51 - - (TO-chunk,vb-chunk{VBG}) top_left RELABEL sp-chunk:part-cl
-79 - - (prt-sp,vb-chunk{VBG}) top_left RELABEL sp-chunk:part-cl
-51 - - (prt-mix,sv{VBG}) top_left RELABEL sp-chunk:part-cl
-51 - - (prt-sub,sv{VBG}) top_left RELABEL sp-chunk:part-cl
+51 - - (OF-chunk,sv{VBG}) top_left RELABEL sp-chunk:part
+51 - - (TO-chunk,sv{VBG}) top_left RELABEL sp-chunk:part
+51 - - (prt-sp,sv{VBG}) top_left RELABEL sp-chunk:part
+51 - - (prt-mix,sv{VBG}) top_left RELABEL sp-chunk:part
+51 - - (prt-sub,sv{VBG}) top_left RELABEL sp-chunk:part
+51 - - (OF-chunk,vb-chunk{VBG}) top_left RELABEL sp-chunk:part
+51 - - (TO-chunk,vb-chunk{VBG}) top_left RELABEL sp-chunk:part
+79 - - (prt-sp,vb-chunk{VBG}) top_left RELABEL sp-chunk:part
+51 - - (prt-mix,sv{VBG}) top_left RELABEL sp-chunk:part
+51 - - (prt-sub,sv{VBG}) top_left RELABEL sp-chunk:part
 
-51 - - (OF-chunk,sv{VBN}) top_left RELABEL sp-chunk:part-cl
-51 - - (TO-chunk,sv{VBN}) top_left RELABEL sp-chunk:part-cl
-51 - - (prt-sp,sv{VBN}) top_left RELABEL sp-chunk:part-cl
-51 - - (prt-mix,sv{VBN}) top_left RELABEL sp-chunk:part-cl
-51 - - (prt-sub,sv{VBN}) top_left RELABEL sp-chunk:part-cl
-51 - - (OF-chunk,vb-chunk{VBN}) top_left RELABEL sp-chunk:part-cl
-51 - - (TO-chunk,vb-chunk{VBN}) top_left RELABEL sp-chunk:part-cl
-79 - - (prt-sp,vb-chunk{VBN}) top_left RELABEL sp-chunk:part-cl
-51 - - (prt-mix,sv{VBN}) top_left RELABEL sp-chunk:part-cl
-51 - - (prt-sub,sv{VBN}) top_left RELABEL sp-chunk:part-cl
+51 - - (OF-chunk,sv{VBN}) top_left RELABEL sp-chunk:part
+51 - - (TO-chunk,sv{VBN}) top_left RELABEL sp-chunk:part
+51 - - (prt-sp,sv{VBN}) top_left RELABEL sp-chunk:part
+51 - - (prt-mix,sv{VBN}) top_left RELABEL sp-chunk:part
+51 - - (prt-sub,sv{VBN}) top_left RELABEL sp-chunk:part
+51 - - (OF-chunk,vb-chunk{VBN}) top_left RELABEL sp-chunk:part
+51 - - (TO-chunk,vb-chunk{VBN}) top_left RELABEL sp-chunk:part
+79 - - (prt-sp,vb-chunk{VBN}) top_left RELABEL sp-chunk:part
+51 - - (prt-mix,sv{VBN}) top_left RELABEL sp-chunk:part
+51 - - (prt-sub,sv{VBN}) top_left RELABEL sp-chunk:part
 
 
 % Infinitive clause with 'to' %
-57 - - (TO-chunk,sv{VB$}) top_left RELABEL inf-cl:- % (to (climb the tree))
-81 - - (TO-chunk,vb-chunk{VB}) top_left RELABEL inf-cl:sv % (to (talk))
-81 - - (TO-chunk,vb-be{VB$}) top_left RELABEL inf-cl:sv
-81 - - (TO-chunk,vb-do{VB$}) top_left RELABEL inf-cl:sv
-81 - - (TO-chunk,vb-have{VB$}) top_left RELABEL inf-cl:sv
+57 - - (TO-chunk,sv{VB$}) top_left RELABEL inf:- % (to (climb the tree))
+81 - - (TO-chunk,vb-chunk{VB}) top_left RELABEL inf:sv % (to (talk))
+81 - - (TO-chunk,vb-be{VB$}) top_left RELABEL inf:sv
+81 - - (TO-chunk,vb-do{VB$}) top_left RELABEL inf:sv
+81 - - (TO-chunk,vb-have{VB$}) top_left RELABEL inf:sv
 
 
 %:::::::::::::::::::::::::::::::::::::::::%
@@ -427,7 +427,7 @@
 3  -  -  (vb-do,adv)   top_left RELABEL -
 
 % Infinitve negation %
-3 - - (adv<not>,inf-cl) last_right MATCHING sv % ((not) to interfere)
+3 - - (adv<not>,inf) last_right MATCHING sv % ((not) to interfere)
 
 
 %:::: IN (PoS TAG) ADVERBS ::::%
@@ -1029,6 +1029,7 @@
 49 - OUT_prt-sp_$$_sv (vb-chunk,sp-chunk{IN}) top_left RELABEL sv:-
 49 - OUT_prt-mix_$$_sv (vb-chunk,sp-chunk{IN}) top_left RELABEL sv:-
 49 - OUT_prt-sub_$$_sv (vb-chunk,sp-chunk{IN}) top_left RELABEL sv:-
+
 
 %:::: VP <-- PP default rules ::::%
 78 - - (vb-chunk,sp-chunk{TO}) top_left RELABEL sv:- % (sing (to us))
@@ -2115,7 +2116,7 @@
 % 90  -  $$_st-brk  (sf-brk,sv)   top_right RELABEL sub-cl 
 90 - $$_st-brk (sf-brk,vb-chunk{VBG}) top_right RELABEL -:sub-cl
 90 - OUT_$$_*_st-brk (vb-chunk{VBG},sf-brk) top_right RELABEL -:sub-cl
-90 - sf-brk_$$_st-brk (n-chunk<how>,inf-cl) top_left RELABEL sub-cl:- % (how (to land))
+90 - sf-brk_$$_st-brk (n-chunk<how>,inf) top_left RELABEL sub-cl:- % (how (to land))
 
 %%% SUBORDINADES ADVERBIALS COMPARATIVES "as X as"
 49 - - (prt-mix,attrib) top_left RELABEL sub-cl:-
@@ -3102,6 +3103,15 @@ sv		ncsubj		d.label=sn-coor		d.side=left
 vb-chunk	ncsubj		d.label=sn-chunk	d.side=left
 vb-chunk	ncsubj		d.label=n-chunk		d.side=left
 vb-chunk	ncsubj		d.label=sn-coor		d.side=left
+vb-be		ncsubj		d.label=sn-chunk	d.side=left
+vb-be		ncsubj		d.label=n-chunk		d.side=left
+vb-be		ncsubj		d.label=sn-coor		d.side=left
+vb-have		ncsubj		d.label=sn-chunk	d.side=left
+vb-have		ncsubj		d.label=n-chunk		d.side=left
+vb-have		ncsubj		d.label=sn-coor		d.side=left
+vb-do		ncsubj		d.label=sn-chunk	d.side=left
+vb-do		ncsubj		d.label=n-chunk		d.side=left
+vb-do		ncsubj		d.label=sn-coor		d.side=left
 rel		ncsubj		d.label=sn-chunk	d.side=left
 rel		ncsubj		d.label=n-chunk		d.side=left
 rel		ncsubj		d.label=sn-coor		d.side=left
@@ -3112,9 +3122,18 @@ rel		ncsubj		d.label=sn-coor		d.side=left
 claus		csubj-that	d.label=sub-cl		d.side=left	d.lemma=that
 sv		csubj-that	d.label=sub-cl		d.side=left	d.lemma=that
 vb-chunk	csubj-that	d.label=sub-cl		d.side=left	d.lemma=that
-claus		xsubj		d.label=inf-cl		d.side=left
-sv		xsubj		d.label=inf-cl		d.side=left
-vb-chunk	xsubj		d.label=inf-cl		d.side=left
+vb-be		csubj-that	d.label=sub-cl		d.side=left	d.lemma=that
+vb-have		csubj-that	d.label=sub-cl		d.side=left	d.lemma=that
+vb-do		csubj-that	d.label=sub-cl		d.side=left	d.lemma=that
+rel		csubj-that	d.label=sub-cl		d.side=left	d.lemma=that
+
+claus		xsubj		d.label=inf		d.side=left
+sv		xsubj		d.label=inf		d.side=left
+vb-chunk	xsubj		d.label=inf		d.side=left
+vb-be		xsubj		d.label=inf		d.side=left
+vb-have		xsubj		d.label=inf		d.side=left
+vb-do		xsubj		d.label=inf		d.side=left
+rel		xsubj		d.label=inf		d.side=left
 
 
 %:::: DIRECT OBJECTS ::::%
@@ -3129,12 +3148,21 @@ sv		dobj		d.label=sn-coor		d.side=right
 vb-chunk	dobj		d.label=sn-chunk	d.side=right
 vb-chunk	dobj		d.label=n-chunk		d.side=right
 vb-chunk	dobj		d.label=sn-coor		d.side=right
-rel-cl		dobj		d.label=sn-chunk	d.side=right
-rel-cl		dobj		d.label=n-chunk		d.side=right
-rel-cl		dobj		d.label=sn-coor		d.side=right
+vb-have		dobj		d.label=sn-chunk	d.side=right
+vb-have		dobj		d.label=n-chunk		d.side=right
+vb-have		dobj		d.label=sn-coor		d.side=right
+vb-do		dobj		d.label=sn-chunk	d.side=right
+vb-do		dobj		d.label=n-chunk		d.side=right
+vb-do		dobj		d.label=sn-coor		d.side=right
 rel		dobj		d.label=sn-chunk	d.side=right
 rel		dobj		d.label=n-chunk		d.side=right
 rel		dobj		d.label=sn-coor		d.side=right
+inf		dobj		d.label=sn-chunk	d.side=right
+inf		dobj		d.label=n-chunk		d.side=right
+inf		dobj		d.label=sn-coor		d.side=right
+part		dobj		d.label=sn-chunk	d.side=right
+part		dobj		d.label=n-chunk		d.side=right
+part		dobj		d.label=sn-coor		d.side=right
 
 % Preposition objects %
 sp-chunk	dobj		d.label=sn-chunk
@@ -3143,14 +3171,21 @@ sp-chunk	dobj		d.label=sn-coor
 sp-chunk	dobj		d.label=PRP
 sp-chunk	dobj		d.label=quant
 
-sp-chunk	dobj		d.label=sv
-sp-chunk	dobj		d.label=vb-chunk
-sp-chunk	dobj		d.label=vb-be
-sp-chunk	dobj		d.label=vb-have
-sp-chunk	dobj		d.label=vb-do
+sp-chunk	dobj		d.label=adv
 
+% Adverb objects %
+adv		dobj		d.label=sn-chunk
+adv		dobj		d.label=n-chunk
+adv		dobj		d.label=sn-coor
+
+adv		dobj		d.label=adv
 
 %:::: INDIRECT OBJECTS ::::%
+
+claus		iobj		d.label=sp-chunk	d.lemma=TO
+sv		iobj		d.label=sp-chunk	d.lemma=TO
+vb-chunk	iobj		d.label=sp-chunk	d.lemma=TO
+rel		iobj		d.label=sp-chunk	d.lemma=TO
 
 adv 		iobj		d.label=sp-chunk
 
@@ -3161,9 +3196,28 @@ adv 		iobj		d.label=sp-chunk
 claus		ccomp		d.label=sv		d.side=right	p.class=compl
 claus		ccomp		d.label=quest 		d.side=right	p.class=compl
 claus		ccomp		d.label=sub-cl		d.side=right	d.lemma=that
+claus		ccomp		d.label=inf		d.side=right
+claus		ccomp		d.label=part		d.side=right
 sv		ccomp		d.label=sv		d.side=right	p.class=compl
 sv		ccomp		d.label=quest 		d.side=right	p.class=compl
 sv		ccomp		d.label=sub-cl		d.side=right	d.lemma=that
+sv		ccomp		d.label=inf		d.side=right
+sv		ccomp		d.label=part		d.side=right
+rel		ccomp		d.label=sv		d.side=right	p.class=compl
+rel		ccomp		d.label=quest 		d.side=right	p.class=compl
+rel		ccomp		d.label=sub-cl		d.side=right	d.lemma=that
+rel		ccomp		d.label=inf		d.side=right
+rel		ccomp		d.label=part		d.side=right
+inf		ccomp		d.label=sv		d.side=right	p.class=compl
+inf		ccomp		d.label=quest 		d.side=right	p.class=compl
+inf		ccomp		d.label=sub-cl		d.side=right	d.lemma=that
+inf		ccomp		d.label=inf		d.side=right
+inf		ccomp		d.label=part		d.side=right
+part		ccomp		d.label=sv		d.side=right	p.class=compl
+part		ccomp		d.label=quest 		d.side=right	p.class=compl
+part		ccomp		d.label=sub-cl		d.side=right	d.lemma=that
+part		ccomp		d.label=inf		d.side=right
+part		ccomp		d.label=part		d.side=right
 
 rel-cl		ccomp		d.label=rel
 
@@ -3189,11 +3243,6 @@ vb-be		ncmod		d.label=adv
 vb-have		ncmod		d.label=adv
 vb-do		ncmod		d.label=adv
 rel		ncmod		d.label=adv
-
-vb-chunk	ncmod		d.label=vb-chunk
-vb-be		ncmod		d.label=vb-chunk
-vb-have		ncmod		d.label=vb-chunk
-vb-do		ncmod		d.label=vb-chunk
 
 claus		ncmod		d.label=sp-chunk
 sv		ncmod		d.label=sp-chunk
@@ -3555,9 +3604,34 @@ vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=without p.class=ph-without
 % Clause/predicate/verb modifiers %
 claus		cmod		d.label=sub-cl	d.lemma!=that
 sv		cmod		d.label=sub-cl	d.lemma!=that
-sv		cmod		d.label=sv
+vb-chunk	cmod		d.label=sub-cl	d.lemma!=that
+vb-have		cmod		d.label=sub-cl	d.lemma!=that
+vb-do		cmod		d.label=sub-cl	d.lemma!=that
+rel		cmod		d.label=sub-cl	d.lemma!=that
+inf		cmod		d.label=sub-cl	d.lemma!=that
+part		cmod		d.label=sub-cl	d.lemma!=that
 
-sp-chunk	cmod		d.label=sub-cl	d.lemma!=that
+
+claus		cmod		d.label=sv
+sv		cmod		d.label=sv
+vb-chunk	cmod		d.label=sv
+vb-be		cmod		d.label=sv
+vb-have		cmod		d.label=sv
+vb-do		cmod		d.label=sv
+rel		cmod		d.label=sv
+inf		cmod		d.label=sv
+part		cmod		d.label=sv
+
+claus		cmod		d.label=vb-chunk
+sv		cmod		d.label=vb-chunk
+vb-chunk	cmod		d.label=vb-chunk
+vb-be		cmod		d.label=vb-chunk
+vb-have		cmod		d.label=vb-chunk
+vb-do		cmod		d.label=vb-chunk
+rel		cmod		d.label=vb-chunk
+inf		cmod		d.label=vb-chunk
+part		cmod		d.label=vb-chunk
+
 
 % Noun modifiers %
 sn-chunk	cmod		d.label=rel-cl
@@ -3567,19 +3641,48 @@ n-chunk		cmod		d.label=sv
 sn-chunk	cmod		d.label=vb-chunk
 n-chunk		cmod		d.label=vb-chunk
 
-sn-chunk	xmod		d.label=inf-cl
-n-chunk		xmod		d.label=inf-cl
+sn-chunk	xmod		d.label=inf
+n-chunk		xmod		d.label=inf
 
 sn-chunk	xmod		d.label=part
 n-chunk		xmod		d.label=part
 
 % Preposition modifiers %
+sp-chunk	cmod		d.label=claus
 sp-chunk	cmod		d.label=sv
+sp-chunk	cmod		d.label=sub-cl
 sp-chunk	cmod		d.label=rel-cl
+sp-chunk	cmod		d.label=inf
+sp-chunk	cmod		d.label=part
+
+% Adverb modifiers %
+adv		cmod		d.label=claus
+adv		cmod		d.label=sv
+adv		cmod		d.label=sub-cl
+adv		cmod		d.label=rel-cl
+adv		cmod		d.label=inf
+adv		cmod		d.label=part
 
 % Clause modifiers %
 claus		cmod		d.label=vb-chunk
-claus		cmod		d.label=quest	d.side=right	p.class!=compl
+claus		cmod		d.label=quest		d.side=right	p.class!=compl
+
+% Subordinate conjunction & subordinate verb relation %
+sub-cl		cmod		d.label=sv
+sub-cl		cmod		d.label=vb-chunk
+sub-cl		cmod		d.label=vb-be
+sub-cl		cmod		d.label=vb-have
+sub-cl		cmod		d.label=vb-do
+sub-cl		cmod		d.label=inf
+sub-cl		cmod		d.label=part
+
+rel-cl		cmod		d.label=sv
+rel-cl		cmod		d.label=vb-chunk
+rel-cl		cmod		d.label=vb-be
+rel-cl		cmod		d.label=vb-have
+rel-cl		cmod		d.label=vb-do
+rel-cl		cmod		d.label=inf
+rel-cl		cmod		d.label=part
 
 
 %:::: PREPOSITIONAL MODIFIERS ::::%
