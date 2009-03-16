@@ -185,7 +185,7 @@ public class analyzer {
 	    }
 	    
 	    for (int i=0; i<depth; i++) System.out.print("  ");
-	    System.out.println("]");
+	    System.out.print("]");
 	} 
 	System.out.println("");
 

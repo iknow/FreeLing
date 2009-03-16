@@ -375,9 +375,9 @@ class document : public std::list<paragraph> {
  public:
     document();
     void add_positive(const node &, const node &);
-    int get_coref_group(const node &);
-    std::list<const node *> get_coref_nodes(const int);
-    bool is_coref(const node &, const node &);
+    int get_coref_group(const node &) const;
+    std::list<const node *> get_coref_nodes(const int) const;
+    bool is_coref(const node &, const node &) const;
 };
 
 
@@ -524,7 +524,7 @@ class dependency_parser {
   public: 
    dependency_parser();
    virtual ~dependency_parser() {};
-   virtual std::list<sentence> analyze(const std::list<sentence> &)=0;
+   virtual void analyze(std::list<sentence> &)=0;
 };
 
 
@@ -532,7 +532,7 @@ class dependency_parser {
 class dep_txala : public dependency_parser {
  public:   
    dep_txala(const std::string &, const std::string &);
-   std::list<sentence> analyze(const std::list<sentence> &);
+   void analyze(std::list<sentence> &);
 };
 
 
