@@ -19,15 +19,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%%% Incorporacions (gener 2009) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Incorporacions (març 2009) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %									 %
-% verbs de perifrasis verbals (GRLAB)					 %
-% puntuacio interrogatives i exclamatives (GRPAR+GRLAB)			 %
-% subordinades preverbals com a modificadors de nom (GRPAR) 		 %
-% funcio subordinades: rel-mod (abans) --> subord-mod (ara)		 %
-% subjectes postverbals amb PoS NP00000 (GRLAB)				 %
-% subjectes postverbals a les pasives (GRLAB)				 %
-% funcions pronoms atons 3a p singular (GRLAB)				 %
+% sn amb valor temporal --> cc (GRLAB)					 %
+% prepos (abans) --> obj-prep (ara)					 %
 %									 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -4742,44 +4737,44 @@ verb-pass       agent           d.label=coor-sp                                 
 inf-pas         agent           d.label=coor-sp                                         d.lemma=por
 ger-pas         agent           d.label=coor-sp                                         d.lemma=por
 
-grup-sp		prepos		d.label=sn*
-sp-de		prepos		d.label=sn*
+grup-sp		obj-prep		d.label=sn*
+sp-de		obj-prep		d.label=sn*
 
-grup-sp		prepos		d.label=coor-n
-sp-de		prepos		d.label=coor-n
+grup-sp		obj-prep		d.label=coor-n
+sp-de		obj-prep		d.label=coor-n
 
-grup-sp		prepos		d.label=subord
-sp-de		prepos		d.label=subord
+grup-sp		obj-prep		d.label=subord
+sp-de		obj-prep		d.label=subord
 
-grup-sp		prepos		d.label=numero
-sp-de		prepos		d.label=numero
+grup-sp		obj-prep		d.label=numero
+sp-de		obj-prep		d.label=numero
 
-grup-sp		prepos		d.label=data
-sp-de		prepos		d.label=data
+grup-sp		obj-prep		d.label=data
+sp-de		obj-prep		d.label=data
 
-grup-sp         prepos          d.label=ptonic
-sp-de           prepos          d.label=ptonic
+grup-sp         obj-prep          	d.label=ptonic
+sp-de           obj-prep        	d.label=ptonic
 
-grup-sp-inf	prepos		d.label=grup-verb-inf
+grup-sp-inf	obj-prep		d.label=grup-verb-inf
 
-grup-sp         prepos          d.label=sadv
-sp-de           prepos          d.label=sadv
+grup-sp         obj-prep          	d.label=sadv
+sp-de           obj-prep          	d.label=sadv
 
-grup-sp         prepos          d.label=coor-sadv
-sp-de           prepos          d.label=coor-sadv
+grup-sp         obj-prep          	d.label=coor-sadv
+sp-de           obj-prep          	d.label=coor-sadv
 
-subord-rel      prepos          d.label=prel*
-subord-rel      prepos          d.label=quien*
-subord-rel	prepos		d.label=cual*
+subord-rel      obj-prep          	d.label=prel*
+subord-rel      obj-prep          	d.label=quien*
+subord-rel	obj-prep		d.label=cual*
 
-grup-sp		prepos		d.label=espec*
-sp-de		prepos		d.label=espec*
+grup-sp		obj-prep		d.label=espec*
+sp-de		obj-prep		d.label=espec*
 
-grup-sp		prepos		d.label=j*
-sp-de		prepos		d.label=j*
+grup-sp		obj-prep		d.label=j*
+sp-de		obj-prep		d.label=j*
 
-subord-rel	prepos		d.label=espec*
-subord-rel	prepos		d.label=j*
+subord-rel	obj-prep		d.label=espec*
+subord-rel	obj-prep		d.label=j*
 
 grup-verb       iobj            d.label=grup-sp             d.side=right    d.lemma=a|para	    d:sn.tonto=Human	d:sn.tonto!=Building	p.class=ditr|viobj
 verb-pass       iobj            d.label=grup-sp             d.side=right    d.lemma=a|para          d:sn.tonto=Human	d:sn.tonto!=Building	p.class=ditr|viobj

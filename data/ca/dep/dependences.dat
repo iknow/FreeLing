@@ -19,9 +19,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%%% Incorporacions (febrer 2009) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Incorporacions (març 2009) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %									 %
-% agrupacions de sn: {^N} --> {^(N|Z|A)}				 %
+% sn amb valor temporal --> cc (GRLAB)					 %
+% prepos (abans) --> obj-prep (ara)					 %
 %									 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -3298,36 +3299,36 @@ verb-pass       agent           d.label=coor-sp                                 
 inf-pas         agent           d.label=coor-sp                                 d:grup-sp.lemma=per
 ger-pas         agent           d.label=coor-sp                                 d:grup-sp.lemma=per
 
-grup-sp		prepos		d.label=sn*
-sp-de		prepos		d.label=sn*
+grup-sp		obj-prep	d.label=sn*
+sp-de		obj-prep	d.label=sn*
 
-grup-sp		prepos		d.label=coor-n
-sp-de		prepos		d.label=coor-n
+grup-sp		obj-prep	d.label=coor-n
+sp-de		obj-prep	d.label=coor-n
 
-grup-sp		prepos		d.label=infinitiu
-sp-de		prepos		d.label=infinitiu
+grup-sp		obj-prep	d.label=infinitiu
+sp-de		obj-prep	d.label=infinitiu
 
-grup-sp         prepos          d.label=numero
-sp-de           prepos          d.label=numero
+grup-sp         obj-prep        d.label=numero
+sp-de           obj-prep        d.label=numero
 
-grup-sp		prepos		d.label=data
-sp-de		prepos		d.label=data
+grup-sp		obj-prep	d.label=data
+sp-de		obj-prep	d.label=data
 
-subord-rel      prepos          d.label=prel*
-subord-rel	prepos		d.label=que-t
-subord-rel      prepos          d.label=qui
-subord-rel      prepos          d.label=qual*
-subord-rel      prepos          d.label=DR*
+subord-rel      obj-prep        d.label=prel*
+subord-rel	obj-prep	d.label=que-t
+subord-rel      obj-prep        d.label=qui
+subord-rel      obj-prep        d.label=qual*
+subord-rel      obj-prep        d.label=DR*
 
-grup-sp         prepos          d.label=espec*
-sp-de           prepos          d.label=espec*
+grup-sp         obj-prep        d.label=espec*
+sp-de           obj-prep        d.label=espec*
 
-grup-sp         prepos          d.label=j*
-sp-de           prepos          d.label=j*
+grup-sp         obj-prep        d.label=j*
+sp-de           obj-prep        d.label=j*
 
-%subord-rel      prepos          d.label=espec*
-%subord-rel      prepos          d.label=j*
-subord-rel	prepos		d.label=relatiu
+%subord-rel     obj-prep        d.label=espec*
+%subord-rel     obj-prep        d.label=j*
+subord-rel	obj-prep	d.label=relatiu
 
 grup-verb	cc		d.label=grup-sp			d.side=left	d:inf.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que	d.lemma=en
 verb-pass	cc              d.label=grup-sp                 d.side=left     d:inf.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que        d.lemma=en
