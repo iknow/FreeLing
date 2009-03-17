@@ -21,9 +21,9 @@
 
 %% NEW (March 2009) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %										   %
-% Nonfinite infinitive clauses: parsing tag --> inf (GRPAR)			   %
-% Nonfinite participle clauses: parsing tag --> part (GRPAR)			   %
-% Labeling rules revision (GRLAB)						   %
+% Infinitive clauses: 'to' --> inf-mk & 'sv' --> inf (GRPAR)		   	   %
+% 	     	      'to' & 'inf' labeling tags (GRLAB)			   %
+% Participle clauses:
 %										   %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -282,11 +282,11 @@
 
 
 % Infinitive clause with 'to' %
-57 - - (TO-chunk,sv{VB$}) top_left RELABEL inf:- % (to (climb the tree))
-81 - - (TO-chunk,vb-chunk{VB}) top_left RELABEL inf:sv % (to (talk))
-81 - - (TO-chunk,vb-be{VB$}) top_left RELABEL inf:sv
-81 - - (TO-chunk,vb-do{VB$}) top_left RELABEL inf:sv
-81 - - (TO-chunk,vb-have{VB$}) top_left RELABEL inf:sv
+57 - - (TO-chunk,sv{VB$}) top_left RELABEL inf-mk:inf % (to (climb the tree))
+81 - - (TO-chunk,vb-chunk{VB}) top_left RELABEL inf-mk:inf % (to (talk))
+81 - - (TO-chunk,vb-be{VB$}) top_left RELABEL inf-mk:inf
+81 - - (TO-chunk,vb-do{VB$}) top_left RELABEL inf-mk:inf
+81 - - (TO-chunk,vb-have{VB$}) top_left RELABEL inf-mk:inf
 
 
 %:::::::::::::::::::::::::::::::::::::::::%
@@ -2116,6 +2116,7 @@
 % 90  -  $$_st-brk  (sf-brk,sv)   top_right RELABEL sub-cl 
 90 - $$_st-brk (sf-brk,vb-chunk{VBG}) top_right RELABEL -:sub-cl
 90 - OUT_$$_*_st-brk (vb-chunk{VBG},sf-brk) top_right RELABEL -:sub-cl
+90 - sf-brk_$$_st-brk (n-chunk<how>,inf-mk) top_left RELABEL sub-cl:- % (how (to land))
 90 - sf-brk_$$_st-brk (n-chunk<how>,inf) top_left RELABEL sub-cl:- % (how (to land))
 
 %%% SUBORDINADES ADVERBIALS COMPARATIVES "as X as"
@@ -3127,6 +3128,15 @@ vb-have		csubj-that	d.label=sub-cl		d.side=left	d.lemma=that
 vb-do		csubj-that	d.label=sub-cl		d.side=left	d.lemma=that
 rel		csubj-that	d.label=sub-cl		d.side=left	d.lemma=that
 
+% Infinitive with 'to' %
+claus		xsubj		d.label=inf-mk		d.side=left
+sv		xsubj		d.label=inf-mk		d.side=left
+vb-chunk	xsubj		d.label=inf-mk		d.side=left
+vb-be		xsubj		d.label=inf-mk		d.side=left
+vb-have		xsubj		d.label=inf-mk		d.side=left
+vb-do		xsubj		d.label=inf-mk		d.side=left
+
+% Infinitive without 'to' %
 claus		xsubj		d.label=inf		d.side=left
 sv		xsubj		d.label=inf		d.side=left
 vb-chunk	xsubj		d.label=inf		d.side=left
@@ -3134,6 +3144,7 @@ vb-be		xsubj		d.label=inf		d.side=left
 vb-have		xsubj		d.label=inf		d.side=left
 vb-do		xsubj		d.label=inf		d.side=left
 rel		xsubj		d.label=inf		d.side=left
+
 
 
 %:::: DIRECT OBJECTS ::::%
@@ -3164,6 +3175,10 @@ part		dobj		d.label=sn-chunk	d.side=right
 part		dobj		d.label=n-chunk		d.side=right
 part		dobj		d.label=sn-coor		d.side=right
 
+part		dobj		d.label=sn-chunk
+part		dobj		d.label=n-chunk
+part		dobj		d.label=sn-coor
+
 % Preposition objects %
 sp-chunk	dobj		d.label=sn-chunk
 sp-chunk	dobj		d.label=n-chunk
@@ -3172,6 +3187,10 @@ sp-chunk	dobj		d.label=PRP
 sp-chunk	dobj		d.label=quant
 
 sp-chunk	dobj		d.label=adv
+
+inf-mk		dobj		d.label=sn-chunk
+inf-mk		dobj		d.label=n-chunk
+inf-mk		dobj		d.label=sn-coor
 
 % Adverb objects %
 adv		dobj		d.label=sn-chunk
@@ -3186,6 +3205,17 @@ claus		iobj		d.label=sp-chunk	d.lemma=TO
 sv		iobj		d.label=sp-chunk	d.lemma=TO
 vb-chunk	iobj		d.label=sp-chunk	d.lemma=TO
 rel		iobj		d.label=sp-chunk	d.lemma=TO
+inf-mk		iobj		d.label=sp-chunk	d.lemma=TO
+inf		iobj		d.label=sp-chunk	d.lemma=TO
+part		iobj		d.label=sp-chunk	d.lemma=TO
+
+claus		iobj		d.label=inf-mk
+sv		iobj		d.label=inf-mk
+vb-chunk	iobj		d.label=inf-mk
+rel		iobj		d.label=inf-mk
+inf-mk		iobj		d.label=inf-mk
+inf		iobj		d.label=inf-mk
+part		iobj		d.label=inf-mk
 
 adv 		iobj		d.label=sp-chunk
 
@@ -3196,26 +3226,31 @@ adv 		iobj		d.label=sp-chunk
 claus		ccomp		d.label=sv		d.side=right	p.class=compl
 claus		ccomp		d.label=quest 		d.side=right	p.class=compl
 claus		ccomp		d.label=sub-cl		d.side=right	d.lemma=that
+claus		ccomp		d.label=inf-mk		d.side=right
 claus		ccomp		d.label=inf		d.side=right
 claus		ccomp		d.label=part		d.side=right
 sv		ccomp		d.label=sv		d.side=right	p.class=compl
 sv		ccomp		d.label=quest 		d.side=right	p.class=compl
 sv		ccomp		d.label=sub-cl		d.side=right	d.lemma=that
+sv		ccomp		d.label=inf-mk		d.side=right
 sv		ccomp		d.label=inf		d.side=right
 sv		ccomp		d.label=part		d.side=right
 rel		ccomp		d.label=sv		d.side=right	p.class=compl
 rel		ccomp		d.label=quest 		d.side=right	p.class=compl
 rel		ccomp		d.label=sub-cl		d.side=right	d.lemma=that
+rel		ccomp		d.label=inf-mk		d.side=right
 rel		ccomp		d.label=inf		d.side=right
 rel		ccomp		d.label=part		d.side=right
 inf		ccomp		d.label=sv		d.side=right	p.class=compl
 inf		ccomp		d.label=quest 		d.side=right	p.class=compl
 inf		ccomp		d.label=sub-cl		d.side=right	d.lemma=that
+inf		ccomp		d.label=inf-mk		d.side=right
 inf		ccomp		d.label=inf		d.side=right
 inf		ccomp		d.label=part		d.side=right
 part		ccomp		d.label=sv		d.side=right	p.class=compl
 part		ccomp		d.label=quest 		d.side=right	p.class=compl
 part		ccomp		d.label=sub-cl		d.side=right	d.lemma=that
+part		ccomp		d.label=inf-mk		d.side=right
 part		ccomp		d.label=inf		d.side=right
 part		ccomp		d.label=part		d.side=right
 
@@ -3243,6 +3278,8 @@ vb-be		ncmod		d.label=adv
 vb-have		ncmod		d.label=adv
 vb-do		ncmod		d.label=adv
 rel		ncmod		d.label=adv
+inf		ncmod		d.label=adv
+part		ncmod		d.label=adv
 
 claus		ncmod		d.label=sp-chunk
 sv		ncmod		d.label=sp-chunk
@@ -3251,6 +3288,8 @@ vb-be		ncmod		d.label=sp-chunk
 vb-have		ncmod		d.label=sp-chunk
 vb-do		ncmod		d.label=sp-chunk
 rel		ncmod		d.label=sp-chunk
+inf		ncmod		d.label=sp-chunk
+part		ncmod		d.label=sp-chunk
 
 claus		ncmod		d.label=attrib
 sv		ncmod		d.label=attrib
@@ -3259,6 +3298,8 @@ vb-be		ncmod		d.label=attrib
 vb-have		ncmod		d.label=attrib
 vb-do		ncmod		d.label=attrib
 rel		ncmod		d.label=attrib
+inf		ncmod		d.label=attrib
+part		ncmod		d.label=attrib
 
 % Noun modifiers %
 sn-chunk	ncmod		d.label=sn-chunk
@@ -3329,274 +3370,342 @@ adv 		ncmod		d.label=sp-chunk
 % Phasal verbs particle %
 claus		ncmod-prt	d.label=RP
 sv		ncmod-prt	d.label=RP
-rel		ncmod-prt	d.label=RP
 vb-chunk	ncmod-prt	d.label=RP
 vb-be		ncmod-prt	d.label=RP
 vb-have		ncmod-prt	d.label=RP
 vb-do		ncmod-prt	d.label=RP
+rel		ncmod-prt	d.label=RP
+inf		ncmod-prt	d.label=RP
+part		ncmod-prt	d.label=RP
 
 claus		ncmod-prt	d.label=IN
 sv		ncmod-prt	d.label=IN
-rel		ncmod-prt	d.label=IN
 vb-chunk	ncmod-prt	d.label=IN
 vb-be		ncmod-prt	d.label=IN
 vb-have		ncmod-prt	d.label=IN
 vb-do		ncmod-prt	d.label=IN
+inf		ncmod-prt	d.label=IN
+part		ncmod-prt	d.label=IN
+
 claus		ncmod-prt	d.label=RB
 sv		ncmod-prt	d.label=RB
-rel		ncmod-prt	d.label=RB
 vb-chunk	ncmod-prt	d.label=RB
 vb-be		ncmod-prt	d.label=RB
 vb-have		ncmod-prt	d.label=RB
 vb-do		ncmod-prt	d.label=RB
+rel		ncmod-prt	d.label=RB
+inf		ncmod-prt	d.label=RB
+part		ncmod-prt	d.label=RB
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=about	p.class=ph-about
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=about   p.class=ph-about
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=about   p.class=ph-about
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=about   p.class=ph-about
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=about   p.class=ph-about
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=about   p.class=ph-about
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=about   p.class=ph-about
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=about   p.class=ph-about
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=about   p.class=ph-about
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=about   p.class=ph-about
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=across	p.class=ph-across
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=across  p.class=ph-across
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=across  p.class=ph-across
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=across  p.class=ph-across
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=across  p.class=ph-across
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=across  p.class=ph-across
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=across  p.class=ph-across
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=across  p.class=ph-across
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=across  p.class=ph-across
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=across  p.class=ph-across
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=after	p.class=ph-after
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=after   p.class=ph-after
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=after   p.class=ph-after
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=after   p.class=ph-after
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=after   p.class=ph-after
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=after   p.class=ph-after
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=after   p.class=ph-after
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=after   p.class=ph-after
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=after   p.class=ph-after
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=after   p.class=ph-after
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=ahead	p.class=ph-ahead
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=ahead   p.class=ph-ahead
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=ahead   p.class=ph-ahead
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=ahead   p.class=ph-ahead
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=ahead   p.class=ph-ahead
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=ahead   p.class=ph-ahead
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=ahead   p.class=ph-ahead
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=ahead   p.class=ph-ahead
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=ahead   p.class=ph-ahead
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=ahead   p.class=ph-ahead
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=along	p.class=ph-along
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=along   p.class=ph-along
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=along   p.class=ph-along
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=along   p.class=ph-along
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=along   p.class=ph-along
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=along   p.class=ph-along
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=along   p.class=ph-along
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=along   p.class=ph-along
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=along   p.class=ph-along
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=along   p.class=ph-along
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=around	p.class=ph-around
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=around	p.class=ph-around
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=around	p.class=ph-around
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=around	p.class=ph-around
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=around  p.class=ph-around
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=around  p.class=ph-around
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=around  p.class=ph-around
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=around	p.class=ph-around
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=around	p.class=ph-around
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=around	p.class=ph-around
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=as	p.class=ph-as
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=as    	p.class=ph-as
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=as    	p.class=ph-as
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=as    	p.class=ph-as
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=as    	p.class=ph-as
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=as    	p.class=ph-as
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=as    	p.class=ph-as
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=as    	p.class=ph-as
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=as    	p.class=ph-as
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=as    	p.class=ph-as
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=at	p.class=ph-at
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=at    	p.class=ph-at
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=at    	p.class=ph-at
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=at    	p.class=ph-at
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=at    	p.class=ph-at
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=at    	p.class=ph-at
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=at    	p.class=ph-at
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=at    	p.class=ph-at
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=at    	p.class=ph-at
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=at    	p.class=ph-at
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=away	p.class=ph-away
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=away    p.class=ph-away
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=away    p.class=ph-away
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=away    p.class=ph-away
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=away    p.class=ph-away
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=away    p.class=ph-away
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=away    p.class=ph-away
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=away    p.class=ph-away
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=away    p.class=ph-away
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=away    p.class=ph-away
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=back	p.class=ph-back
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=back    p.class=ph-back
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=back    p.class=ph-back
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=back    p.class=ph-back
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=back    p.class=ph-back
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=back    p.class=ph-back
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=back    p.class=ph-back
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=back    p.class=ph-back
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=back    p.class=ph-back
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=back    p.class=ph-back
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=by	p.class=ph-by
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=by    	p.class=ph-by
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=by    	p.class=ph-by
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=by    	p.class=ph-by
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=by    	p.class=ph-by
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=by    	p.class=ph-by
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=by    	p.class=ph-by
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=by    	p.class=ph-by
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=by    	p.class=ph-by
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=by    	p.class=ph-by
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=down	p.class=ph-down
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=down    p.class=ph-down
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=down    p.class=ph-down
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=down    p.class=ph-down
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=down    p.class=ph-down
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=down    p.class=ph-down
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=down    p.class=ph-down
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=down    p.class=ph-down
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=down    p.class=ph-down
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=down    p.class=ph-down
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=for	p.class=ph-for
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=for    	p.class=ph-for
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=for    	p.class=ph-for
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=for    	p.class=ph-for
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=for    	p.class=ph-for
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=for    	p.class=ph-for
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=for    	p.class=ph-for
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=for    	p.class=ph-for
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=for    	p.class=ph-for
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=for    	p.class=ph-for
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=forward	p.class=ph-forward
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=forward p.class=ph-forward
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=forward p.class=ph-forward
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=forward p.class=ph-forward
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=forward p.class=ph-forward
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=forward p.class=ph-forward
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=forward p.class=ph-forward
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=forward p.class=ph-forward
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=forward p.class=ph-forward
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=forward p.class=ph-forward
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=in	p.class=ph-in
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=in    	p.class=ph-in
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=in    	p.class=ph-in
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=in    	p.class=ph-in
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=in    	p.class=ph-in
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=in    	p.class=ph-in
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=in    	p.class=ph-in
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=in    	p.class=ph-in
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=in    	p.class=ph-in
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=in    	p.class=ph-in
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=into	p.class=ph-into
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=into    p.class=ph-into
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=into    p.class=ph-into
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=into    p.class=ph-into
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=into    p.class=ph-into
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=into    p.class=ph-into
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=into    p.class=ph-into
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=into    p.class=ph-into
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=into    p.class=ph-into
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=into    p.class=ph-into
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=of	p.class=ph-of
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=of    	p.class=ph-of
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=of    	p.class=ph-of
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=of    	p.class=ph-of
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=of    	p.class=ph-of
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=of    	p.class=ph-of
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=of    	p.class=ph-of
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=of    	p.class=ph-of
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=of    	p.class=ph-of
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=of    	p.class=ph-of
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=off	p.class=ph-off
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=off    	p.class=ph-off
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=off    	p.class=ph-off
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=off    	p.class=ph-off
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=off    	p.class=ph-off
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=off    	p.class=ph-off
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=off    	p.class=ph-off
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=off    	p.class=ph-off
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=off    	p.class=ph-off
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=off    	p.class=ph-off
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=on	p.class=ph-on
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=on    	p.class=ph-on
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=on    	p.class=ph-on
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=on    	p.class=ph-on
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=on    	p.class=ph-on
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=on    	p.class=ph-on
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=on    	p.class=ph-on
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=on    	p.class=ph-on
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=on    	p.class=ph-on
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=on    	p.class=ph-on
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=onto	p.class=ph-onto
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=onto    p.class=ph-onto
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=onto    p.class=ph-onto
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=onto    p.class=ph-onto
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=onto    p.class=ph-onto
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=onto    p.class=ph-onto
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=onto    p.class=ph-onto
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=onto    p.class=ph-onto
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=onto    p.class=ph-onto
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=onto    p.class=ph-onto
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=out	p.class=ph-out
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=out    	p.class=ph-out
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=out    	p.class=ph-out
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=out    	p.class=ph-out
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=out    	p.class=ph-out
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=out    	p.class=ph-out
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=out    	p.class=ph-out
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=out    	p.class=ph-out
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=out    	p.class=ph-out
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=out    	p.class=ph-out
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=over	p.class=ph-over
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=over    p.class=ph-over
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=over    p.class=ph-over
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=over    p.class=ph-over
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=over    p.class=ph-over
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=over    p.class=ph-over
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=over    p.class=ph-over
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=over    p.class=ph-over
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=over    p.class=ph-over
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=over    p.class=ph-over
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=still	p.class=ph-still
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=still   p.class=ph-still
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=still   p.class=ph-still
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=still   p.class=ph-still
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=still   p.class=ph-still
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=still   p.class=ph-still
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=still   p.class=ph-still
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=still   p.class=ph-still
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=still   p.class=ph-still
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=still   p.class=ph-still
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=through	p.class=ph-through
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=through p.class=ph-through
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=through p.class=ph-through
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=through p.class=ph-through
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=through p.class=ph-through
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=through p.class=ph-through
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=through p.class=ph-through
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=through p.class=ph-through
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=through p.class=ph-through
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=through p.class=ph-through
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=to	p.class=ph-to
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=to    	p.class=ph-to
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=to    	p.class=ph-to
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=to    	p.class=ph-to
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=to    	p.class=ph-to
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=to    	p.class=ph-to
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=to    	p.class=ph-to
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=to    	p.class=ph-to
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=to    	p.class=ph-to
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=to    	p.class=ph-to
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=together	p.class=ph-together
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=together    	p.class=ph-together
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=together	p.class=ph-together
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=together    	p.class=ph-together
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=together    	p.class=ph-together
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=together    	p.class=ph-together
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=together    	p.class=ph-together
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=together	p.class=ph-together
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=together	p.class=ph-together
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=together	p.class=ph-together
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=under	p.class=ph-under
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=under   p.class=ph-under
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=under   p.class=ph-under
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=under   p.class=ph-under
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=under   p.class=ph-under
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=under   p.class=ph-under
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=under   p.class=ph-under
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=under   p.class=ph-under
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=under   p.class=ph-under
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=under   p.class=ph-under
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=up	p.class=ph-up
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=up    	p.class=ph-up
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=up    	p.class=ph-up
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=up    	p.class=ph-up
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=up    	p.class=ph-up
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=up    	p.class=ph-up
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=up    	p.class=ph-up
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=up    	p.class=ph-up
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=up    	p.class=ph-up
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=up    	p.class=ph-up
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=upon	p.class=ph-upon
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=upon    p.class=ph-upon
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=upon    p.class=ph-upon
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=upon    p.class=ph-upon
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=upon    p.class=ph-upon
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=upon    p.class=ph-upon
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=upon    p.class=ph-upon
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=upon    p.class=ph-upon
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=upon    p.class=ph-upon
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=upon    p.class=ph-upon
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=with	p.class=ph-with
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=with    p.class=ph-with
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=with    p.class=ph-with
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=with    p.class=ph-with
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=with    p.class=ph-with
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=with    p.class=ph-with
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=with    p.class=ph-with
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=with    p.class=ph-with
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=with    p.class=ph-with
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=with    p.class=ph-with
 
 claus		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=without	p.class=ph-without
 sv		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=without p.class=ph-without
-rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=without p.class=ph-without
 vb-chunk	ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=without p.class=ph-without
 vb-be		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=without p.class=ph-without
 vb-have		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=without p.class=ph-without
 vb-do		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=without p.class=ph-without
+rel		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=without p.class=ph-without
+inf		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=without p.class=ph-without
+part		ncmod-prt	d.label=prt-sp|prt-mix|adv	d.lemma=without p.class=ph-without
 
 
 %:::: CLAUSAL MODIFIERS ::::%
@@ -3641,6 +3750,8 @@ n-chunk		cmod		d.label=sv
 sn-chunk	cmod		d.label=vb-chunk
 n-chunk		cmod		d.label=vb-chunk
 
+sn-chunk	xmod		d.label=inf-mk
+n-chunk		xmod		d.label=inf-mk
 sn-chunk	xmod		d.label=inf
 n-chunk		xmod		d.label=inf
 
@@ -3652,14 +3763,24 @@ sp-chunk	cmod		d.label=claus
 sp-chunk	cmod		d.label=sv
 sp-chunk	cmod		d.label=sub-cl
 sp-chunk	cmod		d.label=rel-cl
+sp-chunk	cmod		d.label=inf-mk
 sp-chunk	cmod		d.label=inf
 sp-chunk	cmod		d.label=part
+
+inf-mk		cmod		d.label=claus
+inf-mk		cmod		d.label=sv
+inf-mk		cmod		d.label=sub-cl
+inf-mk		cmod		d.label=rel-cl
+inf-mk		cmod		d.label=inf-mk
+inf-mk		cmod		d.label=inf
+inf-mk		cmod		d.label=part
 
 % Adverb modifiers %
 adv		cmod		d.label=claus
 adv		cmod		d.label=sv
 adv		cmod		d.label=sub-cl
 adv		cmod		d.label=rel-cl
+adv		cmod		d.label=inf-mk
 adv		cmod		d.label=inf
 adv		cmod		d.label=part
 
@@ -3673,16 +3794,18 @@ sub-cl		cmod		d.label=vb-chunk
 sub-cl		cmod		d.label=vb-be
 sub-cl		cmod		d.label=vb-have
 sub-cl		cmod		d.label=vb-do
+sub-cl		cmod		d.label=inf-mk
 sub-cl		cmod		d.label=inf
 sub-cl		cmod		d.label=part
 
-rel-cl		cmod		d.label=sv
-rel-cl		cmod		d.label=vb-chunk
-rel-cl		cmod		d.label=vb-be
-rel-cl		cmod		d.label=vb-have
-rel-cl		cmod		d.label=vb-do
-rel-cl		cmod		d.label=inf
-rel-cl		cmod		d.label=part
+rel		cmod		d.label=sv
+rel		cmod		d.label=vb-chunk
+rel		cmod		d.label=vb-be
+rel		cmod		d.label=vb-have
+rel		cmod		d.label=vb-do
+rel		cmod		d.label=inf-mk
+rel		cmod		d.label=inf
+rel		cmod		d.label=part
 
 
 %:::: PREPOSITIONAL MODIFIERS ::::%
@@ -3741,6 +3864,24 @@ rel		aux		d.label=vb-do
 rel		aux		d.label=vb-have
 rel		aux		d.label=vb-chunk
 
+inf		aux		d.label=vb-do
+inf		aux		d.label=vb-have
+inf		aux		d.label=vb-be
+inf		aux		d.label=mod-chunk
+inf		aux		d.label=vb-be
+inf		aux		d.label=vb-do
+inf		aux		d.label=vb-have
+inf		aux		d.label=vb-chunk
+
+part		aux		d.label=vb-do
+part		aux		d.label=vb-have
+part		aux		d.label=vb-be
+part		aux		d.label=mod-chunk
+part		aux		d.label=vb-be
+part		aux		d.label=vb-do
+part		aux		d.label=vb-have
+part		aux		d.label=vb-chunk
+
 adv 		aux		d.label=vb-be
 adv 		aux		d.label=vb-do
 adv 		aux		d.label=vb-have
@@ -3753,8 +3894,8 @@ sn-chunk	det		d.label=DT
 sn-chunk	det		d.label=PDT
 n-chunk		det		d.label=DT
 n-chunk		det		d.label=PDT
-sn-parenth		det		d.label=DT
-sn-parenth	 	det		d.label=PDT
+sn-parenth	det		d.label=DT
+sn-parenth	det		d.label=PDT
 
 
 %:::: COORDINATION ::::%
