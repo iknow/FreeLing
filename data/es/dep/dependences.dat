@@ -23,6 +23,7 @@
 %									 %
 % sn amb valor temporal --> cc (GRLAB)					 %
 % prepos (abans) --> obj-prep (ara)					 %
+% sn 'hace X tiempo' (GRLAB)						 %
 %									 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -4613,8 +4614,8 @@
 
 <SEMDB>
 
-SenseFile       /usr/local/share/FreeLing/es/senses16.db
-WNFile          /usr/local/share/FreeLing/common/wn16.db                  
+SenseFile       ../senses16.db
+WNFile          ../../common/wn16.db                  
 
 </SEMDB>
 
@@ -4625,6 +4626,12 @@ verb-pass	cc		d.label=sn*		d.tonto=Time
 grup-verb-inf	cc		d.label=sn*		d.tonto=Time
 subord-ger	cc		d.label=sn*		d.tonto=Time
 subord-part	cc		d.label=sn*		d.tonto=Time
+
+grup-verb       cc              d.label=sn*             d.lemma=hacer
+verb-pass       cc              d.label=sn*             d.lemma=hacer
+grup-verb-inf   cc              d.label=sn*             d.lemma=hacer
+subord-ger      cc              d.label=sn*             d.lemma=hacer
+subord-part     cc              d.label=sn*             d.lemma=hacer
 
 grup-verb       subj   		d.label=sn*             		d.side=right		p.class=intr
 grup-verb	subj		d.label=sn*				d.side=right	d.pos=NP00000
