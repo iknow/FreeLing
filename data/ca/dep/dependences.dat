@@ -23,6 +23,7 @@
 %									 %
 % sn amb valor temporal --> cc (GRLAB)					 %
 % prepos (abans) --> obj-prep (ara)					 %
+% sn 'fa X temps' (GRPAR+GRLAB)						 %
 %									 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -256,50 +257,50 @@
 
 %%% VERB + SINTAGMA NOMINAL %%%
 
-4007  -  conj-subord_$$_sp-de_grup-sp  (grup-verb[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  que-a_$$_sp-de_grup-sp  (grup-verb[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  qui_$$_sp-de_grup-sp  (grup-verb[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  relatiu_$$_sp-de_grup-sp  (grup-verb[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  prel-adv_$$_sp-de_grup-sp  (grup-verb[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  sn{^PT}_$$_sp-de_grup-sp  (grup-verb[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  sadv{^PT}_$$_sp-de_grup-sp  (grup-verb[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-7007  -  $$_sp-de_grup-sp  (grup-verb[mov],sn{^(N|Z|A)})   top_left RELABEL -  % (arrossega (la cadira)) de la cuina al menjador
+4007  -  conj-subord_$$_sp-de_grup-sp  (grup-verb[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  que-a_$$_sp-de_grup-sp  (grup-verb[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  qui_$$_sp-de_grup-sp  (grup-verb[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  relatiu_$$_sp-de_grup-sp  (grup-verb[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  prel-adv_$$_sp-de_grup-sp  (grup-verb[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  sn{^PT}_$$_sp-de_grup-sp  (grup-verb[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  sadv{^PT}_$$_sp-de_grup-sp  (grup-verb[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+7007  -  $$_sp-de_grup-sp  (grup-verb[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % (arrossega (la cadira)) de la cuina al menjador
 
-4007  -  conj-subord_$$_grup-sp  (grup-verb[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  que-a_$$_grup-sp  (grup-verb[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  qui_$$_grup-sp  (grup-verb[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  relatiu_$$_grup-sp  (grup-verb[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  prel-adv_$$_grup-sp  (grup-verb[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  sn{^PT}_$$_grup-sp  (grup-verb[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  sadv{^PT}_$$_grup-sp  (grup-verb[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-7007  -  $$_grup-sp  (grup-verb[mov],sn{^(N|Z|A)})   top_left RELABEL -  % (mou (la taula)) a la cuina
+4007  -  conj-subord_$$_grup-sp  (grup-verb[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  que-a_$$_grup-sp  (grup-verb[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  qui_$$_grup-sp  (grup-verb[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  relatiu_$$_grup-sp  (grup-verb[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  prel-adv_$$_grup-sp  (grup-verb[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  sn{^PT}_$$_grup-sp  (grup-verb[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  sadv{^PT}_$$_grup-sp  (grup-verb[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+7007  -  $$_grup-sp  (grup-verb[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % (mou (la taula)) a la cuina
 
-4007  -  conj-subord_$$_sp-de  (grup-verb[ditr],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  que-a_$$_sp-de  (grup-verb[ditr],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  qui_$$_sp-de  (grup-verb[ditr],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  relatiu_$$_sp-de  (grup-verb[ditr],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  prel-adv_$$_sp-de  (grup-verb[ditr],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  sn{^PT}_$$_sp-de  (grup-verb[ditr],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  sadv{^PT}_$$_sp-de  (grup-verb[ditr],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-7007  -  $$_sp-de  (grup-verb[ditr],sn{^(N|Z|A)})   top_left RELABEL -  % (omple (la casa)) de sorra
+4007  -  conj-subord_$$_sp-de  (grup-verb[ditr],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  que-a_$$_sp-de  (grup-verb[ditr],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  qui_$$_sp-de  (grup-verb[ditr],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  relatiu_$$_sp-de  (grup-verb[ditr],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  prel-adv_$$_sp-de  (grup-verb[ditr],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  sn{^PT}_$$_sp-de  (grup-verb[ditr],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  sadv{^PT}_$$_sp-de  (grup-verb[ditr],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+7007  -  $$_sp-de  (grup-verb[ditr],sn{^(N|Z|A|P)})   top_left RELABEL -  % (omple (la casa)) de sorra
 
-4007  -  conj-subord_$$  (grup-verb,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  que-a_$$  (grup-verb,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  qui_$$  (grup-verb,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  relatiu_$$  (grup-verb,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  prel-adv_$$  (grup-verb,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  sn{^PT}_$$  (grup-verb,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  sadv{^PT}_$$  (grup-verb,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-7007  -  -  (grup-verb,sn{^(N|Z|A)})   top_left RELABEL -  % (menja (pollastre))
+4007  -  conj-subord_$$  (grup-verb,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  que-a_$$  (grup-verb,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  qui_$$  (grup-verb,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  relatiu_$$  (grup-verb,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  prel-adv_$$  (grup-verb,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  sn{^PT}_$$  (grup-verb,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  sadv{^PT}_$$  (grup-verb,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+7007  -  -  (grup-verb,sn{^(N|Z|A|P)})   top_left RELABEL -  % (menja (pollastre))
 
-2107  -  conj-subord_$$  (grup-verb,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107  -  que-a_$$  (grup-verb,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107  -  qui_$$  (grup-verb,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107  -  relatiu_$$  (grup-verb,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107  -  prel-adv_$$  (grup-verb,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107  -  sn{^PT}_$$  (grup-verb,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107  -  sadv{^PT}_$$  (grup-verb,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107  -  -  (grup-verb,sn{^(N|Z|A)})   last_left MATCHING inf  % (aconsella (llegir el llibre))
+2107  -  conj-subord_$$  (grup-verb,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107  -  que-a_$$  (grup-verb,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107  -  qui_$$  (grup-verb,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107  -  relatiu_$$  (grup-verb,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107  -  prel-adv_$$  (grup-verb,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107  -  sn{^PT}_$$  (grup-verb,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107  -  sadv{^PT}_$$  (grup-verb,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107  -  -  (grup-verb,sn{^(N|Z|A|P)})   last_left MATCHING inf  % (aconsella (llegir el llibre))
 
 %%% VERB + SUBORDINADA FINITA COORDINADA %%%
 
@@ -359,23 +360,23 @@
 4011  -  sadv{^PT}_$$  (grup-verb,subord)   top_left RELABEL -  % dins de subordinada
 7011  -  -  (grup-verb,subord)   top_left RELABEL -  % (diu (que callis))
 
-911  -  conj-subord_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  que-a_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  qui_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  relatiu_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  prel-adv_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  sn{^PT}_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  sadv{^PT}_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  -  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % (he vist (la noia (que parlava de pressa)))
+911  -  conj-subord_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  que-a_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  qui_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  relatiu_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  prel-adv_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  sn{^PT}_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  sadv{^PT}_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  -  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % (he vist (la noia (que parlava de pressa)))
 
-911  -  conj-subord_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  que-a_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  qui_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  relatiu_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  prel-adv_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  sn{^PT}_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  sadv{^PT}_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  -  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % (parlava del (noi (amb qui havia viatjat)))
+911  -  conj-subord_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  que-a_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  qui_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  relatiu_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  prel-adv_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  sn{^PT}_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  sadv{^PT}_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  -  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % (parlava del (noi (amb qui havia viatjat)))
 
 %%% VERB + SUBORDINADA NO FINITA D'INFINITIU COORDINADA %%%
 
@@ -399,14 +400,14 @@
 4015  -  sadv{^PT}_$$  (grup-verb,inf)   top_left RELABEL -  % dins de subordinada
 7015  -  -  (grup-verb,inf)   top_left RELABEL -  % (aconsella (acabar la feina))
 
-2107  -  conj-subord_$$  (grup-verb,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107  -  que-a_$$  (grup-verb,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107  -  qui_$$  (grup-verb,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107  -  relatiu_$$  (grup-verb,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107 -  prel-adv_$$  (grup-verb,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107 -  sn{^PT}_$$  (grup-verb,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107 -  sadv{^PT}_$$  (grup-verb,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107  -  -  (grup-verb,sn{^(N|Z|A)})   last_left MATCHING inf  % (aconsella (llegir el llibre))
+2107  -  conj-subord_$$  (grup-verb,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107  -  que-a_$$  (grup-verb,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107  -  qui_$$  (grup-verb,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107  -  relatiu_$$  (grup-verb,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107 -  prel-adv_$$  (grup-verb,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107 -  sn{^PT}_$$  (grup-verb,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107 -  sadv{^PT}_$$  (grup-verb,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107  -  -  (grup-verb,sn{^(N|Z|A|P)})   last_left MATCHING inf  % (aconsella (llegir el llibre))
 
 2107  -  conj-subord_$$  (grup-verb,coor-n)   last_left MATCHING inf  % dins de subordinada
 2107  -  que-a_$$  (grup-verb,coor-n)   last_left MATCHING inf  % dins de subordinada
@@ -439,41 +440,41 @@
 
 %%% VERB + SINTAGMA PREPOSICIONAL COORDINAT %%%
 
-4019  -  conj-subord_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  que-a_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  qui_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  relatiu_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  prel-adv_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  sn{^PT}_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  sadv{^PT}_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-7019  -  $_sn{^(N|Z|A)}_sp-de_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % (arrosega les cadires de fusta (del menjador i de la cuina)) al jardi
+4019  -  conj-subord_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  que-a_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  qui_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  relatiu_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  prel-adv_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  sn{^PT}_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  sadv{^PT}_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+7019  -  $_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % (arrosega les cadires de fusta (del menjador i de la cuina)) al jardi
 
-4019  -  conj-subord_$_sn{^(N|Z|A)}_sp-de_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  que-a_$_sn{^(N|Z|A)}_sp-de_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  qui_$_sn{^(N|Z|A)}_sp-de_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  relatiu_$_sn{^(N|Z|A)}_sp-de_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  prel-adv_$_sn{^(N|Z|A)}_sp-de_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  sn{^PT}_$_sn{^(N|Z|A)}_sp-de_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  sadv{^PT}_$_sn{^(N|Z|A)}_sp-de_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-7019  -  $_sn{^(N|Z|A)}_sp-de_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % (arrosega les cadires de fusta de la cuina (al menjador i al jardi))
+4019  -  conj-subord_$_sn{^(N|Z|A|P)}_sp-de_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  que-a_$_sn{^(N|Z|A|P)}_sp-de_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  qui_$_sn{^(N|Z|A|P)}_sp-de_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  relatiu_$_sn{^(N|Z|A|P)}_sp-de_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  prel-adv_$_sn{^(N|Z|A|P)}_sp-de_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  sn{^PT}_$_sn{^(N|Z|A|P)}_sp-de_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  sadv{^PT}_$_sn{^(N|Z|A|P)}_sp-de_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+7019  -  $_sn{^(N|Z|A|P)}_sp-de_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % (arrosega les cadires de fusta de la cuina (al menjador i al jardi))
 
-4019  -  conj-subord_$_sn{^(N|Z|A)}_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  que-a_$_sn{^(N|Z|A)}_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  qui_$_sn{^(N|Z|A)}_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  relatiu_$_sn{^(N|Z|A)}_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  prel-adv_$_sn{^(N|Z|A)}_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  sn{^PT}_$_sn{^(N|Z|A)}_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  sadv{^PT}_$_sn{^(N|Z|A)}_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-7019  -  $_sn{^(N|Z|A)}_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % (arrosega les cadires (de la cuina i del menjador)) al jardi
+4019  -  conj-subord_$_sn{^(N|Z|A|P)}_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  que-a_$_sn{^(N|Z|A|P)}_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  qui_$_sn{^(N|Z|A|P)}_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  relatiu_$_sn{^(N|Z|A|P)}_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  prel-adv_$_sn{^(N|Z|A|P)}_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  sn{^PT}_$_sn{^(N|Z|A|P)}_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  sadv{^PT}_$_sn{^(N|Z|A|P)}_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+7019  -  $_sn{^(N|Z|A|P)}_$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % (arrosega les cadires (de la cuina i del menjador)) al jardi
 
-4019  -  conj-subord_$_sn{^(N|Z|A)}_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  que-a_$_sn{^(N|Z|A)}_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  qui_$_sn{^(N|Z|A)}_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  relatiu_$_sn{^(N|Z|A)}_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  prel-adv_$_sn{^(N|Z|A)}_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  sn{^PT}_$_sn{^(N|Z|A)}_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  sadv{^PT}_$_sn{^(N|Z|A)}_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-7019  -  $_sn{^(N|Z|A)}_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % (arrosega les cadires de la cuina (al menjador i al jardi))
+4019  -  conj-subord_$_sn{^(N|Z|A|P)}_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  que-a_$_sn{^(N|Z|A|P)}_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  qui_$_sn{^(N|Z|A|P)}_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  relatiu_$_sn{^(N|Z|A|P)}_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  prel-adv_$_sn{^(N|Z|A|P)}_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  sn{^PT}_$_sn{^(N|Z|A|P)}_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  sadv{^PT}_$_sn{^(N|Z|A|P)}_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+7019  -  $_sn{^(N|Z|A|P)}_sp-de_$  (grup-verb[mov],coor-sp)   top_left RELABEL -  % (arrosega les cadires de la cuina (al menjador i al jardi))
 
 4019  -  conj-subord_$$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
 4019  -  que-a_$$_grup-sp  (grup-verb[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
@@ -511,14 +512,14 @@
 4019  -  sadv{^PT}_$_coor-n_$  (grup-verb[ditr],coor-sp)   top_left RELABEL -  % dins de subordinada
 7019  -  $_coor-n_$  (grup-verb[ditr],coor-sp)   top_left RELABEL -  % (aprofita el descans i les hores lliures (per fumar i per xerrar))
 
-4019  -  conj-subord_$_sn{^(N|Z|A)}_$  (grup-verb[ditr],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  que-a_$_sn{^(N|Z|A)}_$  (grup-verb[ditr],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  qui_$_sn{^(N|Z|A)}_$  (grup-verb[ditr],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  relatiu_$_sn{^(N|Z|A)}_$  (grup-verb[ditr],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  prel-adv_$_sn{^(N|Z|A)}_$  (grup-verb[ditr],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  sn{^PT}_$_sn{^(N|Z|A)}_$  (grup-verb[ditr],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  sadv{^PT}_$_sn{^(N|Z|A)}_$  (grup-verb[ditr],coor-sp)   top_left RELABEL -  % dins de subordinada
-7010  -  $_sn{^(N|Z|A)}_$  (grup-verb[ditr],coor-sp)   top_left RELABEL -  % (aprofita el descans (per fumar i per xerrar))
+4019  -  conj-subord_$_sn{^(N|Z|A|P)}_$  (grup-verb[ditr],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  que-a_$_sn{^(N|Z|A|P)}_$  (grup-verb[ditr],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  qui_$_sn{^(N|Z|A|P)}_$  (grup-verb[ditr],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  relatiu_$_sn{^(N|Z|A|P)}_$  (grup-verb[ditr],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  prel-adv_$_sn{^(N|Z|A|P)}_$  (grup-verb[ditr],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  sn{^PT}_$_sn{^(N|Z|A|P)}_$  (grup-verb[ditr],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  sadv{^PT}_$_sn{^(N|Z|A|P)}_$  (grup-verb[ditr],coor-sp)   top_left RELABEL -  % dins de subordinada
+7010  -  $_sn{^(N|Z|A|P)}_$  (grup-verb[ditr],coor-sp)   top_left RELABEL -  % (aprofita el descans (per fumar i per xerrar))
 
 4019  -  conj-subord_$$  (grup-verb[ditr],coor-sp)   top_left RELABEL -  % dins de subordinada
 4019  -  que-a_$$  (grup-verb[ditr],coor-sp)   top_left RELABEL -  % dins de subordinada
@@ -540,23 +541,23 @@
 
 %%% VERB + SINTAGMA PREPOSICIONAL AMB "DE" %%%
 
-4021  -  conj-subord_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-4021  -  que-a_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-4021  -  qui_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-4021  -  relatiu_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-4021  -  prel-adv_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-4021  -  sn{^PT}_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-4021  -  sadv{^PT}_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-7021  -  $_sn{^(N|Z|A)}_sp-de_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % (arrosega la cadira de fusta (de la cuina)) al menjador
+4021  -  conj-subord_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+4021  -  que-a_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+4021  -  qui_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+4021  -  relatiu_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+4021  -  prel-adv_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+4021  -  sn{^PT}_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+4021  -  sadv{^PT}_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+7021  -  $_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % (arrosega la cadira de fusta (de la cuina)) al menjador
 
-4021  -  conj-subord_$_sn{^(N|Z|A)}_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-4021  -  que-a_$_sn{^(N|Z|A)}_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-4021  -  qui_$_sn{^(N|Z|A)}_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-4021  -  relatiu_$_sn{^(N|Z|A)}_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-4021  -  prel-adv_$_sn{^(N|Z|A)}_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-4021  -  sn{^PT}_$_sn{^(N|Z|A)}_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-4021  -  sadv{^PT}_$_sn{^(N|Z|A)}_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-7021  -  $_sn{^(N|Z|A)}_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % (arrosega la cadira (de la cuina)) al menjador
+4021  -  conj-subord_$_sn{^(N|Z|A|P)}_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+4021  -  que-a_$_sn{^(N|Z|A|P)}_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+4021  -  qui_$_sn{^(N|Z|A|P)}_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+4021  -  relatiu_$_sn{^(N|Z|A|P)}_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+4021  -  prel-adv_$_sn{^(N|Z|A|P)}_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+4021  -  sn{^PT}_$_sn{^(N|Z|A|P)}_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+4021  -  sadv{^PT}_$_sn{^(N|Z|A|P)}_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+7021  -  $_sn{^(N|Z|A|P)}_$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % (arrosega la cadira (de la cuina)) al menjador
 
 4021  -  conj-subord_$$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
 4021  -  que-a_$$_grup-sp  (grup-verb[mov],sp-de)   top_left RELABEL -  % dins de subordinada
@@ -576,14 +577,14 @@
 4021  -  sadv{^PT}_$_coor-n_$  (grup-verb[ditr],sp-de)   top_left RELABEL -  % dins de subordinada
 7021  -  $_coor-n_$  (grup-verb[ditr],sp-de)   top_left RELABEL -  % (omple la casa i el garatge (de pols))
 
-4021  -  conj-subord_$_sn{^(N|Z|A)}_$  (grup-verb[ditr],sp-de)   top_let RELABEL -  % dins de subordinada
-4021  -  que-a_$_sn{^(N|Z|A)}_$  (grup-verb[ditr],sp-de)   top_let RELABEL -  % dins de subordinada
-4021  -  qui_$_sn{^(N|Z|A)}_$  (grup-verb[ditr],sp-de)   top_let RELABEL -  % dins de subordinada
-4021  -  relatiu_$_sn{^(N|Z|A)}_$  (grup-verb[ditr],sp-de)   top_let RELABEL -  % dins de subordinada
-4021  -  prel-adv_$_sn{^(N|Z|A)}_$  (grup-verb[ditr],sp-de)   top_left RELABEL -  % dins de subordinada
-4021  -  sn{^PT}_$_sn{^(N|Z|A)}_$  (grup-verb[ditr],sp-de)   top_left RELABEL -  % dins de subordinada
-4021  -  sadv{^PT}_$_sn{^(N|Z|A)}_$  (grup-verb[ditr],sp-de)   top_left RELABEL -  % dins de subordinada
-7021  -  $_sn{^(N|Z|A)}_$  (grup-verb[ditr],sp-de)   top_left RELABEL -  % (omple la casa (de sorra))
+4021  -  conj-subord_$_sn{^(N|Z|A|P)}_$  (grup-verb[ditr],sp-de)   top_let RELABEL -  % dins de subordinada
+4021  -  que-a_$_sn{^(N|Z|A|P)}_$  (grup-verb[ditr],sp-de)   top_let RELABEL -  % dins de subordinada
+4021  -  qui_$_sn{^(N|Z|A|P)}_$  (grup-verb[ditr],sp-de)   top_let RELABEL -  % dins de subordinada
+4021  -  relatiu_$_sn{^(N|Z|A|P)}_$  (grup-verb[ditr],sp-de)   top_let RELABEL -  % dins de subordinada
+4021  -  prel-adv_$_sn{^(N|Z|A|P)}_$  (grup-verb[ditr],sp-de)   top_left RELABEL -  % dins de subordinada
+4021  -  sn{^PT}_$_sn{^(N|Z|A|P)}_$  (grup-verb[ditr],sp-de)   top_left RELABEL -  % dins de subordinada
+4021  -  sadv{^PT}_$_sn{^(N|Z|A|P)}_$  (grup-verb[ditr],sp-de)   top_left RELABEL -  % dins de subordinada
+7021  -  $_sn{^(N|Z|A|P)}_$  (grup-verb[ditr],sp-de)   top_left RELABEL -  % (omple la casa (de sorra))
 
 4021  -  conj-subord_$$  (grup-verb[ditr],sp-de)   top_left RELABEL -  % dins de subordinada
 4021  -  que-a_$$  (grup-verb[ditr],sp-de)   top_left RELABEL -  % dins de subordinada
@@ -834,50 +835,50 @@
 
 %%% VERB PASSIU + SINTAGMA NOMINAL %%%
 
-4007  -  conj-subord_$$_sp-de_grup-sp  (verb-pass[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  que-a_$$_sp-de_grup-sp  (verb-pass[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  qui_$$_sp-de_grup-sp  (verb-pass[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  relatiu_$$_sp-de_grup-sp  (verb-pass[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  prel-adv_$$_sp-de_grup-sp  (verb-pass[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  sn{^PT}_$$_sp-de_grup-sp  (verb-pass[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  sadv{^PT}_$$_sp-de_grup-sp  (verb-pass[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-7007  -  $$_sp-de_grup-sp  (verb-pass[mov],sn{^(N|Z|A)})   top_left RELABEL -  % (es arrossegada (la cadira)) de la cuina al menjador
+4007  -  conj-subord_$$_sp-de_grup-sp  (verb-pass[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  que-a_$$_sp-de_grup-sp  (verb-pass[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  qui_$$_sp-de_grup-sp  (verb-pass[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  relatiu_$$_sp-de_grup-sp  (verb-pass[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  prel-adv_$$_sp-de_grup-sp  (verb-pass[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  sn{^PT}_$$_sp-de_grup-sp  (verb-pass[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  sadv{^PT}_$$_sp-de_grup-sp  (verb-pass[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+7007  -  $$_sp-de_grup-sp  (verb-pass[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % (es arrossegada (la cadira)) de la cuina al menjador
 
-4007  -  conj-subord_$$_grup-sp  (verb-pass[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  que-a_$$_grup-sp  (verb-pass[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  qui_$$_grup-sp  (verb-pass[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  relatiu_$$_grup-sp  (verb-pass[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  prel-adv_$$_grup-sp  (verb-pass[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  sn{^PT}_$$_grup-sp  (verb-pass[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  sadv{^PT}_$$_grup-sp  (verb-pass[mov],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-7007  -  $$_grup-sp  (verb-pass[mov],sn{^(N|Z|A)})   top_left RELABEL -  % (es moguda (la taula)) a la cuina
+4007  -  conj-subord_$$_grup-sp  (verb-pass[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  que-a_$$_grup-sp  (verb-pass[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  qui_$$_grup-sp  (verb-pass[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  relatiu_$$_grup-sp  (verb-pass[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  prel-adv_$$_grup-sp  (verb-pass[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  sn{^PT}_$$_grup-sp  (verb-pass[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  sadv{^PT}_$$_grup-sp  (verb-pass[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+7007  -  $$_grup-sp  (verb-pass[mov],sn{^(N|Z|A|P)})   top_left RELABEL -  % (es moguda (la taula)) a la cuina
 
-4007  -  conj-subord_$$_sp-de  (verb-pass[ditr],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  que-a_$$_sp-de  (verb-pass[ditr],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  qui_$$_sp-de  (verb-pass[ditr],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  relatiu_$$_sp-de  (verb-pass[ditr],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  prel-adv_$$_sp-de  (verb-pass[ditr],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  sn{^PT}_$$_sp-de  (verb-pass[ditr],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  sadv{^PT}_$$_sp-de  (verb-pass[ditr],sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-7007  -  $$_sp-de  (verb-pass[ditr],sn{^(N|Z|A)})   top_left RELABEL -  % (es omplerta (la casa)) de sorra
+4007  -  conj-subord_$$_sp-de  (verb-pass[ditr],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  que-a_$$_sp-de  (verb-pass[ditr],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  qui_$$_sp-de  (verb-pass[ditr],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  relatiu_$$_sp-de  (verb-pass[ditr],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  prel-adv_$$_sp-de  (verb-pass[ditr],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  sn{^PT}_$$_sp-de  (verb-pass[ditr],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  sadv{^PT}_$$_sp-de  (verb-pass[ditr],sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+7007  -  $$_sp-de  (verb-pass[ditr],sn{^(N|Z|A|P)})   top_left RELABEL -  % (es omplerta (la casa)) de sorra
 
-4007  -  conj-subord_$$  (verb-pass,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  que-a_$$  (verb-pass,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  qui_$$  (verb-pass,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  relatiu_$$  (verb-pass,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  prel-adv_$$  (verb-pass,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  sn{^PT}_$$  (verb-pass,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-4007  -  sadv{^PT}_$$  (verb-pass,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-7007  -  -  (verb-pass,sn{^(N|Z|A)})   top_left RELABEL -  % (son enviades (les cartes))
+4007  -  conj-subord_$$  (verb-pass,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  que-a_$$  (verb-pass,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  qui_$$  (verb-pass,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  relatiu_$$  (verb-pass,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  prel-adv_$$  (verb-pass,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  sn{^PT}_$$  (verb-pass,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+4007  -  sadv{^PT}_$$  (verb-pass,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+7007  -  -  (verb-pass,sn{^(N|Z|A|P)})   top_left RELABEL -  % (son enviades (les cartes))
 
-2107  -  conj-subord_$$  (verb-pass,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107  -  que-a_$$  (verb-pass,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107  -  qui_$$  (verb-pass,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107  -  relatiu_$$  (verb-pass,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107  -  prel-adv_$$  (verb-pass,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107  -  sn{^PT}_$$  (verb-pass,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107  -  sadv{^PT}_$$  (verb-pass,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107  -  -  (verb-pass,sn{^(N|Z|A)})   last_left MATCHING inf  % (es aconsellat (llegir el llibre))
+2107  -  conj-subord_$$  (verb-pass,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107  -  que-a_$$  (verb-pass,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107  -  qui_$$  (verb-pass,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107  -  relatiu_$$  (verb-pass,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107  -  prel-adv_$$  (verb-pass,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107  -  sn{^PT}_$$  (verb-pass,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107  -  sadv{^PT}_$$  (verb-pass,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107  -  -  (verb-pass,sn{^(N|Z|A|P)})   last_left MATCHING inf  % (es aconsellat (llegir el llibre))
 
 %%% VERB PASSIU + SUBORDINADA FINITA COORDINADA %%%
 
@@ -937,23 +938,23 @@
 4011  -  sadv{^PT}_$$  (verb-pass,subord)   top_left RELABEL -  % dins de subordinada
 7011  -  -  (verb-pass,subord)   top_left RELABEL -  % (es dit (que ha mentit))
 
-911  -  conj-subord_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  que-a_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  qui_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  relatiu_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  prel-adv_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  sn{^PT}_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  sadv{^PT}_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  -  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % (es vista (la noia (que parlava de pressa)))
+911  -  conj-subord_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  que-a_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  qui_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  relatiu_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  prel-adv_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  sn{^PT}_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  sadv{^PT}_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  -  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % (es vista (la noia (que parlava de pressa)))
 
-911  -  conj-subord_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  que-a_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  qui_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  relatiu_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  prel-adv_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  sn{^PT}_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  sadv{^PT}_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  -  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % (es informat del (noi (amb qui havia viatjat)))
+911  -  conj-subord_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  que-a_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  qui_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  relatiu_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  prel-adv_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  sn{^PT}_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  sadv{^PT}_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  -  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % (es informat del (noi (amb qui havia viatjat)))
 
 %%% VERB PASSIU + SUBORDINADA NO FINITA D'INFINITIU COORDINADA %%%
 
@@ -977,14 +978,14 @@
 4015  -  sadv{^PT}_$$  (verb-pass,inf)   top_left RELABEL -  % dins de subordinada
 7015  -  -  (verb-pass,inf)   top_left RELABEL -  % (es aconsellat (acabar la feina))
 
-2107  -  conj-subord_$$  (verb-pass,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107  -  que-a_$$  (verb-pass,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107  -  qui_$$  (verb-pass,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107  -  relatiu_$$  (verb-pass,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107 -  prel-adv_$$  (verb-pass,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107 -  sn{^PT}_$$  (verb-pass,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107 -  sadv{^PT}_$$  (verb-pass,sn{^(N|Z|A)})   last_left MATCHING inf  % dins de subordinada
-2107  -  -  (verb-pass,sn{^(N|Z|A)})   last_left MATCHING inf  % (es aconsellat (llegir el llibre))
+2107  -  conj-subord_$$  (verb-pass,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107  -  que-a_$$  (verb-pass,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107  -  qui_$$  (verb-pass,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107  -  relatiu_$$  (verb-pass,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107 -  prel-adv_$$  (verb-pass,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107 -  sn{^PT}_$$  (verb-pass,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107 -  sadv{^PT}_$$  (verb-pass,sn{^(N|Z|A|P)})   last_left MATCHING inf  % dins de subordinada
+2107  -  -  (verb-pass,sn{^(N|Z|A|P)})   last_left MATCHING inf  % (es aconsellat (llegir el llibre))
 
 2107  -  conj-subord_$$  (verb-pass,coor-n)   last_left MATCHING inf  % dins de subordinada
 2107  -  que-a_$$  (verb-pass,coor-n)   last_left MATCHING inf  % dins de subordinada
@@ -1017,41 +1018,41 @@
 
 %%% VERB PASSIU + SINTAGMA PREPOSICIONAL COORDINAT %%%
 
-4019  -  conj-subord_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  que-a_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  qui_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  relatiu_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  prel-adv_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  sn{^PT}_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  sadv{^PT}_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-7019  -  $_sn{^(N|Z|A)}_sp-de_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % (son arrossegades les cadires de fusta (de la cuina i del menjador)) al jardi
+4019  -  conj-subord_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  que-a_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  qui_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  relatiu_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  prel-adv_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  sn{^PT}_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  sadv{^PT}_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+7019  -  $_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % (son arrossegades les cadires de fusta (de la cuina i del menjador)) al jardi
 
-4019  -  conj-subord_$_sn{^(N|Z|A)}_sp-de_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  que-a_$_sn{^(N|Z|A)}_sp-de_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  qui_$_sn{^(N|Z|A)}_sp-de_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  relatiu_$_sn{^(N|Z|A)}_sp-de_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  prel-adv_$_sn{^(N|Z|A)}_sp-de_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  sn{^PT}_$_sn{^(N|Z|A)}_sp-de_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  sadv{^PT}_$_sn{^(N|Z|A)}_sp-de_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-7019  -  $_sn{^(N|Z|A)}_sp-de_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  %son arrossegades les cadires de fusta de la cuina (al menjador i al jardi))
+4019  -  conj-subord_$_sn{^(N|Z|A|P)}_sp-de_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  que-a_$_sn{^(N|Z|A|P)}_sp-de_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  qui_$_sn{^(N|Z|A|P)}_sp-de_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  relatiu_$_sn{^(N|Z|A|P)}_sp-de_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  prel-adv_$_sn{^(N|Z|A|P)}_sp-de_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  sn{^PT}_$_sn{^(N|Z|A|P)}_sp-de_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  sadv{^PT}_$_sn{^(N|Z|A|P)}_sp-de_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+7019  -  $_sn{^(N|Z|A|P)}_sp-de_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  %son arrossegades les cadires de fusta de la cuina (al menjador i al jardi))
 
-4019  -  conj-subord_$_sn{^(N|Z|A)}_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  que-a_$_sn{^(N|Z|A)}_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  qui_$_sn{^(N|Z|A)}_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  relatiu_$_sn{^(N|Z|A)}_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  prel-adv_$_sn{^(N|Z|A)}_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  sn{^PT}_$_sn{^(N|Z|A)}_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  sadv{^PT}_$_sn{^(N|Z|A)}_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-7019  -  $_sn{^(N|Z|A)}_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % (son arrossegades les cadires (de la cuina i del menjador)) al jardi
+4019  -  conj-subord_$_sn{^(N|Z|A|P)}_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  que-a_$_sn{^(N|Z|A|P)}_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  qui_$_sn{^(N|Z|A|P)}_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  relatiu_$_sn{^(N|Z|A|P)}_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  prel-adv_$_sn{^(N|Z|A|P)}_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  sn{^PT}_$_sn{^(N|Z|A|P)}_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  sadv{^PT}_$_sn{^(N|Z|A|P)}_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+7019  -  $_sn{^(N|Z|A|P)}_$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % (son arrossegades les cadires (de la cuina i del menjador)) al jardi
 
-4019  -  conj-subord_$_sn{^(N|Z|A)}_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  que-a_$_sn{^(N|Z|A)}_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  qui_$_sn{^(N|Z|A)}_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  relatiu_$_sn{^(N|Z|A)}_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  prel-adv_$_sn{^(N|Z|A)}_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  sn{^PT}_$_sn{^(N|Z|A)}_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-4019  -  sadv{^PT}_$_sn{^(N|Z|A)}_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
-7019  -  $_sn{^(N|Z|A)}_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % (son arrossegades les cadires de la cuina (al menjador i al jardi))
+4019  -  conj-subord_$_sn{^(N|Z|A|P)}_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  que-a_$_sn{^(N|Z|A|P)}_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  qui_$_sn{^(N|Z|A|P)}_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  relatiu_$_sn{^(N|Z|A|P)}_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  prel-adv_$_sn{^(N|Z|A|P)}_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  sn{^PT}_$_sn{^(N|Z|A|P)}_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+4019  -  sadv{^PT}_$_sn{^(N|Z|A|P)}_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
+7019  -  $_sn{^(N|Z|A|P)}_sp-de_$  (verb-pass[mov],coor-sp)   top_left RELABEL -  % (son arrossegades les cadires de la cuina (al menjador i al jardi))
 
 4019  -  conj-subord_$$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
 4019  -  que-a_$$_grup-sp  (verb-pass[mov],coor-sp)   top_left RELABEL -  % dins de subordinada
@@ -1091,23 +1092,23 @@
 
 %%% VERB PASSIU + SINTAGMA PREPOSICIONAL AMB "DE" %%%
 
-4021  -  conj-subord_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-4021  -  que-a_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-4021  -  qui_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-4021  -  relatiu_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-4021  -  prel-adv_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-4021  -  sn{^PT}_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-4021  -  sadv{^PT}_$_sn{^(N|Z|A)}_sp-de_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-7021  -  $_sn{^(N|Z|A)}_sp-de_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % (es arrossegada la cadira de fusta (de la cuina)) al menjador
+4021  -  conj-subord_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+4021  -  que-a_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+4021  -  qui_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+4021  -  relatiu_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+4021  -  prel-adv_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+4021  -  sn{^PT}_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+4021  -  sadv{^PT}_$_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+7021  -  $_sn{^(N|Z|A|P)}_sp-de_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % (es arrossegada la cadira de fusta (de la cuina)) al menjador
 
-4021  -  conj-subord_$_sn{^(N|Z|A)}_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-4021  -  que-a_$_sn{^(N|Z|A)}_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-4021  -  qui_$_sn{^(N|Z|A)}_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-4021  -  relatiu_$_sn{^(N|Z|A)}_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-4021  -  prel-adv_$_sn{^(N|Z|A)}_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-4021  -  sn{^PT}_$_sn{^(N|Z|A)}_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-4021  -  sadv{^PT}_$_sn{^(N|Z|A)}_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
-7021  -  $_sn{^(N|Z|A)}_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % (es arrosssegada la cadira (de la cuina)) al menjador
+4021  -  conj-subord_$_sn{^(N|Z|A|P)}_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+4021  -  que-a_$_sn{^(N|Z|A|P)}_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+4021  -  qui_$_sn{^(N|Z|A|P)}_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+4021  -  relatiu_$_sn{^(N|Z|A|P)}_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+4021  -  prel-adv_$_sn{^(N|Z|A|P)}_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+4021  -  sn{^PT}_$_sn{^(N|Z|A|P)}_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+4021  -  sadv{^PT}_$_sn{^(N|Z|A|P)}_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
+7021  -  $_sn{^(N|Z|A|P)}_$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % (es arrosssegada la cadira (de la cuina)) al menjador
 
 4021  -  conj-subord_$$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
 4021  -  que-a_$$_grup-sp  (verb-pass[mov],sp-de)   top_left RELABEL -  % dins de subordinada
@@ -1375,32 +1376,41 @@
 
 %%% SINTAGMA NOMINAL + VERB %%%
 
-2067  -  conj-subord_subord-ger_$$      (sn{^(N|Z|A)},grup-verb)   top_right RELABEL -  % dins de subordinada
-2067  -  que-a_subord-ger_$$             (sn{^(N|Z|A)},grup-verb)   top_right RELABEL -  % dins de subordinada
-2067  -  qui_subord-ger_$$                  (sn{^(N|Z|A)},grup-verb)   top_right RELABEL -  % dins de subordinada
-2067  -  relatiu_subord-ger_$$                  (sn{^(N|Z|A)},grup-verb)   top_right RELABEL -  % dins de subordinada
-2067  -  prel-adv_subord-ger_$$                 (sn{^(N|Z|A)},grup-verb)   top_right RELABEL -  % dins de subordinada
-2067  -  sn{^PT}_subord-ger_$$                 (sn{^(N|Z|A)},grup-verb)   top_right RELABEL -  % dins de subordinada
-2067  -  sadv{^PT}_subord-ger_$$                 (sn{^(N|Z|A)},grup-verb)   top_right RELABEL -  % dins de subordinada
-2067  -  subord-ger_$$  (sn{^(N|Z|A)},grup-verb)   top_right RELABEL -  % cantant ((el noi) ha arribat)
+2067  -  conj-subord_subord-ger_$$      (sn{^(N|Z|A|P)},grup-verb)   top_right RELABEL -  % dins de subordinada
+2067  -  que-a_subord-ger_$$             (sn{^(N|Z|A|P)},grup-verb)   top_right RELABEL -  % dins de subordinada
+2067  -  qui_subord-ger_$$                  (sn{^(N|Z|A|P)},grup-verb)   top_right RELABEL -  % dins de subordinada
+2067  -  relatiu_subord-ger_$$                  (sn{^(N|Z|A|P)},grup-verb)   top_right RELABEL -  % dins de subordinada
+2067  -  prel-adv_subord-ger_$$                 (sn{^(N|Z|A|P)},grup-verb)   top_right RELABEL -  % dins de subordinada
+2067  -  sn{^PT}_subord-ger_$$                 (sn{^(N|Z|A|P)},grup-verb)   top_right RELABEL -  % dins de subordinada
+2067  -  sadv{^PT}_subord-ger_$$                 (sn{^(N|Z|A|P)},grup-verb)   top_right RELABEL -  % dins de subordinada
+2067  -  subord-ger_$$  (sn{^(N|Z|A|P)},grup-verb)   top_right RELABEL -  % cantant ((el noi) ha arribat)
 
-2067  -  conj-subord_subord-part_$$      (sn{^(N|Z|A)},grup-verb)   top_right RELABEL -  % dins de subordinada
-2067  -  que-a_subord-part_$$             (sn{^(N|Z|A)},grup-verb)   top_right RELABEL -  % dins de subordinada
-2067  -  qui_subord-part_$$                  (sn{^(N|Z|A)},grup-verb)   top_right RELABEL -  % dins de subordinada
-2067  -  relatiu_subord-part_$$                  (sn{^(N|Z|A)},grup-verb)   top_right RELABEL -  % dins de subordinada
-2067  -  prel-adv_subord-part_$$                 (sn{^(N|Z|A)},grup-verb)   top_right RELABEL -  % dins de subordinada
-2067  -  sn{^PT}_subord-part_$$                 (sn{^(N|Z|A)},grup-verb)   top_right RELABEL -  % dins de subordinada
-2067  -  sadv{^PT}_subord-part_$$                 (sn{^(N|Z|A)},grup-verb)   top_right RELABEL -  % dins de subordinada
-2067  -  subord-part_$$  (sn{^(N|Z|A)},grup-verb)   top_right RELABEL -  % cantant ((el noi) ha arribat)
+2067  -  conj-subord_subord-part_$$      (sn{^(N|Z|A|P)},grup-verb)   top_right RELABEL -  % dins de subordinada
+2067  -  que-a_subord-part_$$             (sn{^(N|Z|A|P)},grup-verb)   top_right RELABEL -  % dins de subordinada
+2067  -  qui_subord-part_$$                  (sn{^(N|Z|A|P)},grup-verb)   top_right RELABEL -  % dins de subordinada
+2067  -  relatiu_subord-part_$$                  (sn{^(N|Z|A|P)},grup-verb)   top_right RELABEL -  % dins de subordinada
+2067  -  prel-adv_subord-part_$$                 (sn{^(N|Z|A|P)},grup-verb)   top_right RELABEL -  % dins de subordinada
+2067  -  sn{^PT}_subord-part_$$                 (sn{^(N|Z|A|P)},grup-verb)   top_right RELABEL -  % dins de subordinada
+2067  -  sadv{^PT}_subord-part_$$                 (sn{^(N|Z|A|P)},grup-verb)   top_right RELABEL -  % dins de subordinada
+2067  -  subord-part_$$  (sn{^(N|Z|A|P)},grup-verb)   top_right RELABEL -  % cantant ((el noi) ha arribat)
 
-4067  -  conj-subord_$$  (sn{^(N|Z|A)},grup-verb)   top_right RELABEL -  % dins de subordinada
-4067  -  que-a_$$  (sn{^(N|Z|A)},grup-verb)   top_right RELABEL -  % dins de subordinada
-4067  -  qui_$$  (sn{^(N|Z|A)},grup-verb)   top_right RELABEL -  % dins de subordinada
-4067  -  relatiu_$$  (sn{^(N|Z|A)},grup-verb)   top_right RELABEL -  % dins de subordinada
-4067  -  prel-adv_$$  (sn{^(N|Z|A)},grup-verb)   top_right RELABEL -  % dins de subordinada
-4067  -  sn{^PT}_$$  (sn{^(N|Z|A)},grup-verb)   top_right RELABEL -  % dins de subordinada
-4067  -  sadv{^PT}_$$  (sn{^(N|Z|A)},grup-verb)   top_right RELABEL -  % dins de subordinada
-7067  -  -  (sn{^(N|Z|A)},grup-verb)   top_right RELABEL -  % ((la natalitat) ha augmentat)
+4067  -  conj-subord_$$  (sn{^(N|Z|A|P)},grup-verb)   top_right RELABEL -  % dins de subordinada
+4067  -  que-a_$$  (sn{^(N|Z|A|P)},grup-verb)   top_right RELABEL -  % dins de subordinada
+4067  -  qui_$$  (sn{^(N|Z|A|P)},grup-verb)   top_right RELABEL -  % dins de subordinada
+4067  -  relatiu_$$  (sn{^(N|Z|A|P)},grup-verb)   top_right RELABEL -  % dins de subordinada
+4067  -  prel-adv_$$  (sn{^(N|Z|A|P)},grup-verb)   top_right RELABEL -  % dins de subordinada
+4067  -  sn{^PT}_$$  (sn{^(N|Z|A|P)},grup-verb)   top_right RELABEL -  % dins de subordinada
+4067  -  sadv{^PT}_$$  (sn{^(N|Z|A|P)},grup-verb)   top_right RELABEL -  % dins de subordinada
+7067  -  -  (sn{^(N|Z|A|P)},grup-verb)   top_right RELABEL -  % ((la natalitat) ha augmentat)
+
+4067  -  conj-subord_$$  (sn<fer>,grup-verb)   top_right RELABEL -  % dins de subordinada
+4067  -  que-a_$$  (sn<fer>,grup-verb)   top_right RELABEL -  % dins de subordinada
+4067  -  qui_$$  (sn<fer>,grup-verb)   top_right RELABEL -  % dins de subordinada
+4067  -  relatiu_$$  (sn<fer>,grup-verb)   top_right RELABEL -  % dins de subordinada
+4067  -  prel-adv_$$  (sn<fer>,grup-verb)   top_right RELABEL -  % dins de subordinada
+4067  -  sn{^PT}_$$  (sn<fer>,grup-verb)   top_right RELABEL -  % dins de subordinada
+4067  -  sadv{^PT}_$$  (sn<fer>,grup-verb)   top_right RELABEL -  % dins de subordinada
+7067  -  -  (sn<fer>,grup-verb)   top_right RELABEL -  % ((la natalitat) ha augmentat)
 
 %%% SUBORDINADES AMB NEXE CONJUNTIU COORDINADES + VERB %%%
 
@@ -1639,32 +1649,41 @@
 
 %%% SINTAGMA NOMINAL + VERB PASSIU %%%
 
-2067  -  conj-subord_subord-ger_$$      (sn{^(N|Z|A)},verb-pass)   top_right RELABEL -  % dins de subordinada
-2067  -  que-a_subord-ger_$$             (sn{^(N|Z|A)},verb-pass)   top_right RELABEL -  % dins de subordinada
-2067  -  qui_subord-ger_$$                  (sn{^(N|Z|A)},verb-pass)   top_right RELABEL -  % dins de subordinada
-2067  -  relatiu_subord-ger_$$                  (sn{^(N|Z|A)},verb-pass)   top_right RELABEL -  % dins de subordinada
-2067  -  prel-adv_subord-ger_$$                 (sn{^(N|Z|A)},verb-pass)   top_right RELABEL -  % dins de subordinada
-2067  -  sn{^PT}_subord-ger_$$                 (sn{^(N|Z|A)},verb-pass)   top_right RELABEL -  % dins de subordinada
-2067  -  sadv{^PT}_subord-ger_$$                 (sn{^(N|Z|A)},verb-pass)   top_right RELABEL -  % dins de subordinada
-2067  -  subord-ger_$$  (sn{^(N|Z|A)},verb-pass)   top_right RELABEL -  % buscant entre els llibres ((el dietari) a estat trobat)
+2067  -  conj-subord_subord-ger_$$      (sn{^(N|Z|A|P)},verb-pass)   top_right RELABEL -  % dins de subordinada
+2067  -  que-a_subord-ger_$$             (sn{^(N|Z|A|P)},verb-pass)   top_right RELABEL -  % dins de subordinada
+2067  -  qui_subord-ger_$$                  (sn{^(N|Z|A|P)},verb-pass)   top_right RELABEL -  % dins de subordinada
+2067  -  relatiu_subord-ger_$$                  (sn{^(N|Z|A|P)},verb-pass)   top_right RELABEL -  % dins de subordinada
+2067  -  prel-adv_subord-ger_$$                 (sn{^(N|Z|A|P)},verb-pass)   top_right RELABEL -  % dins de subordinada
+2067  -  sn{^PT}_subord-ger_$$                 (sn{^(N|Z|A|P)},verb-pass)   top_right RELABEL -  % dins de subordinada
+2067  -  sadv{^PT}_subord-ger_$$                 (sn{^(N|Z|A|P)},verb-pass)   top_right RELABEL -  % dins de subordinada
+2067  -  subord-ger_$$  (sn{^(N|Z|A|P)},verb-pass)   top_right RELABEL -  % buscant entre els llibres ((el dietari) a estat trobat)
 
-2067  -  conj-subord_subord-part_sn{^(N|Z|A)}_$$      (sn{^(N|Z|A)},verb-pass)   top_right RELABEL -  % dins de subordinada
-2067  -  que-a_subord-part_sn{^(N|Z|A)}_$$             (sn{^(N|Z|A)},verb-pass)   top_right RELABEL -  % dins de subordinada
-2067  -  qui_subord-part_sn{^(N|Z|A)}_$$                  (sn{^(N|Z|A)},verb-pass)   top_right RELABEL -  % dins de subordinada
-2067  -  relatiu_subord-part_sn{^(N|Z|A)}_$$                  (sn{^(N|Z|A)},verb-pass)   top_right RELABEL -  % dins de subordinada
-2067  -  prel-adv_subord-part_sn{^(N|Z|A)}_$$                 (sn{^(N|Z|A)},verb-pass)   top_right RELABEL -  % dins de subordinada
-2067  -  sn{^PT}_subord-part_sn{^(N|Z|A)}_$$                 (sn{^(N|Z|A)},verb-pass)   top_right RELABEL -  % dins de subordinada
-2067  -  sadv{^PT}_subord-part_sn{^(N|Z|A)}_$$                 (sn{^(N|Z|A)},verb-pass)   top_right RELABEL -  % dins de subordinada
-2067  -  subord-part_sn{^(N|Z|A)}_$$  (sn{^(N|Z|A)},verb-pass)   top_right RELABEL -  % passats els dies ((el dietari) va ser trobat)
+2067  -  conj-subord_subord-part_sn{^(N|Z|A|P)}_$$      (sn{^(N|Z|A|P)},verb-pass)   top_right RELABEL -  % dins de subordinada
+2067  -  que-a_subord-part_sn{^(N|Z|A|P)}_$$             (sn{^(N|Z|A|P)},verb-pass)   top_right RELABEL -  % dins de subordinada
+2067  -  qui_subord-part_sn{^(N|Z|A|P)}_$$                  (sn{^(N|Z|A|P)},verb-pass)   top_right RELABEL -  % dins de subordinada
+2067  -  relatiu_subord-part_sn{^(N|Z|A|P)}_$$                  (sn{^(N|Z|A|P)},verb-pass)   top_right RELABEL -  % dins de subordinada
+2067  -  prel-adv_subord-part_sn{^(N|Z|A|P)}_$$                 (sn{^(N|Z|A|P)},verb-pass)   top_right RELABEL -  % dins de subordinada
+2067  -  sn{^PT}_subord-part_sn{^(N|Z|A|P)}_$$                 (sn{^(N|Z|A|P)},verb-pass)   top_right RELABEL -  % dins de subordinada
+2067  -  sadv{^PT}_subord-part_sn{^(N|Z|A|P)}_$$                 (sn{^(N|Z|A|P)},verb-pass)   top_right RELABEL -  % dins de subordinada
+2067  -  subord-part_sn{^(N|Z|A|P)}_$$  (sn{^(N|Z|A|P)},verb-pass)   top_right RELABEL -  % passats els dies ((el dietari) va ser trobat)
 
-4067  -  conj-subord_$$  (sn{^(N|Z|A)},verb-pass)   top_right RELABEL -  % dins de subordinada
-4067  -  que-a_$$  (sn{^(N|Z|A)},verb-pass)   top_right RELABEL -  % dins de subordinada
-4067  -  qui_$$  (sn{^(N|Z|A)},verb-pass)   top_right RELABEL -  % dins de subordinada
-4067  -  relatiu_$$  (sn{^(N|Z|A)},verb-pass)   top_right RELABEL -  % dins de subordinada
-4067  -  prel-adv_$$  (sn{^(N|Z|A)},verb-pass)   top_right RELABEL -  % dins de subordinada
-4067  -  sn{^PT}_$$  (sn{^(N|Z|A)},verb-pass)   top_right RELABEL -  % dins de subordinada
-4067  -  sadv{^PT}_$$  (sn{^(N|Z|A)},verb-pass)   top_right RELABEL -  % dins de subordinada
-7067  -  -  (sn{^(N|Z|A)},verb-pass)   top_right RELABEL -  % ((el dietari) ha estat trobat)
+4067  -  conj-subord_$$  (sn{^(N|Z|A|P)},verb-pass)   top_right RELABEL -  % dins de subordinada
+4067  -  que-a_$$  (sn{^(N|Z|A|P)},verb-pass)   top_right RELABEL -  % dins de subordinada
+4067  -  qui_$$  (sn{^(N|Z|A|P)},verb-pass)   top_right RELABEL -  % dins de subordinada
+4067  -  relatiu_$$  (sn{^(N|Z|A|P)},verb-pass)   top_right RELABEL -  % dins de subordinada
+4067  -  prel-adv_$$  (sn{^(N|Z|A|P)},verb-pass)   top_right RELABEL -  % dins de subordinada
+4067  -  sn{^PT}_$$  (sn{^(N|Z|A|P)},verb-pass)   top_right RELABEL -  % dins de subordinada
+4067  -  sadv{^PT}_$$  (sn{^(N|Z|A|P)},verb-pass)   top_right RELABEL -  % dins de subordinada
+7067  -  -  (sn{^(N|Z|A|P)},verb-pass)   top_right RELABEL -  % ((el dietari) ha estat trobat)
+
+4067  -  conj-subord_$$  (sn<fer>,grup-verb)   top_right RELABEL -  % dins de subordinada
+4067  -  que-a_$$  (sn<fer>,grup-verb)   top_right RELABEL -  % dins de subordinada
+4067  -  qui_$$  (sn<fer>,grup-verb)   top_right RELABEL -  % dins de subordinada
+4067  -  relatiu_$$  (sn<fer>,grup-verb)   top_right RELABEL -  % dins de subordinada
+4067  -  prel-adv_$$  (sn<fer>,grup-verb)   top_right RELABEL -  % dins de subordinada
+4067  -  sn{^PT}_$$  (sn<fer>,grup-verb)   top_right RELABEL -  % dins de subordinada
+4067  -  sadv{^PT}_$$  (sn<fer>,grup-verb)   top_right RELABEL -  % dins de subordinada
+7067  -  -  (sn<fer>,grup-verb)   top_right RELABEL -  % ((la natalitat) ha augmentat)
 
 %%% SUBORDINADES AMB NEXE CONJUNTIU COORDINADES + VERB PASSIU %%%
 
@@ -1900,14 +1919,14 @@
 
 %%% INFINITIU + SINTAGMA NOMINAL %%%
 
-2107  -  conj_subord_$$  (inf,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2107  -  que-a_$$  (inf,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2107  -  qui_$$  (inf,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2107  -  relatiu_$$  (inf,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2107  -  prel-adv_$$  (inf,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2107  -  sn{^PT}_$$  (inf,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2107  -  sadv{^PT}_$$  (inf,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2107  -  -  (inf,sn{^(N|Z|A)})   top_left RELABEL -  % (comprar (roba))
+2107  -  conj_subord_$$  (inf,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2107  -  que-a_$$  (inf,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2107  -  qui_$$  (inf,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2107  -  relatiu_$$  (inf,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2107  -  prel-adv_$$  (inf,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2107  -  sn{^PT}_$$  (inf,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2107  -  sadv{^PT}_$$  (inf,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2107  -  -  (inf,sn{^(N|Z|A|P)})   top_left RELABEL -  % (comprar (roba))
 
 %%% INFINITIU + SUBORDINADA FINITA COORDINADA%%%
 
@@ -1931,13 +1950,13 @@
 2111  -  sadv{^PT}_$$  (inf,subord)   top_left RELABEL -  % dins de subordinada
 2111  -  -  (inf,subord)   top_left RELABEL -  % (anunciar (que tornaria))
 
-911  -  conj-subord_$$  (inf,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  que-a_$$  (inf,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  qui_$$  (inf,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  relatiu_$$  (inf,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  prel-adv_$$  (inf,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  sn{^PT}_$$  (inf,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  sadv{^PT}_$$  (inf,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
+911  -  conj-subord_$$  (inf,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  que-a_$$  (inf,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  qui_$$  (inf,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  relatiu_$$  (inf,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  prel-adv_$$  (inf,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  sn{^PT}_$$  (inf,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  sadv{^PT}_$$  (inf,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
 911  -  -  (inf,subord-rel)   last_left MATCHING -  % (dir (la pel.licula (que vol fer))
 
 %%% INFINITIU + SUBORDINADA NO FINITA D'INFINITIU COORDINADA %%%
@@ -1995,14 +2014,14 @@
 2121  -  sadv{^PT}_$$  (inf,sp-de)   top_left RELABEL -  % dins de subordinada
 2121  -  -  (inf,sp-de)   top_left RELABEL -  % (parlar (de politica))
 
-651  -  conj-subord_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-651  -  que-a_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-651  -  qui_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-651  -  relatiu_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-651  -  prel-adv_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-651  -  sn{^PT}_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-651  -  sadv{^PT}_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-651  -  -  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A)}  % (comprar (accions (de l'hotel)))
+651  -  conj-subord_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+651  -  que-a_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+651  -  qui_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+651  -  relatiu_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+651  -  prel-adv_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+651  -  sn{^PT}_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+651  -  sadv{^PT}_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+651  -  -  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % (comprar (accions (de l'hotel)))
 
 %%% INFINITIU + SINTAGMA PREPOSICIONAL %%%
 
@@ -2150,14 +2169,14 @@
 
 %%% INFINITIU + SINTAGMA NOMINAL %%%
 
-2107  -  conj_subord_$$  (inf,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2107  -  que-a_$$  (inf,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2107  -  qui_$$  (inf,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2107  -  relatiu_$$  (inf,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2107  -  prel-adv_$$  (inf,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2107  -  sn{^PT}_$$  (inf,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2107  -  sadv{^PT}_$$  (inf,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2107  -  -  (inf,sn{^(N|Z|A)})   top_left RELABEL -  % pensa (comprar (roba))
+2107  -  conj_subord_$$  (inf,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2107  -  que-a_$$  (inf,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2107  -  qui_$$  (inf,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2107  -  relatiu_$$  (inf,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2107  -  prel-adv_$$  (inf,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2107  -  sn{^PT}_$$  (inf,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2107  -  sadv{^PT}_$$  (inf,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2107  -  -  (inf,sn{^(N|Z|A|P)})   top_left RELABEL -  % pensa (comprar (roba))
 
 %%% INFINITIU + SUBORDINADA FINITA COORDINADA%%%
 
@@ -2181,22 +2200,22 @@
 2111  -  sadv{^PT}_$$  (inf,subord)   top_left RELABEL -  % dins de subordinada
 2111  -  -  (inf,subord)   top_left RELABEL -  % va pensar (anunciar (que vindria))
 
-911  -  conj-subord_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  que-a_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  qui_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  relatiu_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  prel-adv_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  sn{^PT}_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  sadv{^PT}_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
+911  -  conj-subord_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  que-a_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  qui_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  relatiu_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  prel-adv_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  sn{^PT}_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  sadv{^PT}_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
 911  -  -  (inf-pas,subord-rel)   last_left MATCHING -  % va pensar (anunciar (que vindria))
 
-911  -  conj-subord_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  que-a_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  qui_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  relatiu_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  prel-adv_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  sn{^PT}_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  sadv{^PT}_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
+911  -  conj-subord_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  que-a_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  qui_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  relatiu_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  prel-adv_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  sn{^PT}_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  sadv{^PT}_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
 911  -  -  (inf-pas,subord-rel)   last_left MATCHING -  % va pensar (anunciar (que vindria))
 
 %%% INFINITIU + SUBORDINADA NO FINITA D'INFINITIU COORDINADA %%%
@@ -2254,14 +2273,14 @@
 2121  -  sadv{^PT}_$$  (inf,sp-de)   top_left RELABEL -  % dins de subordinada
 2121  -  -  (inf,sp-de)   top_left RELABEL -  % va pensar (enviar una carta (al director))
 
-651  -  conj-subord_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-651  -  que-a_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-651  -  qui_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-651  -  relatiu_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-651  -  prel-adv_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-651  -  sn{^PT}_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-651  -  sadv{^PT}_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-651  -  -  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A)}  % (estudiar (els voltants (del poble)))
+651  -  conj-subord_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+651  -  que-a_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+651  -  qui_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+651  -  relatiu_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+651  -  prel-adv_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+651  -  sn{^PT}_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+651  -  sadv{^PT}_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+651  -  -  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % (estudiar (els voltants (del poble)))
 
 %%% INFINITIU + SINTAGMA PREPOSICIONAL %%%
 
@@ -2425,14 +2444,14 @@
 
 %%% GERUNDI + SINTAGMA NOMINAL COORDINAT %%%
 
-2305 - conj-subord_$$_sn{^(N|Z|A)}_grup-verb (ger,coor-n) top_left RELABEL subord-ger:- % dins de subordinada
-2305 - que-a_$$_sn{^(N|Z|A)}_grup-verb (ger,coor-n) top_left RELABEL subord-ger:- % dins de subordinada
-2305 - qui_$$_sn{^(N|Z|A)}_grup-verb (ger,coor-n) top_left RELABEL subord-ger:- % dins de subordinada
-2305 - relatiu_$$_sn{^(N|Z|A)}_grup-verb (ger,coor-n) top_left RELABEL subord-ger:- % dins de subordinada
-2305 - prel-adv_$$_sn{^(N|Z|A)}_grup-verb (ger,coor-n) top_left RELABEL subord-ger:- % dins de subordinada
-2305 - sn{^PT}_$$_sn{^(N|Z|A)}_grup-verb (ger,coor-n) top_left RELABEL subord-ger:- % dins de subordinada
-2305 - sadv{^PT}_$$_sn{^(N|Z|A)}_grup-verb (ger,coor-n) top_left RELABEL subord-ger:- % dins de subordinada
-2305 - $$_sn{^(N|Z|A)}_grup-verb (ger,coor-n) top_left RELABEL subord-ger:- % (buscant (els llibres i els apunts)) el noi va caure
+2305 - conj-subord_$$_sn{^(N|Z|A|P)}_grup-verb (ger,coor-n) top_left RELABEL subord-ger:- % dins de subordinada
+2305 - que-a_$$_sn{^(N|Z|A|P)}_grup-verb (ger,coor-n) top_left RELABEL subord-ger:- % dins de subordinada
+2305 - qui_$$_sn{^(N|Z|A|P)}_grup-verb (ger,coor-n) top_left RELABEL subord-ger:- % dins de subordinada
+2305 - relatiu_$$_sn{^(N|Z|A|P)}_grup-verb (ger,coor-n) top_left RELABEL subord-ger:- % dins de subordinada
+2305 - prel-adv_$$_sn{^(N|Z|A|P)}_grup-verb (ger,coor-n) top_left RELABEL subord-ger:- % dins de subordinada
+2305 - sn{^PT}_$$_sn{^(N|Z|A|P)}_grup-verb (ger,coor-n) top_left RELABEL subord-ger:- % dins de subordinada
+2305 - sadv{^PT}_$$_sn{^(N|Z|A|P)}_grup-verb (ger,coor-n) top_left RELABEL subord-ger:- % dins de subordinada
+2305 - $$_sn{^(N|Z|A|P)}_grup-verb (ger,coor-n) top_left RELABEL subord-ger:- % (buscant (els llibres i els apunts)) el noi va caure
 
 2305 - conj-subord_$$ (ger,coor-n) top_left RELABEL subord-ger:- % dins de subordinada
 2305 - que-a_$$ (ger,coor-n) top_left RELABEL subord-ger:- % dins de subordinada
@@ -2443,14 +2462,14 @@
 2305 - sadv{^PT}_$$ (ger,coor-n) top_left RELABEL subord-ger:- % dins de subordinada
 2305 - - (ger,coor-n) top_left RELABEL subord-ger:- % (comprant (peres i pomes))
 
-2305  -  conj-subord_$$_sn{^(N|Z|A)}_grup-verb  (subord-ger,coor-n)   top_left RELABEL -  % dins de subordinada
-2305  -  que-a_$$_sn{^(N|Z|A)}_grup-verb  (subord-ger,coor-n)   top_left RELABEL -  % dins de subordinada
-2305  -  qui_$$_sn{^(N|Z|A)}_grup-verb  (subord-ger,coor-n)   top_left RELABEL -  % dins de subordinada
-2305  -  relatiu_$$_sn{^(N|Z|A)}_grup-verb  (subord-ger,coor-n)   top_left RELABEL -  % dins de subordinada
-2305  -  prel-adv_$$_sn{^(N|Z|A)}_grup-verb  (subord-ger,coor-n)   top_left RELABEL -  % dins de subordinada
-2305  -  sn{^PT}_$$_sn{^(N|Z|A)}_grup-verb  (subord-ger,coor-n)   top_left RELABEL -  % dins de subordinada
-2305  -  sadv{^PT}_$$_sn{^(N|Z|A)}_grup-verb  (subord-ger,coor-n)   top_left RELABEL -  % dins de subordinada
-2305  -  $$_sn{^(N|Z|A)}_grup-verb  (subord-ger,coor-n)   top_left RELABEL -  % (buscant sense parar (els llibres i els apunts)) el noi va caure
+2305  -  conj-subord_$$_sn{^(N|Z|A|P)}_grup-verb  (subord-ger,coor-n)   top_left RELABEL -  % dins de subordinada
+2305  -  que-a_$$_sn{^(N|Z|A|P)}_grup-verb  (subord-ger,coor-n)   top_left RELABEL -  % dins de subordinada
+2305  -  qui_$$_sn{^(N|Z|A|P)}_grup-verb  (subord-ger,coor-n)   top_left RELABEL -  % dins de subordinada
+2305  -  relatiu_$$_sn{^(N|Z|A|P)}_grup-verb  (subord-ger,coor-n)   top_left RELABEL -  % dins de subordinada
+2305  -  prel-adv_$$_sn{^(N|Z|A|P)}_grup-verb  (subord-ger,coor-n)   top_left RELABEL -  % dins de subordinada
+2305  -  sn{^PT}_$$_sn{^(N|Z|A|P)}_grup-verb  (subord-ger,coor-n)   top_left RELABEL -  % dins de subordinada
+2305  -  sadv{^PT}_$$_sn{^(N|Z|A|P)}_grup-verb  (subord-ger,coor-n)   top_left RELABEL -  % dins de subordinada
+2305  -  $$_sn{^(N|Z|A|P)}_grup-verb  (subord-ger,coor-n)   top_left RELABEL -  % (buscant sense parar (els llibres i els apunts)) el noi va caure
 
 2305  -  conj-subord_$$  (subord-ger,coor-n)   top_left RELABEL -  % dins de subordinada
 2305  -  que-a_$$  (subord-ger,coor-n)   top_left RELABEL -  % dins de subordinada
@@ -2463,41 +2482,41 @@
 
 %%% GERUNDI + SINTAGMA NOMINAL %%%
 
-2307 - conj-subord_$$_sn{^(N|Z|A)}_grup-verb (ger,sn{^(N|Z|A)}) top_left RELABEL subord-ger:- % dins de subordinada
-2307 - que-a_$$_sn{^(N|Z|A)}_grup-verb (ger,sn{^(N|Z|A)}) top_left RELABEL subord-ger:- % dins de subordinada
-2307 - qui_$$_sn{^(N|Z|A)}_grup-verb (ger,sn{^(N|Z|A)}) top_left RELABEL subord-ger:- % dins de subordinada
-2307 - relatiu_$$_sn{^(N|Z|A)}_grup-verb (ger,sn{^(N|Z|A)}) top_left RELABEL subord-ger:- % dins de subordinada
-2307 - prel-adv_$$_sn{^(N|Z|A)}_grup-verb (ger,sn{^(N|Z|A)}) top_left RELABEL subord-ger:- % dins de subordinada
-2307 - sn{^PT}_$$_sn{^(N|Z|A)}_grup-verb (ger,sn{^(N|Z|A)}) top_left RELABEL subord-ger:- % dins de subordinada
-2307 - sadv{^PT}_$$_sn{^(N|Z|A)}_grup-verb (ger,sn{^(N|Z|A)}) top_left RELABEL subord-ger:- % dins de subordinada
-2307 - $$_sn{^(N|Z|A)}_grup-verb (ger,sn{^(N|Z|A)}) top_left RELABEL subord-ger:- % (buscant (els llibres)) el noi va caure
+2307 - conj-subord_$$_sn{^(N|Z|A|P)}_grup-verb (ger,sn{^(N|Z|A|P)}) top_left RELABEL subord-ger:- % dins de subordinada
+2307 - que-a_$$_sn{^(N|Z|A|P)}_grup-verb (ger,sn{^(N|Z|A|P)}) top_left RELABEL subord-ger:- % dins de subordinada
+2307 - qui_$$_sn{^(N|Z|A|P)}_grup-verb (ger,sn{^(N|Z|A|P)}) top_left RELABEL subord-ger:- % dins de subordinada
+2307 - relatiu_$$_sn{^(N|Z|A|P)}_grup-verb (ger,sn{^(N|Z|A|P)}) top_left RELABEL subord-ger:- % dins de subordinada
+2307 - prel-adv_$$_sn{^(N|Z|A|P)}_grup-verb (ger,sn{^(N|Z|A|P)}) top_left RELABEL subord-ger:- % dins de subordinada
+2307 - sn{^PT}_$$_sn{^(N|Z|A|P)}_grup-verb (ger,sn{^(N|Z|A|P)}) top_left RELABEL subord-ger:- % dins de subordinada
+2307 - sadv{^PT}_$$_sn{^(N|Z|A|P)}_grup-verb (ger,sn{^(N|Z|A|P)}) top_left RELABEL subord-ger:- % dins de subordinada
+2307 - $$_sn{^(N|Z|A|P)}_grup-verb (ger,sn{^(N|Z|A|P)}) top_left RELABEL subord-ger:- % (buscant (els llibres)) el noi va caure
 
-2307 - conj-subord_$$ (ger,sn{^(N|Z|A)}) top_left RELABEL subord-ger:- % dins de subordinada
-2307 - que-a_$$ (ger,sn{^(N|Z|A)}) top_left RELABEL subord-ger:- % dins de subordinada
-2307 - qui_$$ (ger,sn{^(N|Z|A)}) top_left RELABEL subord-ger:- % dins de subordinada
-2307 - relatiu_$$ (ger,sn{^(N|Z|A)}) top_left RELABEL subord-ger:- % dins de subordinada
-2307 - prel-adv_$$ (ger,sn{^(N|Z|A)}) top_left RELABEL subord-ger:- % dins de subordinada
-2307 - sn{^PT}_$$ (ger,sn{^(N|Z|A)}) top_left RELABEL subord-ger:- % dins de subordinada
-2307 - sadv{^PT}_$$ (ger,sn{^(N|Z|A)}) top_left RELABEL subord-ger:- % dins de subordinada
-2307 - - (ger,sn{^(N|Z|A)}) top_left RELABEL subord-ger:- % (buscant (els llibres))
+2307 - conj-subord_$$ (ger,sn{^(N|Z|A|P)}) top_left RELABEL subord-ger:- % dins de subordinada
+2307 - que-a_$$ (ger,sn{^(N|Z|A|P)}) top_left RELABEL subord-ger:- % dins de subordinada
+2307 - qui_$$ (ger,sn{^(N|Z|A|P)}) top_left RELABEL subord-ger:- % dins de subordinada
+2307 - relatiu_$$ (ger,sn{^(N|Z|A|P)}) top_left RELABEL subord-ger:- % dins de subordinada
+2307 - prel-adv_$$ (ger,sn{^(N|Z|A|P)}) top_left RELABEL subord-ger:- % dins de subordinada
+2307 - sn{^PT}_$$ (ger,sn{^(N|Z|A|P)}) top_left RELABEL subord-ger:- % dins de subordinada
+2307 - sadv{^PT}_$$ (ger,sn{^(N|Z|A|P)}) top_left RELABEL subord-ger:- % dins de subordinada
+2307 - - (ger,sn{^(N|Z|A|P)}) top_left RELABEL subord-ger:- % (buscant (els llibres))
 
-2307  -  conj-subord_$$_sn{^(N|Z|A)}_grup-verb  (subord-ger,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada       
-2307  -  que-a_$$_sn{^(N|Z|A)}_grup-verb  (subord-ger,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada       
-2307  -  qui_$$_sn{^(N|Z|A)}_grup-verb  (subord-ger,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada       
-2307  -  relatiu_$$_sn{^(N|Z|A)}_grup-verb  (subord-ger,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada       
-2307  -  prel-adv_$$_sn{^(N|Z|A)}_grup-verb  (subord-ger,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada       
-2307  -  sn{^PT}_$$_sn{^(N|Z|A)}_grup-verb  (subord-ger,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2307  -  sadv{^PT}_$$_sn{^(N|Z|A)}_grup-verb  (subord-ger,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2307  -  $$_sn{^(N|Z|A)}_grup-verb  (subord-ger,sn{^(N|Z|A)})   top_left RELABEL -  % (buscant sense parar (els llibres)) el noi va caure
+2307  -  conj-subord_$$_sn{^(N|Z|A|P)}_grup-verb  (subord-ger,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada       
+2307  -  que-a_$$_sn{^(N|Z|A|P)}_grup-verb  (subord-ger,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada       
+2307  -  qui_$$_sn{^(N|Z|A|P)}_grup-verb  (subord-ger,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada       
+2307  -  relatiu_$$_sn{^(N|Z|A|P)}_grup-verb  (subord-ger,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada       
+2307  -  prel-adv_$$_sn{^(N|Z|A|P)}_grup-verb  (subord-ger,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada       
+2307  -  sn{^PT}_$$_sn{^(N|Z|A|P)}_grup-verb  (subord-ger,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2307  -  sadv{^PT}_$$_sn{^(N|Z|A|P)}_grup-verb  (subord-ger,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2307  -  $$_sn{^(N|Z|A|P)}_grup-verb  (subord-ger,sn{^(N|Z|A|P)})   top_left RELABEL -  % (buscant sense parar (els llibres)) el noi va caure
 
-2307  -  conj-subord_$$  (subord-ger,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2307  -  que-a_$$  (subord-ger,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2307  -  qui_$$  (subord-ger,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2307  -  relatiu_$$  (subord-ger,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2307  -  prel-adv_$$  (subord-ger,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2307  -  sn{^PT}_$$  (subord-ger,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2307  -  sadv{^PT}_$$  (subord-ger,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2307  -  -  (subord-ger,sn{^(N|Z|A)})   top_left RELABEL -  % (buscant sense parar (els llibres))
+2307  -  conj-subord_$$  (subord-ger,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2307  -  que-a_$$  (subord-ger,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2307  -  qui_$$  (subord-ger,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2307  -  relatiu_$$  (subord-ger,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2307  -  prel-adv_$$  (subord-ger,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2307  -  sn{^PT}_$$  (subord-ger,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2307  -  sadv{^PT}_$$  (subord-ger,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2307  -  -  (subord-ger,sn{^(N|Z|A|P)})   top_left RELABEL -  % (buscant sense parar (els llibres))
 
 %%% GERUNDI + SUBORDINADA FINITA COORDINADA %%%
 
@@ -2530,14 +2549,14 @@
 2311  -  sadv{^PT}_$$  (ger,subord)   top_left RELABEL -  % dins de subordinada
 2311  -  -  (ger,subord)   top_left RELABEL -  % (dient repetidament (que venia))       
 
-911  -  conj-subord_$$  (subord-ger,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  que-a_$$  (subord-ger,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  qui_$$  (subord-ger,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  relatiu_$$  (subord-ger,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  prel-adv_$$  (subord-ger,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  sn{^PT}_$$  (subord-ger,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  sadv{^PT}_$$  (subord-ger,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  -  (subord-ger,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % (buscant (el llibre (que llegiria)))
+911  -  conj-subord_$$  (subord-ger,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  que-a_$$  (subord-ger,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  qui_$$  (subord-ger,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  relatiu_$$  (subord-ger,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  prel-adv_$$  (subord-ger,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  sn{^PT}_$$  (subord-ger,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  sadv{^PT}_$$  (subord-ger,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  -  (subord-ger,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % (buscant (el llibre (que llegiria)))
 
 %%% GERUNDI + SUBORDINADA NO FINITA D'INFINITIU COORDINADA %%%
 
@@ -2712,14 +2731,14 @@
 
 %%% PARTICIPI + SINTAGMA NOMINAL COORDINAT %%%
 
-2505 - conj-subord_$$_sn{^(N|Z|A)}_grup-verb (s-adj{^VMP},coor-n) top_left RELABEL subord-part:- % dins de subordinada
-2505 - que-a_$$_sn{^(N|Z|A)}_grup-verb (s-adj{^VMP},coor-n) top_left RELABEL subord-part:- % dins de subordinada
-2505 - qui_$$_sn{^(N|Z|A)}_grup-verb (s-adj{^VMP},coor-n) top_left RELABEL subord-part:- % dins de subordinada
-2505 - relatiu_$$_sn{^(N|Z|A)}_grup-verb (s-adj{^VMP},coor-n) top_left RELABEL subord-part:- % dins de subordinada
-2505 - prel-adv_$$_sn{^(N|Z|A)}_grup-verb (s-adj{^VMP},coor-n) top_left RELABEL subord-part:- % dins de subordinada
-2505 - sn{^PT}_$$_sn{^(N|Z|A)}_grup-verb (s-adj{^VMP},coor-n) top_left RELABEL subord-part:- % dins de subordinada
-2505 - sadv{^PT}_$$_sn{^(N|Z|A)}_grup-verb (s-adj{^VMP},coor-n) top_left RELABEL subord-part:- % dins de subordinada
-2505 - $$_sn{^(N|Z|A)}_grup-verb (s-adj{^VMP},coor-n) top_left RELABEL subord-part:- % (trobat (els llibres i el dietari)) el noi va caure
+2505 - conj-subord_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{^VMP},coor-n) top_left RELABEL subord-part:- % dins de subordinada
+2505 - que-a_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{^VMP},coor-n) top_left RELABEL subord-part:- % dins de subordinada
+2505 - qui_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{^VMP},coor-n) top_left RELABEL subord-part:- % dins de subordinada
+2505 - relatiu_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{^VMP},coor-n) top_left RELABEL subord-part:- % dins de subordinada
+2505 - prel-adv_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{^VMP},coor-n) top_left RELABEL subord-part:- % dins de subordinada
+2505 - sn{^PT}_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{^VMP},coor-n) top_left RELABEL subord-part:- % dins de subordinada
+2505 - sadv{^PT}_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{^VMP},coor-n) top_left RELABEL subord-part:- % dins de subordinada
+2505 - $$_sn{^(N|Z|A|P)}_grup-verb (s-adj{^VMP},coor-n) top_left RELABEL subord-part:- % (trobat (els llibres i el dietari)) el noi va caure
 
 2505 - conj-subord_$$ (s-adj{^VMP},coor-n) top_left RELABEL subord-part:- % dins de subordinada
 2505 - que-a_$$ (s-adj{^VMP},coor-n) top_left RELABEL subord-part:- % dins de subordinada
@@ -2730,14 +2749,14 @@
 2505 - sadv{^PT}_$$ (s-adj{^VMP},coor-n) top_left RELABEL subord-part:- % dins de subordinada
 2505 - - (s-adj{^VMP},coor-n) top_left RELABEL subord-part:- % (comprades (les peres i les pomes))
 
-2505 - conj-subord_$$_sn{^(N|Z|A)}_grup-verb (subord-part,coor-n) top_left RELABEL subord-part:- % dins de subordinada
-2505 - que-a_$$_sn{^(N|Z|A)}_grup-verb (subord-part,coor-n) top_left RELABEL subord-part:- % dins de subordinada
-2505 - qui_$$_sn{^(N|Z|A)}_grup-verb (subord-part,coor-n) top_left RELABEL subord-part:- % dins de subordinada
-2505 - relatiu_$$_sn{^(N|Z|A)}_grup-verb (subord-part,coor-n) top_left RELABEL subord-part:- % dins de subordinada
-2505 - prel-adv_$$_sn{^(N|Z|A)}_grup-verb (subord-part,coor-n) top_left RELABEL subord-part:- % dins de subordinada
-2505 - sn{^PT}_$$_sn{^(N|Z|A)}_grup-verb (subord-part,coor-n) top_left RELABEL subord-part:- % dins de subordinada
-2505 - sadv{^PT}_$$_sn{^(N|Z|A)}_grup-verb (subord-part,coor-n) top_left RELABEL subord-part:- % dins de subordinada
-2505 - $$_sn{^(N|Z|A)}_grup-verb (subord-part,coor-n) top_left RELABEL subord-part:- % (trobats per fi (els llibres i el dietari) el noi va caure
+2505 - conj-subord_$$_sn{^(N|Z|A|P)}_grup-verb (subord-part,coor-n) top_left RELABEL subord-part:- % dins de subordinada
+2505 - que-a_$$_sn{^(N|Z|A|P)}_grup-verb (subord-part,coor-n) top_left RELABEL subord-part:- % dins de subordinada
+2505 - qui_$$_sn{^(N|Z|A|P)}_grup-verb (subord-part,coor-n) top_left RELABEL subord-part:- % dins de subordinada
+2505 - relatiu_$$_sn{^(N|Z|A|P)}_grup-verb (subord-part,coor-n) top_left RELABEL subord-part:- % dins de subordinada
+2505 - prel-adv_$$_sn{^(N|Z|A|P)}_grup-verb (subord-part,coor-n) top_left RELABEL subord-part:- % dins de subordinada
+2505 - sn{^PT}_$$_sn{^(N|Z|A|P)}_grup-verb (subord-part,coor-n) top_left RELABEL subord-part:- % dins de subordinada
+2505 - sadv{^PT}_$$_sn{^(N|Z|A|P)}_grup-verb (subord-part,coor-n) top_left RELABEL subord-part:- % dins de subordinada
+2505 - $$_sn{^(N|Z|A|P)}_grup-verb (subord-part,coor-n) top_left RELABEL subord-part:- % (trobats per fi (els llibres i el dietari) el noi va caure
 
 2505 - conj-subord_$$ (subord-part,coor-n) top_left RELABEL subord-part:- % dins de subordinada
 2505 - que-a_$$ (subord-part,coor-n) top_left RELABEL subord-part:- % dins de subordinada
@@ -2750,51 +2769,51 @@
 
 %%% PARTICIPI + SINTAGMA NOMINAL %%%
 
-2507 - conj-subord_$$_sn{^(N|Z|A)}_grup-verb (s-adj{^VMP},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - que-a_$$_sn{^(N|Z|A)}_grup-verb (s-adj{^VMP},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - qui_$$_sn{^(N|Z|A)}_grup-verb (s-adj{^VMP},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - relatiu_$$_sn{^(N|Z|A)}_grup-verb (s-adj{^VMP},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - prel-adv_$$_sn{^(N|Z|A)}_grup-verb (s-adj{^VMP},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - sn{^PT}_$$_sn{^(N|Z|A)}_grup-verb (s-adj{^VMP},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - sadv{^PT}_$$_sn{^(N|Z|A)}_grup-verb (s-adj{^VMP},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - - (s-adj{^VMP},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % (passats (els anys))
+2507 - conj-subord_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{^VMP},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - que-a_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{^VMP},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - qui_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{^VMP},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - relatiu_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{^VMP},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - prel-adv_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{^VMP},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - sn{^PT}_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{^VMP},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - sadv{^PT}_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{^VMP},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - - (s-adj{^VMP},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % (passats (els anys))
 
-2507 - conj-subord_$$ (s-adj{^VMP},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - que-a_$$ (s-adj{^VMP},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - qui_$$ (s-adj{^VMP},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - relatiu_$$ (s-adj{^VMP},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - prel-adv_$$ (s-adj{^VMP},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - sn{^PT}_$$ (s-adj{^VMP},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - sadv{^PT}_$$ (s-adj{^VMP},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - - (s-adj{^VMP},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % (trobat (el dietari))
+2507 - conj-subord_$$ (s-adj{^VMP},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - que-a_$$ (s-adj{^VMP},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - qui_$$ (s-adj{^VMP},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - relatiu_$$ (s-adj{^VMP},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - prel-adv_$$ (s-adj{^VMP},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - sn{^PT}_$$ (s-adj{^VMP},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - sadv{^PT}_$$ (s-adj{^VMP},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - - (s-adj{^VMP},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % (trobat (el dietari))
 
-2507  -  conj-subord_$$_sn{^(N|Z|A)}_grup-verb  (subord-part,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2507  -  que-a_$$_sn{^(N|Z|A)}_grup-verb  (subord-part,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2507  -  qui_$$_sn{^(N|Z|A)}_grup-verb  (subord-part,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2507  -  relatiu_$$_sn{^(N|Z|A)}_grup-verb  (subord-part,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2507  -  prel-adv_$$_sn{^(N|Z|A)}_grup-verb  (subord-part,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2507  -  sn{^PT}_$$_sn{^(N|Z|A)}_grup-verb  (subord-part,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2507  -  sadv{^PT}_$$_sn{^(N|Z|A)}_grup-verb  (subord-part,sn{^(N|Z|A)})   top_left RELABEL -  % dins de subordinada
-2507  -  $$_sn{^(N|Z|A)}_grup-verb  (subord-part,sn{^(N|Z|A)})   top_left RELABEL -  % (trobat (el dietari)) el noi va caure
+2507  -  conj-subord_$$_sn{^(N|Z|A|P)}_grup-verb  (subord-part,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2507  -  que-a_$$_sn{^(N|Z|A|P)}_grup-verb  (subord-part,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2507  -  qui_$$_sn{^(N|Z|A|P)}_grup-verb  (subord-part,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2507  -  relatiu_$$_sn{^(N|Z|A|P)}_grup-verb  (subord-part,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2507  -  prel-adv_$$_sn{^(N|Z|A|P)}_grup-verb  (subord-part,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2507  -  sn{^PT}_$$_sn{^(N|Z|A|P)}_grup-verb  (subord-part,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2507  -  sadv{^PT}_$$_sn{^(N|Z|A|P)}_grup-verb  (subord-part,sn{^(N|Z|A|P)})   top_left RELABEL -  % dins de subordinada
+2507  -  $$_sn{^(N|Z|A|P)}_grup-verb  (subord-part,sn{^(N|Z|A|P)})   top_left RELABEL -  % (trobat (el dietari)) el noi va caure
 
 %%% PARTICIPI + SUBORDINADA FINITA %%%
 
-911  -  conj-subord_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  que-a_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  qui_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  relatiu_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  prel-adv_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  sn{^PT}_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  sadv{^PT}_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
+911  -  conj-subord_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  que-a_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  qui_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  relatiu_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  prel-adv_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  sn{^PT}_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  sadv{^PT}_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
 911  -  -  (subord-part,subord-rel)   last_left MATCHING -  % va pensar (anunciar (que vindria))
 
-911  -  conj-subord_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  que-a_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  qui_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  relatiu_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  prel-adv_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  sn{^PT}_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
-911  -  sadv{^PT}_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A)}  % dins de subordinada
+911  -  conj-subord_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  que-a_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  qui_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  relatiu_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  prel-adv_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  sn{^PT}_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  sadv{^PT}_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
 911  -  -  (subord-part,subord-rel)   last_left MATCHING -  % va pensar (anunciar (que vindria))
 
 %%% PARTICIPI + SINTAGMA PREPOSICIONAL COORDINAT %%%
@@ -2908,14 +2927,14 @@
 
 %%% PARTICIPI + SINTAGMA NOMINAL COORDINAT %%%
 
-2505 - conj-subord_$$_sn{^(N|Z|A)}_grup-verb (s-adj{P$},coor-n) top_left RELABEL subord-part:- % dins de subordinada
-2505 - que-a_$$_sn{^(N|Z|A)}_grup-verb (s-adj{P$},coor-n) top_left RELABEL subord-part:- % dins de subordinada
-2505 - qui_$$_sn{^(N|Z|A)}_grup-verb (s-adj{P$},coor-n) top_left RELABEL subord-part:- % dins de subordinada
-2505 - relatiu_$$_sn{^(N|Z|A)}_grup-verb (s-adj{P$},coor-n) top_left RELABEL subord-part:- % dins de subordinada
-2505 - prel-adv_$$_sn{^(N|Z|A)}_grup-verb (s-adj{P$},coor-n) top_left RELABEL subord-part:- % dins de subordinada
-2505 - sn{^PT}_$$_sn{^(N|Z|A)}_grup-verb (s-adj{P$},coor-n) top_left RELABEL subord-part:- % dins de subordinada
-2505 - sadv{^PT}_$$_sn{^(N|Z|A)}_grup-verb (s-adj{P$},coor-n) top_left RELABEL subord-part:- % dins de subordinada
-2505 - $$_sn{^(N|Z|A)}_grup-verb (s-adj{P$},coor-n) top_left RELABEL subord-part:- % (trobats (els llibres i el dietari)) el noi va caure
+2505 - conj-subord_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{P$},coor-n) top_left RELABEL subord-part:- % dins de subordinada
+2505 - que-a_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{P$},coor-n) top_left RELABEL subord-part:- % dins de subordinada
+2505 - qui_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{P$},coor-n) top_left RELABEL subord-part:- % dins de subordinada
+2505 - relatiu_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{P$},coor-n) top_left RELABEL subord-part:- % dins de subordinada
+2505 - prel-adv_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{P$},coor-n) top_left RELABEL subord-part:- % dins de subordinada
+2505 - sn{^PT}_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{P$},coor-n) top_left RELABEL subord-part:- % dins de subordinada
+2505 - sadv{^PT}_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{P$},coor-n) top_left RELABEL subord-part:- % dins de subordinada
+2505 - $$_sn{^(N|Z|A|P)}_grup-verb (s-adj{P$},coor-n) top_left RELABEL subord-part:- % (trobats (els llibres i el dietari)) el noi va caure
 
 2505 - conj-subord_$$ (s-adj{P$},coor-n) top_left RELABEL subord-part:- % dins de subordinada
 2505 - que-a_$$ (s-adj{P$},coor-n) top_left RELABEL subord-part:- % dins de subordinada
@@ -2928,23 +2947,23 @@
 
 %%% PARTICIPI + SINTAGMA NOMINAL %%%
 
-2507 - conj-subord_$$_sn{^(N|Z|A)}_grup-verb (s-adj{P$},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - que-a_$$_sn{^(N|Z|A)}_grup-verb (s-adj{P$},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - qui_$$_sn{^(N|Z|A)}_grup-verb (s-adj{P$},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - relatiu_$$_sn{^(N|Z|A)}_grup-verb (s-adj{P$},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - prel-adv_$$_sn{^(N|Z|A)}_grup-verb (s-adj{P$},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - sn{^PT}_$$_sn{^(N|Z|A)}_grup-verb (s-adj{P$},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - sadv{^PT}_$$_sn{^(N|Z|A)}_grup-verb (s-adj{P$},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - - (s-adj{P$},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % (passats (els anys))
+2507 - conj-subord_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{P$},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - que-a_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{P$},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - qui_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{P$},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - relatiu_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{P$},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - prel-adv_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{P$},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - sn{^PT}_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{P$},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - sadv{^PT}_$$_sn{^(N|Z|A|P)}_grup-verb (s-adj{P$},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - - (s-adj{P$},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % (passats (els anys))
 
-2507 - conj-subord_$$ (s-adj{P$},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - que-a_$$ (s-adj{P$},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - qui_$$ (s-adj{P$},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - relatiu_$$ (s-adj{P$},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - prel-adv_$$ (s-adj{P$},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - sn{^PT}_$$ (s-adj{P$},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - sadv{^PT}_$$ (s-adj{P$},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % dins de subordinada
-2507 - - (s-adj{P$},sn{^(N|Z|A)}) top_left RELABEL subord-part:- % (trobat (el dietari))
+2507 - conj-subord_$$ (s-adj{P$},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - que-a_$$ (s-adj{P$},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - qui_$$ (s-adj{P$},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - relatiu_$$ (s-adj{P$},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - prel-adv_$$ (s-adj{P$},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - sn{^PT}_$$ (s-adj{P$},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - sadv{^PT}_$$ (s-adj{P$},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % dins de subordinada
+2507 - - (s-adj{P$},sn{^(N|Z|A|P)}) top_left RELABEL subord-part:- % (trobat (el dietari))
 
 %%% PARTICIPI + SINTAGMA PREPOSICIONAL COORDINAT %%%
 
@@ -3118,10 +3137,10 @@
 4100 - - (espec-fs,subord-rel) top_right RELABEL -:subord % ((la) que ha arribat)
 4100 - - (espec-mp,subord-rel) top_right RELABEL -:subord % ((els) que han menjat pollastre)
 4100 - - (espec-fp,subord-rel) top_right RELABEL -:subord % ((les) que han desaparegut)
-4100 - - (espec-ms,sn{^(N|Z|A)}<qui>) top_right RELABEL -:subord % ((el) qui avisa)
-4100 - - (espec-fs,sn{^(N|Z|A)}<qui>) top_right RELABEL -:subord % ((la) qui parla)
-4100 - - (espec-mp,sn{^(N|Z|A)}<qui>) top_right RELABEL -:subord % ((els) qui vinguin)
-4100 - - (espec-fp,sn{^(N|Z|A)}<qui>) top_right RELABEL -:subord % ((les) qui mengin abans d'hora)
+4100 - - (espec-ms,sn{^(N|Z|A|P)}<qui>) top_right RELABEL -:subord % ((el) qui avisa)
+4100 - - (espec-fs,sn{^(N|Z|A|P)}<qui>) top_right RELABEL -:subord % ((la) qui parla)
+4100 - - (espec-mp,sn{^(N|Z|A|P)}<qui>) top_right RELABEL -:subord % ((els) qui vinguin)
+4100 - - (espec-fp,sn{^(N|Z|A|P)}<qui>) top_right RELABEL -:subord % ((les) qui mengin abans d'hora)
 
 %%% PUNTUACIO DE LES SUBORDINADES FINITES %%%
 
@@ -3142,8 +3161,8 @@
 
 %%% COORDINACIO DE SINTAGMA NOMINAL %%%
 
-1901 - - (coord,sn{^(N|Z|A)}) top_left RELABEL coor-n:- % (i (aigua)
-1903  -  -  (sn{^(N|Z|A)},coor-n)   top_right RELABEL -  % (pa) i aigua)
+1901 - - (coord,sn{^(N|Z|A|P)}) top_left RELABEL coor-n:- % (i (aigua)
+1903  -  -  (sn{^(N|Z|A|P)},coor-n)   top_right RELABEL -  % (pa) i aigua)
 1905  -  -  (Fc,coor-n)  top_right RELABEL -
 
 %%% COORDINACIO DE SINTAGMA PREPOSICIONAL %%%
@@ -3191,6 +3210,12 @@ verb-pass       cc              d.label=sn*             d.tonto=Time
 grup-verb-inf   cc              d.label=sn*             d.tonto=Time
 subord-ger      cc              d.label=sn*             d.tonto=Time
 subord-part     cc              d.label=sn*             d.tonto=Time
+
+grup-verb       cc              d.label=sn*             d.lemma=fer
+verb-pass       cc              d.label=sn*             d.lemma=fer
+grup-verb-inf   cc              d.label=sn*             d.lemma=fer
+subord-ger      cc              d.label=sn*             d.lemma=fer
+subord-part     cc              d.label=sn*             d.lemma=fer
 
 grup-verb       subj		d.label=sn*             	d.side=right					p.class=intr
 grup-verb       subj		d.label=sn*     		d.side=left
