@@ -360,23 +360,24 @@
 4011  -  sadv{^PT}_$$  (grup-verb,subord)   top_left RELABEL -  % dins de subordinada
 7011  -  -  (grup-verb,subord)   top_left RELABEL -  % (diu (que callis))
 
-911  -  conj-subord_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  que-a_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  qui_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  relatiu_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  prel-adv_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  sn{^PT}_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  sadv{^PT}_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  -  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % (he vist (la noia (que parlava de pressa)))
+911  -  conj-subord_$$  (grup-verb,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  que-a_$$  (grup-verb,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  qui_$$  (grup-verb,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  relatiu_$$  (grup-verb,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  prel-adv_$$  (grup-verb,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  sn{^PT}_$$  (grup-verb,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  sadv{^PT}_$$  (grup-verb,subord-rel)   last_left MATCHING sn  % dins de subordinada
+%911  -  -  (grup-verb,subord-rel)   last_left MATCHING sn  % (he vist (la noia (que parlava de pressa)))
 
-911  -  conj-subord_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  que-a_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  qui_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  relatiu_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  prel-adv_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  sn{^PT}_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  sadv{^PT}_$$  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  -  (grup-verb,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % (parlava del (noi (amb qui havia viatjat)))
+911  -  -  (grup-verb,subord-rel)   last_left MATCHING sn  % (he vist (la noia (que parlava de pressa)))
+911  -  conj-subord_$$  (grup-verb,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  que-a_$$  (grup-verb,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  qui_$$  (grup-verb,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  relatiu_$$  (grup-verb,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  prel-adv_$$  (grup-verb,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  sn{^PT}_$$  (grup-verb,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  sadv{^PT}_$$  (grup-verb,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  -  (grup-verb,subord-rel)   last_left MATCHING sn  % (parlava del (noi (amb qui havia viatjat)))
 
 %%% VERB + SUBORDINADA NO FINITA D'INFINITIU COORDINADA %%%
 
@@ -938,23 +939,23 @@
 4011  -  sadv{^PT}_$$  (verb-pass,subord)   top_left RELABEL -  % dins de subordinada
 7011  -  -  (verb-pass,subord)   top_left RELABEL -  % (es dit (que ha mentit))
 
-911  -  conj-subord_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  que-a_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  qui_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  relatiu_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  prel-adv_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  sn{^PT}_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  sadv{^PT}_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  -  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % (es vista (la noia (que parlava de pressa)))
+911  -  conj-subord_$$  (verb-pass,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  que-a_$$  (verb-pass,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  qui_$$  (verb-pass,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  relatiu_$$  (verb-pass,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  prel-adv_$$  (verb-pass,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  sn{^PT}_$$  (verb-pass,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  sadv{^PT}_$$  (verb-pass,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  -  (verb-pass,subord-rel)   last_left MATCHING sn  % (es vista (la noia (que parlava de pressa)))
 
-911  -  conj-subord_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  que-a_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  qui_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  relatiu_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  prel-adv_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  sn{^PT}_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  sadv{^PT}_$$  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  -  (verb-pass,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % (es informat del (noi (amb qui havia viatjat)))
+911  -  conj-subord_$$  (verb-pass,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  que-a_$$  (verb-pass,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  qui_$$  (verb-pass,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  relatiu_$$  (verb-pass,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  prel-adv_$$  (verb-pass,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  sn{^PT}_$$  (verb-pass,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  sadv{^PT}_$$  (verb-pass,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  -  (verb-pass,subord-rel)   last_left MATCHING sn  % (es informat del (noi (amb qui havia viatjat)))
 
 %%% VERB PASSIU + SUBORDINADA NO FINITA D'INFINITIU COORDINADA %%%
 
@@ -1676,14 +1677,14 @@
 4067  -  sadv{^PT}_$$  (sn{^(N|Z|A|P)},verb-pass)   top_right RELABEL -  % dins de subordinada
 7067  -  -  (sn{^(N|Z|A|P)},verb-pass)   top_right RELABEL -  % ((el dietari) ha estat trobat)
 
-4067  -  conj-subord_$$  (sn<fer>,grup-verb)   top_right RELABEL -  % dins de subordinada
-4067  -  que-a_$$  (sn<fer>,grup-verb)   top_right RELABEL -  % dins de subordinada
-4067  -  qui_$$  (sn<fer>,grup-verb)   top_right RELABEL -  % dins de subordinada
-4067  -  relatiu_$$  (sn<fer>,grup-verb)   top_right RELABEL -  % dins de subordinada
-4067  -  prel-adv_$$  (sn<fer>,grup-verb)   top_right RELABEL -  % dins de subordinada
-4067  -  sn{^PT}_$$  (sn<fer>,grup-verb)   top_right RELABEL -  % dins de subordinada
-4067  -  sadv{^PT}_$$  (sn<fer>,grup-verb)   top_right RELABEL -  % dins de subordinada
-7067  -  -  (sn<fer>,grup-verb)   top_right RELABEL -  % ((la natalitat) ha augmentat)
+4067  -  conj-subord_$$  (sn<fer>,verb-pass)   top_right RELABEL -  % dins de subordinada
+4067  -  que-a_$$  (sn<fer>,verb-pass)   top_right RELABEL -  % dins de subordinada
+4067  -  qui_$$  (sn<fer>,verb-pass)   top_right RELABEL -  % dins de subordinada
+4067  -  relatiu_$$  (sn<fer>,verb-pass)   top_right RELABEL -  % dins de subordinada
+4067  -  prel-adv_$$  (sn<fer>,verb-pass)   top_right RELABEL -  % dins de subordinada
+4067  -  sn{^PT}_$$  (sn<fer>,verb-pass)   top_right RELABEL -  % dins de subordinada
+4067  -  sadv{^PT}_$$  (sn<fer>,verb-pass)   top_right RELABEL -  % dins de subordinada
+7067  -  -  (sn<fer>,verb-pass)   top_right RELABEL -  % ((la natalitat) ha augmentat)
 
 %%% SUBORDINADES AMB NEXE CONJUNTIU COORDINADES + VERB PASSIU %%%
 
@@ -1950,13 +1951,13 @@
 2111  -  sadv{^PT}_$$  (inf,subord)   top_left RELABEL -  % dins de subordinada
 2111  -  -  (inf,subord)   top_left RELABEL -  % (anunciar (que tornaria))
 
-911  -  conj-subord_$$  (inf,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  que-a_$$  (inf,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  qui_$$  (inf,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  relatiu_$$  (inf,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  prel-adv_$$  (inf,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  sn{^PT}_$$  (inf,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  sadv{^PT}_$$  (inf,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  conj-subord_$$  (inf,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  que-a_$$  (inf,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  qui_$$  (inf,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  relatiu_$$  (inf,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  prel-adv_$$  (inf,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  sn{^PT}_$$  (inf,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  sadv{^PT}_$$  (inf,subord-rel)   last_left MATCHING sn  % dins de subordinada
 911  -  -  (inf,subord-rel)   last_left MATCHING -  % (dir (la pel.licula (que vol fer))
 
 %%% INFINITIU + SUBORDINADA NO FINITA D'INFINITIU COORDINADA %%%
@@ -2014,14 +2015,14 @@
 2121  -  sadv{^PT}_$$  (inf,sp-de)   top_left RELABEL -  % dins de subordinada
 2121  -  -  (inf,sp-de)   top_left RELABEL -  % (parlar (de politica))
 
-651  -  conj-subord_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-651  -  que-a_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-651  -  qui_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-651  -  relatiu_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-651  -  prel-adv_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-651  -  sn{^PT}_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-651  -  sadv{^PT}_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-651  -  -  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % (comprar (accions (de l'hotel)))
+651  -  conj-subord_$$  (inf,sp-de)   last_left MATCHING sn  % dins de subordinada
+651  -  que-a_$$  (inf,sp-de)   last_left MATCHING sn  % dins de subordinada
+651  -  qui_$$  (inf,sp-de)   last_left MATCHING sn  % dins de subordinada
+651  -  relatiu_$$  (inf,sp-de)   last_left MATCHING sn  % dins de subordinada
+651  -  prel-adv_$$  (inf,sp-de)   last_left MATCHING sn  % dins de subordinada
+651  -  sn{^PT}_$$  (inf,sp-de)   last_left MATCHING sn  % dins de subordinada
+651  -  sadv{^PT}_$$  (inf,sp-de)   last_left MATCHING sn  % dins de subordinada
+651  -  -  (inf,sp-de)   last_left MATCHING sn  % (comprar (accions (de l'hotel)))
 
 %%% INFINITIU + SINTAGMA PREPOSICIONAL %%%
 
@@ -2200,22 +2201,22 @@
 2111  -  sadv{^PT}_$$  (inf,subord)   top_left RELABEL -  % dins de subordinada
 2111  -  -  (inf,subord)   top_left RELABEL -  % va pensar (anunciar (que vindria))
 
-911  -  conj-subord_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  que-a_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  qui_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  relatiu_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  prel-adv_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  sn{^PT}_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  sadv{^PT}_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  conj-subord_$$  (inf-pas,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  que-a_$$  (inf-pas,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  qui_$$  (inf-pas,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  relatiu_$$  (inf-pas,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  prel-adv_$$  (inf-pas,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  sn{^PT}_$$  (inf-pas,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  sadv{^PT}_$$  (inf-pas,subord-rel)   last_left MATCHING sn  % dins de subordinada
 911  -  -  (inf-pas,subord-rel)   last_left MATCHING -  % va pensar (anunciar (que vindria))
 
-911  -  conj-subord_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  que-a_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  qui_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  relatiu_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  prel-adv_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  sn{^PT}_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  sadv{^PT}_$$  (inf-pas,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  conj-subord_$$  (inf-pas,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  que-a_$$  (inf-pas,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  qui_$$  (inf-pas,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  relatiu_$$  (inf-pas,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  prel-adv_$$  (inf-pas,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  sn{^PT}_$$  (inf-pas,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  sadv{^PT}_$$  (inf-pas,subord-rel)   last_left MATCHING sn  % dins de subordinada
 911  -  -  (inf-pas,subord-rel)   last_left MATCHING -  % va pensar (anunciar (que vindria))
 
 %%% INFINITIU + SUBORDINADA NO FINITA D'INFINITIU COORDINADA %%%
@@ -2273,14 +2274,14 @@
 2121  -  sadv{^PT}_$$  (inf,sp-de)   top_left RELABEL -  % dins de subordinada
 2121  -  -  (inf,sp-de)   top_left RELABEL -  % va pensar (enviar una carta (al director))
 
-651  -  conj-subord_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-651  -  que-a_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-651  -  qui_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-651  -  relatiu_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-651  -  prel-adv_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-651  -  sn{^PT}_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-651  -  sadv{^PT}_$$  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-651  -  -  (inf,sp-de)   last_left MATCHING sn{^(N|Z|A|P)}  % (estudiar (els voltants (del poble)))
+651  -  conj-subord_$$  (inf,sp-de)   last_left MATCHING sn  % dins de subordinada
+651  -  que-a_$$  (inf,sp-de)   last_left MATCHING sn  % dins de subordinada
+651  -  qui_$$  (inf,sp-de)   last_left MATCHING sn  % dins de subordinada
+651  -  relatiu_$$  (inf,sp-de)   last_left MATCHING sn  % dins de subordinada
+651  -  prel-adv_$$  (inf,sp-de)   last_left MATCHING sn  % dins de subordinada
+651  -  sn{^PT}_$$  (inf,sp-de)   last_left MATCHING sn  % dins de subordinada
+651  -  sadv{^PT}_$$  (inf,sp-de)   last_left MATCHING sn  % dins de subordinada
+651  -  -  (inf,sp-de)   last_left MATCHING sn  % (estudiar (els voltants (del poble)))
 
 %%% INFINITIU + SINTAGMA PREPOSICIONAL %%%
 
@@ -2549,14 +2550,14 @@
 2311  -  sadv{^PT}_$$  (ger,subord)   top_left RELABEL -  % dins de subordinada
 2311  -  -  (ger,subord)   top_left RELABEL -  % (dient repetidament (que venia))       
 
-911  -  conj-subord_$$  (subord-ger,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  que-a_$$  (subord-ger,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  qui_$$  (subord-ger,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  relatiu_$$  (subord-ger,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  prel-adv_$$  (subord-ger,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  sn{^PT}_$$  (subord-ger,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  sadv{^PT}_$$  (subord-ger,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  -  (subord-ger,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % (buscant (el llibre (que llegiria)))
+911  -  conj-subord_$$  (subord-ger,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  que-a_$$  (subord-ger,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  qui_$$  (subord-ger,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  relatiu_$$  (subord-ger,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  prel-adv_$$  (subord-ger,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  sn{^PT}_$$  (subord-ger,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  sadv{^PT}_$$  (subord-ger,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  -  (subord-ger,subord-rel)   last_left MATCHING sn  % (buscant (el llibre (que llegiria)))
 
 %%% GERUNDI + SUBORDINADA NO FINITA D'INFINITIU COORDINADA %%%
 
@@ -2798,22 +2799,22 @@
 
 %%% PARTICIPI + SUBORDINADA FINITA %%%
 
-911  -  conj-subord_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  que-a_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  qui_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  relatiu_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  prel-adv_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  sn{^PT}_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  sadv{^PT}_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  conj-subord_$$  (subord-part,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  que-a_$$  (subord-part,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  qui_$$  (subord-part,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  relatiu_$$  (subord-part,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  prel-adv_$$  (subord-part,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  sn{^PT}_$$  (subord-part,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  sadv{^PT}_$$  (subord-part,subord-rel)   last_left MATCHING sn  % dins de subordinada
 911  -  -  (subord-part,subord-rel)   last_left MATCHING -  % va pensar (anunciar (que vindria))
 
-911  -  conj-subord_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  que-a_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  qui_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  relatiu_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  prel-adv_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  sn{^PT}_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
-911  -  sadv{^PT}_$$  (subord-part,subord-rel)   last_left MATCHING sn{^(N|Z|A|P)}  % dins de subordinada
+911  -  conj-subord_$$  (subord-part,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  que-a_$$  (subord-part,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  qui_$$  (subord-part,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  relatiu_$$  (subord-part,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  prel-adv_$$  (subord-part,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  sn{^PT}_$$  (subord-part,subord-rel)   last_left MATCHING sn  % dins de subordinada
+911  -  sadv{^PT}_$$  (subord-part,subord-rel)   last_left MATCHING sn  % dins de subordinada
 911  -  -  (subord-part,subord-rel)   last_left MATCHING -  % va pensar (anunciar (que vindria))
 
 %%% PARTICIPI + SINTAGMA PREPOSICIONAL COORDINAT %%%
@@ -3137,10 +3138,10 @@
 4100 - - (espec-fs,subord-rel) top_right RELABEL -:subord % ((la) que ha arribat)
 4100 - - (espec-mp,subord-rel) top_right RELABEL -:subord % ((els) que han menjat pollastre)
 4100 - - (espec-fp,subord-rel) top_right RELABEL -:subord % ((les) que han desaparegut)
-4100 - - (espec-ms,sn{^(N|Z|A|P)}<qui>) top_right RELABEL -:subord % ((el) qui avisa)
-4100 - - (espec-fs,sn{^(N|Z|A|P)}<qui>) top_right RELABEL -:subord % ((la) qui parla)
-4100 - - (espec-mp,sn{^(N|Z|A|P)}<qui>) top_right RELABEL -:subord % ((els) qui vinguin)
-4100 - - (espec-fp,sn{^(N|Z|A|P)}<qui>) top_right RELABEL -:subord % ((les) qui mengin abans d'hora)
+4100 - - (espec-ms,sn<qui>) top_right RELABEL -:subord % ((el) qui avisa)
+4100 - - (espec-fs,sn<qui>) top_right RELABEL -:subord % ((la) qui parla)
+4100 - - (espec-mp,sn<qui>) top_right RELABEL -:subord % ((els) qui vinguin)
+4100 - - (espec-fp,sn<qui>) top_right RELABEL -:subord % ((les) qui mengin abans d'hora)
 
 %%% PUNTUACIO DE LES SUBORDINADES FINITES %%%
 
