@@ -5241,6 +5241,8 @@ data		espec		d.label=indef*
 
 sn              espec     	d.label=num*
 
+sn-tmp		espec		d.label=quant*
+
 s-adj		espec		d.label=sadv
 s-a-ms		espec		d.label=sadv
 s-a-fs		espec           d.label=sadv
