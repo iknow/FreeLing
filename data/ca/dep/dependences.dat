@@ -1,34 +1,48 @@
-%%% GRAMATICA DE DEPENDENCIES DEL CATALA PER A TXALA %%%%%%%%%%%%%%%%%%%%%
-%                                                                        %
-%   		 IRENE CASTELLON        MARINA LLOBERES         	 %
-%  		icastellon@ub.edu    marina.lloberes@ub.edu      	 %
+%% --------- GRAMATICA DE DEPENDENCIES DEL CATALA PER A TXALA --------- %%
 %									 %
-%     Grup de Recerca Interuniversitari en Aplicacions Linguistiques	 %
-% 			(Universitat de Barcelona)	 		 %
-%		  Gran Via de les Corts Catalanes, 585			 %
-%			    08007 Barcelona				 %
-%                                                                        %
-% 			    LLUIS PADRO					 %
-% 			 padro@lsi.upc.edu				 %
 %									 %
-%     Centre de Tecnologies i Aplicacions del Llenguatge i la Parla	 %
-%		  (Universitat Politecnica de Catalunya)		 %
-%			  Jordi Girona 1-3				 %
-%			   08034 Barcelona				 %
-% 									 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%               IRENE CASTELLON         MARINA LLOBERES                  %
+%              icastellon@ub.edu     marina.lloberes@ub.edu              %
+%									 %
+%     Grup de Recerca Interuniversitari en Aplicacions Linguistiques     %
+%                       (Universitat de Barcelona)                       %
+%                  Gran Via de les Corts Catalanes, 585                  %
+%                             08007 Barcelona                            %
+%									 %
+%                               LLUIS PADRO                              %
+%                            padro@lsi.upc.edu                           %
+%									 %
+%      Centre de Tecnologies i Aplicacions del Llenguatge i la Parla     %
+%                 (Universitat Politecnica de Catalunya)                 %
+%                            Jordi Girona 1-3                            %
+%                            08034 Barcelona                             %
+%									 %
+%% -------------------------------------------------------------------- %%
 
 
-%%% Incorporacions (març 2009) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%									 %
-% sn amb valor temporal --> cc (GRLAB)					 %
-% prepos (abans) --> obj-prep (ara)					 %
-% sn 'fa X temps' (GRPAR+GRLAB)						 %
-%									 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ----------- UPDATED: MARCH 2009 ------------ %%
+%
+%
+% INCORPORACIONS:
+% sn amb valor temporal --> cc (GRLAB)
+% prepos (abans) --> obj-prep (ara)
+% sn 'hace X tiempo' (GRPAR+GRLAB)
+%
+%% -------------------------------------------- %%
+%
+%
+% NUM. REGLES 
+% total rules: 2952
+% -----------------
+% GRPAR rules: 2384
+% GRLAB rules: 568
+% CLASS files: 32
+%
+%% -------------------------------------------- %%
+
+
 
 <GRPAR>
-
 %% ----------- FORMAT of GRPAR rules ---------- %%
 %
 %
@@ -44,9 +58,13 @@
 %
 %% -------------------------------------------- %%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-% Sintagma nominal									  	    %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+
+%% -------------------------------------------- %% 
+%						 %
+%  Sintagma nominal				 %
+%						 %
+%% -------------------------------------------- %%
 
 %907  -  grup-verb_$$  (sn,sn)   top_left RELABEL -  % ha vingut (el president (Zapatero))
 %907  -  OUT~subord-ger_*_$$_grup-verb  (sn,sn)   top_left RELABEL -  % criticant l'oposicio (el president (Nicolas_Sarkozy)) ha parlat
@@ -56,6 +74,7 @@
 
 911  -  -  (sn,subord-rel) top_left  RELABEL -  % (la persona (amb qui ha vingut))
 911  -  -  (sn,subord-rel) top_left  RELABEL -  % (el llibre (que explica l'obra))
+
 911  -  !grup-verb_$$   (sn,subord)   top_left  RELABEL - % (el suport(perque el tandem funcioni))
 
 919 -  -   (sn,coor-sp)  last_left MATCHING sn  % (el representant (dels professors i dels alumnes))
@@ -64,11 +83,10 @@
 921  -  grup-verb[mov]_*_$$_sp-de_grup-sp   (sn,sp-de) top_left  RELABEL - % mou (els mobles (de fusta)) de la botiga al taller
 921  -  ~grup-verb[mov]_$$   (sn,sp-de)  top_left  RELABEL  -  % moue (la taula (de fusta))
 921  -  $$_grup-verb   (sn,sp-de)  top_left  RELABEL  -  % (el president (del Parlament Europeu)) ha parlat
-
 %921  -  $$_sp-de_grup-sp  (sn,sp-de)  top_left  RELABEL -  % traslladar (els mobles (de l'oficina)) de la botiga al taller
 %921  -  sn_*_~grup-verb[mov]_$$  (sn,sp-de) top_left  RELABEL -  % mou (la taula (de fusta))
 %921  -  $$_~grup-verb[vprep-de]   (sn,sp-de)  top_left  RELABEL  -  %
-%921  -	$$_grup-verb   (sn,sp-de)   top_left  RELABEL - % (el timbre (de la cuina)) sona
+%921  - $$_grup-verb   (sn,sp-de)   top_left  RELABEL - % (el timbre (de la cuina)) sona
 %921  -  ~grup-verb[mov]_$$  (sn,sp-de)  top_left RELABEL -
 
 923  -  -   (sn[np-a],grup-sp<a>)   top_left  RELABEL  -  % (l'assitencia (a la conferencia))
@@ -83,14 +101,18 @@
 923  -  -   (sn[np-sota],grup-sp<sota>) top_left  RELABEL  -  % (llibertat (sota vigilancia))
 
 927 -  -  (sn,coor-s-a)  top_left  RELABEL  -  % (la conversa (superflua i avorrida))
+
 929 -  -  (sn,s-adj)  top_left  RELABEL  - % (la conversa (superflua))
 
 9001  -  -  (sn,Fc)  top_left  RELABEL -  % (el president del patronat(,))
 9999 -  -  (sn,F-term)  top_left  RELABEL -  % signes que no acaben frase
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-% Sintagma preposicional								  	    %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+%% -------------------------------------------- %%
+%						 %
+%  Sintagma preposicional			 %
+%						 %
+%% -------------------------------------------- %% 
 
 %%% SINTAGMA PREPOSICIONAL AMB PREPOSICIO "DE" %%%
 
@@ -128,6 +150,7 @@
 223  -  -    (sp-de,grup-sp<per>)   last_left MATCHING sn[np-per]
 223  -  -    (sp-de,grup-sp<sobre>)   last_left MATCHING sn[np-sobre]
 223  -  -    (sp-de,grup-sp<sota>)   last_left MATCHING sn[np-sota]
+
 2123  -  -  (sp-de,grup-sp)   last_left MATCHING infinitiu 
 
 117  -  -  (sp-de,numero)   top_left RELABEL - 
@@ -182,9 +205,12 @@
 9201 -  -  (grup-sp,Fc)   last_left MATCHING sn
 9979 -  -  (grup-sp,F-term)   top_left RELABEL -
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Sintagma verbal: CHUNKS POSTVERBALS                                                               %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% -------------------------------------------- %%
+%						 %
+%  Sintagma verbal: CHUNKS POSTVERBALS 		 %
+%						 %
+%% -------------------------------------------- %%
 
 %%% VERB + MORFEMA PRONOMINAL %%%
 
@@ -368,8 +394,8 @@
 911  -  sn{^PT}_$$  (grup-verb,subord-rel)   last_left MATCHING sn  % dins de subordinada
 911  -  sadv{^PT}_$$  (grup-verb,subord-rel)   last_left MATCHING sn  % dins de subordinada
 %911  -  -  (grup-verb,subord-rel)   last_left MATCHING sn  % (he vist (la noia (que parlava de pressa)))
-
 911  -  -  (grup-verb,subord-rel)   last_left MATCHING sn  % (he vist (la noia (que parlava de pressa)))
+
 911  -  conj-subord_$$  (grup-verb,subord-rel)   last_left MATCHING sn  % dins de subordinada
 911  -  que-a_$$  (grup-verb,subord-rel)   last_left MATCHING sn  % dins de subordinada
 911  -  qui_$$  (grup-verb,subord-rel)   last_left MATCHING sn  % dins de subordinada
@@ -761,9 +787,12 @@
 9901  -  -  (F-no-c{Faa},grup-verb)   top_right RELABEL -  % exclamacio marge esquerre
 9001 -  -  (grup-verb,F-no-c)   top_left RELABEL -  % (acordar (-))
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Modalitat passiva: CHUNKS POSTVERBALS		                                                    %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% -------------------------------------------- %%
+%						 %
+%  Passiva: CHUNKS POSTVERBALS 			 %
+%						 %
+%% -------------------------------------------- %%
 
 %%% VERB PASSIU + MORFEMA PRONOMINAL %%%
 
@@ -1276,9 +1305,12 @@
 9901  -  -  (F-no-c{Fia},verb-pass)   top_right RELABEL -  % interrogant marge esquerre
 9901  -  -  (F-no-c{Faa},verb-pass)   top_right RELABEL -  % exclamacio marge esquerre
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-% Sintagma verbal: CHUNKS PREVERBALS	  							    %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+%% -------------------------------------------- %%
+%						 %
+%  Sintagma verbal: CHUNKS PREVERBALS		 %
+%						 %
+%% -------------------------------------------- %%
 
 %%% PRONOMS ATONS %%%
 
@@ -1569,9 +1601,12 @@
 4095  -  sadv{^PT}_$$  (interjeccio,grup-verb)   top_right RELABEL -  % dins de subordinada
 7095  -  -  (interjeccio,grup-verb)   top_right RELABEL -  % ((ostres,) m'han robat)
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-% Modalitat passiva: CHUNKS PREVERBALS	  							    %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+%% -------------------------------------------- %%
+%						 %
+%  Passiva: CHUNKS PREVERBALS 			 %
+%						 %
+%% -------------------------------------------- %%
 
 %%% PRONOMS ATONS + VERB PASSIU %%%
 
@@ -1700,7 +1735,6 @@
 4071 -  sn{^PT}_$$  (subord,verb-pass)   top_right RELABEL -  % dins de subordinada
 4071 -  sadv{^PT}_$$  (subord,verb-pass)   top_right RELABEL -  % dins de subordinada
 7071 -  -  (subord,verb-pass)   top_right RELABEL -  % ((que acabessin la feina) va ser manat)
-
 7071 -  $$_F-term  (sn{^PT},verb-pass)   top_right RELABEL -  % ((qui) va ser trobat)? - interrogativa directa
 7071   -  $$_F-term        (sadv{^PT},verb-pass) top_right  RELABEL -  % (va ser preguntat (quants vindrien)) - interrogativa directa + QUANT
 7071  -  $$_F-term          (sadv{^PT},vaux) top_right  RELABEL -  % (va ser preguntat (quants vindrien)) - interrogativa indirecta + QUANT
@@ -1715,7 +1749,6 @@
 4073  -  sn{^PT}_$$  (coor-inf,verb-pass)   top_right RELABEL -  % dins de subordinada
 4073  -  sadv{^PT}_$$  (coor-inf,verb-pass)   top_right RELABEL -  % dins de subordinada
 7073  -  -  (coor-inf,verb-pass)   top_right RELABEL -  % ((fer esport i menjar sa) es recomanat)
-
 %%% SUBORDINADES NO FINITES D'INFINITIU + VERB PASSIU %%%
 
 4075  -  conj-subord_$$  (inf,verb-pass)   top_right RELABEL -  % dins de subordinada
@@ -1846,9 +1879,12 @@
 4095  -  sadv{^PT}_$$  (interjeccio,verb-pass)   top_right RELABEL -  % dins de subordinada
 7095  -  -  (interjeccio,verb-pass)   top_right RELABEL -  % ((ai), no ha estat trobat)
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Subordinada no finita d'infinitiu                                                                 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% -------------------------------------------- %%
+%						 %
+%  Subordinada no finita d'infinitiu		 %
+%						 %
+%% -------------------------------------------- %%
 
 %%% INFINITIU + MORFEMA PRONOMINAL %%%
 
@@ -2095,9 +2131,12 @@
 9501  -  -  (inf,Fc)   top_left RELABEL -
 9949  -  -  (inf,F-term)   top_left RELABEL -
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Subordinada no finita d'inifinitiu: INFINITIU PASSIU                                              %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% --------------------------------------------------- %%
+%						        %
+%  Subordinada no finita d'infinitiu: INFINITIU PASSIU  %
+%							%
+%% --------------------------------------------------- %%
 
 %%% INFINITIU + MORFEMA PRONOMINAL %%%
 
@@ -2354,9 +2393,12 @@
 9501  -  -  (inf-pas,Fc)   top_left RELABEL -
 9949  -  -  (inf-pas,F-term)   top_left RELABEL -
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Subordinada no finita de gerundi								    %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% -------------------------------------------- %%
+%						 %
+%  Subordinada no finita de gerundi 		 %
+%						 %
+%% -------------------------------------------- %%
 
 %%% GERUNDI + MORFEMA PRONOMINAL %%%
 
@@ -2540,7 +2582,6 @@
 2311 - sn{^PT}_$$ (ger,subord) top_left RELABEL subord-ger:- % dins de subordinada
 2311 - sadv{^PT}_$$ (ger,subord) top_left RELABEL subord-ger:- % dins de subordinada
 2311 - - (ger,subord) top_left RELABEL subord-ger:- % (dient (que venia))
-
 2311  -  conj-subord_$$  (ger,subord)   top_left RELABEL -  % dins de subordinada
 2311  -  que-a_$$  (ger,subord)   top_left RELABEL -  % dins de subordinada
 2311  -  qui_$$  (ger,subord)   top_left RELABEL -  % dins de subordinada
@@ -2726,9 +2767,12 @@
 9601 -  -  (ger,Fc)   top_left RELABEL -
 9939  -  -  (ger,F-term)   top_left RELABEL -
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Subordinades no finites de participi a partir de verb                                             %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% --------------------------------------------------- %%
+%							%
+%  Subordinades no finites de gerundi a partir de verb  %
+%						 	%
+%% --------------------------------------------------- %%
 
 %%% PARTICIPI + SINTAGMA NOMINAL COORDINAT %%%
 
@@ -2922,9 +2966,12 @@
 9601  -  -  (subord-part,Fc)   top_left RELABEL -
 9929  -  -  (subord-part,Fc-no-c)   top_left RELABEL -
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Subordinades no finites de participi a partir d'adjectiu                                          %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% -------------------------------------------------------- %%
+%						 	     %
+%  Subordinades no finites de participi	a partir d'adjectiu  %
+%						 	     %
+%% -------------------------------------------------------- %%
 
 %%% PARTICIPI + SINTAGMA NOMINAL COORDINAT %%%
 
@@ -3021,9 +3068,12 @@
 2529 - sadv{^PT}_$$ (s-adj{P$},s-adj) top_left RELABEL subord-part:- % dins de subordinada
 2529 - - (s-adj{P$},s-adj) top_left RELABEL subord-part:- % (considerada (erronia))
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-% Interrogatives directes								  	    %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+%% -------------------------------------------- %%
+%						 %
+%  Interrogatives indirectes			 %
+%						 %
+%% -------------------------------------------- %%
 
 7071 -  OUT_$$  (sn{^PT},grup-verb)   top_right RELABEL - % ((que) va passar)?
 7071 -  OUT_$$  (sn{^PT},vaux)   top_right RELABEL - % ((qui) va) a la festa?
@@ -3036,9 +3086,12 @@
 6001 -  OUT_$$_~grup-verb  (conj-subord<quant>,grup-verb)   top_right RELABEL - % ((quant) n'has comprat)?
 6001 -  OUT_$$_~grup-verb  (conj-subord<quant>,vaux)   top_right RELABEL - % ((quant) vas comprar-ne)?
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-% Subordinada finita									  	    %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+%% -------------------------------------------- %%
+%						 %
+%  Subordinada finita 				 %
+%						 %
+%% -------------------------------------------- %%
 
 %%% SUBORDINADES AMB NEXE CONJUNTIU %%%
 
@@ -3150,9 +3203,12 @@
 9401  -  -  (subord,Fc)   top_left RELABEL -
 9959  -  -  (subord,F-term)   top_left RELABEL -
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-% Coordinacio											    %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+%% -------------------------------------------- %%
+%						 %
+%  Coordinacio 					 %
+%						 %
+%% -------------------------------------------- %%
 
 %%% COORDINACIO DE SINTAGMA VERBAL %%%
 
@@ -3195,769 +3251,818 @@
 1701 - - (coord,sadv) top_left RELABEL coor-sadv:- % (i) alegrament
 1703  -  -  (sadv,coor-sadv)   top_right RELABEL -  % ((sorollosament) i alegrament)
 1705  -  -  (Fc,coor-sadv)      top_right RELABEL -
-
 </GRPAR>
 
+
 <SEMDB>
-
-SenseFile       /usr/local/share/FreeLing/ca/senses16.db
-WNFile          /usr/local/share/FreeLing/common/wn16.db
-
+SenseFile  /usr/local/share/FreeLing/ca/senses16.db
+WNFile  /usr/local/share/FreeLing/common/wn16.db
 </SEMDB>
 
+
 <GRLAB>
-grup-verb       cc              d.label=sn*             d.tonto=Time
-verb-pass       cc              d.label=sn*             d.tonto=Time
-grup-verb-inf   cc              d.label=sn*             d.tonto=Time
-subord-ger      cc              d.label=sn*             d.tonto=Time
-subord-part     cc              d.label=sn*             d.tonto=Time
-
-grup-verb       cc              d.label=sn*             d.lemma=fer
-verb-pass       cc              d.label=sn*             d.lemma=fer
-grup-verb-inf   cc              d.label=sn*             d.lemma=fer
-subord-ger      cc              d.label=sn*             d.lemma=fer
-subord-part     cc              d.label=sn*             d.lemma=fer
-
-grup-verb       subj		d.label=sn*             	d.side=right					p.class=intr
-grup-verb       subj		d.label=sn*     		d.side=left
-
-grup-verb       subj		d.label=coor-n          	d.side=right					p.class=intr
-grup-verb       subj		d.label=coor-n  		d.side=left
-
-grup-verb       subj		d.label=subord          	d.side=right    d.lemma=que|qui			p.class=intr
-grup-verb	subj		d.label=subord			d.side=left	d.lemma=que|qui
-
-grup-verb       subj		d.label=inf             	d.side=right					p.class=intr
-grup-verb       subj	   	d.label=inf     		d.side=left
-
-verb-pass       subj-pac	d.label=sn*    			d.side=left
-verb-pass       subj-pac 	d.label=coor-n         		d.side=left
-verb-pass	subj-pac	d.label=subord			d.side=left	d.lemma=que|qui
-verb-pass	subj-pac	d.label=subord			d.side=left					p.class=que
-verb-pass	subj-pac	d.label=inf			d.side=left
-
-verb-pass       subj-pac	d.label=sn*    			d.side=right
-verb-pass       subj-pac 	d.label=coor-n         		d.side=right
-verb-pass	subj-pac	d.label=subord			d.side=right	d.lemma=que|qui
-verb-pass	subj-pac	d.label=subord			d.side=right					p.class=que
-verb-pass	subj-pac	d.label=inf			d.side=right
-
-grup-verb	att		d.label=sn			d.side=right					p.class=atrib
-inf		att		d.label=sn			d.side=right					p.class=atrib
-infinitiu       att             d.label=sn                      d.side=right                                    p.class=atrib
-subord-ger	att		d.label=sn			d.side=right					p.class=atrib
-subord-part     att             d.label=sn      	        d.side=right                            	p.class=atrib
-
-grup-verb       att             d.label=coor-n                  d.side=right                                    p.class=atrib
-inf	        att             d.label=coor-n                  d.side=right                                    p.class=atrib
-infinitiu       att             d.label=coor-n                  d.side=right                                    p.class=atrib
-subord-ger      att             d.label=coor-n                  d.side=right                                    p.class=atrib
-subord-part     att             d.label=coor-n                  d.side=right                                    p.class=atrib
-
-grup-verb       att             d.label=subord                  d.side=right                                    p.class=atrib
-inf             att             d.label=subord                  d.side=right                                    p.class=atrib
-infinitiu       att             d.label=subord                  d.side=right                                    p.class=atrib
-subord-ger      att             d.label=subord                  d.side=right                                    p.class=atrib
-subord-part     att             d.label=subord                  d.side=right                                    p.class=atrib
-
-grup-verb       att             d.label=patons                  d.pos=PP3FSA00|PP3FPA00|PP3MSA00|PP3MPA00|PP3NN000	p.class=atrib
-grup-verb-inf   att             d.label=patons                  d.pos=PP3FSA00|PP3FPA00|PP3MSA00|PP3MPA00|PP3NN000	p.class=atrib
-subord-ger      att             d.label=patons                  d.pos=PP3FSA00|PP3FPA00|PP3MSA00|PP3MPA00|PP3NN000	p.class=atrib
-
-grup-verb       att             d.label=numero                  d.side=right                                    p.class=atrib
-inf             att             d.label=numero                  d.side=right                                    p.class=atrib
-infinitiu       att             d.label=numero                  d.side=right                                    p.class=atrib
-subord-ger      att             d.label=numero                  d.side=right                                    p.class=atrib
-subord-part     att             d.label=numero                  d.side=right                                    p.class=atrib
-
-grup-verb       dobj    	d.label=sn*     		d.side=right    				p.class!=intr|atrib
-inf		dobj		d.label=sn*			d.side=right					p.class!=intr|atrib
-infinitiu	dobj		d.label=sn*			d.side=right					p.class!=intr|atrib
-subord-ger	dobj		d.label=sn*			d.side=right					p.class!=intr|atrib
-subord-part	dobj		d.label=sn*			d.side=right					p.class!=intr|atrib
-
-grup-verb       dobj    	d.label=coor-n  		d.side=right		    			p.class!=intr|atrib
-inf		dobj		d.label=coor-n  		d.side=right					p.class!=intr|atrib
-infinitiu       dobj		d.label=coor-n			d.side=right            	                p.class!=intr|atrib
-subord-ger	dobj    	d.label=coor-n          	d.side=right					p.class!=intr|atrib
-subord-part	dobj		d.label=coor-n			d.side=right					p.class!=intr|atrib
-
-grup-verb	dobj		d.label=subord			d.side=right	d.lemma=que|qui			p.class!=intr|atrib
-inf		dobj		d.label=subord			d.side=right	d.lemma=que|qui			p.class!=intr|atrib
-infinitiu	dobj		d.label=subord			d.side=right	d.lemma=que|qui			p.class!=intr|atrib
-subord-ger	dobj		d.label=subord          	d.side=right	d.lemma=que|qui			p.class!=intr|atrib
-subord-part	dobj		d.label=subord			d.side=right	d.lemma=que|qui			p.class!=intr|atrib
-
-grup-verb       dobj            d.label=subord          	d.side=right	   			        p.class=que
-inf             dobj            d.label=subord          	d.side=right    			        p.class=que
-infinitiu       dobj            d.label=subord          	d.side=right    			        p.class=que
-subord-ger      dobj            d.label=subord          	d.side=right    			        p.class=que
-subord-part     dobj            d.label=subord          	d.side=right    		        	p.class=que
-
-grup-verb       dobj            d.label=subord                  d.side=left     d.lemma=on|quan|quant		p.class=que
-verb-pass       dobj            d.label=subord                  d.side=left     d.lemma=on|quan|quant		p.class=que
-inf             dobj            d.label=subord                  d.side=left     d.lemma=on|quan|quant		p.class=que
-infinitiu       dobj            d.label=subord                  d.side=left     d.lemma=on|quan|quant		p.class=que
-subord-ger      dobj            d.label=subord                  d.side=left     d.lemma=on|quan|quant		p.class=que
-subord-part     dobj            d.label=subord                  d.side=left     d.lemma=on|quan|quant		p.class=que
-
-grup-verb	dobj		d.label=inf|inf-pas		d.side=right					p.class!=intr|atrib
-inf		dobj		d.label=inf|inf-pas		d.side=right					p.class!=intr|atrib
-infinitiu	dobj		d.label=inf|inf-pas		d.side=right					p.class!=intr|atrib
-subord-ger	dobj		d.label=inf|inf-pas		d.side=right					p.class!=intr|atrib
-subord-part	dobj		d.label=inf|inf-pas		d.side=right					p.class!=intr|atrib
-
-grup-verb       dobj            d.label=patons                  d.pos=PP3FSA00|PP3FPA00|PP3MSA00|PP3MPA00|PP3NN000
-grup-verb-inf   dobj            d.label=patons                  d.pos=PP3FSA00|PP3FPA00|PP3MSA00|PP3MPA00|PP3NN000
-subord-ger      dobj            d.label=patons                  d.pos=PP3FSA00|PP3FPA00|PP3MSA00|PP3MPA00|PP3NN000
-
-grup-verb       dobj            d.label=numero                  d.side=right                                    p.class!=intr|atrib
-inf   		dobj            d.label=numero                  d.side=right                                    p.class!=intr|atrib
-infinitiu	dobj		d.label=numero			d.side=right					p.class!=intr|atrib
-subord-ger      dobj            d.label=numero                  d.side=right                                    p.class!=intr|atrib
-subord-part     dobj            d.label=numero                  d.side=right                                    p.class!=intr|atrib
-
-verb-pass       agent 		d.label=grup-sp					d.lemma=per
-inf-pas		agent		d.label=grup-sp					d.lemma=per
-ger-pas		agent		d.label=grup-sp					d.lemma=per
-
-verb-pass       agent           d.label=coor-sp                                 d:grup-sp.lemma=per
-inf-pas         agent           d.label=coor-sp                                 d:grup-sp.lemma=per
-ger-pas         agent           d.label=coor-sp                                 d:grup-sp.lemma=per
-
-grup-sp		obj-prep	d.label=sn*
-sp-de		obj-prep	d.label=sn*
-
-grup-sp		obj-prep	d.label=coor-n
-sp-de		obj-prep	d.label=coor-n
-
-grup-sp		obj-prep	d.label=infinitiu
-sp-de		obj-prep	d.label=infinitiu
-
-grup-sp         obj-prep        d.label=numero
-sp-de           obj-prep        d.label=numero
-
-grup-sp		obj-prep	d.label=data
-sp-de		obj-prep	d.label=data
-
-subord-rel      obj-prep        d.label=prel*
-subord-rel	obj-prep	d.label=que-t
-subord-rel      obj-prep        d.label=qui
-subord-rel      obj-prep        d.label=qual*
-subord-rel      obj-prep        d.label=DR*
-
-grup-sp         obj-prep        d.label=espec*
-sp-de           obj-prep        d.label=espec*
-
-grup-sp         obj-prep        d.label=j*
-sp-de           obj-prep        d.label=j*
-
-%subord-rel     obj-prep        d.label=espec*
-%subord-rel     obj-prep        d.label=j*
-subord-rel	obj-prep	d.label=relatiu
-
-grup-verb	cc		d.label=grup-sp			d.side=left	d:inf.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que	d.lemma=en
-verb-pass	cc              d.label=grup-sp                 d.side=left     d:inf.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que        d.lemma=en
-inf		cc		d.label=grup-sp			d.side=left	d:inf.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que        d.lemma=en
-infinitiu	cc		d.label=grup-sp			d.side=left	d:inf.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que        d.lemma=en
-subord-ger	cc		d.label=grup-sp			d.side=left	d:inf.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que        d.lemma=en
-subord-part	cc		d.label=grup-sp			d.side=left	d:inf.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que        d.lemma=en
-
-grup-verb       cc              d.label=grup-sp			d.side=left	d:infinitiu.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que	d.lemma=en
-verb-pass	cc              d.label=grup-sp                 d.side=left     d:infinitiu.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que  d.lemma=en
-inf		cc		d.label=grup-sp			d.side=left	d:infinitiu.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que	d.lemma=en
-infinitiu	cc		d.label=grup-sp			d.side=left	d:infinitiu.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que	d.lemma=en
-subord-ger	cc		d.label=grup-sp			d.side=left	d:infinitiu.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que  d.lemma=en
-subord-part	cc		d.label=grup-sp			d.side=left	d:infinitiu.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que  d.lemma=en
-
-grup-verb       iobj            d.label=patons                  d.pos=PP3CSD00
-grup-verb-inf   iobj            d.label=patons                  d.pos=PP3CSD00
-subord-ger      iobj            d.label=patons                  d.pos=PP3CSD00
-
-grup-verb       iobj            d.label=grup-sp         d.side=right    d.lemma=a|per	d:sn.tonto=Human	d:sn.tonto!=Building	p.class=ditr|trans|vp-a
-verb-pass       iobj            d.label=grup-sp         d.side=right    d.lemma=a|per   d:sn.tonto=Human        d:sn.tonto!=Building	p.class=ditr|trans|vp-a
-inf		iobj		d.label=grup-sp		d.side=right	d.lemma=a|per	d:sn.tonto=Human	d:sn.tonto!=Building	p.class=ditr|trans|vp-a
-infinitiu	iobj		d.label=grup-sp		d.side=right	d.lemma=a|per	d:sn.tonto=Human	d:sn.tonto!=Building	p.class=ditr|trans|vp-a
-subord-ger	iobj		d.label=grup-sp		d.side=right	d.lemma=a|per	d:sn.tonto=Human	d:sn.tonto!=Building	p.class=ditr|trans|vp-a
-subord-part	iobj		d.label=grup-sp		d.side=right	d.lemma=a|per	d:sn.tonto=Human	d:sn.tonto!=Building	p.class=ditr|trans|vp-a
-
-grup-verb       iobj            d.label=coor-sp                 d.side=right    d.lemma=a|per   d:grup-sp:sn.tonto=Human        p.class=ditr|trans|vp-a
-verb-pass       iobj            d.label=coor-sp                 d.side=right    d.lemma=a|per   d:grup-sp:sn.tonto=Human        p.class=ditr|trans|vp-a
-inf             iobj            d.label=coor-sp                 d.side=right    d.lemma=a|per   d:grup-sp:sn.tonto=Human        p.class=ditr|trans|vp-a
-infinitiu       iobj            d.label=coor-sp                 d.side=right    d.lemma=a|per   d:grup-sp:sn.tonto=Human        p.class=ditr|trans|vp-a
-subord-ger      iobj            d.label=coor-sp                 d.side=right    d.lemma=a|per   d:grup-sp:sn.tonto=Human        p.class=ditr|trans|vp-a
-subord-part     iobj            d.label=coor-sp                 d.side=right    d.lemma=a|per   d:grup-sp:sn.tonto=Human        p.class=ditr|trans|vp-a
-
-grup-verb       sp-obj          d.label=grup-sp		        d.side=right    d.lemma=a|cap|fins			p.class=mov
-inf		sp-obj		d.label=grup-sp			d.side=right	d.lemma=a|cap|fins			p.class=mov
-infinitiu	sp-obj		d.label=grup-sp			d.side=right	d.lemma=a|cap|fins			p.class=mov
-subord-ger	sp-obj		d.label=grup-sp			d.side=right	d.lemma=a|cap|fins			p.class=mov
-subord-part	sp-obj		d.label=grup-sp			d.side=right	d.lemma=a|cap1fins			p.class=mov
-
-grup-verb       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=a|cap|fins      	p.class=mov
-verb-pass       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=a|cap|fins      	p.class=mov
-inf		sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=a|cap|fins      	p.class=mov
-infinitiu       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=a|cap|fins      	p.class=mov
-subord-ger      sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=a|cap|fins     		p.class=mov
-subord-part     sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=a|cap|fins     		p.class=mov
-
-grup-verb       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=a    	d:sn.tonto!=Human       p.class=vp-a       
-verb-pass       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=a    	d:sn.tonto!=Human       p.class=vp-a
-inf             sp-obj          d.label=grup-sp                 d.side=right    d.lemma=a    	d:sn.tonto!=Human       p.class=vp-a         
-infinitiu       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=a    	d:sn.tonto!=Human       p.class=vp-a  
-subord-ger      sp-obj          d.label=grup-sp                 d.side=right    d.lemma=a    	d:sn.tonto!=Human       p.class=vp-a
-subord-part     sp-obj          d.label=grup-sp                 d.side=right    d.lemma=a    	d:sn.tonto!=Human       p.class=vp-a
-
-grup-verb       sp-obj          d.label=coor-sp                 d.side=right    d.lemma=a	d:grup-sp:sn.tonto!=Human       p.class=vp-a        
-verb-pass       sp-obj          d.label=coor-sp                 d.side=right    d.lemma=a    	d:grup-sp:sn.tonto!=Human       p.class=vp-a
-inf             sp-obj          d.label=coor-sp                 d.side=right    d.lemma=a    	d:grup-sp:sn.tonto!=Human       p.class=vp-a
-infinitiu       sp-obj          d.label=coor-sp                 d.side=right    d.lemma=a    	d:grup-sp:sn.tonto!=Human	p.class=vp-a
-subord-ger      sp-obj          d.label=coor-sp                 d.side=right    d.lemma=a    	d:grup-sp:sn.tonto!=Human	p.class=vp-a
-subord-part     sp-obj          d.label=coor-sp                 d.side=right    d.lemma=a    	d:grup-sp:sn.tonto!=Human	p.class=vp-a
-
-grup-verb       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=amb    				p.class=vp-amb
-verb-pass       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=amb                     	p.class=vp-amb
-inf             sp-obj          d.label=grup-sp                 d.side=right    d.lemma=amb    				p.class=vp-amb
-infinitiu       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=amb    				p.class=vp-amb
-subord-ger      sp-obj          d.label=grup-sp                 d.side=right    d.lemma=amb    				p.class=vp-amb
-subord-part     sp-obj          d.label=grup-sp                 d.side=right    d.lemma=amb    				p.class=vp-amb
-
-grup-verb       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=amb             	p.class=vp-amb
-verb-pass       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=amb             	p.class=vp-amb
-inf             sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=amb             	p.class=vp-amb
-infinitiu       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=amb             	p.class=vp-amb
-subord-ger      sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=amb             	p.class=vp-amb
-subord-part     sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=amb             	p.class=vp-amb
-
-grup-verb       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=contra                     	p.class=vp-contra
-verb-pass       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=contra                     	p.class=vp-contra
-inf             sp-obj          d.label=grup-sp                 d.side=right    d.lemma=contra                     	p.class=vp-contra
-infinitiu       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=contra                     	p.class=vp-contra
-subord-ger      sp-obj          d.label=grup-sp                 d.side=right    d.lemma=contra                     	p.class=vp-contra
-subord-part     sp-obj          d.label=grup-sp                 d.side=right    d.lemma=contra                     	p.class=vp-contra
-
-grup-verb       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=contra             	p.class=vp-contra        
-verb-pass       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=contra             	p.class=vp-contra        
-inf             sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=contra             	p.class=vp-contra        
-infinitiu       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=contra             	p.class=vp-contra        
-subord-ger      sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=contra             	p.class=vp-contra        
-subord-part     sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=contra             	p.class=vp-contra        
-
-grup-verb       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=de                     		p.class=vp-de
-verb-pass       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=de                     		p.class=vp-de
-inf             sp-obj          d.label=grup-sp                 d.side=right    d.lemma=de                     		p.class=vp-de
-infinitiu       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=de                     		p.class=vp-de
-subord-ger      sp-obj          d.label=grup-sp                 d.side=right    d.lemma=de                     		p.class=vp-de
-subord-part     sp-obj          d.label=grup-sp                 d.side=right    d.lemma=de                     		p.class=vp-de
-
-grup-verb       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=de             		p.class=vp-de        
-verb-pass       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=de             		p.class=vp-de        
-inf             sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=de             		p.class=vp-de        
-infinitiu       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=de             		p.class=vp-de        
-subord-ger      sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=de             		p.class=vp-de        
-subord-part     sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=de             		p.class=vp-de        
-
-grup-verb       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=en                     		p.class=vp-en
-verb-pass       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=en                     		p.class=vp-en
-inf             sp-obj          d.label=grup-sp                 d.side=right    d.lemma=en                     		p.class=vp-en
-infinitiu       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=en                     		p.class=vp-en
-subord-ger      sp-obj          d.label=grup-sp                 d.side=right    d.lemma=en                     		p.class=vp-en
-subord-part     sp-obj          d.label=grup-sp                 d.side=right    d.lemma=en                     		p.class=vp-en
-
-grup-verb       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=en             		p.class=vp-en        
-verb-pass       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=en             		p.class=vp-en        
-inf             sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=en             		p.class=vp-en        
-infinitiu       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=en             		p.class=vp-en        
-subord-ger      sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=en             		p.class=vp-en        
-subord-part     sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=en             		p.class=vp-en        
-
-grup-verb       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=entre                     	p.class=vp-entre
-verb-pass       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=entre                     	p.class=vp-entre
-inf             sp-obj          d.label=grup-sp                 d.side=right    d.lemma=entre                     	p.class=vp-entre
-infinitiu       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=entre                     	p.class=vp-entre
-subord-ger      sp-obj          d.label=grup-sp                 d.side=right    d.lemma=entre                     	p.class=vp-entre
-subord-part     sp-obj          d.label=grup-sp                 d.side=right    d.lemma=entre                     	p.class=vp-entre
-
-grup-verb       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=entre             	p.class=vp-entre        
-verb-pass       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=entre             	p.class=vp-entre        
-inf             sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=entre             	p.class=vp-entre        
-infinitiu       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=entre             	p.class=vp-entre        
-subord-ger      sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=entre             	p.class=vp-entre        
-subord-part     sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=entre             	p.class=vp-entre        
-
-grup-verb       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=fins                     	p.class=vp-fins
-verb-pass       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=fins                     	p.class=vp-fins
-inf             sp-obj          d.label=grup-sp                 d.side=right    d.lemma=fins                     	p.class=vp-fins
-infinitiu       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=fins                     	p.class=vp-fins
-subord-ger      sp-obj          d.label=grup-sp                 d.side=right    d.lemma=fins                     	p.class=vp-fins
-subord-part     sp-obj          d.label=grup-sp                 d.side=right    d.lemma=fins                     	p.class=vp-fins
-
-grup-verb       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=fins             	p.class=vp-fins        
-verb-pass       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=fins             	p.class=vp-fins        
-inf             sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=fins             	p.class=vp-fins        
-infinitiu       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=fins             	p.class=vp-fins        
-subord-ger      sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=fins             	p.class=vp-fins        
-subord-part     sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=fins             	p.class=vp-fins        
-
-grup-verb       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=per                     	p.class=vp-per
-verb-pass       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=per                     	p.class=vp-per
-inf             sp-obj          d.label=grup-sp                 d.side=right    d.lemma=per                     	p.class=vp-per
-infinitiu       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=per                     	p.class=vp-per
-subord-ger      sp-obj          d.label=grup-sp                 d.side=right    d.lemma=per                     	p.class=vp-per
-subord-part     sp-obj          d.label=grup-sp                 d.side=right    d.lemma=per                     	p.class=vp-per
-
-grup-verb       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=per             	p.class=vp-per        
-verb-pass       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=per             	p.class=vp-per        
-inf             sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=per             	p.class=vp-per        
-infinitiu       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=per             	p.class=vp-per        
-subord-ger      sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=per             	p.class=vp-per        
-subord-part     sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=per             	p.class=vp-per        
-
-grup-verb       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=sobre                     	p.class=vp-sobre
-verb-pass       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=sobre                     	p.class=vp-sobre
-inf             sp-obj          d.label=grup-sp                 d.side=right    d.lemma=sobre                     	p.class=vp-sobre
-infinitiu       sp-obj          d.label=grup-sp                 d.side=right    d.lemma=sobre                     	p.class=vp-sobre
-subord-ger      sp-obj          d.label=grup-sp                 d.side=right    d.lemma=sobre                     	p.class=vp-sobre
-subord-part     sp-obj          d.label=grup-sp                 d.side=right    d.lemma=sobre                     	p.class=vp-sobre
-
-grup-verb       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=sobre             	p.class=vp-sobre        
-verb-pass       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=sobre             	p.class=vp-sobre        
-inf             sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=sobre             	p.class=vp-sobre        
-infinitiu       sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=sobre             	p.class=vp-sobre        
-subord-ger      sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=sobre             	p.class=vp-sobre        
-subord-part     sp-obj          d.label=coor-sp                 d.side=right    d:grup-sp.lemma=sobre             	p.class=vp-sobre        
-
-grup-verb	sp-obj		d.label=grup-sp|sp-de		d.side=right					p.class=ditr|prep1|prep2|mov
-verb-pass       sp-obj          d.label=grup-sp|sp-de           d.side=right                                    p.class=ditr|prep1|prep2|mov
-inf		sp-obj		d.label=grup-sp|sp-de		d.side=right					p.class=ditr|prep1|prep2|mov
-infinitiu	sp-obj		d.label=grup-sp|sp-de		d.side=right					p.class=ditr|prep1|prep2|mov
-subord-ger	sp-obj		d.label=grup-sp|sp-de		d.side=right					p.class=ditr|prep1|prep2|mov
-subord-part	sp-obj		d.label=grup-sp|sp-de		d.side=right					p.class=ditr|prep1|prep2|mov
-
-grup-verb       sp-obj          d.label=coor-sp                 d.side=right                                    p.class=prep1|prep2|ditr|mov
-verb-pass       sp-obj          d.label=coor-sp                 d.side=right                                    p.class=prep1|prep2|ditr|mov
-inf		sp-obj          d.label=coor-sp                 d.side=right                                    p.class=prep1|prep2|ditr|mov
-infinitiu	sp-obj          d.label=coor-sp                 d.side=right                                    p.class=prep1|prep2|ditr|mov
-subord-ger      sp-obj          d.label=coor-sp                 d.side=right                                    p.class=prep1|prep2|ditr|mov
-subord-part     sp-obj          d.label=coor-sp                 d.side=right                                    p.class=prep1|prep2|ditr|mov
-
-grup-verb       att             d.label=grup-sp|sp-de   	d.side=right					p.class=atrib
-inf		att		d.label=grup-sp|sp-de		d.side=right					p.class=atrib
-infinitiu	att		d.label=grup-sp|sp-de		d.side=right					p.class=atrib
-subord-ger	att		d.label=grup-sp|sp-de		d.side=right					p.class=atrib
-subord-part	att		d.label=grup-sp|sp-de		d.side=right					p.class=atrib
-
-grup-verb       att             d.label=coor-sp           	d.side=right                                    p.class=atrib
-inf             att             d.label=coor-sp	        	d.side=right                                    p.class=atrib
-infinitiu       att             d.label=coor-sp 	        d.side=right                                    p.class=atrib
-subord-ger      att             d.label=coor-sp           	d.side=right                                    p.class=atrib
-subord-part     att             d.label=coor-sp           	d.side=right                                    p.class=atrib
-
-grup-verb       espec           d.label=sadv                            					d.class=vespec
-verb-pass       espec           d.label=sadv                            					d.class=vespec
-grup-verb-inf   espec           d.label=sadv                            					d.class=vespec
-grup-verb-inf   espec           d.label=sadv                            					d.class=vespec
-subord-ger      espec           d.label=sadv                            					d.class=vespec
-subord-part     espec           d.label=sadv                            					d.class=vespec
-
-grup-verb       ador            d.label=grup-sp|sp-de								d.class=dmark
-verb-pass       ador            d.label=grup-sp|sp-de           						d.class=dmark
-inf   		ador            d.label=grup-sp|sp-de								d.class=dmark
-infinitiu   	ador            d.label=grup-sp|sp-de								d.class=dmark
-subord-ger      ador            d.label=grup-sp|sp-de                   		    			d.class=dmark
-subord-part     ador            d.label=grup-sp|sp-de                       					d.class=dmark
-
-grup-verb       ador            d.label=subord					                                d.class=dmark
-verb-pass       ador            d.label=subord                                  				d.class=dmark
-inf   		ador            d.label=subord                                  				d.class=dmark
-infinitiu	ador            d.label=subord                                  				d.class=dmark
-subord-ger      ador            d.label=subord                                  				d.class=dmark
-subord-part     ador            d.label=subord                                  				d.class=dmark
-
-grup-verb       ador            d.label=sadv                                    				d.class=dmark
-verb-pass	ador		d.label=sadv									d.class=dmark
-verb-pass       ador            d.label=sadv                                    				d.class=dmark
-inf		ador            d.label=sadv                                    				d.class=dmark
-infinitiu	ador            d.label=sadv                                    				d.class=dmark
-subord-ger      ador            d.label=sadv                                   					d.class=dmark
-subord-part     ador            d.label=sadv                                    				d.class=dmark
-
-grup-verb       cc              d.label=subord           	d.side=left	d.lemma=on|quan|quant
-verb-pass       cc              d.label=subord           	d.side=left	d.lemma=on|quan|quant
-inf             cc              d.label=subord           	d.side=left	d.lemma=on|quan|quant
-infinitiu       cc              d.label=subord           	d.side=left	d.lemma=on|quan|quant
-subord-ger      cc              d.label=subord           	d.side=left	d.lemma=on|quan|quant
-subord-part     cc              d.label=subord           	d.side=left	d.lemma=on|quan|quant
-
-grup-verb       cc              d.label=subord                 	d.side=left	d:grup-sp.lemma=on|quan|quant
-verb-pass       cc              d.label=subord                 	d.side=left	d:grup-sp.lemma=on|quan|quant
-inf             cc              d.label=subord                 	d.side=left	d:grup-sp.lemma=on|quan|quant
-infinitiu       cc              d.label=subord                 	d.side=left	d:grup-sp.lemma=on|quan|quant
-subord-ger      cc              d.label=subord                 	d.side=left	d:grup-sp.lemma=on|quan|quant
-subord-part     cc              d.label=subord                 	d.side=left	d:grup-sp.lemma=on|quan|quant
-
-grup-verb       cc              d.label=grup-sp|sp-de		d.side=right
-verb-pass	cc		d.label=grup-sp|sp-de		d.side=right
-inf		cc		d.label=grup-sp|sp-de		d.side=right
-infinitiu       cc              d.label=grup-sp|sp-de   	d.side=right
-subord-ger	cc		d.label=grup-sp|sp-de		d.side=right
-subord-part	cc		d.label=grup-sp|sp-de		d.side=right
-
-grup-verb       cc              d.label=coor-sp           	d.side=right
-verb-pass	cc		d.label=coor-sp			d.side=right
-inf             cc              d.label=coor-sp           	d.side=right
-infinitiu       cc              d.label=coor-sp           	d.side=right
-subord-ger      cc              d.label=coor-sp           	d.side=right
-subord-part     cc              d.label=coor-sp           	d.side=right
-
-grup-verb	cc		d.label=sadv
-verb-pass	cc		d.label=sadv
-inf		cc		d.label=sadv
-infinitiu	cc		d.label=sadv
-subord-ger	cc		d.label=sadv
-subord-part	cc		d.label=sadv
-
-grup-verb       cc              d.label=coor-sadv
-verb-pass       cc              d.label=coor-sadv
-inf             cc              d.label=coor-sadv
-infinitiu       cc              d.label=coor-sadv
-subord-ger      cc              d.label=coor-sadv
-subord-part     cc              d.label=coor-sadv
-
-grup-verb       cc              d.label=conj-subord              d.side=left	d.lemma=on|quan|quant
-verb-pass       cc              d.label=conj-subord              d.side=left	d.lemma=on|quan|quant
-inf             cc              d.label=conj-subord              d.side=left	d.lemma=on|quan|quant
-infinitiu       cc              d.label=conj-subord              d.side=left	d.lemma=on|quan|quant
-subord-ger      cc              d.label=conj-subord              d.side=left	d.lemma=on|quan|quant
-subord-part     cc              d.label=conj-subord              d.side=left	d.lemma=on|quan|quant
-
-grup-verb	espec		d.label=neg
-verb-pass	espec		d.label=neg
-inf		espec		d.label=neg
-infinitiu	espec           d.label=neg
-subord-ger	espec		d.label=neg
-
-grup-verb	cc		d.label=data
-verb-pass	cc		d.label=data
-inf		cc		d.label=data
-infinitiu	cc              d.label=data
-subord-ger	cc		d.label=data
-subord-part	cc		d.label=data
-
-grup-verb       cc              d.label=subord-ger
-verb-pass       cc              d.label=subord-ger
-inf             cc              d.label=subord-ger
-infinitiu       cc              d.label=subord-ger
-subord-ger      cc              d.label=subord-ger
-subord-part     cc              d.label=subord-ger
-
-grup-verb	cc		d.label=ger
-verb-pass	cc		d.label=ger
-inf		cc		d.label=ger
-infinitiu	cc		d.label=ger
-subord-ger	cc		d.label=ger
-subord-part	cc		d.label=ger
-
-grup-verb       cc              d.label=subord-part	d.side=left
-verb-pass       cc              d.label=subord-part	d.side=left
-inf             cc              d.label=subord-part	d.side=left
-infinitiu       cc              d.label=subord-part	d.side=left
-subord-ger      cc              d.label=subord-part	d.side=left
-subord-part     cc              d.label=subord-part	d.side=left
-
-grup-verb       ador            d.label=interjeccio
-verb-pass       ador            d.label=interjeccio
-inf   		ador            d.label=interjeccio
-infinitiu	ador		d.label=interjeccio
-subord-ger      ador            d.label=interjeccio
-subord-part     ador            d.label=interjeccio
-
-grup-verb	att		d.label=s-adj|coor-s-a								p.class=atrib
-inf		att		d.label=s-adj|coor-s-a								p.class=atrib
-infinitiu	att		d.label=s-adj|coor-s-a								p.class=atrib
-subord-ger	att		d.label=s-adj|coor-s-a								p.class=atrib
-subord-part	att		d.label=s-adj|coor-s-a								p.class=atrib
-
-grup-verb       att             d.label=subord-part          		        	                        p.class=atrib
-inf             att             d.label=subord-part          		                	                p.class=atrib
-infinitiu       att             d.label=subord-part          		                        	        p.class=atrib
-subord-ger      att             d.label=subord-part          		                        	        p.class=atrib
-subord-part	att		d.label=subord-part
-
-grup-verb       pred            d.label=grup-sp|sp-de   	d.side=right                               	p.class=pred
-verb-pass	pred		d.label=grup-sp|sp-de		d.side=right					p.class=pred
-inf             pred            d.label=grup-sp|sp-de   	d.side=right                            	p.class=pred
-infinitiu       pred            d.label=grup-sp|sp-de   	d.side=right                            	p.class=pred
-subord|ger      pred            d.label=grup-sp|sp-de   	d.side=right                            	p.class=pred
-subord-part	pred		d.label=grup-sp|sp-de		d.side=right					p.class=pred
-
-grup-verb       pred            d.label=coor-sp                 d.side=right                                    p.class=pred
-verb-pass       pred            d.label=coor-sp                 d.side=right                                    p.class=pred
-inf   		pred            d.label=coor-sp                 d.side=right                                    p.class=pred
-infinitiu	pred            d.label=coor-sp                 d.side=right                                    p.class=pred
-subord-ger      pred            d.label=coor-sp                 d.side=right                                    p.class=pred
-subord-part     pred            d.label=coor-sp                 d.side=right                                    p.class=pred
-
-grup-verb       pred            d.label=s-adj|coor-s-a                                                          p.class=pred
-verb-pass       pred            d.label=s-adj|coor-s-a                                                          p.class=pred
-inf   		pred            d.label=s-adj|coor-s-a                                                          p.class=pred
-infinitiu	pred            d.label=s-adj|coor-s-a                                                          p.class=pred
-subord-ger      pred            d.label=s-adj|coor-s-a                                                          p.class=pred
-subord-part     pred            d.label=s-adj|coor-s-a                                                          p.class=pred
-
-grup-verb       pred            d.label=subord-part                                                             p.class=pred
-verb-pass       pred            d.label=subord-part                                                             p.class=pred
-inf   		pred            d.label=subord-part                                                             p.class=pred
-infinitiu	pred            d.label=subord-part                                                             p.class=pred
-subord-ger      pred            d.label=subord-part                                                             p.class=pred
-subord-part     pred            d.label=subord-part                                                             p.class=pred
-
-grup-verb       cc              d.label=s-adj|coor-s-a
-verb-pass       cc              d.label=s-adj|coor-s-a
-inf             cc              d.label=s-adj|coor-s-a
-infinitiu       cc              d.label=s-adj|coor-s-a
-subord-ger      cc              d.label=s-adj|coor-s-a
-subord-part     cc              d.label=s-adj|coor-s-a
-
-grup-verb       cc              d.label=subord-part
-verb-pass       cc              d.label=subord-part
-inf             cc              d.label=subord-part
-infinitiu       cc              d.label=subord-part
-subord-ger      cc              d.label=subord-part
-subord-part     cc              d.label=subord-part
-
-grup-verb       cc              d.label=subord					d.lemma!=que|qui                p.class!=que
-verb-pass       cc              d.label=subord                                  d.lemma!=que|qui                p.class!=que
-inf   		cc              d.label=subord                                  d.lemma!=que|qui                p.class!=que
-infinitiu	cc              d.label=subord                                  d.lemma!=que|qui                p.class!=que
-subord-ger      cc              d.label=subord                                  d.lemma!=que|qui                p.class!=que
-subord-part     cc              d.label=subord                                  d.lemma!=que|qui                p.class!=que
-
-grup-verb       cc              d.label=subord-ger
-verb-pass       cc              d.label=subord-ger
-inf   		cc              d.label=subord-ger
-infinitiu	cc              d.label=subord-ger
-subord-ger      cc              d.label=subord-ger
-subord-part     cc              d.label=subord-ger
-
-sn		espec			d.label=numero		d.side=left
-
-sn              sn-mod                  d.label=sn*
-sn              sn-mod                  d.label=w*
-sn              sn-mod                  d.label=n*
-sn              sn-mod                  d.label=coor-n
-sn              sn-mod                  d.label=numero
-
-sn		sp-mod			d.label=grup-sp|sp-de|coor-sp
-
-sn              adj-mod   		d.label=s-a*
-sn		adj-mod			d.label=coor-s-a
-
-sn              adj-mod                 d.label=subord-part
-sn              adj-mod                 d.label=coor-part
-
-sn              subord-mod              d.label=subord-rel      d.side=right
-sn		subord-mod		d.label=subord		d.side=right
-
-espec-fp        espec     		d.label=j*
-espec-fp        espec			d.label=dem*
-espec-fp        espec		     	d.label=indef*
-espec-fp        espec     		d.label=num*
-
-espec-fs        espec     		d.label=j*
-espec-fs        espec     		d.label=dem*
-espec-fs        espec     		d.label=indef*
-espec-fs        espec     		d.label=num*
-
-espec-mp        espec     		d.label=j*
-espec-mp        espec     		d.label=dem*
-espec-mp        espec     		d.label=indef*
-espec-mp        espec     		d.label=num*
-
-espec-ms        espec     		d.label=j*
-espec-ms        espec     		d.label=dem*
-espec-ms        espec     		d.label=indef*
-espec-ms        espec     		d.label=num*               
-
-sn              espec     		d.label=espec*
-sn              espec     		d.label=j*
-sn              espec     		d.label=dem*
-sn              espec     		d.label=indef*
-sn              espec     		d.label=num*
-
-data		espec			d.label=espec*
-data		espec			d.label=j*
-data		espec			d.label=dem*
-data		espec			d.label=indef*
-
-s-adj		espec			d.label=sadv
-s-a-ms		espec			d.label=sadv
-s-a-fs		espec                   d.label=sadv
-s-a-mp		espec                   d.label=sadv
-s-a-fp		espec			d.label=sadv
-
-subord          espec           	d.label=espec*
-prel-comp	espec			d.label=espec*
-prel-comp	espec			d.label=j*
-inf   		espec           	d.label=espec*
-
-grup-verb	aux			d.label=vaux
-verb-pass	aux			d.label=vaux
-
-grup-verb       aux                     d.label=VA*
-verb-pass       aux                     d.label=VA*
-
-grup-verb       aux                     d.label=parti-flex
-verb-pass       aux                     d.label=parti-flex
-
-verb-pass       aux     		d.label=vser
-
-inf		aux			d.label=infaux
-infinitiu	aux			d.label=infaux
-inf-pas		aux			d.label=infaux
-
-ger             aux                     d.label=geraux
-subord-ger      aux                     d.label=geraux
-
-verb-pass	aux			d.label=subord-part
-verb-pass	aux			d.label=subord-part
-inf-pas		aux			d.label=subord-part
-
-grup-verb       es                      d.label=morf-pron
-inf   		es                      d.label=morf-pron
-infinitiu	es			d.label=morf-pron
-subord-ger      es                      d.label=morf-pron
-
-grup-verb       es                      d.label=morfema-verbal
-inf   		es                      d.label=morfema-verbal
-infinitiu	es			d.label=morfema-verbal
-subord-ger      es                      d.label=morfema-verbal
-
-grup-verb       es                      d.label=PP3CN000
-inf   		es                      d.label=PP3CN000
-infinitiu	es			d.label=PP3CN000
-subord-ger      es                      d.label=PP3CN000
-
-coor-vb         co-v    		d.label=grup-verb
-coor-n          co-n    		d.label=sn*   
-coor-sp		co-sp			d.label=grup-sp
-coor-sadj       co-adj			d.label=s-a*  
-coor-sadv	co-adv			d.label=sadv
-coor-subord     co-subord       	d.label=subord
-coor-inf        co-inf          	d.label=grup-verb-inf
-coor-ger        co-ger          	d.label=subord-ger
-coor-part       co-part         	d.label=subord-part
-
-subord          vsubord         d.label=grup-verb
-subord-rel      vsubord         d.label=grup-verb
-prel-comp	vsubord		d.label=grup-verb
-
-sn              vsubord         d.label=grup-verb
+%% ----------- FORMAT of GRLAB rules ---------- %%
+%
+%
+% head labeling_tag daughter_label side lemma pos class tonto semfile synon asynon
+%
+% (see user manual at /usr/local/share/FreeLing/doc/userman/html/userman.html)
+%
+% examples:
+%
+% sn  espec  d.label=espec*
+% grup-verb  subj  d.label=sn*  d.side=right  d.pos=NP00000
+% grup-verb sp-obj d.label=grup-sp d.side=right d.lemma=a|al d:sn.tonto!=Human p.class=ditr|vp-a
+%
+%% -------------------------------------------- %% 
+
+
+%%% CIRCUMSTANCIAL: SN AMB VALOR TEMPORAL %%%
+grup-verb  cc  d.label=sn*  d.tonto=Time
+verb-pass  cc  d.label=sn*  d.tonto=Time
+grup-verb-inf  cc  d.label=sn*  d.tonto=Time
+subord-ger  cc  d.label=sn*  d.tonto=Time
+subord-part  cc  d.label=sn*  d.tonto=Time
+
+%%% CIRCUMSTANCIAL: "FA X TEMPS" %%%
+grup-verb  cc  d.label=sn*  d.lemma=fer
+verb-pass  cc  d.label=sn*  d.lemma=fer
+grup-verb-inf  cc  d.label=sn*  d.lemma=fer
+subord-ger  cc  d.label=sn*  d.lemma=fer
+subord-part  cc  d.label=sn*  d.lemma=fer
+
+%%% SUBJECTE POSTVERBAL: VERBS INTRANSITIUS %%%
+grup-verb  subj  d.label=sn*  d.side=right  p.class=intr
+grup-verb  subj  d.label=coor-n  d.side=right  p.class=intr
+grup-verb  subj  d.label=subord  d.side=right  d.lemma=que|qui  p.class=intr
+grup-verb  subj  d.label=inf  d.side=right  p.class=intr
+
+%%% SUBJECTE PREVERBAL %%%
+grup-verb  subj  d.label=sn*  d.side=left
+grup-verb  subj  d.label=coor-n  d.side=left
+grup-verb  subj  d.label=subord  d.side=left  d.lemma=que|qui
+grup-verb  subj  d.label=inf  d.side=left
+
+%%% PACIENT PREVERBAL EN CONSTRUCCIONS PASSIVES %%%
+verb-pass  subj-pac  d.label=sn*  d.side=left
+verb-pass  subj-pac  d.label=coor-n  d.side=left
+verb-pass  subj-pac  d.label=subord  d.side=left  d.lemma=que|qui
+verb-pass  subj-pac  d.label=subord  d.side=left  p.class=que
+verb-pass  subj-pac  d.label=inf  d.side=left
+
+%%% PACIENT POSTVERBAL EN CONSTRUCCIONS PASSIVES %%%
+verb-pass  subj-pac  d.label=sn*  d.side=right
+verb-pass  subj-pac  d.label=coor-n  d.side=right
+verb-pass  subj-pac  d.label=subord  d.side=right  d.lemma=que|qui
+verb-pass  subj-pac  d.label=subord  d.side=right  p.class=que
+verb-pass  subj-pac  d.label=inf  d.side=right
+
+%%% ATRIBUT DE VERBS COPULATIUS: SINTAGMA NOMINAL, SUBORDINADA I NUMERO %%%
+grup-verb  att  d.label=sn  d.side=right  p.class=atrib
+inf  att  d.label=sn  d.side=right  p.class=atrib
+infinitiu  att  d.label=sn  d.side=right  p.class=atrib
+subord-ger  att  d.label=sn  d.side=right  p.class=atrib
+subord-part  att  d.label=sn  d.side=right  p.class=atrib
+
+grup-verb  att  d.label=coor-n  d.side=right  p.class=atrib
+inf  att  d.label=coor-n  d.side=right  p.class=atrib
+infinitiu  att  d.label=coor-n  d.side=right  p.class=atrib
+subord-ger  att  d.label=coor-n  d.side=right  p.class=atrib
+subord-part  att  d.label=coor-n  d.side=right  p.class=atrib
+
+grup-verb  att  d.label=subord  d.side=right  p.class=atrib
+inf  att  d.label=subord  d.side=right  p.class=atrib
+infinitiu  att  d.label=subord  d.side=right  p.class=atrib
+subord-ger  att  d.label=subord  d.side=right  p.class=atrib
+subord-part  att  d.label=subord  d.side=right  p.class=atrib
+
+grup-verb  att  d.label=numero  d.side=right  p.class=atrib
+inf  att  d.label=numero  d.side=right  p.class=atrib
+infinitiu  att  d.label=numero  d.side=right  p.class=atrib
+subord-ger  att  d.label=numero  d.side=right  p.class=atrib
+subord-part  att  d.label=numero  d.side=right  p.class=atrib
+
+%%% ATRIBUT DE VERBS COPULATIUS: PRONOMS ATONS %%%
+grup-verb  att  d.label=patons  d.pos=PP3FSA00|PP3FPA00|PP3MSA00|PP3MPA00|PP3NN000  p.class=atrib
+grup-verb-inf  att  d.label=patons  d.pos=PP3FSA00|PP3FPA00|PP3MSA00|PP3MPA00|PP3NN000  p.class=atrib
+subord-ger  att  d.label=patons  d.pos=PP3FSA00|PP3FPA00|PP3MSA00|PP3MPA00|PP3NN000  p.class=atrib
+
+%%% OBJECTE DIRECTE POSTVERBAL: SINTAGMA NOMINAL %%%
+grup-verb  dobj  d.label=sn*  d.side=right  p.class!=intr|atrib
+inf  dobj  d.label=sn*  d.side=right  p.class!=intr|atrib
+infinitiu  dobj  d.label=sn*  d.side=right  p.class!=intr|atrib
+subord-ger  dobj  d.label=sn*  d.side=right  p.class!=intr|atrib
+subord-part  dobj  d.label=sn*  d.side=right  p.class!=intr|atrib
+
+grup-verb  dobj  d.label=coor-n  d.side=right  p.class!=intr|atrib
+inf  dobj  d.label=coor-n  d.side=right  p.class!=intr|atrib
+infinitiu  dobj  d.label=coor-n  d.side=right  p.class!=intr|atrib
+subord-ger  dobj  d.label=coor-n  d.side=right  p.class!=intr|atrib
+subord-part  dobj  d.label=coor-n  d.side=right  p.class!=intr|atrib
+
+%%% OBJECTE DIRECTE POSTVERBAL: SUBORDINADA FINITA %%%
+grup-verb  dobj  d.label=subord  d.side=right  d.lemma=que|qui  p.class!=intr|atrib
+inf  dobj  d.label=subord  d.side=right  d.lemma=que|qui  p.class!=intr|atrib
+infinitiu  dobj  d.label=subord  d.side=right  d.lemma=que|qui  p.class!=intr|atrib
+subord-ger  dobj  d.label=subord  d.side=right  d.lemma=que|qui  p.class!=intr|atrib
+subord-part  dobj  d.label=subord  d.side=right  d.lemma=que|qui  p.class!=intr|atrib
+
+grup-verb  dobj  d.label=subord  d.side=right  p.class=que
+inf  dobj  d.label=subord  d.side=right  p.class=que
+infinitiu  dobj  d.label=subord  d.side=right  p.class=que
+subord-ger  dobj  d.label=subord  d.side=right  p.class=que
+subord-part  dobj  d.label=subord  d.side=right  p.class=que
+
+grup-verb  dobj  d.label=subord  d.side=left  d.lemma=on|quan|quant  p.class=que
+verb-pass  dobj  d.label=subord  d.side=left  d.lemma=on|quan|quant  p.class=que
+inf  dobj  d.label=subord  d.side=left  d.lemma=on|quan|quant  p.class=que
+infinitiu  dobj  d.label=subord  d.side=left  d.lemma=on|quan|quant  p.class=que
+subord-ger  dobj  d.label=subord  d.side=left  d.lemma=on|quan|quant  p.class=que
+subord-part  dobj  d.label=subord  d.side=left  d.lemma=on|quan|quant  p.class=que
+
+%%% OBJECTE DIRECTE POSTVERBAL: SUBORDINADA D'INFINITIU %%%
+grup-verb  dobj  d.label=inf|inf-pas  d.side=right  p.class!=intr|atrib
+inf  dobj  d.label=inf|inf-pas  d.side=right  p.class!=intr|atrib
+infinitiu  dobj  d.label=inf|inf-pas  d.side=right  p.class!=intr|atrib
+subord-ger  dobj  d.label=inf|inf-pas  d.side=right  p.class!=intr|atrib
+subord-part  dobj  d.label=inf|inf-pas  d.side=right  p.class!=intr|atrib
+
+%%% OBJECTE DIRECTE: PRONOMS ATONS AMB MARCA D'ACUSATIU ("el", "la","els","les", "lo") %%%
+grup-verb  dobj  d.label=patons  d.pos=PP3FSA00|PP3FPA00|PP3MSA00|PP3MPA00|PP3NN000
+grup-verb-inf  dobj  d.label=patons  d.pos=PP3FSA00|PP3FPA00|PP3MSA00|PP3MPA00|PP3NN000
+subord-ger  dobj  d.label=patons  d.pos=PP3FSA00|PP3FPA00|PP3MSA00|PP3MPA00|PP3NN000
+
+%%% OBJECTE DIRECTE POSTVERBAL: NUMERO %%%
+grup-verb  dobj  d.label=numero  d.side=right  p.class!=intr|atrib
+inf  dobj  d.label=numero  d.side=right  p.class!=intr|atrib
+infinitiu  dobj  d.label=numero  d.side=right  p.class!=intr|atrib
+subord-ger  dobj  d.label=numero  d.side=right  p.class!=intr|atrib
+subord-part  dobj  d.label=numero  d.side=right  p.class!=intr|atrib
+
+%%% AGENT EN CONSTRUCCIONS PASSIVES %%%
+verb-pass  agent  d.label=grup-sp  d.lemma=per
+inf-pas  agent  d.label=grup-sp  d.lemma=per
+ger-pas  agent  d.label=grup-sp  d.lemma=per
+verb-pass  agent  d.label=coor-sp  d:grup-sp.lemma=per
+inf-pas  agent  d.label=coor-sp  d:grup-sp.lemma=per
+ger-pas  agent  d.label=coor-sp  d:grup-sp.lemma=per
+
+%%% OBJECTE DE PREPOSICIO %%%
+grup-sp  obj-prep  d.label=sn*
+sp-de  obj-prep  d.label=sn*
+
+grup-sp  obj-prep  d.label=coor-n
+sp-de  obj-prep  d.label=coor-n
+
+grup-sp  obj-prep  d.label=infinitiu
+sp-de  obj-prep  d.label=infinitiu
+
+grup-sp  obj-prep  d.label=numero
+sp-de  obj-prep  d.label=numero
+
+grup-sp  obj-prep  d.label=data
+sp-de  obj-prep  d.label=data
+
+subord-rel  obj-prep  d.label=prel*
+subord-rel  obj-prep  d.label=que-t
+subord-rel  obj-prep  d.label=qui
+subord-rel  obj-prep  d.label=qual*
+subord-rel  obj-prep  d.label=DR*
+
+grup-sp  obj-prep  d.label=espec*
+sp-de  obj-prep  d.label=espec*
+grup-sp  obj-prep  d.label=j*
+sp-de  obj-prep  d.label=j*
+
+subord-rel  obj-prep  d.label=relatiu
+
+%%% CIRCUMSTANCIAL PREVERBAL: SP "en" + INFINITIU (p.ej. "en arribar de viatge")
+grup-verb  cc  d.label=grup-sp  d.side=left  d:inf.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que  d.lemma=en
+verb-pass  cc  d.label=grup-sp  d.side=left  d:inf.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que  d.lemma=en
+inf  cc  d.label=grup-sp  d.side=left  d:inf.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que  d.lemma=en
+infinitiu  cc  d.label=grup-sp  d.side=left  d:inf.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que  d.lemma=en
+subord-ger  cc  d.label=grup-sp  d.side=left  d:inf.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que  d.lemma=en
+subord-part  cc  d.label=grup-sp  d.side=left  d:inf.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que  d.lemma=en
+
+grup-verb  cc  d.label=grup-sp  d.side=left  d:infinitiu.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que  d.lemma=en
+verb-pass  cc  d.label=grup-sp  d.side=left  d:infinitiu.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que  d.lemma=en
+inf  cc  d.label=grup-sp  d.side=left  d:infinitiu.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que  d.lemma=en
+infinitiu  cc  d.label=grup-sp  d.side=left  d:infinitiu.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que  d.lemma=en
+subord-ger  cc  d.label=grup-sp  d.side=left  d:infinitiu.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que  d.lemma=en
+subord-part  cc  d.label=grup-sp  d.side=left  d:infinitiu.class=trans|ditr|intr|prep1|prep2|mov|atrib|pred|imper|que  d.lemma=en
+
+%%% OBJECTE INDIRECTE: PRONOMS ATONS AMB MARCA DE DATIU ("li") %%%
+grup-verb  iobj  d.label=patons  d.pos=PP3CSD00
+grup-verb-inf  iobj  d.label=patons  d.pos=PP3CSD00
+subord-ger  iobj  d.label=patons  d.pos=PP3CSD00
+
+%%% OBJECTE INDIRECTE POSTVERBAL: AMB BENEFICIARI HUMA %%%
+grup-verb  iobj  d.label=grup-sp  d.side=right  d.lemma=a|per  d:sn.tonto=Human  d:sn.tonto!=Building  p.class=ditr|trans|vp-a
+verb-pass  iobj  d.label=grup-sp  d.side=right  d.lemma=a|per  d:sn.tonto=Human  d:sn.tonto!=Building  p.class=ditr|trans|vp-a
+inf  iobj  d.label=grup-sp  d.side=right  d.lemma=a|per  d:sn.tonto=Human  d:sn.tonto!=Building  p.class=ditr|trans|vp-a
+infinitiu  iobj  d.label=grup-sp  d.side=right  d.lemma=a|per  d:sn.tonto=Human  d:sn.tonto!=Building  p.class=ditr|trans|vp-a
+subord-ger  iobj  d.label=grup-sp  d.side=right  d.lemma=a|per  d:sn.tonto=Human  d:sn.tonto!=Building  p.class=ditr|trans|vp-a
+subord-part  iobj  d.label=grup-sp  d.side=right  d.lemma=a|per  d:sn.tonto=Human  d:sn.tonto!=Building  p.class=ditr|trans|vp-a
+
+grup-verb  iobj  d.label=coor-sp  d.side=right  d.lemma=a|per  d:grup-sp:sn.tonto=Human  p.class=ditr|trans|vp-a
+verb-pass  iobj  d.label=coor-sp  d.side=right  d.lemma=a|per  d:grup-sp:sn.tonto=Human  p.class=ditr|trans|vp-a
+inf  iobj  d.label=coor-sp  d.side=right  d.lemma=a|per  d:grup-sp:sn.tonto=Human  p.class=ditr|trans|vp-a
+infinitiu  iobj  d.label=coor-sp  d.side=right  d.lemma=a|per  d:grup-sp:sn.tonto=Human  p.class=ditr|trans|vp-a
+subord-ger  iobj  d.label=coor-sp  d.side=right  d.lemma=a|per  d:grup-sp:sn.tonto=Human  p.class=ditr|trans|vp-a
+subord-part  iobj  d.label=coor-sp  d.side=right  d.lemma=a|per  d:grup-sp:sn.tonto=Human  p.class=ditr|trans|vp-a
+
+%%% ARGUMENTS PREPOSICIONALS DE VERBS DE MOVIMENT AMB PREPOSICIO "a" %%%
+grup-verb  sp-obj  d.label=grup-sp  d.side=right  d.lemma=a|cap|fins  p.class=mov
+inf  sp-obj  d.label=grup-sp  d.side=right  d.lemma=a|cap|fins  p.class=mov
+infinitiu  sp-obj  d.label=grup-sp  d.side=right  d.lemma=a|cap|fins  p.class=mov
+subord-ger  sp-obj  d.label=grup-sp  d.side=right  d.lemma=a|cap|fins  p.class=mov
+subord-part  sp-obj  d.label=grup-sp  d.side=right  d.lemma=a|cap1fins  p.class=mov
+
+grup-verb  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=a|cap|fins  p.class=mov
+verb-pass  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=a|cap|fins  p.class=mov
+inf  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=a|cap|fins  p.class=mov
+infinitiu  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=a|cap|fins  p.class=mov
+subord-ger  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=a|cap|fins  p.class=mov
+subord-part  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=a|cap|fins  p.class=mov
+
+%%% ARGUMENTS PREPOSICIONALS AMB PREPOSICIO "a" %%%
+grup-verb  sp-obj  d.label=grup-sp  d.side=right  d.lemma=a  d:sn.tonto!=Human  p.class=vp-a  
+verb-pass  sp-obj  d.label=grup-sp  d.side=right  d.lemma=a  d:sn.tonto!=Human  p.class=vp-a
+inf  sp-obj  d.label=grup-sp  d.side=right  d.lemma=a  d:sn.tonto!=Human  p.class=vp-a  
+infinitiu  sp-obj  d.label=grup-sp  d.side=right  d.lemma=a  d:sn.tonto!=Human  p.class=vp-a  
+subord-ger  sp-obj  d.label=grup-sp  d.side=right  d.lemma=a  d:sn.tonto!=Human  p.class=vp-a
+subord-part  sp-obj  d.label=grup-sp  d.side=right  d.lemma=a  d:sn.tonto!=Human  p.class=vp-a
+
+grup-verb  sp-obj  d.label=coor-sp  d.side=right  d.lemma=a  d:grup-sp:sn.tonto!=Human  p.class=vp-a  
+verb-pass  sp-obj  d.label=coor-sp  d.side=right  d.lemma=a  d:grup-sp:sn.tonto!=Human  p.class=vp-a
+inf  sp-obj  d.label=coor-sp  d.side=right  d.lemma=a  d:grup-sp:sn.tonto!=Human  p.class=vp-a
+infinitiu  sp-obj  d.label=coor-sp  d.side=right  d.lemma=a  d:grup-sp:sn.tonto!=Human  p.class=vp-a
+subord-ger  sp-obj  d.label=coor-sp  d.side=right  d.lemma=a  d:grup-sp:sn.tonto!=Human  p.class=vp-a
+subord-part  sp-obj  d.label=coor-sp  d.side=right  d.lemma=a  d:grup-sp:sn.tonto!=Human  p.class=vp-a
+
+%%% ARGUMENTS PREPOSICIONALS AMB PREPOSICIO "amb" %%%
+grup-verb  sp-obj  d.label=grup-sp  d.side=right  d.lemma=amb  p.class=vp-amb
+verb-pass  sp-obj  d.label=grup-sp  d.side=right  d.lemma=amb  p.class=vp-amb
+inf  sp-obj  d.label=grup-sp  d.side=right  d.lemma=amb  p.class=vp-amb
+infinitiu  sp-obj  d.label=grup-sp  d.side=right  d.lemma=amb  p.class=vp-amb
+subord-ger  sp-obj  d.label=grup-sp  d.side=right  d.lemma=amb  p.class=vp-amb
+subord-part  sp-obj  d.label=grup-sp  d.side=right  d.lemma=amb  p.class=vp-amb
+
+grup-verb  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=amb  p.class=vp-amb
+verb-pass  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=amb  p.class=vp-amb
+inf  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=amb  p.class=vp-amb
+infinitiu  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=amb  p.class=vp-amb
+subord-ger  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=amb  p.class=vp-amb
+subord-part  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=amb  p.class=vp-amb
+
+%%% ARGUMENTS PREPOSICIONALS AMB PREPOSICIO "contra" %%%
+grup-verb  sp-obj  d.label=grup-sp  d.side=right  d.lemma=contra  p.class=vp-contra
+verb-pass  sp-obj  d.label=grup-sp  d.side=right  d.lemma=contra  p.class=vp-contra
+inf  sp-obj  d.label=grup-sp  d.side=right  d.lemma=contra  p.class=vp-contra
+infinitiu  sp-obj  d.label=grup-sp  d.side=right  d.lemma=contra  p.class=vp-contra
+subord-ger  sp-obj  d.label=grup-sp  d.side=right  d.lemma=contra  p.class=vp-contra
+subord-part  sp-obj  d.label=grup-sp  d.side=right  d.lemma=contra  p.class=vp-contra
+
+grup-verb  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=contra  p.class=vp-contra  
+verb-pass  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=contra  p.class=vp-contra  
+inf  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=contra  p.class=vp-contra  
+infinitiu  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=contra  p.class=vp-contra  
+subord-ger  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=contra  p.class=vp-contra  
+subord-part  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=contra  p.class=vp-contra  
+
+%%% ARGUMENTS PREPOSICIONALS AMB PREPOSICIO "de" %%%
+grup-verb  sp-obj  d.label=grup-sp  d.side=right  d.lemma=de  p.class=vp-de
+verb-pass  sp-obj  d.label=grup-sp  d.side=right  d.lemma=de  p.class=vp-de
+inf  sp-obj  d.label=grup-sp  d.side=right  d.lemma=de  p.class=vp-de
+infinitiu  sp-obj  d.label=grup-sp  d.side=right  d.lemma=de  p.class=vp-de
+subord-ger  sp-obj  d.label=grup-sp  d.side=right  d.lemma=de  p.class=vp-de
+subord-part  sp-obj  d.label=grup-sp  d.side=right  d.lemma=de  p.class=vp-de
+
+grup-verb  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=de  p.class=vp-de  
+verb-pass  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=de  p.class=vp-de  
+inf  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=de  p.class=vp-de  
+infinitiu  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=de  p.class=vp-de  
+subord-ger  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=de  p.class=vp-de  
+subord-part  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=de  p.class=vp-de  
+
+%%% ARGUMENTS PREPOSICIONALS AMB PREPOSICIO "en" %%%
+grup-verb  sp-obj  d.label=grup-sp  d.side=right  d.lemma=en  p.class=vp-en
+verb-pass  sp-obj  d.label=grup-sp  d.side=right  d.lemma=en  p.class=vp-en
+inf  sp-obj  d.label=grup-sp  d.side=right  d.lemma=en  p.class=vp-en
+infinitiu  sp-obj  d.label=grup-sp  d.side=right  d.lemma=en  p.class=vp-en
+subord-ger  sp-obj  d.label=grup-sp  d.side=right  d.lemma=en  p.class=vp-en
+subord-part  sp-obj  d.label=grup-sp  d.side=right  d.lemma=en  p.class=vp-en
+
+grup-verb  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=en  p.class=vp-en  
+verb-pass  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=en  p.class=vp-en  
+inf  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=en  p.class=vp-en  
+infinitiu  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=en  p.class=vp-en  
+subord-ger  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=en  p.class=vp-en  
+subord-part  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=en  p.class=vp-en  
+
+%%% ARGUMENTS PREPOSICIONALS AMB PREPOSICIO "entre" %%%
+grup-verb  sp-obj  d.label=grup-sp  d.side=right  d.lemma=entre  p.class=vp-entre
+verb-pass  sp-obj  d.label=grup-sp  d.side=right  d.lemma=entre  p.class=vp-entre
+inf  sp-obj  d.label=grup-sp  d.side=right  d.lemma=entre  p.class=vp-entre
+infinitiu  sp-obj  d.label=grup-sp  d.side=right  d.lemma=entre  p.class=vp-entre
+subord-ger  sp-obj  d.label=grup-sp  d.side=right  d.lemma=entre  p.class=vp-entre
+subord-part  sp-obj  d.label=grup-sp  d.side=right  d.lemma=entre  p.class=vp-entre
+grup-verb  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=entre  p.class=vp-entre  
+
+verb-pass  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=entre  p.class=vp-entre  
+inf  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=entre  p.class=vp-entre  
+infinitiu  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=entre  p.class=vp-entre  
+subord-ger  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=entre  p.class=vp-entre  
+subord-part  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=entre  p.class=vp-entre  
+
+%%% ARGUMENTS PREPOSICIONALS AMB PREPOSICIO "fins" %%%
+grup-verb  sp-obj  d.label=grup-sp  d.side=right  d.lemma=fins  p.class=vp-fins
+verb-pass  sp-obj  d.label=grup-sp  d.side=right  d.lemma=fins  p.class=vp-fins
+inf  sp-obj  d.label=grup-sp  d.side=right  d.lemma=fins  p.class=vp-fins
+infinitiu  sp-obj  d.label=grup-sp  d.side=right  d.lemma=fins  p.class=vp-fins
+subord-ger  sp-obj  d.label=grup-sp  d.side=right  d.lemma=fins  p.class=vp-fins
+subord-part  sp-obj  d.label=grup-sp  d.side=right  d.lemma=fins  p.class=vp-fins
+
+grup-verb  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=fins  p.class=vp-fins  
+verb-pass  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=fins  p.class=vp-fins  
+inf  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=fins  p.class=vp-fins  
+infinitiu  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=fins  p.class=vp-fins  
+subord-ger  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=fins  p.class=vp-fins  
+subord-part  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=fins  p.class=vp-fins  
+
+%%% ARGUMENTS PREPOSICIONALS AMB PREPOSICIO "per" %%%
+grup-verb  sp-obj  d.label=grup-sp  d.side=right  d.lemma=per  p.class=vp-per
+verb-pass  sp-obj  d.label=grup-sp  d.side=right  d.lemma=per  p.class=vp-per
+inf  sp-obj  d.label=grup-sp  d.side=right  d.lemma=per  p.class=vp-per
+infinitiu  sp-obj  d.label=grup-sp  d.side=right  d.lemma=per  p.class=vp-per
+subord-ger  sp-obj  d.label=grup-sp  d.side=right  d.lemma=per  p.class=vp-per
+subord-part  sp-obj  d.label=grup-sp  d.side=right  d.lemma=per  p.class=vp-per
+
+grup-verb  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=per  p.class=vp-per  
+verb-pass  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=per  p.class=vp-per  
+inf  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=per  p.class=vp-per  
+infinitiu  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=per  p.class=vp-per  
+subord-ger  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=per  p.class=vp-per  
+subord-part  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=per  p.class=vp-per  
+
+%%% ARGUMENTS PREPOSICIONALS AMB PREPOSICIO "sobre" %%%
+grup-verb  sp-obj  d.label=grup-sp  d.side=right  d.lemma=sobre  p.class=vp-sobre
+verb-pass  sp-obj  d.label=grup-sp  d.side=right  d.lemma=sobre  p.class=vp-sobre
+inf  sp-obj  d.label=grup-sp  d.side=right  d.lemma=sobre  p.class=vp-sobre
+infinitiu  sp-obj  d.label=grup-sp  d.side=right  d.lemma=sobre  p.class=vp-sobre
+subord-ger  sp-obj  d.label=grup-sp  d.side=right  d.lemma=sobre  p.class=vp-sobre
+subord-part  sp-obj  d.label=grup-sp  d.side=right  d.lemma=sobre  p.class=vp-sobre
+
+grup-verb  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=sobre  p.class=vp-sobre  
+verb-pass  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=sobre  p.class=vp-sobre  
+inf  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=sobre  p.class=vp-sobre  
+infinitiu  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=sobre  p.class=vp-sobre  
+subord-ger  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=sobre  p.class=vp-sobre  
+subord-part  sp-obj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=sobre  p.class=vp-sobre  
+
+%%% ARGUMENTS PREPOSICIONALS %%%
+grup-verb  sp-obj  d.label=grup-sp|sp-de  d.side=right  p.class=ditr|prep1|prep2|mov
+verb-pass  sp-obj  d.label=grup-sp|sp-de  d.side=right  p.class=ditr|prep1|prep2|mov
+inf  sp-obj  d.label=grup-sp|sp-de  d.side=right  p.class=ditr|prep1|prep2|mov
+infinitiu  sp-obj  d.label=grup-sp|sp-de  d.side=right  p.class=ditr|prep1|prep2|mov
+subord-ger  sp-obj  d.label=grup-sp|sp-de  d.side=right  p.class=ditr|prep1|prep2|mov
+subord-part  sp-obj  d.label=grup-sp|sp-de  d.side=right  p.class=ditr|prep1|prep2|mov
+
+grup-verb  sp-obj  d.label=coor-sp  d.side=right  p.class=prep1|prep2|ditr|mov
+verb-pass  sp-obj  d.label=coor-sp  d.side=right  p.class=prep1|prep2|ditr|mov
+inf  sp-obj  d.label=coor-sp  d.side=right  p.class=prep1|prep2|ditr|mov
+infinitiu  sp-obj  d.label=coor-sp  d.side=right  p.class=prep1|prep2|ditr|mov
+subord-ger  sp-obj  d.label=coor-sp  d.side=right  p.class=prep1|prep2|ditr|mov
+subord-part  sp-obj  d.label=coor-sp  d.side=right  p.class=prep1|prep2|ditr|mov
+
+%%% ATRIBUT DE VERBS COPULATIUS: SINTAGMA PREPOSICIONAL %%%
+grup-verb  att  d.label=grup-sp|sp-de  d.side=right  p.class=atrib
+inf  att  d.label=grup-sp|sp-de  d.side=right  p.class=atrib
+infinitiu  att  d.label=grup-sp|sp-de  d.side=right  p.class=atrib
+subord-ger  att  d.label=grup-sp|sp-de  d.side=right  p.class=atrib
+subord-part  att  d.label=grup-sp|sp-de  d.side=right  p.class=atrib
+
+grup-verb  att  d.label=coor-sp  d.side=right  p.class=atrib
+inf  att  d.label=coor-sp  d.side=right  p.class=atrib
+infinitiu  att  d.label=coor-sp  d.side=right  p.class=atrib
+subord-ger  att  d.label=coor-sp  d.side=right  p.class=atrib
+subord-part  att  d.label=coor-sp  d.side=right  p.class=atrib
+
+%%% ESPECIFICADORS VERBALS: SINTAGMA ADVERBIAL %%%
+grup-verb  espec  d.label=sadv  d.class=vespec
+verb-pass  espec  d.label=sadv  d.class=vespec
+grup-verb-inf  espec  d.label=sadv  d.class=vespec
+grup-verb-inf  espec  d.label=sadv  d.class=vespec
+subord-ger  espec  d.label=sadv  d.class=vespec
+subord-part  espec  d.label=sadv  d.class=vespec
+
+%%% ADJUNT ORACIONAL: SINTAGMA PREPOSICIONAL %%%
+grup-verb  ador  d.label=grup-sp|sp-de  d.class=dmark
+verb-pass  ador  d.label=grup-sp|sp-de  d.class=dmark
+inf  ador  d.label=grup-sp|sp-de  d.class=dmark
+infinitiu  ador  d.label=grup-sp|sp-de  d.class=dmark
+subord-ger  ador  d.label=grup-sp|sp-de  d.class=dmark
+subord-part  ador  d.label=grup-sp|sp-de  d.class=dmark
+
+%%% ADJUNT ORACIONAL: SUBORDINADA FINITA ADVERBIAL %%%
+grup-verb  ador  d.label=subord  d.class=dmark
+verb-pass  ador  d.label=subord  d.class=dmark
+inf  ador  d.label=subord  d.class=dmark
+infinitiu  ador  d.label=subord  d.class=dmark
+subord-ger  ador  d.label=subord  d.class=dmark
+subord-part  ador  d.label=subord  d.class=dmark
+
+%%% ADJUNT ORACIONAL: SINTAGMA ADVERBIAL %%%
+grup-verb  ador  d.label=sadv  d.class=dmark
+verb-pass  ador  d.label=sadv  d.class=dmark
+verb-pass  ador  d.label=sadv  d.class=dmark
+inf  ador  d.label=sadv  d.class=dmark
+infinitiu  ador  d.label=sadv  d.class=dmark
+subord-ger  ador  d.label=sadv  d.class=dmark
+subord-part  ador  d.label=sadv  d.class=dmark
+
+%%% CIRCUMSTANCIAL: SUBORDINADA FINITA ADVERBIAL %%%
+grup-verb  cc  d.label=subord  d.side=left  d.lemma=on|quan|quant
+verb-pass  cc  d.label=subord  d.side=left  d.lemma=on|quan|quant
+inf  cc  d.label=subord  d.side=left  d.lemma=on|quan|quant
+infinitiu  cc  d.label=subord  d.side=left  d.lemma=on|quan|quant
+subord-ger  cc  d.label=subord  d.side=left  d.lemma=on|quan|quant
+subord-part  cc  d.label=subord  d.side=left  d.lemma=on|quan|quant
+
+grup-verb  cc  d.label=subord  d.side=left  d:grup-sp.lemma=on|quan|quant
+verb-pass  cc  d.label=subord  d.side=left  d:grup-sp.lemma=on|quan|quant
+inf  cc  d.label=subord  d.side=left  d:grup-sp.lemma=on|quan|quant
+infinitiu  cc  d.label=subord  d.side=left  d:grup-sp.lemma=on|quan|quant
+subord-ger  cc  d.label=subord  d.side=left  d:grup-sp.lemma=on|quan|quant
+subord-part  cc  d.label=subord  d.side=left  d:grup-sp.lemma=on|quan|quant
+
+%%% CIRCUMSTANCIAL: SINTAGMA PREPOSICIONAL %%%
+grup-verb  cc  d.label=grup-sp|sp-de  d.side=right
+verb-pass  cc  d.label=grup-sp|sp-de  d.side=right
+inf  cc  d.label=grup-sp|sp-de  d.side=right
+infinitiu  cc  d.label=grup-sp|sp-de  d.side=right
+subord-ger  cc  d.label=grup-sp|sp-de  d.side=right
+subord-part  cc  d.label=grup-sp|sp-de  d.side=right
+
+grup-verb  cc  d.label=coor-sp  d.side=right
+verb-pass  cc  d.label=coor-sp  d.side=right
+inf  cc  d.label=coor-sp  d.side=right
+infinitiu  cc  d.label=coor-sp  d.side=right
+subord-ger  cc  d.label=coor-sp  d.side=right
+subord-part  cc  d.label=coor-sp  d.side=right
+
+%%% CIRCUMSTANCIAL: SINTAGMA ADVERBIAL %%%
+grup-verb  cc  d.label=sadv
+verb-pass  cc  d.label=sadv
+inf  cc  d.label=sadv
+infinitiu  cc  d.label=sadv
+subord-ger  cc  d.label=sadv
+subord-part  cc  d.label=sadv
+
+grup-verb  cc  d.label=coor-sadv
+verb-pass  cc  d.label=coor-sadv
+inf  cc  d.label=coor-sadv
+infinitiu  cc  d.label=coor-sadv
+subord-ger  cc  d.label=coor-sadv
+subord-part  cc  d.label=coor-sadv
+
+%%% EESPECIFICADORS VERBALS: NEGACIO %%%
+grup-verb  espec  d.label=neg
+verb-pass  espec  d.label=neg
+inf  espec  d.label=neg
+infinitiu  espec  d.label=neg
+subord-ger  espec  d.label=neg
+
+%%% CIRCUMSTANCIAL: DATES %%%
+grup-verb  cc  d.label=data
+verb-pass  cc  d.label=data
+inf  cc  d.label=data
+infinitiu  cc  d.label=data
+subord-ger  cc  d.label=data
+subord-part  cc  d.label=data
+
+%%% CIRCUMSTANCIAL: SUBORDINADA DE GERUNDI %%%
+grup-verb  cc  d.label=subord-ger
+verb-pass  cc  d.label=subord-ger
+inf  cc  d.label=subord-ger
+infinitiu  cc  d.label=subord-ger
+subord-ger  cc  d.label=subord-ger
+subord-part  cc  d.label=subord-ger
+
+grup-verb  cc  d.label=ger
+verb-pass  cc  d.label=ger
+inf  cc  d.label=ger
+infinitiu  cc  d.label=ger
+subord-ger  cc  d.label=ger
+subord-part  cc  d.label=ger
+
+%%% CIRCUMSTANCIAL: SUBORDINADA DE PARTICIPI (participis absoluts) %%%
+grup-verb  cc  d.label=subord-part  d.side=left
+verb-pass  cc  d.label=subord-part  d.side=left
+inf  cc  d.label=subord-part  d.side=left
+infinitiu  cc  d.label=subord-part  d.side=left
+subord-ger  cc  d.label=subord-part  d.side=left
+subord-part  cc  d.label=subord-part  d.side=left
+
+%%% ADJUNT ORACIONAL: INTERJECCIONS %%%
+grup-verb  ador  d.label=interjeccio
+verb-pass  ador  d.label=interjeccio
+inf  ador  d.label=interjeccio
+infinitiu  ador  d.label=interjeccio
+subord-ger  ador  d.label=interjeccio
+subord-part  ador  d.label=interjeccio
+
+%%% ATRIBUT: SINTAGMA ADJECTIVAL %%%
+grup-verb  att  d.label=s-adj|coor-s-a  p.class=atrib
+inf  att  d.label=s-adj|coor-s-a  p.class=atrib
+infinitiu  att  d.label=s-adj|coor-s-a  p.class=atrib
+subord-ger  att  d.label=s-adj|coor-s-a  p.class=atrib
+subord-part  att  d.label=s-adj|coor-s-a  p.class=atrib
+
+%%% ATRIBUT: SUBORDINADA DE PARTICIPI %%%
+grup-verb  att  d.label=subord-part  p.class=atrib
+inf  att  d.label=subord-part  p.class=atrib
+infinitiu  att  d.label=subord-part  p.class=atrib
+subord-ger  att  d.label=subord-part  p.class=atrib
+subord-part  att  d.label=subord-part
+
+%%% COMPLEMENT PREDICATIU DE VERBS PREDICATIUS: SINTAGMA PREPOSICIONAL %%%
+grup-verb  pred  d.label=grup-sp|sp-de  d.side=right  p.class=pred
+verb-pass  pred  d.label=grup-sp|sp-de  d.side=right  p.class=pred
+inf  pred  d.label=grup-sp|sp-de  d.side=right  p.class=pred
+infinitiu  pred  d.label=grup-sp|sp-de  d.side=right  p.class=pred
+subord|ger  pred  d.label=grup-sp|sp-de  d.side=right  p.class=pred
+subord-part  pred  d.label=grup-sp|sp-de  d.side=right  p.class=pred
+
+grup-verb  pred  d.label=coor-sp  d.side=right  p.class=pred
+verb-pass  pred  d.label=coor-sp  d.side=right  p.class=pred
+inf  pred  d.label=coor-sp  d.side=right  p.class=pred
+infinitiu  pred  d.label=coor-sp  d.side=right  p.class=pred
+subord-ger  pred  d.label=coor-sp  d.side=right  p.class=pred
+subord-part  pred  d.label=coor-sp  d.side=right  p.class=pred
+
+%%% COMPLEMENT PREDICATIU DE VERBS PREDICATIUS: SINTAGMA ADJECTIVAL %%%
+grup-verb  pred  d.label=s-adj|coor-s-a  p.class=pred
+verb-pass  pred  d.label=s-adj|coor-s-a  p.class=pred
+inf  pred  d.label=s-adj|coor-s-a  p.class=pred
+infinitiu  pred  d.label=s-adj|coor-s-a  p.class=pred
+subord-ger  pred  d.label=s-adj|coor-s-a  p.class=pred
+subord-part  pred  d.label=s-adj|coor-s-a  p.class=pred
+
+%%% COMPLEMENT PREDICATIU DE VERBS PREDICATIUS: SUBORDINADA DE PARTICIPI %%%
+grup-verb  pred  d.label=subord-part  p.class=pred
+verb-pass  pred  d.label=subord-part  p.class=pred
+inf  pred  d.label=subord-part  p.class=pred
+infinitiu  pred  d.label=subord-part  p.class=pred
+subord-ger  pred  d.label=subord-part  p.class=pred
+subord-part  pred  d.label=subord-part  p.class=pred
+
+%%% CIRCUMSTANCIAL: SINTAGMA ADJECTIVAL %%%
+grup-verb  cc  d.label=s-adj|coor-s-a
+verb-pass  cc  d.label=s-adj|coor-s-a
+inf  cc  d.label=s-adj|coor-s-a
+infinitiu  cc  d.label=s-adj|coor-s-a
+subord-ger  cc  d.label=s-adj|coor-s-a
+subord-part  cc  d.label=s-adj|coor-s-a
+
+%%% CIRCUMSTANCIAL: SUBORDINADA DE PARTICIPI %%%
+grup-verb  cc  d.label=subord-part
+verb-pass  cc  d.label=subord-part
+inf  cc  d.label=subord-part
+infinitiu  cc  d.label=subord-part
+subord-ger  cc  d.label=subord-part
+subord-part  cc  d.label=subord-part
+
+%%% CIRCUMSTANCIAL: SUBORDINADA FINITA ADVERBIAL %%%
+grup-verb  cc  d.label=subord  d.lemma!=que|qui  p.class!=que
+verb-pass  cc  d.label=subord  d.lemma!=que|qui  p.class!=que
+inf  cc  d.label=subord  d.lemma!=que|qui  p.class!=que
+infinitiu  cc  d.label=subord  d.lemma!=que|qui  p.class!=que
+subord-ger  cc  d.label=subord  d.lemma!=que|qui  p.class!=que
+subord-part  cc  d.label=subord  d.lemma!=que|qui  p.class!=que
+
+%%% CIRCUMSTANCIAL: SUBORDINADA DE GERUNDI %%%
+grup-verb  cc  d.label=subord-ger
+verb-pass  cc  d.label=subord-ger
+inf  cc  d.label=subord-ger
+infinitiu  cc  d.label=subord-ger
+subord-ger  cc  d.label=subord-ger
+subord-part  cc  d.label=subord-ger
+
+%%% MODIFICADOR NOMINAL: SINTAGMA NOMINAL %%%
+sn  sn-mod  d.label=sn*
+sn  sn-mod  d.label=w*
+sn  sn-mod  d.label=n*
+sn  sn-mod  d.label=coor-n
+sn  sn-mod  d.label=numero
+
+%%% MODIFICADOR NOMINAL: SINTAGMA PREPOSICIONAL %%%
+sn  sp-mod  d.label=grup-sp|sp-de|coor-sp
+sadv  sp-mod  d.label=grup-sp|sp-de|coor-sp
+
+%%% MODIFICADOR NOMINAL: SINTAGMA ADJECTIVAL %%%
+sn  adj-mod  d.label=s-a*
+sn  adj-mod  d.label=coor-s-a
+sn  adj-mod  d.label=subord-part
+sn  adj-mod  d.label=coor-part
+
+%%% MODIFICADOR NOMINAL: SUBORDINADA FINITA %%%
+sn  subord-mod  d.label=subord-rel  d.side=right
+sn  subord-mod  d.label=subord  d.side=right
+
+%%% ESPECIFICADORS COMPLEXOS (p.ej. "les tres")
+espec-fp  espec  d.label=j*
+espec-fp  espec  d.label=dem*
+espec-fp  espec  d.label=indef*
+espec-fp  espec  d.label=num*
+espec-fs  espec  d.label=j*
+espec-fs  espec  d.label=dem*
+espec-fs  espec  d.label=indef*
+espec-fs  espec  d.label=num*
+espec-mp  espec  d.label=j*
+espec-mp  espec  d.label=dem*
+espec-mp  espec  d.label=indef*
+espec-mp  espec  d.label=num*
+espec-ms  espec  d.label=j*
+espec-ms  espec  d.label=dem*
+espec-ms  espec  d.label=indef*
+espec-ms  espec  d.label=num*  
+
+%%% ESPECIFICADORS NOMINALS %%%
+sn  espec  d.label=espec*
+sn  espec  d.label=j*
+sn  espec  d.label=dem*
+sn  espec  d.label=indef*
+sn  espec  d.label=num*
+sn  espec  d.label=numero  d.side=left
+
+%%% ESPECIFICADORS DE DATES %%%
+data  espec  d.label=espec*
+data  espec  d.label=j*
+data  espec  d.label=dem*
+data  espec  d.label=indef*
+
+%%% ESPECIFICADORS ADJECTIVALS %%%
+s-adj  espec  d.label=sadv
+s-a-ms  espec  d.label=sadv
+s-a-fs  espec  d.label=sadv
+s-a-mp  espec  d.label=sadv
+s-a-fp  espec  d.label=sadv
+subord  espec  d.label=espec*
+
+%%% ESPECIFICADORS DE SUBSTANTIVACIONS DE SUBORDINADES %%%
+prel-comp  espec  d.label=espec*
+prel-comp  espec  d.label=j*
+inf  espec  d.label=espec*
+
+%%% AUXILIARITAT %%%
+grup-verb  aux  d.label=vaux
+verb-pass  aux  d.label=vaux
+grup-verb  aux  d.label=VA*
+verb-pass  aux  d.label=VA*
+grup-verb  aux  d.label=parti-flex
+verb-pass  aux  d.label=parti-flex
+verb-pass  aux  d.label=vser
+inf  aux  d.label=infaux
+infinitiu  aux  d.label=infaux
+inf-pas  aux  d.label=infaux
+ger  aux  d.label=geraux
+subord-ger  aux  d.label=geraux
+verb-pass  aux  d.label=subord-part
+verb-pass  aux  d.label=subord-part
+inf-pas  aux  d.label=subord-part
+
+%%% PRONOM REFLEXIU/MORFEMA PRONOMINAL/MORFEMA VERBAL "es" %%%
+grup-verb  es  d.label=morf-pron
+inf  es  d.label=morf-pron
+infinitiu  es  d.label=morf-pron
+subord-ger  es  d.label=morf-pron
+grup-verb  es  d.label=morfema-verbal
+inf  es  d.label=morfema-verbal
+infinitiu  es  d.label=morfema-verbal
+subord-ger  es  d.label=morfema-verbal
+grup-verb  es  d.label=PP3CN000
+inf  es  d.label=PP3CN000
+infinitiu  es  d.label=PP3CN000
+subord-ger  es  d.label=PP3CN000
+
+%%% COORDINACIO: TERMES COORDINATS %%%
+coor-vb  co-v  d.label=grup-verb
+coor-n  co-n  d.label=sn*  
+coor-sp  co-sp  d.label=grup-sp
+coor-sadj  co-adj  d.label=s-a*  
+coor-sadv  co-adv  d.label=sadv
+coor-subord  co-subord  d.label=subord
+coor-inf  co-inf  d.label=grup-verb-inf
+coor-ger  co-ger  d.label=subord-ger
+coor-part  co-part  d.label=subord-part
+
+%%% VERBS DE SUBORDINADES %%%
+subord  vsubord  d.label=grup-verb
+subord-rel  vsubord  d.label=grup-verb
+prel-comp  vsubord  d.label=grup-verb
+sn  vsubord  d.label=grup-verb
 
 %%% PERIFRASIS VERBALS: VERBS %%%
-grup-verb	dverb		d.label=VM*
-verb-pass	dverb		d.label=VM*
-verb-pass	dverb		d.label=VM*
-inf-pas		dverb		d.label=VM*
-ger             dverb           d.label=VM*
-subord-ger      dverb           d.label=VM*
+grup-verb  dverb  d.label=VM*
+verb-pass  dverb  d.label=VM*
+verb-pass  dverb  d.label=VM*
+inf-pas  dverb  d.label=VM*
+ger  dverb  d.label=VM*
+subord-ger  dverb  d.label=VM*
 
 %%% PERIFRASIS VERBALS: PREPOSICIONS %%%
-grup-verb       dprep           d.label=SPS00 
-grup-verb	dprep		d.label=prep-de
-numero-nopart   dprep           d.label=SPS00 
+grup-verb  dprep  d.label=SPS00  
+grup-verb  dprep  d.label=prep-de
+numero-nopart  dprep  d.label=SPS00  
 
 %%% PERIFRASIS VERBALS: CONJUNCIONS %%%
-grup-verb       dconj           d.label=CS  
+grup-verb  dconj  d.label=CS
 
-grup-verb-el    dep-noun        d.label=sn  
-grup-verb-el    dep-noun        d.label=w*  
-grup-verb-el    dep-noun        d.label=coor-n
+%%% RELACIONS EN ORACIONS AMB ELISIONS %%%
+grup-verb-el  dep-noun  d.label=sn  
+grup-verb-el  dep-noun  d.label=w*  
+grup-verb-el  dep-noun  d.label=coor-n
+grup-verb-el  dep-prep  d.label=grup-sp  
+grup-verb-el  dep-prep  d.label=sp-de  
+grup-verb-el  dep-prep  d.label=grup-sp-inf
+grup-verb-el  dep-prep  d.label=coor-sp  
+grup-verb-el  dep-adv  d.label=sadv  
+grup-verb-el  dep-adv  d.label=coor-sadv
+grup-verb-el  dep-adv  d.label=neg  
+grup-verb-el  dep-subord  d.label=subord  
+grup-verb-el  dep-inf  d.label=grup-verb-inf
+grup-verb-el  dep-ger  d.label=subord-ger
+grup-verb-el  dep-part  d.label=subord-part
 
-grup-verb-el    dep-prep        d.label=grup-sp  
-grup-verb-el    dep-prep        d.label=sp-de    
-grup-verb-el    dep-prep        d.label=grup-sp-inf
-grup-verb-el    dep-prep        d.label=coor-sp       
-
-grup-verb-el    dep-adv         d.label=sadv          
-grup-verb-el    dep-adv         d.label=coor-sadv
-grup-verb-el    dep-adv         d.label=neg     
-
-grup-verb-el    dep-subord      d.label=subord  
-grup-verb-el    dep-inf         d.label=grup-verb-inf
-grup-verb-el    dep-ger         d.label=subord-ger
-grup-verb-el    dep-part        d.label=subord-part
-
-grup-verb	dep			d.label=patons
-verb-pass	dep			d.label=patons
-inf		dep			d.label=patons
-infinitiu	dep			d.label=patons
-subord-ger	dep			d.label=patons
+%%% PRONOMS NO DESAMBIGUATS %%%
+grup-verb  dep  d.label=patons
+verb-pass  dep  d.label=patons
+inf  dep  d.label=patons
+infinitiu  dep  d.label=patons
+subord-ger  dep  d.label=patons
 
 %%% PUNTUACIO SINTAGMES I ORACIONS %%%
-grup-verb	term			d.label=F-no-c
-verb-pass	term			d.label=F-no-c
-sn		term			d.label=F-no-c
-coord		term			d.label=F-no-c
-s-adj		term			d.label=F-no-c
-grup-sp		term			d.label=F-no-c
-sp-de		term			d.label=F-no-c
-sadv		term			d.label=F-no-c
-subord		term			d.label=F-no-c
-grup-verb	term			d.label=Fc
-verb-pass	term			d.label=Fc
-sn		term			d.label=Fc
-s-adj		term			d.label=Fc
-grup-sp		term			d.label=Fc
-sp-de		term			d.label=Fc
-sadv		term			d.label=Fc
-subord		term			d.label=Fc
-coord		term			d.label=Fc
-coor-n		term			d.label=Fc
+grup-verb  term  d.label=F-no-c
+verb-pass  term  d.label=F-no-c
+sn  term  d.label=F-no-c
+coord  term  d.label=F-no-c
+s-adj  term  d.label=F-no-c
+grup-sp  term  d.label=F-no-c
+sp-de  term  d.label=F-no-c
+sadv  term  d.label=F-no-c
+subord  term  d.label=F-no-c
 
+grup-verb  term  d.label=Fc
+verb-pass  term  d.label=Fc
+sn  term  d.label=Fc
+s-adj  term  d.label=Fc
+grup-sp  term  d.label=Fc
+sp-de  term  d.label=Fc
+sadv  term  d.label=Fc
+subord  term  d.label=Fc
+coord  term  d.label=Fc
+coor-n  term  d.label=Fc
 </GRLAB>
 
+
 <CLASS>
-
 %%% CLASSES VERBALS %%%
-
-imper		"verbs-imper-ca.dat"
-intr		"verbs-intr-ca.dat"
-trans		"verbs-trans-ca.dat"
-que		"verbs-que-ca.dat"
-ditr		"verbs-ditr-ca.dat"
-prep1		"verbs-1prep-ca.dat"
-prep2		"verbs-2prep-ca.dat"
-vp-a		"verbs-prep-a-ca.dat"
-vp-amb		"verbs-prep-amb-ca.dat"
-vp-contra	"verbs-prep-contra-ca.dat"
-vp-de		"verbs-prep-de-ca.dat"
-vp-en		"verbs-prep-en-ca.dat"
-vp-entre	"verbs-prep-entre-ca.dat"
-vp-fins		"verbs-prep-fins-ca.dat"
-vp-per		"verbs-prep-per-ca.dat"
-vp-sobre	"verbs-prep-sobre-ca.dat"
-mov		"verbs-mov-ca.dat"
-atrib		"verbs-atrib-ca.dat"
-pred		"verbs-pred-ca.dat"
+imper  "verbs-imper-ca.dat"
+intr  "verbs-intr-ca.dat"
+trans  "verbs-trans-ca.dat"
+que  "verbs-que-ca.dat"
+ditr  "verbs-ditr-ca.dat"
+prep1  "verbs-1prep-ca.dat"
+prep2  "verbs-2prep-ca.dat"
+vp-a  "verbs-prep-a-ca.dat"
+vp-amb  "verbs-prep-amb-ca.dat"
+vp-contra  "verbs-prep-contra-ca.dat"
+vp-de  "verbs-prep-de-ca.dat"
+vp-en  "verbs-prep-en-ca.dat"
+vp-entre  "verbs-prep-entre-ca.dat"
+vp-fins  "verbs-prep-fins-ca.dat"
+vp-per  "verbs-prep-per-ca.dat"
+vp-sobre  "verbs-prep-sobre-ca.dat"
+mov  "verbs-mov-ca.dat"
+atrib  "verbs-atrib-ca.dat"
+pred  "verbs-pred-ca.dat"
 
 %%% CLASSES NOMINALS %%%
-
-np-a            "nom-prep-a-ca.dat"
-np-amb		"nom-prep-amb-ca.dat"
-np-contra	"nom-prep-contra-ca.dat"
-np-davant	"nom-prep-davant-ca.dat"
-np-de		"nom-prep-de-ca.dat"
-np-en           "nom-prep-en-ca.dat"
-np-entre        "nom-prep-entre-ca.dat"
-np-per		"nom-prep-per-ca.dat"
-np-sense	"nom-prep-sense-ca.dat"
-np-sobre        "nom-prep-sobre-ca.dat"
-np-sota		"nom-prep-sota-ca.dat"
+np-a  "nom-prep-a-ca.dat"
+np-amb  "nom-prep-amb-ca.dat"
+np-contra  "nom-prep-contra-ca.dat"
+np-davant  "nom-prep-davant-ca.dat"
+np-de  "nom-prep-de-ca.dat"
+np-en  "nom-prep-en-ca.dat"
+np-entre  "nom-prep-entre-ca.dat"
+np-per  "nom-prep-per-ca.dat"
+np-sense  "nom-prep-sense-ca.dat"
+np-sobre  "nom-prep-sobre-ca.dat"
+np-sota  "nom-prep-sota-ca.dat"
 
 %%% CLASSES ADVERBIALS / PREPOSICIONALS / AMB CONJUNCIO %%%
-
-vespec		"adv-espec-verbs-ca.dat"
-dmark		"marq-disc-ca.dat"
-
+vespec  "adv-espec-verbs-ca.dat"
+dmark  "marq-disc-ca.dat"
 </CLASS>
+
