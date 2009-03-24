@@ -10,12 +10,11 @@
 %                                                                        %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% NEW (January 2009) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% NEW (March 2009) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %									%
-% Phrasal verbs (file name: ph-particle_name.dat; 31 classes)		%
-% PP revision: most PP are formed during dependencies 			%
-% PP name changes: sspart-->OF-chunk | spin-->prt-sp			%
-%		   spunk-->prt-mix | spsub-->prt-sub			%
+% Secuencias sn,+adv(before, etc.) --> NN*,+adv				%
+% sn-chunk com mas de un especificador					%
+% sn-chunk con pronombre posesivo (its )				%
 %									%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -43,14 +42,14 @@ n-chunk ==>   attrib, +n-chunk | attrib, +ngen
 	    | att-coor, +n-chunk.
 
 %%% NOMS DETERMINATS
-sn-chunk ==> P*<"sn-chunkPRP.data">, +n-chunk.
-sn-chunk ==> DT, +n-chunk | Z, +n-chunk | DT, +sn-chunk.
+sn-chunk ==> P*<"sn-chunkPRP.data">, +n-chunk | P*("sn-chunkPRP.data"), +sn-chunk.
+sn-chunk ==> DT, +n-chunk | Z, +n-chunk | DT, +sn-chunk | Z, +sn-chunk.
 
 sn-chunk ==>   DT, VBN, +n-chunk | Z, VBN, +n-chunk
 	     | DT, VBG, +n-chunk | Z, VBG, +n-chunk
 	     | DT, part, +n-chunk.
 
-sn-indef ==> Z(a), +n-chunk | DT(an), +n-chunk.
+sn-indef ==> Z(a), +n-chunk | DT(an), +n-chunk | sn-chunk(a), +n-chunk | sn-chunk(a), +sn-chunk.
 
 % Sintagmes nominals predeterminats (both, all, quite, such, half, nary)
 sn-chunk ==> PD*<"list.PDTssg">, +sn-indef.		 % Nary, such, quite
@@ -132,12 +131,13 @@ OF-chunk ==> IN(of).
 % Nexe 'to'
 TO-chunk ==> TO | CC(in_order_to).
 
-% Nexes inherentment preposicionals
-prt-sp ==> IN*("nexes.preposicionals").
-
 % Nexes preposicionals, adverbials y conjuncions (ambigus)
 prt-mix ==> IN*("nexes.mixtos").
 prt-sub ==> IN*("nexes.subordinants") | CC*("nexes.subordinants").
+
+% Nexes inherentment preposicionals
+prt-sp ==> IN*("nexes.preposicionals").
+%prt-sp ==> IN*.
 
 %%% SINTAGMES PREPOSICIONALS
 % Three of the/all/some books, three of us, three of all of your books
@@ -281,8 +281,9 @@ vb-chunk ==> vb-do,+vb-chunk.
 %%%
 %%% MODIFICADOR DELS VERBS
 %%% 
-adv ==> sn-chunk, +RB(ago) | sn-chunk, +RB(later) | sn-chunk, +RB(before) | sn-chunk, +RB(sooner).
-adv ==> n-chunk, +RB(ago) | n-chunk, +RB(later) | n-chunk, +RB(before) | n-chunk, +RB(sooner).
+adv ==> NN*, +RB(ago) | NN*, +RB(later) | NN*, +RB(before) | NN*, +RB(sooner).
+%adv ==> sn-chunk, +RB(ago) | sn-chunk, +RB(later) | sn-chunk, +RB(before) | sn-chunk, +RB(sooner). % errores pr+adv
+%adv ==> n-chunk, +RB(ago) | n-chunk, +RB(later) | n-chunk, +RB(before) | n-chunk, +RB(sooner). % errores pr+adv
 adv ==> RB.
 adv ==> RBR.
 adv ==> RBR.
@@ -295,8 +296,8 @@ adv ==> RBS.
 %vb-chunk ==> +vb-chunk, adv. % V. dependencies + V. chunks (regles phrasal verbs)
 attrib ==> +attrib, adv.
 attrib ==> adv, +attrib.
-part ==> adv, +VBN.
-part ==> adv, +VBG.
+%part ==> adv, +VBN. % V. dependencies
+%part ==> adv, +VBG. % V. dependencies
 
 %%%%%
 %%%%%	ADVERBIS
