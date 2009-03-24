@@ -96170,7 +96170,7 @@ lament NN-VB-VBP NN 2 VB 0 VBP 0
 lamented VBD-VBN VBD 3 VBN 0
 laments NNS-VBZ NNS 0 VBZ 1
 laminated VBD-VBN VBD 0 VBN 1
-land NN-VB-VBP NN 80 NNP 1 VB 6 VBP 0
+land NN-VB-VBP NN 80 VB 20 VBP 18
 landed VBD-VBN VBD 9 VBN 1
 landmark JJ-NN JJ 1 NN 6
 lands NNS-VBZ NNS 6 VBZ 0
