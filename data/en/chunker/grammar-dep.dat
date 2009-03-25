@@ -10,11 +10,13 @@
 %                                                                        %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
 %% NEW (March 2009) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %									%
 % Secuencias sn,+adv(before, etc.) --> NN*,+adv				%
 % sn-chunk com mas de un especificador					%
-% sn-chunk con pronombre posesivo (its )				%
+% sn-chunk con pronombre posesivo					%
+% 'be going to' como verbo modal					%
 %									%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -324,6 +326,9 @@ vb-chunk ==> +VB*<do>, verbLex.
 
 mod-chunk ==> MD*<"dicc.vbmodals">.
 mod-chunk ==> +mod-chunk, adv.
+mod-chunk ==> VB*<be>, +VBG<go>, TO<to>.
+mod-chunk ==> VB*<'re>, +VBG<go>, TO<to>.
+mod-chunk ==> VB*<'re>, +VBG<go>, IN<to>.
 vb-chunk ==> VB*<help>, +vb-chunk.
 
 %%%%%
