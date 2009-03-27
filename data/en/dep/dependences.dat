@@ -25,15 +25,18 @@
 %  NEW:
 %  sp-chunk as iobj (GRLAB)
 %  interrogative rules (GRPAR)
+%  subordinate clauses structure formation rules (GRPAR)
+%  subordinate clauses formation rules (GRPAR)
+%  modal verbs functions (GRLAB)
 %
 %% -------------------------------------------- %%
 %
 %
 %  NUM. RULES
-%  total rules: 2842
+%  total rules: 2937
 %  -----------------
-%  GRPAR rules: 2134
-%  GRLAB rules:  708
+%  GRPAR rules: 2225
+%  GRLAB rules:  712
 %  CLASS flies:   33
 %
 %% -------------------------------------------- %%
@@ -517,7 +520,7 @@
 70 - $$_n-chunk (sn-coor,vb-chunk) top_right RELABEL - % ((the boys and the girls) whatch) films
 70 - $$_sn-coor (sn-coor,vb-chunk) top_right RELABEL - % ((the boy and the girls) whatch) television and films
 
-% Auxiliar 'BE' %
+% Auxiliary 'BE' %
 70 - $$_sn-chunk (sn-chunk,vb-be) top_right RELABEL -:vb-chunk
 70 - $$_n-chunk (sn-chunk,vb-be) top_right RELABEL -:vb-chunk
 70 - $$_sn-coor (sn-chunk,vb-be) top_right RELABEL -:vb-chunk
@@ -528,7 +531,7 @@
 70 - $$_n-chunk (sn-coor,vb-be) top_right RELABEL -:vb-chunk
 70 - $$_sn-coor (sn-coor,vb-be) top_right RELABEL -:vb-chunk
 
-% Auxiliar 'HAVE' %
+% Auxiliary 'HAVE' %
 70 - $$_sn-chunk (sn-chunk,vb-have) top_right RELABEL -:vb-chunk
 70 - $$_n-chunk (sn-chunk,vb-have) top_right RELABEL -:vb-chunk
 70 - $$_sn-coor (sn-chunk,vb-have) top_right RELABEL -:vb-chunk
@@ -539,7 +542,7 @@
 70 - $$_n-chunk (sn-coor,vb-have) top_right RELABEL -:vb-chunk
 70 - $$_sn-coor (sn-coor,vb-have) top_right RELABEL -:vb-chunk
 
-% Auxiliar 'DO'%
+% Auxiliary 'DO'%
 70 - $$_sn-chunk (sn-chunk,vb-do) top_right RELABEL -:vb-chunk
 70 - $$_n-chunk (sn-chunk,vb-do) top_right RELABEL -:vb-chunk
 70 - $$_sn-coor (sn-chunk,vb-do) top_right RELABEL -:vb-chunk
@@ -567,7 +570,7 @@
 70 - $$_prt-sp (sn-coor,vb-chunk) top_right RELABEL - % PP subtypes defined during the chunking
 70 - $$_sp-coor (sn-coor,vb-chunk) top_right RELABEL - % PP subtypes defined during the chunking
 
-% Auxiliar 'BE' %
+% Auxiliary 'BE' %
 70 - $$_sp-chunk (sn-chunk,vb-be) top_right RELABEL -:vb-chunk
 70 - $$_TO-chunk (sn-chunk,vb-be) top_right RELABEL -:vb-chunk
 70 - $$_prt-sp (sn-chunk,vb-be) top_right RELABEL -:vb-chunk
@@ -581,7 +584,7 @@
 70 - $$_prt-sp (sn-coor,vb-be) top_right RELABEL -:vb-chunk
 70 - $$_sp-coor (sn-coor,vb-be) top_right RELABEL -:vb-chunk
 
-% Auxiliar 'HAVE' %
+% Auxiliary 'HAVE' %
 70 - $$_sp-chunk (sn-chunk,vb-have) top_right RELABEL -:vb-chunk
 70 - $$_TO-chunk (sn-chunk,vb-have) top_right RELABEL -:vb-chunk
 70 - $$_prt-sp (sn-chunk,vb-have) top_right RELABEL -:vb-chunk
@@ -595,7 +598,7 @@
 70 - $$_prt-sp (sn-coor,vb-have) top_right RELABEL -:vb-chunk
 70 - $$_sp-coor (sn-coor,vb-have) top_right RELABEL -:vb-chunk
 
-% Auxiliar 'DO' %
+% Auxiliary 'DO' %
 70 - $$_sp-chunk (sn-chunk,vb-do) top_right RELABEL -:vb-chunk
 70 - $$_TO-chunk (sn-chunk,vb-do) top_right RELABEL -:vb-chunk
 70 - $$_prt-sp (sn-chunk,vb-do) top_right RELABEL -:vb-chunk
@@ -628,7 +631,7 @@
 70 - $$_attrib (sn-coor,vb-chunk) top_right RELABEL - % ((that girl and that boy) seem) selfish
 70 - $$_att-coor (sn-coor,vb-chunk) top_right RELABEL - % ((that girl and that boy) seem) selfish and shy
 
-% Auxiliar 'BE' %
+% Auxiliary 'BE' %
 70 - $$_attrib (sn-chunk,vb-be) top_right RELABEL -:vb-chunk
 70 - $$_att-coor (sn-chunk,vb-be) top_right RELABEL -:vb-chunk
 70 - $$_attrib (n-chunk,vb-be) top_right RELABEL -:vb-chunk
@@ -636,7 +639,7 @@
 70 - $$_attrib (sn-coor,vb-be) top_right RELABEL -:vb-chunk
 70 - $$_att-coor (sn-coor,vb-be) top_right RELABEL -:vb-chunk
 
-% Auxiliar 'HAVE' %
+% Auxiliary 'HAVE' %
 70 - $$_attrib (sn-chunk,vb-have) top_right RELABEL -:vb-chunk
 70 - $$_att-coor (sn-chunk,vb-have) top_right RELABEL -:vb-chunk
 70 - $$_attrib (n-chunk,vb-have) top_right RELABEL -:vb-chunk
@@ -644,7 +647,7 @@
 70 - $$_attrib (sn-coor,vb-have) top_right RELABEL -:vb-chunk
 70 - $$_att-coor (sn-coor,vb-have) top_right RELABEL -:vb-chunk
 
-% Auxiliar 'DO' %
+% Auxiliary 'DO' %
 70 - $$_attrib (sn-chunk,vb-do) top_right RELABEL -:vb-chunk
 70 - $$_att-coor (sn-chunk,vb-do) top_right RELABEL -:vb-chunk
 70 - $$_attrib (n-chunk,vb-do) top_right RELABEL -:vb-chunk
@@ -663,7 +666,7 @@
 70 - $$_adv (sn-coor,vb-chunk) top_right RELABEL - % ((the boy and the girl) speak) angrily
 70 - $$_adv-coor (sn-coor,vb-chunk) top_right RELABEL - % ((the boy and the girl) speak) fast and agrily
 
-% Auxiliar 'BE' %
+% Auxiliary 'BE' %
 70 - $$_adv (sn-chunk,vb-be) top_right RELABEL -:vb-chunk
 70 - $$_adv-coor (sn-chunk,vb-be) top_right RELABEL -:vb-chunk
 70 - $$_adv (n-chunk,vb-be) top_right RELABEL -:vb-chunk
@@ -671,7 +674,7 @@
 70 - $$_adv (sn-coor,vb-be) top_right RELABEL -:vb-chunk
 70 - $$_adv-coor (sn-coor,vb-be) top_right RELABEL -:vb-chunk
 
-% Auxiliar 'HAVE' %
+% Auxiliary 'HAVE' %
 70 - $$_adv (sn-chunk,vb-have) top_right RELABEL -:vb-chunk
 70 - $$_adv-coor (sn-chunk,vb-have) top_right RELABEL -:vb-chunk
 70 - $$_adv (n-chunk,vb-have) top_right RELABEL -:vb-chunk
@@ -679,7 +682,7 @@
 70 - $$_adv (sn-coor,vb-have) top_right RELABEL -:vb-chunk
 70 - $$_adv-coor (sn-coor,vb-have) top_right RELABEL -:vb-chunk
 
-% Auxiliar 'DO' %
+% Auxiliary 'DO' %
 70 - $$_adv (sn-chunk,vb-do) top_right RELABEL -:vb-chunk
 70 - $$_adv-coor (sn-chunk,vb-do) top_right RELABEL -:vb-chunk
 70 - $$_adv (n-chunk,vb-do) top_right RELABEL -:vb-chunk
@@ -695,17 +698,17 @@
 70 - $$_conj (n-chunk,vb-chunk[compl]) top_right RELABEL -
 70 - $$_conj (sn-coor,vb-chunk[compl]) top_right RELABEL -
 
-% Auxiliar 'BE' %
+% Auxiliary 'BE' %
 70 - $$_conj (sn-chunk,vb-be) top_right RELABEL -:sv
 70 - $$_conj (n-chunk,vb-be) top_right RELABEL -:sv
 70 - $$_conj (sn-coor,vb-be) top_right RELABEL -:sv
 
-% Auxiliar 'HAVE' %
+% Auxiliary 'HAVE' %
 70 - $$_conj (sn-chunk,vb-have) top_right RELABEL -:vb-chunk
 70 - $$_conj (n-chunk,vb-have) top_right RELABEL -:vb-chunk
 70 - $$_conj (sn-coor,vb-have) top_right RELABEL -:vb-chunk
 
-% Auxiliar 'DO' %
+% Auxiliary 'DO' %
 70 - $$_conj (sn-chunk,vb-do) top_right RELABEL -:sv
 70 - $$_conj (n-chunk,vb-do) top_right RELABEL -:sv
 70 - $$_conj (sn-coor,vb-do) top_right RELABEL -:sv
@@ -718,17 +721,17 @@
 71 - - (n-chunk,vb-chunk) top_right RELABEL -:sv % ((girls) sing)
 71 - - (sn-coor,vb-chunk) top_right RELABEL -:sv % ((the girl and the boy) sing)
 
-% Auxiliar 'BE' %
+% Auxiliary 'BE' %
 71 - - (sn-chunk,vb-be) top_right RELABEL -:sv
 71 - - (n-chunk,vb-be) top_right RELABEL -:sv
 71 - - (sn-coor,vb-be) top_right RELABEL -:sv
 
-% Auxiliar 'HAVE' %
+% Auxiliary 'HAVE' %
 71 - - (sn-chunk,vb-have) top_right RELABEL -:sv
 71 - - (n-chunk,vb-have) top_right RELABEL -:sv
 71 - - (sn-coor,vb-have) top_right RELABEL -:sv
 
-% Auxiliar 'DO' %
+% Auxiliary 'DO' %
 71 - !$$_vb-chunk (sn-chunk,vb-do) top_right RELABEL -:sv
 71 - !$$_vb-chunk (n-chunk,vb-do) top_right RELABEL -:sv
 71 - !$$_vb-chunk (sn-coor,vb-do) top_right RELABEL -:sv
@@ -959,19 +962,6 @@
 75 - $$_adv-coor (vb-chunk,sn-coor) top_left RELABEL - % (make (the dinner and the lunck)) fast and bad
 
 
-%:::: POSTPOSED NP INTO SUBORDINATE CLAUSE ::::%
-20 - OF-chunk_$$_~vb-chunk (vb-chunk,sn-chunk) top_left RELABEL sv:- % (told me (the tale))
-20 - TO-chunk_$$_~vb-chunk (vb-chunk,sn-chunk) top_left RELABEL sv:- % (told me (the tale))
-20 - prt-sp_$$_~vb-chunk (vb-chunk,sn-chunk) top_left RELABEL sv:- % (told me (the tale))
-20 - prt-mix_$$_~vb-chunk (vb-chunk,sn-chunk) top_left RELABEL sv:- % (told me (the tale))
-20 - prt-sub_$$_~vb-chunk (vb-chunk,sn-chunk) top_left RELABEL sv:- % (told me (the tale))
-20 - OF-chunk_$$_~vb-chunk (vb-chunk,n-chunk) top_left RELABEL sv:- % (told me (the tale))
-20 - TO-chunk_$$_~vb-chunk (vb-chunk,n-chunk) top_left RELABEL sv:- % (told me (the tale))
-20 - prt-sp_$$_~vb-chunk (vb-chunk,n-chunk) top_left RELABEL sv:- % (told me (the tale))
-20 - prt-mix_$$_~vb-chunk (vb-chunk,n-chunk) top_left RELABEL sv:- % (told me (the tale))
-20 - prt-sub_$$_~vb-chunk (vb-chunk,n-chunk) top_left RELABEL sv:- % (told me (the tale))
-
-
 %:::: VP <-- NP default rules ::::%
 78 - - (vb-chunk,sn-chunk) top_left RELABEL sv:- % (told me (the tale))
 78 - - (vb-chunk,n-chunk) top_left RELABEL sv:- % (told me (tales))
@@ -1014,7 +1004,7 @@
 16 - $$_n-chunk_vb-chunk (vb-chunk,sp-coor) top_left RELABEL vb-chunk:- % (said (to me and to them)) parents visited her
 16 - $$_sn-coor_vb-chunk (vb-chunk,sp-coor) top_left RELABEL vb-chunk:- % (said (to me and to them)) parents visited her and you
 
-% Auxiliar 'BE' %
+% Auxiliary 'BE' %
 16 - $$_sn-chunk_vb-be (vb-chunk,sp-chunk{TO}) top_left RELABEL vb-chunk:-
 16 - $$_n-chunk_vb-be (vb-chunk,sp-chunk{TO}) top_left RELABEL vb-chunk:-
 16 - $$_sn-coor_vb-be (vb-chunk,sp-chunk{TO}) top_left RELABEL vb-chunk:-
@@ -1022,7 +1012,7 @@
 16 - $$_n-chunk_vb-be (vb-chunk,sp-coor) top_left RELABEL vb-chunk:-
 16 - $$_sn-coor_vb-be (vb-chunk,sp-coor) top_left RELABEL vb-chunk:-
 
-% Auxiliar 'HAVE' %
+% Auxiliary 'HAVE' %
 16 - $$_sn-chunk_vb-have (vb-chunk,sp-chunk{TO}) top_left RELABEL vb-chunk:-
 16 - $$_n-chunk_vb-have (vb-chunk,sp-chunk{TO}) top_left RELABEL vb-chunk:-
 16 - $$_sn-coor_vb-have (vb-chunk,sp-chunk{TO}) top_left RELABEL vb-chunk:-
@@ -1030,7 +1020,7 @@
 16 - $$_n-chunk_vb-have (vb-chunk,sp-coor) top_left RELABEL vb-chunk:-
 16 - $$_sn-coor_vb-have (vb-chunk,sp-coor) top_left RELABEL vb-chunk:-
 
-% Auxiliar 'DO' %
+% Auxiliary 'DO' %
 16 - $$_sn-chunk_vb-do (vb-chunk,sp-chunk{TO}) top_left RELABEL vb-chunk:-
 16 - $$_n-chunk_vb-do (vb-chunk,sp-chunk{TO}) top_left RELABEL vb-chunk:-
 16 - $$_sn-coor_vb-do (vb-chunk,sp-chunk{TO}) top_left RELABEL vb-chunk:-
@@ -1071,13 +1061,6 @@
 75 - $$_adv-coor (vb-chunk,sp-chunk) top_left RELABEL - % don't (argue (with me)) always and ever
 75 - $$_adv (vb-chunk,sp-coor) top_left RELABEL - % don't (argue (with me and with them)) always
 75 - $$_adv-coor (vb-chunk,sp-coor) top_left RELABEL - % don't (argue (with me and with them)) always and ever
-
-
-%:::: VP <-- PP when they are part of a preposed clause ::::%
-49 - OUT_TO-chunk_$$_sv (vb-chunk,sp-chunk{IN}) top_left RELABEL sv:-
-49 - OUT_prt-sp_$$_sv (vb-chunk,sp-chunk{IN}) top_left RELABEL sv:-
-49 - OUT_prt-mix_$$_sv (vb-chunk,sp-chunk{IN}) top_left RELABEL sv:-
-49 - OUT_prt-sub_$$_sv (vb-chunk,sp-chunk{IN}) top_left RELABEL sv:-
 
 
 %:::: VP <-- PP default rules ::::%
@@ -1206,13 +1189,9 @@
 78 - !prt-sp_$$ (vb-chunk,sv) top_left RELABEL sv:-
 %78 - - (vb-chunk,sv) top_left RELABEL sv:-
 
-% Main clause or subordinate finite clause with finit clause argument %
+% Main clause or subordinate finite clause which has a finite clause as an argument %
 85 - - (vb-chunk,sub-cl) top_left RELABEL sv:-
 85 - - (sv,sub-cl) top_left RELABEL -:-
-
-% Infinitive with clause argument %
-80 - TO-chunk_$$ (vb-chunk,sub-cl) top_left RELABEL sv:-
-80 - TO-chunk_$$ (sv,sub-cl) top_left RELABEL -:-
 
 
 %:::::::::::::::::::::::::::::::::::::::::%
@@ -1236,6 +1215,9 @@
 %:::: VP <-- PARTICIPLE CLAUSES ::::%
 75 - - (vb-chunk,part) top_left RELABEL sv:-
 75 - - (sv,part) top_left RELABEL sv:-
+50 - - (vb-chunk,sv{VBG}) top_left RELABEL sv:part
+65 - - (sv,sv{VBG}) top_left RELABEL -:part % (she suggest (bringing his brother))
+90 - $$_st-brk (vb-chunk,vb-chunk{VBG}) top_left RELABEL sv:part
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1249,7 +1231,7 @@
 
 
 %:::::::::::::::::::::::::::::::::::::::::%
-%  RELATIVE CLAUSES STRUCTURE FORMATION   %
+%             RELATIVE CLAUSES            %
 %:::::::::::::::::::::::::::::::::::::::::%
 
 
@@ -1290,7 +1272,7 @@
 60 - wh-pro_$$_adv (vb-chunk,sn-coor) top_left RELABEL - 
 60 - wh-pro_$$_adv-coor (vb-chunk,sn-coor) top_left RELABEL - 
 
-% Auxiliar 'BE' %
+% Auxiliary 'BE' %
 60 - wh-pro_$$_sn-chunk (vb-be,sn-chunk) top_left RELABEL - 
 60 - wh-pro_$$_n-chunk (vb-be,sn-chunk) top_left RELABEL - 
 60 - wh-pro_$$_sn-coor (vb-be,sn-chunk) top_left RELABEL - 
@@ -1325,7 +1307,7 @@
 60 - wh-pro_$$_adv (vb-be,sn-coor) top_left RELABEL - 
 60 - wh-pro_$$_adv-coor (vb-be,sn-coor) top_left RELABEL - 
 
-% Auxiliar 'HAVE' %
+% Auxiliary 'HAVE' %
 60 - wh-pro_$$_sn-chunk (vb-have,sn-chunk) top_left RELABEL - 
 60 - wh-pro_$$_n-chunk (vb-have,sn-chunk) top_left RELABEL - 
 60 - wh-pro_$$_sn-coor (vb-have,sn-chunk) top_left RELABEL - 
@@ -1359,7 +1341,7 @@
 60 - wh-pro_$$_sp-coor (vb-have,sn-coor) top_left RELABEL - 
 60 - wh-pro_$$_adv-coor (vb-have,sn-coor) top_left RELABEL - 
 
-% Auxiliar 'DO' %
+% Auxiliary 'DO' %
 60 - wh-pro_$$_sn-chunk (vb-do,sn-chunk) top_left RELABEL - 
 60 - wh-pro_$$_n-chunk (vb-do,sn-chunk) top_left RELABEL - 
 60 - wh-pro_$$_sn-coor (vb-do,sn-chunk) top_left RELABEL - 
@@ -1454,7 +1436,7 @@
 60 - wh-pro_$$_adv (vb-chunk,sp-coor) top_left RELABEL - 
 60 - wh-pro_$$_adv-coor (vb-chunk,sp-coor) top_left RELABEL - 
 
-% Auxiliar 'BE' %
+% Auxiliary 'BE' %
 60 - wh-pro_$$_sn-chunk (vb-be,sp-chunk) top_left RELABEL vb-chunk:-
 60 - wh-pro_$$_n-chunk (vb-be,sp-chunk) top_left RELABEL vb-chunk:-
 60 - wh-pro_$$_attrib (vb-be,sp-chunk) top_left RELABEL vb-chunk:-
@@ -1478,7 +1460,7 @@
 60 - wh-pro_$$_adv-coor (vb-be,sp-coor) top_left RELABEL vb-chunk:-
 60 - wh-pro_$$_sv (vb-be,sp-coor) top_left RELABEL vb-chunk:-
 
-% Auxiliar 'HAVE' %
+% Auxiliary 'HAVE' %
 60 - wh-pro_$$_sn-chunk (vb-have,sp-chunk) top_left RELABEL vb-chunk:-
 60 - wh-pro_$$_n-chunk (vb-have,sp-chunk) top_left RELABEL vb-chunk:-
 60 - wh-pro_$$_attrib (vb-have,sp-chunk) top_left RELABEL vb-chunk:-
@@ -1502,7 +1484,7 @@
 60 - wh-pro_$$_adv-coor (vb-have,sp-coor) top_left RELABEL vb-chunk:-
 60 - wh-pro_$$_sv (vb-have,sp-coor) top_left RELABEL vb-chunk:-
 
-% Auxiliar 'DO' %
+% Auxiliary 'DO' %
 60 - wh-pro_$$_sn-chunk (vb-do,sp-chunk) top_left RELABEL vb-chunk:-
 60 - wh-pro_$$_n-chunk (vb-do,sp-chunk) top_left RELABEL vb-chunk:-
 60 - wh-pro_$$_attrib (vb-do,sp-chunk) top_left RELABEL vb-chunk:-
@@ -1555,7 +1537,7 @@
 60 - wh-pro_$$_adv-coor (vb-chunk,att-coor) top_left RELABEL - 
 60 - wh-pro_$$_sv (vb-chunk,att-coor) top_left RELABEL - 
 
-% Auxiliar 'BE' %
+% Auxiliary 'BE' %
 60 - wh-pro_$$_sn-chunk (vb-be,attrib) top_left RELABEL vb-chunk:-
 60 - wh-pro_$$_n-chunk (vb-be,attrib) top_left RELABEL vb-chunk:-
 60 - wh-pro_$$_sn-coor (vb-be,attrib) top_left RELABEL vb-chunk:-
@@ -1581,7 +1563,7 @@
 60 - wh-pro_$$_adv-coor (vb-be,att-coor) top_left RELABEL vb-chunk:-
 60 - wh-pro_$$_sv (vb-be,att-coor) top_left RELABEL vb-chunk:-
 
-% Auxiliar 'HAVE' %
+% Auxiliary 'HAVE' %
 60 - wh-pro_$$_sn-chunk (vb-have,attrib) top_left RELABEL vb-chunk:-
 60 - wh-pro_$$_n-chunk (vb-have,attrib) top_left RELABEL vb-chunk:-
 60 - wh-pro_$$_sn-coor (vb-have,attrib) top_left RELABEL vb-chunk:-
@@ -1607,7 +1589,7 @@
 60 - wh-pro_$$_adv-coor (vb-have,att-coor) top_left RELABEL vb-chunk:-
 60 - wh-pro_$$_sv (vb-have,att-coor) top_left RELABEL vb-chunk:-
 
-% Auxiliar 'DO' %
+% Auxiliary 'DO' %
 60 - wh-pro_$$_sn-chunk (vb-do,attrib) top_left RELABEL vb-chunk:-
 60 - wh-pro_$$_n-chunk (vb-do,attrib) top_left RELABEL vb-chunk:-
 60 - wh-pro_$$_sn-coor (vb-do,attrib) top_left RELABEL vb-chunk:-
@@ -1662,7 +1644,7 @@
 60 - wh-pro_$$_adv-coor (vb-chunk,adv-coor) top_left RELABEL - 
 60 - wh-pro_$$_sv (vb-chunk,adv-coor) top_left RELABEL - 
 
-% Auxiliar 'BE' %
+% Auxiliary 'BE' %
 60 - wh-pro_$$_sn-chunk (vb-be,adv) top_left RELABEL vb-chunk:-
 60 - wh-pro_$$_n-chunk (vb-be,adv) top_left RELABEL vb-chunk:-
 60 - wh-pro_$$_sn-coor (vb-be,adv) top_left RELABEL vb-chunk:-
@@ -1688,7 +1670,7 @@
 60 - wh-pro_$$_adv-coor (vb-be,adv-coor) top_left RELABEL vb-chunk:-
 60 - wh-pro_$$_sv (vb-be,adv-coor) top_left RELABEL vb-chunk:-
 
-% Auxiliar 'HAVE' %
+% Auxiliary 'HAVE' %
 60 - wh-pro_$$_sn-chunk (vb-have,adv) top_left RELABEL vb-chunk:-
 60 - wh-pro_$$_n-chunk (vb-have,adv) top_left RELABEL vb-chunk:-
 60 - wh-pro_$$_attrib (vb-have,adv) top_left RELABEL vb-chunk:-
@@ -1710,7 +1692,7 @@
 60 - wh-pro_$$_adv-coor (vb-have,adv-coor) top_left RELABEL vb-chunk:-
 60 - wh-pro_$$_sv (vb-have,adv-coor) top_left RELABEL vb-chunk:-
 
-% Auxiliar 'DO' %
+% Auxiliary 'DO' %
 60 - wh-pro_$$_sn-chunk (vb-do,adv) top_left RELABEL vb-chunk:-
 60 - wh-pro_$$_n-chunk (vb-do,adv) top_left RELABEL vb-chunk:-
 60 - wh-pro_$$_attrib (vb-do,adv) top_left RELABEL vb-chunk:-
@@ -1751,7 +1733,7 @@
 61 - wh-pro_$$ (vb-chunk,adv-coor) top_left RELABEL rel:-
 61 - wh-pro_$$ (vb-chunk,sv) top_left RELABEL rel:-
 
-% Auxiliar 'BE' %
+% Auxiliary 'BE' %
 61 - wh-pro_$$ (vb-be,sn-chunk) top_left RELABEL rel:-
 61 - wh-pro_$$ (vb-be,n-chunk) top_left RELABEL rel:-
 61 - wh-pro_$$ (vb-be,sn-coor) top_left RELABEL rel:-
@@ -1763,7 +1745,7 @@
 61 - wh-pro_$$ (vb-be,adv-coor) top_left RELABEL rel:-
 61 - wh-pro_$$ (vb-be,sv) top_left RELABEL rel:-
 
-% Auxiliar 'HAVE' %
+% Auxiliary 'HAVE' %
 61 - wh-pro_$$ (vb-have,sn-chunk) top_left RELABEL rel:-
 61 - wh-pro_$$ (vb-have,n-chunk) top_left RELABEL rel:-
 61 - wh-pro_$$ (vb-have,sn-coor) top_left RELABEL rel:-
@@ -1775,7 +1757,7 @@
 61 - wh-pro_$$ (vb-have,adv-coor) top_left RELABEL rel:-
 61 - wh-pro_$$ (vb-have,sv) top_left RELABEL rel:-
 
-% Auxiliar 'DO' %
+% Auxiliary 'DO' %
 61 - wh-pro_$$ (vb-do,sn-chunk) top_left RELABEL rel:-
 61 - wh-pro_$$ (vb-do,n-chunk) top_left RELABEL rel:-
 61 - wh-pro_$$ (vb-do,sn-coor) top_left RELABEL rel:-
@@ -1797,9 +1779,9 @@
 65 - wh-pro_$$ (rel-compl[compl],sv) top_left RELABEL rel:-
 
 
-%:::::::::::::::::::::::::::::::::::::::::%
-%    FINITE CLAUSE STRUCTURE FORMATION    %
-%:::::::::::::::::::::::::::::::::::::::::%
+%:::::::::::::::::::::::::::::::::::::::::::::%
+%       SUBSTANTIVE & ADVERBIAL CLAUSES       %
+%:::::::::::::::::::::::::::::::::::::::::::::%
 
 
 % Base form %
@@ -1813,7 +1795,7 @@
 26 - prt-mix_$$ (sn-coor,vb-chunk) top_right RELABEL -:-
 26 - prt-sub_$$ (sn-coor,vb-chunk) top_right RELABEL -:-
 
-% Auxiliar 'BE' %
+% Auxiliary 'BE' %
 26 - prt-sp_$$ (sn-chunk,vb-be) top_right RELABEL -:vb-chunk
 26 - prt-mix_$$ (sn-chunk,vb-be) top_right RELABEL -:vb-chunk
 26 - prt-sub_$$ (sn-chunk,vb-be) top_right RELABEL -:vb-chunk
@@ -1824,7 +1806,7 @@
 26 - prt-mix_$$ (sn-coor,vb-be) top_right RELABEL -:vb-chunk
 26 - prt-sub_$$ (sn-coor,vb-be) top_right RELABEL -:vb-chunk
 
-% Auxiliar 'HAVE' %
+% Auxiliary 'HAVE' %
 26 - prt-sp_$$ (sn-chunk,vb-have) top_right RELABEL -:vb-chunk
 26 - prt-mix_$$ (sn-chunk,vb-have) top_right RELABEL -:vb-chunk
 26 - prt-sub_$$ (sn-chunk,vb-have) top_right RELABEL -:vb-chunk
@@ -1835,7 +1817,7 @@
 26 - prt-mix_$$ (sn-coor,vb-have) top_right RELABEL -:vb-chunk
 26 - prt-sub_$$ (sn-coor,vb-have) top_right RELABEL -:vb-chunk
 
-% Auxiliar 'DO' %
+% Auxiliary 'DO' %
 26 - prt-sp_$$ (sn-chunk,vb-do) top_right RELABEL -:vb-chunk
 26 - prt-mix_$$ (sn-chunk,vb-do) top_right RELABEL -:vb-chunk
 26 - prt-sub_$$ (sn-chunk,vb-do) top_right RELABEL -:vb-chunk
@@ -1863,7 +1845,7 @@
 26 - prt-mix_$$_adv (n-chunk,vb-chunk) top_right RELABEL -:vb-chunk
 26 - prt-mix_$$_sv (n-chunk,vb-chunk) top_right RELABEL -:vb-chunk
 
-% Auxiliar 'BE' %
+% Auxiliary 'BE' %
 26 - prt-mix_$$_sn-chunk (sn-chunk,vb-be) top_right RELABEL -:vb-chunk
 26 - prt-mix_$$_n-chunk (sn-chunk,vb-be) top_right RELABEL -:vb-chunk
 26 - prt-mix_$$_attrib (sn-chunk,vb-be) top_right RELABEL -:vb-chunk
@@ -1877,7 +1859,7 @@
 26 - prt-mix_$$_adv (n-chunk,vb-be) top_right RELABEL -:vb-chunk
 26 - prt-mix_$$_sv (n-chunk,vb-be) top_right RELABEL -:vb-chunk
 
-% Auxiliar 'HAVE' %
+% Auxiliary 'HAVE' %
 26 - prt-mix_$$_sn-chunk (sn-chunk,vb-have) top_right RELABEL -:vb-chunk
 26 - prt-mix_$$_n-chunk (sn-chunk,vb-have) top_right RELABEL -:vb-chunk
 26 - prt-mix_$$_attrib (sn-chunk,vb-have) top_right RELABEL -:vb-chunk
@@ -1891,7 +1873,7 @@
 26 - prt-mix_$$_adv (n-chunk,vb-have) top_right RELABEL -:vb-chunk
 26 - prt-mix_$$_sv (n-chunk,vb-have) top_right RELABEL -:vb-chunk
 
-% Auxiliar 'DO' %
+% Auxiliary 'DO' %
 26 - prt-mix_$$_sn-chunk (sn-chunk,vb-do) top_right RELABEL -:vb-chunk
 26 - prt-mix_$$_n-chunk (sn-chunk,vb-do) top_right RELABEL -:vb-chunk
 26 - prt-mix_$$_attrib (sn-chunk,vb-do) top_right RELABEL -:vb-chunk
@@ -1912,15 +1894,15 @@
 26 - prt-mix_$$_st-brk (sn-chunk,vb-chunk) top_right RELABEL -:vb-chunk
 26 - prt-mix_$$_st-brk (n-chunk,vb-chunk) top_right RELABEL -:vb-chunk
 
-% Auxiliar 'BE' %
+% Auxiliary 'BE' %
 26 - prt-mix_$$_st-brk (sn-chunk,vb-be) top_right RELABEL -:vb-chunk
 26 - prt-mix_$$_st-brk (n-chunk,vb-be) top_right RELABEL -:vb-chunk
 
-% Auxiliar 'HAVE' %
+% Auxiliary 'HAVE' %
 26 - prt-mix_$$_st-brk (sn-chunk,vb-have) top_right RELABEL -:vb-chunk
 26 - prt-mix_$$_st-brk (n-chunk,vb-have) top_right RELABEL -:vb-chunk
 
-% Auxiliar 'DO' %
+% Auxiliary 'DO' %
 26 - prt-mix_$$_st-brk (sn-chunk,vb-do) top_right RELABEL -:vb-chunk
 26 - prt-mix_$$_st-brk (n-chunk,vb-do) top_right RELABEL -:vb-chunk
 
@@ -1941,7 +1923,7 @@
 26 - prt-sub_$$_adv (n-chunk,vb-chunk) top_right RELABEL -:vb-chunk
 26 - prt-sub_$$_sv (n-chunk,vb-chunk) top_right RELABEL -:vb-chunk
 
-% Auxiliar 'BE' %
+% Auxiliary 'BE' %
 26 - prt-sub_$$_sn-chunk (sn-chunk,vb-be) top_right RELABEL -:vb-chunk
 26 - prt-sub_$$_n-chunk (sn-chunk,vb-be) top_right RELABEL -:vb-chunk
 26 - prt-sub_$$_attrib (sn-chunk,vb-be) top_right RELABEL -:vb-chunk
@@ -1955,7 +1937,7 @@
 26 - prt-sub_$$_adv (n-chunk,vb-be) top_right RELABEL -:vb-chunk
 26 - prt-sub_$$_sv (n-chunk,vb-be) top_right RELABEL -:vb-chunk
 
-% Auxiliar 'HAVE' %
+% Auxiliary 'HAVE' %
 26 - prt-sub_$$_sn-chunk (sn-chunk,vb-have) top_right RELABEL -:vb-chunk
 26 - prt-sub_$$_n-chunk (sn-chunk,vb-have) top_right RELABEL -:vb-chunk
 26 - prt-sub_$$_attrib (sn-chunk,vb-have) top_right RELABEL -:vb-chunk
@@ -1969,7 +1951,7 @@
 26 - prt-sub_$$_adv (n-chunk,vb-have) top_right RELABEL -:vb-chunk
 26 - prt-sub_$$_sv (n-chunk,vb-have) top_right RELABEL -:vb-chunk
 
-% Auxiliar 'DO' %
+% Auxiliary 'DO' %
 26 - prt-sub_$$_sn-chunk (sn-chunk,vb-do) top_right RELABEL -:vb-chunk
 26 - prt-sub_$$_n-chunk (sn-chunk,vb-do) top_right RELABEL -:vb-chunk
 26 - prt-sub_$$_attrib (sn-chunk,vb-do) top_right RELABEL -:vb-chunk
@@ -1990,17 +1972,190 @@
 26 - prt-sub_$$_st-brk (sn-chunk,vb-chunk) top_right RELABEL -:vb-chunk
 26 - prt-sub_$$_st-brk (n-chunk,vb-chunk) top_right RELABEL -:vb-chunk
 
-% Auxiliar 'BE' %
+% Auxiliary 'BE' %
 26 - prt-sub_$$_st-brk (sn-chunk,vb-be) top_right RELABEL -:vb-chunk
 26 - prt-sub_$$_st-brk (n-chunk,vb-be) top_right RELABEL -:vb-chunk
 
-% Auxiliar 'HAVE' %
+% Auxiliary 'HAVE' %
 26 - prt-sub_$$_st-brk (sn-chunk,vb-have) top_right RELABEL -:vb-chunk
 26 - prt-sub_$$_st-brk (n-chunk,vb-have) top_right RELABEL -:vb-chunk
 
-% Auxiliar 'DO' %
+% Auxiliary 'DO' %
 26 - prt-sub_$$_st-brk (sn-chunk,vb-do) top_right RELABEL -:vb-chunk
 26 - prt-sub_$$_st-brk (n-chunk,vb-do) top_right RELABEL -:vb-chunk
+
+
+%:::::::::::::::::::::::::::::::::::::::::%
+%            INFINITIVE CLAUSE            %
+%:::::::::::::::::::::::::::::::::::::::::%
+
+
+%:::: VP <-- NP when infinitive clause appears before main verb ::::%
+
+
+% Base form %
+24 - TO-chunk_$$_?_vb-chunk (vb-chunk{VB$},sn-chunk) top_left RELABEL sv:-
+24 - TO-chunk_$$_?_vb-chunk (vb-chunk{VB$},n-chunk) top_left RELABEL sv:-
+24 - TO-chunk_$$_?_vb-be (vb-chunk{VB$},sn-chunk) top_left RELABEL sv:-
+24 - TO-chunk_$$_?_vb-be (vb-chunk{VB$},n-chunk) top_left RELABEL sv:-
+24 - TO-chunk_$$_?_vb-have (vb-chunk{VB$},sn-chunk) top_left RELABEL sv:-
+24 - TO-chunk_$$_?_vb-have (vb-chunk{VB$},n-chunk) top_left RELABEL sv:-
+24 - TO-chunk_$$_?_vb-do (vb-chunk{VB$},sn-chunk) top_left RELABEL sv:-
+24 - TO-chunk_$$_?_vb-do (vb-chunk{VB$},n-chunk) top_left RELABEL sv:-
+
+25 - TO-chunk_$$_vb-chunk (vb-chunk{VB$},sn-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-chunk (vb-chunk{VB$},n-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-be (vb-chunk{VB$},sn-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-be (vb-chunk{VB$},n-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-have (vb-chunk{VB$},sn-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-have (vb-chunk{VB$},n-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-do (vb-chunk{VB$},sn-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-do (vb-chunk{VB$},n-chunk) top_left RELABEL sv:-
+
+% Auxiliary BE %
+25 - TO-chunk_$$_vb-chunk (vb-be{VB$},sn-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-chunk (vb-be{VB$},n-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-be (vb-be{VB$},sn-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-be (vb-be{VB$},n-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-have (vb-be{VB$},sn-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-have (vb-be{VB$},n-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-do (vb-be{VB$},sn-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-do (vb-be{VB$},n-chunk) top_left RELABEL sv:-
+
+% Auxiliary HAVE %
+25 - TO-chunk_$$_vb-chunk (vb-have{VB$},sn-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-chunk (vb-have{VB$},n-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-be (vb-have{VB$},sn-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-be (vb-have{VB$},n-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-have (vb-have{VB$},sn-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-have (vb-have{VB$},n-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-do (vb-have{VB$},sn-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-do (vb-have{VB$},n-chunk) top_left RELABEL sv:-
+
+% Auxiliary DO %
+25 - TO-chunk_$$_vb-chunk (vb-do{VB$},sn-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-chunk (vb-do{VB$},n-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-be (vb-do{VB$},sn-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-be (vb-do{VB$},n-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-have (vb-do{VB$},sn-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-have (vb-do{VB$},n-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-do (vb-do{VB$},sn-chunk) top_left RELABEL sv:-
+25 - TO-chunk_$$_vb-do (vb-do{VB$},n-chunk) top_left RELABEL sv:-
+
+
+%:::: VP <-- PP ::::%
+55 - TO-chunk_$$ (vb-chunk,sp-chunk) top_left RELABEL sv:- % to (talk (with them))
+55 - TO-chunk_$$ (vb-do,sn-chunk) top_left RELABEL sv:-
+55 - TO-chunk_$$ (vb-do,n-chunk) top_left RELABEL sv:-
+55 - TO-chunk_$$ (vb-have,sn-chunk) top_left RELABEL sv:-
+55 - TO-chunk_$$ (vb-have,n-chunk) top_left RELABEL sv:-
+55 - TO-chunk_$$ (vb-be,sp-chunk) top_left RELABEL sv:-
+55 - TO-chunk_$$ (vb-be,sn-chunk) top_left RELABEL sv:-
+55 - TO-chunk_$$ (vb-be,n-chunk) top_left RELABEL sv:-
+55 - TO-chunk_$$ (vb-be,attrib) top_left RELABEL sv:-
+55 - TO-chunk_$$ (vb-be,adv) top_left RELABEL sv:-
+
+
+%:::: INFINITIVE <-- FINITE CLAUSE ::::%
+80 - TO-chunk_$$ (vb-chunk,sub-cl) top_left RELABEL sv:-
+80 - TO-chunk_$$ (sv,sub-cl) top_left RELABEL -:-
+
+
+%:::::::::::::::::::::::::::::::::::::::::%
+%            PARTICIPLE CLAUSE            %
+%:::::::::::::::::::::::::::::::::::::::::%
+
+
+25 - prt-sp_$$ (vb-be{VBG},sn-chunk) top_left RELABEL part:-
+25 - prt-sp_$$ (vb-be{VBG},n-chunk) top_left RELABEL part:-
+25 - prt-sp_$$ (vb-be{VBG},sp-chunk) top_left RELABEL part:-
+25 - prt-sp_$$ (vb-be{VBG},OF-chunk) top_left RELABEL part:-
+25 - prt-sp_$$ (vb-be{VBG},attrib) top_left RELABEL part:-
+25 - prt-sp_$$ (vb-do{VBG},sn-chunk) top_left RELABEL part:-
+25 - prt-sp_$$ (vb-do{VBG},n-chunk) top_left RELABEL part:-
+25 - prt-sp_$$ (vb-have{VBG},sn-chunk) top_left RELABEL part:-
+25 - prt-sp_$$ (vb-have{VBG},n-chunk) top_left RELABEL part:-
+
+64 - OUT_$$_sn-chunk_vb-chunk (vb-chunk{VBG},sn-chunk) top_left RELABEL part:-
+64 - OUT_$$_sn-chunk_vb-chunk (vb-chunk{VBG},n-chunk) top_left RELABEL part:-
+64 - OUT_$$_sn-chunk_vb-be (vb-chunk{VBG},sn-chunk) top_left RELABEL part:-
+64 - OUT_$$_sn-chunk_vb-be (vb-chunk{VBG},n-chunk) top_left RELABEL part:-
+64 - OUT_$$_sn-chunk_vb-have (vb-chunk{VBG},sn-chunk) top_left RELABEL part:-
+64 - OUT_$$_sn-chunk_vb-have (vb-chunk{VBG},n-chunk) top_left RELABEL part:-
+64 - OUT_$$_sn-chunk_vb-do (vb-chunk{VBG},sn-chunk) top_left RELABEL part:-
+64 - OUT_$$_sn-chunk_vb-do (vb-chunk{VBG},n-chunk) top_left RELABEL part:-
+
+64 - OUT_$$_n-chunk_vb-chunk (vb-chunk{VBG},sn-chunk) top_left RELABEL part:-
+64 - OUT_$$_n-chunk_vb-chunk (vb-chunk{VBG},n-chunk) top_left RELABEL part:-
+64 - OUT_$$_n-chunk_vb-be (vb-chunk{VBG},sn-chunk) top_left RELABEL part:-
+64 - OUT_$$_n-chunk_vb-be (vb-chunk{VBG},n-chunk) top_left RELABEL part:-
+64 - OUT_$$_n-chunk_vb-have (vb-chunk{VBG},sn-chunk) top_left RELABEL part:-
+64 - OUT_$$_n-chunk_vb-have (vb-chunk{VBG},n-chunk) top_left RELABEL part:-
+64 - OUT_$$_n-chunk_vb-do (vb-chunk{VBG},sn-chunk) top_left RELABEL part:-
+64 - OUT_$$_n-chunk_vb-do (vb-chunk{VBG},n-chunk) top_left RELABEL part:-
+
+65 - OUT_$$_vb-chunk (vb-chunk{VBG},sn-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-chunk (vb-chunk{VBG},n-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-be (vb-chunk{VBG},sn-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-be (vb-chunk{VBG},n-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-have (vb-chunk{VBG},sn-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-have (vb-chunk{VBG},n-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-do (vb-chunk{VBG},sn-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-do (vb-chunk{VBG},n-chunk) top_left RELABEL part:-
+
+65 - OUT_$$_vb-chunk (vb-be{VBG},sn-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-chunk (vb-be{VBG},n-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-be (vb-be{VBG},sn-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-be (vb-be{VBG},n-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-have (vb-be{VBG},sn-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-have (vb-be{VBG},n-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-do (vb-be{VBG},sn-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-do (vb-be{VBG},n-chunk) top_left RELABEL part:-
+
+65 - OUT_$$_vb-chunk (vb-do{VBG},sn-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-chunk (vb-do{VBG},n-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-be (vb-do{VBG},sn-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-be (vb-do{VBG},n-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-have (vb-do{VBG},sn-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-have (vb-do{VBG},n-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-do (vb-do{VBG},sn-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-do (vb-do{VBG},n-chunk) top_left RELABEL part:-
+
+65 - OUT_$$_vb-chunk (vb-have{VBG},sn-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-chunk (vb-have{VBG},n-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-be (vb-have{VBG},sn-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-be (vb-have{VBG},n-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-have (vb-have{VBG},sn-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-have (vb-have{VBG},n-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-do (vb-have{VBG},sn-chunk) top_left RELABEL part:-
+65 - OUT_$$_vb-do (vb-have{VBG},n-chunk) top_left RELABEL part:-
+
+
+%:::::::::::::::::::::::::::::::::::::::::::::::%
+%          FINITE & NONFINITE CLAUSES           %
+%:::::::::::::::::::::::::::::::::::::::::::::::%
+
+% This set of rules are used to solve substantive clauses, adverbial clauses, infinitive clauses
+% and participle clauses.
+
+%:::: VP <-- NP ::::%
+20 - OF-chunk_$$_~vb-chunk (vb-chunk,sn-chunk) top_left RELABEL sv:- % (told me (the tale))
+20 - TO-chunk_$$_~vb-chunk (vb-chunk,sn-chunk) top_left RELABEL sv:- % (told me (the tale))
+20 - prt-sp_$$_~vb-chunk (vb-chunk,sn-chunk) top_left RELABEL sv:- % (told me (the tale))
+20 - prt-mix_$$_~vb-chunk (vb-chunk,sn-chunk) top_left RELABEL sv:- % (told me (the tale))
+20 - prt-sub_$$_~vb-chunk (vb-chunk,sn-chunk) top_left RELABEL sv:- % (told me (the tale))
+20 - OF-chunk_$$_~vb-chunk (vb-chunk,n-chunk) top_left RELABEL sv:- % (told me (the tale))
+20 - TO-chunk_$$_~vb-chunk (vb-chunk,n-chunk) top_left RELABEL sv:- % (told me (the tale))
+20 - prt-sp_$$_~vb-chunk (vb-chunk,n-chunk) top_left RELABEL sv:- % (told me (the tale))
+20 - prt-mix_$$_~vb-chunk (vb-chunk,n-chunk) top_left RELABEL sv:- % (told me (the tale))
+20 - prt-sub_$$_~vb-chunk (vb-chunk,n-chunk) top_left RELABEL sv:- % (told me (the tale))
+
+
+%:::: VP <-- PP when they are part of a preposed clause ::::%
+49 - OUT_TO-chunk_$$_sv (vb-chunk,sp-chunk{IN}) top_left RELABEL sv:-
+49 - OUT_prt-sp_$$_sv (vb-chunk,sp-chunk{IN}) top_left RELABEL sv:-
+49 - OUT_prt-mix_$$_sv (vb-chunk,sp-chunk{IN}) top_left RELABEL sv:-
+49 - OUT_prt-sub_$$_sv (vb-chunk,sp-chunk{IN}) top_left RELABEL sv:-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2009,10 +2164,11 @@
 %::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% This rules set refers to verb and subordinating link parsing. The new tree as a result
-% of these operations is relabeled as 'rel-cl' (relative clause) or 'sub-cl' (subordinate
-% clause). These rules work after subordinate clause structure is done so their priority
-% is higher than subordinate clause structure formation priority.
+% This rules set refers to verb and subordinating link are combined. As a result of these
+% operations the new tree is relabeled as 'rel-cl' (relative clause) or 'sub-cl' (subordinate
+% clause), 'inf' (infinitive clause) or 'part' (participle clause). These rules work after
+% subordinate clause structure rules so their priority is higher than subordinate clause
+% structure formation priority.
 
 
 %:::::::::::::::::::::::::::::::::::::::::%
@@ -2032,7 +2188,7 @@
 19 - sn-chunk_$$_vb-do (wh-pro,vb-chunk) top_left RELABEL rel-cl:sv % the man (who (laughs)) did the work
 19 - n-chunk_$$_vb-do (wh-pro,vb-chunk) top_left RELABEL rel-cl:sv % men (who (laugh)) did the work
 
-% Auxiliar 'BE' %
+% Auxiliary 'BE' %
 19 - sn-chunk_$$_vb-chunk (wh-pro,vb-be) top_left RELABEL rel-cl:sv
 19 - n-chunk_$$_vb-chunk (wh-pro,vb-be) top_left RELABEL rel-cl:sv
 19 - sn-chunk_$$_vb-be (wh-pro,vb-be) top_left RELABEL rel-cl:sv
@@ -2042,7 +2198,7 @@
 19 - sn-chunk_$$_vb-do (wh-pro,vb-be) top_left RELABEL rel-cl:sv
 19 - n-chunk_$$_vb-do (wh-pro,vb-be) top_left RELABEL rel-cl:sv
 
-% Auxiliar 'HAVE' %
+% Auxiliary 'HAVE' %
 19 - sn-chunk_$$_vb-chunk (wh-pro,vb-have) top_left RELABEL rel-cl:sv
 19 - n-chunk_$$_vb-chunk (wh-pro,vb-have) top_left RELABEL rel-cl:sv
 19 - sn-chunk_$$_vb-be (wh-pro,vb-have) top_left RELABEL rel-cl:sv
@@ -2052,7 +2208,7 @@
 19 - sn-chunk_$$_vb-do (wh-pro,vb-have) top_left RELABEL rel-cl:sv
 19 - n-chunk_$$_vb-do (wh-pro,vb-have) top_left RELABEL rel-cl:sv
 
-% Auxiliar 'DO' %
+% Auxiliary 'DO' %
 19 - sn-chunk_$$_vb-chunk (wh-pro,vb-do) top_left RELABEL rel-cl:sv
 19 - n-chunk_$$_vb-chunk (wh-pro,vb-do) top_left RELABEL rel-cl:sv
 19 - sn-chunk_$$_vb-be (wh-pro,vb-do) top_left RELABEL rel-cl:sv
@@ -2068,10 +2224,9 @@
 20 - - (wh-pro,rel) top_left RELABEL rel-cl:-
 20 - - (wh-pro,sv) top_left RELABEL rel-cl:- % the house (in which (I lived))
 
-
-%:::::::::::::::::::::::::::::::::::::::::::::::::::%
-%          SUBSTANTIVE & ADVERBIAL CLAUSES          %
-%:::::::::::::::::::::::::::::::::::::::::::::::::::%
+%:::::::::::::::::::::::::::::::::::::::::%
+%     SUBSTANTIVE & ADVERBIAL CLAUSES     %
+%:::::::::::::::::::::::::::::::::::::::::%
 
 
 %:::: POSTPOSED 'CONJ' CHUNK CLAUSES ::::%
@@ -2251,233 +2406,119 @@
 49 - $$_adv (adv,attrib) top_left RELABEL sub-cl:-
 
 
+%:::::::::::::::::::::::::::::::::::::::::%
+%            INFINITIVE CLAUSE            %
+%:::::::::::::::::::::::::::::::::::::::::%
+
+
+%:::: INFINITIVE CLAUSE FORMATION ::::%
+
+
+%:::: TO <-- INFINITIVE base form when infinitive clause appears before main verb ::::%
+57 - OUT_$$_vb-chunk (TO-chunk,sv{VB$}) top_left RELABEL inf-mk:-
+57 - OUT_$$_vb-be (TO-chunk,sv{VB$}) top_left RELABEL inf-mk:-
+57 - OUT_$$_vb-do (TO-chunk,sv{VB$}) top_left RELABEL inf-mk:-
+57 - OUT_$$_vb-have (TO-chunk,sv{VB$}) top_left RELABEL inf-mk:-
+26 - OUT_$$_vb-chunk (TO-chunk,vb-chunk{VB$}) top_left RELABEL inf-mk:-
+26 - OUT_$$_vb-be (TO-chunk,vb-chunk{VB$}) top_left RELABEL inf-mk:-
+26 - OUT_$$_vb-do (TO-chunk,vb-chunk{VB$}) top_left RELABEL inf-mk:-
+26 - OUT_$$_vb-have (TO-chunk,vb-chunk{VB$}) top_left RELABEL inf-mk:-
+
+%:::: TO <-- INFINITIVE 'to be' when infinitive clause appears before main verb ::::%
+26 - OUT_$$_vb-chunk (TO-chunk,vb-be{VB$}) top_left RELABEL inf-mk:-
+26 - OUT_$$_vb-be (TO-chunk,vb-be{VB$}) top_left RELABEL inf-mk:-
+26 - OUT_$$_vb-do (TO-chunk,vb-be{VB$}) top_left RELABEL inf-mk:-
+26 - OUT_$$_vb-have (TO-chunk,vb-be{VB$}) top_left RELABEL inf-mk:-
+
+%:::: TO <-- INFINITIVE 'to do' when infinitive clause appears before main verb ::::%
+26 - OUT_$$_vb-chunk (TO-chunk,vb-do{VB$}) top_left RELABEL inf-mk:-
+26 - OUT_$$_vb-be (TO-chunk,vb-do{VB$}) top_left RELABEL inf-mk:-
+26 - OUT_$$_vb-do (TO-chunk,vb-do{VB$}) top_left RELABEL inf-mk:-
+26 - OUT_$$_vb-have (TO-chunk,vb-do{VB$}) top_left RELABEL inf-mk:-
+
+%:::: TO <-- INFINITIVE 'to have' when infinitive clause appears before main verb ::::%
+57 - OUT_$$_vb-chunk (TO-chunk,vb-have{VB$}) top_left RELABEL inf-mk:-
+57 - OUT_$$_vb-be (TO-chunk,vb-have{VB$}) top_left RELABEL inf-mk:-
+57 - OUT_$$_vb-do (TO-chunk,vb-have{VB$}) top_left RELABEL inf-mk:-
+57 - OUT_$$_vb-have (TO-chunk,vb-have{VB$}) top_left RELABEL inf-mk:-
+
+
+%:::::::::::::::::::::::::::::::::::::::::%
+%            PARTICIPLE CLAUSE            %
+%:::::::::::::::::::::::::::::::::::::::::%
+
+
+%:::: Participle clauses with preposition ::::%
+19 - IN_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL part
+19 - IN_$$ (vb-have{VBG},vb-chunk) top_left RELABEL part
+19 - IN_$$ (vb-do{VBG},vb-chunk) top_left RELABEL part
+19 - IN_$$ (vb-be{VBG},vb-chunk) top_left RELABEL part % of (being (slashed))
+
+19 - prt-sp_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL part:claus
+19 - prt-sp_$$ (vb-have{VBG},vb-chunk) top_left RELABEL part:claus
+19 - prt-sp_$$ (vb-do{VBG},vb-chunk) top_left RELABEL part:claus
+19 - prt-sp_$$ (vb-be{VBG},vb-chunk) top_left RELABEL part:claus
+
+19 - prt-mix_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL part:claus
+19 - prt-mix_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL part:claus
+19 - prt-mix_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL part:claus
+19 - prt-mix_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL part:claus
+
+19 - OF-chunk_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL part:claus
+19 - OF-chunk_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL part:claus
+19 - OF-chunk_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL part:claus
+19 - OF-chunk_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL part:claus
+
+19 - prt-sub_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL part:claus
+19 - prt-sub_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL part:claus
+19 - prt-sub_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL part:claus
+19 - prt-sub_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL part:claus
+
+%:::: Participle claus at the end of the sentence ::::%
+20 - $$_st-brk (vb-chunk{VBG},vb-have) top_right RELABEL part:claus
+20 - $$_st-brk (vb-chunk{VBG},vb-do) top_right RELABEL part:claus
+20 - $$_st-brk (vb-chunk{VBG},vb-be) top_right RELABEL part:claus
+20 - $$_st-brk (vb-chunk{VBG},vb-chunk) top_right RELABEL part:claus
+
+50 - $$_st-brk (sv{VBG},vb-chunk) top_right RELABEL part:claus
+50 - $$_st-brk (sv{VBG},vb-be) top_right RELABEL part:claus
+50 - $$_st-brk (sv{VBG},vb-have) top_right RELABEL part:claus
+50 - $$_st-brk (sv{VBG},vb-do) top_right RELABEL part:claus
+
+%:::: Participle claus default rules ::::%
+21 - - (vb-chunk{VBG},vb-chunk) top_right RELABEL part:claus
+21 - - (vb-be{VBG},vb-chunk) top_right RELABEL part:claus
+21 - - (vb-have{VBG},vb-chunk) top_right RELABEL part:claus
+21 - - (vb-do{VBG},vb-chunk) top_right RELABEL part:claus
+
+30 - - (vb-chunk{VBG},vb-be) top_right RELABEL part:claus
+30 - - (vb-be{VBG},vb-be) top_right RELABEL part:claus
+30 - - (vb-have{VBG},vb-be) top_right RELABEL part:claus
+30 - - (vb-do{VBG},vb-be) top_right RELABEL part:claus
+
+30 - - (vb-chunk{VBG},vb-have) top_right RELABEL part:claus
+30 - - (vb-be{VBG},vb-have) top_right RELABEL part:claus
+30 - - (vb-have{VBG},vb-have) top_right RELABEL part:claus
+30 - - (vb-do{VBG},vb-have) top_right RELABEL part:claus
+
+30 - - (vb-chunk{VBG},vb-do) top_right RELABEL part:claus
+30 - - (vb-be{VBG},vb-do) top_right RELABEL part:claus
+30 - - (vb-have{VBG},vb-do) top_right RELABEL part:claus
+30 - - (vb-do{VBG},vb-do) top_right RELABEL part:claus
+
+71 - - (sv{VBG},sv) top_right RELABEL part:claus
+51 - - (sv{VBG},vb-chunk) top_right RELABEL part:claus
+51 - - (sv{VBG},vb-be) top_right RELABEL part:claus
+51 - - (sv{VBG},vb-have) top_right RELABEL part:claus
+51 - - (sv{VBG},vb-do) top_right RELABEL part:claus
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::%
-%::::::::::::::::::::::::    NONFINITE CLAUSE FORMATION    ::::::::::::::::::::::::%
+%:::::::::::::::   DEPENDENCIES ACCORDING TO DISCOURSE FUNCTIONS   ::::::::::::::::%
 %::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-%:::::::::::::::::::::::::::::::::::::::::::::::::::%
-%                TO-INFINITIVE CLAUSE               %
-%:::::::::::::::::::::::::::::::::::::::::::::::::::%
-
-
-%:::: SINTAGMES NOMINALS AMB TO ::::%
-
-24 - TO-chunk_$$_?_vb-chunk (vb-chunk{VB$},sn-chunk) top_left RELABEL vb-chunk:-
-24 - TO-chunk_$$_?_vb-chunk (vb-chunk{VB$},n-chunk) top_left RELABEL vb-chunk:-
-24 - TO-chunk_$$_?_vb-be (vb-chunk{VB$},sn-chunk) top_left RELABEL vb-chunk:-
-24 - TO-chunk_$$_?_vb-be (vb-chunk{VB$},n-chunk) top_left RELABEL vb-chunk:-
-24 - TO-chunk_$$_?_vb-have (vb-chunk{VB$},sn-chunk) top_left RELABEL vb-chunk:-
-24 - TO-chunk_$$_?_vb-have (vb-chunk{VB$},n-chunk) top_left RELABEL vb-chunk:-
-24 - TO-chunk_$$_?_vb-do (vb-chunk{VB$},sn-chunk) top_left RELABEL vb-chunk:-
-24 - TO-chunk_$$_?_vb-do (vb-chunk{VB$},n-chunk) top_left RELABEL vb-chunk:-
-
-25 - TO-chunk_$$_vb-chunk (vb-chunk{VB$},sn-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-chunk (vb-chunk{VB$},n-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-be (vb-chunk{VB$},sn-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-be (vb-chunk{VB$},n-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-have (vb-chunk{VB$},sn-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-have (vb-chunk{VB$},n-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-do (vb-chunk{VB$},sn-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-do (vb-chunk{VB$},n-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-chunk (vb-be{VB$},sn-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-chunk (vb-be{VB$},n-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-be (vb-be{VB$},sn-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-be (vb-be{VB$},n-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-have (vb-be{VB$},sn-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-have (vb-be{VB$},n-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-do (vb-be{VB$},sn-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-do (vb-be{VB$},n-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-chunk (vb-do{VB$},sn-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-chunk (vb-do{VB$},n-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-be (vb-do{VB$},sn-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-be (vb-do{VB$},n-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-have (vb-do{VB$},sn-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-have (vb-do{VB$},n-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-do (vb-do{VB$},sn-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-do (vb-do{VB$},n-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-chunk (vb-have{VB$},sn-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-chunk (vb-have{VB$},n-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-be (vb-have{VB$},sn-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-be (vb-have{VB$},n-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-have (vb-have{VB$},sn-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-have (vb-have{VB$},n-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-do (vb-have{VB$},sn-chunk) top_left RELABEL vb-chunk:-
-25 - TO-chunk_$$_vb-do (vb-have{VB$},n-chunk) top_left RELABEL vb-chunk:-
-26 - OUT_$$_vb-chunk (TO-chunk,vb-chunk{VB$}) top_left RELABEL n-chunk:-
-26 - OUT_$$_vb-be (TO-chunk,vb-chunk{VB$}) top_left RELABEL n-chunk:-
-26 - OUT_$$_vb-do (TO-chunk,vb-chunk{VB$}) top_left RELABEL n-chunk:-
-26 - OUT_$$_vb-have (TO-chunk,vb-chunk{VB$}) top_left RELABEL n-chunk:-
-26 - OUT_$$_vb-chunk (TO-chunk,vb-be{VB$}) top_left RELABEL n-chunk:-
-26 - OUT_$$_vb-be (TO-chunk,vb-be{VB$}) top_left RELABEL n-chunk:-
-26 - OUT_$$_vb-do (TO-chunk,vb-be{VB$}) top_left RELABEL n-chunk:-
-26 - OUT_$$_vb-have (TO-chunk,vb-be{VB$}) top_left RELABEL n-chunk:-
-26 - OUT_$$_vb-chunk (TO-chunk,vb-do{VB$}) top_left RELABEL n-chunk:-
-26 - OUT_$$_vb-be (TO-chunk,vb-do{VB$}) top_left RELABEL n-chunk:-
-26 - OUT_$$_vb-do (TO-chunk,vb-do{VB$}) top_left RELABEL n-chunk:-
-26 - OUT_$$_vb-have (TO-chunk,vb-do{VB$}) top_left RELABEL n-chunk:-
-57 - OUT_$$_vb-chunk (TO-chunk,vb-have{VB$}) top_left RELABEL n-chunk:-
-57 - OUT_$$_vb-be (TO-chunk,vb-have{VB$}) top_left RELABEL n-chunk:-
-57 - OUT_$$_vb-do (TO-chunk,vb-have{VB$}) top_left RELABEL n-chunk:-
-57 - OUT_$$_vb-have (TO-chunk,vb-have{VB$}) top_left RELABEL n-chunk:-
-57 - OUT_$$_vb-chunk (TO-chunk,sv{VB$}) top_left RELABEL n-chunk:-
-57 - OUT_$$_vb-be (TO-chunk,sv{VB$}) top_left RELABEL n-chunk:-
-57 - OUT_$$_vb-do (TO-chunk,sv{VB$}) top_left RELABEL n-chunk:-
-57 - OUT_$$_vb-have (TO-chunk,sv{VB$}) top_left RELABEL n-chunk:-
-55 - TO-chunk_$$ (vb-chunk,sp-chunk) top_left RELABEL vb-chunk:- % to (talk (with them))
-55 - TO-chunk_$$ (vb-do,sn-chunk) top_left RELABEL vb-chunk:-
-55 - TO-chunk_$$ (vb-do,n-chunk) top_left RELABEL vb-chunk:-
-55 - TO-chunk_$$ (vb-have,sn-chunk) top_left RELABEL vb-chunk:-
-55 - TO-chunk_$$ (vb-have,n-chunk) top_left RELABEL vb-chunk:-
-55 - TO-chunk_$$ (vb-be,sp-chunk) top_left RELABEL vb-chunk:-
-55 - TO-chunk_$$ (vb-be,sn-chunk) top_left RELABEL vb-chunk:-
-55 - TO-chunk_$$ (vb-be,n-chunk) top_left RELABEL vb-chunk:-
-55 - TO-chunk_$$ (vb-be,attrib) top_left RELABEL vb-chunk:-
-55 - TO-chunk_$$ (vb-be,adv) top_left RELABEL vb-chunk:-
-
-% Gerund clauses with preposition %
-19 - IN_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL - 
-19 - IN_$$ (vb-have{VBG},vb-chunk) top_left RELABEL -
-19 - IN_$$ (vb-do{VBG},vb-chunk) top_left RELABEL - 
-19 - IN_$$ (vb-be{VBG},vb-chunk) top_left RELABEL - % of (being (slashed))
-
-19 - prt-sp_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL -
-19 - prt-sp_$$ (vb-have{VBG},vb-chunk) top_left RELABEL -
-19 - prt-sp_$$ (vb-do{VBG},vb-chunk) top_left RELABEL -
-19 - prt-sp_$$ (vb-be{VBG},vb-chunk) top_left RELABEL -
-
-19 - prt-mix_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL -
-19 - prt-mix_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL -
-19 - prt-mix_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL -
-19 - prt-mix_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL -
-
-19 - OF-chunk_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL -
-19 - OF-chunk_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL -
-19 - OF-chunk_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL -
-19 - OF-chunk_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL -
-
-19 - prt-sub_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL -
-19 - prt-sub_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL -
-19 - prt-sub_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL -
-19 - prt-sub_$$ (vb-chunk{VBG},vb-chunk) top_left RELABEL -
-
-
-%:::: GERUNDIS NOMINALITZATS ::::%
-20 - $$_st-brk (vb-chunk{VBG},vb-have) top_right RELABEL -:claus
-20 - $$_st-brk (vb-chunk{VBG},vb-do) top_right RELABEL -:claus
-20 - $$_st-brk (vb-chunk{VBG},vb-be) top_right RELABEL -:claus
-20 - $$_st-brk (vb-chunk{VBG},vb-chunk) top_right RELABEL -:claus
-
-21 - - (vb-chunk{VBG},vb-chunk) top_right RELABEL - 
-21 - - (vb-be{VBG},vb-chunk) top_right RELABEL - 
-21 - - (vb-have{VBG},vb-chunk) top_right RELABEL - 
-21 - - (vb-do{VBG},vb-chunk) top_right RELABEL - 
-
-30 - - (vb-chunk{VBG},vb-be) top_right RELABEL -:vb-chunk
-30 - - (vb-be{VBG},vb-be) top_right RELABEL -:vb-chunk
-30 - - (vb-have{VBG},vb-be) top_right RELABEL -:vb-chunk
-30 - - (vb-do{VBG},vb-be) top_right RELABEL -:vb-chunk
-
-30 - - (vb-chunk{VBG},vb-have) top_right RELABEL -:vb-chunk
-30 - - (vb-be{VBG},vb-have) top_right RELABEL -:vb-chunk
-30 - - (vb-have{VBG},vb-have) top_right RELABEL -:vb-chunk
-30 - - (vb-do{VBG},vb-have) top_right RELABEL -:vb-chunk
-
-30 - - (vb-chunk{VBG},vb-do) top_right RELABEL -:vb-chunk
-30 - - (vb-be{VBG},vb-do) top_right RELABEL -:vb-chunk
-30 - - (vb-have{VBG},vb-do) top_right RELABEL -:vb-chunk
-30 - - (vb-do{VBG},vb-do) top_right RELABEL -:vb-chunk
-
-25 - prt-sp_$$ (vb-be{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-25 - prt-sp_$$ (vb-be{VBG},n-chunk) top_left RELABEL vb-chunk:-
-25 - prt-sp_$$ (vb-be{VBG},sp-chunk) top_left RELABEL vb-chunk:-
-25 - prt-sp_$$ (vb-be{VBG},OF-chunk) top_left RELABEL vb-chunk:-
-25 - prt-sp_$$ (vb-be{VBG},attrib) top_left RELABEL vb-chunk:-
-25 - prt-sp_$$ (vb-do{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-25 - prt-sp_$$ (vb-do{VBG},n-chunk) top_left RELABEL vb-chunk:-
-25 - prt-sp_$$ (vb-have{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-25 - prt-sp_$$ (vb-have{VBG},n-chunk) top_left RELABEL vb-chunk:-
-
-50 - - (vb-chunk,sv{VBG}) top_left RELABEL - 
-71 - - (sv{VBG},sv) top_right RELABEL - 
-
-50 - $$_st-brk (sv{VBG},vb-chunk) top_right RELABEL -:claus
-50 - $$_st-brk (sv{VBG},vb-be) top_right RELABEL -:claus
-50 - $$_st-brk (sv{VBG},vb-have) top_right RELABEL -:claus
-50 - $$_st-brk (sv{VBG},vb-do) top_right RELABEL -:claus
-
-51 - - (sv{VBG},vb-chunk) top_right RELABEL -:vb-chunk
-51 - - (sv{VBG},vb-be) top_right RELABEL -:vb-chunk
-51 - - (sv{VBG},vb-have) top_right RELABEL -:vb-chunk
-51 - - (sv{VBG},vb-do) top_right RELABEL -:vb-chunk
-65 - - (sv,sv{VBG}) top_left RELABEL -:part % (she suggest (bringing his brother))
-
-64 - OUT_$$_sn-chunk_vb-chunk (vb-chunk{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-64 - OUT_$$_sn-chunk_vb-chunk (vb-chunk{VBG},n-chunk) top_left RELABEL vb-chunk:-
-64 - OUT_$$_sn-chunk_vb-be (vb-chunk{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-64 - OUT_$$_sn-chunk_vb-be (vb-chunk{VBG},n-chunk) top_left RELABEL vb-chunk:-
-64 - OUT_$$_sn-chunk_vb-have (vb-chunk{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-64 - OUT_$$_sn-chunk_vb-have (vb-chunk{VBG},n-chunk) top_left RELABEL vb-chunk:-
-64 - OUT_$$_sn-chunk_vb-do (vb-chunk{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-64 - OUT_$$_sn-chunk_vb-do (vb-chunk{VBG},n-chunk) top_left RELABEL vb-chunk:-
-
-64 - OUT_$$_n-chunk_vb-chunk (vb-chunk{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-64 - OUT_$$_n-chunk_vb-chunk (vb-chunk{VBG},n-chunk) top_left RELABEL vb-chunk:-
-64 - OUT_$$_n-chunk_vb-be (vb-chunk{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-64 - OUT_$$_n-chunk_vb-be (vb-chunk{VBG},n-chunk) top_left RELABEL vb-chunk:-
-64 - OUT_$$_n-chunk_vb-have (vb-chunk{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-64 - OUT_$$_n-chunk_vb-have (vb-chunk{VBG},n-chunk) top_left RELABEL vb-chunk:-
-64 - OUT_$$_n-chunk_vb-do (vb-chunk{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-64 - OUT_$$_n-chunk_vb-do (vb-chunk{VBG},n-chunk) top_left RELABEL vb-chunk:-
-
-65 - OUT_$$_vb-chunk (vb-chunk{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-chunk (vb-chunk{VBG},n-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-be (vb-chunk{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-be (vb-chunk{VBG},n-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-have (vb-chunk{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-have (vb-chunk{VBG},n-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-do (vb-chunk{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-do (vb-chunk{VBG},n-chunk) top_left RELABEL vb-chunk:-
-
-65 - OUT_$$_vb-chunk (vb-be{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-chunk (vb-be{VBG},n-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-be (vb-be{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-be (vb-be{VBG},n-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-have (vb-be{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-have (vb-be{VBG},n-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-do (vb-be{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-do (vb-be{VBG},n-chunk) top_left RELABEL vb-chunk:-
-
-65 - OUT_$$_vb-chunk (vb-do{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-chunk (vb-do{VBG},n-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-be (vb-do{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-be (vb-do{VBG},n-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-have (vb-do{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-have (vb-do{VBG},n-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-do (vb-do{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-do (vb-do{VBG},n-chunk) top_left RELABEL vb-chunk:-
-
-65 - OUT_$$_vb-chunk (vb-have{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-chunk (vb-have{VBG},n-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-be (vb-have{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-be (vb-have{VBG},n-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-have (vb-have{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-have (vb-have{VBG},n-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-do (vb-have{VBG},sn-chunk) top_left RELABEL vb-chunk:-
-65 - OUT_$$_vb-do (vb-have{VBG},n-chunk) top_left RELABEL vb-chunk:-
-
-
-%:::: Gerundis CC CC ::::%
-90 - $$_st-brk (vb-chunk,vb-chunk{VBG}) top_left RELABEL sv:-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%:::::::::::::::::::::::::::::::::::::::::::::::::::::::%
-%:::: DEPENDENCIES ACCORDING TO DISCOURSE FUNCTIONS ::::%
-%:::::::::::::::::::::::::::::::::::::::::::::::::::::::%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Declarative function is discussed on the other dependency rules sections because it is
 % stablished that this discourse function refers to non-marked structures in dependency
@@ -2561,7 +2602,7 @@
 60 - OUT_wh-pro_$$ (vb-chunk,adv-coor) top_left RELABEL -:-
 60 - OUT_wh-pro_$$ (vb-chunk,sv) top_left RELABEL -:-
 
-% Auxiliar 'BE' %
+% Auxiliary 'BE' %
 60 - OUT_wh-pro_$$ (vb-be,sn-chunk) top_left RELABEL -:-
 60 - OUT_wh-pro_$$ (vb-be,n-chunk) top_left RELABEL -:-
 60 - OUT_wh-pro_$$ (vb-be,sn-coor) top_left RELABEL -:-
@@ -2573,7 +2614,7 @@
 60 - OUT_wh-pro_$$ (vb-be,adv-coor) top_left RELABEL -:-
 60 - OUT_wh-pro_$$ (vb-be,sv) top_left RELABEL -:-
 
-% Auxiliar 'HAVE' %
+% Auxiliary 'HAVE' %
 60 - OUT_wh-pro_$$ (vb-have,sn-chunk) top_left RELABEL -:-
 60 - OUT_wh-pro_$$ (vb-have,n-chunk) top_left RELABEL -:-
 60 - OUT_wh-pro_$$ (vb-have,sn-coor) top_left RELABEL -:-
@@ -2585,7 +2626,7 @@
 60 - OUT_wh-pro_$$ (vb-have,adv-coor) top_left RELABEL -:-
 60 - OUT_wh-pro_$$ (vb-have,sv) top_left RELABEL -:-
 
-% Auxiliar 'DO' %
+% Auxiliary 'DO' %
 60 - OUT_wh-pro_$$ (vb-do,sn-chunk) top_left RELABEL -:-
 60 - OUT_wh-pro_$$ (vb-do,n-chunk) top_left RELABEL -:-
 60 - OUT_wh-pro_$$ (vb-do,sn-coor) top_left RELABEL -:-
@@ -2632,98 +2673,98 @@
 %:::: INTERROGATIVES TOTALS AMB VERS LEXICS ::::%
 
 % Combinacio de subjecte i verb en forma base %
-35 - mod-chunk_$$_Fit (sn-chunk,vb-chunk{VB$}) top_right RELABEL -:-
-35 - mod-chunk_$$_?_*_Fit (sn-chunk,vb-chunk{VB$}) top_right RELABEL -:-
-35 - mod-chunk_$$_Fit (n-chunk,vb-chunk{VB$}) top_right RELABEL -:-
-35 - mod-chunk_$$_?_*_Fit (n-chunk,vb-chunk{VB$}) top_right RELABEL -:-
-35 - mod-chunk_$$_Fit (sn-chunk,vb-do{VB$}) top_right RELABEL -:-
-35 - mod-chunk_$$_?_*_Fit (sn-chunk,vb-do{VB$}) top_right RELABEL -:-
-35 - mod-chunk_$$_Fit (n-chunk,vb-do{VB$}) top_right RELABEL -:-
-35 - mod-chunk_$$_?_*_Fit (n-chunk,vb-do{VB$}) top_right RELABEL -:-
-35 - mod-chunk_$$_Fit (sn-chunk,vb-have{VB$}) top_right RELABEL -:-
-35 - mod-chunk_$$_?_*_Fit (sn-chunk,vb-have{VB$}) top_right RELABEL -:-
-35 - mod-chunk_$$_Fit (n-chunk,vb-have{VB$}) top_right RELABEL -:-
-35 - mod-chunk_$$_?_*_Fit (n-chunk,vb-have{VB$}) top_right RELABEL -:-
-35 - mod-chunk_$$_Fit (sn-chunk,vb-be{VB$}) top_right RELABEL -:-
-35 - mod-chunk_$$_?_*_Fit (sn-chunk,vb-be{VB$}) top_right RELABEL -:-
-35 - mod-chunk_$$_Fit (n-chunk,vb-be{VB$}) top_right RELABEL -:-
-35 - mod-chunk_$$_?_*_Fit (n-chunk,vb-be{VB$}) top_right RELABEL -:-
+35 - mod-chunk_$$_Fit (sn-chunk,vb-chunk{VB$}) top_right RELABEL -:inter
+35 - mod-chunk_$$_?_*_Fit (sn-chunk,vb-chunk{VB$}) top_right RELABEL -:inter
+35 - mod-chunk_$$_Fit (n-chunk,vb-chunk{VB$}) top_right RELABEL -:inter
+35 - mod-chunk_$$_?_*_Fit (n-chunk,vb-chunk{VB$}) top_right RELABEL -:inter
+35 - mod-chunk_$$_Fit (sn-chunk,vb-do{VB$}) top_right RELABEL -:inter
+35 - mod-chunk_$$_?_*_Fit (sn-chunk,vb-do{VB$}) top_right RELABEL -:inter
+35 - mod-chunk_$$_Fit (n-chunk,vb-do{VB$}) top_right RELABEL -:inter
+35 - mod-chunk_$$_?_*_Fit (n-chunk,vb-do{VB$}) top_right RELABEL -:inter
+35 - mod-chunk_$$_Fit (sn-chunk,vb-have{VB$}) top_right RELABEL -:inter
+35 - mod-chunk_$$_?_*_Fit (sn-chunk,vb-have{VB$}) top_right RELABEL -:inter
+35 - mod-chunk_$$_Fit (n-chunk,vb-have{VB$}) top_right RELABEL -:inter
+35 - mod-chunk_$$_?_*_Fit (n-chunk,vb-have{VB$}) top_right RELABEL -:inter
+35 - mod-chunk_$$_Fit (sn-chunk,vb-be{VB$}) top_right RELABEL -:inter
+35 - mod-chunk_$$_?_*_Fit (sn-chunk,vb-be{VB$}) top_right RELABEL -:inter
+35 - mod-chunk_$$_Fit (n-chunk,vb-be{VB$}) top_right RELABEL -:inter
+35 - mod-chunk_$$_?_*_Fit (n-chunk,vb-be{VB$}) top_right RELABEL -:inter
 
-35 - vb-do_$$_Fit (sn-chunk,vb-chunk{VB$}) top_right RELABEL -:-
-35 - vb-do_$$_?_*_Fit (sn-chunk,vb-chunk{VB$}) top_right RELABEL -:-
-35 - vb-do_$$_Fit (n-chunk,vb-chunk{VB$}) top_right RELABEL -:-
-35 - vb-do_$$_?_*_Fit (n-chunk,vb-chunk{VB$}) top_right RELABEL -:-
+35 - vb-do_$$_Fit (sn-chunk,vb-chunk{VB$}) top_right RELABEL -:inter
+35 - vb-do_$$_?_*_Fit (sn-chunk,vb-chunk{VB$}) top_right RELABEL -:inter
+35 - vb-do_$$_Fit (n-chunk,vb-chunk{VB$}) top_right RELABEL -:inter
+35 - vb-do_$$_?_*_Fit (n-chunk,vb-chunk{VB$}) top_right RELABEL -:inter
 
-35 - vb-have_$$_Fit (sn-chunk,vb-chunk{VBG}) top_right RELABEL -:-
-35 - vb-have_$$_?_*_Fit (sn-chunk,vb-chunk{VBG}) top_right RELABEL -:-
-35 - vb-have_$$_Fit (n-chunk,vb-chunk{VBG}) top_right RELABEL -:-
-35 - vb-have_$$_?_*_Fit (n-chunk,vb-chunk{VBG}) top_right RELABEL -:-
-35 - vb-have_$$_Fit (sn-chunk,vb-chunk{VBN}) top_right RELABEL -:-
-35 - vb-have_$$_?_*_Fit (sn-chunk,vb-chunk{VBN}) top_right RELABEL -:-
-35 - vb-have_$$_Fit (n-chunk,vb-chunk{VBN}) top_right RELABEL -:-
-35 - vb-have_$$_?_*_Fit (n-chunk,vb-chunk{VBN}) top_right RELABEL -:-
-35 - vb-have_$$_Fit (sn-chunk,vb-be{VBN}) top_right RELABEL -:-
-35 - vb-have_$$_?_*_Fit (sn-chunk,vb-be{VBN}) top_right RELABEL -:-
-35 - vb-have_$$_Fit (n-chunk,vb-be{VBN}) top_right RELABEL -:-
-35 - vb-have_$$_?_*_Fit (n-chunk,vb-be{VBN}) top_right RELABEL -:-
-35 - vb-have_$$_Fit (sn-chunk,vb-do{VBN}) top_right RELABEL -:-
-35 - vb-have_$$_?_*_Fit (sn-chunk,vb-do{VBN}) top_right RELABEL -:-
-35 - vb-have_$$_Fit (n-chunk,vb-do{VBN}) top_right RELABEL -:-
-35 - vb-have_$$_?_*_Fit (n-chunk,vb-do{VBN}) top_right RELABEL -:-
-35 - vb-have_$$_Fit (sn-chunk,vb-have{VBN}) top_right RELABEL -:-
-35 - vb-have_$$_?_*_Fit (sn-chunk,vb-have{VBN}) top_right RELABEL -:-
-35 - vb-have_$$_Fit (n-chunk,vb-have{VBN}) top_right RELABEL -:-
-35 - vb-have_$$_?_*_Fit (n-chunk,vb-have{VBN}) top_right RELABEL -:-
+35 - vb-have_$$_Fit (sn-chunk,vb-chunk{VBG}) top_right RELABEL -:inter
+35 - vb-have_$$_?_*_Fit (sn-chunk,vb-chunk{VBG}) top_right RELABEL -:inter
+35 - vb-have_$$_Fit (n-chunk,vb-chunk{VBG}) top_right RELABEL -:inter
+35 - vb-have_$$_?_*_Fit (n-chunk,vb-chunk{VBG}) top_right RELABEL -:inter
+35 - vb-have_$$_Fit (sn-chunk,vb-chunk{VBN}) top_right RELABEL -:inter
+35 - vb-have_$$_?_*_Fit (sn-chunk,vb-chunk{VBN}) top_right RELABEL -:inter
+35 - vb-have_$$_Fit (n-chunk,vb-chunk{VBN}) top_right RELABEL -:inter
+35 - vb-have_$$_?_*_Fit (n-chunk,vb-chunk{VBN}) top_right RELABEL -:inter
+35 - vb-have_$$_Fit (sn-chunk,vb-be{VBN}) top_right RELABEL -:inter
+35 - vb-have_$$_?_*_Fit (sn-chunk,vb-be{VBN}) top_right RELABEL -:inter
+35 - vb-have_$$_Fit (n-chunk,vb-be{VBN}) top_right RELABEL -:inter
+35 - vb-have_$$_?_*_Fit (n-chunk,vb-be{VBN}) top_right RELABEL -:inter
+35 - vb-have_$$_Fit (sn-chunk,vb-do{VBN}) top_right RELABEL -:inter
+35 - vb-have_$$_?_*_Fit (sn-chunk,vb-do{VBN}) top_right RELABEL -:inter
+35 - vb-have_$$_Fit (n-chunk,vb-do{VBN}) top_right RELABEL -:inter
+35 - vb-have_$$_?_*_Fit (n-chunk,vb-do{VBN}) top_right RELABEL -:inter
+35 - vb-have_$$_Fit (sn-chunk,vb-have{VBN}) top_right RELABEL -:inter
+35 - vb-have_$$_?_*_Fit (sn-chunk,vb-have{VBN}) top_right RELABEL -:inter
+35 - vb-have_$$_Fit (n-chunk,vb-have{VBN}) top_right RELABEL -:inter
+35 - vb-have_$$_?_*_Fit (n-chunk,vb-have{VBN}) top_right RELABEL -:inter
 
-35 - vb-be_$$_Fit (sn-chunk,vb-chunk{VBG}) top_right RELABEL -:-
-35 - vb-be_$$_?_*_Fit (sn-chunk,vb-chunk{VBG}) top_right RELABEL -:-
-35 - vb-be_$$_Fit (n-chunk,vb-chunk{VBG}) top_right RELABEL -:-
-35 - vb-be_$$_?_*_Fit (n-chunk,vb-chunk{VBG}) top_right RELABEL -:-
-35 - vb-be_$$_Fit (sn-chunk,vb-chunk{VBN}) top_right RELABEL -:-
-35 - vb-be_$$_?_*_Fit (sn-chunk,vb-chunk{VBN}) top_right RELABEL -:-
-35 - vb-be_$$_Fit (n-chunk,vb-chunk{VBN}) top_right RELABEL -:-
-35 - vb-be_$$_?_*_Fit (n-chunk,vb-chunk{VBN}) top_right RELABEL -:-
+35 - vb-be_$$_Fit (sn-chunk,vb-chunk{VBG}) top_right RELABEL -:inter
+35 - vb-be_$$_?_*_Fit (sn-chunk,vb-chunk{VBG}) top_right RELABEL -:inter
+35 - vb-be_$$_Fit (n-chunk,vb-chunk{VBG}) top_right RELABEL -:inter
+35 - vb-be_$$_?_*_Fit (n-chunk,vb-chunk{VBG}) top_right RELABEL -:inter
+35 - vb-be_$$_Fit (sn-chunk,vb-chunk{VBN}) top_right RELABEL -:inter
+35 - vb-be_$$_?_*_Fit (sn-chunk,vb-chunk{VBN}) top_right RELABEL -:inter
+35 - vb-be_$$_Fit (n-chunk,vb-chunk{VBN}) top_right RELABEL -:inter
+35 - vb-be_$$_?_*_Fit (n-chunk,vb-chunk{VBN}) top_right RELABEL -:inter
 
-35 - vb-do_$$_Fit (sn-chunk,vb-do{VB$}) top_right RELABEL -:-
-35 - vb-do_$$_?_*_Fit (sn-chunk,vb-do{VB$}) top_right RELABEL -:-
-35 - vb-do_$$_Fit (n-chunk,vb-do{VB$}) top_right RELABEL -:-
-35 - vb-do_$$_?_*_Fit (n-chunk,vb-do{VB$}) top_right RELABEL -:-
+35 - vb-do_$$_Fit (sn-chunk,vb-do{VB$}) top_right RELABEL -:inter
+35 - vb-do_$$_?_*_Fit (sn-chunk,vb-do{VB$}) top_right RELABEL -:inter
+35 - vb-do_$$_Fit (n-chunk,vb-do{VB$}) top_right RELABEL -:inter
+35 - vb-do_$$_?_*_Fit (n-chunk,vb-do{VB$}) top_right RELABEL -:inter
 
-35 - vb-have_$$_Fit (sn-chunk,vb-do{VBG}) top_right RELABEL -:-
-35 - vb-have_$$_?_*_Fit (sn-chunk,vb-do{VBG}) top_right RELABEL -:-
-35 - vb-have_$$_Fit (n-chunk,vb-do{VBG}) top_right RELABEL -:-
-35 - vb-have_$$_?_*_Fit (n-chunk,vb-do{VBG}) top_right RELABEL -:-
-35 - vb-have_$$_Fit (sn-chunk,vb-do{VBN}) top_right RELABEL -:-
-35 - vb-have_$$_?_*_Fit (sn-chunk,vb-do{VBN}) top_right RELABEL -:-
-35 - vb-have_$$_Fit (n-chunk,vb-do{VBN}) top_right RELABEL -:-
-35 - vb-have_$$_?_*_Fit (n-chunk,vb-do{VBN}) top_right RELABEL -:-
+35 - vb-have_$$_Fit (sn-chunk,vb-do{VBG}) top_right RELABEL -:inter
+35 - vb-have_$$_?_*_Fit (sn-chunk,vb-do{VBG}) top_right RELABEL -:inter
+35 - vb-have_$$_Fit (n-chunk,vb-do{VBG}) top_right RELABEL -:inter
+35 - vb-have_$$_?_*_Fit (n-chunk,vb-do{VBG}) top_right RELABEL -:inter
+35 - vb-have_$$_Fit (sn-chunk,vb-do{VBN}) top_right RELABEL -:inter
+35 - vb-have_$$_?_*_Fit (sn-chunk,vb-do{VBN}) top_right RELABEL -:inter
+35 - vb-have_$$_Fit (n-chunk,vb-do{VBN}) top_right RELABEL -:inter
+35 - vb-have_$$_?_*_Fit (n-chunk,vb-do{VBN}) top_right RELABEL -:inter
 
-35 - vb-be_$$_Fit (sn-chunk,vb-do{VBG}) top_right RELABEL -:-
-35 - vb-be_$$_?_*_Fit (sn-chunk,vb-do{VBG}) top_right RELABEL -:-
-35 - vb-be_$$_Fit (n-chunk,vb-do{VBG}) top_right RELABEL -:-
-35 - vb-be_$$_?_*_Fit (n-chunk,vb-do{VBG}) top_right RELABEL -:-
-35 - vb-be_$$_Fit (sn-chunk,vb-do{VBN}) top_right RELABEL -:-
-35 - vb-be_$$_?_*_Fit (sn-chunk,vb-do{VBN}) top_right RELABEL -:-
-35 - vb-be_$$_Fit (n-chunk,vb-do{VBN}) top_right RELABEL -:-
-35 - vb-be_$$_?_*_Fit (n-chunk,vb-do{VBN}) top_right RELABEL -:-
+35 - vb-be_$$_Fit (sn-chunk,vb-do{VBG}) top_right RELABEL -:inter
+35 - vb-be_$$_?_*_Fit (sn-chunk,vb-do{VBG}) top_right RELABEL -:inter
+35 - vb-be_$$_Fit (n-chunk,vb-do{VBG}) top_right RELABEL -:inter
+35 - vb-be_$$_?_*_Fit (n-chunk,vb-do{VBG}) top_right RELABEL -:inter
+35 - vb-be_$$_Fit (sn-chunk,vb-do{VBN}) top_right RELABEL -:inter
+35 - vb-be_$$_?_*_Fit (sn-chunk,vb-do{VBN}) top_right RELABEL -:inter
+35 - vb-be_$$_Fit (n-chunk,vb-do{VBN}) top_right RELABEL -:inter
+35 - vb-be_$$_?_*_Fit (n-chunk,vb-do{VBN}) top_right RELABEL -:inter
 
-% Temps compostos de les interrogatives. - + VBG, VBN %
-34 - mod-chunk_$$_Fit (sn-chunk,vb-chunk{VBG}) top_right RELABEL -:-
-34 - mod-chunk_$$_?_*_Fit (sn-chunk,vb-chunk{VBG}) top_right RELABEL -:-
-34 - mod-chunk_$$_Fit (n-chunk,vb-chunk{VBG}) top_right RELABEL -:-
-34 - mod-chunk_$$_?_*_Fit (n-chunk,vb-chunk{VBG}) top_right RELABEL -:-
-34 - mod-chunk_$$_Fit (sn-chunk,vb-chunk{VBN}) top_right RELABEL -:-
-34 - mod-chunk_$$_?_*_Fit (sn-chunk,vb-chunk{VBN}) top_right RELABEL -:-
-34 - mod-chunk_$$_Fit (n-chunk,vb-chunk{VBN}) top_right RELABEL -:-
-34 - mod-chunk_$$_?_*_Fit (n-chunk,vb-chunk{VBN}) top_right RELABEL -:-
-34 - mod-chunk_$$_Fit (sn-chunk,vb-be{VBG}) top_right RELABEL -:-
-34 - mod-chunk_$$_?_*_Fit (sn-chunk,vb-be{VBG}) top_right RELABEL -:-
-34 - mod-chunk_$$_Fit (n-chunk,vb-be{VBG}) top_right RELABEL -:-
-34 - mod-chunk_$$_?_*_Fit (n-chunk,vb-be{VBG}) top_right RELABEL -:-
-34 - mod-chunk_$$_Fit (sn-chunk,vb-be{VBN}) top_right RELABEL -:-
-34 - mod-chunk_$$_?_*_Fit (sn-chunk,vb-be{VBN}) top_right RELABEL -:-
-34 - mod-chunk_$$_Fit (n-chunk,vb-be{VBN}) top_right RELABEL -:-
-34 - mod-chunk_$$_?_*_Fit (n-chunk,vb-be{VBN}) top_right RELABEL -:-
+% Temps compostos de les interrogatives. Inter + VBG, VBN %
+34 - mod-chunk_$$_Fit (sn-chunk,vb-chunk{VBG}) top_right RELABEL -:inter
+34 - mod-chunk_$$_?_*_Fit (sn-chunk,vb-chunk{VBG}) top_right RELABEL -:inter
+34 - mod-chunk_$$_Fit (n-chunk,vb-chunk{VBG}) top_right RELABEL -:inter
+34 - mod-chunk_$$_?_*_Fit (n-chunk,vb-chunk{VBG}) top_right RELABEL -:inter
+34 - mod-chunk_$$_Fit (sn-chunk,vb-chunk{VBN}) top_right RELABEL -:inter
+34 - mod-chunk_$$_?_*_Fit (sn-chunk,vb-chunk{VBN}) top_right RELABEL -:inter
+34 - mod-chunk_$$_Fit (n-chunk,vb-chunk{VBN}) top_right RELABEL -:inter
+34 - mod-chunk_$$_?_*_Fit (n-chunk,vb-chunk{VBN}) top_right RELABEL -:inter
+34 - mod-chunk_$$_Fit (sn-chunk,vb-be{VBG}) top_right RELABEL -:inter
+34 - mod-chunk_$$_?_*_Fit (sn-chunk,vb-be{VBG}) top_right RELABEL -:inter
+34 - mod-chunk_$$_Fit (n-chunk,vb-be{VBG}) top_right RELABEL -:inter
+34 - mod-chunk_$$_?_*_Fit (n-chunk,vb-be{VBG}) top_right RELABEL -:inter
+34 - mod-chunk_$$_Fit (sn-chunk,vb-be{VBN}) top_right RELABEL -:inter
+34 - mod-chunk_$$_?_*_Fit (sn-chunk,vb-be{VBN}) top_right RELABEL -:inter
+34 - mod-chunk_$$_Fit (n-chunk,vb-be{VBN}) top_right RELABEL -:inter
+34 - mod-chunk_$$_?_*_Fit (n-chunk,vb-be{VBN}) top_right RELABEL -:inter
 
 % Combinacio de verb i auxiliar interrogatiu %
 51 - $$_Fit (vb-do,inter{VB$}) top_right RELABEL -:sv
@@ -2843,11 +2884,11 @@
 % combinar-se amb l'ultim sp-chunk per la dreta. Tambe "sn-chunks" amb expressions temporals.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%:::::::::::::::::::::::::::::::::::::::::::::::::::::::%
-%::::::::::::::::   CHUNK COORDINATION   :::::::::::::::%
-%:::::::::::::::::::::::::::::::::::::::::::::::::::::::%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::%
+%::::::::::::::::::::::::::::   CHUNK COORDINATION    :::::::::::::::::::::::::::::%
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %:::::::::::::::::::::::::::::::::::::::::%
@@ -2964,11 +3005,11 @@
 99 - - (attrib,adv-co) top_right RELABEL -:adv-coor
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%:::::::::::::::::::::::::::::::::::::::::::::::::::::::%
-%::::::::::::::::      PUNCTUATION       :::::::::::::::%
-%:::::::::::::::::::::::::::::::::::::::::::::::::::::::%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::%
+%:::::::::::::::::::::::::::::::   PUNCTUATION    :::::::::::::::::::::::::::::::::%
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %:::::::::::::::::::::::::::::::::::::::::%
@@ -2990,12 +3031,32 @@
 %:::::::::::::::::::::::::::::::::::::::::%
 
 
-3 - $$_sv_st-brk (claus,sf-brk) top_left RELABEL - % (he ate the cake(,))
-3 - $$_sv (sub-cl,sf-brk) top_left RELABEL - 
-30 - - (sf-brk,sub-cl{IN}) top_right RELABEL -
-86 - OUT_$$ (sp-chunk,sf-brk) top_left RELABEL - 
-86 - - (adv,sf-brk) top_left RELABEL - 
-85 - - (sf-brk,adv) top_right RELABEL - 
+3 - $$_sv_st-brk (claus,sf-brk{Fc}) top_left RELABEL - % (he ate the cake(,))
+3 - $$_sv (sub-cl,sf-brk{Fc}) top_left RELABEL -
+30 - - (sf-brk{Fc},sub-cl{IN}) top_right RELABEL -
+86 - OUT_$$ (sp-chunk,sf-brk{Fc}) top_left RELABEL -
+86 - - (adv,sf-brk{Fc}) top_left RELABEL -
+85 - - (sf-brk{Fc},adv) top_right RELABEL -
+
+
+%:::::::::::::::::::::::::::::::::::::::::%
+%                 COLON                   %
+%:::::::::::::::::::::::::::::::::::::::::%
+
+%:::: SENTENCE ADJUNCTS ::::%
+
+% (Airbus pilot(:)) 'We're gonna be in the Hudson'.
+5 - OUT_$$ (claus,sf-brk{Fd}) top_left RELABEL -
+5 - OUT_$$ (sv,sf-brk{Fd}) top_left RELABEL -
+5 - OUT_$$ (vb-chunk,sf-brk{Fd}) top_left RELABEL -
+5 - OUT_$$ (vb-be,sf-brk{Fd}) top_left RELABEL -
+5 - OUT_$$ (vb-have,sf-brk{Fd}) top_left RELABEL -
+5 - OUT_$$ (vb-do,sf-brk{Fd}) top_left RELABEL -
+5 - OUT_$$ (sn-chunk,sf-brk{Fd}) top_left RELABEL -
+5 - OUT_$$ (n-chunk,sf-brk{Fd}) top_left RELABEL -
+5 - OUT_$$ (sp-chunk,sf-brk{Fd}) top_left RELABEL -
+5 - OUT_$$ (attrib,sf-brk{Fd}) top_left RELABEL -
+5 - OUT_$$ (adv,sf-brk{Fd}) top_left RELABEL -
 
 
 %:::::::::::::::::::::::::::::::::::::::::%
@@ -3531,6 +3592,7 @@ vb-do   ncmod   d.label=adv
 rel   ncmod   d.label=adv
 inf   ncmod   d.label=adv
 part   ncmod   d.label=adv
+
 claus   ncmod   d.label=sp-chunk
 sv   ncmod   d.label=sp-chunk
 vb-chunk   ncmod   d.label=sp-chunk
@@ -3540,6 +3602,7 @@ vb-do   ncmod   d.label=sp-chunk
 rel   ncmod   d.label=sp-chunk
 inf   ncmod   d.label=sp-chunk
 part   ncmod   d.label=sp-chunk
+
 claus   ncmod   d.label=attrib
 sv   ncmod   d.label=attrib
 vb-chunk   ncmod   d.label=attrib
@@ -3549,6 +3612,15 @@ vb-do   ncmod   d.label=attrib
 rel   ncmod   d.label=attrib
 inf   ncmod   d.label=attrib
 part   ncmod   d.label=attrib
+
+sv   ncmod   d.label=n-chunk
+vb-chunk   ncmod   d.label=n-chunk
+vb-be   ncmod   d.label=n-chunk
+vb-have   ncmod   d.label=n-chunk
+vb-do   ncmod   d.label=n-chunk
+rel   ncmod   d.label=n-chunk
+inf   ncmod   d.label=n-chunk
+part   ncmod   d.label=n-chunk
 
 % Noun modifiers %
 sn-chunk   ncmod   d.label=sn-chunk
@@ -3953,6 +4025,9 @@ rel   ncmod-prt   d.label=prt-sp|prt-mix|adv   d.lemma=without p.class=ph-withou
 inf   ncmod-prt   d.label=prt-sp|prt-mix|adv   d.lemma=without p.class=ph-without
 part   ncmod-prt   d.label=prt-sp|prt-mix|adv   d.lemma=without p.class=ph-without
 
+% 'Going to' particle: 'to'
+mod-chunk   ncmod-prt   d.label=TO   d.lemma=to
+mod-chunk   ncmod-prt   d.label=IN   d.lemma=to
 
 %:::: CLAUSAL MODIFIERS ::::%
 
@@ -4125,6 +4200,11 @@ adv    aux   d.label=vb-be
 adv    aux   d.label=vb-do
 adv    aux   d.label=vb-have
 adv    aux   d.label=vb-chunk
+
+
+% 'Going to' auxiliary
+mod-chunk   aux   d.label=VB*   d.lemma=be
+mod-chunk   aux   d.label=VB*   d.lemma='re
 
 
 %:::: DETERMINERS :::: %
