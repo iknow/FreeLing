@@ -3405,6 +3405,9 @@ claus   topic   d.label=quant   d.side=left
 claus   topic   d.label=wh-adv   d.side=left
 claus   topic   d.label=wh-pro   d.side=left
 
+%:::: NONCLAUSAL MODIFIERS: PREPOSED NP ::::%
+claus   ncmod   d.label=n-chunk   d.side=left   d:sf-brk.pos=Fd
+
 %:::: NON CLAUSAL SUBJECTS ::::%
 claus   ncsubj   d.label=sn-chunk   d.side=left
 claus   ncsubj   d.label=n-chunk   d.side=left
@@ -4024,6 +4027,10 @@ vb-do   ncmod-prt   d.label=prt-sp|prt-mix|adv   d.lemma=without p.class=ph-with
 rel   ncmod-prt   d.label=prt-sp|prt-mix|adv   d.lemma=without p.class=ph-without
 inf   ncmod-prt   d.label=prt-sp|prt-mix|adv   d.lemma=without p.class=ph-without
 part   ncmod-prt   d.label=prt-sp|prt-mix|adv   d.lemma=without p.class=ph-without
+
+% Phrasal verbs which work as a noun %
+sn-chunk   ncmod-prt   d.label=prt-sp|prt-mix
+n-chunk   ncmod-prt   d.label=prt-sp|prt-mix
 
 % 'Going to' particle: 'to'
 mod-chunk   ncmod-prt   d.label=TO   d.lemma=to
