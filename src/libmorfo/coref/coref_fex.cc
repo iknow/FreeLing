@@ -20,11 +20,11 @@ using namespace std;
 coref_fex::coref_fex(const int t, const int v, const string &sf, const string &wf) {
 
   typeVector = t;
-
   if (v==0) 
-    vectors = COREFEX_DIST | COREFEX_IPRON | COREFEX_JPRON | COREFEX_IPRONM | COREFEX_JPRONM 
-              | COREFEX_STRMATCH | COREFEX_DEFNP | COREFEX_DEMNP | COREFEX_NUMBER | COREFEX_GENDER 
-              | COREFEX_SEMCLASS | COREFEX_PROPNAME | COREFEX_ALIAS | COREFEX_APPOS; 
+    vectors = COREFEX_DIST | COREFEX_IPRON | COREFEX_JPRON 
+              | COREFEX_STRMATCH | COREFEX_DEFNP | COREFEX_DEMNP | COREFEX_GENDER 
+              | COREFEX_SEMCLASS | COREFEX_PROPNAME | COREFEX_ALIAS | COREFEX_APPOS;
+			  // | COREFEX_IPRONM | COREFEX_JPRONM  | COREFEX_NUMBER
   else 
     vectors = v;
 
@@ -44,7 +44,6 @@ coref_fex::~coref_fex(){
 
 int coref_fex::jump(const vector<string> &list){
 	unsigned int pos = 0;
-
 	//If the first word is a preposition, an interjection, a conjunction, punctuation or an adverb, get the next.
 	while((list[pos].compare(0, 1, "s") == 0 || list[pos].compare(0, 1, "i") == 0 ||
 			  list[pos].compare(0, 1, "c") == 0 || list[pos].compare(0, 1, "f") == 0 ||
@@ -455,17 +454,20 @@ int coref_fex::get_semclass(const EXAMPLE &ex){
 		semanticDB *sdb = new semanticDB("/usr/local/share/FreeLing/es/senses16.db", "/usr/local/share/FreeLing/common/wn16.db");
 		if(tag1.compare(0, 2, "nc") == 0 || type1 == "00"){
 			l1 = sdb->get_word_senses(t1, "N");
-			if((*l1.begin()).size() > 0){
-				sense_info si = sdb->get_sense_info (l1.front(), "N");
-				for(it = si.tonto.begin(); it != si.tonto.end() ; ++it){
-					if((*it) == "Human"){
-						type1 = "sp";
-					} else if((*it) == "Group"){
-						type1 = "o0";
-					} else if((*it) == "Part"){
-						type1 = "g0";
-					} else if(type1 == "00"){
-						type1 = "v0";
+//			if((*l1.begin()).size() > 0){
+			if (not l1.empty()) {
+				if (not l1.begin()->empty()) {
+					sense_info si = sdb->get_sense_info (l1.front(), "N");
+					for(it = si.tonto.begin(); it != si.tonto.end() ; ++it){
+						if((*it) == "Human"){
+							type1 = "sp";
+						} else if((*it) == "Group"){
+							type1 = "o0";
+						} else if((*it) == "Part"){
+							type1 = "g0";
+						} else if(type1 == "00"){
+							type1 = "v0";
+						}
 					}
 				}
 			}
@@ -799,7 +801,6 @@ vector<string> coref_fex::tokenize(const string& str,const string& delimiters){
 //////////////////////////////////////////////////////////////////
 
 void coref_fex::extract(EXAMPLE &ex, std::vector<int> &result){
-
   result.clear();
 
   if (vectors & COREFEX_DIST)   result.push_back(get_dist(ex));
@@ -816,6 +817,7 @@ void coref_fex::extract(EXAMPLE &ex, std::vector<int> &result){
     result.push_back(get_i_pronoum_r(ex));
     result.push_back(get_i_pronoum_e(ex));
   }
+
 
   if (vectors & COREFEX_JPRONM) {
     result.push_back(get_j_pronoum_p(ex));
@@ -841,7 +843,9 @@ void coref_fex::extract(EXAMPLE &ex, std::vector<int> &result){
     result.push_back(get_alias_fixright(ex));
     result.push_back(get_alias_order(ex));
   }
+
   if (vectors & COREFEX_APPOS) 	result.push_back(get_appositive(ex));
+
 }
 
 //////////////////////////////////////////////////////////////////
