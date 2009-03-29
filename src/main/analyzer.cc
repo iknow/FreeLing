@@ -265,7 +265,7 @@ void ProcessCoreference (const config & cfg, tokenizer * tk, splitter * sp, maco
   list < sentence > ls;
   paragraph par;
   document doc;
-  
+
   // get plain text input lines while not EOF.
   while (getline(cin,text)) {
     if (text=="") { // new paragraph.
@@ -290,7 +290,6 @@ void ProcessCoreference (const config & cfg, tokenizer * tk, splitter * sp, maco
       av.clear(); ls.clear();
     }
   }
- 
   // flush splitter buffer  
   ls=sp->split(av, true);
   // add sentece to paragraph
@@ -308,7 +307,7 @@ void ProcessCoreference (const config & cfg, tokenizer * tk, splitter * sp, maco
 
   // solve coreference
   corfc->analyze(doc);
- 
+
   // output results in requested format 
   for (document::iterator par=doc.begin(); par!=doc.end(); par++) 
     PrintResults(*par, cfg, doc);
@@ -689,12 +688,12 @@ int main (int argc, char **argv) {
 #endif
     }
   }
- 
   // coreference requested, plain text input
   if (cfg.COREF_CoreferenceResolution) {
-    int vectors = COREFEX_DIST | COREFEX_IPRON | COREFEX_JPRON | COREFEX_IPRONM | COREFEX_JPRONM | COREFEX_STRMATCH 
-                  | COREFEX_DEFNP | COREFEX_DEMNP | COREFEX_NUMBER | COREFEX_GENDER | COREFEX_SEMCLASS 
+    int vectors = COREFEX_DIST | COREFEX_IPRON | COREFEX_JPRON  | COREFEX_STRMATCH 
+                  | COREFEX_DEFNP | COREFEX_DEMNP | COREFEX_GENDER | COREFEX_SEMCLASS
                   | COREFEX_PROPNAME | COREFEX_ALIAS | COREFEX_APPOS;
+	// | COREFEX_IPRONM | COREFEX_JPRONM | COREFEX_NUMBER
     corfc = new coref(cfg.COREF_CorefFile, vectors);
     ProcessCoreference (cfg, tk, sp, morfo, tagger, neclass, sens, parser, dep, corfc);
   } 
