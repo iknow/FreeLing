@@ -58,7 +58,8 @@ VerbCompl = <acentuar> <aceptar> <aconsejar> <acordar> <admitir> <advertir>
 	    <recordar> <refutar> <reiterar> <reivindicar> <remarcar> <repetir>
 	    <requerir> <responder> <resultar> <revelar> <saber> <sentir>
 	    <señalar> <significar> <solicitar> <sospechar> <sostener> <subrayar>
-	    <sugerir> <suponer> <temer> <teorizar> <transmitir> <valorar> <ver>;
+	    <sugerir> <suponer> <temer> <teorizar> <transmitir> <valorar> <ver>
+            <tener>;
 
 
 

@@ -203,7 +203,7 @@ sentence::iterator automat::BuildMultiword(sentence &se, sentence::iterator star
   else {
     TRACE(3,"Multiword found, but rejected. Sentence untouched");
     ResetActions();
-    i=end+1;
+    i=start;
     built=false;
   }
 

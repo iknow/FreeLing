@@ -111,7 +111,7 @@ coref::coref(const std::string &filename, const int vectors) {
       if (key=="SenseFile")   sf= util::absolute(fname,path); 
       else if (key=="WNFile") wf= util::absolute(fname,path); 
       else 
-	WARNING("Unknown parameter "+key+" in SEMDB section of file "+filename+". SemDB not loaded");      
+	WARNING("Unknown parameter "+key+" in SEMDB section of file "+filename+". SemDB not loaded");
     }
   }
 

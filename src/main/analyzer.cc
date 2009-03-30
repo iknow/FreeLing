@@ -137,10 +137,11 @@ void PrintDepTree (dep_tree::iterator n, int depth, const config & cfg, const do
 
   cout << string (depth*2, ' ');
 
-  ref = (cfg.COREF_CoreferenceResolution ? doc.get_coref_group(n->info) : -1);
+  ref = (cfg.COREF_CoreferenceResolution ? doc.get_coref_group(n->info.get_link()->info) : -1);
 
-  cout << n->info.get_link()->info.get_label() << "/" << n->info.get_label() << "/";
-  if (ref != -1 && n->info.get_label() == "sn") cout<<"(REF:" << ref <<")";
+  cout << n->info.get_link()->info.get_label(); 
+  if (ref != -1 && n->info.get_link()->info.get_label() == "sn") cout<<"(REF:" << ref <<")";
+  cout<<"/" << n->info.get_label() << "/";
 
   word w = n->info.get_word();
   cout << "(" << w.get_form() << " " << w.get_lemma() << " " << w.get_parole ();
@@ -303,6 +304,7 @@ void ProcessCoreference (const config & cfg, tokenizer * tk, splitter * sp, maco
     tagger->analyze(*p);
     neclass->analyze(*p);
     parser->analyze(*p);
+    if (dep) dep->analyze(*p);
   }
 
   // solve coreference
