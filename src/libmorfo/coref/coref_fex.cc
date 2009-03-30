@@ -28,7 +28,8 @@ coref_fex::coref_fex(const int t, const int v, const string &sf, const string &w
   else 
     vectors = v;
 
-  if ( !(sf.empty() && wf.empty()) ) {
+      
+ if ( !(sf.empty() && wf.empty()) ) {
     semdb= new semanticDB(sf,wf);
     TRACE(3,"Coreference solver loaded SemDB");
   }
@@ -451,13 +452,13 @@ int coref_fex::get_semclass(const EXAMPLE &ex){
 	if(tag1.compare(0, 2, "nc") == 0 || tag2.compare(0, 2, "nc") == 0 || type1 == "00" || type2 == "00"){
 		list< std::string > l1, l2;
 		list< std::string >::iterator it;
-		semanticDB *sdb = new semanticDB("/usr/local/share/FreeLing/es/senses16.db", "/usr/local/share/FreeLing/common/wn16.db");
+
 		if(tag1.compare(0, 2, "nc") == 0 || type1 == "00"){
-			l1 = sdb->get_word_senses(t1, "N");
+			l1 = semdb->get_word_senses(t1, "N");
 //			if((*l1.begin()).size() > 0){
 			if (not l1.empty()) {
 				if (not l1.begin()->empty()) {
-					sense_info si = sdb->get_sense_info (l1.front(), "N");
+					sense_info si = semdb->get_sense_info (l1.front(), "N");
 					for(it = si.tonto.begin(); it != si.tonto.end() ; ++it){
 						if((*it) == "Human"){
 							type1 = "sp";
@@ -475,11 +476,11 @@ int coref_fex::get_semclass(const EXAMPLE &ex){
 
 		if(tag2.compare(0, 2, "nc") == 0 || type2 == "00"){
 
-		  l2 = sdb->get_word_senses(t2, "N");
+		  l2 = semdb->get_word_senses(t2, "N");
 		  
 		  if (not l2.empty()) {
 		    if (not l2.begin()->empty()) {
-		      sense_info si = sdb->get_sense_info (l2.front(), "N");
+		      sense_info si = semdb->get_sense_info (l2.front(), "N");
 		      for(it = si.tonto.begin(); it != si.tonto.end() ; ++it){
 			if((*it) == "Human"){
 			  type2 = "sp";
@@ -494,7 +495,6 @@ int coref_fex::get_semclass(const EXAMPLE &ex){
 		    }
 		  }
 		}
-		delete(sdb);
 	}
 
 	if(ret != 1 && ex.sample1.tags[pos1].compare(0, 1, "n") == 0 && ex.sample2.tags[pos2].compare(0, 1, "n") == 0 ){
