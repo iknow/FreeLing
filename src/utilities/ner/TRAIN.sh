@@ -1,29 +1,43 @@
 #! /bin/bash
 
 ##
-##  Script to train a NE classifier
+##  Script to train a NE recognizer
 ##
 
 
 ## You'll need a corpus with the right NEs detected. The
-## format of this corpus must follow the B-I-O approach
+## format of this corpus must follow the B-I-O approach:
+## first column has the tag B, I, O that says if the word
+## is at the beginning, inside or outside of a NE. Second
+## column is the word and the following columns are each 
+## possible lemma for this word with the corresponding PoS
+## tag. Also, the probability of each lemma and word is 
+## present in the corpus, but if not available, let it to -1.
 ##
-## CANVIAR_HO
+## Example:
 ##
-## a la TDFS0
-## escritora escritor NCFS000
-## Bego�a_Ameztoy bego�a_ameztoy NP00SP0
-## ha haber VAIP3S0
-## presentado presentar VMP00SM
-## hoy 24/5/2000 W
-## en en SPS00
-## Barcelona barcelona NP00G00
-## su su DP3CS00
-## �ltima �ltimo AQ0FS00
-## novela novela NCFS000
-##  . . Fp
+##  O El el DA0MS0 -1
+##  B Tribunal tribunal NCMS000 -1
+##  I Supremo supremo AQ0MS0 -1
+##  O de de SPS00 -1
+##  O el el DA0MS0 -1
+##  O estado estado NCMS000 -1 estar VAP00SM -1
+##  O de de NCFS000 -1 de SPS00 -1
+##  B Victoria victoria I -1 victoria NCFS000 -1
+##  ...
 ##
-
+## To generate this kind of file from a corpus whith just the words
+## and B-I-O tags, you can use FreeLing command:
+##  cat corpus | analyze -f lang.cfg --inpf splitted --outf morfo --noprob --noquant > corpus.txt
+##
+## (assuming that "corpus" has a word per line where the first column
+## is the word)
+##
+## Once you have corpus.txt, you should syncronize it with the B-I-O
+## tags of the corpus. Pay special attention to words that may be
+## joined by FreeLing that may correspond to more than one B-I-O tag.
+##
+##
 ## You also need a RGF definition of which features are relevant for
 ## you. You can use ner.rgf in the Spanish data directory as a
 ## starting point
@@ -38,6 +52,7 @@
 export LD_LIBRARY_PATH='/usr/local/myLIBS/lib:'$LD_LIBRARY_PATH
 
 ## REPLACE "corpus.txt" with the file name of your training corpus
+##  in the format explained above
 mycorpus=corpus.txt
 ## REPLACE "modelname" with the basename of your .rgf file
 mymodel=modelname
@@ -63,18 +78,18 @@ mymodel=modelname
 
 ## First, select the lexicon you want to use and copy it to $mymodel".lex"
 ## eg:
-##     cp modelname-3abs.lex modelname.lex
+cp modelname-3abs.lex modelname.lex
 
 ## The "train" program reads mymodel.rgf and mymodel.lex and trains a
 ## mymodel.abm adaboost model.  The string specifies the labels of the
 ## NE classes. They must be the same appearing at the training corpus.
 ## NOTE that these three files must be used always toghether, changing 
-## one of them (e.g. unsing a differnt lexicon) will NOT work.
+## one of them (e.g. using a different lexicon) will NOT work.
 cat $mycorpus | ./train $mymodel "0 B 1 I 2 O"
 
 
 ## When the script finishes, move "mymodel.*" files to your FreeLing
-## configuration directory, adjust your NEC prefix file configuration
+## configuration directory, adjust your NER prefix file configuration
 ## option, and that's it!.
 
 
