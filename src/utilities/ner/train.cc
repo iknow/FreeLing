@@ -27,24 +27,6 @@
 ////////////////////////////////////////////////////////////////
 
 
-//------------------------------------------------------------------//
-//
-//                    IMPORTANT NOTICE
-//
-//  This file contains a sample main program to illustrate 
-//  usage of FreeLing analyzers library.
-//
-//  This sample main program may be used straightforwardly as 
-//  a basic front-end for the analyzers (e.g. to analyze corpora)
-//
-//  Neverthless, if you want embed the FreeLing libraries inside
-//  a larger application, or you want to deal with other 
-//  input/output formats (e.g. XML,HTML,...), the efficient and elegant 
-//  way to do so is consider this file as a mere example, and call 
-//  the library from your your own main code.
-//
-//------------------------------------------------------------------//
-
 using namespace std;
 
 // ####  Learn a abm model using a training corpus
@@ -62,13 +44,6 @@ using namespace std;
 #include "freeling.h"
 #include "fries.h"
 #include "omlet.h"
-//#include "util.h"
-//#include "language.h"
-//#include "fex.h"
-//#include "example.h"
-//#include "dataset.h"
-//#include "adaboost.h"
-
 
 adaboost* learner;
 fex* extractor;
@@ -108,7 +83,6 @@ void ProcessResults(const sentence &s) {
       // add example to train set
       ds->add_example(exmp);
   }
-
 }
 
 // ----------------------------------------------------
@@ -209,7 +183,7 @@ int main(int argc, char* argv[]) {
   // learn model     
   cerr<<"learning"<<endl;     
   learner.set_output((ostream*)&abm);
-  learner.learn(*ds, 500, true, (wr_params *)&wp);
+  learner.learn(*ds, 1000, true, (wr_params *)&wp);
   
   abm.close();
 }

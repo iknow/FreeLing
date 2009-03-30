@@ -1,6 +1,8 @@
 
+-- src/utilities/ner ---
 
-  This directory contains information about how to train a NE classifier for FreeLing.
+  This directory contains information about how to train a NE recognizer for FreeLing.
+
   Read the comments in the TRAIN.sh script.
 
   In fact, the libraries being used here is not FreeLing, but Omlet&Fries

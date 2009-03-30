@@ -159,75 +159,77 @@ void bioner::annotate(sentence &se) {
   // allocate prediction array (reused for all sentences)
   double pred[classifier->get_nlabels()];
   
-    // all the predictions of the sentence will be stored in an array of arrays.
-    // there are the weights for each class and each word. First index is the class_num
-    // the second one, the word.
-    double** all_pred=new double*[classifier->get_nlabels()]; 
-    // initialize matrix 
-    for (i = 0; i < classifier->get_nlabels(); ++i)
-      all_pred[i] = new double[se.size()];
-
-    // extract sentence features
-    features.clear();
-    extractor->encode_int(se,features);
-    TRACE(2,"Sentence encoded.");
+  // all the predictions of the sentence will be stored in an array of arrays.
+  // there are the weights for each class and each word. First index is the class_num
+  // the second one, the word.
+  double** all_pred=new double*[classifier->get_nlabels()]; 
+  // initialize matrix 
+  for (i = 0; i < classifier->get_nlabels(); ++i)
+    all_pred[i] = new double[se.size()];
+      
+  // extract sentence features
+  features.clear();
+  extractor->encode_int(se,features);
+  TRACE(2,"Sentence encoded.");
+  
+  // process each word
+  for (w=se.begin(),i=0; w!=se.end(); w++,i++) {
+    example exmp(classifier->get_nlabels());
     
-    // process each word
-    for (w=se.begin(),i=0; w!=se.end(); w++,i++) {
-      example exmp(classifier->get_nlabels());
-
-      // add all extracted features to example
-      for (f=features[i].begin(); f!=features[i].end(); f++) exmp.add_feature(*f);
-      TRACE(4,"   example build, with "+util::int2string(exmp.size())+" features");
-
-      // classify example
-      classifier->classify(exmp,pred);
-      TRACE(3,"Example classified");
- 
-      // add the predictions for this word to the vector of arrays
-      for (int j=0; j<classifier->get_nlabels(); j++)
-	all_pred[j][i]=pred[j];
-    }
-
-    // Once all sentece has been encoded, use Viterbi algorithm to 
-    // determine which is the most likely class combination
-    vector<int> best;
-    best = vit.find_best_path(all_pred,se.size());
+    // add all extracted features to example
+    for (f=features[i].begin(); f!=features[i].end(); f++) exmp.add_feature(*f);
+    TRACE(4,"   example build, with "+util::int2string(exmp.size())+" features");
     
-    // process obtained best_path and join detected NEs, syncronize it with sentence
-    bool inNE=false;
-    sentence::iterator beg;
-    bool built=false;
     
-    // for each word
-    for (w=se.begin(),i=0; w!=se.end(); w++,i++) { 
-      // look for the BIOtag choosen for this word
-      map <int,string>::const_iterator tag;
-      tag=class_name.find(best[i]);
-      if (tag!=class_name.end()) {
-	TRACE(3, "Word "+w->get_form()+" has BIO tag "+tag->second);
-	// if we were inside NE, and the chosen class (best[i]) for this word is "B" or "O", 
-	//  previous NE is finished: build multiword. 	
-	if ((inNE && tag->second=="B") || (inNE && tag->second=="O")) {
-	  w=BuildMultiword(se, beg, w-1, built);
-	  w++; // add one because w point to last word of multiword, which is previous word
-	  inNE=false;
-	  TRACE(5,"  multiword built. Current word: "+w->get_form());
-	}
-	// if we found "B", start new NE (previous if statment joins possible previous NE that finishes here)
-	if (tag->second=="B") {
-	  inNE=true;
-	  beg=w;
-	}
-      }	
-    }
+    // classify example
+    classifier->classify(exmp,pred);
     
-    TRACE_SENTENCE(1,se);
+    // add the predictions for this word to array of arrays
+    for (int j=0; j<classifier->get_nlabels(); j++)
+      all_pred[j][i]=pred[j]; 
+      
+    TRACE(3,"Example classified");
+  }
+  
+  // Once all sentence has been encoded, use Viterbi algorithm to 
+  // determine which is the most likely class combination
+  vector<int> best;
+  best = vit.find_best_path(all_pred,se.size());
+  
+  // process obtained best_path and join detected NEs, syncronize it with sentence
+  bool inNE=false;
+  sentence::iterator beg;
+  bool built=false;
     
-    // free memory 
-    for (i = 0; i < classifier->get_nlabels(); ++i)
-      delete(all_pred[i]);
-    delete(all_pred);
+  // for each word
+  for (w=se.begin(),i=0; w!=se.end(); w++,i++) { 
+    // look for the BIOtag choosen for this word
+    map <int,string>::const_iterator tag;
+    tag=class_name.find(best[i]);
+    if (tag!=class_name.end()) {
+      TRACE(3, "Word "+w->get_form()+" has BIO tag "+tag->second);
+      // if we were inside NE, and the chosen class (best[i]) for this word is "B" or "O", 
+      //  previous NE is finished: build multiword. 	
+      if ((inNE && tag->second=="B") || (inNE && tag->second=="O")) {
+	w=BuildMultiword(se, beg, w-1, built);
+	w++; // add one because w point to last word of multiword, which is previous word
+	inNE=false;
+	TRACE(5,"  multiword built. Current word: "+w->get_form());
+      }
+      // if we found "B", start new NE (previous if statment joins possible previous NE that finishes here)
+      if (tag->second=="B") {
+	inNE=true;
+	beg=w;
+      }
+    }	
+  }
+  
+  TRACE_SENTENCE(1,se);
+  
+  // free memory 
+  for (i = 0; i < classifier->get_nlabels(); ++i)
+    delete(all_pred[i]);
+  delete(all_pred);
 }
 
 ///////////////////////////////////////////////////////////////
@@ -269,7 +271,7 @@ void bioner::SetMultiwordAnalysis(sentence::iterator i) const {
 //     i->copy_analysis(i->get_words_mw().front());
 //   }
     
-  TRACE(3,"adding NP analysis");
+  TRACE(3,"   adding NP analysis");
     // Add an NP analysis, with the compound form as lemma.
   i->add_analysis(analysis(util::lowercase(i->get_form()),NE_tag));
 
@@ -285,16 +287,16 @@ sentence::iterator bioner::BuildMultiword(sentence &se, sentence::iterator start
   list<word> mw;
   string form;
 	
-  TRACE(3,"Building multiword");
+  TRACE(3,"  Building multiword");
   for (i=start; i!=end; i++){
     mw.push_back(*i);           
     form += i->get_form()+"_";
-    TRACE(3,"added next ["+form+"]");
+    TRACE(3,"   added next ["+form+"]");
   }
   // don't forget last word
   mw.push_back(*i);           
   form += i->get_form();
-  TRACE(3,"added last ["+form+"]");
+  TRACE(3,"   added last ["+form+"]");
 	
   // build new word with the mw list, and check whether it is acceptable
   word w(form,mw);
@@ -311,20 +313,20 @@ sentence::iterator bioner::BuildMultiword(sentence &se, sentence::iterator start
       built=true;
     }
     else {
-      TRACE(3,"Valid Multiword. Modifying the sentence");
+      TRACE(3,"  Valid Multiword. Modifying the sentence");
       // erasing from the sentence the words that composed the multiword
       end++;
       i=se.erase(start, end);
       // insert new multiword it into the sentence
       i=se.insert(i,w); 
-      TRACE(3,"New word inserted");
+      TRACE(3,"  New word inserted");
       // Set morphological info for new MW
       SetMultiwordAnalysis(i);
       built=true;
     }
   }
   else {
-    TRACE(3,"Multiword found, but rejected. Sentence untouched");
+    TRACE(3," Multiword found, but rejected. Sentence untouched");
     i=end+1;
     built=false;
   }
@@ -397,7 +399,8 @@ vis_viterbi::vis_viterbi(const string &P_file) {
     }
     
     else if (reading == 3) {
-    // Reading transition probabilities for each class (one transition per line: "B I prob(B->I)")
+      // Reading transition probabilities for each class 
+      //  (one transition per line: "B I prob(B->I)")
       if (N==0) // we have not seen reading==1
 	ERROR_CRASH("File "+P_file+" need to have classes name/numbers before probability values");
       if (p_trans.size()==0) { // first line, initialize vector
@@ -418,7 +421,8 @@ vis_viterbi::vis_viterbi(const string &P_file) {
     }
   }
 
-  // Check that p_ini and p_trans have received correct values (between 0 and 1)
+  // Once file is readed, check that p_ini and p_trans have 
+  //  received correct values (between 0 and 1)
   for (int i=0; i<N; i++){
     if(p_ini[i]<0 || p_ini[i]>1)
       ERROR_CRASH("Invalid probability value for some initial probability");
@@ -437,18 +441,19 @@ vis_viterbi::vis_viterbi(const string &P_file) {
 
 vector<int> vis_viterbi::find_best_path(double** predictions, int sent_size) const {
 
-  long double p, max, sum;
+  double p, max, sum;
   int argmax=0;
 
-  TRACE(3,"  processing sentence of size: "+util::int2string(sent_size));
+  TRACE(3,"  Viterbi: processing sentence of size: "+util::int2string(sent_size));
   
   // vector with the most likely class for each word
   vector<int> best_path[N];
+  vector<int> best_path_new[N];
   
   // array with the best path for reaching current word with each 
   //  possible class
-  long double p_path[N];
-  long double p_path_new[N];
+  double p_path[N];
+  double p_path_new[N];
   
   // initialize this array with the weights for the first word
   //  multiplied by initial probability
@@ -459,7 +464,7 @@ vector<int> vis_viterbi::find_best_path(double** predictions, int sent_size) con
     sum+=exp(predictions[i][0]);
   for (int i=0; i<N; i++) {
     p_path[i]=p_ini[i]*exp(predictions[i][0])/sum;
-    TRACE(4,"   initial prob for class "+util::int2string(i)+": "+util::int2string(p_path[i]));
+    TRACE(4,"   initial prob for class "+util::int2string(i)+": "+util::double2string(p_path[i]));
     TRACE(4,"         p_ini["+util::int2string(i)+"]: "+util::double2string(p_ini[i]));
     TRACE(4,"         p_pred: "+util::double2string(exp(predictions[i][0])/sum));
   }
@@ -477,22 +482,41 @@ vector<int> vis_viterbi::find_best_path(double** predictions, int sent_size) con
     
     for (int i=0; i<N; i++){ // for each class, store the best probability
       TRACE(5,"   store best probability for class "+util::int2string(i));
-      max=0;
+      max=0; 
       for (int j=0; j<N; j++) { 
 	p=p_path[j]*(exp(predictions[i][w])/sum)*p_trans[j][i];
+	TRACE(6,"       with class "+util::int2string(j)+" p: "+util::double2string(p)+" (ptrans= "+util::double2string(p_trans[j][i])+" pred: "+util::double2string(predictions[i][w])+" normalized-pred:"+util::double2string(exp(predictions[i][w])/sum)+")");
+	//cerr<<"       with class "<<j<<" p: "<<p<<" (ptrans= "<<p_trans[j][i]<<" pred: "<<predictions[i][w]<<" normalized-pred:"<<exp(predictions[i][w])/sum<<")"<<endl;
+	if (p==0.0 && p_trans[j][i]!=0 && p_path[j]!=0) // reached null probability per acumulacio
+	  cerr<<" --- Null probability!! --"<<endl;
 	if(max<p) {
 	  max=p;
 	  argmax=j;
 	}
       }
-      // store most likely path for this class.
-      best_path[i].push_back(argmax);
+
+      TRACE(5,"     best prob with class: "+util::int2string(argmax)+" p: "+util::double2string(max));
+      //cerr<<"     best prob with class: "<<argmax<<" p: "<<max<<endl;
+
+      // store most likely path for this class.      
+      best_path_new[i]=best_path[argmax]; // choose as best_path for this class the path that led to best prob
+      best_path_new[i].push_back(argmax); // add current prediction
       p_path_new[i]=max;
     }
     
-    // store p_path_new as p_path
-    for (int i=0; i<N; i++)
+    // store p_path_new and best_path_new as p_path and best_path_new
+    for (int i=0; i<N; i++){
       p_path[i]=p_path_new[i];
+      best_path[i]=best_path_new[i];
+    }
+
+    // to check: outpu current best path
+    //for (int i=0; i<N; i++) {
+    //cerr<<i<<":";
+    //for (vector<int>::iterator it=best_path[i].begin(); it!=best_path[i].end(); it++)
+    //cerr<<" "<<*it;
+    //cerr<<endl;
+    //}
   }
   
   // once the last word is reached, choose the best path
@@ -504,6 +528,8 @@ vector<int> vis_viterbi::find_best_path(double** predictions, int sent_size) con
     }
   }
   
+  TRACE(5,"   best path for this sentence ends with "+util::int2string(argmax)+" global p: "+util::double2string(p_path[argmax]));
+
   // store best class for last word in best_path
   best_path[argmax].push_back(argmax);
   
