@@ -1,13 +1,13 @@
 <Lexicon>
-/home/mpadro/freeling/data/es/ner/ner.lex
+./ner.lex
 </Lexicon>
 
 <RGF>
-/home/mpadro/freeling/data/es/ner/ner.rgf
+./ner.rgf
 </RGF>
 
 <AdaBoostModel>
-/home/mpadro/freeling/data/es/ner/ner.abm
+./ner.abm
 </AdaBoostModel>
 
 <Classes>
