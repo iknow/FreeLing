@@ -191,8 +191,10 @@ bool coref::check_coref(const SAMPLE & sa1, const SAMPLE & sa2) const{
   //outSample(ex.sample2);
   extractor->extract(ex, encoded);
   example exampl(classifier->get_nlabels());
+  TRACE(5,"   Encoded example:");
   for(std::vector<int>::iterator it = encoded.begin(); it!= encoded.end(); ++it) {
     exampl.add_feature((*it));
+    TRACE(5,"          "+util::int2string(*it));
   }
 
   TRACE(5,"    -Classifying");  
