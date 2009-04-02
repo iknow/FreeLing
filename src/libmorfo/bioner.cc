@@ -491,8 +491,7 @@ vector<int> vis_viterbi::find_best_path(double** predictions, int sent_size) con
       for (int j=0; j<N; j++) { 
 	p=p_path[j]*(exp(predictions[i][w])/sum)*p_trans[j][i];
 	TRACE(6,"       with class "+util::int2string(j)+" p: "+util::double2string(p)+" (ptrans= "+util::double2string(p_trans[j][i])+" pred: "+util::double2string(predictions[i][w])+" normalized-pred:"+util::double2string(exp(predictions[i][w])/sum)+")");
-	//cerr<<"       with class "<<j<<" p: "<<p<<" (ptrans= "<<p_trans[j][i]<<" pred: "<<predictions[i][w]<<" normalized-pred:"<<exp(predictions[i][w])/sum<<")"<<endl;
-	if (p==0.0 && p_trans[j][i]!=0 && p_path[j]!=0) // reached null probability per acumulacio
+	if (p==0.0 && p_trans[j][i]!=0 && p_path[j]!=0) // reached null probability
 	  cerr<<" --- Null probability!! --"<<endl;
 	if(max<p) {
 	  max=p;
@@ -501,7 +500,6 @@ vector<int> vis_viterbi::find_best_path(double** predictions, int sent_size) con
       }
 
       TRACE(5,"     best prob with class: "+util::int2string(argmax)+" p: "+util::double2string(max));
-      //cerr<<"     best prob with class: "<<argmax<<" p: "<<max<<endl;
 
       // store most likely path for this class.      
       best_path_new[i]=best_path[argmax]; // choose as best_path for this class the path that led to best prob
@@ -514,14 +512,6 @@ vector<int> vis_viterbi::find_best_path(double** predictions, int sent_size) con
       p_path[i]=p_path_new[i];
       best_path[i]=best_path_new[i];
     }
-
-    // to check: outpu current best path
-    //for (int i=0; i<N; i++) {
-    //cerr<<i<<":";
-    //for (vector<int>::iterator it=best_path[i].begin(); it!=best_path[i].end(); it++)
-    //cerr<<" "<<*it;
-    //cerr<<endl;
-    //}
   }
   
   // once the last word is reached, choose the best path
