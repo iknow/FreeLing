@@ -54,6 +54,8 @@ bioner::bioner(const std::string &conf_file) : ner(), vit(conf_file) {
   string feat,lex_file,rgf_file, abm_file, line, name;
   int num;
 
+  string path=conf_file.substr(0,conf_file.find_last_of("/\\")+1);
+
   map <string, int> class_num;
   
   // default
@@ -97,16 +99,19 @@ bioner::bioner(const std::string &conf_file) : ner(), vit(conf_file) {
     else if (reading == 1) {
       // Reading lexicon file name
       sin>>lex_file;
+      lex_file= util::absolute(lex_file,path); 
     }
 
     else if (reading == 2) {
       // Reading RGF file name
       sin>>rgf_file;
+      rgf_file= util::absolute(rgf_file,path); 
     }
 
     else if (reading == 3) {
       // Reading AdaBoost model file name
       sin>>abm_file;
+      abm_file= util::absolute(abm_file,path); 
     }
 
     else if (reading == 4) {
@@ -239,7 +244,7 @@ void bioner::annotate(sentence &se) {
 bool bioner::ValidMultiWord(const word &w) const {
 	
   // We do not consider a valid proper noun if all words are capitalized and there 
-  // are more than Title_length words (it's probably a news title, e.g. "TITANIC WRECKS IN ARTIC AS!!")
+  // are more than Title_length words (it's probably a news title, e.g. "TITANIC WRECKS IN ARTIC SEAS!!")
   // Title_length==0 deactivates this feature
 
   list<word> mw = w.get_words_mw();
