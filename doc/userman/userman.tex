@@ -738,10 +738,11 @@ Command line       & Configuration file   \\ \hline
 
 \begin{tabular}{|l|l|}
 Command line       & Configuration file   \\ \hline
-\verb#-N <filename>#, \verb#--fnp <filename>#   & \verb#NPDataFile=<filename>#  \\ \hline
+\verb#--ner [bio|basic|none]#, \verb#--fnp <filename>#   & \verb#NPDataFile=<filename>#  \\ \hline
 \end{tabular}
 
-  Configuration data file for simple heuristic Proper Noun recognizer.
+  Configuration data file for AddaBoost Proper Noun recognizer (bio) or  simple heuristic 
+  Proper Noun recognizer (basic).
   See section \ref{file-ner} for details.
 
 
@@ -1465,6 +1466,8 @@ The probabilities file has six sections:
 %..................................................
 \section{Named entity recognition data file}
 \label{file-ner}
+
+  There are
 
   This file controls the behaviour of the simple NE recognizer. It
   consists of the following sections:
