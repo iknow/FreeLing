@@ -728,10 +728,10 @@ Command line       & Configuration file   \\ \hline
 
 \begin{tabular}{|l|l|}
 Command line       & Configuration file   \\ \hline
-\verb#--ner#, \verb#--noner#    & \verb#NERecognition=(yes|y|on|no|n|off)#    \\ \hline
+\verb#--ner [bio|basic|none]#   & \verb#NERecognition=(bio|basic|none)#    \\ \hline
 \end{tabular}
 
-  Whether to perform NE recognition. Deactivating this feature will affect the behaviour of the NE Classification module.
+  Whether to perform NE recognition and which recognizer to use: ``bio'' for AdaBoost based NER, ``basic'' for a simple heuristic NE recognizer and ``none'' o perform no Ne recognition . Deactivating this feature will affect the behaviour of the NE Classification module.
 
 
 \item {\bf Named Entity Recognizer File}
@@ -1017,7 +1017,6 @@ DatesDetection=yes\\
 QuantitiesDetection=yes\\
 DictionarySearch=yes\\
 ProbabilityAssignment=yes\\
-NERecognition=yes\\
 DecimalPoint=","\\
 ThousandPoint="."\\
 LocutionsFile=/usr/local/share/FreeLing/es/locucions.dat \\
@@ -1036,6 +1035,9 @@ TaggerRelaxFile=/usr/local/share/FreeLing/es/constr\_gram.dat\\
 TaggerRelaxMaxIter=500\\
 TaggerRelaxScaleFactor=670.0\\
 TaggerRelaxEpsilon=0.001\\
+\#\#\#\#---------------- NER options\\
+NERecognition=basic\\
+NPDataFile=/usr/local/share/FreeLing/es/np.dat\\
 \#\#\#\#----------------- NEC options\\
 NEClassification=no\\
 NECFilePrefix=/usr/local/share/FreeLing/es/nec\\
@@ -1467,9 +1469,12 @@ The probabilities file has six sections:
 \section{Named entity recognition data file}
 \label{file-ner}
 
-  There are
+  There are two different methods to perform NE recognizer. There is a different data file
+for each one
 
-  This file controls the behaviour of the simple NE recognizer. It
+\subsection{Basic NE recognizer}
+
+  A file to control the behaviour of the simple NE recognizer is needed. It
   consists of the following sections:
 
 \begin{itemize}
@@ -1610,6 +1615,120 @@ no
 </SplitMultiwords>
 \end{verbatim}
 \end{itemize}
+
+%%%%%
+
+\subsection{BIO NE recognizer (based on AdaBoost Classifier)}
+
+  For this recognizer a different data file is needed. It consists of the following sections:
+
+\begin{itemize}
+  \item Section \verb#<RGF># contains one line with the path to the RGF file of the model. This file is the definition of the features that will be taken into account for NER.
+\begin{verbatim}
+<RGF>
+ner.rgf
+</RGF>
+\end{verbatim}
+
+  \item Section \verb#<AdaBoostModel># contains one line with the path to the model file learnt with AdaBoost. 
+\begin{verbatim}
+<AdaBoostModel>
+ner.abm
+</AdaBoostModel>
+\end{verbatim}
+
+\item Section \verb#<Lexicon># contains one line with the path to the lexicon file of the learnt model. 
+\begin{verbatim}
+<Lexicon>
+ner.lex
+</Lexicon>
+\end{verbatim}
+
+em Section \verb#<Lexicon># contains one line with the path to the lexicon file of the learnt m\
+odel.
+\begin{verbatim}
+<Lexicon>
+ner.lex
+</Lexicon>
+\end{verbatim}
+
+
+\item Section \verb#<Classes># contains only one line with the classes of the model and its translation to B, I, O tag.
+\begin{verbatim}
+<Classes>
+0 B 1 I 2 O
+</Classes>
+\end{verbatim}
+
+
+\item Section \verb#<InitialProb># Contains the probabilities of seeing each class at the begining of a sentence. These probabilities are necessary for the Viterbi algorithm used to annotate NEs in a sentence.
+
+\begin{verbatim}
+<InitialProb>
+B 0.200072
+I 0.0
+O 0.799928
+</InitialProb>
+\end{verbatim}
+
+
+\item Section \verb#<TransitionProb># Contains the transition probabilities for each class to each other class, used by the Viterbi algorithm.
+
+\begin{verbatim}
+<TransitionProb>
+B B 0.00829346
+B I 0.395481
+B O 0.596225
+I B 0.0053865
+I I 0.479818
+I O 0.514795
+O B 0.0758838
+O I 0.0
+O O 0.924116
+</TransitionProb>
+\end{verbatim}
+
+
+  \item Section \verb#<TitleLimit># contains only one line with an integer
+  value stating the length beyond which a sentence written {\sl
+  entirely} in uppercase will be considered a title and not a proper
+  noun. Example:
+\begin{verbatim}
+<TitleLimit>
+3
+</TitleLimit>
+\end{verbatim}
+
+  If \verb#TitleLimit=0# (the default) title detection is
+  deactivated (i.e, all-uppercase sentences are always marked as
+  named entities).
+
+  The idea of this heuristic is that newspaper titles are usually
+  written in uppercase, and tend to have at least two or three
+  words, while named entities written in this way tend to be acronyms
+  (e.g. IBM, DARPA, ...) and usually have at most one or two words.
+
+  For instance, if \verb#TitleLimit=3# the sentence 
+  {\tt FREELING ENTERS NASDAC UNDER CLOSE INTEREST OF MARKET ANALISTS}
+  will not be recognized as a named entity, and will have its words analyzed
+  independently. On the other hand, the sentence {\tt IBM INC.}, having less than
+  3 words, will be considered a proper noun.
+
+  Obviously this heuristic is not 100\% accurate, but in some cases
+  (e.g. if you are analyzing newspapers) it may be preferrable to the
+  default behaviour (which is not 100\% accurate, either).
+  
+    \item Section \verb#<SplitMultiwords># contains only one line with either \verb#yes# or \verb#no#. If \verb#SplitMultiwords# is activated Named Entities still will be recognized but they will not be treated as a unit with only one Part-of-Speech tag for the whole compound. Each word gets its own Part-of-Speech tag instead.\\
+    Capitalized words get the Part-of-Speech tag as specified in \verb#NE_Tag#, The Part-of-Speech tags of non-capitalized words inside a Named Entity (typically, prepositions and articles) will be left untouched.
+\begin{verbatim}
+<SplitMultiwords>
+no
+</SplitMultiwords>
+\end{verbatim}
+\end{itemize}
+
+
+
 
 %..................................................
 \section{Named entity classification data files}
