@@ -116,7 +116,7 @@ coref::coref(const std::string &filename, const int vectors) {
   }
 
   // create feature extractor
-  extractor = new coref_fex(TYPE_TWO, vectors, sf, wf);
+  extractor = new coref_fex(COREFEX_TYPE_TWO, vectors, sf, wf);
 
   TRACE(3,"analyzer succesfully created");
 }

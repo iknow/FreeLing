@@ -692,10 +692,9 @@ int main (int argc, char **argv) {
   }
   // coreference requested, plain text input
   if (cfg.COREF_CoreferenceResolution) {
-    int vectors = COREFEX_DIST | COREFEX_IPRON | COREFEX_JPRON  | COREFEX_STRMATCH 
-                  | COREFEX_DEFNP | COREFEX_DEMNP | COREFEX_GENDER | COREFEX_SEMCLASS
-                  | COREFEX_PROPNAME | COREFEX_ALIAS | COREFEX_APPOS;
-	// | COREFEX_IPRONM | COREFEX_JPRONM | COREFEX_NUMBER
+    int vectors = COREFEX_DIST | COREFEX_IPRON | COREFEX_JPRON | COREFEX_IPRONM | COREFEX_JPRONM
+				| COREFEX_STRMATCH | COREFEX_DEFNP | COREFEX_DEMNP | COREFEX_GENDER | COREFEX_NUMBER
+				| COREFEX_SEMCLASS | COREFEX_PROPNAME | COREFEX_ALIAS | COREFEX_APPOS;
     corfc = new coref(cfg.COREF_CorefFile, vectors);
     ProcessCoreference (cfg, tk, sp, morfo, tagger, neclass, sens, parser, dep, corfc);
   } 

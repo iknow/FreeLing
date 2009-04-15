@@ -12,7 +12,7 @@ using namespace std;
 
 struct RESULT {
 	int positive;
-	std::vector<int> *result;
+	std::vector<int> result;
 };
 list<struct RESULT *> allRes;
 
@@ -20,7 +20,7 @@ list<struct RESULT *> allRes;
 ///    Adds a sample vector to the list
 //////////////////////////////////////////////////////////////////
 
-void add(int positive, std::vector<int> *result){
+void add(int positive, std::vector<int> &result){
 	struct RESULT *res = new RESULT;
 	res->positive = positive;
 	res->result = result;
@@ -31,15 +31,15 @@ void add(int positive, std::vector<int> *result){
 ///    Outputs a sample vector to the file
 //////////////////////////////////////////////////////////////////
 
-void save(ofstream *outfile, int positive, std::vector<int> *result){
+void save(ofstream *outfile, int positive, std::vector<int> &result){
 	std::vector<int>::iterator vit;
 	
 	(*outfile) << positive << " ";
-	vit = result->begin();
-	while(vit != result->end()){
+	vit = result.begin();
+	while(vit != result.end()){
 		(*outfile) << (*vit);
 		++vit;
-		if(vit != result->end())
+		if(vit != result.end())
 			(*outfile) << " ";
 	}
 	(*outfile) << endl;
@@ -112,14 +112,14 @@ void process(coref_fex &cFex, char *filename, char *outputfile){
 				transform(strTmp.begin(), strTmp.end(), strTmp.begin(), (int (*)(int))std::tolower);
 				ex.sample2.tags = cFex.tokenize(strTmp.c_str()," ");
 
-				std::vector<int> *result = new std::vector<int>;
+				std::vector<int> result;
 				cFex.extract(ex, result);
 				add(positive, result);
 
 				std::vector<int>::iterator vit;
-				vit = result->begin();
+				vit = result.begin();
 				i=0;
-				while(vit != result->end()){
+				while(vit != result.end()){
 					if((*vit) == 1)
 						statsV[i]++;
 					if((*vit) == 1 && positive == 1)
@@ -170,7 +170,7 @@ void process(coref_fex &cFex, char *filename, char *outputfile){
 //////////////////////////////////////////////////////////////////
 
 int main(int argc, char **argv){
-	coref_fex cFex;
+	coref_fex cFex(COREFEX_TYPE_TWO, 0, "/usr/local/share/FreeLing/es/senses16.db", "/usr/local/share/FreeLing/common/wn16.db");
 	int pos=1, vectors = 0;
 	char infile[256], outputfile[256];
 
@@ -199,37 +199,37 @@ int main(int argc, char **argv){
 
 	while(strncmp(argv[pos], "-", 1) == 0){
 		if(strncmp(argv[pos], "-2", 2) == 0)
-			cFex.typeVector = TYPE_TWO;
+			cFex.typeVector = COREFEX_TYPE_TWO;
 		else if(strncmp(argv[pos], "-3", 2) == 0)
-			cFex.typeVector = TYPE_THREE;
+			cFex.typeVector = COREFEX_TYPE_THREE;
 		else if(strncmp(argv[pos], "-dist", 5) == 0)
-			vectors |= DIST;
+			vectors |= COREFEX_DIST;
 		else if(strncmp(argv[pos], "-ipronm", 7) == 0)
-			vectors |= IPRONM;
+			vectors |= COREFEX_IPRONM;
 		else if(strncmp(argv[pos], "-jpronm", 7) == 0)
-			vectors |= JPRONM;
+			vectors |= COREFEX_JPRONM;
 		else if(strncmp(argv[pos], "-ipron", 6) == 0)
-			vectors |= IPRON;
+			vectors |= COREFEX_IPRON;
 		else if(strncmp(argv[pos], "-jpron", 6) == 0)
-			vectors |= JPRON;
+			vectors |= COREFEX_JPRON;
 		else if(strncmp(argv[pos], "-strmatch", 9) == 0)
-			vectors |= STRMATCH;
+			vectors |= COREFEX_STRMATCH;
 		else if(strncmp(argv[pos], "-defnp", 6) == 0)
-			vectors |= DEFNP;
+			vectors |= COREFEX_DEFNP;
 		else if(strncmp(argv[pos], "-demnp", 6) == 0)
-			vectors |= DEMNP;
+			vectors |= COREFEX_DEMNP;
 		else if(strncmp(argv[pos], "-number", 7) == 0)
-			vectors |= NUMBER;
+			vectors |= COREFEX_NUMBER;
 		else if(strncmp(argv[pos], "-gender", 7) == 0)
-			vectors |= GENDER;
+			vectors |= COREFEX_GENDER;
 		else if(strncmp(argv[pos], "-semclass", 9) == 0)
-			vectors |= SEMCLASS;
+			vectors |= COREFEX_SEMCLASS;
 		else if(strncmp(argv[pos], "-propname", 9) == 0)
-			vectors |= PROPNAME;
+			vectors |= COREFEX_PROPNAME;
 		else if(strncmp(argv[pos], "-alias", 6) == 0)
-			vectors |= ALIAS;
+			vectors |= COREFEX_ALIAS;
 		else if(strncmp(argv[pos], "-appos", 6) == 0)
-			vectors |= APPOS;
+			vectors |= COREFEX_APPOS;
 		else
 			cout << "Option unknow: " << argv[pos] << endl;
 		pos++;
