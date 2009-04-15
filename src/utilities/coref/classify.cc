@@ -99,7 +99,7 @@ int main(int argc, char* argv[]) {
 			}
 		}
 		if(classifier->get_label(clas)=="Positive" && classifier->get_label(clas)==tag){
-			cout << vect[0] << " " << vect[1] << endl;
+//			cout << vect[0] << " " << vect[1] << endl;
 			pok[0]++;
 			for(j=0;j<vect_max;j++){
 				if(vect[j] == 1)

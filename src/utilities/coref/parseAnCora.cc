@@ -711,7 +711,7 @@ static int print_positives(bool allpos){
 		print_positive(*itN);
 		++itN;
 	}
-	cout << "Positivos: " << countp << endl;
+	cout << "	Positivos: " << countp << endl;
 	return(countp);
 }
 
@@ -763,7 +763,7 @@ static void print_allnegatives(int limneg){
 		++deIt1;
 	}
 
-	cerr << "Negativos: " << allCount << endl;
+	cout << "	Negativos: " << allCount << endl;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -820,7 +820,7 @@ static void print_negatives(int type, int limit, double re, int numpos, bool eli
 		print_negative(*itN);
 		++itN;
 	}
-	cerr << "Negativos: " << negativeDEs.size() << endl;
+	cout << "	Negativos: " << negativeDEs.size() << endl;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -913,7 +913,7 @@ int main(int argc, char **argv){
 
 	plain_des(onlyhead);
 
-	cerr << "File :" << xmlfile << endl;
+//	cerr << "File :" << xmlfile << endl;
 	numpos = print_positives(allpos);
 	if(limneg > 0){
 		print_allnegatives(limneg);

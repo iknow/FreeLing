@@ -42,8 +42,8 @@ class EXAMPLE {
 	SAMPLE sample2;
 };
 
-#define TYPE_TWO	0
-#define TYPE_THREE	1
+#define COREFEX_TYPE_TWO	0
+#define COREFEX_TYPE_THREE	1
 
 #define COREFEX_DIST		0x00000001
 #define COREFEX_IPRON		0x00000002
@@ -108,10 +108,12 @@ class coref_fex{
 		int get_alias_order(const EXAMPLE &);
 		int get_appositive(const EXAMPLE &);
 
+		void put_feature(int, std::vector<int> &);
 	public:
 		int typeVector;
 		
 		coref_fex(const int, const int, const std::string&, const std::string&);
+		coref_fex();
 		~coref_fex();
 		void setVectors(int);
 		std::vector<std::string> tokenize(const std::string &, const std::string &);

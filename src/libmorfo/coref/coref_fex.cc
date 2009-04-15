@@ -2,6 +2,46 @@
 //    Class for the feature extractor.
 //////////////////////////////////////////////////////////////////
 
+#define COREFEX_FEATURE_SENT_SAME		0
+#define COREFEX_FEATURE_SENT_1			1
+#define COREFEX_FEATURE_SENT_2			2
+#define COREFEX_FEATURE_SENT_3			3
+#define COREFEX_FEATURE_SENT_4MORE		4
+#define COREFEX_FEATURE_DIST0			10
+#define COREFEX_FEATURE_DIST1			11
+#define COREFEX_FEATURE_DIST2			12
+#define COREFEX_FEATURE_DIST3			13
+#define COREFEX_FEATURE_DIST4			14
+#define COREFEX_FEATURE_DIST5MORE		15
+#define COREFEX_FEATURE_IPRON			20
+#define COREFEX_FEATURE_IPRONP			21
+#define COREFEX_FEATURE_IPROND			22
+#define COREFEX_FEATURE_IPRONX			23
+#define COREFEX_FEATURE_IPRONI			24
+#define COREFEX_FEATURE_IPRONT			25
+#define COREFEX_FEATURE_IPRONR			26
+#define COREFEX_FEATURE_IPRONE			27
+#define COREFEX_FEATURE_JPRON			30
+#define COREFEX_FEATURE_JPRONP			31
+#define COREFEX_FEATURE_JPROND			32
+#define COREFEX_FEATURE_JPRONX			33
+#define COREFEX_FEATURE_JPRONI			34
+#define COREFEX_FEATURE_JPRONT			35
+#define COREFEX_FEATURE_JPRONR			36
+#define COREFEX_FEATURE_JPRONE			37
+#define COREFEX_FEATURE_STRMATH			40
+#define COREFEX_FEATURE_DEFNP			41
+#define COREFEX_FEATURE_DEMNP			42
+#define COREFEX_FEATURE_NUMBER			43
+#define COREFEX_FEATURE_GENDER			44
+#define COREFEX_FEATURE_SEMCLASS		45
+#define COREFEX_FEATURE_PROPERNAME		46
+#define COREFEX_FEATURE_ACRONIM			50
+#define COREFEX_FEATURE_FIXLEFT			51
+#define COREFEX_FEATURE_FIXRIGHT		52
+#define COREFEX_FEATURE_ORDER			53
+#define COREFEX_FEATURE_APPOS			60
+
 #include <stdio.h>
 #include <string.h>
 
@@ -21,10 +61,9 @@ coref_fex::coref_fex(const int t, const int v, const string &sf, const string &w
 
   typeVector = t;
   if (v==0) 
-    vectors = COREFEX_DIST | COREFEX_IPRON | COREFEX_JPRON 
-              | COREFEX_STRMATCH | COREFEX_DEFNP | COREFEX_DEMNP | COREFEX_GENDER 
+    vectors = COREFEX_DIST | COREFEX_IPRON | COREFEX_JPRON | COREFEX_IPRONM | COREFEX_JPRONM 
+              | COREFEX_STRMATCH | COREFEX_DEFNP | COREFEX_DEMNP | COREFEX_GENDER | COREFEX_NUMBER
               | COREFEX_SEMCLASS | COREFEX_PROPNAME | COREFEX_ALIAS | COREFEX_APPOS;
-			  // | COREFEX_IPRONM | COREFEX_JPRONM  | COREFEX_NUMBER
   else 
     vectors = v;
 
@@ -59,7 +98,23 @@ int coref_fex::jump(const vector<string> &list){
 //////////////////////////////////////////////////////////////////
 
 int coref_fex::get_dist(const EXAMPLE &ex){
-  return ex.sent;
+	switch(ex.sent){
+		case 0:
+			return COREFEX_FEATURE_SENT_SAME;
+			break;
+		case 1:
+			return COREFEX_FEATURE_SENT_1;
+			break;
+		case 2:
+			return COREFEX_FEATURE_SENT_2;
+			break;
+		case 3:
+			return COREFEX_FEATURE_SENT_3;
+			break;
+		default:
+			return COREFEX_FEATURE_SENT_4MORE;
+			break;
+	}
 }
 
 //////////////////////////////////////////////////////////////////
@@ -68,10 +123,27 @@ int coref_fex::get_dist(const EXAMPLE &ex){
 
 int coref_fex::get_dedist(const EXAMPLE &ex){
 	int res = ex.sample2.posbegin - ex.sample1.posend;
-	if(res > 0)
-		return res;
-	else
-		return 0;
+
+	switch(res){
+		case 0:
+			return COREFEX_FEATURE_DIST0;
+			break;
+		case 1:
+			return COREFEX_FEATURE_DIST1;
+			break;
+		case 2:
+			return COREFEX_FEATURE_DIST2;
+			break;
+		case 3:
+			return COREFEX_FEATURE_DIST3;
+			break;
+		case 4:
+			return COREFEX_FEATURE_DIST4;
+			break;
+		default:
+			return COREFEX_FEATURE_DIST5MORE;
+			break;
+	}
 }
 
 //////////////////////////////////////////////////////////////////
@@ -83,7 +155,7 @@ int coref_fex::get_i_pronoum(const EXAMPLE &ex){
 
 	pos = jump(ex.sample1.tags);
 	if(ex.sample1.tags[pos].compare(0, 1, "p") == 0)
-		return 1;
+		return COREFEX_FEATURE_IPRON;
 	else
 		return 0;
 }
@@ -97,7 +169,7 @@ int coref_fex::get_j_pronoum(const EXAMPLE &ex){
 
 	pos = jump(ex.sample2.tags);
 	if(ex.sample2.tags[0].compare(0, 1, "p") == 0)
-		return 1;
+		return COREFEX_FEATURE_JPRON;
 	else
 		return 0;
 }
@@ -111,7 +183,7 @@ int coref_fex::get_i_pronoum_p(const EXAMPLE &ex){
 
 	pos = jump(ex.sample1.tags);
 	if(ex.sample1.tags[pos].compare(0, 2, "pp") == 0)
-		return 1;
+		return COREFEX_FEATURE_IPRONP;
 	else
 		return 0;
 }
@@ -125,7 +197,7 @@ int coref_fex::get_j_pronoum_p(const EXAMPLE &ex){
 
 	pos = jump(ex.sample2.tags);
 	if(ex.sample2.tags[0].compare(0, 2, "pp") == 0)
-		return 1;
+		return COREFEX_FEATURE_JPRONP;
 	else
 		return 0;
 }
@@ -139,7 +211,7 @@ int coref_fex::get_i_pronoum_d(const EXAMPLE &ex){
 
 	pos = jump(ex.sample1.tags);
 	if(ex.sample1.tags[pos].compare(0, 2, "pd") == 0)
-		return 1;
+		return COREFEX_FEATURE_IPROND;
 	else
 		return 0;
 }
@@ -153,7 +225,7 @@ int coref_fex::get_j_pronoum_d(const EXAMPLE &ex){
 
 	pos = jump(ex.sample2.tags);
 	if(ex.sample2.tags[0].compare(0, 2, "pd") == 0)
-		return 1;
+		return COREFEX_FEATURE_JPROND;
 	else
 		return 0;
 }
@@ -167,7 +239,7 @@ int coref_fex::get_i_pronoum_x(const EXAMPLE &ex){
 
 	pos = jump(ex.sample1.tags);
 	if(ex.sample1.tags[pos].compare(0, 2, "px") == 0)
-		return 1;
+		return COREFEX_FEATURE_IPRONX;
 	else
 		return 0;
 }
@@ -181,7 +253,7 @@ int coref_fex::get_j_pronoum_x(const EXAMPLE &ex){
 
 	pos = jump(ex.sample2.tags);
 	if(ex.sample2.tags[0].compare(0, 2, "px") == 0)
-		return 1;
+		return COREFEX_FEATURE_JPRONX;
 	else
 		return 0;
 }
@@ -195,7 +267,7 @@ int coref_fex::get_i_pronoum_i(const EXAMPLE &ex){
 
 	pos = jump(ex.sample1.tags);
 	if(ex.sample1.tags[pos].compare(0, 2, "pi") == 0)
-		return 1;
+		return COREFEX_FEATURE_IPRONI;
 	else
 		return 0;
 }
@@ -209,7 +281,7 @@ int coref_fex::get_j_pronoum_i(const EXAMPLE &ex){
 
 	pos = jump(ex.sample2.tags);
 	if(ex.sample2.tags[0].compare(0, 2, "pi") == 0)
-		return 1;
+		return COREFEX_FEATURE_JPRONI;
 	else
 		return 0;
 }
@@ -223,7 +295,7 @@ int coref_fex::get_i_pronoum_t(const EXAMPLE &ex){
 
 	pos = jump(ex.sample1.tags);
 	if(ex.sample1.tags[pos].compare(0, 2, "pt") == 0)
-		return 1;
+		return COREFEX_FEATURE_IPRONT;
 	else
 		return 0;
 }
@@ -237,7 +309,7 @@ int coref_fex::get_j_pronoum_t(const EXAMPLE &ex){
 
 	pos = jump(ex.sample2.tags);
 	if(ex.sample2.tags[0].compare(0, 2, "pt") == 0)
-		return 1;
+		return COREFEX_FEATURE_JPRONT;
 	else
 		return 0;
 }
@@ -251,7 +323,7 @@ int coref_fex::get_i_pronoum_r(const EXAMPLE &ex){
 
 	pos = jump(ex.sample1.tags);
 	if(ex.sample1.tags[pos].compare(0, 2, "pr") == 0)
-		return 1;
+		return COREFEX_FEATURE_IPRONR;
 	else
 		return 0;
 }
@@ -265,7 +337,7 @@ int coref_fex::get_j_pronoum_r(const EXAMPLE &ex){
 
 	pos = jump(ex.sample2.tags);
 	if(ex.sample2.tags[0].compare(0, 2, "pr") == 0)
-		return 1;
+		return COREFEX_FEATURE_JPRONR;
 	else
 		return 0;
 }
@@ -279,7 +351,7 @@ int coref_fex::get_i_pronoum_e(const EXAMPLE &ex){
 
 	pos = jump(ex.sample1.tags);
 	if(ex.sample1.tags[pos].compare(0, 2, "pe") == 0)
-		return 1;
+		return COREFEX_FEATURE_IPRONE;
 	else
 		return 0;
 }
@@ -293,7 +365,7 @@ int coref_fex::get_j_pronoum_e(const EXAMPLE &ex){
 
 	pos = jump(ex.sample2.tags);
 	if(ex.sample2.tags[0].compare(0, 2, "pe") == 0)
-		return 1;
+		return COREFEX_FEATURE_JPRONE;
 	else
 		return 0;
 }
@@ -332,7 +404,7 @@ int coref_fex::get_str_match(const EXAMPLE &ex){
 	}
 
 	if(str1 == str2 && str1.size() > 1){
-		return 1;
+		return COREFEX_FEATURE_STRMATH;
 	}else
 		return 0;
 }
@@ -347,7 +419,7 @@ int coref_fex::get_def_np(const EXAMPLE &ex){
 	pos = jump(ex.sample2.tags);
 	if(ex.sample2.tags.size() > (pos+1)){
 		if((ex.sample2.tags[pos].compare(0, 2, "da") == 0) && ex.sample2.tags[pos+1].compare(0, 2, "nc") == 0)
-			return 1;
+			return COREFEX_FEATURE_DEFNP;
 		else
 			return 0;
 	} else {
@@ -365,7 +437,7 @@ int coref_fex::get_dem_np(const EXAMPLE &ex){
 	pos = jump(ex.sample2.tags);
 	if(ex.sample2.tags.size() > (pos+1)){
 		if(ex.sample2.tags[pos].compare(0, 2, "dd") == 0 && ex.sample2.tags[pos+1].compare(0, 2, "nc") == 0)
-			return 1;
+			return COREFEX_FEATURE_DEMNP;
 		else
 			return 0;
 	} else {
@@ -402,9 +474,9 @@ int coref_fex::get_number(const EXAMPLE &ex){
 	}
 
 	if(num1 == num2 && num1 != '0')
-		return 1;
-	else if((num1 == '0' || num2 == '0') && typeVector == TYPE_THREE)
-		return 2;
+		return COREFEX_FEATURE_NUMBER;
+//	else if((num1 == '0' || num2 == '0') && typeVector == COREFEX_TYPE_THREE)
+//		return 2;
 	else
 		return 0;
 }
@@ -416,7 +488,7 @@ int coref_fex::get_number(const EXAMPLE &ex){
 //////////////////////////////////////////////////////////////////
 
 int coref_fex::get_semclass(const EXAMPLE &ex){
-	unsigned int ret = 2, pos1, pos2;
+	unsigned int ret = 0, pos1, pos2;
 	vector<string> txt1 = tokenize(ex.sample1.text," ");
 	vector<string> txt2 = tokenize(ex.sample2.text," ");
 	string t1, t2, tag1, tag2, type1, type2;
@@ -499,12 +571,12 @@ int coref_fex::get_semclass(const EXAMPLE &ex){
 
 	if(ret != 1 && ex.sample1.tags[pos1].compare(0, 1, "n") == 0 && ex.sample2.tags[pos2].compare(0, 1, "n") == 0 ){
 		if(ex.sample1.tags[pos1].substr(4,2) == ex.sample2.tags[pos2].substr(4,2) && ex.sample1.tags[pos1].substr(4,2) != "00"){
-			ret = 1;
+			ret = COREFEX_FEATURE_SEMCLASS;
 		}
 	}
 
-	if(typeVector == TYPE_TWO && ret == 2)
-		ret = 0;
+//	if(typeVector == COREFEX_TYPE_TWO && ret == 2)
+//		ret = 0;
 	return ret;
 }
 
@@ -538,9 +610,9 @@ int coref_fex::get_gender(const EXAMPLE &ex){
 	}
 
 	if(gen1 == gen2 && gen1 != '0')
-		return 1;
-	else if((gen1 == '0' || gen2 == '0') && typeVector == TYPE_THREE)
-		return 2;
+		return COREFEX_FEATURE_GENDER;
+//	else if((gen1 == '0' || gen2 == '0') && typeVector == COREFEX_TYPE_THREE)
+//		return 2;
 	else
 		return 0;
 }
@@ -555,7 +627,7 @@ int coref_fex::get_proper_name(const EXAMPLE &ex){
 	pos1 = jump(ex.sample1.tags);
 	pos2 = jump(ex.sample2.tags);
 	if(ex.sample1.tags[pos1].compare(0, 2, "np") == 0 && ex.sample2.tags[pos2].compare(0, 2, "np") == 0)
-		return 1;
+		return COREFEX_FEATURE_PROPERNAME;
 	else
 		return 0;
 }
@@ -731,7 +803,10 @@ int coref_fex::check_order(const EXAMPLE &ex){
 //////////////////////////////////////////////////////////////////
 
 int coref_fex::get_alias_acro(const EXAMPLE &ex){
-	return(check_acronim(ex));
+	if(check_acronim(ex) != 0)
+		return COREFEX_FEATURE_ACRONIM;
+	else
+		return(0);
 }
 
 //////////////////////////////////////////////////////////////////
@@ -739,7 +814,10 @@ int coref_fex::get_alias_acro(const EXAMPLE &ex){
 //////////////////////////////////////////////////////////////////
 
 int coref_fex::get_alias_fixleft(const EXAMPLE &ex){
-	return(check_fixesleft(ex));
+	if(check_fixesleft(ex) != 0)
+		return COREFEX_FEATURE_FIXLEFT;
+	else
+		return(0);
 }
 
 //////////////////////////////////////////////////////////////////
@@ -747,7 +825,10 @@ int coref_fex::get_alias_fixleft(const EXAMPLE &ex){
 //////////////////////////////////////////////////////////////////
 
 int coref_fex::get_alias_fixright(const EXAMPLE &ex){
-	return(check_fixesright(ex));
+	if(check_fixesright(ex) != 0)
+		return COREFEX_FEATURE_FIXRIGHT;
+	else
+		return(0);
 }
 
 //////////////////////////////////////////////////////////////////
@@ -755,7 +836,10 @@ int coref_fex::get_alias_fixright(const EXAMPLE &ex){
 //////////////////////////////////////////////////////////////////
 
 int coref_fex::get_alias_order(const EXAMPLE &ex){
-	return(check_order(ex));
+	if(check_order(ex) != 0)
+		return COREFEX_FEATURE_ORDER;
+	else
+		return(0);
 }
 
 //////////////////////////////////////////////////////////////////
@@ -768,7 +852,7 @@ int coref_fex::get_appositive(const EXAMPLE &ex){
 	if( (ex.sample2.posbegin > ex.sample1.posbegin && ex.sample1.posend == ex.sample2.posend) ||
 		(ex.sample2.posbegin == (ex.sample1.posend+1))) {
 		if(ex.sample2.tags[0] == "fpa" || ex.sample2.tags[0] == "fc"){
-			ret = 1;
+			ret = COREFEX_FEATURE_APPOS;
 		}
 	}
 	return ret;
@@ -799,52 +883,67 @@ vector<string> coref_fex::tokenize(const string& str,const string& delimiters){
 //////////////////////////////////////////////////////////////////
 ///    Extract the features configured to be extracted
 //////////////////////////////////////////////////////////////////
-
+void coref_fex::put_feature(int f, std::vector<int> &result){
+	if(f > 0)
+		result.push_back(f);
+}
 void coref_fex::extract(EXAMPLE &ex, std::vector<int> &result){
-  result.clear();
+	result.clear();
 
-  if (vectors & COREFEX_DIST)   result.push_back(get_dist(ex));
-  if (vectors & COREFEX_DIST)   result.push_back(get_dedist(ex));
-  if (vectors & COREFEX_IPRON)  result.push_back(get_i_pronoum(ex));
-  if (vectors & COREFEX_JPRON)  result.push_back(get_j_pronoum(ex));
+	if (vectors & COREFEX_DIST){
+		result.push_back(get_dist(ex));
+		result.push_back(get_dedist(ex));
+	}
+	if (vectors & COREFEX_IPRON)
+		put_feature(get_i_pronoum(ex), result);
+	if (vectors & COREFEX_JPRON)
+		put_feature(get_j_pronoum(ex), result);
 
-  if (vectors & COREFEX_IPRONM) {
-    result.push_back(get_i_pronoum_p(ex));
-    result.push_back(get_i_pronoum_d(ex));
-    result.push_back(get_i_pronoum_x(ex));
-    result.push_back(get_i_pronoum_i(ex));
-    result.push_back(get_i_pronoum_t(ex));
-    result.push_back(get_i_pronoum_r(ex));
-    result.push_back(get_i_pronoum_e(ex));
-  }
+	if (vectors & COREFEX_IPRONM) {
+		put_feature(get_i_pronoum_p(ex), result);
+		put_feature(get_i_pronoum_d(ex), result);
+		put_feature(get_i_pronoum_x(ex), result);
+		put_feature(get_i_pronoum_i(ex), result);
+		put_feature(get_i_pronoum_t(ex), result);
+		put_feature(get_i_pronoum_r(ex), result);
+		put_feature(get_i_pronoum_e(ex), result);
+	}
 
 
-  if (vectors & COREFEX_JPRONM) {
-    result.push_back(get_j_pronoum_p(ex));
-    result.push_back(get_j_pronoum_d(ex));
-    result.push_back(get_j_pronoum_x(ex));
-    result.push_back(get_j_pronoum_i(ex));
-    result.push_back(get_j_pronoum_t(ex));
-    result.push_back(get_j_pronoum_r(ex));
-    result.push_back(get_j_pronoum_e(ex));
-  }
+	if (vectors & COREFEX_JPRONM) {
+		put_feature(get_j_pronoum_p(ex), result);
+		put_feature(get_j_pronoum_d(ex), result);
+		put_feature(get_j_pronoum_x(ex), result);
+		put_feature(get_j_pronoum_i(ex), result);
+		put_feature(get_j_pronoum_t(ex), result);
+		put_feature(get_j_pronoum_r(ex), result);
+		put_feature(get_j_pronoum_e(ex), result);
+	}
 
-  if (vectors & COREFEX_STRMATCH)  result.push_back(get_str_match(ex));
-  if (vectors & COREFEX_DEFNP)	  result.push_back(get_def_np(ex));
-  if (vectors & COREFEX_DEMNP)	  result.push_back(get_dem_np(ex));
-  if (vectors & COREFEX_NUMBER)	  result.push_back(get_number(ex));
-  if (vectors & COREFEX_GENDER)	  result.push_back(get_gender(ex));
-  if (vectors & COREFEX_SEMCLASS)  result.push_back(get_semclass(ex));
-  if (vectors & COREFEX_PROPNAME)  result.push_back(get_proper_name(ex));
+	if (vectors & COREFEX_STRMATCH)
+		put_feature(get_str_match(ex), result);
+	if (vectors & COREFEX_DEFNP)
+		put_feature(get_def_np(ex), result);
+	if (vectors & COREFEX_DEMNP)
+		put_feature(get_dem_np(ex), result);
+	if (vectors & COREFEX_NUMBER)
+		put_feature(get_number(ex), result);
+	if (vectors & COREFEX_GENDER)
+		put_feature(get_gender(ex), result);
+	if (vectors & COREFEX_SEMCLASS)
+		put_feature(get_semclass(ex), result);
+	if (vectors & COREFEX_PROPNAME)
+		put_feature(get_proper_name(ex), result);
 
-  if (vectors & COREFEX_ALIAS) {
-    result.push_back(get_alias_acro(ex));
-    result.push_back(get_alias_fixleft(ex));
-    result.push_back(get_alias_fixright(ex));
-    result.push_back(get_alias_order(ex));
-  }
+	if (vectors & COREFEX_ALIAS) {
+		put_feature(get_alias_acro(ex), result);
+		put_feature(get_alias_fixleft(ex), result);
+		put_feature(get_alias_fixright(ex), result);
+		put_feature(get_alias_order(ex), result);
+	}
 
-  if (vectors & COREFEX_APPOS) 	result.push_back(get_appositive(ex));
+	if (vectors & COREFEX_APPOS)
+		put_feature(get_appositive(ex), result);
 
 }
 
