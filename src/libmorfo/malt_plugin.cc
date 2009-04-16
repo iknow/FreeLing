@@ -91,7 +91,8 @@ malt_parser::malt_parser (string file, string lang) {
 	}
 
 	// Get the main method...
-	jmethodID main = env->GetMethodID(EngineClass, "<init>","([Ljava/lang/String;)V");
+	//	jmethodID main = env->GetMethodID(EngineClass, "<init>","([Ljava/lang/String;)V");
+	jmethodID main = env->GetMethodID(EngineClass, "<init>","()V");
 	if (main == NULL) {
 	  check_exception();
 	  jvm->DestroyJavaVM();
@@ -99,7 +100,8 @@ malt_parser::malt_parser (string file, string lang) {
 	}
 	
 	// and the setupEngine method
-	jmethodID setup = env->GetMethodID(EngineClass, "setupEngine","([Ljava/lang/String;)Lorg/maltparser/core/config/SingleMaltConfiguration;");
+	//	jmethodID setup = env->GetMethodID(EngineClass, "setupEngine","([Ljava/lang/String;)Lorg/maltparser/core/config/SingleMaltConfiguration;");
+	jmethodID setup = env->GetMethodID(EngineClass, "startEngine","([Ljava/lang/String;)V");
 	if (setup == NULL) {
 	  check_exception();
 	  jvm->DestroyJavaVM();
