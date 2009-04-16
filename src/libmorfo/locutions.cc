@@ -199,7 +199,7 @@ int locutions::ComputeToken(int state, sentence::iterator &j, sentence &se)
 	}
       }
   }
-  else { // there are anylsis, check all multiword patterns
+  else { // there are analysis, check all multiword patterns
     for (a=j->begin(); a!=j->end(); a++) {
       bool bm=false,bp=false;
       lem = "<"+a->get_lemma()+">";
@@ -233,7 +233,7 @@ int locutions::ComputeToken(int state, sentence::iterator &j, sentence &se)
   over_longest++;
   acc_mw = acc;
 
-  TRACE(3,"Next word is: ["+form+","+lem+","+tag+"] token="+util::int2string(token));
+  TRACE(3,"Encoded word: ["+form+","+lem+","+tag+"] token="+util::int2string(token));
   return (token);
 }
 
@@ -243,7 +243,7 @@ int locutions::ComputeToken(int state, sentence::iterator &j, sentence &se)
 
 void locutions::ResetActions() 
 {
-  longest_mw=acc_mw;
+  longest_mw.clear();
   acc_mw.clear();
   components.clear();
   mw_analysis.clear();
@@ -261,11 +261,12 @@ void locutions::StateActions(int origin, int state, int token, sentence::const_i
 {
   string form, lem, tag;
 
-  // longest_mw=acc_mw;
+#ifdef VERBOSE
+  TRACE(3,"State actions completed. LMWs are:");
+  for (set<string>::iterator m=longest_mw.begin(); m!=longest_mw.end(); m++)
+    TRACE(3,"                                "+*m);
+#endif
 
-  TRACE(3,"State actions completed. mw="+util::int2string(longest_mw.size()));
-
-  if (!longest_mw.empty())  TRACE(3,"State actions completed. LMW="+*longest_mw.begin());
 }
 
 
@@ -288,59 +289,67 @@ bool locutions::ValidMultiWord(const word & w) {
   TRACE(3," Form MW: ("+util::lowercase(w.get_form())+") "+" comp="+util::int2string(components.size()-over_longest+1));
   
   TRACE(3," longest_mw #candidates: ("+util::int2string(longest_mw.size())+")");
-  string lmw=*longest_mw.begin();  
-  TRACE(3," longest mw: ("+lmw+")");
 
-  q = lmw.find("_",0);
-  if (q!=string::npos) {
-    form=lmw.substr(0,q);
-    for (n=1; n<components.size()-over_longest+1; n++) {
-      p = q; q = lmw.find("_",q+1);
-      form=form+lmw.substr(p,q-p);
-    }
-  }
-  else form=lmw;
-  TRACE(3," matched locution: ("+form+")");
-   
-  // MW matched, recover its tags 
-  mw_data=locut.find(form);
-  list<string> ldata = util::string2list(mw_data->second,"#");
-  
-  for (list<string>::const_iterator k=ldata.begin(); k!=ldata.end(); k++) {
+  // consider all possible matching MWs
+  for (set<string>::iterator m=longest_mw.begin(); m!=longest_mw.end(); m++ ) {
 
-    istringstream sin;
-    sin.str(*k);
-    sin>>lemma>>tag;
-
-    // the tag is straighforward, use as is.
-    if (tag[0]!='$') {
-      la.push_back(analysis(lemma,tag));    
-      valid = true;
-    }
-    else {
-      // the tag is NOT straighforward, must be recovered from the components
+    if (locut.find(*m)!=locut.end()) {  // only bother if it's a real MW, not a prefix.
+    
+      string lmw=*m;    
+      TRACE(3," longest mw: ("+lmw+")");
       
-      // locate end of component number, and extract the number
-      p = tag.find(":",0);
-      if (p==string::npos) ERROR_CRASH("Invalid tag in locution entry: "+form+" "+lemma+" "+tag);
-      check=tag.substr(p+1);
-      // get the condition on the PoS after the component number (e.g. $1:NC)
-      nc=util::string2int(tag.substr(1,p-1));
-      TRACE(3,"Getting tag from word $"+util::int2string(nc)+", constraint: "+check);
-      
-      // search all analysis in the given component that match the PoS condition,
-      bool found=false;
-      for (a=components[nc-1].begin(); a!=components[nc-1].end(); a++) { 
-	TRACE(4,"  checking analysis: "+a->get_lemma()+" "+a->get_parole());
-	par=a->get_parole();
-	if (par.find(check)==0) {
-	  found=true;
-	  la.push_back(analysis(lemma,par));
+      q = lmw.find("_",0);
+      if (q!=string::npos) {
+	form=lmw.substr(0,q);
+	for (n=1; n<components.size()-over_longest+1; n++) {
+	  p = q; q = lmw.find("_",q+1);
+	  form=form+lmw.substr(p,q-p);
 	}
       }
-
-      if (!found) TRACE(2,"Validation Failed: Tag "+tag+" not found in word. Locution entry: "+form+" "+lemma+" "+tag);
-      valid = found;
+      else form=lmw;
+      TRACE(3," matched locution: ("+form+")");
+      
+      // MW matched, recover its tags and add them to the list.
+      mw_data=locut.find(form);
+      list<string> ldata = util::string2list(mw_data->second,"#");
+      
+      for (list<string>::const_iterator k=ldata.begin(); k!=ldata.end(); k++) {
+	
+	istringstream sin;
+	sin.str(*k);
+	sin>>lemma>>tag;
+	
+	// the tag is straighforward, use as is.
+	if (tag[0]!='$') {
+	  la.push_back(analysis(lemma,tag));    
+	  valid = true;
+	}
+	else {
+	  // the tag is NOT straighforward, must be recovered from the components
+	  
+	  // locate end of component number, and extract the number
+	  p = tag.find(":",0);
+	  if (p==string::npos) ERROR_CRASH("Invalid tag in locution entry: "+form+" "+lemma+" "+tag);
+	  check=tag.substr(p+1);
+	  // get the condition on the PoS after the component number (e.g. $1:NC)
+	  nc=util::string2int(tag.substr(1,p-1));
+	  TRACE(3,"Getting tag from word $"+util::int2string(nc)+", constraint: "+check);
+	  
+	  // search all analysis in the given component that match the PoS condition,
+	  bool found=false;
+	  for (a=components[nc-1].begin(); a!=components[nc-1].end(); a++) { 
+	    TRACE(4,"  checking analysis: "+a->get_lemma()+" "+a->get_parole());
+	    par=a->get_parole();
+	    if (par.find(check)==0) {
+	      found=true;
+	      la.push_back(analysis(lemma,par));
+	    }
+	  }
+	  
+	  if (!found) TRACE(2,"Validation Failed: Tag "+tag+" not found in word. Locution entry: "+form+" "+lemma+" "+tag);
+	  valid = found;
+	}
+      }
     }
   }
 
