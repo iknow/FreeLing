@@ -293,20 +293,10 @@ bool locutions::ValidMultiWord(const word & w) {
   // consider all possible matching MWs
   for (set<string>::iterator m=longest_mw.begin(); m!=longest_mw.end(); m++ ) {
 
-    if (locut.find(*m)!=locut.end()) {  // only bother if it's a real MW, not a prefix.
+    string form=*m;
+
+    if (locut.find(form)!=locut.end()) {  // only bother if it's a real MW, not a prefix.
     
-      string lmw=*m;    
-      TRACE(3," longest mw: ("+lmw+")");
-      
-      q = lmw.find("_",0);
-      if (q!=string::npos) {
-	form=lmw.substr(0,q);
-	for (n=1; n<components.size()-over_longest+1; n++) {
-	  p = q; q = lmw.find("_",q+1);
-	  form=form+lmw.substr(p,q-p);
-	}
-      }
-      else form=lmw;
       TRACE(3," matched locution: ("+form+")");
       
       // MW matched, recover its tags and add them to the list.
