@@ -278,8 +278,8 @@ bool locutions::ValidMultiWord(const word & w) {
 
   string form,lemma,tag,check,par;
   map<string,string>::const_iterator mw_data;
-  unsigned int n,nc;
-  string::size_type p,q;
+  unsigned int nc;
+  string::size_type p;
   word::const_iterator a;
   list<analysis> la;
   bool valid=false;
