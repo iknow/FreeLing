@@ -488,7 +488,7 @@ int coref_fex::get_number(const EXAMPLE &ex){
 //////////////////////////////////////////////////////////////////
 
 int coref_fex::get_semclass(const EXAMPLE &ex){
-	unsigned int ret = 0, pos1, pos2;
+	unsigned int pos1, pos2;
 	vector<string> txt1 = tokenize(ex.sample1.text," ");
 	vector<string> txt2 = tokenize(ex.sample2.text," ");
 	string t1, t2, tag1, tag2, type1, type2;
@@ -527,7 +527,6 @@ int coref_fex::get_semclass(const EXAMPLE &ex){
 
 		if(tag1.compare(0, 2, "nc") == 0 || type1 == "00"){
 			l1 = semdb->get_word_senses(t1, "N");
-//			if((*l1.begin()).size() > 0){
 			if (not l1.empty()) {
 				if (not l1.begin()->empty()) {
 					sense_info si = semdb->get_sense_info (l1.front(), "N");
@@ -547,37 +546,30 @@ int coref_fex::get_semclass(const EXAMPLE &ex){
 		}
 
 		if(tag2.compare(0, 2, "nc") == 0 || type2 == "00"){
-
-		  l2 = semdb->get_word_senses(t2, "N");
-		  
-		  if (not l2.empty()) {
-		    if (not l2.begin()->empty()) {
-		      sense_info si = semdb->get_sense_info (l2.front(), "N");
-		      for(it = si.tonto.begin(); it != si.tonto.end() ; ++it){
-			if((*it) == "Human"){
-			  type2 = "sp";
-			} else if((*it) == "Group"){
-			  type2 = "o0";
-			} else if((*it) == "Part"){
-			  type2 = "g0";
-			} else if(type2 == "00"){
-			  type2 = "v0";
+			l2 = semdb->get_word_senses(t2, "N");
+			if (not l2.empty()) {
+				if (not l2.begin()->empty()) {
+					sense_info si = semdb->get_sense_info (l2.front(), "N");
+					for(it = si.tonto.begin(); it != si.tonto.end() ; ++it){
+						if((*it) == "Human"){
+							type2 = "sp";
+						} else if((*it) == "Group"){
+							type2 = "o0";
+						} else if((*it) == "Part"){
+							type2 = "g0";
+						} else if(type2 == "00"){
+							type2 = "v0";
+						}
+					}
+				}
 			}
-		      }
-		    }
-		  }
 		}
 	}
-
-	if(ret != 1 && ex.sample1.tags[pos1].compare(0, 1, "n") == 0 && ex.sample2.tags[pos2].compare(0, 1, "n") == 0 ){
-		if(ex.sample1.tags[pos1].substr(4,2) == ex.sample2.tags[pos2].substr(4,2) && ex.sample1.tags[pos1].substr(4,2) != "00"){
-			ret = COREFEX_FEATURE_SEMCLASS;
-		}
+	if(type1 == type2){
+		return COREFEX_FEATURE_SEMCLASS;
 	}
 
-//	if(typeVector == COREFEX_TYPE_TWO && ret == 2)
-//		ret = 0;
-	return ret;
+	return 0;
 }
 
 //////////////////////////////////////////////////////////////////
