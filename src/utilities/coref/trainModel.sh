@@ -29,7 +29,7 @@ do
 	#./parseAnCora -elimFN -onlyhead -allpos -limit 10 tmp/1.xml tmp/1.tbl tmp/parseout.txt
 
 	#All the positives and all the negatives at distance 10
-	./parseAnCora -allpos -onlyhead -allneg 20 tmp/1.xml tmp/1.tbl tmp/parseout.txt > /dev/null
+	./parseAnCora -allpos -onlyhead -allneg 10 tmp/1.xml tmp/1.tbl tmp/parseout.txt > /dev/null
 
 	#Generates the same proportion of negatives and positives.
 	#./parseAnCora -onlyhead -limit 0 -re 1.0 /usr/tmp/1.xml /usr/tmp/1.tbl /usr/tmp/out1.txt
