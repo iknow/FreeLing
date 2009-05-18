@@ -2581,6 +2581,11 @@ numbers_en::numbers_en(const std::string &dec, const std::string &thou): numbers
   value.insert(make_pair("fourty-four",44));   value.insert(make_pair("fourty-five",45));  
   value.insert(make_pair("fourty-six",46));    value.insert(make_pair("fourty-seven",47));
   value.insert(make_pair("fourty-eight",48));  value.insert(make_pair("fourty-nine",49));
+  value.insert(make_pair("forty",40));         value.insert(make_pair("forty-one",41));
+  value.insert(make_pair("forty-two",42));     value.insert(make_pair("forty-three",43));
+  value.insert(make_pair("forty-four",44));    value.insert(make_pair("forty-five",45));  
+  value.insert(make_pair("forty-six",46));     value.insert(make_pair("forty-seven",47));
+  value.insert(make_pair("forty-eight",48));   value.insert(make_pair("forty-nine",49));
   value.insert(make_pair("fifty",50));         value.insert(make_pair("fifty-one",51));
   value.insert(make_pair("fifty-two",52));     value.insert(make_pair("fifty-three",53));
   value.insert(make_pair("fifty-four",54));    value.insert(make_pair("fifty-five",55));  
@@ -2635,6 +2640,11 @@ numbers_en::numbers_en(const std::string &dec, const std::string &thou): numbers
   tok.insert(make_pair("fourty-four",TK_u));   tok.insert(make_pair("fourty-five",TK_u));  
   tok.insert(make_pair("fourty-six",TK_u));    tok.insert(make_pair("fourty-seven",TK_u));
   tok.insert(make_pair("fourty-eight",TK_u));  tok.insert(make_pair("fourty-nine",TK_u));
+  tok.insert(make_pair("forty",TK_u));         tok.insert(make_pair("forty-one",TK_u));
+  tok.insert(make_pair("forty-two",TK_u));     tok.insert(make_pair("forty-three",TK_u));
+  tok.insert(make_pair("forty-four",TK_u));    tok.insert(make_pair("forty-five",TK_u));  
+  tok.insert(make_pair("forty-six",TK_u));     tok.insert(make_pair("forty-seven",TK_u));
+  tok.insert(make_pair("forty-eight",TK_u));   tok.insert(make_pair("forty-nine",TK_u));
   tok.insert(make_pair("fifty",TK_u));         tok.insert(make_pair("fifty-one",TK_u));
   tok.insert(make_pair("fifty-two",TK_u));     tok.insert(make_pair("fifty-three",TK_u));
   tok.insert(make_pair("fifty-four",TK_u));    tok.insert(make_pair("fifty-five",TK_u));  
