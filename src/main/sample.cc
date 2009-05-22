@@ -100,7 +100,7 @@ int main() {
   // create chunker
   chart_parser parser("grammar-dep.dat");
   // create dependency parser 
-  dependencyMaker dep("dep/dependences.dat", parser.get_start_symbol());
+  dep_txala dep("dep/dependences.dat", parser.get_start_symbol());
   
   // get plain text input lines while not EOF.
   while (getline(cin,text)) {
