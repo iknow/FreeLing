@@ -188,7 +188,7 @@ void bioner::annotate(sentence &se) {
     
     // classify example
     classifier->classify(exmp,all_pred[i]);
-    
+
     TRACE(3,"Example classified");
   }
   
@@ -446,14 +446,16 @@ vector<int> vis_viterbi::find_best_path(double** predictions, int sent_size) con
   TRACE(3,"  Viterbi: processing sentence of size: "+util::int2string(sent_size));
   
   // vector with the most likely class for each word
-  vector<int> best_path[N];
-  vector<int> best_path_new[N];
-  
+  vector<int> bestp[2][N];
+  vector<int> *best_path=bestp[0];
+  vector<int> *best_path_new=bestp[1];
   // array with the best path for reaching current word with each 
   //  possible class
   double paths[2][N];
   double *p_path=paths[0];
   double *p_path_new=paths[1];
+  // who is currently holding new path
+  int newpath=1;
  
   // initialize this array with the weights for the first word
   //  multiplied by initial probability
@@ -499,14 +501,14 @@ vector<int> vis_viterbi::find_best_path(double** predictions, int sent_size) con
       // store most likely path for this class.      
       best_path_new[i]=best_path[argmax]; // choose as best_path for this class the path that led to best prob
       best_path_new[i].push_back(argmax); // add current prediction
+
       p_path_new[i]=max;
     }
     
-    // store p_path_new and best_path_new as p_path and best_path_new
-    for (int i=0; i<N; i++){
-      p_path[i]=p_path_new[i];
-      best_path[i]=best_path_new[i];
-    }
+    // swap path new and path_new for next iteration
+    p_path = paths[newpath];      p_path_new = paths[1-newpath];
+    best_path = bestp[newpath];   best_path_new = bestp[1-newpath];
+    newpath = 1-newpath;
   }
   
   // once the last word is reached, choose the best path
