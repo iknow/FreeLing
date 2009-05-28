@@ -19,25 +19,23 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%% ----------- UPDATED: MARCH 2009 ------------ %%
+%% ----------- UPDATED: MAY 2009 ------------ %%
 %
 %
 %  NEW:
-%  sp-chunk as iobj (GRLAB)
-%  interrogative rules (GRPAR)
-%  subordinate clauses structure formation rules (GRPAR)
-%  subordinate clauses formation rules (GRPAR)
-%  modal verbs functions (GRLAB)
+%  NP coordination rules & priority
+%  Adjective coordination rules & priority
+%  Punctuation labeling rules
 %
 %% -------------------------------------------- %%
 %
 %
 %  NUM. RULES
-%  total rules: 2937
+%  total rules: 2954
 %  -----------------
-%  GRPAR rules: 2225
-%  GRLAB rules:  712
-%  CLASS flies:   33
+%  GRPAR rules: 2230
+%  GRLAB rules:  724
+%  CLASS files:   33
 %
 %% -------------------------------------------- %%
 
@@ -2928,8 +2926,8 @@
 
 
 %:::: 2nd coordinated chunk (default coordination) ::::%
-99 - - (nex-coord,sn-chunk) top_left RELABEL sn-co:-
-99 - - (nex-coord,n-chunk) top_left RELABEL sn-co:-
+21 - - (nex-coord,sn-chunk) top_left RELABEL sn-co:-
+21 - - (nex-coord,n-chunk) top_left RELABEL sn-co:-
 
 
 %:::: 1st coordinated chunk (left boundary) ::::%
@@ -2941,6 +2939,10 @@
 35 - - (sn-chunk,sn-co) top_right RELABEL -:sn-coor
 35 - - (n-chunk,sn-co) top_right RELABEL -:sn-coor
 
+%:::: NP coordinated with more than two coordinated NP chunks ::::%
+36 - - (sn-chunk,sn-coor) top_right RELABEL - % ((the boy) , the girl and the teacher)
+36 - - (n-chunk,sn-coor) top_right RELABEL - % ((water) , coffee and tea)
+37 - - (sf-brk,sn-coor) top_right RELABEL - % ((,) coffee and tea)
 
 %:::::::::::::::::::::::::::::::::::::::::%
 %             PP COORDINATION             %
@@ -2985,12 +2987,15 @@
 
 
 %:::: 2nd coordinated chunk (default coordination) ::::%
-98 - - (nex-coord,attrib) top_left RELABEL att-coor:-
+5 - - (nex-coord,attrib) top_left RELABEL att-co:- % (and green)
 
 
 %:::: 1st coordinated chunk (default coordination) ::::%
-99 - - (attrib,att-coor) top_right RELABEL -:attrib
+6 - - (attrib,att-co) top_right RELABEL -:att-coor % ((blue) and green)
 
+%:::: Adjectives coordinated with more than two coordinated adjectives ::::%
+7 - - (attrib,att-coor) top_right RELABEL - % ((red) , blue and green)
+8 - - (sf-brk,att-coor) top_right RELABEL - % ((,) blue and green)
 
 %:::::::::::::::::::::::::::::::::::::::::%
 %           ADVERB COORDINATION           %
@@ -4245,6 +4250,8 @@ sv   ta   d.label=st-brk|sf-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
 adv   ta   d.label=st-brk|sf-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
 sn-chunk   ta   d.label=st-brk|sf-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
 n-chunk   ta   d.label=st-brk|sf-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
+sn-coor   ta   d.label=sf-brk
+att-coor   ta   d.label=sf-brk
 sv-parenth   ta   d.label=st-brk|sf-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
 sn-parenth   ta   d.label=st-brk|sf-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
 rel-cl   ta   d.label=st-brk|sf-brk|in-brk|ex-brk|quot-mk|inc-mk|oth-mk
