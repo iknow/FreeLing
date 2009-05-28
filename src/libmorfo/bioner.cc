@@ -160,17 +160,18 @@ void bioner::annotate(sentence &se) {
   map<string,int>::const_iterator p;  
   int i;
   string tag,def;
+
+  // remember sentence size, we'll need it a lot of times
+  int nw=se.size();
   
-  // allocate prediction array (reused for all sentences)
-  double pred[classifier->get_nlabels()];
-  
-  // all the predictions of the sentence will be stored in an array of arrays.
-  // there are the weights for each class and each word. First index is the class_num
-  // the second one, the word.
-  double** all_pred=new double*[classifier->get_nlabels()]; 
+  // Whole sentence prediction array
+  double *all_pred[nw]; 
+
   // initialize matrix 
-  for (i = 0; i < classifier->get_nlabels(); ++i)
-    all_pred[i] = new double[se.size()];
+  // All predictions of the sentence will be stored in an array of arrays.
+  // there are the weights for each class and each word. First index is the word, second the class
+  for (i = 0; i < nw; ++i)
+    all_pred[i] = new double[classifier->get_nlabels()];
       
   // extract sentence features
   features.clear();
@@ -185,21 +186,16 @@ void bioner::annotate(sentence &se) {
     for (f=features[i].begin(); f!=features[i].end(); f++) exmp.add_feature(*f);
     TRACE(4,"   example build, with "+util::int2string(exmp.size())+" features");
     
-    
     // classify example
-    classifier->classify(exmp,pred);
+    classifier->classify(exmp,all_pred[i]);
     
-    // add the predictions for this word to array of arrays
-    for (int j=0; j<classifier->get_nlabels(); j++)
-      all_pred[j][i]=pred[j]; 
-      
     TRACE(3,"Example classified");
   }
   
   // Once all sentence has been encoded, use Viterbi algorithm to 
   // determine which is the most likely class combination
   vector<int> best;
-  best = vit.find_best_path(all_pred,se.size());
+  best = vit.find_best_path(all_pred,nw);
   
   // process obtained best_path and join detected NEs, syncronize it with sentence
   bool inNE=false;
@@ -232,9 +228,7 @@ void bioner::annotate(sentence &se) {
   TRACE_SENTENCE(1,se);
   
   // free memory 
-  for (i = 0; i < classifier->get_nlabels(); ++i)
-    delete(all_pred[i]);
-  delete(all_pred);
+  for (i = 0; i < nw; ++i) delete(all_pred[i]);
 }
 
 ///////////////////////////////////////////////////////////////
@@ -457,21 +451,22 @@ vector<int> vis_viterbi::find_best_path(double** predictions, int sent_size) con
   
   // array with the best path for reaching current word with each 
   //  possible class
-  double p_path[N];
-  double p_path_new[N];
-  
+  double paths[2][N];
+  double *p_path=paths[0];
+  double *p_path_new=paths[1];
+ 
   // initialize this array with the weights for the first word
   //  multiplied by initial probability
   
-  // normalizing factor to convert weights in probabilities -- p(i)=exp(w(i))/sum(exp(w(j)))
+  // SoftMax function to convert weights in probabilities -- p(i)=exp(w(i))/sum(exp(w(j)))
   sum=0;
   for (int i=0; i<N; i++)
-    sum+=exp(predictions[i][0]);
+    sum+=exp(predictions[0][i]);
   for (int i=0; i<N; i++) {
-    p_path[i]=p_ini[i]*exp(predictions[i][0])/sum;
+    p_path[i]=p_ini[i]*exp(predictions[0][i])/sum;
     TRACE(4,"   initial prob for class "+util::int2string(i)+": "+util::double2string(p_path[i]));
     TRACE(4,"         p_ini["+util::int2string(i)+"]: "+util::double2string(p_ini[i]));
-    TRACE(4,"         p_pred: "+util::double2string(exp(predictions[i][0])/sum));
+    TRACE(4,"         p_pred: "+util::double2string(exp(predictions[0][i])/sum));
   }
 
   // predictions contains the weights for each class and each word,
@@ -483,14 +478,14 @@ vector<int> vis_viterbi::find_best_path(double** predictions, int sent_size) con
     // normalizing factor to convert weights in probabilities -- p(i)=exp(w(i))/sum(exp(w(j)))
     sum=0;
     for (int i=0; i<N; i++)
-      sum+=exp(predictions[i][w]);
+      sum+=exp(predictions[w][i]);
     
     for (int i=0; i<N; i++){ // for each class, store the best probability
       TRACE(5,"   store best probability for class "+util::int2string(i));
       max=0; 
       for (int j=0; j<N; j++) { 
-	p=p_path[j]*(exp(predictions[i][w])/sum)*p_trans[j][i];
-	TRACE(6,"       with class "+util::int2string(j)+" p: "+util::double2string(p)+" (ptrans= "+util::double2string(p_trans[j][i])+" pred: "+util::double2string(predictions[i][w])+" normalized-pred:"+util::double2string(exp(predictions[i][w])/sum)+")");
+	p=p_path[j]*(exp(predictions[w][i])/sum)*p_trans[j][i];
+	TRACE(6,"       with class "+util::int2string(j)+" p: "+util::double2string(p)+" (ptrans= "+util::double2string(p_trans[j][i])+" pred: "+util::double2string(predictions[w][i])+" normalized-pred:"+util::double2string(exp(predictions[w][i])/sum)+")");
 	if (p==0.0 && p_trans[j][i]!=0 && p_path[j]!=0) // reached null probability
 	  cerr<<" --- Null probability!! --"<<endl;
 	if(max<p) {
