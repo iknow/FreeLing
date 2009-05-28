@@ -23,7 +23,6 @@ grup-verb-part ==> parti-flex.
 %grup-verb ==> +verb, grup-verb-part.
 
 
-
 grup-nom ==> Zm | Zp | Zu.  % monedes | proporcions | unitats
 
 sn ==> espec-ms, +grup-nom.
@@ -123,7 +122,7 @@ neg ==> RN.
 cuantif ==> RG(más).
 cuantif ==> RG(menos).
 cuantif ==> RG(casi).
-cuantif ==> RG(muy).
+%cuantif ==> RG(muy).
 
 %Preposicions
 prep ==> SPS00.
@@ -386,6 +385,8 @@ grup-complex-spec-ms ==> +indef-ms,j-ms.		%todo el...
 grup-complex-spec-mp ==> +indef-mp,j-mp.
 grup-complex-spec-ms ==> RG(casi), +indef-ms,j-ms. %casi todo el...
 grup-complex-spec-mp ==> RG(casi), +indef-mp,j-mp.
+grup-complex-spec-ms ==> RG(muy), +indef-ms. %muy poco... %NOVA
+grup-complex-spec-mp ==> RG(muy), +indef-mp. %NOVA
 grup-complex-spec-ms ==> +indef-ms,indef-ms.	
 grup-complex-spec-mp ==> +indef-mp,indef-mp.	%algunos pocos...
 grup-complex-spec-ms ==> +indef-ms,pos-ms.	
@@ -411,6 +412,8 @@ grup-complex-spec-fs ==> +indef-fs,j-fs.
 grup-complex-spec-fp ==> +indef-fp,j-fp.
 grup-complex-spec-fs ==> RG(casi), +indef-fs,j-fs.
 grup-complex-spec-fp ==> RG(casi), +indef-fp,j-fp.
+grup-complex-spec-fs ==> RG(muy), +indef-fs. %NOVA
+grup-complex-spec-fp ==> RG(muy), +indef-fp. %NOVA
 grup-complex-spec-fs ==> +indef-fs,indef-fs.
 grup-complex-spec-fp ==> +indef-fp,indef-fp.
 grup-complex-spec-fs ==> +indef-fs,pos-fs.
@@ -551,6 +554,11 @@ sn ==> espec-ms, +grup-nom-ms | espec-mp, +grup-nom-mp
      | espec-fs, +grup-nom-fs | espec-fp, +grup-nom-fp.
 
 sn==> espec, +grup-nom.
+sn ==> RG(muy), +grup-nom-ms. % muy hombre %NOVA
+sn ==> RG(muy), +grup-nom-mp. %NOVA
+sn ==> RG(muy), +grup-nom-fs. %NOVA
+sn ==> RG(muy), +grup-nom-fp. %NOVA
+
 
 sn ==> pinterrog-s | pinterrog-p.
 
@@ -666,19 +674,19 @@ s-adj ==> s-a-ms | s-a-fs | s-a-mp | s-a-fp.
 
 s-a-ms ==> Fe, +s-a-ms, Fe | Fpa, +s-a-ms, Fpt.
 s-a-ms ==> a-ms | s-a-ms, +Fc, s-a-ms | s-a-ms, +Fc, s-a-ms, Fs. %enumeració amb .../etc al final
-s-a-ms ==> s-a-ms, +coord, s-a-ms | sadv, +a-ms | +a-ms, s-a-ms. 
+s-a-ms ==> s-a-ms, +coord, s-a-ms | sadv, +a-ms | sadv, +parti-ms |  +a-ms, s-a-ms. %NOVA: sadv, +parti-ms
 
 s-a-fs ==> Fe, +s-a-fs, Fe | Fpa, +s-a-fs, Fpt.
 s-a-fs ==> a-fs | s-a-fs, +Fc, s-a-fs | s-a-fs, +Fc, s-a-fs, Fs.
-s-a-fs ==> s-a-fs, +coord, s-a-fs | sadv, +a-fs | +a-fs, s-a-fs.
+s-a-fs ==> s-a-fs, +coord, s-a-fs | sadv, +a-fs | sadv, +parti-fs | +a-fs, s-a-fs.
  
 s-a-mp ==> Fe, +s-a-mp, Fe | Fpa, +s-a-mp, Fpt.
 s-a-mp ==> a-mp | s-a-mp, +Fc, s-a-mp | s-a-mp, +Fc, s-a-mp, Fs.	
-s-a-mp ==> s-a-mp, +coord, s-a-mp | sadv, +a-mp | +a-mp, s-a-mp. 
+s-a-mp ==> s-a-mp, +coord, s-a-mp | sadv, +a-mp | sadv, +parti-mp | +a-mp, s-a-mp. 
 
 s-a-fp ==> Fe, +s-a-fp, Fe | Fpa, +s-a-fp, Fpt.
 s-a-fp ==> a-fp | s-a-fp, +Fc, s-a-fp | s-a-fp, +Fc, s-a-fp, Fs.
-s-a-fp ==> s-a-fp, +coord, s-a-fp | sadv, +a-fp | +a-fp, s-a-fp.
+s-a-fp ==> s-a-fp, +coord, s-a-fp | sadv, +a-fp | sadv, +parti-fp | +a-fp, s-a-fp.
 
 s-a-ms ==> parti-ms.
 s-a-fs ==> parti-fs.
@@ -1010,6 +1018,7 @@ sadv ==> adv-interrog.
 sadv ==> RG.
 
 sadv ==> cuantif, +sadv.
+sadv ==> RG(muy), +RG(poco). %NOVA
 
 %adverbis 'transitius(+/-)'	%13-05-02
 sadv ==> +RG(cerca), SPS00(de), sn.	%cerca de 10 personas
