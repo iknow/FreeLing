@@ -1,10 +1,17 @@
-l#--------------------------------------
+#--------------------------------------
 # Regras de sufixación para o galego
 #--------------------------------------
 #  Xavier Gómez Guinovart
 #  Seminario de Lingüística Informática
 #  Universidade de Vigo
 #  http://sli.uvigo.es
+#--------------------------------------
+#  Pablo Gamallo Otero
+#  Marcos Garcia González
+#  Grupo ProLNat
+#  Departamento de Língua Espanhola
+#  Universidade de Santiago de Compostela
+#  http://gramatica.usc.es/pln
 #--------------------------------------
 # Cada liña ten 7 campos:
 # 1 sufixo para quitar
@@ -16,6 +23,7 @@ l#--------------------------------------
 # 7 o lema de saída é a palabra sufixada no canto do lema do dicionario
 # 8 cando é 1, próbase a regra mesmo coas palabras que xa están no dicionario
 # 9 retokenización
+
 
 #############################################
 ################ CLITICOS ###################
@@ -287,7 +295,6 @@ uma	u    ^V    *	1    1	  0    0	$$+me+a:$$+PP+PP	# Pretérito (3p do sg): andou/
 nma 	n    ^V    *    1    1    0    0        $$+me+a:$$+PP+PP	# Presente (3p do pl) e Pretérito (1 do sg): varren/varrín + ma.
 #ma    	*    ^V    *    1    1    0    1	$$+me+a:$$+PP+PP
 
-
 ################ Verbo + mas ##################
 amas 	á    ^VMI  *    1    1    0    0        $$+me+as:$$+PP+PP	# Futuro e masis-que-perfeito (1 e 3p do sg): pedirá/pedira + mas.
 amas 	a    ^VMM  *    1    1    0    0        $$+me+as:$$+PP+PP	# Imperativo: pida + mas.
@@ -305,7 +312,6 @@ omas 	o    ^VMI  *    1    1    0    0	$$+me+as:$$+PP+PP	# Presente (1p do sg): 
 umas	u    ^V    *	1    1	  0    0	$$+me+as:$$+PP+PP	# Pretérito (3p do sg): andou/varreu/partiu + mas.
 nmas 	n    ^V    *    1    1    0    0        $$+me+as:$$+PP+PP	# Presente (3p do pl) e Pretérito (1 do sg): varren/varrín + mas.
 #mas   	*    ^V    *    1    1    0    1	$$+me+as:$$+PP+PP
-
 
 ################ Verbo + mo ###################
 amo 	á    ^VMI  *    1    1    0    0        $$+me+o:$$+PP+PP	# Futuro e mois-que-perfeito (1 e 3p do sg): pedirá/pedira + mo.
@@ -325,7 +331,6 @@ umo	u    ^V    *	1    1	  0    0	$$+me+o:$$+PP+PP	# Pretérito (3p do sg): andou/
 nmo 	n    ^V    *    1    1    0    0        $$+me+o:$$+PP+PP	# Presente (3p do pl) e Pretérito (1 do sg): varren/varrín + mo.
 #mo    	*    ^V    *    1    1    0    1	$$+me+o:$$+PP+PP
 
-
 ################ Verbo + mos ##################
 amos 	á    ^VMI  *    1    1    0    0        $$+me+os:$$+PP+PP	# Futuro e mosis-que-perfeito (1 e 3p do sg): pedirá/pedira + mos.
 amos 	a    ^VMM  *    1    1    0    0        $$+me+os:$$+PP+PP	# Imperativo: pida + mos.
@@ -344,7 +349,6 @@ umos	u    ^V    *	1    1	  0    0	$$+me+os:$$+PP+PP	# Pretérito (3p do sg): ando
 nmos 	n    ^V    *    1    1    0    0        $$+me+os:$$+PP+PP	# Presente (3p do pl) e Pretérito (1 do sg): varren/varrín + mos.
 #mos   	*    ^V    *    1    1    0    1	$$+me+os:$$+PP+PP
 
-
 ################ Verbo + cha ##################
 acha 	á    ^VMI  *    1    1    0    0        $$+che+a:$$+PP+PP	# Futuro e Mais-que-perfeito (1 e 3p do sg): pedirá/pedira + cha.
 ácha 	á    ^VMIP3 *   1    1    0    0        $$+che+a:$$+PP+PP	# Presente (acento diacrítco): dá + cha.
@@ -357,7 +361,6 @@ ocha 	o    ^VMI  *    1    1    0    0	$$+che+a:$$+PP+PP	# Presente (1p do sg): 
 ucha	u    ^V    *	1    1	  0    0	$$+che+a:$$+PP+PP	# Pretérito (3p do sg): andou/varreu/partiu + cha.
 ncha 	n    ^V    *    1    1    0    0        $$+che+a:$$+PP+PP	# Presente (3p do pl) e Pretérito (1 do sg): varren/varrín + cha.
 #cha   	*    ^V    *    1    1    0    1	$$+che+a:$$+PP+PP
-
 
 ################ Verbo + chas #################
 achas 	á    ^VMI  *    1    1    0    0        $$+che+as:$$+PP+PP	# Futuro e Mais-que-perfeito (1 e 3p do sg): pedirá/pedira + chas.
@@ -372,7 +375,6 @@ uchas	u    ^V    *	1    1	  0    0	$$+che+as:$$+PP+PP	# Pretérito (3p do sg): an
 nchas 	n    ^V    *    1    1    0    0        $$+che+as:$$+PP+PP	# Presente (3p do pl) e Pretérito (1 do sg): varren/varrín + chas.
 #chas   *    ^V    *    1    1    0    1	$$+che+as:$$+PP+PP
 
-
 ################ Verbo + cho #################
 acho 	á    ^VMI  *    1    1    0    0        $$+che+o:$$+PP+PP	# Futuro e Mais-que-perfeito (1 e 3p do sg): pedirá/pedira + cho.
 ácho 	á    ^VMIP3 *   1    1    0    0        $$+che+o:$$+PP+PP	# Presente (acento diacrítco): dá + cho.
@@ -386,7 +388,6 @@ ucho	u    ^V    *	1    1	  0    0	$$+che+o:$$+PP+PP	# Pretérito (3p do sg): ando
 ncho 	n    ^V    *    1    1    0    0        $$+che+o:$$+PP+PP	# Presente (3p do pl) e Pretérito (1 do sg): varren/varrín + cho.
 #cho   	*    ^V    *    1    1    0    1	$$+che+o:$$+PP+PP
 
-
 ################ Verbo + chos #################
 achos 	á    ^VMI  *    1    1    0    0        $$+che+os:$$+PP+PP	# Futuro e Mais-que-perfeito (1 e 3p do sg): pedirá/pedira + chos.
 áchos 	á    ^VMIP3 *   1    1    0    0        $$+che+os:$$+PP+PP	# Presente (acento diacrítco): dá + chos.
@@ -399,7 +400,6 @@ ochos 	o    ^VMI  *    1    1    0    0	$$+che+os:$$+PP+PP	# Presente (1p do sg)
 uchos	u    ^V    *	1    1	  0    0	$$+che+os:$$+PP+PP	# Pretérito (3p do sg): andou/varreu/partiu + chos.
 nchos 	n    ^V    *    1    1    0    0        $$+che+os:$$+PP+PP	# Presente (3p do pl) e Pretérito (1 do sg): varren/varrín + chos.
 #chos   *    ^V    *    1    1    0    1	$$+che+os:$$+PP+PP
-
 
 ################ Verbo + lla ##################
 alla 	á    ^VMI  *    1    1    0    0        $$+lle+a:$$+PP+PP	# Futuro e Mais-que-perfeito (1 e 3p do sg): pedirá/pedira + lla.
@@ -426,7 +426,6 @@ nlla 	n    ^VMM  *    1    1    0    0        $$+lle+a:$$+PP+PP	# Imperativo (2p
 nlla 	n    ^VMN  *    1    1    0    0        $$+lle+a:$$+PP+PP	# Infinitivo(s): varreren + lla.
 #lla   	*    ^V    *    1    1    0    1	$$+lle+a:$$+PP+PP
 
-
 ################ Verbo + llas #################
 allas 	á    ^VMI  *    1    1    0    0        $$+lle+as:$$+PP+PP	# Futuro e Mais-que-perfeito (1 e 3p do sg): pedirá/pedira + llas.
 allas 	a    ^VMM  *    1    1    0    0        $$+lle+as:$$+PP+PP	# Imperativo: pida + llas
@@ -452,7 +451,6 @@ nllas 	n    ^VMM  *    1    1    0    0        $$+lle+as:$$+PP+PP	# Imperativo (
 nllas 	n    ^VMN  *    1    1    0    0        $$+lle+as:$$+PP+PP	# Infinitivo(s): varreren + llas.
 #llas   *    ^V    *    1    1    0    1	$$+lle+as:$$+PP+PP
 
-
 ################ Verbo + llo ##################
 allo 	á    ^VMI  *    1    1    0    0        $$+lle+o:$$+PP+PP	# Futuro e Mais-que-perfeito (1 e 3p do sg): pedirá/pedira + llo.
 allo 	a    ^VMM  *    1    1    0    0        $$+lle+o:$$+PP+PP	# Imperativo: pida + llo
@@ -477,7 +475,6 @@ nllo 	n    ^VMIC *    1    1    0    0        $$+lle+o:$$+PP+PP	# Condicional (3
 nllo 	n    ^VMM  *    1    1    0    0        $$+lle+o:$$+PP+PP	# Imperativo (2p do pl): varran + llo.
 nllo 	n    ^VMN  *    1    1    0    0        $$+lle+o:$$+PP+PP	# Infinitivo(s): varreren + llo.
 #llo   	*    ^V    *    1    1    0    1	$$+lle+o:$$+PP+PP
-
 
 ################ Verbo + llos #################
 allos 	á    ^VMI  *    1    1    0    0        $$+lle+os:$$+PP+PP	# Futuro e Mais-que-perfeito (1 e 3p do sg): pedirá/pedira + llos.
@@ -660,6 +657,7 @@ iñas  a|e|i|o|u	^AQ0MS	AQDFP0	1	0	0	0	-
 iña   a|e|i|o|u	^AQ0MS	AQDFS0	1	0	0	0	-
 iños  a|e|i|o|u	^AQ0MS	AQDMP0	1	0	0	0	-
 iño   a|e|i|o|u	^AQ0MS	AQDMS0	1	0	0	0	-
+
 
 ############################################
 ################ SUPERLATIVOS ##############
