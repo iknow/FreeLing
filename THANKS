@@ -98,5 +98,30 @@
   >> The Spanish Education and Science Ministry funded part of
      FreeLing development through the KNOW project (http://ixa.si.ehu.es/know)
 
+  >> The Spanish Industry Ministry funded part of FreeLing development 
+     through the EuroOpenTrad project (http://www.opentrad.org)
+
+  2008
+
+   >> Jordi Carrera, Marina Lloberes, and Irene Castellón from GRIAL research group extended and improved dependency and shallow parsing grammars for Catalan, Spanish and English.
+
+   >> Francis Tyers, Apertium developer at Prompsit, provided morphological and PoS tagging data sets for Welsh.
+
+   >> Vitalie Scurtu wrote the Italian number recognizer module.
+
+   >> Daniel Berndt and Gemma Boleda debbuged and extended the English dictionary.
+
+   >> Daniel Berndt extended the functionalities of the basic NE recognizer.
+
+   >> Dmitry Vitkovsky largely improved the efficiency of the tokenizer speeding 
+      up the whole analysis chain.
+
+  >> The Spanish Industry Ministry funded part of FreeLing development 
+     through the EuroOpenTrad project (http://www.opentrad.org)
+
+  >> Pablo Gamallo and Marcos Garcia, from Universidade de Santiago de Compostela,
+     enlarged the Galician dictionary and retrained the Galician PoS taggers with
+     a larger corpus, improving its accuracy.
+
   --- End of List ----
 
