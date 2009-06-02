@@ -42,7 +42,12 @@ in the license applying to each of the involved modules.
      You'll find the license in the file LICENSES/LGPLLR.license included 
      in this package or at http://sanskrit.inria.fr/DATA/LGPLLR.html
 
- 4.- All other data and code modules in this package are distributed under GNU
+ 4.- Catalan dictionary was obtained from "El Corrector", a Catalan 
+     spellchecker project (http://projectes.lafarga.cat/projects/corrector), 
+     which was funded  by the Catalan Government, developed by Fundacio 
+     Barcelona Media (http://www.barcelonamedia.org/), and released under GPL.
+
+ 5.- All other data and code modules in this package are distributed under GNU
      General Public License (GPL).
      You can find it in the file LICENSES/GPL.license included in this package 
      or at http://www.gnu.org/licenses
