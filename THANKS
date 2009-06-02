@@ -116,12 +116,12 @@
    >> Dmitry Vitkovsky largely improved the efficiency of the tokenizer speeding 
       up the whole analysis chain.
 
-  >> The Spanish Industry Ministry funded part of FreeLing development 
-     through the EuroOpenTrad project (http://www.opentrad.org)
+   >> The Spanish Industry Ministry funded part of FreeLing development 
+      through the EuroOpenTrad project (http://www.opentrad.org)
 
-  >> Pablo Gamallo and Marcos Garcia, from Universidade de Santiago de Compostela,
-     enlarged the Galician dictionary and retrained the Galician PoS taggers with
-     a larger corpus, improving its accuracy.
+   >> Pablo Gamallo and Marcos Garcia, from Universidade de Santiago de Compostela,
+      enlarged the Galician dictionary and retrained the Galician PoS taggers with
+      a larger corpus, improving its accuracy.
 
   --- End of List ----
 
