@@ -42,7 +42,7 @@ using namespace std;
 maco_options::maco_options(const std::string &lg) {
 
   Lang=lg;
-  SuffixAnalysis=false;   MultiwordsDetection=false;
+  AffixAnalysis=false;   MultiwordsDetection=false;
   NumbersDetection=false; PunctuationDetection=false;
   DatesDetection=false;   QuantitiesDetection=false;
   DictionarySearch=false; ProbabilityAssignment=false;
@@ -50,7 +50,7 @@ maco_options::maco_options(const std::string &lg) {
 
   Decimal=",";  Thousand=".";
 
-  LocutionsFile="";   QuantitiesFile="";    SuffixFile=""; 
+  LocutionsFile="";   QuantitiesFile="";    AffixFile=""; 
   ProbabilityFile=""; DictionaryFile=""; 
   NPdataFile="";      PunctuationFile="";
 
@@ -59,7 +59,7 @@ maco_options::maco_options(const std::string &lg) {
 
 void maco_options::set_active_modules(bool suf, bool mw, bool num, bool pun, bool dat, 
                                       bool qt, bool dic, bool prb, int ner) {
-  SuffixAnalysis=suf;    MultiwordsDetection=mw;
+  AffixAnalysis=suf;    MultiwordsDetection=mw;
   NumbersDetection=num;  PunctuationDetection=pun;
   DatesDetection=dat;    QuantitiesDetection=qt;
   DictionarySearch=dic;  ProbabilityAssignment=prb;
@@ -74,7 +74,7 @@ void maco_options::set_nummerical_points(const std::string &dec,const std::strin
 void maco_options::set_data_files(const std::string &loc,const std::string &qty,const std::string &suf,
                                   const std::string &prb,const std::string &dic,const std::string &nps,
                                   const std::string &pun) {
-  LocutionsFile=loc;    QuantitiesFile=qty;    SuffixFile=suf; 
+  LocutionsFile=loc;    QuantitiesFile=qty;  AffixFile=suf; 
   ProbabilityFile=prb;  DictionaryFile=dic;  NPdataFile=nps;
   PunctuationFile=pun;  
 }

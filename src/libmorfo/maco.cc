@@ -47,7 +47,7 @@ maco::maco(const maco_options &opts): defaultOpt(opts) {
                                      : NULL);
   date = (opts.DatesDetection        ? new dates(opts.Lang) 
                                      : NULL);
-  dico = (opts.DictionarySearch      ? new dictionary(opts.Lang, opts.DictionaryFile, opts.SuffixAnalysis, opts.SuffixFile) 
+  dico = (opts.DictionarySearch      ? new dictionary(opts.Lang, opts.DictionaryFile, opts.AffixAnalysis, opts.AffixFile) 
                                      : NULL);
   loc = (opts.MultiwordsDetection    ? new locutions(opts.LocutionsFile) 
 	                             : NULL);

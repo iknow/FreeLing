@@ -31,7 +31,7 @@
 #include "freeling/traces.h"
 
 #define MOD_TRACENAME "ACCENTS"
-#define MOD_TRACECODE SUFF_TRACE
+#define MOD_TRACECODE AFF_TRACE
 
 using namespace std;
 
@@ -123,7 +123,7 @@ void accents_es::fix_accentuation(std::vector<std::string> &candidates, const su
       }
       roots.push_back(*r); // append to roots this element
     }
-    else if (suf.last_acc) {
+    else if (suf.acc) {
       TRACE(3,"try with an accent in each sylabe ");
       // first remove all accents
       remove_accent_esp(*r);

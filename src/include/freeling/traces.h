@@ -46,7 +46,7 @@
 #define DATES_TRACE         0x00000020
 #define PUNCT_TRACE         0x00000040
 #define DICT_TRACE          0x00000080
-#define SUFF_TRACE          0x00000100
+#define AFF_TRACE           0x00000100
 #define LOCUT_TRACE         0x00000200
 #define NP_TRACE            0x00000400
 #define PROB_TRACE          0x00000800
