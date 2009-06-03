@@ -201,25 +201,11 @@ bool coref::check_coref(const SAMPLE & sa1, const SAMPLE & sa2) const{
   // classify current example
   classifier->classify(exampl,pred);
   
-  // find out which class has highest weight (alternatively, we
-  // could select all classes with positive weight, and propose
-  // more than one class per example)
-  double max=pred[0];
-  string tag=classifier->get_label(0);
-  for (j=1; j<classifier->get_nlabels(); j++) {
-    if (pred[j]>max) {
-      max=pred[j];
-      tag=classifier->get_label(j);
-    }
-  }
+  TRACE(4,"    -Prediction for "+classifier->get_label(0)+" = "+util::double2string(pred[0]));
+  TRACE(4,"    -Prediction for "+classifier->get_label(1)+" = "+util::double2string(pred[1]));
 
-  // if no label has a positive prediction and <others> is defined, select <others> label.
-  string def = classifier->default_class();
-  if (max<0 && def!="") tag = def;
-  
-  TRACE(4,"    -Selected class: "+tag);
-
-  return (tag == "Positive");
+  // return true if class 1 (corref) has positive prediction and higher than class 0 (non-corref)
+  return (pred[1]>0 and pred[1]>pred[0]);
 }
 
 
