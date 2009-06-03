@@ -44,7 +44,7 @@ class maco_options {
     // Language analyzed
     std::string Lang;
     /// Morphological analyzer options
-    bool SuffixAnalysis,   MultiwordsDetection, 
+    bool AffixAnalysis,   MultiwordsDetection, 
          NumbersDetection, PunctuationDetection, 
          DatesDetection,   QuantitiesDetection, 
          DictionarySearch, ProbabilityAssignment;
@@ -52,7 +52,7 @@ class maco_options {
     /// Morphological analyzer options
     std::string Decimal, Thousand;
     /// Morphological analyzer options
-    std::string LocutionsFile, QuantitiesFile, SuffixFile, 
+    std::string LocutionsFile, QuantitiesFile, AffixFile, 
            ProbabilityFile, DictionaryFile, 
            NPdataFile, PunctuationFile;
     double ProbabilityThreshold;

@@ -45,10 +45,10 @@
 class dictionary {
    private:
       /// configuration options
-      bool MACO_SuffixAnalysis;
+      bool AffixAnalysis;
 
       /// suffix analyzer
-      suffixes* suf;
+      affixes* suf;
 
       /// C++ Interface to BerkeleyDB C API
       Db morfodb;

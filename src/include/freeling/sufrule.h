@@ -1,3 +1,4 @@
+
 //////////////////////////////////////////////////////////////////
 //
 //    FreeLing - Open Source Language Analyzers
@@ -34,22 +35,22 @@
 
 
 /////////////////////////////////////////////
-/// Class sufrule contains a suffixation rule,
+/// Class sufrule contains an affixation rule,
 /// and is used by class suffixes.
 /////////////////////////////////////////////
 
 class sufrule {
   public:
-    std::string term,output,retok;
+  std::string term,output,retok,lema;
     RegEx cond;
-    int last_acc,not_acc,lem_form,enc,always;
+    int acc,enc,always,nomore;
 
     sufrule() : cond("") {}
     sufrule(const std::string & c) : cond(c) {}
     sufrule(const sufrule & s) : cond(s.cond) {
       term=s.term; output=s.output; retok=s.retok;
-      last_acc=s.last_acc; not_acc=s.not_acc; lem_form=s.lem_form;
-      enc=s.enc; always=s.always;
+      acc=s.acc; enc=s.enc; nomore=s.nomore;
+      lema=s.lema; always=s.always;
     }
 };
 

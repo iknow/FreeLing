@@ -38,6 +38,9 @@
 #include "freeling/sufrule.h"
 #include "freeling/accents.h"
 
+#define SUF 0
+#define PREF 1
+
 // just declaring
 class dictionary;
 
@@ -46,37 +49,37 @@ class dictionary;
 ///  dictionary search for suffixed word forms.
 ////////////////////////////////////////////////////////////////
 
-class suffixes {
+class affixes {
 
    private:
       /// Language-specific accent handler
       accents accen;
 
-      /// all suffixation rules
-      std::multimap<std::string,sufrule> suffix;
-      /// suffixation rules applied unconditionally
-      std::multimap<std::string,sufrule> suffix_always;
+      /// all suffixation/prefixation rules
+      std::multimap<std::string,sufrule> affix[2];
+      /// suffixation/prefixation rules applied unconditionally
+      std::multimap<std::string,sufrule> affix_always[2];
 
-      /// array of existing suffix lengths.
-      std::set<unsigned int> ExistingLength;
-      /// Length of longest suffix.
-      unsigned int LongestSuf;
+      /// index of existing suffix/prefixs lengths.
+      std::set<unsigned int> ExistingLength[2];
+      /// Length of longest suffix/prefix.
+      unsigned int Longest[2];
 
       /// auxiliary methods to deal with suffixing
-      void look_for_suffixes_in_list (std::multimap<std::string,sufrule> &, word &, dictionary &) const;
+      void look_for_affixes_in_list (int, std::multimap<std::string,sufrule> &, word &, dictionary &) const;
       /// auxiliary methods to deal with suffixing
-      std::vector<std::string> GenerateRoots(const sufrule &, const std::string &) const;
+      std::vector<std::string> GenerateRoots(int, const sufrule &, const std::string &) const;
       /// auxiliary methods to deal with suffixing
-      void SearchRootsList(const std::vector<std::string> &, sufrule &, word &, dictionary &) const;
+      void SearchRootsList(const std::vector<std::string> &, const std::string &, sufrule &, word &, dictionary &) const;
       /// auxiliary method to deal with retokenization
       void CheckRetokenizable(const sufrule &, const std::string &, const std::string &, const std::string &, dictionary &, std::list<word> &) const;
 
    public:
       /// Constructor
-      suffixes(const std::string &, const std::string &);
+      affixes(const std::string &, const std::string &);
 
-      /// look up possible roots of a suffixed form
-      void look_for_suffixes(word &, dictionary &);
+      /// look up possible roots of a suffixed/prefixed form
+      void look_for_affixes(word &, dictionary &);
 };
 
 #endif

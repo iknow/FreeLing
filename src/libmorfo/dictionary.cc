@@ -53,14 +53,14 @@ using namespace std;
 ///  Create a dictionary module, open database.
 ///////////////////////////////////////////////////////////////
 
-dictionary::dictionary(const std::string &Lang, const std::string &dicFile, bool activateSuf, const std::string &sufFile): morfodb(NULL,DB_CXX_NO_EXCEPTIONS)
+dictionary::dictionary(const std::string &Lang, const std::string &dicFile, bool activateAff, const std::string &sufFile): morfodb(NULL,DB_CXX_NO_EXCEPTIONS)
 {
   int res;
 
-  // remember if suffix analysis is to be performed
-  MACO_SuffixAnalysis = activateSuf;
-  // create suffix analyzer if required
-  suf = (MACO_SuffixAnalysis ? new suffixes(Lang, sufFile) : NULL);
+  // remember if affix analysis is to be performed
+  AffixAnalysis = activateAff;
+  // create affix analyzer if required
+  suf = (AffixAnalysis ? new affixes(Lang, sufFile) : NULL);
 
   // Opening a 4.0 or higher BerkeleyDB database
   if ((res=morfodb.OPEN(dicFile.c_str(),NULL,DB_UNKNOWN,DB_RDONLY,0))) {
@@ -81,7 +81,7 @@ int res;
   if ((res=morfodb.close(0))) {
     ERROR_CRASH("Error "+util::int2string(res)+" while closing database");
   }
-  // delete suffix analyzer, if any
+  // delete affix analyzer, if any
   delete suf;
 }
 
@@ -156,9 +156,9 @@ void dictionary::annotate_word(word &w) {
   }
 
   // check whether the word is a derived form via suffixation
-  if (MACO_SuffixAnalysis) {
-    TRACE(2,"Suffix analisys active. SEARCHING FOR A SUFFIX. word n_analysis="+util::int2string(w.get_n_analysis()));
-    suf->look_for_suffixes(w, *this);
+  if (AffixAnalysis) {
+    TRACE(2,"Affix analisys active. SEARCHING FOR AFFIX. word n_analysis="+util::int2string(w.get_n_analysis()));
+    suf->look_for_affixes(w, *this);
   }
 }
 
@@ -246,7 +246,7 @@ bool dictionary::check_contracted(const word &w, std::list<word> &lw) {
 
 
 ////////////////////////////////////////////////////////////////////////
-///  Dictionary search and suffix analysis for all words
+///  Dictionary search and affix analysis for all words
 /// in a sentence, using given options.
 ////////////////////////////////////////////////////////////////////////
 
