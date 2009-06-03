@@ -59,9 +59,12 @@ covered languages (English, Spanish, Catalan, Galician, and Italian):
       Public License For Linguistic Resources (LGPL-LR) license.
       See THANKS and COPYING files for further information.
 
-    \item The Catalan dictionary is hand build and contains
-      near 67,000 forms corresponding to more than
-      7,400 different combinations lemma-PoS.
+    \item The Catalan dictionary was obtained from "El Corrector", a Catalan 
+     spellchecker project (http://projectes.lafarga.cat/projects/corrector), 
+     which was funded  by the Catalan Government, developed by Fundacio 
+     Barcelona Media (http://www.barcelonamedia.org/), and released under GPL.
+     It contains 640,000 forms for more than 71,000 lemma-PoS combinations.
+     See THANKS and COPYING files for further information.
  
    \item The Galician dictionary was obtained from OpenTrad project
      (a nice open source Machine Translation project at {\tt
@@ -567,15 +570,15 @@ Command line       & Configuration file   \\ \hline
 
   File of splitter options rules. See section~\ref{file-split} for details.
 
-\item {\bf Suffix Analysis}
+\item {\bf Affix Analysis}
 
 \begin{tabular}{|l|l|}
 Command line                     & Configuration file   \\ \hline
-\verb#--sufx#, \verb#--nosufx#   & \verb#SuffixAnalysis=(yes|y|on|no|n|off)# \\ \hline
+\verb#--afx#, \verb#--noafx#   & \verb#AffixAnalysis=(yes|y|on|no|n|off)# \\ \hline
 \end{tabular}
 
-  Whether to perform suffix analysis on unknown words. 
-  Suffix analysis applies known suffixation rules to the word to check whether it is a derived form of a known word  (see option Suffix Rules File, below).
+  Whether to perform affix analysis on unknown words. 
+  Affix analysis applies known affixation rules to the word to check whether it is a derived form of a known word  (see option Affix Rules File, below).
 
 \item {\bf Multiword Detection}
 
@@ -632,7 +635,7 @@ Command line       & Configuration file   \\ \hline
 \end{tabular}
 
  Whether to search word forms in dictionary. Deactivating this feature
- also deactivates SuffixAnalysis option.
+ also deactivates AffixAnalysis option.
 
 \item {\bf Probability Assignment}
 
@@ -680,14 +683,14 @@ Command line       & Configuration file   \\ \hline
 
  Quantitiy recognition configuration file. See section \ref{file-quant} for details.
 
-\item {\bf Suffixation Rules File}
+\item {\bf Affixation Rules File}
 
 \begin{tabular}{|l|l|}
 Command line       & Configuration file   \\ \hline
-\verb#-S <filename>#, \verb#--fsuf <filename>#  & \verb#SuffixFile=<filename># \\ \hline  
+\verb#-S <filename>#, \verb#--fafx <filename>#  & \verb#AffixFile=<filename># \\ \hline  
 \end{tabular}
 
-   Suffix rules file. See section \ref{file-suf} for details.
+   Affix rules file. See section \ref{file-suf} for details.
 
 
 \item {\bf Unknown Words Probability Threshold.}
@@ -930,7 +933,7 @@ Command line       & Configuration file   \\ \hline
 
    Determine whether the tagger must perform retokenization after
    the appropriate analysis has been selected for each word.  
-   This is closely related to suffix analysis, see section \ref{file-suf} for details.
+   This is closely related to affix analysis, see section \ref{file-suf} for details.
 
 
 \item {\bf Force the selection of one unique tag}
@@ -1009,7 +1012,7 @@ TokenizerFile="/usr/local/share/FreeLing/es/tokenizer.dat"\\
 \#\#\#\#---------------- Splitter options\\
 SplitterFile="/usr/local/share/FreeLing/es/splitter.dat"
 \#\#\#\#---------------- Morfo options\\
-SuffixAnalysis=yes\\
+AffixAnalysis=yes\\
 MultiwordsDetection=yes\\
 NumbersDetection=yes\\
 PunctuationDetection=yes\\
@@ -1021,7 +1024,7 @@ DecimalPoint=","\\
 ThousandPoint="."\\
 LocutionsFile=/usr/local/share/FreeLing/es/locucions.dat \\
 QuantitiesFile=/usr/local/share/FreeLing/es/quantities.dat\\
-SuffixFile=/usr/local/share/FreeLing/es/sufixos.dat\\
+AffixFile=/usr/local/share/FreeLing/es/sufixos.dat\\
 ProbabilityFile=/usr/local/share/FreeLing/es/probabilitats.dat\\
 DictionaryFile=/usr/local/share/FreeLing/es/maco.db\\
 NPDataFile=/usr/local/share/FreeLing/es/np.dat\\
@@ -1274,27 +1277,32 @@ This section will recognize strings such as the following:
 
 
 %..................................................
-\section{Suffixation rules file}
+\section{Affixation rules file}
 \label{file-suf}
 
-One rule per line, each rule has eight fields:
+The file consists of two (optional) sections: \verb#<Suffixes># and \verb#<Prefixes>#. The first one contains suffixation rules, and the second, prefixation rules.
+
+Both kinds of rules have the same format, and only differ in whether the affix is checked at the beggining or at the end of the word.
+
+Each rule has to be written in a different line, and has 10 fields:
 \begin{enumerate}
- \item Suffix to erase form word form (e.g: crucecita - cecita = cru)
- \item Suffix (* for emtpy string) to add to the resulting root to rebuild the lemma that must be searched in dictionary  (e.g. cru + z = cruz)
+ \item Affix to erase form word form (e.g: crucecita - cecita = cru)
+ \item Affix (* for emtpy string) to add to the resulting root to rebuild the lemma that must be searched in dictionary  (e.g. cru + z = cruz)
  \item Condition on the parole tag of found dictionary entry
  (e.g. cruz is NCFS). The condition is a perl RegExp
  \item Parole tag for suffixed word (* = keep tag in dictionary entry)
  \item Check lemma adding accents
  \item Enclitic suffix (special accent behaviour in Spanish)
- \item Use original form as lemma instead of the lemma in dictionary entry
- \item Consider the suffix always, not only for unknown words.
- \item Retokenization info, explained below.. (or "-" if the suffix doesn't cause retokenization).
+ \item Prevent later modules (e.g. probabilities) from assigning additional tags to the word
+ \item Lemma to assign: F=original form, R=root found in dict, L=lemma in matching dict entry, AF/AR/AL=affix followed by F/R/L, FA/RA/LA=F/R/L followed by affix.
+ \item Try the affix always, not only for unknown words.
+ \item Retokenization info, explained below ("-" if the suffix doesn't cause retokenization).
 \end{enumerate}
 
  E.g. 
 \begin{verbatim}
- cecita  z|za  ^NCFS  NCFS00A  0  0  0  0  -
- les     *     ^V      *       0  1  0  1  $$+les:$$+PP
+ cecita  z|za  ^NCFS  NCFS00A  0  0  1  L  0  -
+ les     *     ^V      *       0  1  0  L  1  $$+les:$$+PP
 \end{verbatim}
 
   The first line ({\tt cecita}) states a suffix rule that will be

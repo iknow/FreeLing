@@ -92,7 +92,7 @@ class config {
     char * SPLIT_SplitterFile;
 
     /// Morphological analyzer options
-    int MACO_SuffixAnalysis, MACO_MultiwordsDetection, 
+    int MACO_AffixAnalysis, MACO_MultiwordsDetection, 
         MACO_NumbersDetection, MACO_PunctuationDetection, 
         MACO_DatesDetection, MACO_QuantitiesDetection, 
         MACO_DictionarySearch, MACO_ProbabilityAssignment;
@@ -101,7 +101,7 @@ class config {
     char *MACO_Decimal, *MACO_Thousand;
 
     /// Morphological analyzer options
-    char *MACO_LocutionsFile, *MACO_QuantitiesFile, *MACO_SuffixFile, 
+    char *MACO_LocutionsFile, *MACO_QuantitiesFile, *MACO_AffixFile, 
          *MACO_ProbabilityFile, *MACO_DictionaryFile, 
          *MACO_NPdataFile, *MACO_PunctuationFile;
     double MACO_ProbabilityThreshold;
@@ -144,10 +144,10 @@ class config {
       // Auxiliary for string translation
       char *InputF, *OutputF, *Ner, *Tagger, *SenseAnot, *Force, *DepParser;
       // Auxiliary for boolean handling
-      int flush,noflush, sufx,nosufx,   loc,noloc,   numb,nonumb,
+      int flush,noflush, afx,noafx,   loc,noloc,   numb,nonumb,
           punt,nopunt,   date,nodate,   quant,noquant,  dict,nodict,   prob,noprob,
   	  nec,nonec,     dup,nodup,      retok,noretok,  coref,nocoref;
-      char *cf_flush, *cf_sufx, *cf_loc,   *cf_numb,
+      char *cf_flush, *cf_afx, *cf_loc,   *cf_numb,
            *cf_punt,  *cf_date, *cf_quant, *cf_dict, *cf_prob,
 	   *cf_nec,  *cf_dup,   *cf_retok,  *cf_coref;
  
@@ -169,9 +169,9 @@ class config {
 	// splitter options
 	{"fsplit",  '\0', "SplitterFile",            CFG_STR,  (void *) &SPLIT_SplitterFile, 0},
 	// morfo options
-	{"sufx",    '\0', NULL,                      CFG_BOOL, (void *) &sufx, 0},
-	{"nosufx",  '\0', NULL,                      CFG_BOOL, (void *) &nosufx, 0},
-	{NULL,      '\0', "SuffixAnalysis",          CFG_STR,  (void *) &cf_sufx, 0},
+	{"afx",    '\0', NULL,                      CFG_BOOL, (void *) &afx, 0},
+	{"noafx",  '\0', NULL,                      CFG_BOOL, (void *) &noafx, 0},
+	{NULL,      '\0', "AffixAnalysis",          CFG_STR,  (void *) &cf_afx, 0},
 	{"loc",     '\0', NULL,                      CFG_BOOL, (void *) &loc, 0},
 	{"noloc",   '\0', NULL,                      CFG_BOOL, (void *) &noloc, 0},
 	{NULL,      '\0', "MultiwordsDetection",     CFG_STR,  (void *) &cf_loc, 0},
@@ -198,7 +198,7 @@ class config {
 	{"thou",    '\0', "ThousandPoint",           CFG_STR,  (void *) &MACO_Thousand, 0},
 	{"floc",    'L',  "LocutionsFile",           CFG_STR,  (void *) &MACO_LocutionsFile, 0},
 	{"fqty",    'Q',  "QuantitiesFile",          CFG_STR,  (void *) &MACO_QuantitiesFile, 0},
-	{"fsuf",    'S',  "SuffixFile",              CFG_STR,  (void *) &MACO_SuffixFile, 0},
+	{"fafx",    'S',  "AffixFile",              CFG_STR,  (void *) &MACO_AffixFile, 0},
 	{"fprob",   'P',  "ProbabilityFile",         CFG_STR,  (void *) &MACO_ProbabilityFile, 0},
 	{"thres",   'e',  "ProbabilityThreshold",    CFG_DOUBLE, (void *) &MACO_ProbabilityThreshold, 0},
 	{"fdict",   'D',  "DictionaryFile",          CFG_STR,  (void *) &MACO_DictionaryFile, 0},
@@ -248,12 +248,12 @@ class config {
       
       // init auxiliary variables
       InputF=NULL; OutputF=NULL;  Ner=NULL; Tagger=NULL; SenseAnot=NULL; Force=NULL; DepParser=NULL;
-      flush=false; noflush=false; sufx=false;   nosufx=false; 
+      flush=false; noflush=false; afx=false;   noafx=false; 
       loc=false;   noloc=false;   numb=false;   nonumb=false;   punt=false; nopunt=false;
       date=false;  nodate=false;  quant=false;  noquant=false;  dict=false; nodict=false; 
       prob=false;  noprob=false;  nec=false;  nonec=false; 
       dup=false;   nodup=false;   retok=false; noretok=false; coref=false; nocoref=false;
-      cf_flush=NULL; cf_sufx=NULL;  cf_loc=NULL;   cf_numb=NULL; 
+      cf_flush=NULL; cf_afx=NULL;  cf_loc=NULL;   cf_numb=NULL; 
       cf_punt=NULL;  cf_date=NULL;  cf_quant=NULL; cf_dict=NULL;  cf_prob=NULL;
       cf_nec=NULL;   cf_dup=NULL;   cf_retok=NULL;  cf_coref=NULL;
       
@@ -263,12 +263,12 @@ class config {
       AlwaysFlush=false;
       TOK_TokenizerFile=NULL;
       SPLIT_SplitterFile=NULL;
-      MACO_SuffixAnalysis=false;   MACO_MultiwordsDetection=false; 
+      MACO_AffixAnalysis=false;   MACO_MultiwordsDetection=false; 
       MACO_NumbersDetection=false; MACO_PunctuationDetection=false; 
       MACO_DatesDetection=false;   MACO_QuantitiesDetection=false; 
       MACO_DictionarySearch=false; MACO_ProbabilityAssignment=false; 
       MACO_Decimal=NULL; MACO_Thousand=NULL;
-      MACO_LocutionsFile=NULL; MACO_QuantitiesFile=NULL; MACO_SuffixFile=NULL; 
+      MACO_LocutionsFile=NULL; MACO_QuantitiesFile=NULL; MACO_AffixFile=NULL; 
       MACO_ProbabilityFile=NULL; MACO_DictionaryFile=NULL; 
       MACO_NPdataFile=NULL; MACO_PunctuationFile=NULL;
       MACO_ProbabilityThreshold=0.0; 
@@ -314,7 +314,7 @@ class config {
 
       // Handle boolean options expressed as strings in config file
       SetBooleanOptionCF(string(cf_flush),AlwaysFlush,"AlwaysFlush");
-      SetBooleanOptionCF(string(cf_sufx),MACO_SuffixAnalysis,"SuffixAnalysis");
+      SetBooleanOptionCF(string(cf_afx),MACO_AffixAnalysis,"AffixAnalysis");
       SetBooleanOptionCF(string(cf_loc), MACO_MultiwordsDetection,"MultiwordsDetection");
       SetBooleanOptionCF(string(cf_numb),MACO_NumbersDetection,"NumbersDetection");
       SetBooleanOptionCF(string(cf_punt),MACO_PunctuationDetection,"PunctuationDetection");
@@ -339,7 +339,7 @@ class config {
       ExpandFileName(SPLIT_SplitterFile);
       ExpandFileName(MACO_LocutionsFile);
       ExpandFileName(MACO_QuantitiesFile);
-      ExpandFileName(MACO_SuffixFile);
+      ExpandFileName(MACO_AffixFile);
       ExpandFileName(MACO_ProbabilityFile);
       ExpandFileName(MACO_DictionaryFile); 
       ExpandFileName(MACO_NPdataFile);
@@ -355,7 +355,7 @@ class config {
 	     
       // Handle boolean options expressed with --myopt or --nomyopt in command line
       SetBooleanOptionCL(flush,noflush,AlwaysFlush,"flush");
-      SetBooleanOptionCL(sufx,nosufx,MACO_SuffixAnalysis,"sufx");
+      SetBooleanOptionCL(afx,noafx,MACO_AffixAnalysis,"afx");
       SetBooleanOptionCL(loc,noloc, MACO_MultiwordsDetection,"loc");
       SetBooleanOptionCL(numb,nonumb,MACO_NumbersDetection,"numb");
       SetBooleanOptionCL(punt,nopunt,MACO_PunctuationDetection,"punt");
@@ -469,7 +469,7 @@ class config {
       cout<<"--outf string          Output format (plain,token,splitted,morfo,tagged,parsed,dep)"<< endl;
       cout<<"--ftok filename        Tokenizer rules file "<<endl;
       cout<<"--fsplit filename      Splitter options file "<<endl;
-      cout<<"--sufx, --nosufx       Whether to perform suffix analysis"<<endl;
+      cout<<"--afx, --noafx         Whether to perform affix analysis"<<endl;
       cout<<"--loc, --noloc         Whether to perform multiword detection"<<endl;
       cout<<"--numb, --nonumb       Whether to perform number detection"<<endl;
       cout<<"--punt, --nopunt       Whether to perform punctuation detection"<<endl;
@@ -482,7 +482,7 @@ class config {
       cout<<"--thou string          Thousand point character"<<endl;
       cout<<"--floc,-L filename     Multiwords file"<<endl;
       cout<<"--fqty,-Q filename     Quantities file"<<endl;
-      cout<<"--fsuf,-S filename     Suffix rules file"<<endl;
+      cout<<"--fafx,-S filename     Affix rules file"<<endl;
       cout<<"--fprob,-P filename    Probabilities file"<<endl;
       cout<<"--thres,-e float       Probability threshold for unknown word tags"<<endl;
       cout<<"--fdict,-D filename    Dictionary database"<<endl;
