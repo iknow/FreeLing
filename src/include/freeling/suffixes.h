@@ -65,12 +65,17 @@ class affixes {
       /// Length of longest suffix/prefix.
       unsigned int Longest[2];
 
-      /// auxiliary methods to deal with suffixing
+      /// find all applicable affix rules for a word
       void look_for_affixes_in_list (int, std::multimap<std::string,sufrule> &, word &, dictionary &) const;
-      /// auxiliary methods to deal with suffixing
+      /// find all applicable prefix+sufix rules combination for a word
+      void look_for_combined_affixes(std::multimap<std::string,sufrule> &, std::multimap<std::string,sufrule> &, word &, dictionary &) const;
+      /// generate roots according to rules.
       std::vector<std::string> GenerateRoots(int, const sufrule &, const std::string &) const;
-      /// auxiliary methods to deal with suffixing
+      /// find roots in dictionary and apply matching rules
       void SearchRootsList(const std::vector<std::string> &, const std::string &, sufrule &, word &, dictionary &) const;
+      /// actually apply a affix rule
+      void ApplyRule(const std::string &, const std::list<analysis> &, const std::string &, sufrule &, word &, dictionary &) const;
+
       /// auxiliary method to deal with retokenization
       void CheckRetokenizable(const sufrule &, const std::string &, const std::string &, const std::string &, dictionary &, std::list<word> &) const;
 

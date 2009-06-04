@@ -75,7 +75,9 @@ affixes::affixes(const std::string &Lang, const std::string &sufFile): accen(Lan
 	sin.str(line);
 	sin>>key>>term>>cond>>output>>acc>>enc>>nomore>>lema>>always>>retok;
 
-	TRACE(4,"Loading rule: "+key+" "+term+" "+cond+" "+output+" "+util::int2string(acc)+" "+util::int2string(enc)+" "+util::int2string(nomore)+" "+lema+" "+util::int2string(always)+" "+retok);
+	TRACE(4,"Loading rule: "+key+" "+term+" "+cond+" "+output+" "
+                +util::int2string(acc)+" "+util::int2string(enc)+" "
+                +util::int2string(nomore)+" "+lema+" "+util::int2string(always)+" "+retok);
 	// create rule.
 	sufrule suf(cond);
 	suf.term=term; suf.output=output; suf.acc=acc; suf.enc=enc; 
@@ -106,23 +108,25 @@ affixes::affixes(const std::string &Lang, const std::string &sufFile): accen(Lan
 void affixes::look_for_affixes(word &w, dictionary &dic) {
 
   if (w.get_n_analysis()>0) {
-    // word in dictionary. Check only "always-checkable" affixes
+    // word with analysys already. Check only "always-checkable" affixes
     TRACE(2,"Known word, with "+util::int2string(w.get_n_analysis())+" analysis. Looking only for 'always' affixes");
     look_for_affixes_in_list(SUF,affix_always[SUF],w,dic);
     look_for_affixes_in_list(PREF,affix_always[PREF],w,dic);
+    //    look_for_combined_affixes(affix_always[SUF],affix_always[PREF],w,dic);
   }
   else {
     // word not in dictionary. Check all affixes
     TRACE(2,"Unknown word. Looking for any affix");
     look_for_affixes_in_list(SUF,affix[SUF],w,dic);
     look_for_affixes_in_list(PREF,affix[PREF],w,dic);
+    //    look_for_combined_affixes(affix[SUF],affix[PREF],w,dic);
   }
 }
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
-// Look for suffix the form lws, using the given multimap.
-// The corresponding word pointed by the iterator it is annotated.
+// Look for suffixes of the word w, using the given multimap.
+// The word is annotated with new analysis, if any.
 //////////////////////////////////////////////////////////////////////////////////////////
 
 void affixes::look_for_affixes_in_list(int kind, std::multimap<std::string,sufrule> &suff, word &w, dictionary &dic) const
@@ -132,17 +136,17 @@ void affixes::look_for_affixes_in_list(int kind, std::multimap<std::string,sufru
   pair<T1,T1> rules;
   vector<string> candidates;
   string lws,form_term,form_root;
-  unsigned int i,j;
+  unsigned int i,j, len;
 
   lws=w.get_form();
-  j=lws.length();
-  for (i=1; i<=Longest[kind] && i<lws.size(); i++) {
+  len=lws.length();
+  for (i=1; i<=Longest[kind] && i<len; i++) {
     // advance backwards in form
-    j--;
+    j=len-i;
 
     // check whether there are any affixes of that size
     if (ExistingLength[kind].find(i)==ExistingLength[kind].end()) {
-      TRACE(3,"No affixes of size "+util::int2string(i));
+      TRACE(4,"No affixes of size "+util::int2string(i));
     }
     else {
       // get the termination/beggining
@@ -168,6 +172,91 @@ void affixes::look_for_affixes_in_list(int kind, std::multimap<std::string,sufru
 	  accen.fix_accentuation(candidates, sufit->second);
 	  // enrich word analysis list with dictionary entries for valid roots
 	  SearchRootsList(candidates, form_term, sufit->second, w, dic);
+	}
+      }
+    }
+  }
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+// Check if the word w is decomposable with one prefix+one suffix
+// The word is annotated with new analysis, if any.
+//////////////////////////////////////////////////////////////////////////////////////////
+
+void affixes::look_for_combined_affixes(std::multimap<std::string,sufrule> &suff, std::multimap<std::string,sufrule> &pref, word &w, dictionary &dic) const
+{
+  typedef multimap<string,sufrule>::iterator T1;
+  T1 sufit,prefit;
+  pair<T1,T1> rules_S,rules_P;
+  vector<string> candidates,cand1,cand2;
+  string lws,form_suf,form_pref,form_root;
+  unsigned int i,j,len;
+
+  lws=w.get_form();
+  len=lws.length();
+  for (i=1; i<=Longest[SUF] && i<len; i++) {
+    // check whether there are any suffixes of that size. 
+    if (ExistingLength[SUF].find(i)==ExistingLength[SUF].end()) {
+      TRACE(4,"No suffixes of size "+util::int2string(i));
+      continue; // Skip to next size if none found
+    }
+ 
+    // check prefixes, only to len-i, since i+j>=len leaves no space for a root.
+    for (j=1; j<=Longest[PREF] && j<len-i; j++) {  
+      // check whether there are any suffixes of that size. Skip to next if none found
+      if (ExistingLength[PREF].find(j)==ExistingLength[PREF].end()) {
+	TRACE(4,"No prefixes of size "+util::int2string(j));
+	continue; // Skip to next size if none found
+      }
+      
+      // get sufix and prefix of current lengths
+      form_suf = lws.substr(len-i);
+      form_pref = lws.substr(0,j);
+      // get all rules for those affixes
+      rules_S = suff.equal_range(form_suf);
+      if (rules_S.first==suff.end() || rules_S.first->first!=form_suf) {
+	TRACE(3,"No rules for suffix "+form_suf+" (size "+util::int2string(i)+")");
+	continue; // Skip to next size if no rules found
+      }
+      rules_P = pref.equal_range(form_pref);
+      if (rules_P.first==pref.end() || rules_P.first->first!=form_pref) {
+	TRACE(3,"No rules for prefix "+form_pref+" (size "+util::int2string(j)+")");
+	continue; // Skip to next size if no rules found
+      }
+
+      // get the stem, after removing the suffix and prefix
+      form_root = lws.substr(0,len-i).substr(j);
+      TRACE(3,"Trying a decomposition: "+form_pref+"+"+form_root+"+"+form_suf);
+
+      // if we reach here, there are rules for a sufix and a prefix of the word.      
+      TRACE(3,"Found "+util::int2string(suff.count(form_suf))+" rules for suffix "+form_suf+" (size "+util::int2string(i)+")");
+      TRACE(3,"Found "+util::int2string(pref.count(form_pref))+" rules for prefix "+form_pref+" (size "+util::int2string(j)+")");
+
+      for (sufit=rules_S.first; sufit!=rules_S.second; sufit++) {
+	for (prefit=rules_P.first; prefit!=rules_P.second; prefit++) {
+	  
+	  candidates.clear();
+	  // cand1: all possible completions with suffix rule
+	  cand1 = GenerateRoots(SUF, sufit->second, form_root);
+	  // fix accentuation patterns of obtained roots
+	  accen.fix_accentuation(cand1, sufit->second);
+          for (vector<string>::iterator s=cand1.begin(); s!=cand1.end(); s++) {
+	    // cand2: for each cand1, generate all possible completions with pref rule 
+	    cand2 = GenerateRoots(PREF, prefit->second, (*s));
+	    // fix accentuation patterns of obtained roots
+	    accen.fix_accentuation(cand2, prefit->second);
+	    // accumulate cand2 to candidate list.
+	    candidates.insert(candidates.end(),cand2.begin(),cand2.end());
+	  }
+
+	  // enrich word analysis list with dictionary entries for valid roots
+	  word waux=w;
+	  // apply prefix rules and generate analysis in waux.
+	  SearchRootsList(candidates, form_pref, prefit->second, waux, dic);
+	  // use analysis in waux as base to apply suffix rule
+          for (vector<string>::iterator s=candidates.begin(); s!=candidates.end(); s++) 
+	    ApplyRule(*s, waux, form_suf, sufit->second, w, dic);
 	}
       }
     }
@@ -227,8 +316,6 @@ void affixes::SearchRootsList(const std::vector<std::string> &roots, const strin
 {
   vector<string>::const_iterator r;
   list<analysis> la;
-  list<analysis>::iterator pos;
-  string tag, lem;
 
   TRACE(3,"Checking a list of "+util::int2string(roots.size())+" roots.");
   for (r=roots.begin(); r!=roots.end(); r++){
@@ -241,94 +328,105 @@ void affixes::SearchRootsList(const std::vector<std::string> &roots, const strin
       TRACE(3,"Root "+(*r)+" not found.");
     }
     else {
-      TRACE(3,"Root "+(*r)+" found in dictionary.");
-
-      for (pos=la.begin(); pos!=la.end(); pos++) {
-	// test condition over parole
-        if (not suf.cond.Search(pos->get_parole()) ) {
-	  TRACE(3," Parole "+pos->get_parole()+" fails input conditon "+suf.cond.expression);
-	}
-	else {
-	  TRACE(3," Parole "+pos->get_parole()+" satisfies input conditon "+suf.cond.expression);
-	  // We're applying the rule. If it says so, avoid assignation 
-          // of more tags by later modules (e.g. probabilities).
-	  if (suf.nomore) wd.set_found_in_dict(true); 
-
-	  if (suf.output=="*") {
-	    // we have to keep parole untouched
-	    TRACE(3,"Output parole as found in dictionary");
-	    tag = pos->get_parole();
-	  }
-	  else {
-	    TRACE(3,"Output parole provided by suffix rule");
-	    tag = suf.output;
-	  }
-
-          if (suf.lema=="F") {
-	    TRACE(3,"Output lemma is original word form");
-	    lem = wd.get_form();
-	  }
-	  else if (suf.lema=="R") {
-	    TRACE(3,"Output lemma is root found in dictionary");
-            lem = (*r);
-	  }
-	  else if (suf.lema=="L") {
-	    TRACE(3,"Output lemma is lemma found in dictionary");
-	    lem = pos->get_lemma();
-	  }
-	  else if (suf.lema=="AF") {
-	    TRACE(3,"Output lemma is affix+original form");
-            lem = aff + wd.get_form();
-	  }
-	  else if (suf.lema=="AR") {
-	    TRACE(3,"Output lemma is affix+root found in dictionary");
-            lem = aff + (*r);
-	  }
-	  else if (suf.lema=="AL") {
-	    TRACE(3,"Output lemma is affix+lemma found in dictionary");
-            lem = aff + pos->get_lemma();
-	  }
-	  else if (suf.lema=="FA") {
-	    TRACE(3,"Output lemma is original form + affix");
-            lem = wd.get_form() + aff;
-	  }
-	  else if (suf.lema=="RA") {
-	    TRACE(3,"Output lemma is root found in dictionary + affix");
-            lem = (*r) + aff ;
-	  }
-	  else if (suf.lema=="LA") {
-	    TRACE(3,"Output lemma is lemma found in dictionary + affix");
-            lem = pos->get_lemma() + aff;
-	  }
-
-	  TRACE(3,"Analysis for the suffixed form ("+lem+","+tag+")");
-
-	  list<word> rtk;
-	  CheckRetokenizable(suf,*r,lem,tag,dic,rtk);
-
-          word::iterator p;
-	  // check whether the found analysis was already there
- 	  for (p=wd.begin(); p!=wd.end() && !(p->get_lemma()==lem && p->get_parole()==tag); p++);
-
-	  // new analysis, analysis to the word, with retokenization info.
-          if (p==wd.end()) {
-	    analysis a(lem,tag);
-	    a.set_retokenizable(rtk);
-            wd.add_analysis(a);
-	  }
-	  else { // if the analysis was already there, make sure it gets the retokenization
-                 // info, unless it already has some.
-	    TRACE(3,"Analysis was already there, adding RTK info");
-	    if (!rtk.empty() && !p->is_retokenizable()) 
-              p->set_retokenizable(rtk);
-	  }
-	}
-      }
+      TRACE(3,"Root "+(*r)+" found in dictionary.");      
+      // apply the rule -if matching- and enrich the word analysis list.
+      ApplyRule(*r,la,aff,suf,wd,dic);
     }
   }
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////
+/// Actually apply a rule
+//////////////////////////////////////////////////////////////////////////////////////////
 
+void affixes::ApplyRule(const string &r, const list<analysis> &la, const string &aff, sufrule &suf, word &wd, dictionary &dic) const 
+{
+ list<analysis>::const_iterator pos;
+ string tag,lem;
+
+    for (pos=la.begin(); pos!=la.end(); pos++) {
+      // test condition over parole
+      if (not suf.cond.Search(pos->get_parole()) ) {
+	TRACE(3," Parole "+pos->get_parole()+" fails input conditon "+suf.cond.expression);
+      }
+      else {
+	TRACE(3," Parole "+pos->get_parole()+" satisfies input conditon "+suf.cond.expression);
+	// We're applying the rule. If it says so, avoid assignation 
+	// of more tags by later modules (e.g. probabilities).
+	if (suf.nomore) wd.set_found_in_dict(true); 
+	
+	if (suf.output=="*") {
+	  // we have to keep parole untouched
+	  TRACE(3,"Output parole as found in dictionary");
+	  tag = pos->get_parole();
+	}
+	else {
+	  TRACE(3,"Output parole provided by suffix rule");
+	  tag = suf.output;
+	}
+	
+	if (suf.lema=="F") {
+	  TRACE(3,"Output lemma is original word form");
+	  lem = wd.get_form();
+	}
+	else if (suf.lema=="R") {
+	  TRACE(3,"Output lemma is root found in dictionary");
+	  lem = r;
+	}
+	else if (suf.lema=="L") {
+	  TRACE(3,"Output lemma is lemma found in dictionary");
+	  lem = pos->get_lemma();
+	}
+	else if (suf.lema=="AF") {
+	  TRACE(3,"Output lemma is affix+original form");
+	  lem = aff + wd.get_form();
+	}
+	else if (suf.lema=="AR") {
+	  TRACE(3,"Output lemma is affix+root found in dictionary");
+	  lem = aff + r;
+	}
+	else if (suf.lema=="AL") {
+	  TRACE(3,"Output lemma is affix+lemma found in dictionary");
+	  lem = aff + pos->get_lemma();
+	}
+	else if (suf.lema=="FA") {
+	  TRACE(3,"Output lemma is original form + affix");
+	  lem = wd.get_form() + aff;
+	}
+	else if (suf.lema=="RA") {
+	  TRACE(3,"Output lemma is root found in dictionary + affix");
+	  lem = r + aff ;
+	}
+	else if (suf.lema=="LA") {
+	  TRACE(3,"Output lemma is lemma found in dictionary + affix");
+	  lem = pos->get_lemma() + aff;
+	}
+	
+	TRACE(3,"Analysis for the suffixed form ("+lem+","+tag+")");
+	
+	list<word> rtk;
+	CheckRetokenizable(suf,r,lem,tag,dic,rtk);
+	
+	word::iterator p;
+	// check whether the found analysis was already there
+	for (p=wd.begin(); p!=wd.end() && !(p->get_lemma()==lem && p->get_parole()==tag); p++);
+	
+	// new analysis, analysis to the word, with retokenization info.
+	if (p==wd.end()) {
+	  analysis a(lem,tag);
+	  a.set_retokenizable(rtk);
+	  wd.add_analysis(a);
+	}
+	else { // if the analysis was already there, make sure it gets the retokenization
+	  // info, unless it already has some.
+	  TRACE(3,"Analysis was already there, adding RTK info");
+	  if (!rtk.empty() && !p->is_retokenizable()) 
+	    p->set_retokenizable(rtk);
+	}
+      }
+    }
+}
+ 
 //////////////////////////////////////////////////////////////////////////////////////////
 /// Check whether the suffix carries retokenization information, and create alternative
 /// word list if necessary.
