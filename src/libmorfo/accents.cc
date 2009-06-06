@@ -71,7 +71,7 @@ accents::~accents()
 /// wrapper methods: just call the wrapped accents_module.
 ///////////////////////////////////////////////////////////////
 
-void accents::fix_accentuation(std::vector<std::string> &candidates, const sufrule &suf) const
+void accents::fix_accentuation(std::set<std::string> &candidates, const sufrule &suf) const
 {
   who->fix_accentuation(candidates,suf);
 }

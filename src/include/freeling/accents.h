@@ -29,8 +29,6 @@
 #ifndef _ACCENTS
 #define _ACCENTS
 
-#include <string>
-#include <vector>
 
 #include "freeling/sufrule.h"
 #include "freeling/accents_modules.h"
@@ -57,7 +55,7 @@ class accents {
 
       /// fix accentuation patterns of a list of root
       /// candidates, according to a suffix rule
-      void fix_accentuation(std::vector<std::string> &, const sufrule &) const;
+      void fix_accentuation(std::set<std::string> &, const sufrule &) const;
 };
 
 

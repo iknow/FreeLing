@@ -32,7 +32,6 @@
 #include <string>
 #include <set>
 #include <map>
-#include <vector>
 
 #include "fries/language.h"
 #include "freeling/sufrule.h"
@@ -70,9 +69,9 @@ class affixes {
       /// find all applicable prefix+sufix rules combination for a word
       void look_for_combined_affixes(std::multimap<std::string,sufrule> &, std::multimap<std::string,sufrule> &, word &, dictionary &) const;
       /// generate roots according to rules.
-      std::vector<std::string> GenerateRoots(int, const sufrule &, const std::string &) const;
+      std::set<std::string> GenerateRoots(int, const sufrule &, const std::string &) const;
       /// find roots in dictionary and apply matching rules
-      void SearchRootsList(const std::vector<std::string> &, const std::string &, sufrule &, word &, dictionary &) const;
+      void SearchRootsList(std::set<std::string> &, const std::string &, sufrule &, word &, dictionary &) const;
       /// actually apply a affix rule
       void ApplyRule(const std::string &, const std::list<analysis> &, const std::string &, sufrule &, word &, dictionary &) const;
 

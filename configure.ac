@@ -125,8 +125,6 @@ AC_ARG_ENABLE([traces],
 	      [if test "$enableval" = yes; then
 	         # define symbol for CPP
                  AC_DEFINE(VERBOSE)
-		 # check for Java paths
-		 AC_JNI_DIRS
                fi
 	       # pass info to automake
 	       AM_CONDITIONAL([VERBOSE],[test "$enableval" = yes])
