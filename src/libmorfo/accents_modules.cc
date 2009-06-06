@@ -61,7 +61,7 @@ accents_default::accents_default(): accents_module()
 /// default behaviour: Do nothing.
 ///////////////////////////////////////////////////////////////
 
-void accents_default::fix_accentuation(std::vector<std::string> &candidates, const sufrule &suf) const
+void accents_default::fix_accentuation(std::set<std::string> &candidates, const sufrule &suf) const
 {
   TRACE(3,"Default accentuation. Candidates: "+util::int2string(candidates.size()));
 }
@@ -87,52 +87,55 @@ accents_es::accents_es(): accents_module()
 /// is done here.
 ///////////////////////////////////////////////////////////////
 
-void accents_es::fix_accentuation(std::vector<std::string> &candidates, const sufrule &suf) const
+void accents_es::fix_accentuation(set<string> &candidates, const sufrule &suf) const
 {
-  vector<string> roots;
-  vector<string>::iterator r;
+  set<string> roots;
+  set<string>::iterator r;
   string::iterator c;
+  unsigned int i;
 
   TRACE(3,"Number of candidate roots: "+util::int2string(candidates.size()));
   roots.clear();
   for (r=candidates.begin(); r!=candidates.end(); r++) {
 
+    string s=(*r);
+
     TRACE(3,"We store always the root in roots without any changes ");
-    roots.push_back(*r);
+    roots.insert(s);
 
     if (suf.enc) {
-      TRACE(3,"enclitic suffix. root="+(*r));
-      if (llana_acentuada(*r)) {
+      TRACE(3,"enclitic suffix. root="+s);
+      if (llana_acentuada(s)) {
 	TRACE(3,"llana mal acentuada. Remove accents ");
-	remove_accent_esp(*r);
+	remove_accent_esp(s);
       }
-      else if (aguda_mal_acentuada(*r)) {
+      else if (aguda_mal_acentuada(s)) {
 	TRACE(3,"aguda mal acentuada. Remove accents ");
-	remove_accent_esp(*r);
+	remove_accent_esp(s);
       }
-      else if (!is_accentued_esp(*r) && !is_monosylabic(*r)) {
+      else if (!is_accentued_esp(s) && !is_monosylabic(s)) {
 	TRACE(3,"No accents, not monosylabic. Add accent to last vowel.");
-	c=r->end(); c--;
-	if (*c=='n' || *c=='s' || is_vowel_notacc(*c)) {
-	  put_accent_esp(*r);
+	i=s.length()-1;
+	if (s[i]=='n' || s[i]=='s' || is_vowel_notacc(s[i])) {
+	  put_accent_esp(s);
 	}
       }
-      else if (is_monosylabic(*r) && is_accentued_esp(*r)) {
+      else if (is_monosylabic(s) && is_accentued_esp(s)) {
 	TRACE(3,"Monosylabic root, enclitic form accentued. Remove accents");
-	remove_accent_esp(*r);
+	remove_accent_esp(s);
       }
-      roots.push_back(*r); // append to roots this element
+      roots.insert(s); // append to roots this element
     }
     else if (suf.acc) {
       TRACE(3,"try with an accent in each sylabe ");
       // first remove all accents
-      remove_accent_esp(*r);
+      remove_accent_esp(s);
       // then construct all possible accentued roots
-      for (c=r->begin(); c!=r->end(); c++) {
-	if (is_vowel(*c)) {
-	  put_accent_esp(*c);
-	  roots.push_back(*r);
-	  remove_accent_esp(*c);
+      for (i=0; i<s.length(); i++) {
+	if (is_vowel(s[i])) {
+	  put_accent_esp(s[i]);
+	  roots.insert(s);
+	  remove_accent_esp(s[i]);
 	}
       }
     }

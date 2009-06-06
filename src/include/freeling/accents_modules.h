@@ -30,7 +30,7 @@
 #define _ACCENTS_MOD
 
 #include <string>
-#include <vector>
+#include <set>
 
 #include "freeling/sufrule.h"
 
@@ -47,7 +47,7 @@ class accents_module {
       /// Constructor
       accents_module();
       /// Specific accentuation patterns
-      virtual void fix_accentuation(std::vector<std::string> &, const sufrule &) const =0;
+      virtual void fix_accentuation(std::set<std::string> &, const sufrule &) const =0;
       /// Destructor
       virtual ~accents_module() {};
 
@@ -67,7 +67,7 @@ class accents_default: public accents_module {
       accents_default();
 
       /// default accentuation patterns
-      void fix_accentuation(std::vector<std::string> &, const sufrule &) const;
+      void fix_accentuation(std::set<std::string> &, const sufrule &) const;
 };
 
 
@@ -110,7 +110,7 @@ class accents_es: public accents_module {
       accents_es();
 
       /// Specific accentuation patterns for Spanish
-      void fix_accentuation(std::vector<std::string> &, const sufrule &) const;
+      void fix_accentuation(std::set<std::string> &, const sufrule &) const;
 };
 
 

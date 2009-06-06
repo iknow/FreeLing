@@ -28,7 +28,6 @@
 
 #include <fstream>
 #include <sstream>
-#include <vector>
 
 #include "freeling/suffixes.h"
 #include "freeling/accents.h"
@@ -110,16 +109,22 @@ void affixes::look_for_affixes(word &w, dictionary &dic) {
   if (w.get_n_analysis()>0) {
     // word with analysys already. Check only "always-checkable" affixes
     TRACE(2,"Known word, with "+util::int2string(w.get_n_analysis())+" analysis. Looking only for 'always' affixes");
+    TRACE(3," --- Cheking SUF ---");
     look_for_affixes_in_list(SUF,affix_always[SUF],w,dic);
+    TRACE(3," --- Cheking PREF ---");
     look_for_affixes_in_list(PREF,affix_always[PREF],w,dic);
-    //    look_for_combined_affixes(affix_always[SUF],affix_always[PREF],w,dic);
+    TRACE(3," --- Cheking PREF+SUF ---");
+    look_for_combined_affixes(affix_always[SUF],affix_always[PREF],w,dic);
   }
   else {
     // word not in dictionary. Check all affixes
     TRACE(2,"Unknown word. Looking for any affix");
+    TRACE(3," --- Cheking SUF ---");
     look_for_affixes_in_list(SUF,affix[SUF],w,dic);
+    TRACE(3," --- Cheking PREF ---");
     look_for_affixes_in_list(PREF,affix[PREF],w,dic);
-    //    look_for_combined_affixes(affix[SUF],affix[PREF],w,dic);
+    TRACE(3," --- Cheking PREF+SUF ---");
+    look_for_combined_affixes(affix[SUF],affix[PREF],w,dic);
   }
 }
 
@@ -134,7 +139,7 @@ void affixes::look_for_affixes_in_list(int kind, std::multimap<std::string,sufru
   typedef multimap<string,sufrule>::iterator T1;
   T1 sufit;
   pair<T1,T1> rules;
-  vector<string> candidates;
+  set<string> candidates;
   string lws,form_term,form_root;
   unsigned int i,j, len;
 
@@ -189,7 +194,7 @@ void affixes::look_for_combined_affixes(std::multimap<std::string,sufrule> &suff
   typedef multimap<string,sufrule>::iterator T1;
   T1 sufit,prefit;
   pair<T1,T1> rules_S,rules_P;
-  vector<string> candidates,cand1,cand2;
+  set<string> candidates,cand1,cand2;
   string lws,form_suf,form_pref,form_root;
   unsigned int i,j,len;
 
@@ -232,6 +237,8 @@ void affixes::look_for_combined_affixes(std::multimap<std::string,sufrule> &suff
       // if we reach here, there are rules for a sufix and a prefix of the word.      
       TRACE(3,"Found "+util::int2string(suff.count(form_suf))+" rules for suffix "+form_suf+" (size "+util::int2string(i)+")");
       TRACE(3,"Found "+util::int2string(pref.count(form_pref))+" rules for prefix "+form_pref+" (size "+util::int2string(j)+")");
+      
+      bool wfid=w.found_in_dict();
 
       for (sufit=rules_S.first; sufit!=rules_S.second; sufit++) {
 	for (prefit=rules_P.first; prefit!=rules_P.second; prefit++) {
@@ -241,13 +248,13 @@ void affixes::look_for_combined_affixes(std::multimap<std::string,sufrule> &suff
 	  cand1 = GenerateRoots(SUF, sufit->second, form_root);
 	  // fix accentuation patterns of obtained roots
 	  accen.fix_accentuation(cand1, sufit->second);
-          for (vector<string>::iterator s=cand1.begin(); s!=cand1.end(); s++) {
+          for (set<string>::iterator s=cand1.begin(); s!=cand1.end(); s++) {
 	    // cand2: for each cand1, generate all possible completions with pref rule 
 	    cand2 = GenerateRoots(PREF, prefit->second, (*s));
 	    // fix accentuation patterns of obtained roots
 	    accen.fix_accentuation(cand2, prefit->second);
 	    // accumulate cand2 to candidate list.
-	    candidates.insert(candidates.end(),cand2.begin(),cand2.end());
+	    candidates.insert(cand2.begin(),cand2.end());
 	  }
 
 	  // enrich word analysis list with dictionary entries for valid roots
@@ -255,8 +262,12 @@ void affixes::look_for_combined_affixes(std::multimap<std::string,sufrule> &suff
 	  // apply prefix rules and generate analysis in waux.
 	  SearchRootsList(candidates, form_pref, prefit->second, waux, dic);
 	  // use analysis in waux as base to apply suffix rule
-          for (vector<string>::iterator s=candidates.begin(); s!=candidates.end(); s++) 
-	    ApplyRule(*s, waux, form_suf, sufit->second, w, dic);
+          for (set<string>::iterator s=candidates.begin(); s!=candidates.end(); s++) 
+	    ApplyRule(form_pref+(*s), waux, form_suf, sufit->second, w, dic);
+
+	  // unless both rules stated nomore, leave everything as it was
+	  if (not (sufit->second.nomore and prefit->second.nomore))
+	    w.set_found_in_dict(wfid);  
 	}
       }
     }
@@ -269,9 +280,9 @@ void affixes::look_for_combined_affixes(std::multimap<std::string,sufrule> &suff
 /// according to the given suffix rule.
 //////////////////////////////////////////////////////////////////////////////////////////
 
-vector<string> affixes::GenerateRoots(int kind, const sufrule &suf, const std::string &rt) const
+set<string> affixes::GenerateRoots(int kind, const sufrule &suf, const std::string &rt) const
 {
-  vector<string> cand;
+  set<string> cand;
   string term,r;
   size_t pe;
 
@@ -279,7 +290,7 @@ vector<string> affixes::GenerateRoots(int kind, const sufrule &suf, const std::s
   term=suf.term;
   TRACE(3,"possible terminations/begginings: "+term);
 
-  // fill the vector of completed roots
+  // fill the set of completed roots
   pe=term.find_first_of("|");
   while (pe!=string::npos) {
     r=term.substr(0,pe);
@@ -287,11 +298,11 @@ vector<string> affixes::GenerateRoots(int kind, const sufrule &suf, const std::s
 
     if (kind==SUF) {
       TRACE(3,"Adding to t_roots the element: "+rt+r);
-      cand.push_back(rt+r);
+      cand.insert(rt+r);
     }
     else if (kind==PREF) {
       TRACE(3,"Adding to t_roots the element: "+r+rt);
-      cand.push_back(r+rt);
+      cand.insert(r+rt);
     }
 
     term=term.substr(pe+1);
@@ -300,9 +311,15 @@ vector<string> affixes::GenerateRoots(int kind, const sufrule &suf, const std::s
 
   // adding the last termination/beggining in the list
   if (term=="*") term="";
-  if (kind==SUF) cand.push_back(rt+term);
-  else if (kind==PREF) cand.push_back(term+rt);
-    
+  if (kind==SUF) {
+    TRACE(3,"Adding to t_roots the element: "+rt+term);
+    cand.insert(rt+term);
+  }
+  else if (kind==PREF) {
+    TRACE(3,"Adding to t_roots the element: "+term+rt);
+    cand.insert(term+rt);
+  }
+
   return(cand);
 }
 
@@ -312,12 +329,15 @@ vector<string> affixes::GenerateRoots(int kind, const sufrule &suf, const std::s
 /// and annotating the valid ones.
 //////////////////////////////////////////////////////////////////////////////////////////
 
-void affixes::SearchRootsList(const std::vector<std::string> &roots, const string &aff, sufrule &suf, word &wd, dictionary &dic) const
+void affixes::SearchRootsList(set<string> &roots, const string &aff, sufrule &suf, word &wd, dictionary &dic) const
 {
-  vector<string>::const_iterator r;
+  set<string>::iterator r;
   list<analysis> la;
 
   TRACE(3,"Checking a list of "+util::int2string(roots.size())+" roots.");
+  for (r=roots.begin(); r!=roots.end(); r++)
+    TRACE(3,"        "+(*r));
+
   for (r=roots.begin(); r!=roots.end(); r++){
     // look into the dictionary for that root
     la.clear();
@@ -326,6 +346,11 @@ void affixes::SearchRootsList(const std::vector<std::string> &roots, const strin
     // if found, we must construct the analysis for the suffix
     if (la.empty()) {
       TRACE(3,"Root "+(*r)+" not found.");
+      // remove root from candidates list (needed only 
+      // in pre+suf combinations to prune later combinations)
+      set<string>::iterator raux=r; raux--;
+      roots.erase(*r);
+      r=raux;
     }
     else {
       TRACE(3,"Root "+(*r)+" found in dictionary.");      
@@ -402,7 +427,7 @@ void affixes::ApplyRule(const string &r, const list<analysis> &la, const string 
 	  lem = pos->get_lemma() + aff;
 	}
 	
-	TRACE(3,"Analysis for the suffixed form ("+lem+","+tag+")");
+	TRACE(3,"Analysis for the affixed form "+r+" ("+lem+","+tag+")");
 	
 	list<word> rtk;
 	CheckRetokenizable(suf,r,lem,tag,dic,rtk);
