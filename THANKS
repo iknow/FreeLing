@@ -123,5 +123,9 @@
       enlarged the Galician dictionary and retrained the Galician PoS taggers with
       a larger corpus, improving its accuracy.
 
+   >> Pablo Gamallo and Marcos Garcia, from Universidade de Santiago de Compostela,
+      adapted the (European) Portuguese dictionary from LABEL-LEX 
+      (http://label.ist.utl.pt/pt/labellex_pt.php), and trained the PoS tagger.
+
   --- End of List ----
 
