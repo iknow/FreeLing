@@ -47,6 +47,11 @@ itdata_DATA = it/*
 itnecdatadir = $(pkgdatadir)/it/nec
 itnecdata_DATA = it/nec/*
 
+ptdatadir = $(pkgdatadir)/pt
+ptdata_DATA = pt/*
+ptnecdatadir = $(pkgdatadir)/pt/nec
+ptnecdata_DATA = pt/nec/*
+
 cydatadir = $(pkgdatadir)/cy
 cydata_DATA = cy/*
 cynecdatadir = $(pkgdatadir)/cy/nec
