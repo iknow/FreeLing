@@ -407,9 +407,8 @@ void affixes::ApplyRule(const string &r, const list<analysis> &la, const string 
 	    lem = lem + pos->get_lemma();
 	  }
 	  else if ( *s=="A") {
-	    TRACE(3,"Output lemma: add affix (no ending dashes: ex-marido=exmarido)");
-	    if (aff[aff.size()-1]=='-') lem = lem + aff.substr(0,aff.size()-1);
-	    else lem = lem + aff;
+	    TRACE(3,"Output lemma: add affix");
+	    lem = lem + aff;
 	  }
 	  else {
 	    TRACE(3,"Output lemma: add string '"+(*s)+"'");
