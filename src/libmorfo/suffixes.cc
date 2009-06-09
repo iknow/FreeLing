@@ -389,44 +389,34 @@ void affixes::ApplyRule(const string &r, const list<analysis> &la, const string 
 	  TRACE(3,"Output parole provided by suffix rule");
 	  tag = suf.output;
 	}
-	
-	if (suf.lema=="F") {
-	  TRACE(3,"Output lemma is original word form");
-	  lem = wd.get_form();
+
+	// process suf.lema to build output lema
+	list<string> suflem=util::string2list(suf.lema,"+");
+	lem = "";
+	for (list<string>::iterator s=suflem.begin(); s!=suflem.end(); s++) {
+	  if ( *s=="F") {
+	    TRACE(3,"Output lemma: add original word form");
+	    lem = lem + wd.get_form();
+	  }
+	  else if ( *s=="R") {
+	    TRACE(3,"Output lemma: add root found in dictionary");
+	    lem = lem + r;
+	  }
+	  else if ( *s=="L") {
+	    TRACE(3,"Output lemma: add lemma found in dictionary");
+	    lem = lem + pos->get_lemma();
+	  }
+	  else if ( *s=="A") {
+	    TRACE(3,"Output lemma: add affix (no ending dashes: ex-marido=exmarido)");
+	    if (aff[aff.size()-1]=='-') lem = lem + aff.substr(0,aff.size()-1);
+	    else lem = lem + aff;
+	  }
+	  else {
+	    TRACE(3,"Output lemma: add string '"+(*s)+"'");
+	    lem = lem + (*s);
+	  }
 	}
-	else if (suf.lema=="R") {
-	  TRACE(3,"Output lemma is root found in dictionary");
-	  lem = r;
-	}
-	else if (suf.lema=="L") {
-	  TRACE(3,"Output lemma is lemma found in dictionary");
-	  lem = pos->get_lemma();
-	}
-	else if (suf.lema=="AF") {
-	  TRACE(3,"Output lemma is affix+original form");
-	  lem = aff + wd.get_form();
-	}
-	else if (suf.lema=="AR") {
-	  TRACE(3,"Output lemma is affix+root found in dictionary");
-	  lem = aff + r;
-	}
-	else if (suf.lema=="AL") {
-	  TRACE(3,"Output lemma is affix+lemma found in dictionary");
-	  lem = aff + pos->get_lemma();
-	}
-	else if (suf.lema=="FA") {
-	  TRACE(3,"Output lemma is original form + affix");
-	  lem = wd.get_form() + aff;
-	}
-	else if (suf.lema=="RA") {
-	  TRACE(3,"Output lemma is root found in dictionary + affix");
-	  lem = r + aff ;
-	}
-	else if (suf.lema=="LA") {
-	  TRACE(3,"Output lemma is lemma found in dictionary + affix");
-	  lem = pos->get_lemma() + aff;
-	}
-	
+
 	TRACE(3,"Analysis for the affixed form "+r+" ("+lem+","+tag+")");
 	
 	list<word> rtk;

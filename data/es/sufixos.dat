@@ -12,17 +12,22 @@
 # 5 Check lemma adding accents
 # 6 Enclitic suffix (special accent behaviour in Spanish)
 # 7 Prevent later modules from assigning more tags to the word
-# 8 Lemma to assign: F=original form, R=root found in dict, L=lemma in matching dict entry, 
-#                    AF/AR/AL=affix followed by F/R/L, FA/RA/LA=F/R/L followed by affix
+# 8 Lemma to assign: any combination of: F,R,L,A,<literal> separated with '+'
+#                    where: F=original form, R=root found in dict, 
+# 		            L=lemma in matching dict entry, A=affix
+#                    examples:  A+L=affix+lemma,  R=root,  R+mente= root+"mente"
 # 9 Consider the suffix always, not only for unknown words.
 # 10 How to retokenize the word if necessary (see uer manual).
 #==============================================================
 
 
 <Prefixes>
-anti	*	^NC	AQ0CN0	0	0	1	AL	0	-
-anti-	*	^NC	AQ0CN0	0	0	1	AL	0	-
-re	*	^VM	*	0	0	1	AL	0	-
+anti	*	^NC	AQ0CN0	0	0	1	A+L	0	-
+anti-	*	^NC	AQ0CN0	0	0	1	A+L	0	-
+re	*	^VM	*	0	0	1	A+L	0	-
+semi	*	^RG	*	0	0	1	F	0	-
+semi	*	^AQ	*	0	0	1	A+L	0	-
+semi	*	^VM	*	0	0	1	A+L	0	-
 </Prefixes>
 
 <Suffixes>
@@ -132,6 +137,8 @@ mente	*	^VMP00SF	RG	0	0	0	F	1	-
 # mismamente
 mente	*	^DI0FS	RG	0	0	0	F	0	-
 
+# rapidísimamente
+ísimamente	a	^AQ0[CF]S	RG	1	0	0	R+mente	0	-
 
 ######## SUFIXOS DIMINUTIUS, DESPECTIUS I AUGMENTATIUS #######
 
