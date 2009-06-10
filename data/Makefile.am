@@ -1,4 +1,4 @@
-languages = ca es en it gl cy
+languages = ca cy en es gl it pt
 
 if OS_SOLARIS
 ZCAT=gzcat
