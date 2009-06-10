@@ -51,6 +51,10 @@
 #define HMM   0
 #define RELAX 1
 
+// codes for dependency parsers
+#define TXALA	0
+#define MALT	1
+
 // codes for sense annotation
 #define NONE  0
 #define ALL   1
@@ -88,16 +92,16 @@ class config {
     char * SPLIT_SplitterFile;
 
     /// Morphological analyzer options
-    int MACO_SuffixAnalysis, MACO_MultiwordsDetection, 
+    int MACO_AffixAnalysis, MACO_MultiwordsDetection, 
         MACO_NumbersDetection, MACO_PunctuationDetection, 
         MACO_DatesDetection, MACO_QuantitiesDetection, 
-        MACO_DictionarySearch, MACO_ProbabilityAssignment, 
-        MACO_NERecognition;
+        MACO_DictionarySearch, MACO_ProbabilityAssignment;
+    int MACO_NER_which;
     /// Morphological analyzer options
     char *MACO_Decimal, *MACO_Thousand;
 
     /// Morphological analyzer options
-    char *MACO_LocutionsFile, *MACO_QuantitiesFile, *MACO_SuffixFile, 
+    char *MACO_LocutionsFile, *MACO_QuantitiesFile, *MACO_AffixFile, 
          *MACO_ProbabilityFile, *MACO_DictionaryFile, 
          *MACO_NPdataFile, *MACO_PunctuationFile;
     double MACO_ProbabilityThreshold;
@@ -125,22 +129,27 @@ class config {
     char * PARSER_GrammarFile;
 
     /// Dependency options
-    char * DEP_GrammarFile;
- 
+    int DEP_which;
+    char * DEP_TxalaFile;    
+    char * DEP_MaltFile;
+
+    int COREF_CoreferenceResolution;
+    char * COREF_CorefFile;
+
     /// constructor
     config(char **argv) {
       CFG_CONTEXT con;
       register int ret;
       int help;
       // Auxiliary for string translation
-      char *InputF, *OutputF, *Tagger, *SenseAnot, *Force;
+      char *InputF, *OutputF, *Ner, *Tagger, *SenseAnot, *Force, *DepParser;
       // Auxiliary for boolean handling
-      int flush,noflush, sufx,nosufx,   loc,noloc,   numb,nonumb,
+      int flush,noflush, afx,noafx,   loc,noloc,   numb,nonumb,
           punt,nopunt,   date,nodate,   quant,noquant,  dict,nodict,   prob,noprob,
-  	  ner,noner,     nec,nonec,     dup,nodup,      retok,noretok;
-      char *cf_flush, *cf_sufx, *cf_loc,   *cf_numb,
+  	  nec,nonec,     dup,nodup,      retok,noretok,  coref,nocoref;
+      char *cf_flush, *cf_afx, *cf_loc,   *cf_numb,
            *cf_punt,  *cf_date, *cf_quant, *cf_dict, *cf_prob,
-	   *cf_ner,   *cf_nec,  *cf_dup,   *cf_retok;
+	   *cf_nec,  *cf_dup,   *cf_retok,  *cf_coref;
  
       // Options structure
       struct cfg_option OptionList[] = {  // initialization
@@ -160,9 +169,9 @@ class config {
 	// splitter options
 	{"fsplit",  '\0', "SplitterFile",            CFG_STR,  (void *) &SPLIT_SplitterFile, 0},
 	// morfo options
-	{"sufx",    '\0', NULL,                      CFG_BOOL, (void *) &sufx, 0},
-	{"nosufx",  '\0', NULL,                      CFG_BOOL, (void *) &nosufx, 0},
-	{NULL,      '\0', "SuffixAnalysis",          CFG_STR,  (void *) &cf_sufx, 0},
+	{"afx",    '\0', NULL,                      CFG_BOOL, (void *) &afx, 0},
+	{"noafx",  '\0', NULL,                      CFG_BOOL, (void *) &noafx, 0},
+	{NULL,      '\0', "AffixAnalysis",          CFG_STR,  (void *) &cf_afx, 0},
 	{"loc",     '\0', NULL,                      CFG_BOOL, (void *) &loc, 0},
 	{"noloc",   '\0', NULL,                      CFG_BOOL, (void *) &noloc, 0},
 	{NULL,      '\0', "MultiwordsDetection",     CFG_STR,  (void *) &cf_loc, 0},
@@ -184,26 +193,24 @@ class config {
 	{"prob",    '\0', NULL,                      CFG_BOOL, (void *) &prob, 0},
 	{"noprob",  '\0', NULL,                      CFG_BOOL, (void *) &noprob, 0},
 	{NULL,      '\0', "ProbabilityAssignment",   CFG_STR,  (void *) &cf_prob, 0},
-	{"ner",     '\0', NULL,                      CFG_BOOL, (void *) &ner, 0},
-	{"noner",   '\0', NULL,                      CFG_BOOL, (void *) &noner, 0},
-	{NULL,      '\0', "NERecognition",           CFG_STR,  (void *) &cf_ner, 0},
+	{"ner",     '\0', "NERecognition",           CFG_STR,  (void *) &Ner, 0},
 	{"dec",     '\0', "DecimalPoint",            CFG_STR,  (void *) &MACO_Decimal, 0},
 	{"thou",    '\0', "ThousandPoint",           CFG_STR,  (void *) &MACO_Thousand, 0},
 	{"floc",    'L',  "LocutionsFile",           CFG_STR,  (void *) &MACO_LocutionsFile, 0},
 	{"fqty",    'Q',  "QuantitiesFile",          CFG_STR,  (void *) &MACO_QuantitiesFile, 0},
-	{"fsuf",    'S',  "SuffixFile",              CFG_STR,  (void *) &MACO_SuffixFile, 0},
+	{"fafx",    'S',  "AffixFile",              CFG_STR,  (void *) &MACO_AffixFile, 0},
 	{"fprob",   'P',  "ProbabilityFile",         CFG_STR,  (void *) &MACO_ProbabilityFile, 0},
-	{"thres",   '\0', "ProbabilityThreshold",    CFG_DOUBLE, (void *) &MACO_ProbabilityThreshold, 0},
+	{"thres",   'e',  "ProbabilityThreshold",    CFG_DOUBLE, (void *) &MACO_ProbabilityThreshold, 0},
 	{"fdict",   'D',  "DictionaryFile",          CFG_STR,  (void *) &MACO_DictionaryFile, 0},
 	{"fnp",     'N',  "NPDataFile",              CFG_STR,  (void *) &MACO_NPdataFile, 0},
-	{"fpunct",  'M',  "PunctuationFile",         CFG_STR,  (void *) &MACO_PunctuationFile, 0},
+	{"fpunct",  'F',  "PunctuationFile",         CFG_STR,  (void *) &MACO_PunctuationFile, 0},
 	// NEC options
 	{"nec",     '\0', NULL,                      CFG_BOOL, (void *) &nec, 0},
 	{"nonec",   '\0', NULL,                      CFG_BOOL, (void *) &nonec, 0},
 	{NULL,      '\0', "NEClassification",        CFG_STR,  (void *) &cf_nec, 0},
 	{"fnec",    '\0', "NECFilePrefix",           CFG_STR,  (void *) &NEC_FilePrefix, 0},
 	// Sense options
-	{"sense",   '\0', "SenseAnnotation",         CFG_STR,  (void *) &SenseAnot, 0},
+	{"sense",   's', "SenseAnnotation",          CFG_STR,  (void *) &SenseAnot, 0},
 	{"fsense",  'W',  "SenseFile",               CFG_STR,  (void *) &SENSE_SenseFile, 0},
 	{"dup",     '\0', NULL,                      CFG_BOOL, (void *) &dup, 0},
 	{"nodup",   '\0', NULL,                      CFG_BOOL, (void *) &nodup, 0},
@@ -211,18 +218,25 @@ class config {
 	// tagger options
 	{"hmm",  'H',  "TaggerHMMFile",              CFG_STR,  (void *) &TAGGER_HMMFile, 0},
 	{"rlx",  'R',  "TaggerRelaxFile",            CFG_STR,  (void *) &TAGGER_RelaxFile, 0},
-	{"tag",  'T',  "Tagger",                     CFG_STR,  (void *) &Tagger, 0},
-	{"iter", '\0', "TaggerRelaxMaxIter",         CFG_INT,  (void *) &TAGGER_RelaxMaxIter, 0},
-	{"sf",   '\0', "TaggerRelaxScaleFactor",     CFG_DOUBLE, (void *) &TAGGER_RelaxScaleFactor, 0},
+	{"tag",  't',  "Tagger",                     CFG_STR,  (void *) &Tagger, 0},
+	{"iter", 'i', "TaggerRelaxMaxIter",          CFG_INT,  (void *) &TAGGER_RelaxMaxIter, 0},
+	{"sf",   'r', "TaggerRelaxScaleFactor",      CFG_DOUBLE, (void *) &TAGGER_RelaxScaleFactor, 0},
 	{"eps",  '\0', "TaggerRelaxEpsilon",         CFG_DOUBLE, (void *) &TAGGER_RelaxEpsilon, 0},
 	{"rtk",   '\0', NULL,                        CFG_BOOL, (void *) &retok, 0},
 	{"nortk", '\0', NULL,                        CFG_BOOL, (void *) &noretok, 0},
-	{NULL,      '\0', "TaggerRetokenize",        CFG_STR,  (void *) &cf_retok, 0},
+	{NULL,    '\0', "TaggerRetokenize",          CFG_STR,  (void *) &cf_retok, 0},
 	{"force", '\0', "TaggerForceSelect",         CFG_STR,  (void *) &Force, 0},
 	// parser options
-	{"grammar", 'G',  "GrammarFile",             CFG_STR,  (void *) &PARSER_GrammarFile, 0},
+	{"grammar", 'G',  "GrammarFile",             CFG_STR, (void *) &PARSER_GrammarFile, 0},
         // dep options
-	{"dep", 'J',  "HeuristicsFile",              CFG_STR,  (void *) &DEP_GrammarFile, 0},
+	{"txala", 'T', "DepTxalaFile",               CFG_STR, (void *) &DEP_TxalaFile, 0},
+	{"malt",  'M', "DepMaltFile",		     CFG_STR, (void *) &DEP_MaltFile,0},
+	{"dep",   'd', "DepParser",		     CFG_STR, (void *) &DepParser, 0},
+	// Coreference options
+	{"coref",   '\0', NULL,                        CFG_BOOL, (void *) &coref, 0},
+	{"nocoref", '\0', NULL,                        CFG_BOOL, (void *) &nocoref, 0},
+	{NULL,      '\0', "CoreferenceResolution",     CFG_STR,  (void *) &cf_coref, 0},
+	{"fcorf",   'C', "CorefFile",                 CFG_STR,  (void *) &COREF_CorefFile, 0},
 	CFG_END_OF_LIST
       };
       
@@ -233,40 +247,41 @@ class config {
       }
       
       // init auxiliary variables
-      InputF=NULL; OutputF=NULL; Tagger=NULL; SenseAnot=NULL; Force=NULL;
-      flush=false; noflush=false; sufx=false;   nosufx=false; 
+      InputF=NULL; OutputF=NULL;  Ner=NULL; Tagger=NULL; SenseAnot=NULL; Force=NULL; DepParser=NULL;
+      flush=false; noflush=false; afx=false;   noafx=false; 
       loc=false;   noloc=false;   numb=false;   nonumb=false;   punt=false; nopunt=false;
       date=false;  nodate=false;  quant=false;  noquant=false;  dict=false; nodict=false; 
-      prob=false;  noprob=false;  ner=false;    noner=false;    nec=false;  nonec=false; 
-      dup=false;   nodup=false;   retok=false; noretok=false;
-      cf_flush=NULL; cf_sufx=NULL;  cf_loc=NULL;   cf_numb=NULL; 
+      prob=false;  noprob=false;  nec=false;  nonec=false; 
+      dup=false;   nodup=false;   retok=false; noretok=false; coref=false; nocoref=false;
+      cf_flush=NULL; cf_afx=NULL;  cf_loc=NULL;   cf_numb=NULL; 
       cf_punt=NULL;  cf_date=NULL;  cf_quant=NULL; cf_dict=NULL;  cf_prob=NULL;
-      cf_ner=NULL;   cf_nec=NULL;   cf_dup=NULL;   cf_retok=NULL; 
+      cf_nec=NULL;   cf_dup=NULL;   cf_retok=NULL;  cf_coref=NULL;
       
-
       // Set built-in default values.
       ConfigFile=NULL; help=false;
       Lang=NULL; traces::TraceLevel=0; traces::TraceModule=0;
       AlwaysFlush=false;
       TOK_TokenizerFile=NULL;
       SPLIT_SplitterFile=NULL;
-      MACO_SuffixAnalysis=false;   MACO_MultiwordsDetection=false; 
+      MACO_AffixAnalysis=false;   MACO_MultiwordsDetection=false; 
       MACO_NumbersDetection=false; MACO_PunctuationDetection=false; 
       MACO_DatesDetection=false;   MACO_QuantitiesDetection=false; 
       MACO_DictionarySearch=false; MACO_ProbabilityAssignment=false; 
-      MACO_NERecognition=false; 
       MACO_Decimal=NULL; MACO_Thousand=NULL;
-      MACO_LocutionsFile=NULL; MACO_QuantitiesFile=NULL; MACO_SuffixFile=NULL; 
+      MACO_LocutionsFile=NULL; MACO_QuantitiesFile=NULL; MACO_AffixFile=NULL; 
       MACO_ProbabilityFile=NULL; MACO_DictionaryFile=NULL; 
       MACO_NPdataFile=NULL; MACO_PunctuationFile=NULL;
-      MACO_ProbabilityThreshold=0.0;
+      MACO_ProbabilityThreshold=0.0; 
+      MACO_NER_which=0;
       NEC_NEClassification=false; NEC_FilePrefix=NULL; 
       SENSE_SenseAnnotation=NONE; SENSE_SenseFile=NULL; 
       SENSE_DuplicateAnalysis=false; 
       TAGGER_which=0; TAGGER_HMMFile=NULL; TAGGER_RelaxFile=NULL; 
       TAGGER_RelaxMaxIter=0; TAGGER_RelaxScaleFactor=0.0; TAGGER_RelaxEpsilon=0.0;
       TAGGER_Retokenize=0; TAGGER_ForceSelect=0;
-      PARSER_GrammarFile=NULL; DEP_GrammarFile=NULL;
+      PARSER_GrammarFile=NULL;
+      DEP_which=0; DEP_TxalaFile=NULL; DEP_MaltFile=NULL;
+      COREF_CoreferenceResolution=false; COREF_CorefFile=NULL;
 
        // parse comand line
       cfg_set_cmdline_context(con, 1, -1, argv);
@@ -286,7 +301,8 @@ class config {
       // if no config file given, use default
       if (ConfigFile == NULL) {
 	WARNING("No config file specified (option -f). Trying to open default file '"+string(DefaultConfigFile)+"'");
-	ConfigFile = DefaultConfigFile;
+	ConfigFile = (char *)malloc(sizeof(char)*(1+strlen(DefaultConfigFile)));
+ 	strcpy(ConfigFile,DefaultConfigFile);
       }
       
       // parse and load options from ConfigFile
@@ -298,7 +314,7 @@ class config {
 
       // Handle boolean options expressed as strings in config file
       SetBooleanOptionCF(string(cf_flush),AlwaysFlush,"AlwaysFlush");
-      SetBooleanOptionCF(string(cf_sufx),MACO_SuffixAnalysis,"SuffixAnalysis");
+      SetBooleanOptionCF(string(cf_afx),MACO_AffixAnalysis,"AffixAnalysis");
       SetBooleanOptionCF(string(cf_loc), MACO_MultiwordsDetection,"MultiwordsDetection");
       SetBooleanOptionCF(string(cf_numb),MACO_NumbersDetection,"NumbersDetection");
       SetBooleanOptionCF(string(cf_punt),MACO_PunctuationDetection,"PunctuationDetection");
@@ -306,10 +322,10 @@ class config {
       SetBooleanOptionCF(string(cf_quant),MACO_QuantitiesDetection,"QuantitiesDetection");
       SetBooleanOptionCF(string(cf_dict),MACO_DictionarySearch,"DictionarySearch");
       SetBooleanOptionCF(string(cf_prob),MACO_ProbabilityAssignment,"ProbabilityAssignment");
-      SetBooleanOptionCF(string(cf_ner),MACO_NERecognition,"NERecognition");
       SetBooleanOptionCF(string(cf_nec),NEC_NEClassification,"NEClassification");
       SetBooleanOptionCF(string(cf_dup),SENSE_DuplicateAnalysis,"DuplicateAnalysis");
       SetBooleanOptionCF(string(cf_retok),TAGGER_Retokenize,"TaggerRetokenize");
+      SetBooleanOptionCF(string(cf_coref),COREF_CoreferenceResolution,"CoreferenceResolution");
       
       // Reload command line options to override ConfigFile options
       cfg_set_cmdline_context(con, 1, -1, argv);
@@ -323,7 +339,7 @@ class config {
       ExpandFileName(SPLIT_SplitterFile);
       ExpandFileName(MACO_LocutionsFile);
       ExpandFileName(MACO_QuantitiesFile);
-      ExpandFileName(MACO_SuffixFile);
+      ExpandFileName(MACO_AffixFile);
       ExpandFileName(MACO_ProbabilityFile);
       ExpandFileName(MACO_DictionaryFile); 
       ExpandFileName(MACO_NPdataFile);
@@ -333,11 +349,13 @@ class config {
       ExpandFileName(TAGGER_HMMFile);
       ExpandFileName(TAGGER_RelaxFile); 
       ExpandFileName(PARSER_GrammarFile); 
-      ExpandFileName(DEP_GrammarFile);
+      ExpandFileName(DEP_TxalaFile);
+      ExpandFileName(DEP_MaltFile);
+      ExpandFileName(COREF_CorefFile); 
 	     
       // Handle boolean options expressed with --myopt or --nomyopt in command line
       SetBooleanOptionCL(flush,noflush,AlwaysFlush,"flush");
-      SetBooleanOptionCL(sufx,nosufx,MACO_SuffixAnalysis,"sufx");
+      SetBooleanOptionCL(afx,noafx,MACO_AffixAnalysis,"afx");
       SetBooleanOptionCL(loc,noloc, MACO_MultiwordsDetection,"loc");
       SetBooleanOptionCL(numb,nonumb,MACO_NumbersDetection,"numb");
       SetBooleanOptionCL(punt,nopunt,MACO_PunctuationDetection,"punt");
@@ -345,23 +363,21 @@ class config {
       SetBooleanOptionCL(quant,noquant,MACO_QuantitiesDetection,"quant");
       SetBooleanOptionCL(dict,nodict,MACO_DictionarySearch,"dict");
       SetBooleanOptionCL(prob,noprob,MACO_ProbabilityAssignment,"prob");
-      SetBooleanOptionCL(ner,noner,MACO_NERecognition,"ner");
       SetBooleanOptionCL(nec,nonec,NEC_NEClassification,"nec");
       SetBooleanOptionCL(dup,nodup,SENSE_DuplicateAnalysis,"dup");
       SetBooleanOptionCL(retok,noretok,TAGGER_Retokenize,"retk");
+      SetBooleanOptionCL(coref,nocoref,COREF_CoreferenceResolution,"coref");
 
       // translate InputF and OutputF strings to more useful integer values.
-      /*
-       if (string(InputF)=="plain") InputFormat = PLAIN; 
-       else if (string(InputF)=="token") InputFormat = TOKEN; 
-       else if (string(InputF)=="splitted") InputFormat = SPLITTED; 
-       else if (string(InputF)=="morfo") InputFormat = MORFO; 
-       else if (string(InputF)=="tagged") InputFormat = TAGGED; 
-       else if (string(InputF)=="sense") InputFormat = SENSES; 
-       else if (string(InputF)=="parsed") InputFormat = PARSED; 
-       else if (string(InputF)=="dep") InputFormat = DEP; 
-       else { ERROR_CRASH("UNKNOWN Input format: "+string(InputF));} 
-      */
+      if (string(InputF)=="plain") InputFormat = PLAIN;
+      else if (string(InputF)=="token") InputFormat = TOKEN;
+      else if (string(InputF)=="splitted") InputFormat = SPLITTED;
+      else if (string(InputF)=="morfo") InputFormat = MORFO;
+      else if (string(InputF)=="tagged") InputFormat = TAGGED;
+      else if (string(InputF)=="sense") InputFormat = SENSES;
+      else if (string(InputF)=="parsed") InputFormat = PARSED;
+      else if (string(InputF)=="dep") InputFormat = DEP;
+      else { ERROR_CRASH("UNKNOWN Input format: "+string(InputF));}
       
       if (string(OutputF)=="plain") OutputFormat = PLAIN;
       else if (string(OutputF)=="token") OutputFormat = TOKEN;
@@ -372,10 +388,20 @@ class config {
       else if (string(OutputF)=="dep") OutputFormat = DEP;
       else { ERROR_CRASH("UNKNOWN Output format: "+string(OutputF));}
 
+      // translate Ner string to more useful integer values.
+      if (string(Ner)=="basic") MACO_NER_which = NER_BASIC;
+      else if (string(Ner)=="bio") MACO_NER_which = NER_BIO;
+      else if (string(Ner)=="none" || string(Ner)=="no") MACO_NER_which = NER_NONE;
+      else WARNING("Invalid NER algorithm '"+string(Ner)+"'. Using default.");
+
       // translate Tagger string to more useful integer values.
       if (string(Tagger)=="hmm") TAGGER_which = HMM;
       else if (string(Tagger)=="relax") TAGGER_which = RELAX;
       else WARNING("Invalid tagger algorithm '"+string(Tagger)+"'. Using default.");
+
+      if (string(DepParser) == "malt") DEP_which = MALT;
+      else if (string(DepParser) == "txala") DEP_which = TXALA;
+      else WARNING("Invalid DEP parser '"+string(DepParser)+"'. Using default.");
 
       // Translate ForceSelect string to more useful integer values.
       if (string(Force)=="none" || string(Force)=="no") TAGGER_ForceSelect = FORCE_NONE;
@@ -438,12 +464,12 @@ class config {
       cout<<"-h, --help             This screen "<<endl;
       cout<<"-f filename            Use alternative configuration file (default: analyzer.cfg)"<<endl;
       cout<<"--lang language        Language (sp: Spanish, ca: Catalan, en: English)"<<endl;
-      cout<<"--flush                Consider each newline as a sentence end"<<endl;
+      cout<<"--flush, --noflush     Consider each newline as a sentence end"<<endl;
       cout<<"--inpf string          Input format (plain,token,splitted,morfo,sense,tagged)"<< endl;
       cout<<"--outf string          Output format (plain,token,splitted,morfo,tagged,parsed,dep)"<< endl;
       cout<<"--ftok filename        Tokenizer rules file "<<endl;
       cout<<"--fsplit filename      Splitter options file "<<endl;
-      cout<<"--sufx, --nosufx       Whether to perform suffix analysis"<<endl;
+      cout<<"--afx, --noafx         Whether to perform affix analysis"<<endl;
       cout<<"--loc, --noloc         Whether to perform multiword detection"<<endl;
       cout<<"--numb, --nonumb       Whether to perform number detection"<<endl;
       cout<<"--punt, --nopunt       Whether to perform punctuation detection"<<endl;
@@ -451,33 +477,36 @@ class config {
       cout<<"--quant, --noquant     Whether to perform quantities detection"<<endl;
       cout<<"--dict, --nodict       Whether to perform dictionary search"<<endl;
       cout<<"--prob, --noprob       Whether to perform probability assignment"<<endl;
-      cout<<"--ner, --noner         Whether to perform NE recognition"<<endl;
+      cout<<"--ner string           Which kind of NE recognition is to be performed (basic, bio, none)"<<endl;
       cout<<"--dec string           Decimal point character"<<endl;
       cout<<"--thou string          Thousand point character"<<endl;
       cout<<"--floc,-L filename     Multiwords file"<<endl;
       cout<<"--fqty,-Q filename     Quantities file"<<endl;
-      cout<<"--fsuf,-S filename     Suffix rules file"<<endl;
+      cout<<"--fafx,-S filename     Affix rules file"<<endl;
       cout<<"--fprob,-P filename    Probabilities file"<<endl;
-      cout<<"--thres float          Probability threshold for unknown word tags"<<endl;
-      cout<<"--title int            Length beyond which an all_caps sentence is considered a title and not a proper noun"<<endl;
+      cout<<"--thres,-e float       Probability threshold for unknown word tags"<<endl;
       cout<<"--fdict,-D filename    Dictionary database"<<endl;
       cout<<"--fnp,-N filename      NP recognizer data file"<<endl;
       cout<<"--nec, --nonec         Whether to perform NE classification"<<endl;
       cout<<"--fnec filename        Filename prefix for NEC data XX.rgf, XX.lex, XX.abm"<<endl;
-      cout<<"--sense string         Type of sense annotation (no|none,all,mfs)"<<endl;
+      cout<<"--sense,-s string      Type of sense annotation (no|none,all,mfs)"<<endl;
       cout<<"--fsense,-W filename   Sense dictionary file"<<endl;
       cout<<"--dup, --nodup         Whether to duplicate analysis for each different sense"<<endl;
-      cout<<"--fpunct,-M filename   Punctuation symbols file"<<endl;
-      cout<<"--tag,-T string        Tagging alogrithm to use (hmm, relax)"<<endl;
+      cout<<"--fpunct,-F filename   Punctuation symbols file"<<endl;
+      cout<<"--tag,-t string        Tagging alogrithm to use (hmm, relax)"<<endl;
       cout<<"--hmm,-H filename      Data file for HMM tagger"<<endl;
       cout<<"--rlx,-R filename      Data file for RELAX tagger"<<endl;
       cout<<"--rtk, --nortk         Whether to perform retokenization after PoS tagging"<<endl;
       cout<<"--force string         Whether/when the tagger must be forced to select only one tag per word (none,tagger,retok)"<<endl;
-      cout<<"--iter int             Maximum number of iterations allowed for RELAX tagger."<<endl;
-      cout<<"--sf float             Support scale factor for RELAX tagger (affects step size)"<<endl;
+      cout<<"--iter,-i int          Maximum number of iterations allowed for RELAX tagger."<<endl;
+      cout<<"--sf,-r float          Support scale factor for RELAX tagger (affects step size)"<<endl;
       cout<<"--eps float            Epsilon value to decide when RELAX tagger achieves no more changes"<<endl;
       cout<<"--grammar,-G filename  Grammar file for chart parser"<<endl;
-      cout<<"--dep,-J filename  Full Parser Heuristics file for dependency parser"<<endl;
+      cout<<"--dep,-d string        Dependency parser to use (txala, malt)"<<endl;
+      cout<<"--txala,-T filename    Rule file for Txala dependency parser"<<endl;
+      cout<<"--malt,-M filename     Data file for dependency parser"<<endl;
+      cout<<"--coref, --nocoref     Whether to perform coreference resolution"<<endl;
+      cout<<"--fcorf,-C filename    Coreference solver data file"<<endl;
       cout<<endl;
     }
 

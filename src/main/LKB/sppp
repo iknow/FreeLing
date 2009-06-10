@@ -1,39 +1,62 @@
 #!/bin/bash
 
 #
-# sample script to fake the Simple PreProcessing Protocol (use with the ERG)
+# sample script to fake the Simple PreProcessing Protocol (use with the SRG)
 #
 
-## Get relative location of this script
-path=$(dirname $0)
-if [ "${path#./}" != "${path}" ]; then
-  path="$(pwd)/${path#./}"
+user=${USER}
+if [ -z "${user}" ]; then
+  user=$(whoami);
 fi
-if [ "${path#/}" = "${path}" ]; then
-  if [ "${path}" = "." ]; then
-    path="$(pwd)";
-  else
-    path="$(pwd)/${path}"
+
+## If variable $ANALYZER is defined, it will be used as the LKBanalyzer
+## executable location.  If it is not defined, default locations will be used.
+
+
+# when running as part of the LOGON tree, FreeLing is part of the same tree,
+# i.e. there is no need to have additional tools installed locally.  ideally,
+# the LOGON tree (including the SRG) will be functional an a wide rage of Linux
+# distributions, not assuming any non-standard additional packages.
+
+if [ -z "$LOGONROOT" ]; then
+
+  LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/FreeLing/lib/:/usr/local/lib/
+  export LD_LIBRARY_PATH
+
+  path=$(dirname $0)
+  if [ "${path#./}" != "${path}" ]; then
+    path="$(pwd)/${path#./}"
   fi
+  if [ "${path#/}" = "${path}" ]; then
+    if [ "${path}" = "." ]; then
+      path="$(pwd)";
+    else 
+      path="$(pwd)/${path}"
+    fi
+  fi
+
+  file=/tmp/.sppp.${user}.$$
+
+  if [ -z "$ANALYZER" ]; then
+     export ANALYZER=$path/LKBanalyzer
+  fi
+
+
+  while read -d '' foo; do
+    echo $foo > $file
+    echo "" >> $file
+    /usr/bin/iconv -f utf-8 -t iso-8859-1 < $file \
+    | $ANALYZER -f $path/LKB.cfg 2>$path/errors \
+    | /usr/bin/iconv -f iso-8859-1 -t utf-8
+  done
+
+else
+
+  if [ -z "$ANALYZER" ]; then
+     export ANALYZER=$LOGONROOT/upc/bin/LKBanalyzer
+  fi
+  cd $LOGONROOT;
+  exec $ANALYZER \
+    -f $LOGONROOT/upf/srg/freeling/logon.cfg \
+    2> /tmp/freeling.debug.${user};
 fi
-
-## define FREELINGSHARE (if not already defined), which is used in default config files
-## you may change this to suit your config file
-if [ "x$FREELINGSHARE" == "x" ]; then
-  export FREELINGSHARE=$path
-fi
-
-# Prepare to execute FreeLing
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/FreeLing/lib/:/usr/local/lib/
-
-file=/tmp/.sppp.$USER.$$
-
-while read -d '' foo; do
-  echo $foo > $file
-  echo "" >> $file
-  /usr/bin/uniconv -decode utf-8  -encode iso-8859-1 < $file \
-  | $path/LKBanalyzer -f $path/LKB.cfg 2>$path/errors \
-  | /usr/bin/uniconv -decode iso-8859-1 -encode utf-8
-done
-
-rm -f $file
