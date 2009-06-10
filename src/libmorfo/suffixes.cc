@@ -169,8 +169,8 @@ void affixes::look_for_affixes_in_list(int kind, std::multimap<std::string,sufru
 	  // get the stem, after removing the affix
 	  if (kind==SUF) form_root = lws.substr(0,j);
 	  else if (kind==PREF) form_root = lws.substr(i);
-	  TRACE(3,"Trying a new rule for that affix. Building root with "+form_root);
-
+	  TRACE(3,"Trying rule ["+form_term+" "+sufit->second.term+" "+sufit->second.cond.expression+" "+sufit->second.output+"] on root "+form_root);
+	  
 	  // complete all possible roots, using terminations/begginings provided in suffix rule
 	  candidates = GenerateRoots(kind, sufit->second, form_root);
 	  // fix accentuation patterns of obtained roots
@@ -338,7 +338,10 @@ void affixes::SearchRootsList(set<string> &roots, const string &aff, sufrule &su
   for (r=roots.begin(); r!=roots.end(); r++)
     TRACE(3,"        "+(*r));
 
-  for (r=roots.begin(); r!=roots.end(); r++){
+  while (not roots.empty()) {
+
+    r=roots.begin();
+
     // look into the dictionary for that root
     la.clear();
     dic.search_form(*r,la);
@@ -346,18 +349,17 @@ void affixes::SearchRootsList(set<string> &roots, const string &aff, sufrule &su
     // if found, we must construct the analysis for the suffix
     if (la.empty()) {
       TRACE(3,"Root "+(*r)+" not found.");
-      // remove root from candidates list (needed only 
-      // in pre+suf combinations to prune later combinations)
-      set<string>::iterator raux=r; raux--;
-      roots.erase(*r);
-      r=raux;
     }
     else {
       TRACE(3,"Root "+(*r)+" found in dictionary.");      
       // apply the rule -if matching- and enrich the word analysis list.
       ApplyRule(*r,la,aff,suf,wd,dic);
     }
+
+    // Root procesed. Remove from candidates list.
+    roots.erase(*r);
   }
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
