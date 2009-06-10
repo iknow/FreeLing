@@ -236,22 +236,22 @@ sito	o	^NCMS	NCMS00D	0	0	0	L	0	-
 sitos	os	^NCMP	NCMP00D	0	0	0	L	0	-
 
 #dim osito
-ito	o|e|ío|io|*	^NCMS	NCMS00D	1	0	0	L	0	-
-itos	o|e|ío|io|*	^NCMS	NCMP00D	1	0	0	L	0	-
-ito	o|io|*	^AQ0[CM]S	AQDMS0	1	0	0	L	0	-
-itos	o|io|*	^AQ0[CM]S	AQDMP0	1	0	0	L	0	-
-ito	o	^VMP00SM	*	1	0	0	L	0	-
-itos	os	^VMP00PM	*	1	0	0	L	0	-
+ito	o|e|ío|io|*	^NCMS	NCMS00D	1	0	1	L	0	-
+itos	o|e|ío|io|*	^NCMS	NCMP00D	1	0	1	L	0	-
+ito	o|io|*	^AQ0[CM]S	AQDMS0	1	0	1	L	0	-
+itos	o|io|*	^AQ0[CM]S	AQDMP0	1	0	1	L	0	-
+ito	o	^VMP00SM	*	1	0	1	L	0	-
+itos	os	^VMP00PM	*	1	0	1	L	0	-
 ita	a	^RG	*	0	0	0	L	0	-
 itita	a	^RG	*	0	0	0	L	0	-
 
 #dim osita
-ita	a|*	^NCFS	NCFS00D	0	0	0	L	0	-
-itas	a|*	^NCFS	NCFP00D	0	0	0	L	0	-
-ita	a|ia|*	^AQ0FS	AQDFS0	0	0	0	L	0	-
-itas	a|ia|*	^AQ0FS	AQDFP0	0	0	0	L	0	-
-ita	a	^VMP00SF	*	1	0	0	L	0	-
-itas	as	^VMP00PF	*	1	0	0	L	0	-
+ita	a|*	^NCFS	NCFS00D	0	0	1	L	0	-
+itas	a|*	^NCFS	NCFP00D	0	0	1	L	0	-
+ita	a|ia|*	^AQ0FS	AQDFS0	0	0	1	L	0	-
+itas	a|ia|*	^AQ0FS	AQDFP0	0	0	1	L	0	-
+ita	a	^VMP00SF	*	1	0	1	L	0	-
+itas	as	^VMP00PF	*	1	0	1	L	0	-
 
 # toditos, poquita
 ito	o	^PI	*	0	0	0	L	0	-

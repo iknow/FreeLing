@@ -55,7 +55,15 @@ using namespace std;
 #include <map>
 #include <vector>
 
-#include "freeling.h"
+#include "fries/util.h"
+#include "freeling/tokenizer.h"
+#include "freeling/splitter.h"
+#include "freeling/maco.h"
+#include "freeling/nec.h"
+#include "freeling/tagger.h"
+#include "freeling/hmm_tagger.h"
+#include "freeling/relax_tagger.h"
+#include "freeling/maco_options.h"
 #include "LKBconfig.h"
 
 const char FORMFEED=0x0C;
@@ -87,10 +95,8 @@ void PrintResults(const list<sentence> &ls, const config &cfg) {
     for (w=is->begin(); w!=is->end(); w++) {
       say("  <token form=\""+w->get_form()+"\" from=\""+util::int2string(w->get_span_start())+"\" to=\""+util::int2string(w->get_span_finish())+"\" >");
 
-      if (cfg.OutputFormat==MORFO || cfg.OutputFormat==TAGGED) {
-
-        // iterate over selected tags (all when MORFO, only one when TAGGED)
-	for(ait=w->selected_begin(); ait!=w->selected_end(); ait++){
+      if (cfg.OutputFormat==MORFO) {
+	for(ait=w->analysis_begin(); ait!=w->analysis_end(); ait++){
 	  
           char c1=ait->get_parole()[0];
           char c2=ait->get_parole()[1];
@@ -138,6 +144,22 @@ void PrintResults(const list<sentence> &ls, const config &cfg) {
 	  }
 	}
       }
+#if 0
+      else if (cfg.OutputFormat==TAGGED) {
+        char c1=w->get_parole()[0];
+        char c2=w->get_parole()[1];
+	if (c1!='Z' && c1!='W' && c1!='F' && !(c1=='N' && c2=='P')) {
+	  say("    <analysis stem=\""+w->get_lemma()+"\" tag=\""+w->get_parole()+"\" probability=\""+util::double2string(w->selected_analysis()->get_prob())+"\">");
+	  say("      <rule id=\""+w->get_parole()+"\" form=\""+w->get_form()+"\" />");
+	  say("    </analysis>");	 
+	}
+	else {
+	  say("    <analysis stem=\""+w->get_parole()+"\" tag=\""+w->get_parole()+"\" probability=\""+util::double2string(w->selected_analysis()->get_prob())+"\">");
+	  say("      <rule id=\""+w->get_parole()+"\" form=\""+w->get_form()+"#"+ait->get_lemma()+"\" />");
+	  say("    </analysis>");	 
+	}
+      }
+#endif
       say("  </token>");
     }
     say("</segment>");
