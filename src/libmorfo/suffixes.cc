@@ -108,7 +108,7 @@ void affixes::look_for_affixes(word &w, dictionary &dic) {
 
   if (w.get_n_analysis()>0) {
     // word with analysys already. Check only "always-checkable" affixes
-    TRACE(2,"Known word, with "+util::int2string(w.get_n_analysis())+" analysis. Looking only for 'always' affixes");
+    TRACE(2,"=== Known word '"+w.get_form()+"', with "+util::int2string(w.get_n_analysis())+" analysis. Looking only for 'always' affixes");
     TRACE(3," --- Cheking SUF ---");
     look_for_affixes_in_list(SUF,affix_always[SUF],w,dic);
     TRACE(3," --- Cheking PREF ---");
@@ -118,7 +118,7 @@ void affixes::look_for_affixes(word &w, dictionary &dic) {
   }
   else {
     // word not in dictionary. Check all affixes
-    TRACE(2,"Unknown word. Looking for any affix");
+    TRACE(2,"===Unknown word '"+w.get_form()+"'. Looking for any affix");
     TRACE(3," --- Cheking SUF ---");
     look_for_affixes_in_list(SUF,affix[SUF],w,dic);
     TRACE(3," --- Cheking PREF ---");
@@ -331,16 +331,20 @@ set<string> affixes::GenerateRoots(int kind, const sufrule &suf, const std::stri
 
 void affixes::SearchRootsList(set<string> &roots, const string &aff, sufrule &suf, word &wd, dictionary &dic) const
 {
+  set<string> remain;
   set<string>::iterator r;
   list<analysis> la;
 
   TRACE(3,"Checking a list of "+util::int2string(roots.size())+" roots.");
-  for (r=roots.begin(); r!=roots.end(); r++)
-    TRACE(3,"        "+(*r));
+#ifdef VERBOSE
+  for (r=roots.begin(); r!=roots.end(); r++) TRACE(3,"        "+(*r));
+#endif
 
-  while (not roots.empty()) {
+  remain=roots;
 
-    r=roots.begin();
+  while (not remain.empty()) {
+
+    r=remain.begin();
 
     // look into the dictionary for that root
     la.clear();
@@ -349,6 +353,7 @@ void affixes::SearchRootsList(set<string> &roots, const string &aff, sufrule &su
     // if found, we must construct the analysis for the suffix
     if (la.empty()) {
       TRACE(3,"Root "+(*r)+" not found.");
+      roots.erase(*r);  // useless root, remove from list.
     }
     else {
       TRACE(3,"Root "+(*r)+" found in dictionary.");      
@@ -356,10 +361,9 @@ void affixes::SearchRootsList(set<string> &roots, const string &aff, sufrule &su
       ApplyRule(*r,la,aff,suf,wd,dic);
     }
 
-    // Root procesed. Remove from candidates list.
-    roots.erase(*r);
+    // Root procesed. Remove from remaining candidates list.
+    remain.erase(*r);
   }
-
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
