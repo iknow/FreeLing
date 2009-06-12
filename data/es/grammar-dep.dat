@@ -164,9 +164,9 @@ paton-fs ==> PP3FSA00.	%la
 paton-ms ==> PP3MSA00.	%lo: CD masculí singular
 paton ==> PP3CNA00.	%lo: atribut: inespecificat
 
-morf-pron ==> P010S000 | P010P000 | P020S000 | P020P000.
-morf-pron ==> P0300000.	%se-pronominal
+morf-pron ==> P01CS000 | P01CP000 | P02CS000 | P02CP000.
 morf-pron ==> P03CN000.	%se-pronominal
+
 
 morfema-verbal ==> P0000000.	%se impersonal/passiu
 grup-verb ==> morf-pron, +grup-verb.
