@@ -66,6 +66,10 @@ VerbCompl = <acentuar> <aceptar> <aconsejar> <acordar> <admitir> <advertir>
 
 CONSTRAINTS
 
+%% prefer indicative to imperative
+0.7 VMI*
+    (0 VMM*);
+
 %% after a preposision, better noun than verb
 4.0 NC*
     (0 VMS* or VMI* or VMM* or VMG* or VMP*)
