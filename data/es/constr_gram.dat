@@ -39,6 +39,7 @@ VerbCompl = <acentuar> <aceptar> <aconsejar> <acordar> <admitir> <advertir>
 	    <asumir> <avalar> <calcular> <comentar> <comunicar> <concluir>
 	    <confesar> <confirmar> <considerar> <contar> <contestar>
 	    <controlar> <convencer> <creer> <decidir> <decir> <declarar> 
+	    <defender> 
 	    <demostrar> <denunciar> <descartar> <desconfiar> <descubrir>
 	    <desestimar> <desmentir> <detectar> <determinar> <discrepar> 
  	    <discutir> <disponer> <divulgar> <documentar> <dudar> <encontrar>
@@ -64,6 +65,11 @@ VerbCompl = <acentuar> <aceptar> <aconsejar> <acordar> <admitir> <advertir>
 
 
 CONSTRAINTS
+
+%% after a preposision, better noun than verb
+4.0 NC*
+    (0 VMS* or VMI* or VMM* or VMG* or VMP*)
+    (-1 SP*);
 
 %% better tag "que" as a PR0CN000 after a noun without no verb before it
 15.0 PR*<que>

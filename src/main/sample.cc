@@ -67,26 +67,28 @@ int main() {
   list<word> lw;
   list<sentence> ls;
 
+  string path="/usr/local/share/FreeLing/es/";
+
   // create analyzers
-  tokenizer tk("tokenizer.dat"); 
-  splitter sp("splitter.dat");
+  tokenizer tk(path+"tokenizer.dat"); 
+  splitter sp(path+"splitter.dat");
   
   // morphological analysis has a lot of options, and for simplicity they are packed up
   // in a maco_options object. First, create the maco_options object with default values.
   maco_options opt("es");  
   // then, set required options on/off  
   opt.QuantitiesDetection = false;  //deactivate ratio/currency/magnitudes detection 
-  opt.SuffixAnalysis = true;       opt.MultiwordsDetection = true;   opt.NumbersDetection = true; 
-  opt.PunctuationDetection = true; opt.DatesDetection = true;        opt.QuantitiesDetection = false; 
-  opt.DictionarySearch = true;     opt.ProbabilityAssignment = true; opt.NERecognition = true;   
+  opt.AffixAnalysis = true; opt.MultiwordsDetection = true; opt.NumbersDetection = true; 
+  opt.PunctuationDetection = true; opt.DatesDetection = true; opt.QuantitiesDetection = false; 
+  opt.DictionarySearch = true; opt.ProbabilityAssignment = true; opt.NERecognition = NER_BASIC;   
   // alternatively, you can set active modules in a single call:
-  //     opt.set_active_modules(true, true, true, true, true, false, true, true, true);
+  //     opt.set_active_modules(true, true, true, true, true, false, true, true, 0);
 
   // and provide files for morphological submodules. Note that it is not necessary
   // to set opt.QuantitiesFile, since Quantities module was deactivated.
-  opt.LocutionsFile="locucions.dat";       opt.SuffixFile="sufixos.dat";
-  opt.ProbabilityFile="probabilitats.dat";  opt.DictionaryFile="maco.db";
-  opt.NPdataFile="np.dat";              opt.PunctuationFile="../common/punct.dat"; 
+  opt.LocutionsFile=path+"locucions.dat"; opt.AffixFile=path+"sufixos.dat";
+  opt.ProbabilityFile=path+"probabilitats.dat"; opt.DictionaryFile=path+"maco.db";
+  opt.NPdataFile=path+"np.dat"; opt.PunctuationFile=path+"../common/punct.dat"; 
   // alternatively, you can set the files in a single call:
   //  opt.set_data_files("myMultiwordsFile.dat", "", "mySuffixesFile.dat", 
   //                     "myProbabilitiesFile.dat", "myDictionaryFile.dat", 
@@ -96,11 +98,11 @@ int main() {
   maco morfo(opt); 
   // create a hmm tagger for spanish (with retokenization ability, and forced 
   // to choose only one tag per word)
-  hmm_tagger tagger("es", "tagger.dat", true, true); 
+  hmm_tagger tagger("es", path+"tagger.dat", true, true); 
   // create chunker
-  chart_parser parser("grammar-dep.dat");
+  chart_parser parser(path+"grammar-dep.dat");
   // create dependency parser 
-  dep_txala dep("dep/dependences.dat", parser.get_start_symbol());
+  dep_txala dep(path+"dep/dependences.dat", parser.get_start_symbol());
   
   // get plain text input lines while not EOF.
   while (getline(cin,text)) {
