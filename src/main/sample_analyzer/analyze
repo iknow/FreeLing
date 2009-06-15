@@ -1,0 +1,20 @@
+#!/bin/bash
+
+#  usage:
+#
+#   analyze [options] 
+#
+#  Executes freeling analyzer with given options, taking care of
+#  paths and default locations
+# 
+#  This script also checks whether the config file given with option -f
+#  is found in the current directory. If not, it is searched in
+#  share/FreeLing/config under FreeLing installation directory.
+
+
+## Execute FreeLing environment initialization
+. $(dirname $(readlink -e $0))/initialize $@
+
+## call actual executable
+$FREELING/bin/analyzer $param
+
