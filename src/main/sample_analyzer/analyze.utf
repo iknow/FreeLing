@@ -1,0 +1,23 @@
+#!/bin/bash
+
+#
+#  usage:
+#
+#   analyze.utf  [options] 
+#
+#  Executes an analyzer with given options
+# 
+#  The script reads from stdin assuming utf-8 encoding. Converts to
+#  iso-8859-1, and feeds the analyzer.
+#  Analyzer output is converted to utf-8 and sent to stdout
+#
+#  This script also checks whether the config file given with option -f
+#  is found in the current directory. If not, it is searched in
+#  share/FreeLing/config under FreeLing installation directory.
+
+
+## Execute FreeLing environment initialization
+. $(dirname $(readlink -e $0))/initialize $@
+
+## call actual executable, wrapped in UTF8 conversor
+iconv -f utf-8 -t iso-8859-1 - | $FREELING/bin/analyzer $param | iconv -f iso-8859-1 -t utf-8 -

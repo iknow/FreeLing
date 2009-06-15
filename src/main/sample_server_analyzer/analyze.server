@@ -1,0 +1,41 @@
+#!/bin/bash
+
+#
+#  usage:
+#
+#   analyze.server  NAME  [options] 
+#
+#  Creates two named pipes (NAME.in, NAME.out) and
+#  launches an analyzer with the given options.
+#
+#  The analyzer will read from NAME.in and write the output
+#  to NAME.out until an end-of-file is written to NAME.in
+#
+#  This provides simple but efficient way to call the analyzer from
+#  other programs without having to link with the library, and without
+#  having to launch and load the analyzer for each file to be processed.
+#
+#  This script also checks whether the config file given with option -f
+#  is found in the current directory. If not, it is searched in
+#  share/FreeLing/config under FreeLing installation directory.
+
+
+## Execute FreeLing environment initialization
+pm=`echo $@ | sed 's/^[^ ]* //'`
+. $(dirname $(readlink -e $0))/initialize $pm
+
+## create named pipes
+NAME=$1
+if [[ -e $NAME.in || -e $NAME.out ]]; then
+  echo "Error. File $NAME.in or $NAME.out already exist"
+  exit
+fi
+mkfifo $NAME.in
+mkfifo $NAME.out
+
+# Execute analyzer, interfacing through named pipes.
+$FREELING/bin/analyzer $param <$NAME.in >$NAME.out
+
+## clean up
+rm -f $NAME.in $NAME.out
+

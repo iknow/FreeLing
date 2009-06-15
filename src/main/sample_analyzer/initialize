@@ -1,0 +1,52 @@
+#############################################
+##
+## initialization procedure to execute
+## FreeLing "analyzer" under default conditions
+##
+#############################################
+
+##--- Get FreeLing installation from the location of this script
+FREELING=$(dirname $(dirname $(readlink -e $0)))
+
+##--- define FREELINGSHARE (if not already defined), which is used in default config files
+if [ "x$FREELINGSHARE" = "x" ]; then
+  export FREELINGSHARE=$FREELING/share/FreeLing
+fi
+
+#--- Prepare libraries required to execute FreeLing
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$FREELING/lib
+
+#---- locate Java libraries
+test "x$JAVA" = x && export JAVA=java
+JPATH=`which $JAVA`
+if [ "x$JPATH" != "x" ]; then
+  ## --- if there is a JRE, add the lib to the path, just in 
+  ## --- case they want to use malt parser
+  # find out root of JRE (remove trailing bin/java from the path)
+  JTOPDIR=$(dirname $(dirname $(readlink -e $JPATH)))
+  # find libjvm under JTOPDIR/lib
+  JVM_LIB=`find $JTOPDIR/lib -wholename '*client*/libjvm.so'`
+  if [ "x$JVM_LIB" != "x" ]; then
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(dirname $JVM_LIB)
+  fi
+fi
+
+#--- Pass all parameters to the executable, fixing the config file if necessary
+i=1;  eval arg=\${$i}
+param=""
+while [[ $i -le $# ]]; do
+
+   param="$param $arg"
+
+   if [ "$arg" == "-f" ]; then
+     let i=$i+1; eval arg=\${$i}
+
+     if [ -e $arg ]; then
+       param="$param $arg"
+     else 
+       param="$param $FREELING/share/FreeLing/config/$arg"
+     fi
+   fi
+
+   let i=$i+1;  eval arg=\${$i}
+done
