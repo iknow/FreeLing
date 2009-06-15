@@ -181,7 +181,7 @@ void ProcessPlain(const config &cfg, tokenizer *tk, splitter *sp, maco *morfo, P
 
       cerr<<"   ## Read line ("<<text<<")"<<endl;
       if (!head) {
-	unsigned int p=text.find("<?xml version='1.0' encoding='iso-8859-1'?>"); 
+	string::size_type p=text.find("<?xml version='1.0' encoding='iso-8859-1'?>"); 
 	if (p!=string::npos) {
 	  text.erase(p,43);
 	  say("<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>");
@@ -204,7 +204,7 @@ void ProcessPlain(const config &cfg, tokenizer *tk, splitter *sp, maco *morfo, P
       }
       else {
 	// clean xml tags from input
-	unsigned int p;
+	string::size_type p;
 	p=text.find("<text>"); if (p!=string::npos) text.erase(p,6);
 	p=text.find("</text>"); if (p!=string::npos) text.erase(p,7);
 	
