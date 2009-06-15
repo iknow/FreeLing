@@ -1,0 +1,74 @@
+
+
+  This directory contains several simple sample programs to show how to call FreeLing 
+ analyzers.
+
+ **** FL1_MORPH.CC ****
+
+   Illustrates how to tokenize and split a plain text, and look up each word in 
+   the morphological  dictionary.
+
+   Compile it with:
+      g++ -o fl1_morph fl1_morph.cc -ldb_cxx -lmorfo -lfries -lomlet -lpcre
+
+
+ **** FL2_TAGGER.CC ****
+
+   Illustrates how to call the PoS tagger (assumes the input carries the
+   necessary morphological information)
+
+   Compile it with:
+      g++ -o fl2_tagger fl2_tagger.cc -ldb_cxx -lmorfo -lfries -lomlet -lpcre
+
+
+ **** FL3_CHUNKER.CC ****
+
+   Illustrates how to call the chart_parser (assumes the input carries the
+   necessary disambiguated morphological information)
+
+   Compile it with:
+      g++ -o fl3_chunker fl3_chunker.cc -ldb_cxx -lmorfo -lfries -lomlet -lpcre
+
+
+ **** FL4_DEPENDENCES.CC ****
+
+   Illustrates how to call the chart_parser and dependency parser(assumes the 
+   input carries the necessary disambiguated morphological information)
+
+   Compile it with:
+      g++ -o fl4_dependences fl4_dependences.cc -ldb_cxx -lmorfo -lfries -lomlet -lpcre
+
+
+ **** FL5_COREF.CC ****
+
+   Illustrates how to call the coreference resolution module (starts from plain text
+   and calls all requiered modules)
+
+   Compile it with:
+      g++ -o fl5_coref fl5_coref.cc -ldb_cxx -lmorfo -lfries -lomlet -lpcre
+
+
+ **** SAMPLE.CC ****
+
+  The program "sample.cc", is provided as an example of how application 
+  could use the services in FreeLing library.  In this case, the application would
+  read a sentence, call FreeLing to get morphological analysis, PoS tagging, chunking,
+  and dependency parsing.  Then, it processes the results at will (the sample just 
+  prints them in a different formats, but a real application could do any other thing)
+
+  You can use sample.cc as a starting point to build your customized calls to the
+  library, getting rid of the annoying option management. 
+
+  To compile sample.cc, do:
+
+   g++ -o sample sample.cc -ldb_cxx -lmorfo -lfries -lomlet -lpcre
+
+  You may have to add -I and -L options with the right location of the berkeley DB
+  libraries and headers. Also, you may have to add the paths where you installed 
+  Omlet+Fries and FreeLing libraries.
+
+  To execute the sample program, cd to the directory where the data files are located
+  (e.g. /usr/local/share/FreeLing/es), call the program, and write some simple sentences
+  in the terminal.
+
+  Have a look to sample.cc to understand what it is doing.

@@ -6,7 +6,7 @@ AC_PREREQ(2.59)
 AM_INIT_AUTOMAKE(FreeLing,2.1-beta1)
 
 AC_CANONICAL_HOST	
-AC_CONFIG_SRCDIR([src/main/analyzer.cc])
+AC_CONFIG_SRCDIR([src/main/sample_analyzer/analyzer.cc])
 
 CPPFLAGS=" $CPPFLAGS -I/usr/include/db4 -I/usr/local/include"
 CXXFLAGS=" $CXXFLAGS -O3 -Wall"
@@ -221,8 +221,3 @@ AC_CONFIG_FILES([Makefile
                  src/utilities/Makefile])
 
 AC_OUTPUT
-
-
-
-
-
