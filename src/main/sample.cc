@@ -86,7 +86,7 @@ int main() {
 
   // and provide files for morphological submodules. Note that it is not necessary
   // to set opt.QuantitiesFile, since Quantities module was deactivated.
-  opt.LocutionsFile=path+"locucions.dat"; opt.AffixFile=path+"sufixos.dat";
+  opt.LocutionsFile=path+"locucions.dat"; opt.AffixFile=path+"afixos.dat";
   opt.ProbabilityFile=path+"probabilitats.dat"; opt.DictionaryFile=path+"maco.db";
   opt.NPdataFile=path+"np.dat"; opt.PunctuationFile=path+"../common/punct.dat"; 
   // alternatively, you can set the files in a single call:
