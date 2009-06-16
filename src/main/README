@@ -15,11 +15,6 @@
    sample_analyzer: Directory with program and scripts that offer a
         relatively human-friendly interface to FreeLing capabilities.
 
-   sample_server_analyzer: Directory with program and scripts that offer 
-        a relatively human-friendly interface to FreeLing capabilities, 
-        and can be called under a client-server architecture, faster when
-        processing lots of small files.
-
    simple_examples: Directory of several example about how to call 
         FreeLing components from inside your own C++ program
    
