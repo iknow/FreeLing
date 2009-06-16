@@ -16,5 +16,20 @@
 . $(dirname $(readlink -e $0))/initialize $@
 
 ## call actual executable
-$FREELING/bin/analyzer $param
+if [[ "x$1" == "x-"* ]]; then
+  # if first parameter is an option (e.g. -f, --nodates, etc)
+  # use normal interactive mode
+  $FREELING/bin/analyzer $param
+else
+  # if first parameter is NOT an option, assume
+  # it's a name for a pipe and start in client/server mode
+  echo "First parameter '$1' is not an option. Starting server mode."
+  echo "You can now analyze text with: "
+  echo "      analyzer_client $1  <input.txt >output.txt"
+  echo ""
+  $FREELING/bin/analyzer_server $param
+fi
+
+
+
 

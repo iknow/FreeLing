@@ -25,13 +25,13 @@ if [ "x$JPATH" != "x" ]; then
   # find out root of JRE (remove trailing bin/java from the path)
   JTOPDIR=$(dirname $(dirname $(readlink -e $JPATH)))
   # find libjvm under JTOPDIR/lib
-  JVM_LIB=`find $JTOPDIR/lib -wholename '*client*/libjvm.so'`
+  JVM_LIB=`find $JTOPDIR/lib -wholename '*client*/libjvm.so' 2>/dev/null`
   if [ "x$JVM_LIB" != "x" ]; then
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(dirname $JVM_LIB)
   fi
 fi
 
-#--- Pass all parameters to the executable, fixing the config file if necessary
+#--- Pass all parameters to the executable, fixing the config file path if necessary
 i=1;  eval arg=\${$i}
 param=""
 while [[ $i -le $# ]]; do
