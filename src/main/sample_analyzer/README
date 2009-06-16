@@ -1,11 +1,10 @@
-
  --------
  PROGRAMS
  --------
 
  **** ANALYZER.CC ****
 
-  The first, "analyzer.cc" is an exhaustive main program that allows the 
+    "analyzer.cc" is an exhaustive main program that allows the 
  user to control all parameters and configuration files provided to the 
  library, and to choose different kinds of I/O formats.
   This program is provided as a sample, as well as a main program to access
@@ -15,6 +14,25 @@
 
   See user manual for details on the available options
 
+ **** ANALYZER_SERVER.CC and ANALYZER_CLIENT.CC ****
+
+   "analyzer_server.cc" behaves exactly like "analyzer.cc", except for that 
+ instead of reading/writing to stdin/stdout, it creates two named pipes and
+ performs I/O operations through it. 
+   "analyzer_client.cc" sends text and retrieves analysis from those named pipes.
+
+    This means that the analyzer doesn't need to be loaded and initialized for
+  each file to be processsed. It may be permanently loaded, and clients just have
+  to send text to analyze.
+
+   Mutual exclusion is not handled, so, if several clients send text simultaneously, 
+  the output will be mixed.
+
+    To call "analyzer_server.cc", just add as the first parameter, before any other option,
+   a string which will be used as the name for the pipes.
+
+    To call "analyzer_client.cc", give as parameter the string corresponding to the name of 
+    the pipe of the desired server.
 
  -------
  SCRIPTS
@@ -34,6 +52,8 @@
  2.- You don't need to properly set LD_LIBRARY_PATH, since the script will 
     try to locate FreeLing libraries
 
+ 3.- If you specify a string before other options, "analyzer_server" will be called
+     instead of "analyzer".  Then, you'll have to use "analyzer_client" to input text.
 
  **** ANALYZE.UTF ****
 
@@ -52,3 +72,6 @@
  3.- The input is assumed to be in UTF-8, and so the 'uniconv' utility is
     used to convert it before calling the analyzer. The analyzer output 
     is also converted back to UTF-8.
+
+ 4.- If you specify a string before other options, "analyzer_server" will be called
+     instead of "analyze"
