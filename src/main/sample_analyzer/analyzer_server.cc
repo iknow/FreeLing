@@ -48,8 +48,8 @@
 
 using namespace std;
 
+#include "errno.h"
 #include "sys/stat.h"
-#include <signal.h>
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -699,28 +699,33 @@ int main (int argc, char **argv) {
     }
   }
 
+  cerr<<"SERVER: Analyzers loaded."<<endl;
+
   // create named pipe for input and output
   if (mkfifo(FIFO_in.c_str(),0666)) {
-    cerr<<"error creating named pipe "<<FIFO_in<<endl;
-    exit(1);
+    switch (errno) {
+    case EEXIST: cerr<<"SERVER: Named pipe "<<FIFO_in<<" already exists."<<endl;
+                   cerr<<"        If no other server is using it, remove the file and try again."<<endl;
+                   exit(1); break;
+      default: cerr<<"Error creating named pipe "<<FIFO_in<<endl;
+               exit(1);
+    }
   }
+
   if (mkfifo(FIFO_out.c_str(),0666)) {
-    cerr<<"error creating named pipe "<<FIFO_out<<endl;
-    exit(1);
+    switch (errno) {
+    case EEXIST: cerr<<"SERVER: Named pipe "<<FIFO_out<<" already exists."<<endl;
+                   cerr<<"        If no other server is using it, remove the file and try again."<<endl;
+                   exit(1); break;
+      default: cerr<<"Error creating named pipe "<<FIFO_out<<endl;
+               exit(1);
+    }
   }
 
-  cerr<<"SERVER: Config loaded, pipes "<<FIFO_in<<" and "<<FIFO_out<<"created."<<endl;
+  cerr<<"SERVER: Pipes "<<FIFO_in<<" and "<<FIFO_out<<" created."<<endl;
 
-  // block sigterm, to wait for finishing current service
-  sigset_t *m = new sigset_t;
-  sigemptyset(m);
-  sigaddset(m,SIGTERM);
-  sigaddset(m,SIGINT);
-  sigprocmask(SIG_BLOCK,m,NULL);
-  sigemptyset(m);
-
-  // serve client requests until a signal is received to stop the server.
-  while (not sigismember(m,SIGTERM) and not sigismember(m,SIGINT)) {
+  // serve client requests until server is killed
+  while (1) {
           
     cerr<<"SERVER: opening channels. Waiting for new connection"<<endl;
     
@@ -763,10 +768,10 @@ int main (int argc, char **argv) {
     // --- Client sent EOF, end interaction.
     cin.rdbuf(inbkp); fin.close(); 
     cout.rdbuf(outbkp); fout.close(); 
-    
-    // check for signals, and loop to wait for a new client.
-    sigpending(m);
   }
+
+  // Actually, we'll never reach here, but a fine server should trap 
+  // the signals and clean up before exiting.
 
   // --- shutting down server
   cerr<<"SERVER: Signal received. Stopping"<<endl;

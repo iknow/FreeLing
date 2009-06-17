@@ -72,3 +72,44 @@
   in the terminal.
 
   Have a look to sample.cc to understand what it is doing.
+
+
+ **** SAMPLE_SERVER.CC ****
+
+  The program "sample_server.cc", is a copy of sample.cc, but instead of interacting
+  with the user via the command line, it expects petitions from a client.
+
+  The goal of this program is to avoid loading the analyzers (which is time consuming)
+  for each file to process, as would be required when using "sample.cc".  
+  
+  The server is permanently loaded, and clients can send requests to it.
+
+  To compile sample_server.cc, do:
+
+   g++ -o sample_server sample_server.cc -ldb_cxx -lmorfo -lfries -lomlet -lpcre
+
+  You may have to add -I and -L options with the right location of the berkeley DB
+  libraries and headers. Also, you may have to add the paths where you installed 
+  Omlet+Fries and FreeLing libraries.
+
+  To execute the sample_server program, you have to provide it with a name for the 
+  server channel.  E.g.:
+
+       ./sample_server SERVER_1
+
+   Then, clients can send requests to the server:
+       analyzer_client SERVER_1  <input.txt  >output.txt
+
+   Or simply:
+       cat input.txt > SERVER_1.in
+       cat SERVER_1.out > output.txt
+
+    The analyzer_client is compiled and installed with other freeling executables.
+
+    Have a look to src/main/sample_analyzer/analyzer_client.cc to see how the client 
+    works.  This program only copies the analysis to stdout, but it could be any actual
+    NLP application using the results of the analysis.
+
+    To understand how the server works, have a look to sample.cc, then to sample_server.cc.
+
+
