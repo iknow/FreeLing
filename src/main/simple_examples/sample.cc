@@ -90,10 +90,10 @@ int main() {
   opt.ProbabilityFile=path+"probabilitats.dat"; opt.DictionaryFile=path+"maco.db";
   opt.NPdataFile=path+"np.dat"; opt.PunctuationFile=path+"../common/punct.dat"; 
   // alternatively, you can set the files in a single call:
-  //  opt.set_data_files("myMultiwordsFile.dat", "", "mySuffixesFile.dat", 
-  //                     "myProbabilitiesFile.dat", "myDictionaryFile.dat", 
-  //                     "myNPdatafile.dat", "myPunctuationFile.dat");
-  
+  // opt.set_data_files(path+"locucions.dat", "", path+"afixos.dat",
+  //                   path+"probabilitats.dat", opt.DictionaryFile=path+"maco.db",
+  //                   path+"np.dat", path+"../common/punct.dat");
+
   // create the analyzer with the just build set of maco_options
   maco morfo(opt); 
   // create a hmm tagger for spanish (with retokenization ability, and forced 
