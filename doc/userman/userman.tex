@@ -12,7 +12,7 @@
 \begin{center}
 {\Large FreeLing User Manual\\[1ex]\large 2.1}\\
 \vspace*{1cm}
-{\small June 2008}\\
+{\small June 2009}\\
 \end{center}
 \end{titlepage}
 
@@ -489,8 +489,10 @@ class maco_options {
     /// convenient sometimes.
     /// The order of the parameters is the same they are defined above.
     void set_active_modules(bool,bool,bool,bool,bool,bool,bool,bool,int);
-    void set_data_files(const std::string &,const std::string &,const std::string &,const std::string &,
-                        const std::string &,const std::string &,const std::string &);
+    void set_data_files(const std::string &,const std::string &,
+                        const std::string &,const std::string &,
+                        const std::string &,const std::string &,
+                        const std::string &);
     void set_nummerical_points(const std::string &,const std::string &);
     void set_threshold(double);
 \end{verbatim}
@@ -503,24 +505,64 @@ class maco_options {
  some sentences, it will just pass it down to each the submodule, and return the final result.
 
 %..................................................
-\section{Numbers Detection Module}
+\section{Number Detection Module}
 \label{file-numb}
 
- XXXXXXXXXXXXX
- parameters: thousants, decimal.
- language dependent.
+  The number detection module is language dependent: It recognizes nummerical expression (e.g.: {\tt 1,220.54} or {two-hundred sixty-five}), and assigns them a normalized value as lemma.
+
+  The module is basically a finite-state automata that recognizes valid nummerical expressions. Since the structure of the automata and the actions to compute the actual nummerical value are different for each lemma.
+
+   For languages that do not have an implementation of a specific automata, a generic module is used to recognize number-like expressions that contain nummerical digits.
+
+   For the reasons described so far, there is no options or configuration file to be provided to the class when it is instantiated. The API of the class is:
+\begin{verbatim}  
+class numbers {
+   public:
+      /// Constructor: receives the language code, and the decimal 
+      /// and thousand point symbols
+      numbers(const std::string &, const std::string &, const std::string &); 
+
+      /// Detect number expressions in given sentence
+      void annotate(sentence &);
+};
+\end{verbatim}  
+
+   The parameters that the constructor expects are: 
+\begin{itemize}
+\item The language code: used to decide whether the generic recognizer or a language-specific module is used.
+\item The decimal point symbol.
+\item The thousand point sympol.
+\end{itemize}
+  The last two parameters are needed because in some latin languages, the comma is used as decimal point separator, and the dot as thousand mark, while in languages like English it is the other way round.
+  These parameters make it possible to specify what character is to be expected at each of these positions. They will usually be comma and dot, but any character could be used.
+
 
 %..................................................
 \section{Punctuation Detection Module}
 \label{file-punt}
 
+ The punctuation detection module assigns Part-of-Speech tags to punctuation symbols. The API of the class is the following:
+\begin{verbatim}  
+class punts {
+   public:
+      /// Constructor: receives data file name
+      punts(const std::string &); 
+ 
+      /// Detect punctuation in given sentence
+      void annotate(sentence &);
+};
+\end{verbatim}
+
+ The constructor receives as parameter the name of a file containing the list of the PoS tags to be assigned to each punctuation symbol.
+
+ Note that this module will be applied afer the tokenizer, so, it will only annotate symbols that have been separated at the tokenization step. For instance, if you include the three suspensive dots (\ldots) as a single punctuation symbol, it will have no effect unless the tokenizer has a rule that causes these substring to be tokenized in one piece.
+
 \subsection{Punctuation Tags File}
 
- One punctuation symbol per line. \\
-  Each line has format: {\tt punctuation-symbol tag}.  E.g. \\
-    {\tt ! Fat}\\
-    {\tt , Fc} \\
-    {\tt : Fd} \\
+ The format of the file listing the PoS for punctuation symbols is one
+ punctuation symbol per line, each line with the format: {\tt punctuation-symbol tag}.\\
+  E.g. \\ {\tt ! Fat}\\ {\tt , Fc} \\ {\tt
+   : Fd} \\ {\tt ... Fs} \\
 
   One special line may be included for undefined punctuation symbols
   (any word with no alphanumeric character is considered a punctuation
@@ -531,28 +573,84 @@ class maco_options {
 
 %..................................................
 \section{Dates Detection Module}
+\label{file-dates}
 
-  No params.  Language dependent.
+  The dates detection module, as the number detection module in section \ref{file-numb}, is a collection of language-specific finite-state automata, and for this reason needs no data file to be provided at instantiation time.
+
+  For languages that do not have a specific automata, a default analyzer is used that detects simple date patterns (e.g. {\tt DD-MM-AAAA}, {\tt MM/DD/AAAA}, etc.)
+
+  The API of the class is:
+\begin{verbatim}        
+class dates {             
+   public:   
+      /// Constructor: receives the language code
+      dates(const std::string &); 
+
+      /// Detect date/time expressions in given sentence
+      void annotate(sentence &);
+};  
+\end{verbatim}        
+
+   The only parameter expected by the constructor is the language of the text to analyze, in order to be able to apply the appropriate specific automata, or select the default one if none is available.
+
 
 %..................................................
 \section{Dictionary Search Module}
 \label{file-dict}
 
+The dictionary search module has two functions: Search the word forms in the dictionary to find out their lemmas and PoS tags, and apply affixation rules to find the same information in the cases in which the form is a derived form not included in the dictionary (e.g. the word {\tt quickly} may not be in the dictionary, but a suffixation rule may state that removing {\tt -ly} and searching for the obtained adjective is a valid way to form and adverb).
+
+The decision of what is included in the dictionary and what is dealt with through affixation rules is left to the Linguistc Data developer.
+
+The API for this module is the following:
+\begin{verbatim}
+class dictionary {
+   public:
+      /// Constructor
+      dictionary(const std::string &, const std::string &, 
+                bool, const std::string &);
+
+      /// Get analysis for a given form, and add them
+      /// to given analysis list
+      void search_form(const std::string &, std::list<analysis> &);
+
+      /// Analyze words in given sentence
+      void annotate(sentence &);
+}
+\end{verbatim}
+
+   The parameters of the constructor are:
+\begin{itemize}
+ \item The language of the processed text. This is required by the affixation submodule to properly handle graphical accents in latin languages.
+ \item The dictionary file name. This must be a BerkeleyDB--indexed file. See below for details.
+ \item A boolean stating whether affixation analysis has to be applied.
+ \item The affixation rules file name (it may be an empty string if the boolean above is set to false) 
+ \end{itemize}
+
 \subsection{Form Dictionary File}
-  Berkeley DB indexed file.
+ 
+   The form dictionary is a BerkeleyDB--indexed file.
 
-  It may be created with the
-  {\tt src/utilities/indexdict} program provided with FreeLing. The source
-  file must have the lemma--PoS list for a word form at each line.\\
+  It can be created with the {\tt indexdict} program provided with
+  FreeLing, which is called with the command:
+  \begin{verbatim}
+   indexdict indexed-dict-name  <source-dict 
+  \end{verbatim}
+  See the (very simple) source code in {\tt src/main/utilities/indexdict.cc}
+ if you're interested on how it is indexed.
 
-  Each line has format: {\tt form lemma1 PoS1 lemma2 PoS2 ...}.  E.g. \\
-  \verb#casa casa NCFS000 casar VMIP3S0 casar VMM02S0#
+  The {\tt source-dict} file must have the lemma--PoS list for a word
+  form at each line.
 
-  Lines corresponding to word that are contractions may have an
+  Each line has format: {\tt form lemma1 PoS1 lemma2 PoS2 ...}.  \\
+  E.g.:\\
+  \verb#casa casa NCFS000 casar VMIP3S0 casar VMM02S0# \\
+  \verb#backs back NNS back VBZ#
+
+  Lines corresponding to words that are contractions may have an
   alternative format if the contraction is to be splitted. The format
   is  {\tt form form1+form2+... PoS1+PoS2+...}. \\
-  For instance:
-
+  For instance:\\
   \verb#del de+el SPS+DA#
   
   This line expresses that whenever the form {\sl del} is found, it is
@@ -568,8 +666,7 @@ class maco_options {
   so only a combination of forms and a combination of tags may appear
   in the dictionary.
 
-   Nevertheless, a set of tags may be specified for a given form, e.g.:
-
+   Nevertheless, a set of tags may be specified for a given form, e.g.:\\
   \verb#he'd he+'d PRP+VB/MD#
 
    This will produce two words: {\sl he} with {\tt PRP} analysis, and
@@ -580,7 +677,6 @@ class maco_options {
 
    If all tags for one of the new forms are to be used, a wildcard may
    be written as a tag. E.g.:\\
-
   \verb#pal para+el SPS+*#
 
    This will replace {\sl pal} with two words, {\sl para} with only its
@@ -590,9 +686,11 @@ class maco_options {
 \subsection{Affixation Rules File}
 \label{file-suf}
 
-The file consists of two (optional) sections: \verb#<Suffixes># and \verb#<Prefixes>#. The first one contains suffixation rules, and the second, prefixation rules.
+ The submodule dealing with affixes requires a set of affixation rules.
 
-Both kinds of rules have the same format, and only differ in whether the affix is checked at the beggining or at the end of the word.
+ The file consists of two (optional) sections: \verb#<Suffixes># and \verb#<Prefixes>#. The first one contains suffixation rules, and the second, prefixation rules. They may appear in any order.
+
+ Both kinds of rules have the same format, and only differ in whether the affix is checked at the beggining or at the end of the word.
 
 Each rule has to be written in a different line, and has 10 fields:
 \begin{enumerate}
@@ -604,25 +702,33 @@ Each rule has to be written in a different line, and has 10 fields:
  \item Check lemma adding accents
  \item Enclitic suffix (special accent behaviour in Spanish)
  \item Prevent later modules (e.g. probabilities) from assigning additional tags to the word
- \item Lemma to assign: F=original form, R=root found in dict, L=lemma in matching dict entry, AF/AR/AL=affix followed by F/R/L, FA/RA/LA=F/R/L followed by affix.
+ \item Lemma to assign: Any combination of: {\tt F}, {\tt R}, {\tt L}, {\tt A}, or a string literal separated with a {\tt +} sign. For instance: {\tt R+A}, {\tt A+L}, {\tt R+mente}, etc.
+
+  {\tt F} stands for the original form (before affix removal, e.g. {\em crucecitas}), {\tt R} stands for root found in dictionary (after affix removal and root reconstruction,  e.g. {\em cruces}), {\tt L} stands for lemma in matching dictionary entry (e.g. {\em cruz}), {\tt A}stands for the affix that the rule removed
+
  \item Try the affix always, not only for unknown words.
- \item Retokenization info, explained below ("-" if the suffix doesn't cause retokenization).
+
+ \item Retokenization info, explained below ("-" for none)
 \end{enumerate}
 
- E.g. 
-\begin{verbatim}
- cecita  z|za  ^NCFS  NCFS00A  0  0  1  L  0  -
- les     *     ^V      *       0  1  0  L  1  $$+les:$$+PP
-\end{verbatim}
+ \noindent E.g., prefix rules:\\
+ \verb#anti    *     ^NC    AQ0CN0   0  0  1  A+L 0  -#
 
-  The first line ({\tt cecita}) states a suffix rule that will be
+  This prefix rule states that {\tt anti} should be removed from the beggining of the word, nothing ({\tt *}) should be added, and the resulting root should be found in the dictionary with a NC PoS tag. If that is satisfied, the word would receive the {\tt AQ0CN0} tag and the affix ({\tt anti}) plus the lemma as the lemma of the prefixed word.
+  For instance, the word {\tt antimisiles} would match this rule: {\tt misiles} would be found in the dictionary with lema {\tt misil} and PoS {\tt NCMP000}. Then, the word will be assigned the lemma {\tt antimisil} ({\tt A+L = anti+misil}) and the tag AQ0CN0.
+
+ \noindent E.g., sufix rules:\\
+  \verb#cecita  z|za  ^NCFS  NCFS00A  0  0  1  L   0  -#\\
+  \verb#les     *     ^V      *       0  1  0  L   1  $$+les:$$+PP#
+
+  The first suffix rule above ({\tt cecita}) states a suffix rule that will be
   applied to unknown words, to see whether a valid feminine singular
   noun is obtained when substituting the suffix {\tt cecita} with {\tt
   z} ot {\tt za}. This is the case of {\tt crucecita} (diminutive of
   {\tt cruz}). If such a base form is found, the original word is
   analyzed as diminutive suffixed form. No retokenization is performed.
 
-  The second rule ({\tt mela}) applies to all words and tries to check
+  The second rule ({\tt les}) applies to all words and tries to check
   whether a valid verb form is obtained when removing the suffix {\tt
   les}. This is the case of words such as {\tt viles} (which may mean 
   {\sl I saw them}, but also is the plural of the adjective {\tt
@@ -637,15 +743,12 @@ Each rule has to be written in a different line, and has 10 fields:
 
   So, for word {\tt viles} would obtain its adjective analysis from
   the dictionary, plus its verb + clitic pronoun from the suffix
-  rule:
-\begin{verbatim}
-    viles vil AQ0CP0 ver VMIS1S0
-\end{verbatim}
+  rule:\\
+  \verb#viles vil AQ0CP0 ver VMIS1S0#
 
   The second analysis will carry the retokenization information, so if
   eventually the PoS tagger selects the {\tt VMI} analysis (and the
   TaggerRetokenize option is set), the word will be retokenized into:
-
 \begin{verbatim}
    vi ver VMIS1S0
    les ellos PP3CPD00
