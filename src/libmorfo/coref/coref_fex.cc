@@ -505,7 +505,7 @@ int coref_fex::get_semclass(const EXAMPLE &ex){
 		t1 = txt1[pos1];
 		tag1 = ex.sample1.tags[pos1];
 	}
-	while (tag2.compare(0, 1, "n") != 0 && txt2.size() > (pos2+1)) {
+	while ((tag2.compare(0, 1, "n") != 0 || tag2.compare(0, 2, "pp") != 0) && txt2.size() > (pos2+1)) {
 		pos2++;
 		t2 = txt2[pos2];
 		tag2 = ex.sample2.tags[pos2];
@@ -530,16 +530,24 @@ int coref_fex::get_semclass(const EXAMPLE &ex){
 			if (not l1.empty()) {
 				if (not l1.begin()->empty()) {
 					sense_info si = semdb->get_sense_info (l1.front(), "N");
+					bool check_human=false, check_group=false, check_place=false;
 					for(it = si.tonto.begin(); it != si.tonto.end() ; ++it){
 						if((*it) == "Human"){
-							type1 = "sp";
+							check_human = true;
 						} else if((*it) == "Group"){
-							type1 = "o0";
-						} else if((*it) == "Part"){
-							type1 = "g0";
-						} else if(type1 == "00"){
-							type1 = "v0";
+							check_group = true;
+						} else if((*it) == "Place"){
+							check_place = true;
 						}
+					}
+					if(check_human && !check_group){
+						type1 = "sp";
+					} else if(check_human && check_group){
+						type1 = "o0";
+					} else if(check_place){
+						type1 = "g0";
+					} else if(type1 == "00"){
+						type1 = "v0";
 					}
 				}
 			}
@@ -550,22 +558,32 @@ int coref_fex::get_semclass(const EXAMPLE &ex){
 			if (not l2.empty()) {
 				if (not l2.begin()->empty()) {
 					sense_info si = semdb->get_sense_info (l2.front(), "N");
+					bool check_human=false, check_group=false, check_place=false;
 					for(it = si.tonto.begin(); it != si.tonto.end() ; ++it){
 						if((*it) == "Human"){
-							type2 = "sp";
+							check_human = true;
 						} else if((*it) == "Group"){
-							type2 = "o0";
-						} else if((*it) == "Part"){
-							type2 = "g0";
-						} else if(type2 == "00"){
-							type2 = "v0";
+							check_group = true;
+						} else if((*it) == "Place"){
+							check_place = true;
 						}
+					}
+					if(check_human && !check_group){
+						type2 = "sp";
+					} else if(check_human && check_group){
+						type2 = "o0";
+					} else if(check_place){
+						type2 = "g0";
+					} else if(type1 == "00"){
+						type2 = "v0";
 					}
 				}
 			}
 		}
 	}
 	if(type1 == type2){
+		return COREFEX_FEATURE_SEMCLASS;
+	} else if(type1 == "sp" && tag2.compare(0, 2, "pp") != 0){
 		return COREFEX_FEATURE_SEMCLASS;
 	}
 
