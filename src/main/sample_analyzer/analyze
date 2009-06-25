@@ -16,7 +16,7 @@
 . $(dirname $(readlink -e $0))/initialize $@
 
 ## call actual executable
-if [[ "x$1" == "x-"* ]]; then
+if [[ "x$1" == "x-"* || "x$1" == "x" ]]; then
   # if first parameter is an option (e.g. -f, --nodates, etc)
   # use normal interactive mode
   $FREELING/bin/analyzer $param
