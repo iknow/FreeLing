@@ -178,7 +178,6 @@ void coref::add_candidates(int sent, int & word, parse_tree::iterator pt, list<S
 ///////////////////////////////////////////////////////////////
 
 bool coref::check_coref(const SAMPLE & sa1, const SAMPLE & sa2) const{
-  int j;
   double pred[classifier->get_nlabels()];
   std::vector<int> encoded;
   EXAMPLE ex;
