@@ -72,7 +72,6 @@ malt_parser::malt_parser (string file, string lang) {
 	
 	// Create the JVM arguments
 	res = JNI_GetDefaultJavaVMInitArgs(&vm_args);
-	
 	vm_args.version = JNI_VERSION_1_4;
 	vm_args.options = options;
 	vm_args.nOptions = 1;
@@ -92,20 +91,20 @@ malt_parser::malt_parser (string file, string lang) {
 
 	// Get the main method...
 	//	jmethodID main = env->GetMethodID(EngineClass, "<init>","([Ljava/lang/String;)V");
-	jmethodID main = env->GetMethodID(EngineClass, "<init>","()V");
-	if (main == NULL) {
+	jmethodID createEngine = env->GetMethodID(EngineClass, "<init>","()V");
+	if (createEngine == NULL) {
 	  check_exception();
 	  jvm->DestroyJavaVM();
-	  ERROR_CRASH("main method not found - Killing the JVM");
+	  ERROR_CRASH("<init> method not found - Killing the JVM");
 	}
 	
-	// and the setupEngine method
+	// and the startEngine method
 	//	jmethodID setup = env->GetMethodID(EngineClass, "setupEngine","([Ljava/lang/String;)Lorg/maltparser/core/config/SingleMaltConfiguration;");
-	jmethodID setup = env->GetMethodID(EngineClass, "startEngine","([Ljava/lang/String;)V");
-	if (setup == NULL) {
+	jmethodID startEngine = env->GetMethodID(EngineClass, "startEngine","([Ljava/lang/String;)V");
+	if (startEngine == NULL) {
 	  check_exception();
 	  jvm->DestroyJavaVM();
-	  ERROR_CRASH("setupEngine method not found - Killing the JVM");
+	  ERROR_CRASH("startEngine method not found - Killing the JVM");
 	}
 	
 	int pos = file.find_last_of('.');
@@ -146,18 +145,19 @@ malt_parser::malt_parser (string file, string lang) {
 	  ERROR_CRASH("Error creating args array");
 	}
 	
-	TRACE(2,"Creating parser, configuration and sentence");
 	// Creates a parser object
-	parser = env->NewObject(EngineClass,main,args); 
+	TRACE(2,"Creating parser");
+	parser = env->NewObject(EngineClass,createEngine,args); 
 	check_exception();
 
 	// Gets a configuration object
-	config = env->CallObjectMethod(parser,setup,args);
+	TRACE(2,"Getting configuration");
+	config = env->CallObjectMethod(parser,startEngine,args);
 	check_exception();
 
 	// Initializes the configuration & gets its sentence object
+	TRACE(2,"Init configuration");
 	jclass ConfigClass = env->GetObjectClass(config);
-	
 	jmethodID initialize = env->GetMethodID(ConfigClass,"initialize","(Ljava/lang/Integer;)V");
 	if (initialize == NULL) {
 	  check_exception();
