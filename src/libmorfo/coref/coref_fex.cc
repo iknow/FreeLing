@@ -581,9 +581,9 @@ int coref_fex::get_semclass(const EXAMPLE &ex){
 			}
 		}
 	}
-	if(type1 == type2){
+	if(type1 == type2 && type1 != ""){
 		return COREFEX_FEATURE_SEMCLASS;
-	} else if(type1 == "sp" && tag2.compare(0, 2, "pp") != 0){
+	} else if(type1 == "sp" && tag2.compare(0, 2, "pp") == 0){
 		return COREFEX_FEATURE_SEMCLASS;
 	}
 
