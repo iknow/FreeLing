@@ -63,7 +63,7 @@ SETS                         {return(SETS);}
 CONSTRAINTS                  {return(CONSTRAINTS);}
 "-"?[0-9]+"."[0-9]+          {return(FLOAT);}
 "-"?[0-9]+"*"?               {return(POSITION);}
-"("[a-zביםףתאטלעשחסןü_'\-\·]+")" {return(FORM);}
+"("[a-zביםףתאטלעשחסןüA-Zֱֹֽ׃ÚְָּׂÙַֿׁÜ_'\-\·]+")" {return(FORM);}
 "<"[a-zביםףתאטלעשחסןü_'\-\·]+">" {return(LEMMA);}
 "{"[A-Z][A-Za-z0-9$]*[*]?"}" {return(SETREF); }
 "["[A-Za-z0-9]+"]"           {return(SENSE); }
