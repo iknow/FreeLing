@@ -8,15 +8,6 @@ endif
 
 pkgdata_DATA =
 
-endatadir = $(pkgdatadir)/en
-endata_DATA = en/*
-ennecdatadir = $(pkgdatadir)/en/nec
-ennecdata_DATA = en/nec/*
-enchunkdir = $(pkgdatadir)/en/chunker
-enchunk_DATA = en/chunker/*
-endepdatadir = $(pkgdatadir)/en/dep
-endepdata_DATA = en/dep/*
-
 esdatadir = $(pkgdatadir)/es
 esdata_DATA = es/*
 esnecdatadir = $(pkgdatadir)/es/nec
@@ -42,6 +33,13 @@ glnecdata_DATA = gl/nec/*
 gldepdatadir = $(pkgdatadir)/gl/dep
 gldepdata_DATA = gl/dep/*
 
+asdatadir = $(pkgdatadir)/as
+asdata_DATA = as/*
+asnecdatadir = $(pkgdatadir)/as/nec
+asnecdata_DATA = as/nec/*
+esdepdatadir = $(pkgdatadir)/es/dep
+esdepdata_DATA = es/dep/*
+
 itdatadir = $(pkgdatadir)/it
 itdata_DATA = it/*
 itnecdatadir = $(pkgdatadir)/it/nec
@@ -51,6 +49,15 @@ ptdatadir = $(pkgdatadir)/pt
 ptdata_DATA = pt/*
 ptnecdatadir = $(pkgdatadir)/pt/nec
 ptnecdata_DATA = pt/nec/*
+
+endatadir = $(pkgdatadir)/en
+endata_DATA = en/*
+ennecdatadir = $(pkgdatadir)/en/nec
+ennecdata_DATA = en/nec/*
+enchunkdir = $(pkgdatadir)/en/chunker
+enchunk_DATA = en/chunker/*
+endepdatadir = $(pkgdatadir)/en/dep
+endepdata_DATA = en/dep/*
 
 cydatadir = $(pkgdatadir)/cy
 cydata_DATA = cy/*
