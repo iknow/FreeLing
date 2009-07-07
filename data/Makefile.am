@@ -37,8 +37,8 @@ asdatadir = $(pkgdatadir)/as
 asdata_DATA = as/*
 asnecdatadir = $(pkgdatadir)/as/nec
 asnecdata_DATA = as/nec/*
-esdepdatadir = $(pkgdatadir)/es/dep
-esdepdata_DATA = es/dep/*
+asdepdatadir = $(pkgdatadir)/as/dep
+asdepdata_DATA = as/dep/*
 
 itdatadir = $(pkgdatadir)/it
 itdata_DATA = it/*
