@@ -283,30 +283,51 @@ void probabilities::smoothing(word &w) {
       p->second++;
   }
   
-  // build word ambiguity class ingoring NP tags
-  double m=0; string c="";
+  // build word ambiguity class with and without NP tags
+  string c=""; string cNP="";
   for (map<string,double>::iterator x=tags_short.begin(); x!=tags_short.end(); x++) {
-    if ( x->first != "NP" ) {
-      c += "-"+x->first;
-      m++;
-    }
+    cNP += "-"+x->first;
+    if ( x->first != "NP" ) c += "-"+x->first;
   }
-  if (c.empty()) WARNING("Empty ambiguity class for word '"+w.get_form()+"'. Duplicate NP analysis??");
-  else c=c.substr(1);
-  
-  TRACE(3,"Ambiguity class ("+c+") with "+util::double2string(m)+" tags.");
-  
+
+  bool trysec=false;
+
+  if (c==cNP) { // no NP tags, only one class
+    cNP=cNP.substr(1);   
+    TRACE(3,"Ambiguity class ("+cNP+")");
+  }
+  else {
+    // there is one NP, check both classes
+    cNP=cNP.substr(1);
+    TRACE(3,"Ambiguity class ("+cNP+")");
+
+    if (not c.empty()) {
+      c=c.substr(1);
+      TRACE(3,"Secondary ambiguity class ("+c+")");
+      trysec=true;   // try secondary class if primary fails.
+    }
+    else 
+      WARNING("Empty ambiguity class for word '"+w.get_form()+"'. Duplicate NP analysis??");
+
+  }  
+
+
   map<string,double> temp_map;
   string form=util::lowercase(w.get_form());
 
   if (lexical_tags.find(form)!=lexical_tags.end()) {
     // word found in lexical probabilities list. Use them straightforwardly.
-    TRACE(2,"Form contained in the lexical_tags map");
+    TRACE(2,"Form '"+form+"' contained in the lexical_tags map");
     temp_map=lexical_tags[form];
   }  
-  else if (class_tags.find(c)!=class_tags.end()){
+  else if (class_tags.find(cNP)!=class_tags.end()){
     // Word not in lexical probs list. Back off to ambiguity class
-    TRACE(2,"Ambiguity class found in class_tags map");
+    TRACE(2,"Ambiguity class '"+cNP+"' found in class_tags map");
+    temp_map=class_tags[cNP];
+  }
+  else if (trysec and class_tags.find(c)!=class_tags.end()){
+    // Ambiguity class not found. Try secondary class, if any.
+    TRACE(2,"Secondary ambiguity class '"+c+"' found in class_tags map");
     temp_map=class_tags[c];
   }
   else {
@@ -319,7 +340,7 @@ void probabilities::smoothing(word &w) {
   for (map<string,double>::iterator x=tags_short.begin(); x!=tags_short.end(); x++) 
     sum += temp_map[x->first] * x->second;
 
-  m=w.get_n_analysis();
+  double m=w.get_n_analysis();
   for (word::iterator li=w.begin(); li!=w.end(); li++)
     li->set_prob((temp_map[li->get_short_parole(Language)]+(1/m))/(sum+1));
   
