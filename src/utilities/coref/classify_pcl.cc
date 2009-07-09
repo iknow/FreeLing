@@ -9,6 +9,7 @@
 #include "stdlib.h"
 #include "omlet.h"
 
+#define MAX_NUM_VECTOR 100
 using namespace std;
 
 int main(int argc, char* argv[]) {
@@ -21,15 +22,16 @@ int main(int argc, char* argv[]) {
 	// allocate prediction array (reused for all examples)
 	double pred[classifier->get_nlabels()];
 
-	int pe[40];
-	int pm[40];
-	int pok[40];
-	for (j=0; j<=40; j++) {
+	int pe[MAX_NUM_VECTOR];
+	int pm[MAX_NUM_VECTOR];
+	int pok[MAX_NUM_VECTOR];
+	int vect[MAX_NUM_VECTOR];
+	for (j=0; j<=MAX_NUM_VECTOR; j++) {
 		pe[j] = 0;
 		pm[j] = 0;
 		pok[j] = 0;
+		vect[j] = 0;
 	}
-	int vect[40];
 	int vect_max;
 	int nok=0;
 	string line;

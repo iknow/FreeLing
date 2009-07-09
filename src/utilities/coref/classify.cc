@@ -8,11 +8,10 @@
 
 #include "omlet.h"
 
+#define MAX_NUM_VECTOR 100
 using namespace std;
 
 int main(int argc, char* argv[]) {
-	int ptotal=0, ntotal=0, pgood=0, ngood=0, total=0, good=0;
-
 	int j;
 	// create AdaBoost classifier loading given model file
 	adaboost *classifier = new adaboost(string(argv[1]));
@@ -20,17 +19,17 @@ int main(int argc, char* argv[]) {
 	// allocate prediction array (reused for all examples)
 	double pred[classifier->get_nlabels()];
 
-	int pe[40];
-	int pm[40];
-	int pok[40];
-	for (j=0; j<=40; j++) {
+	int pe[MAX_NUM_VECTOR];
+	int pm[MAX_NUM_VECTOR];
+	int pok[MAX_NUM_VECTOR];
+	int vect[MAX_NUM_VECTOR];
+	for (j=0; j<=MAX_NUM_VECTOR; j++) {
 		pe[j] = 0;
 		pm[j] = 0;
 		pok[j] = 0;
+		vect[j] = 0;
 	}
-	int vect[40];
 	int vect_max;
-	int nok=0;
 	string line;
 
 	while (std::getline(std::cin,line)) {
@@ -67,23 +66,6 @@ int main(int argc, char* argv[]) {
 		string def = classifier->default_class();
 		if (max<0 && def!="") tag = def;
 
-		total++;
-		if (classifier->get_label(clas)==tag){
-			good++;
-			nok++;
-		}
-		if(classifier->get_label(clas)=="Positive"){
-			ptotal++;
-			if (classifier->get_label(clas)==tag){
-				pgood++;
-			}
-		} else {
-			ntotal++;
-			if (classifier->get_label(clas)==tag){
-				ngood++;
-			}
-		}
-
 		if(classifier->get_label(clas)=="Positive"){
 			pe[0]++;
 			for(j=0;j<vect_max;j++){
@@ -108,7 +90,8 @@ int main(int argc, char* argv[]) {
 		}
 	}
 
-	for(j=0;j<vect_max+1;j++){
+	for(j=0;j<1;j++){
+//	for(j=0;j<vect_max+1;j++){
 		double recall;
 		double precisio;
 		double fscore;
