@@ -54,7 +54,7 @@ int main(int argc, char* argv[]) {
 
 	// Set parameters for WRs, nlab and epsilon are generic for all WRs.
 	// Third parameter is max_depth, specific to mlDTree.
-	mlDTree_params wp(nlab,0.001,4);
+	mlDTree_params wp(nlab,0.001,5);
 
 	// create and learn adaboost model
 	adaboost learner(nlab, wr_type);

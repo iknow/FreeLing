@@ -504,8 +504,8 @@ int coref_fex::get_semclass(const EXAMPLE &ex){
 		pos1++;
 		t1 = txt1[pos1];
 		tag1 = ex.sample1.tags[pos1];
-	}
-	while ((tag2.compare(0, 1, "n") != 0 || tag2.compare(0, 2, "pp") != 0) && txt2.size() > (pos2+1)) {
+ 	}
+	while ((tag2.compare(0, 1, "n") != 0 && tag2.compare(0, 2, "pp") != 0) && txt2.size() > (pos2+1)) {
 		pos2++;
 		t2 = txt2[pos2];
 		tag2 = ex.sample2.tags[pos2];

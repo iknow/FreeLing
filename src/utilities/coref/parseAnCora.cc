@@ -419,6 +419,7 @@ static void printDe(struct DE *de){
 /////////////////////////////////////////////////////////////////////////////
 
 static void propagateDe(bool onlyhead, struct DE *de, unsigned int *numDe, unsigned int numSent){
+	bool stop = false;
 	list<struct DE *>::iterator deIt;
 	list<string>::iterator textIt, tagIt;
 
@@ -430,10 +431,13 @@ static void propagateDe(bool onlyhead, struct DE *de, unsigned int *numDe, unsig
 		allDEs.push_back(*deIt);
 		addToGroup(*deIt);
 		propagateDe(onlyhead, *deIt, numDe, numSent);
-
 		textIt = (*deIt)->text.begin();
 		tagIt = (*deIt)->tags.begin();
-		while(textIt != (*deIt)->text.end() && (!onlyhead || ((*deIt)->type == TYPE_WORD || de->text.size() == 0))){
+		if(onlyhead && (*deIt)->type != TYPE_WORD && de->text.size() > 0){
+			stop = true;
+		}
+		
+		while(textIt != (*deIt)->text.end() && !stop){
 				if((*tagIt).compare(0, 2, "np") == 0){
 					if((*deIt)->type2 == "NE-loc" || de->type2 == "NE-loc"){
 						(*tagIt)[4] = 'g';
@@ -453,7 +457,7 @@ static void propagateDe(bool onlyhead, struct DE *de, unsigned int *numDe, unsig
 					} else if((*deIt)->type2 == "spec" || de->type2 == "spec"){
 					} else if((*deIt)->type2 != "" || de->type2 != ""){
 #ifdef DEBUG
-						cout << (*deIt)->type2 << " " << de->type2 << endl;
+						cout << "Error NE: " << (*deIt)->type2 << " " << de->type2 << endl;
 #endif
 					}
 				}
@@ -474,6 +478,7 @@ static void propagateDe(bool onlyhead, struct DE *de, unsigned int *numDe, unsig
 /////////////////////////////////////////////////////////////////////////////
 
 static void plain_des(bool onlyhead){
+	bool stop = false;
 	list<struct SENT *>::iterator sentIt;
 	list<struct DE *>::iterator deIt;
 	list<string>::iterator textIt, tagIt;
@@ -495,7 +500,10 @@ static void plain_des(bool onlyhead){
 			}
 			textIt = (*deIt)->text.begin();
 			tagIt = (*deIt)->tags.begin();
-			while(textIt != (*deIt)->text.end()){
+			if(onlyhead && (*deIt)->type != TYPE_WORD && (*sentIt)->text.size() > 0){
+				stop = true;
+			}
+			while(textIt != (*deIt)->text.end() && !stop){
 
 				if((*tagIt).compare(0, 2, "np") == 0){
 					if((*deIt)->type2 == "NE-loc"){
