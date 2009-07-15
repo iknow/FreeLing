@@ -54,7 +54,7 @@ int main(int argc, char* argv[]) {
 
 	// Set parameters for WRs, nlab and epsilon are generic for all WRs.
 	// Third parameter is max_depth, specific to mlDTree.
-	mlDTree_params wp(nlab,0.001,5);
+	mlDTree_params wp(nlab,0.001,4);
 
 	// create and learn adaboost model
 	adaboost learner(nlab, wr_type);
@@ -70,7 +70,7 @@ int main(int argc, char* argv[]) {
 		
 	// learn the model, up to 500 weak rules, incrementally writting it to the file.
 	learner.set_output((ostream*)&abm);
-	learner.learn(ds, 500, true, (wr_params *)&wp);
+	learner.learn(ds, 200, true, (wr_params *)&wp);
 
 	abm.close();
 }
