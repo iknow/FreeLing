@@ -59,6 +59,7 @@
 #define NONE  0
 #define ALL   1
 #define MFS   2
+#define UKB   3
 
 // codes for ForceSelect
 #define FORCE_NONE   0
@@ -114,6 +115,8 @@ class config {
     int SENSE_SenseAnnotation;
     char *SENSE_SenseFile;
     int SENSE_DuplicateAnalysis;
+    char *UKB_BinFile;
+    char *UKB_DictFile;
 
     /// Tagger options
     char * TAGGER_HMMFile;
@@ -210,8 +213,10 @@ class config {
 	{NULL,      '\0', "NEClassification",        CFG_STR,  (void *) &cf_nec, 0},
 	{"fnec",    '\0', "NECFilePrefix",           CFG_STR,  (void *) &NEC_FilePrefix, 0},
 	// Sense options
-	{"sense",   's', "SenseAnnotation",          CFG_STR,  (void *) &SenseAnot, 0},
+	{"sense",   's',  "SenseAnnotation",         CFG_STR,  (void *) &SenseAnot, 0},
 	{"fsense",  'W',  "SenseFile",               CFG_STR,  (void *) &SENSE_SenseFile, 0},
+	{"fukbrel", 'U',  "UKBRelations",            CFG_STR,  (void *) &UKB_BinFile, 0},
+	{"fukbdic", 'V',  "UKBDictionary",           CFG_STR,  (void *) &UKB_DictFile, 0},
 	{"dup",     '\0', NULL,                      CFG_BOOL, (void *) &dup, 0},
 	{"nodup",   '\0', NULL,                      CFG_BOOL, (void *) &nodup, 0},
 	{NULL,      '\0', "DuplicateAnalysis",       CFG_STR,  (void *) &cf_dup, 0},
@@ -276,6 +281,7 @@ class config {
       NEC_NEClassification=false; NEC_FilePrefix=NULL; 
       SENSE_SenseAnnotation=NONE; SENSE_SenseFile=NULL; 
       SENSE_DuplicateAnalysis=false; 
+      UKB_BinFile=NULL; UKB_DictFile=NULL;
       TAGGER_which=0; TAGGER_HMMFile=NULL; TAGGER_RelaxFile=NULL; 
       TAGGER_RelaxMaxIter=0; TAGGER_RelaxScaleFactor=0.0; TAGGER_RelaxEpsilon=0.0;
       TAGGER_Retokenize=0; TAGGER_ForceSelect=0;
@@ -346,6 +352,8 @@ class config {
       ExpandFileName(MACO_PunctuationFile);
       ExpandFileName(NEC_FilePrefix); 
       ExpandFileName(SENSE_SenseFile); 
+      ExpandFileName(UKB_BinFile); 
+      ExpandFileName(UKB_DictFile);
       ExpandFileName(TAGGER_HMMFile);
       ExpandFileName(TAGGER_RelaxFile); 
       ExpandFileName(PARSER_GrammarFile); 
@@ -413,6 +421,7 @@ class config {
       if (string(SenseAnot)=="none" || string(SenseAnot)=="no") SENSE_SenseAnnotation = NONE;
       else if (string(SenseAnot)=="all") SENSE_SenseAnnotation = ALL;
       else if (string(SenseAnot)=="mfs") SENSE_SenseAnnotation = MFS;
+      else if (string(SenseAnot)=="ukb") SENSE_SenseAnnotation = UKB;
       else WARNING("Invalid sense annotation option '"+string(SenseAnot)+"'. Using default.");
     }
 
@@ -489,7 +498,7 @@ class config {
       cout<<"--fnp,-N filename      NP recognizer data file"<<endl;
       cout<<"--nec, --nonec         Whether to perform NE classification"<<endl;
       cout<<"--fnec filename        Filename prefix for NEC data XX.rgf, XX.lex, XX.abm"<<endl;
-      cout<<"--sense,-s string      Type of sense annotation (no|none,all,mfs)"<<endl;
+      cout<<"--sense,-s string      Type of sense annotation (no|none,all,mfs,ukb)"<<endl;
       cout<<"--fsense,-W filename   Sense dictionary file"<<endl;
       cout<<"--dup, --nodup         Whether to duplicate analysis for each different sense"<<endl;
       cout<<"--fpunct,-F filename   Punctuation symbols file"<<endl;

@@ -64,12 +64,12 @@ using namespace std;
 #include "config.h"
 
 void OutputSenses (const analysis & a, const config &cfg) {
-  list < string > ls = a.get_senses ();
+  list<pair<string,double> > ls = a.get_senses ();
   if (ls.size () > 0) {
     if (cfg.SENSE_SenseAnnotation == MFS)
-      cout << " " << *ls.begin ();
-    else			// ALL (or nothing) specified
-      cout << " " << util::list2string (ls, ":");
+      cout << " " << ls.begin()->first;
+    else  // ALL or UKB specified
+      cout << " " << util::pairlist2string (ls, ":", "/");
   }
   else
     cout << " -";
@@ -318,11 +318,12 @@ void ProcessCoreference (const config & cfg, tokenizer * tk, splitter * sp, maco
 
 }
 
+
 //---------------------------------------------
 // Plain text input, incremental processing
 //---------------------------------------------
 void ProcessPlain (const config & cfg, tokenizer * tk, splitter * sp, maco * morfo,
-	      POS_tagger * tagger, nec * neclass, senses * sens,
+	      POS_tagger * tagger, nec * neclass, senses * sens, disambiguator * dsb,
 	      chart_parser * parser, dependency_parser * dep)
 {
   string text;
@@ -339,11 +340,15 @@ void ProcessPlain (const config & cfg, tokenizer * tk, splitter * sp, maco * mor
 	ls = sp->split (av, cfg.AlwaysFlush);
       if (cfg.OutputFormat >= MORFO)
 	morfo->analyze (ls);
-      if (cfg.OutputFormat >= MORFO && cfg.SENSE_SenseAnnotation != NONE)
+      if (cfg.OutputFormat >= MORFO and 
+	  (cfg.SENSE_SenseAnnotation == MFS or cfg.SENSE_SenseAnnotation == ALL))
 	sens->analyze (ls);
       if (cfg.OutputFormat >= TAGGED)
 	tagger->analyze (ls);
-      if (cfg.OutputFormat >= TAGGED && cfg.NEC_NEClassification)
+      if (cfg.OutputFormat >= TAGGED and (cfg.SENSE_SenseAnnotation == UKB))  
+	dsb->analyze (ls);
+      
+      if (cfg.OutputFormat >= TAGGED and cfg.NEC_NEClassification)
 	neclass->analyze (ls);
       if (cfg.OutputFormat >= PARSED)
 	parser->analyze (ls);
@@ -369,11 +374,14 @@ void ProcessPlain (const config & cfg, tokenizer * tk, splitter * sp, maco * mor
     ls = sp->split (av, true);	//flush splitter buffer
   if (cfg.OutputFormat >= MORFO)
     morfo->analyze (ls);
-  if (cfg.OutputFormat >= MORFO && cfg.SENSE_SenseAnnotation != NONE)
+  if (cfg.OutputFormat >= MORFO and 
+      (cfg.SENSE_SenseAnnotation == MFS or cfg.SENSE_SenseAnnotation == ALL))
     sens->analyze (ls);
   if (cfg.OutputFormat >= TAGGED)
     tagger->analyze (ls);
-  if (cfg.OutputFormat >= TAGGED && cfg.NEC_NEClassification)
+  if (cfg.OutputFormat >= TAGGED and (cfg.SENSE_SenseAnnotation == UKB))  
+    dsb->analyze (ls);
+  if (cfg.OutputFormat >= TAGGED and cfg.NEC_NEClassification)
     neclass->analyze (ls);
   if (cfg.OutputFormat >= PARSED)
     parser->analyze (ls);
@@ -392,7 +400,7 @@ void ProcessPlain (const config & cfg, tokenizer * tk, splitter * sp, maco * mor
 void
 ProcessToken (const config & cfg, splitter * sp, maco * morfo,
 	      POS_tagger * tagger, nec * neclass, senses * sens,
-	      chart_parser * parser, dependency_parser * dep)
+	      disambiguator * dsb, chart_parser * parser, dependency_parser * dep)
 {
   string text;
   list < word > av;
@@ -415,11 +423,14 @@ ProcessToken (const config & cfg, splitter * sp, maco * morfo,
 	    ls = sp->split (av, false);
 	  if (cfg.OutputFormat >= MORFO)
 	    morfo->analyze (ls);
-	  if (cfg.OutputFormat >= MORFO && cfg.SENSE_SenseAnnotation != NONE)
+	  if (cfg.OutputFormat >= MORFO and 
+	      (cfg.SENSE_SenseAnnotation == MFS or cfg.SENSE_SenseAnnotation == ALL))
 	    sens->analyze (ls);
 	  if (cfg.OutputFormat >= TAGGED)
 	    tagger->analyze (ls);
-	  if (cfg.OutputFormat >= TAGGED && cfg.NEC_NEClassification)
+	  if (cfg.OutputFormat >= TAGGED and (cfg.SENSE_SenseAnnotation == UKB))  
+	    dsb->analyze (ls);
+	  if (cfg.OutputFormat >= TAGGED and cfg.NEC_NEClassification)
 	    neclass->analyze (ls);
 	  if (cfg.OutputFormat >= PARSED)
 	    parser->analyze (ls);
@@ -438,11 +449,14 @@ ProcessToken (const config & cfg, splitter * sp, maco * morfo,
     ls = sp->split (av, true);	//flush splitter buffer
   if (cfg.OutputFormat >= MORFO)
     morfo->analyze (ls);
-  if (cfg.OutputFormat >= MORFO && cfg.SENSE_SenseAnnotation != NONE)
+  if (cfg.OutputFormat >= MORFO and 
+      (cfg.SENSE_SenseAnnotation == MFS or cfg.SENSE_SenseAnnotation == ALL))
     sens->analyze (ls);
   if (cfg.OutputFormat >= TAGGED)
     tagger->analyze (ls);
-  if (cfg.OutputFormat >= TAGGED && cfg.NEC_NEClassification)
+  if (cfg.OutputFormat >= TAGGED and (cfg.SENSE_SenseAnnotation == UKB))  
+    dsb->analyze (ls);
+  if (cfg.OutputFormat >= TAGGED and cfg.NEC_NEClassification)
     neclass->analyze (ls);
   if (cfg.OutputFormat >= PARSED)
     parser->analyze (ls);
@@ -465,8 +479,8 @@ ProcessToken (const config & cfg, splitter * sp, maco * morfo,
 //---------------------------------------------
 void
 ProcessSplitted (const config & cfg, maco * morfo, POS_tagger * tagger,
-		 nec * neclass, senses * sens, chart_parser * parser,
-		 dependency_parser * dep)
+		 nec * neclass, senses * sens, disambiguator * dsb, 
+		 chart_parser * parser, dependency_parser * dep)
 {
   string text, form, lemma, tag, sn, spr;
   sentence av;
@@ -509,7 +523,13 @@ ProcessSplitted (const config & cfg, maco * morfo, POS_tagger * tagger,
 		  analysis an (lemma, tag);
 		  prob = util::string2double (spr);
 		  an.set_prob (prob);
-		  an.set_senses (util::string2list (sn, ":"));
+		  list<string> lpair=util::string2list (sn,"/");
+		  list<pair<string,double> > lsen;
+		  for (list<string>::iterator i=lpair.begin(); i!=lpair.end(); i++) {
+                     size_t p=i->find(":");
+                     lsen.push_back(make_pair(i->substr(0,p),util::string2double(i->substr(p))));
+                  }
+ 		  an.set_senses(lsen);
 		  w.add_analysis (an);
 		}
 	    }
@@ -530,19 +550,21 @@ ProcessSplitted (const config & cfg, maco * morfo, POS_tagger * tagger,
 
 	  ls.push_back (av);
 
-	  if (cfg.InputFormat < MORFO && cfg.OutputFormat >= MORFO)
+	  if (cfg.InputFormat < MORFO and cfg.OutputFormat >= MORFO)
 	    morfo->analyze (ls);
-	  if (cfg.InputFormat < SENSE && cfg.OutputFormat >= MORFO
-	      && cfg.SENSE_SenseAnnotation != NONE)
+	  if (cfg.InputFormat < SENSE and cfg.OutputFormat >= MORFO and 
+	      (cfg.SENSE_SenseAnnotation == MFS or cfg.SENSE_SenseAnnotation == ALL))
 	    sens->analyze (ls);
-	  if (cfg.InputFormat < TAGGED && cfg.OutputFormat >= TAGGED)
+	  if (cfg.InputFormat < TAGGED and cfg.OutputFormat >= TAGGED)
 	    tagger->analyze (ls);
-	  if (cfg.InputFormat <= TAGGED && cfg.OutputFormat >= TAGGED
-	      && cfg.NEC_NEClassification)
+	  if (cfg.OutputFormat >= TAGGED and (cfg.SENSE_SenseAnnotation == UKB))  
+	    dsb->analyze (ls);
+	  if (cfg.InputFormat <= TAGGED and cfg.OutputFormat >= TAGGED
+	      and cfg.NEC_NEClassification)
 	    neclass->analyze (ls);
-	  if (cfg.InputFormat < PARSED && cfg.OutputFormat >= PARSED)
+	  if (cfg.InputFormat < PARSED and cfg.OutputFormat >= PARSED)
 	    parser->analyze (ls);
-	  if (cfg.InputFormat < DEP && cfg.OutputFormat >= DEP)
+	  if (cfg.InputFormat < DEP and cfg.OutputFormat >= DEP)
 	    dep->analyze (ls);
 
 	  PrintResults (ls, cfg);
@@ -555,19 +577,21 @@ ProcessSplitted (const config & cfg, maco * morfo, POS_tagger * tagger,
   // process last sentence in buffer (if any)
   ls.push_back (av);		// last sentence (may not have blank line after it)
 
-  if (cfg.InputFormat < MORFO && cfg.OutputFormat >= MORFO)
+  if (cfg.InputFormat < MORFO and cfg.OutputFormat >= MORFO)
     morfo->analyze (ls);
-  if (cfg.InputFormat < SENSE && cfg.OutputFormat >= MORFO
-      && cfg.SENSE_SenseAnnotation != NONE)
+  if (cfg.InputFormat < SENSE and cfg.OutputFormat >= MORFO and 
+      (cfg.SENSE_SenseAnnotation == MFS or cfg.SENSE_SenseAnnotation == ALL))
     sens->analyze (ls);
-  if (cfg.InputFormat < TAGGED && cfg.OutputFormat >= TAGGED)
+  if (cfg.InputFormat < TAGGED and cfg.OutputFormat >= TAGGED)
     tagger->analyze (ls);
-  if (cfg.InputFormat <= TAGGED && cfg.OutputFormat >= TAGGED
-      && cfg.NEC_NEClassification)
+  if (cfg.OutputFormat >= TAGGED and (cfg.SENSE_SenseAnnotation == UKB))  
+    dsb->analyze (ls);
+  if (cfg.InputFormat <= TAGGED and cfg.OutputFormat >= TAGGED
+      and cfg.NEC_NEClassification)
     neclass->analyze (ls);
-  if (cfg.InputFormat < PARSED && cfg.OutputFormat >= PARSED)
+  if (cfg.InputFormat < PARSED and cfg.OutputFormat >= PARSED)
     parser->analyze (ls);
-  if (cfg.InputFormat < DEP && cfg.OutputFormat >= DEP)
+  if (cfg.InputFormat < DEP and cfg.OutputFormat >= DEP)
     dep->analyze (ls);
 
   PrintResults (ls, cfg);
@@ -586,6 +610,7 @@ int main (int argc, char **argv) {
   maco *morfo = NULL;
   nec *neclass = NULL;
   senses *sens = NULL;
+  disambiguator *dsb = NULL;
   POS_tagger *tagger = NULL;
   chart_parser *parser = NULL;
   dependency_parser *dep = NULL;
@@ -613,6 +638,10 @@ int main (int argc, char **argv) {
     exit (1);
   }
 
+  if (cfg.OutputFormat < TAGGED and (cfg.SENSE_SenseAnnotation == UKB))   {
+    cerr <<"Error - UKB word sense disambiguation requires PoS tagging. Specify 'tagged', 'parsed' or 'dep' output format." <<endl;
+    exit (1);
+  }
   //--- create needed analyzers, depending on given options ---//
 
   // tokenizer requested
@@ -653,10 +682,12 @@ int main (int argc, char **argv) {
   }
 
   // sense annotation requested
-  if (cfg.InputFormat < SENSE && cfg.OutputFormat >= MORFO
-      && cfg.SENSE_SenseAnnotation != NONE) {
-      sens = new senses (cfg.SENSE_SenseFile, cfg.SENSE_DuplicateAnalysis);
-  }
+  if (cfg.InputFormat < SENSE and cfg.OutputFormat >= MORFO
+      and (cfg.SENSE_SenseAnnotation == MFS or cfg.SENSE_SenseAnnotation == ALL))
+    sens = new senses (cfg.SENSE_SenseFile, cfg.SENSE_DuplicateAnalysis);
+  else if (cfg.InputFormat < SENSE and cfg.OutputFormat >= TAGGED
+      and (cfg.SENSE_SenseAnnotation == UKB))      
+    dsb = new disambiguator (cfg.UKB_BinFile, cfg.UKB_DictFile);
 
   // tagger requested, see which method
   if (cfg.InputFormat < TAGGED && cfg.OutputFormat >= TAGGED) {
@@ -755,13 +786,13 @@ int main (int argc, char **argv) {
     } 
     // Input is plain text.
     else if (cfg.InputFormat == PLAIN)
-      ProcessPlain (cfg, tk, sp, morfo, tagger, neclass, sens, parser, dep);
+      ProcessPlain (cfg, tk, sp, morfo, tagger, neclass, sens, dsb, parser, dep);
     // Input is tokenized. 
     else if (cfg.InputFormat == TOKEN)
-      ProcessToken (cfg, sp, morfo, tagger, neclass, sens, parser, dep);
+      ProcessToken (cfg, sp, morfo, tagger, neclass, sens, dsb, parser, dep);
     // Input is (at least) tokenized and splitted.
     else if (cfg.InputFormat >= SPLITTED)
-      ProcessSplitted (cfg, morfo, tagger, neclass, sens, parser, dep);
+      ProcessSplitted (cfg, morfo, tagger, neclass, sens, dsb, parser, dep);
     
     cerr<<"SERVER: client ended. Closing connection."<<endl;
 

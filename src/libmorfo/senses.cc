@@ -90,7 +90,15 @@ void senses::analyze(std::list<sentence> &ls) {
 	      // create a copy of the analysis for each sense
 	      analysis *newan = new analysis(*a);
 	      // add current sense to new analysis, overwriting.
-              ss.clear(); ss.push_back(*s);  newan->set_senses(ss); 
+              ss.clear(); ss.push_back(*s);  
+
+ 	      list<string>::iterator lsi;
+	      list<pair<string, double> > lsen_noranks;
+	      for (lsi = ss.begin(); lsi != ss.end(); lsi++) {
+	    	  lsen_noranks.push_back(make_pair(*lsi, 0.0));
+	      }
+              newan->set_senses(lsen_noranks); 
+
 	      newan->set_prob(newpr);
 	      // add new analysis to the new list
 	      newla.push_back(*newan);
@@ -100,7 +108,12 @@ void senses::analyze(std::list<sentence> &ls) {
 	  }
 	  else {
 	    // duplicate not set. Add the the whole sense list to current analysis
-	    a->set_senses(lsen);
+	    list<string>::iterator lsi;
+	    list<pair<string, double> > lsen_noranks;
+	    for (lsi = lsen.begin(); lsi != lsen.end(); lsi++) {
+	    	lsen_noranks.push_back(make_pair(*lsi, 0.0));
+	    }
+	    a->set_senses(lsen_noranks);
 	  }
 	}
       }

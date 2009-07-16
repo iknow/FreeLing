@@ -49,6 +49,7 @@
 ***/
 
 %{
+#include <stdio.h>
 #include "freeling/tokens.h"
 using namespace std;
 %}

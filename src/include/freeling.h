@@ -34,6 +34,7 @@
 #include "freeling/maco.h"
 #include "freeling/nec.h"
 #include "freeling/senses.h"
+#include "freeling/disambiguator.h"
 #include "freeling/semdb.h"
 #include "freeling/hmm_tagger.h"
 #include "freeling/relax_tagger.h"

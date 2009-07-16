@@ -469,9 +469,10 @@ goto find_rule; \
 *     mv pp readCG.cc
 ***/
 #line 52 "readCG.l"
+#include <stdio.h>
 #include "freeling/tokens.h"
 using namespace std;
-#line 475 "readCG.cc"
+#line 476 "readCG.cc"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -598,9 +599,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 59 "readCG.l"
+#line 60 "readCG.l"
 
-#line 604 "readCG.cc"
+#line 605 "readCG.cc"
 
 	if ( yy_init )
 		{
@@ -693,115 +694,115 @@ do_action:	/* This label is used only to access EOF actions. */
 	{ /* beginning of action switch */
 case 1:
 YY_RULE_SETUP
-#line 60 "readCG.l"
+#line 61 "readCG.l"
 ;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 61 "readCG.l"
+#line 62 "readCG.l"
 {return(COMMENT);}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 62 "readCG.l"
+#line 63 "readCG.l"
 {return(SETS);}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 63 "readCG.l"
+#line 64 "readCG.l"
 {return(CONSTRAINTS);}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 64 "readCG.l"
+#line 65 "readCG.l"
 {return(FLOAT);}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 65 "readCG.l"
+#line 66 "readCG.l"
 {return(POSITION);}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 66 "readCG.l"
+#line 67 "readCG.l"
 {return(FORM);}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 67 "readCG.l"
+#line 68 "readCG.l"
 {return(LEMMA);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 68 "readCG.l"
+#line 69 "readCG.l"
 {return(SETREF); }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 69 "readCG.l"
+#line 70 "readCG.l"
 {return(SENSE); }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 70 "readCG.l"
+#line 71 "readCG.l"
 {return(USER);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 71 "readCG.l"
+#line 72 "readCG.l"
 {return(OR);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 72 "readCG.l"
+#line 73 "readCG.l"
 {return(NOT);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 73 "readCG.l"
+#line 74 "readCG.l"
 {return(IS);}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 74 "readCG.l"
+#line 75 "readCG.l"
 {return(OUT);}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 75 "readCG.l"
+#line 76 "readCG.l"
 {return(BARRIER);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 76 "readCG.l"
+#line 77 "readCG.l"
 {return(CATEGORY); }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 77 "readCG.l"
+#line 78 "readCG.l"
 {return(SEMICOLON);}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 78 "readCG.l"
+#line 79 "readCG.l"
 {return(OPAR);}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 79 "readCG.l"
+#line 80 "readCG.l"
 {return(CPAR);}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 80 "readCG.l"
+#line 81 "readCG.l"
 {return(ERROR);}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 82 "readCG.l"
+#line 83 "readCG.l"
 ECHO;
 	YY_BREAK
-#line 805 "readCG.cc"
+#line 806 "readCG.cc"
 			case YY_STATE_EOF(INITIAL):
 				yyterminate();
 
@@ -1605,7 +1606,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 82 "readCG.l"
+#line 83 "readCG.l"
 
 
 
