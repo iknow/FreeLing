@@ -159,6 +159,16 @@ AC_CHECK_HEADERS([db_cxx.h],[],[echo "" && echo "   db_cxx.h not found." &&
                       echo "   installed and can be found in a standard path." &&
                       echo "   You may need to set CPPFLAGS to specify search path." &&
                       echo "" && exit])
+AC_CHECK_HEADERS([boost/filesystem.hpp],[],[echo "" && echo "   boost/filesystem.hpp not found." &&
+                      echo "   Make sure libboost_filesystem headers are" &&
+                      echo "   installed and can be found in a standard path." &&
+                      echo "   You may need to set CPPFLAGS to specify search path." &&
+                      echo "" && exit])
+AC_CHECK_HEADERS([boost/program_options.hpp],[],[echo "" && echo "   boost/program_options.hpp not found." &&
+                      echo "   Make sure libboost_program_options headers are" &&
+                      echo "   installed and can be found in a standard path." &&
+                      echo "   You may need to set CPPFLAGS to specify search path." &&
+                      echo "" && exit])
 AC_CHECK_HEADERS([omlet.h],[],[echo "" && echo "   omlet.h not found." &&
                       echo "   Make sure libomlet headers are installed" &&
                       echo "   and can be found in a standard path." &&
@@ -186,6 +196,18 @@ AC_CHECK_LIB([pcre],[main],[echo "OK">/dev/null],[echo "" &&
 AC_CHECK_LIB([db_cxx],[main],[echo "OK">/dev/null],[echo "" &&
                       echo "   db library not found." &&
                       echo "   Make sure libdb_cxx (Berkeley DB for C++) is" &&
+                      echo "   installed and can be found in a standard path." &&
+                      echo "   You may need to set LDFLAGS to specify search path." &&
+                      echo "" && exit])
+AC_CHECK_LIB([boost_filesystem],[main],[echo "OK">/dev/null],[echo "" &&
+                      echo "   boost_filesystem library not found." &&
+                      echo "   Make sure libboost_filesystem is" &&
+                      echo "   installed and can be found in a standard path." &&
+                      echo "   You may need to set LDFLAGS to specify search path." &&
+                      echo "" && exit])
+AC_CHECK_LIB([boost_program_options],[main],[echo "OK">/dev/null],[echo "" &&
+                      echo "   boost_program_options library not found." &&
+                      echo "   Make sure libboost_program_options is" &&
                       echo "   installed and can be found in a standard path." &&
                       echo "   You may need to set LDFLAGS to specify search path." &&
                       echo "" && exit])

@@ -319,19 +319,19 @@ class config {
       }
 
       // Handle boolean options expressed as strings in config file
-      SetBooleanOptionCF(string(cf_flush),AlwaysFlush,"AlwaysFlush");
-      SetBooleanOptionCF(string(cf_afx),MACO_AffixAnalysis,"AffixAnalysis");
-      SetBooleanOptionCF(string(cf_loc), MACO_MultiwordsDetection,"MultiwordsDetection");
-      SetBooleanOptionCF(string(cf_numb),MACO_NumbersDetection,"NumbersDetection");
-      SetBooleanOptionCF(string(cf_punt),MACO_PunctuationDetection,"PunctuationDetection");
-      SetBooleanOptionCF(string(cf_date),MACO_DatesDetection,"DatesDetection");
-      SetBooleanOptionCF(string(cf_quant),MACO_QuantitiesDetection,"QuantitiesDetection");
-      SetBooleanOptionCF(string(cf_dict),MACO_DictionarySearch,"DictionarySearch");
-      SetBooleanOptionCF(string(cf_prob),MACO_ProbabilityAssignment,"ProbabilityAssignment");
-      SetBooleanOptionCF(string(cf_nec),NEC_NEClassification,"NEClassification");
-      SetBooleanOptionCF(string(cf_dup),SENSE_DuplicateAnalysis,"DuplicateAnalysis");
-      SetBooleanOptionCF(string(cf_retok),TAGGER_Retokenize,"TaggerRetokenize");
-      SetBooleanOptionCF(string(cf_coref),COREF_CoreferenceResolution,"CoreferenceResolution");
+      SetBooleanOptionCF(cf_flush,AlwaysFlush,"AlwaysFlush");
+      SetBooleanOptionCF(cf_afx,MACO_AffixAnalysis,"AffixAnalysis");
+      SetBooleanOptionCF(cf_loc, MACO_MultiwordsDetection,"MultiwordsDetection");
+      SetBooleanOptionCF(cf_numb,MACO_NumbersDetection,"NumbersDetection");
+      SetBooleanOptionCF(cf_punt,MACO_PunctuationDetection,"PunctuationDetection");
+      SetBooleanOptionCF(cf_date,MACO_DatesDetection,"DatesDetection");
+      SetBooleanOptionCF(cf_quant,MACO_QuantitiesDetection,"QuantitiesDetection");
+      SetBooleanOptionCF(cf_dict,MACO_DictionarySearch,"DictionarySearch");
+      SetBooleanOptionCF(cf_prob,MACO_ProbabilityAssignment,"ProbabilityAssignment");
+      SetBooleanOptionCF(cf_nec,NEC_NEClassification,"NEClassification");
+      SetBooleanOptionCF(cf_dup,SENSE_DuplicateAnalysis,"DuplicateAnalysis");
+      SetBooleanOptionCF(cf_retok,TAGGER_Retokenize,"TaggerRetokenize");
+      SetBooleanOptionCF(cf_coref,COREF_CoreferenceResolution,"CoreferenceResolution");
       
       // Reload command line options to override ConfigFile options
       cfg_set_cmdline_context(con, 1, -1, argv);
@@ -376,79 +376,92 @@ class config {
       SetBooleanOptionCL(retok,noretok,TAGGER_Retokenize,"retk");
       SetBooleanOptionCL(coref,nocoref,COREF_CoreferenceResolution,"coref");
 
+
+      string s;
       // translate InputF and OutputF strings to more useful integer values.
-      if (string(InputF)=="plain") InputFormat = PLAIN;
-      else if (string(InputF)=="token") InputFormat = TOKEN;
-      else if (string(InputF)=="splitted") InputFormat = SPLITTED;
-      else if (string(InputF)=="morfo") InputFormat = MORFO;
-      else if (string(InputF)=="tagged") InputFormat = TAGGED;
-      else if (string(InputF)=="sense") InputFormat = SENSES;
-      else if (string(InputF)=="parsed") InputFormat = PARSED;
-      else if (string(InputF)=="dep") InputFormat = DEP;
-      else { ERROR_CRASH("UNKNOWN Input format: "+string(InputF));}
+      s = (InputF==NULL ? "plain" : string(InputF));
+      if (s=="plain") InputFormat = PLAIN;
+      else if (s=="token") InputFormat = TOKEN;
+      else if (s=="splitted") InputFormat = SPLITTED;
+      else if (s=="morfo") InputFormat = MORFO;
+      else if (s=="tagged") InputFormat = TAGGED;
+      else if (s=="sense") InputFormat = SENSES;
+      else if (s=="parsed") InputFormat = PARSED;
+      else if (s=="dep") InputFormat = DEP;
+      else { ERROR_CRASH("UNKNOWN Input format: "+s);}
       
-      if (string(OutputF)=="plain") OutputFormat = PLAIN;
-      else if (string(OutputF)=="token") OutputFormat = TOKEN;
-      else if (string(OutputF)=="splitted") OutputFormat = SPLITTED;
-      else if (string(OutputF)=="morfo") OutputFormat = MORFO;
-      else if (string(OutputF)=="tagged") OutputFormat = TAGGED;
-      else if (string(OutputF)=="parsed") OutputFormat = PARSED;
-      else if (string(OutputF)=="dep") OutputFormat = DEP;
-      else { ERROR_CRASH("UNKNOWN Output format: "+string(OutputF));}
+      s = (OutputF==NULL ? "tagged" : string(OutputF));
+      if (s=="plain") OutputFormat = PLAIN;
+      else if (s=="token") OutputFormat = TOKEN;
+      else if (s=="splitted") OutputFormat = SPLITTED;
+      else if (s=="morfo") OutputFormat = MORFO;
+      else if (s=="tagged") OutputFormat = TAGGED;
+      else if (s=="parsed") OutputFormat = PARSED;
+      else if (s=="dep") OutputFormat = DEP;
+      else { ERROR_CRASH("UNKNOWN Output format: "+s);}
 
       // translate Ner string to more useful integer values.
-      if (string(Ner)=="basic") MACO_NER_which = NER_BASIC;
-      else if (string(Ner)=="bio") MACO_NER_which = NER_BIO;
-      else if (string(Ner)=="none" || string(Ner)=="no") MACO_NER_which = NER_NONE;
-      else WARNING("Invalid NER algorithm '"+string(Ner)+"'. Using default.");
+      s = (Ner==NULL ? "basic" : string(Ner));
+      if (s=="basic") MACO_NER_which = NER_BASIC;
+      else if (s=="bio") MACO_NER_which = NER_BIO;
+      else if (s=="none" || s=="no") MACO_NER_which = NER_NONE;
+      else WARNING("Invalid NER algorithm '"+s+"'. Using default.");
 
       // translate Tagger string to more useful integer values.
-      if (string(Tagger)=="hmm") TAGGER_which = HMM;
-      else if (string(Tagger)=="relax") TAGGER_which = RELAX;
-      else WARNING("Invalid tagger algorithm '"+string(Tagger)+"'. Using default.");
+      s = (Tagger==NULL ? "hmm" : string(Tagger));
+      if (s=="hmm") TAGGER_which = HMM;
+      else if (s=="relax") TAGGER_which = RELAX;
+      else WARNING("Invalid tagger algorithm '"+s+"'. Using default.");
 
-      if (string(DepParser) == "malt") DEP_which = MALT;
-      else if (string(DepParser) == "txala") DEP_which = TXALA;
-      else WARNING("Invalid DEP parser '"+string(DepParser)+"'. Using default.");
+      s = (DepParser==NULL ? "txala" : string(DepParser));
+      if (s == "malt") DEP_which = MALT;
+      else if (s == "txala") DEP_which = TXALA;
+      else WARNING("Invalid DEP parser '"+s+"'. Using default.");
 
       // Translate ForceSelect string to more useful integer values.
-      if (string(Force)=="none" || string(Force)=="no") TAGGER_ForceSelect = FORCE_NONE;
-      else if (string(Force)=="tagger") TAGGER_ForceSelect = FORCE_TAGGER;
-      else if (string(Force)=="retok") TAGGER_ForceSelect = FORCE_RETOK;
-      else WARNING("Invalid ForceSelect value '"+string(Force)+"'. Using default.");
+      s = (Force==NULL ? "retok" : string(Force));
+      if (s=="none" || s=="no") TAGGER_ForceSelect = FORCE_NONE;
+      else if (s=="tagger") TAGGER_ForceSelect = FORCE_TAGGER;
+      else if (s=="retok") TAGGER_ForceSelect = FORCE_RETOK;
+      else WARNING("Invalid ForceSelect value '"+s+"'. Using default.");
 
       // translate SenseAnot string to more useful integer values.
-      if (string(SenseAnot)=="none" || string(SenseAnot)=="no") SENSE_SenseAnnotation = NONE;
-      else if (string(SenseAnot)=="all") SENSE_SenseAnnotation = ALL;
-      else if (string(SenseAnot)=="mfs") SENSE_SenseAnnotation = MFS;
-      else if (string(SenseAnot)=="ukb") SENSE_SenseAnnotation = UKB;
-      else WARNING("Invalid sense annotation option '"+string(SenseAnot)+"'. Using default.");
+      s = (SenseAnot==NULL ? "none" : string(SenseAnot));
+      if (s=="none" || s=="no") SENSE_SenseAnnotation = NONE;
+      else if (s=="all") SENSE_SenseAnnotation = ALL;
+      else if (s=="mfs") SENSE_SenseAnnotation = MFS;
+      else if (s=="ukb") SENSE_SenseAnnotation = UKB;
+      else WARNING("Invalid sense annotation option '"+s+"'. Using default.");
     }
 
  private:
 
     void ExpandFileName(char* &s) {
-       string name(s);
-       size_t n=name.find_first_of("$"); 
-       if (n!=string::npos) {
-         size_t i=name.find_first_of("/\\",n+1);
-         if (i==string::npos) i=name.size();
-         char* exp=getenv(name.substr(n+1,i-n-1).c_str());
-	 if (exp==NULL){
-	   WARNING("Undefined variable "+name.substr(n+1,i-n-1)+" in configuration file "+string(ConfigFile)+" expanded as empty string.");
-	   name = name.substr(0,n) + name.substr(i);
-	 }
-	 else {
-	   name = name.substr(0,n) + string(exp) + name.substr(i);
-	 }
- 
-	 free(s);
-	 s = (char *) calloc(name.size()+1,sizeof(char));
-	 strcpy (s,name.c_str());
-       }
+      if (s==NULL) return;
+      
+      string name(s);
+      size_t n=name.find_first_of("$"); 
+      if (n!=string::npos) {
+	size_t i=name.find_first_of("/\\",n+1);
+	if (i==string::npos) i=name.size();
+	char* exp=getenv(name.substr(n+1,i-n-1).c_str());
+	if (exp==NULL){
+	  WARNING("Undefined variable "+name.substr(n+1,i-n-1)+" in configuration file "+string(ConfigFile)+" expanded as empty string.");
+	  name = name.substr(0,n) + name.substr(i);
+	}
+	else {
+	  name = name.substr(0,n) + string(exp) + name.substr(i);
+	}
+	
+	free(s);
+	s = (char *) calloc(name.size()+1,sizeof(char));
+	strcpy (s,name.c_str());
+      }
     }
-
-    void SetBooleanOptionCF (const string &s, int &opt, const string &name) {
+    
+    void SetBooleanOptionCF (const char *os, int &opt, const string &name) {
+      if (os==NULL) return;
+      string s(os);
       if (s=="yes" || s=="y" || s=="on" || s=="true")
         opt=true;
       else if (s=="no" || s=="n" || s=="off" || s=="false")
