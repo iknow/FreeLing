@@ -11,10 +11,10 @@ if ENABLE_MALT
 else
   LJVM =
 endif
-analyzer_LDADD = -lmorfo -lfries -lomlet -lcfg+ -lpcre -ldb_cxx $(LJVM)
+analyzer_LDADD = -lmorfo -lfries -lomlet -lcfg+ -lpcre -ldb_cxx -lboost_filesystem $(LJVM)
 analyzer_LDFLAGS = -L$(top_srcdir)/src/libmorfo
 
-analyzer_server_LDADD = -lmorfo -lfries -lomlet -lcfg+ -lpcre -ldb_cxx $(LJVM)
+analyzer_server_LDADD = -lmorfo -lfries -lomlet -lcfg+ -lpcre -ldb_cxx -lboost_filesystem $(LJVM)
 analyzer_server_LDFLAGS = -L$(top_srcdir)/src/libmorfo
 
 analyzer_client_LDADD = -lpthread

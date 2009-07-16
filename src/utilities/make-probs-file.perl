@@ -159,6 +159,7 @@ for $x (sort keys %freqclasses1) {
 print "</SingleTagFreq>\n";
 
 print "<ClassTagFreq>\n";
+
 for $x (sort keys %probclasses) {
    @t = split ("-",$x);
    if (@t>1) {
@@ -169,14 +170,45 @@ for $x (sort keys %probclasses) {
       @uniq = grep { ! $seen{$_} ++ } @t;
       @t= sort @uniq;
 
-      print $x;
-      for $y (@t) {
-        if (! $probclasses{$x}{$y}) {
-          $probclasses{$x}{$y} = 0;
-        }
-        print " $y $probclasses{$x}{$y}";
+      ## classe sense NP
+      my $x2=join("-", grep { ($_ ne "NP") and ($_ ne "NNP") } @t);
+
+      if ($x eq $x2) {
+	  print $x;
+	  for $y (@t) {
+	      if (! $probclasses{$x}{$y}) {
+		  $probclasses{$x}{$y} = 0;
+	      }
+	      print " $y $probclasses{$x}{$y}";
+	  }
+	  print "\n";
       }
-      print "\n";
+      else { # hi ha NP
+
+	  print $x;
+          # tag with max occurrences in normal class (no NP)
+	  my $mx=0;  
+	  for $y (@t) { 
+	      if ($probclasses{$x2}{$y}>$mx) { $mx=$probclasses{$x2}{$y}; } 
+	  }
+          
+	  # all tags, including NP
+	  my $prob;
+	  for $y (@t) {
+	      if ($y eq "NP" or $y eq "NNP") { 
+		  $prob= int(0.7 * $mx);
+	      }
+	      elsif (! $probclasses{$x2}{$y}) {
+		  $prob = 0;
+	      }
+	      else {
+		  $prob = $probclasses{$x2}{$y};
+	      }
+	      
+	      print " $y $prob";
+	  }
+	  print "\n";	  
+      }
    }
 }
 print "</ClassTagFreq>\n";

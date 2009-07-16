@@ -103,12 +103,12 @@ void relax_tagger::analyze(list<sentence> &ls) {
 	  c_gram.get_rules_head(t+"("+w->get_form()+")", cand); // add constraints for the TAG(form)
 
 	  string sen="";
-	  list<string> lsen=tag->get_senses();
+	  list<pair<string,double> > lsen=tag->get_senses();
 	  if (c_gram.senses_used && lsen.size()>1) {
 	    ERROR_CRASH("Conditions on 'sense' field used in constraint grammar, but 'DuplicateAnalysis' option was off during sense annotation. "); 
 	  }
 	  else if (lsen.size()>0) {
-	    sen="[" + *(lsen.begin()) + "]";
+	    sen="[" + lsen.begin()->first + "]";
 	    c_gram.get_rules_head(sen, cand);    // constraints for [sense]
 	    c_gram.get_rules_head(t+sen, cand);  // constraints for TAG[sense]
 	  }
@@ -345,7 +345,7 @@ bool relax_tagger::CheckWordMatchCondition(const list<string> &terms, bool is_ne
 bool relax_tagger::check_possible_matching(const string &s, word::const_iterator a,
                                            sentence::const_iterator w) {
   bool b=false;
-  list<string> lsen=a->get_senses();
+  list<pair<string,double> > lsen=a->get_senses();
 
   // If the condition has a "<>" pair, check lemma stuff
   if (s.find_first_of("<")!=string::npos && s[s.size()-1]=='>')
@@ -365,7 +365,7 @@ bool relax_tagger::check_possible_matching(const string &s, word::const_iterator
       ERROR_CRASH("Conditions on 'sense' field used in constraint grammar, but 'DuplicateAnalysis' option was off during sense annotation. "); 
     }
     else if (lsen.size()>0) {
-      string sens= "[" + *(lsen.begin()) + "]";
+      string sens= "[" + lsen.begin()->first + "]";
       b= check_match(s,sens) || check_match(s, a->get_parole() + sens); 
     }
     else 
@@ -385,7 +385,7 @@ bool relax_tagger::check_possible_matching(const string &s, word::const_iterator
 	            ERROR_CRASH("Conditions on 'sense' field used in constraint grammar, but 'DuplicateAnalysis' option was off during sense annotation. "); 
                   }
                   else 
-	            search= "["+ (lsen.size()>0 ? *(lsen.begin()) : "") +"]"; 
+	            search= "["+ (lsen.size()>0 ? lsen.begin()->first : "") +"]"; 
  	          break;
       case CATEGORY: search= a->get_parole(); 
                      break;
