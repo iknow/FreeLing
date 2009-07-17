@@ -117,6 +117,8 @@ class config {
     int SENSE_DuplicateAnalysis;
     char *UKB_BinFile;
     char *UKB_DictFile;
+    int UKB_MaxIter;
+    double UKB_Epsilon;
 
     /// Tagger options
     char * TAGGER_HMMFile;
@@ -217,6 +219,8 @@ class config {
 	{"fsense",  'W',  "SenseFile",               CFG_STR,  (void *) &SENSE_SenseFile, 0},
 	{"fukbrel", 'U',  "UKBRelations",            CFG_STR,  (void *) &UKB_BinFile, 0},
 	{"fukbdic", 'V',  "UKBDictionary",           CFG_STR,  (void *) &UKB_DictFile, 0},
+	{"ukbeps",  '\0', "UKBEpsilon",              CFG_DOUBLE,(void *) &UKB_Epsilon, 0},
+	{"ukbiter", '\0', "UKBMaxIter",              CFG_INT,  (void *) &UKB_MaxIter, 0},
 	{"dup",     '\0', NULL,                      CFG_BOOL, (void *) &dup, 0},
 	{"nodup",   '\0', NULL,                      CFG_BOOL, (void *) &nodup, 0},
 	{NULL,      '\0', "DuplicateAnalysis",       CFG_STR,  (void *) &cf_dup, 0},
@@ -282,6 +286,7 @@ class config {
       SENSE_SenseAnnotation=NONE; SENSE_SenseFile=NULL; 
       SENSE_DuplicateAnalysis=false; 
       UKB_BinFile=NULL; UKB_DictFile=NULL;
+      UKB_MaxIter=0; UKB_Epsilon=0;
       TAGGER_which=0; TAGGER_HMMFile=NULL; TAGGER_RelaxFile=NULL; 
       TAGGER_RelaxMaxIter=0; TAGGER_RelaxScaleFactor=0.0; TAGGER_RelaxEpsilon=0.0;
       TAGGER_Retokenize=0; TAGGER_ForceSelect=0;
@@ -513,6 +518,10 @@ class config {
       cout<<"--fnec filename        Filename prefix for NEC data XX.rgf, XX.lex, XX.abm"<<endl;
       cout<<"--sense,-s string      Type of sense annotation (no|none,all,mfs,ukb)"<<endl;
       cout<<"--fsense,-W filename   Sense dictionary file"<<endl;
+      cout<<"--fukbdic,-V filename  Sense dictionary file for UKB"<<endl;
+      cout<<"--fukbrel,-U filename  Compiled relation file for UKB"<<endl;
+      cout<<"--ukbeps float         Convergence epsilon for UKB"<<endl;
+      cout<<"--ukbiter iter         Maximum iterations for UKB"<<endl;
       cout<<"--dup, --nodup         Whether to duplicate analysis for each different sense"<<endl;
       cout<<"--fpunct,-F filename   Punctuation symbols file"<<endl;
       cout<<"--tag,-t string        Tagging alogrithm to use (hmm, relax)"<<endl;

@@ -1,5 +1,5 @@
 EXTRA_DIST = hmm_smooth.perl train-relax.perl make-probs-file.perl TRAIN unk-tags constr_gram.manual nec/README nec/TRAIN.sh nec/lexicon.cc nec/train.cc
-bin_PROGRAMS = indexdict convertdict compile_kb
+bin_PROGRAMS = indexdict convertdict compile_ukb
 
 indexdict_SOURCES = indexdict.cc
 indexdict_LDADD = -ldb_cxx
@@ -7,8 +7,7 @@ indexdict_LDADD = -ldb_cxx
 convertdict_SOURCES = convertdict.cc
 convertdict_LDADD = -lfries -lpcre
 
-compile_kb_SOURCES = $(top_srcdir)/src/libmorfo/disambiguator/ukb/compile_kb.cc
-compile_kb_LDADD = -ldb_cxx -lmorfo -lfries -ldb_cxx -lpcre -lomlet -lboost_program_options -lboost_filesystem
-compile_kb_LDFLAGS = -L$(top_srcdir)/src/libmorfo
+compile_ukb_SOURCES = compile_ukb.cc $(topsrcdir)/libmorfo/disambiguator/ukb/globalVars.cc $(topsrcdir)/libmorfo/disambiguator/ukb/kbGraph.cc $(topsrcdir)/libmorfo/disambiguator/ukb/wdict.cc $(topsrcdir)/libmorfo/disambiguator/ukb/common.cc
+compile_ukb_LDADD = -lboost_filesystem
 
 

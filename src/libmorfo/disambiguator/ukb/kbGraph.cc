@@ -288,7 +288,7 @@ namespace ukb {
 
   Kb_vertex_t Kb::InsertNode(const string & name, unsigned char flags) {
 	coef_status = 0; // reset out degree coefficients
-	if (static_ranks.size()) vector<double>().swap(static_ranks); // empty static rank vector
+	if (static_ranks.size()) vector<float>().swap(static_ranks); // empty static rank vector
 	Kb_vertex_t u = add_vertex(g);
 	put(vertex_name, g, u, name);
 	put(vertex_flags, g, u, flags);
@@ -327,12 +327,26 @@ namespace ukb {
 	tie(e, existsP) = edge(u, v, g);
 	if(!existsP) {
 	  coef_status = 0; // reset out degree coefficients
-	  if (static_ranks.size()) vector<double>().swap(static_ranks); // empty static rank vector
+	  if (static_ranks.size()) vector<float>().swap(static_ranks); // empty static rank vector
 	  e = add_edge(u, v, g).first;
 	  put(edge_weight, g, e, w);
 	  put(edge_rtype, g, e, static_cast<boost::uint32_t>(0));
 	}
 	return e;
+  }
+
+  size_t Kb::unlink_dangling() {
+
+	size_t n = 0;
+	graph_traits<KbGraph>::vertex_iterator it, end;
+	tie(it, end) = vertices(g);
+	for(; it != end; ++it) {
+	  if(out_degree(*it, g) == 0 && in_degree(*it, g) != 0) {
+		clear_vertex(*it, g);
+		++n;
+	  }
+	}
+	return n;
   }
 
   vector<string>::size_type get_reltype_idx(const string & rel,
@@ -396,16 +410,16 @@ namespace ukb {
 
 
   void vname_filter(const map<string, Kb_vertex_t> & theMap,
-					const vector<double> & ranks,
+					const vector<float> & ranks,
 					const KbGraph & g,
-					vector<double> & outranks,
+					vector<float> & outranks,
 					vector<string> & vnames) {
 
 	size_t v_m = theMap.size();
 
 	vector<Kb_vertex_t> V(v_m);
 	// empty output vectors
-	vector<double>(v_m).swap(outranks);
+	vector<float>(v_m).swap(outranks);
 	vector<string>(v_m).swap(vnames);
 
 	map<string, Kb_vertex_t>::const_iterator m_it = theMap.begin();
@@ -427,8 +441,8 @@ namespace ukb {
   }
 
 
-  void Kb::filter_ranks_vnames(const vector<double> & ranks,
-							   vector<double> & outranks,
+  void Kb::filter_ranks_vnames(const vector<float> & ranks,
+							   vector<float> & outranks,
 							   vector<string> & vnames,
 							   int filter_mode) const {
 
@@ -459,17 +473,17 @@ namespace ukb {
   ////////////////////////////////////////////////////////////////////////////////
   // Get static pageRank vector
 
-  const std::vector<double> & Kb::static_prank() const {
+  const std::vector<float> & Kb::static_prank() const {
 	if (static_ranks.size()) return static_ranks;
 
 	// Hack to remove const-ness
     Kb & me = const_cast<Kb &>(*this);
-	vector<double> & ranks = me.static_ranks;
+	vector<float> & ranks = me.static_ranks;
 
 	// Calculate static pageRank
 	size_t N = size();
 	if (N == 0) return static_ranks; // empty graph
-	vector<double> ppv(N, 1.0/static_cast<double>(N));
+	vector<float> ppv(N, 1.0/static_cast<float>(N));
 	me.pageRank_ppv(ppv, ranks);
 	return static_ranks;
   }
@@ -640,7 +654,7 @@ namespace ukb {
 		if (glVars::kb::keep_reltypes && f.rtype.size()) {
 		  kb->edge_add_reltype(e1, f.rtype);
 		}
-		if (!f.directed) {
+		if (!f.directed || !glVars::kb::keep_directed) {
 		  Kb_edge_t e2 = kb->find_or_insert_edge(v, u, w);
 		  if(glVars::kb::keep_reltypes && f.rtype.size()) {
 			string aux = f.irtype.size() ? f.irtype : f.rtype;
@@ -690,9 +704,8 @@ namespace ukb {
 	  writeV(o, notes);
 	}
 	size_t edge_n = num_edges(g);
-	if (edge_n & 2) edge_n++;
 
-	o << "\n" << num_vertices(g) << " vertices and " << edge_n/2 << " edges" << endl;
+	o << "\n" << num_vertices(g) << " vertices and " << edge_n << " edges.\n(Note that if graph is undirected you should divide the edge number by 2)" << endl;
 	if (rtypes.size()) {
 	  o << "Relations:";
 	  writeV(o, rtypes);
@@ -793,8 +806,9 @@ namespace ukb {
 		  cerr << "W:Kb::add_tokens: warning: " << syns.get_entry(i) << " is not in KB.\n";
 		continue;
 	  }
+	  float w = use_w ? syns.get_freq(i) : 1.0;
 	  // (directed) link word -> concept
-	  kb.find_or_insert_edge(u, v, 1.0);
+	  kb.find_or_insert_edge(u, v, w);
 	}
   }
 
@@ -828,7 +842,7 @@ namespace ukb {
 	}
   }
 
-  void Kb::ppv_weights(const vector<double> & ppv) {
+  void Kb::ppv_weights(const vector<float> & ppv) {
 
 	graph_traits<KbGraph>::edge_iterator it, end;
 
@@ -845,36 +859,12 @@ namespace ukb {
 
   // PPV version
 
-  template<typename G, typename ppvMap_t, typename wMap_t, typename map1_t, typename map2_t>
-  void pageRank_dispatch(G & g,
-						 vector<Kb_vertex_t> & V,
-						 ppvMap_t ppv_map,
-						 wMap_t & wmap,
-						 map1_t rank,
-						 map2_t rank_tmp,
-						 const vector<float> & out_coefs) {
-
-	if (glVars::prank::threshold != 0.0)
-	  prank::do_pageRank_l1(g, V,
-							ppv_map, wmap,
-							rank, rank_tmp,
- 							glVars::prank::threshold,
-							out_coefs);
-	else
-	  prank::do_pageRank(g, V,
-						 &ppv_map[0], wmap,
-						 &rank[0], &rank_tmp[0],
-						 glVars::prank::num_iterations,
-						 out_coefs);
-  }
-
-
-  void Kb::pageRank_ppv(const vector<double> & ppv_map,
-						vector<double> & ranks) {
+  void Kb::pageRank_ppv(const vector<float> & ppv_map,
+						vector<float> & ranks) {
 
 	size_t N = num_vertices(g);
-	vector<double>(N, 0.0).swap(ranks); // Initialize rank vector
-	vector<double> rank_tmp(N, 0.0);    // auxiliary rank vector
+	vector<float>(N, 0.0).swap(ranks); // Initialize rank vector
+	vector<float> rank_tmp(N, 0.0);    // auxiliary rank vector
 
 	// ugly ugly hack @@CHANGE ME !!!
 
@@ -891,9 +881,11 @@ namespace ukb {
 		prank::init_out_coefs(g, V, &out_coefs[0], weight_map);
 		coef_status = 2;
 	  }
-	  pageRank_dispatch(g, V, &ppv_map[0],
-						weight_map, &ranks[0], &rank_tmp[0],
-						out_coefs);
+	  prank::do_pageRank(g, V, &ppv_map[0],
+						 weight_map, &ranks[0], &rank_tmp[0],
+						 glVars::prank::num_iterations,
+						 glVars::prank::threshold,
+						 out_coefs);
 	} else {
 	  typedef graph_traits<KbGraph>::edge_descriptor edge_descriptor;
 	  prank::constant_property_map <edge_descriptor, float> cte_weight(1); // always return 1
@@ -902,9 +894,11 @@ namespace ukb {
 		prank::init_out_coefs(g, V, &out_coefs[0], cte_weight);
 		coef_status = 1;
 	  }
-	  pageRank_dispatch(g, V, &ppv_map[0],
-						cte_weight, &ranks[0], &rank_tmp[0],
-						out_coefs);
+	  prank::do_pageRank(g, V, &ppv_map[0],
+						 cte_weight, &ranks[0], &rank_tmp[0],
+						 glVars::prank::num_iterations,
+						 glVars::prank::threshold,
+						 out_coefs);
 	}
   }
 
@@ -1023,7 +1017,7 @@ namespace ukb {
 	std::map<std::string, int> relMap_aux;     // Obsolete map from relation name to relation id
 
 	coef_status = 0;
-	vector<double>().swap(static_ranks); // empty static rank vector
+	vector<float>().swap(static_ranks); // empty static rank vector
 	read_atom_from_stream(is, id);
 	if (id == magic_id_v1) {
 
@@ -1120,22 +1114,77 @@ namespace ukb {
 
   // write
 
+  //
+  // Auxiliary functions for removing isolated vertices
+  //
+
+
+  static size_t vdelta_isolated = numeric_limits<size_t>::max();
+
+  static size_t get_vdeltas(const KbGraph & g,
+							vector<size_t> & vdeltas) {
+
+	size_t d = 0;
+
+	graph_traits<KbGraph>::vertex_iterator vit, vend;
+	tie(vit, vend) = vertices(g);
+	for(;vit != vend; ++vit) {
+	  if (out_degree(*vit, g) + in_degree(*vit, g) == 0) {
+		// isolated vertex
+		vdeltas[*vit] = vdelta_isolated;
+		++d;
+	  } else {
+		vdeltas[*vit] = d;
+	  }
+	}
+	return d;
+  }
+
+  static void map_update(const vector<size_t> & vdelta,
+						 map<string, Kb_vertex_t> & theMap) {
+
+	map<string, Kb_vertex_t>::iterator it = theMap.begin();
+	map<string, Kb_vertex_t>::iterator end = theMap.end();
+
+	while(it != end) {
+	  if (vdelta[it->second] == vdelta_isolated) {
+		// erase element
+		theMap.erase(it++);
+	  } else {
+		// update vertex id
+		it->second -= vdelta[it->second];
+		++it;
+	  }
+	}
+  }
+
+
+  // write functions
+
   ofstream & write_vertex_to_stream(ofstream & o,
 									const KbGraph & g,
+									const vector<size_t> & vdelta,
 									const Kb_vertex_t & v) {
 	string name;
 
-	write_atom_to_stream(o, get(vertex_name, g, v));
-	write_atom_to_stream(o, get(vertex_gloss, g, v));
+	if (vdelta[v] != vdelta_isolated) {
+	  write_atom_to_stream(o, get(vertex_name, g, v));
+	  write_atom_to_stream(o, get(vertex_gloss, g, v));
+	}
 	return o;
   }
 
+
   ofstream & write_edge_to_stream(ofstream & o,
 								  const KbGraph & g,
+								  const vector<size_t> & vdelta,
 								  const Kb_edge_t & e) {
 
 	size_t uIdx = get(vertex_index, g, source(e,g));
+	uIdx -= vdelta[uIdx];
 	size_t vIdx = get(vertex_index, g, target(e,g));
+	vIdx -= vdelta[vIdx];
+
 	float w = get(edge_weight, g, e);
 	boost::uint32_t rtype = get(edge_rtype, g, e);
 
@@ -1146,9 +1195,24 @@ namespace ukb {
 	return o;
   }
 
-  ofstream & Kb::write_to_stream(ofstream & o) const {
+  ofstream & Kb::write_to_stream(ofstream & o) {
 
-	// First write maps
+	// First remove isolated vertices and
+	// - get delta vector
+	// - remove from map
+
+	// - get deltas
+	vector<size_t> vdelta(num_vertices(g), 0);
+	size_t visol_size = get_vdeltas(g, vdelta);
+
+	// - update the maps
+
+	if (visol_size) {
+	  map_update(vdelta, synsetMap);
+	  map_update(vdelta, wordMap);
+	}
+
+	// Write maps
 
 	write_atom_to_stream(o, magic_id);
 
@@ -1161,14 +1225,14 @@ namespace ukb {
 
 	write_atom_to_stream(o, magic_id);
 
-	size_t vertex_n = num_vertices(g);
+	size_t vertex_n = num_vertices(g) - visol_size;
 
 	write_atom_to_stream(o, vertex_n);
 	graph_traits<KbGraph>::vertex_iterator v_it, v_end;
 
 	tie(v_it, v_end) = vertices(g);
 	for(; v_it != v_end; ++v_it) {
-	  write_vertex_to_stream(o, g, *v_it);
+	  write_vertex_to_stream(o, g, vdelta, *v_it);
 	}
 
 	write_atom_to_stream(o, magic_id);
@@ -1180,14 +1244,14 @@ namespace ukb {
 
 	tie(e_it, e_end) = edges(g);
 	for(; e_it != e_end; ++e_it) {
-	  write_edge_to_stream(o, g, *e_it);
+	  write_edge_to_stream(o, g, vdelta, *e_it);
 	}
 	write_atom_to_stream(o, magic_id);
 	if(notes.size()) write_vector_to_stream(o, notes);
 	return o;
   }
 
-  void Kb::write_to_binfile (const string & fName) const {
+  void Kb::write_to_binfile (const string & fName) {
 
 	ofstream fo(fName.c_str(),  ofstream::binary|ofstream::out);
 	if (!fo) {
@@ -1196,4 +1260,30 @@ namespace ukb {
 	}
 	write_to_stream(fo);
   }
+
+  // text write
+
+  ofstream & write_to_textstream(const KbGraph & g, ofstream & o) {
+
+	graph_traits<KbGraph>::edge_iterator e_it, e_end;
+
+	tie(e_it, e_end) = edges(g);
+	for(; e_it != e_end; ++e_it) {
+	  o << "u:" << get(vertex_name, g, source(*e_it, g)) << " ";
+	  o << "v:" << get(vertex_name, g, target(*e_it, g)) << " d:1\n";
+	}
+	return o;
+  }
+
+  void Kb::write_to_textfile (const string & fName) {
+
+	ofstream fo(fName.c_str(),  ofstream::out);
+	if (!fo) {
+	  cerr << "Error: can't create" << fName << endl;
+	  exit(-1);
+	}
+	write_to_textstream(g, fo);
+  }
+
+
 }

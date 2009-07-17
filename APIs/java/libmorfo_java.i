@@ -44,8 +44,8 @@
 
 %include std_string.i
 %include std_list.i
-%include std_map.i
 %include std_vector.i
+%include std_map.i
 
 %template(VectorWord) std::vector<word>;
 %template(ListWord) std::list<word>;
@@ -54,9 +54,9 @@
 %template(ListParagraph) std::list<paragraph>;
 
 %template(ListString) std::list<std::string>;
-%template(ListInt) std::list<int >;
-%template(VectorListInt) std::vector<std::list<int > >;
-%template(VectorListString) std::vector<std::list<std::string > >;
+%template(ListInt) std::list<int>;
+%template(VectorListInt) std::vector<std::list<int> >;
+%template(VectorListString) std::vector<std::list<std::string> >;
 
 
 ###############  FRIES #####################
@@ -160,9 +160,9 @@ class analysis {
       bool is_retokenizable(void) const;
       std::list<word> get_retokenizable(void) const;
 
-      std::list<std::string> get_senses(void) const;
+      //void set_senses(const std::list<std::pair<std::string,double> > &);
+      //std::list<std::pair<std::string,double> > get_senses(void) const;
       std::string get_senses_string(void) const;
-      void set_senses(const std::list<std::string> &);
 
 };
 
@@ -225,11 +225,11 @@ class word : public std::list<analysis> {
       /// get parole (short version) for the selected analysis  
       std::string get_short_parole(const std::string &) const;
 
-      /// get sense list for the selected analysis  
-      std::list<std::string> get_senses(void) const;
-      std::string get_senses_string(void) const;
       /// set sense list for the selected analysis  
-      void set_senses(const std::list<std::string> &);
+      //void set_senses(const std::list<std::pair<std::string,double> > &);
+      /// get sense list for the selected analysis  
+      //std::list<std::pair<std::string,double> > get_senses(void) const;
+      std::string get_senses_string(void) const;
    
       /// get token span.
       unsigned long get_span_start(void) const;
@@ -405,7 +405,7 @@ class fex {
 };
 
 
-###############  FREEELING  #####################
+###############  FREELING  #####################
 
 class traces {
  public:
@@ -546,6 +546,19 @@ class senses {
       ~senses(); 
  
       /// sense annotate selected analysis for each word in given sentences
+      void analyze(std::list<sentence> &);
+};
+
+
+/*------------------------------------------------------------------------*/
+class disambiguator {
+   public:
+      /// Constructor
+       disambiguator(const std::string &, const std::string &);
+      /// Destructor
+      ~disambiguator();
+
+      /// word sense disambiguation for each word in given sentences
       void analyze(std::list<sentence> &);
 };
 
