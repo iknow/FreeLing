@@ -633,8 +633,8 @@ int main (int argc, char **argv) {
       exit (1);
     }
 
-  if (cfg.COREF_CoreferenceResolution && cfg.OutputFormat<TAGGED) {
-    cerr <<"Error - Requested coreference resolution is only compatible with output format 'tagged', 'parsed' or 'dep'." <<endl;
+  if (cfg.COREF_CoreferenceResolution && cfg.OutputFormat<=TAGGED) {
+    cerr <<"Error - Requested coreference resolution is only compatible with output format 'parsed' or 'dep'." <<endl;
     exit (1);
   }
 
