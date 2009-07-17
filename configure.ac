@@ -150,18 +150,23 @@ AC_CHECK_HEADERS([cfg+.h],[],[echo "" && echo "   cfg+.h not found." &&
                       echo "   You may need to set CPPFLAGS to specify search path." &&
                       echo "" && exit])
 AC_CHECK_HEADERS([pcre.h],[],[echo "" && echo "   pcre.h not found." &&
-                      echo "   Make sure pcre headers for C++ are" &&
-                      echo "   installed and can be found in a standard path." &&
+                      echo "   Make sure pcre headers (package libpcre3-dev or the like)" &&
+                      echo "   are installed and can be found in a standard path." &&
                       echo "   You may need to set CPPFLAGS to specify search path." &&
                       echo "" && exit])
 AC_CHECK_HEADERS([db_cxx.h],[],[echo "" && echo "   db_cxx.h not found." &&
-                      echo "   Make sure BerkeleyDB headers for C++ are" &&
-                      echo "   installed and can be found in a standard path." &&
+                      echo "   Make sure BerkeleyDB headers for C++ (package libdb4.6++-dev" &&
+                      echo "   or the like) are installed and can be found in a standard path." &&
                       echo "   You may need to set CPPFLAGS to specify search path." &&
                       echo "" && exit])
 AC_CHECK_HEADERS([boost/filesystem.hpp],[],[echo "" && echo "   boost/filesystem.hpp not found." &&
-                      echo "   Make sure libboost_filesystem headers are" &&
+                      echo "   Make sure libboost headers (package libboost-dev or the like)" &&
                       echo "   installed and can be found in a standard path." &&
+                      echo "   You may need to set CPPFLAGS to specify search path." &&
+                      echo "" && exit])
+AC_CHECK_HEADERS([boost/graph/graphviz.hpp],[],[echo "" && echo "   boost/graph not found." &&
+                      echo "   Make sure libboost headers (package libboost-dev or the like)" &&
+                      echo "   are installed and can be found in a standard path." &&
                       echo "   You may need to set CPPFLAGS to specify search path." &&
                       echo "" && exit])
 AC_CHECK_HEADERS([omlet.h],[],[echo "" && echo "   omlet.h not found." &&
@@ -184,19 +189,25 @@ AC_CHECK_LIB([cfg+],[main],[echo "OK">/dev/null],[echo "" &&
                       echo "" && exit])
 AC_CHECK_LIB([pcre],[main],[echo "OK">/dev/null],[echo "" && 
                       echo "   pcre library not found." &&
-                      echo "   Make sure libpcre is installed and" &&
-                      echo "   can be found in a standard path." &&
+                      echo "   Make sure libpcre (package libpcre3 or the like)" &&
+                      echo "   is installed and can be found in a standard path." &&
                       echo "   You may need to set LDFLAGS to specify search path." &&
                       echo "" && exit])
 AC_CHECK_LIB([db_cxx],[main],[echo "OK">/dev/null],[echo "" &&
                       echo "   db library not found." &&
-                      echo "   Make sure libdb_cxx (Berkeley DB for C++) is" &&
-                      echo "   installed and can be found in a standard path." &&
+                      echo "   Make sure Berkeley DB for C++ (package libdb4.6++, libdb_cxx" &&
+                      echo "   or the like) is installed and can be found in a standard path." &&
                       echo "   You may need to set LDFLAGS to specify search path." &&
                       echo "" && exit])
 AC_CHECK_LIB([boost_filesystem],[main],[echo "OK">/dev/null],[echo "" &&
                       echo "   boost_filesystem library not found." &&
                       echo "   Make sure libboost_filesystem is" &&
+                      echo "   installed and can be found in a standard path." &&
+                      echo "   You may need to set LDFLAGS to specify search path." &&
+                      echo "" && exit])
+AC_CHECK_LIB([boost_graph],[main],[echo "OK">/dev/null],[echo "" &&
+                      echo "   boost_graph library not found." &&
+                      echo "   Make sure libboost_graph is" &&
                       echo "   installed and can be found in a standard path." &&
                       echo "   You may need to set LDFLAGS to specify search path." &&
                       echo "" && exit])
