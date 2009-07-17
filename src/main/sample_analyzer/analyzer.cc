@@ -139,9 +139,7 @@ void PrintDepTree (dep_tree::iterator n, int depth, const config & cfg, const do
   cout << string (depth*2, ' ');
 
   parse_tree::iterator pn = n->info.get_link();
-
   cout<<pn->info.get_label(); 
-
   ref = (cfg.COREF_CoreferenceResolution ? doc.get_coref_group(pn->info) : -1);
   if (ref != -1 and pn->info.get_label() == "sn") {
     cout<<"(REF:" << ref <<")";
