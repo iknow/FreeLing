@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
 
   // create database
   Db mydbase(NULL,DB_CXX_NO_EXCEPTIONS);
-  if ((res=mydbase.open(NULL,argv[1],NULL,DB_HASH,DB_CREATE,0))) {
+  if ((res=mydbase.open(NULL,argv[1],NULL,DB_HASH,DB_CREATE,0644))) {
     mydbase.err(res,"Error %d while creating database '%s'",res,argv[1]);
     exit(res);
   }
