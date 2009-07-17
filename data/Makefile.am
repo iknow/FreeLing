@@ -82,22 +82,18 @@ install-data-hook:
 	   echo "...Indexing "$$lg" dictionary, please wait."; \
 	   rm -f $(pkgdatadir)/$$lg/maco.db; \
 	   $(ZCAT) -f $(pkgdatadir)/$$lg/dicc.src | $(bindir)/indexdict $(pkgdatadir)/$$lg/maco.db; \
-	   chmod +r $(pkgdatadir)/$$lg/maco.db; \
 	   echo "...Indexing "$$lg" sense dictionary, please wait."; \
 	   for src in $(pkgdatadir)/$$lg/senses*.src; do \
              name=`echo $$src | sed 's/.src//' `; \
              rm -f $$name.db; \
 	     $(ZCAT) -f $$src | $(bindir)/indexdict $$name.db; \
-	     chmod +r $$name.db; \
 	     $(ZCAT) -f $$src | $(bindir)/convertdict > $$name.ukb; \
-	     chmod +r $$name.ukb; \
 	   done \
 	done
 	@echo "Indexing WN-based semantic database"
 	@rm -f $(pkgdatadir)/common/wn16.db;
 	@$(ZCAT) -f $(pkgdatadir)/common/wn16.src | $(bindir)/indexdict $(pkgdatadir)/common/wn16.db;
-	@chmod +r $(pkgdatadir)/common/wn16.db;
-	@$(bindir)/compile_kb -o $(pkgdatadir)/common/wn16-ukb.bin $(pkgdatadir)/common/wn16-ukb.src;
+	@$(bindir)/compile_ukb $(pkgdatadir)/common/wn16-ukb.src $(pkgdatadir)/common/wn16-ukb.bin;
 
 uninstall-hook:
-	@rm -f $(pkgdatadir)/*/*.db $(pkgdatadir)/*/*.ukb $(pkgdatadir)/*/*.bin
+	@rm -rf $(pkgdatadir)

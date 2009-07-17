@@ -7,7 +7,7 @@ indexdict_LDADD = -ldb_cxx
 convertdict_SOURCES = convertdict.cc
 convertdict_LDADD = -lfries -lpcre
 
-compile_ukb_SOURCES = compile_ukb.cc $(topsrcdir)/libmorfo/disambiguator/ukb/globalVars.cc $(topsrcdir)/libmorfo/disambiguator/ukb/kbGraph.cc $(topsrcdir)/libmorfo/disambiguator/ukb/wdict.cc $(topsrcdir)/libmorfo/disambiguator/ukb/common.cc
+compile_ukb_SOURCES = compile_ukb.cc $(top_srcdir)/src/libmorfo/disambiguator/ukb/globalVars.cc $(top_srcdir)/src/libmorfo/disambiguator/ukb/kbGraph.cc $(top_srcdir)/src/libmorfo/disambiguator/ukb/wdict.cc $(top_srcdir)/src/libmorfo/disambiguator/ukb/common.cc 
+compile_ukb_CXXFLAGS = -I$(top_srcdir)/src/libmorfo/disambiguator/ukb
 compile_ukb_LDADD = -lboost_filesystem
-
 
