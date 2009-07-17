@@ -681,7 +681,7 @@ int main (int argc, char **argv) {
     sens = new senses (cfg.SENSE_SenseFile, cfg.SENSE_DuplicateAnalysis);
   else if (cfg.InputFormat < SENSE and cfg.OutputFormat >= TAGGED
       and (cfg.SENSE_SenseAnnotation == UKB))      
-    dsb = new disambiguator (cfg.UKB_BinFile, cfg.UKB_DictFile);
+    dsb = new disambiguator (cfg.UKB_BinFile, cfg.UKB_DictFile, cfg.UKB_Epsilon, cfg.UKB_MaxIter);
 
   // tagger requested, see which method
   if (cfg.InputFormat < TAGGED and cfg.OutputFormat >= TAGGED) {

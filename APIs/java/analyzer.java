@@ -5,28 +5,34 @@ import morfo.*;
 public class analyzer {
 
     // Modify this line to be your FreeLing installation directory
-    static final String FREELINGDIR = "/home/padro/package/usr/local/";
+    static final String FREELINGDIR = "/usr/local";
     static final String DATA = FREELINGDIR+"/share/FreeLing/";
+    static final String LANG = "es";
     
     public static void main(String argv[]) throws IOException {
 	System.loadLibrary("morfo_java");
 	
 	// create options set for maco analyzer. Default values are Ok, except for data files.
-	maco_options op = new maco_options("es");
+	maco_options op = new maco_options(LANG);
         op.set_active_modules(true,true,true,true,true,true,true,true,0);
-	op.set_data_files(DATA+"es/locucions.dat", DATA+"es/quantities.dat", DATA+"es/sufixos.dat",
-			  DATA+"es/probabilitats.dat", DATA+"es/maco.db", DATA+"es/np.dat",  
+	op.set_data_files(DATA+LANG+"/locucions.dat", DATA+LANG+"/quantities.dat", 
+			  DATA+LANG+"/afixos.dat", DATA+LANG+"/probabilitats.dat", 
+			  DATA+LANG+"/maco.db", DATA+LANG+"/np.dat",  
 			  DATA+"common/punct.dat");
 		
 	// create analyzers
-        tokenizer tk=new tokenizer(DATA+"es/tokenizer.dat");
-	splitter sp=new splitter(DATA+"es/splitter.dat");
+        tokenizer tk=new tokenizer(DATA+LANG+"/tokenizer.dat");
+	splitter sp=new splitter(DATA+LANG+"/splitter.dat");
 	maco mf=new maco(op);
 
-	hmm_tagger tg = new hmm_tagger("es",DATA+"es/tagger.dat",true,2);
-        chart_parser parser = new chart_parser(DATA+"es/grammar-dep.dat");
-        dep_txala dep = new dep_txala(DATA+"es/dep/dependences.dat", parser.get_start_symbol());
-        senses sen = new senses(DATA+"es/senses16.db",false);
+	hmm_tagger tg = new hmm_tagger(LANG,DATA+LANG+"/tagger.dat",true,2);
+        chart_parser parser = new chart_parser(DATA+LANG+"/grammar-dep.dat");
+        dep_txala dep = new dep_txala(DATA+LANG+"/dep/dependences.dat", parser.get_start_symbol());
+
+	disambiguator dis = new disambiguator(DATA+"common/wn16-ukb.bin",DATA+LANG+"/senses16.ukb");
+	// Instead of a "disambiguator", you can use a "senses" object, that simply
+        // gives all possible WN senses, sorted by frequency.
+	// senses sen = new senses(DATA+LANG+"/senses16.db",false);
 
 	BufferedReader input = new BufferedReader(new InputStreamReader(System.in, "iso-8859-15"));
 	// BufferedReader input = new BufferedReader(new InputStreamReader(System.in,"utf-8"));
@@ -38,7 +44,8 @@ public class analyzer {
 	    ls=mf.analyze(ls);                       // morphological analysis
 	    ls=tg.analyze(ls);                       // PoS tagging
 
-            sen.analyze(ls);
+	    // sen.analyze(ls);
+            dis.analyze(ls);
             printResults(ls,"tagged");
 
 	    // Chunk parser
@@ -56,14 +63,14 @@ public class analyzer {
 
 
     static void print_senses(word w) {
-	
-	ListString ss = w.get_senses();
-	if (ss.size()>0) {
-	    System.out.print(" "+ss.get(0));
-	    for (int k=1; k<ss.size(); k++) {
-		System.out.print(":"+ss.get(k));
-	    }
-	}
+	String ss = w.get_senses_string();
+	// The senses for a FreeLing word are a list of
+        // pair<string,double> (sense and page rank). From java, we
+        // have to get them as a string with format
+        // sense:rank/sense:rank/sense:rank 
+	// which will have to be splitted to obtain the info.
+	// Here, we just output it: 
+	System.out.print(" " + ss);
     }
 
     static void printResults(ListSentence ls, String format) {

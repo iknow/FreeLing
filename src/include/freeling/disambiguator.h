@@ -10,7 +10,7 @@
 class disambiguator {
    public:
       /// Constructor
-       disambiguator(const std::string &, const std::string &);
+  disambiguator(const std::string &, const std::string &, double, int);
       /// Destructor
       ~disambiguator();
       ///removal of trailing -a, -n, -v, or -r from synset code

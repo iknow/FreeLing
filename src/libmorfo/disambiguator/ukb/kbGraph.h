@@ -100,7 +100,12 @@ public:
   // write_to_binfile
   // Write kb graph to a binary serialization file
 
-  void write_to_binfile (const std::string & str) const;
+  void write_to_binfile (const std::string & str);
+
+  // write_to_textfile
+  // Write kb graph to a text file
+
+  void write_to_textfile (const std::string & fName);
 
   // add_from_txt
   // add relations from synsFile to the graph
@@ -131,6 +136,11 @@ public:
 
   Kb_edge_t find_or_insert_edge(Kb_vertex_t u, Kb_vertex_t v, float w );
 
+  // Unlink dangling_nodes (out_degree == 0).
+  // Return num. of unlinked nodes
+
+  size_t unlink_dangling();
+
   // Add relation type to edge
 
   void edge_add_reltype(Kb_edge_t e, const std::string & rel);
@@ -152,7 +162,7 @@ public:
 
   // get static pageRank
 
-  const std::vector<double> & static_prank() const;
+  const std::vector<float> & static_prank() const;
 
   // Nodes can be synsets or words
 
@@ -175,8 +185,8 @@ public:
   // outranks: new rank vector
   // vnames: node names
 
-  void filter_ranks_vnames(const std::vector<double> & ranks,
-						   std::vector<double> & outranks,
+  void filter_ranks_vnames(const std::vector<float> & ranks,
+						   std::vector<float> & outranks,
 						   std::vector<std::string> & vnames,
 						   int filter_mode) const;
 
@@ -202,10 +212,10 @@ public:
 
   bool dijkstra (Kb_vertex_t src, std::vector<Kb_vertex_t> & parents) const;
 
-  void pageRank_ppv(const std::vector<double> & ppv_map,
-					std::vector<double> & ranks);
+  void pageRank_ppv(const std::vector<float> & ppv_map,
+					std::vector<float> & ranks);
 
-  void ppv_weights(const std::vector<double> & ppv);
+  void ppv_weights(const std::vector<float> & ppv);
 
   // given a source node and a limit (100) return a subgraph by performing a
   // bfs over the graph.
@@ -237,7 +247,7 @@ private:
 					 const std::set<std::string> & rels_source);
 
   void read_from_stream (std::ifstream & o);
-  std::ofstream & write_to_stream(std::ofstream & o) const;
+  std::ofstream & write_to_stream(std::ofstream & o);
 
   // Private members
   KbGraph g;
@@ -257,7 +267,7 @@ private:
   char coef_status;                      // 0 invalid
   // 1 calculated without weights
   // 2 calculated with weights
-  std::vector<double> static_ranks;       // aux. vector with static prank computation
+  std::vector<float> static_ranks;       // aux. vector with static prank computation
   };
 }
 

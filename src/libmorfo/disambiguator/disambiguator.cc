@@ -10,12 +10,17 @@ using namespace std;
 using namespace ukb;
 
 //constructor
-disambiguator::disambiguator(const string & relFile, const string & dictFile) {
+disambiguator::disambiguator(const string & relFile, const string & dictFile, double eps, int iter) {
 
+  // load graph
   Kb::create_from_binfile(relFile);
-  glVars::dict_filename = dictFile;
-  
-  // adding the dictionary (glVars::dict_filename) to the UKB (here, WordNet relations) graph
+
+  // set UKB stopping parameters
+  glVars::prank::threshold = eps;
+  glVars::prank::num_iterations = iter;
+
+  // adding the dictionary to the UKB graph
+  glVars::dict_filename = dictFile;  
   Kb::instance().add_dictionary(false);
 }
 
@@ -60,7 +65,7 @@ void disambiguator::analyze(std::list<sentence> & ls) {
 	
 	
 	//calling ukb library to disambiguate
-	vector<double> ranks;
+	vector<float> ranks;
 	
 	/*bool ok = */calculate_kb_ppr(cs,ranks);
 	//If an error is output here then you have an output for every empty line, not very agreeable.
