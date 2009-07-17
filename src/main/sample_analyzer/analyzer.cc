@@ -141,7 +141,8 @@ void PrintDepTree (dep_tree::iterator n, int depth, const config & cfg, const do
   ref = (cfg.COREF_CoreferenceResolution ? doc.get_coref_group(n->info.get_link()->info) : -1);
 
   cout << n->info.get_link()->info.get_label(); 
-  if (ref != -1 and n->info.get_link()->info.get_label() == "sn") cout<<"(REF:" << ref <<")";
+  if (ref != -1 and n->info.get_link()->info.get_label() == "sn")
+    cout<<"(REF:" << ref <<")";
   cout<<"/" << n->info.get_label() << "/";
 
   word w = n->info.get_word();
@@ -625,8 +626,8 @@ int main (int argc, char **argv) {
       exit (1);
     }
 
-  if (cfg.COREF_CoreferenceResolution and cfg.OutputFormat<TAGGED) {
-    cerr <<"Error - Requested coreference resolution is only compatible with output format 'tagged', 'parsed' or 'dep'." <<endl;
+  if (cfg.COREF_CoreferenceResolution and cfg.OutputFormat<=TAGGED) {
+    cerr <<"Error - Requested coreference resolution is only compatible with output format 'parsed' or 'dep'." <<endl;
     exit (1);
   }
 
