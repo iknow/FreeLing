@@ -138,11 +138,14 @@ void PrintDepTree (dep_tree::iterator n, int depth, const config & cfg, const do
 
   cout << string (depth*2, ' ');
 
-  ref = (cfg.COREF_CoreferenceResolution ? doc.get_coref_group(n->info.get_link()->info) : -1);
+  parse_tree::iterator pn = n->info.get_link();
 
-  cout << n->info.get_link()->info.get_label(); 
-  if (ref != -1 and n->info.get_link()->info.get_label() == "sn")
+  cout<<pn->info.get_label(); 
+
+  ref = (cfg.COREF_CoreferenceResolution ? doc.get_coref_group(pn->info) : -1);
+  if (ref != -1 and pn->info.get_label() == "sn") {
     cout<<"(REF:" << ref <<")";
+  }
   cout<<"/" << n->info.get_label() << "/";
 
   word w = n->info.get_word();
@@ -305,11 +308,16 @@ void ProcessCoreference (const config & cfg, tokenizer * tk, splitter * sp, maco
     tagger->analyze(*p);
     neclass->analyze(*p);
     parser->analyze(*p);
-    if (dep) dep->analyze(*p);
   }
 
   // solve coreference
   corfc->analyze(doc);
+
+  // if dependence analysis was requested, do it now (coref solver
+  // only works on chunker output, not over complete trees)
+  if (dep)
+    for (document::iterator p=doc.begin(); p!=doc.end(); p++)
+      dep->analyze(*p);
 
   // output results in requested format 
   for (document::iterator par=doc.begin(); par!=doc.end(); par++) 
@@ -616,7 +624,6 @@ int main (int argc, char **argv) {
 
   // read configuration file and command-line options
   config cfg (argv);
-  string kb_binfile = "/home/sreese/freeling/src/utilities/wn16_ukb.bin";
 
   if (!((cfg.InputFormat < cfg.OutputFormat) or
 	(cfg.InputFormat == cfg.OutputFormat and cfg.InputFormat == TAGGED
