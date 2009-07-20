@@ -300,6 +300,8 @@ parse_tree completer::complete(parse_tree &tr, const string & startSymbol) {
     trees.erase (end, trees.end());    
   }
   
+  // rebuild node index with new iterators, maintaining id's
+  trees[0]->rebuild_node_index();
   return (*trees[0]);
 }
 
@@ -665,7 +667,7 @@ parse_tree * completer::applyRule(const completerRule & r, parse_tree * chunkLef
     }   
 
     // insert Left tree under top node in Right
-    chunkRight->hang_child(*chunkLeft);
+    chunkRight->hang_child(*chunkLeft,false);
     return chunkRight;
    }
   
@@ -713,7 +715,7 @@ parse_tree * completer::applyRule(const completerRule & r, parse_tree * chunkLef
     // We stored it in the rule when checking for its applicability.
     parse_tree::iterator p=r.last;
     // hang Left tree under last node in Right tree
-    p->hang_child(*chunkLeft); 
+    p->hang_child(*chunkLeft,false); 
     return chunkRight;
   }
 

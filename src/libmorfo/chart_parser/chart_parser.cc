@@ -85,6 +85,9 @@ void chart_parser::analyze(list<sentence> &ls) {
 	w++;
       }
     }
+
+    // assign an id to each node and build an index to access them by id
+    tr.build_node_index();
     // include the tree in the sentence object
     s->set_parse_tree(tr);
   }

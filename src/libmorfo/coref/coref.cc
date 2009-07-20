@@ -238,9 +238,9 @@ void coref::analyze(document & doc) const {
     list<SAMPLE>::const_iterator j = i; 
     --j;
     while (!end && !found && count > 0) {
-      TRACE(4,"   checking pair ("+j->text+","+i->text+")");
+      TRACE(4,"   checking pair ("+j->text+"<"+j->node1->get_node_id()+">,"+i->text+"<"+i->node1->get_node_id()+">)");
       found = check_coref(*j, *i);
-      if (found) doc.add_positive(*(j->node1), *(i->node1));
+      if (found) doc.add_positive(j->node1->get_node_id(), i->node1->get_node_id());
       
       if (j==candidates.begin()) end=true;
       else --j;
