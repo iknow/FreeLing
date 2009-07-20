@@ -80,7 +80,7 @@ void OutputSenses (const analysis & a, const config &cfg) {
 void PrintTree (parse_tree::iterator n, int depth, const config &cfg, const document &doc=document()) {
   parse_tree::sibling_iterator d;
 
-  cout << string (depth * 2, ' ');
+  cout << string (depth * 2, ' ');  
   if (n->num_children () == 0) {
     if (n->info.is_head ()) cout << "+";
     word w = n->info.get_word ();
@@ -94,7 +94,7 @@ void PrintTree (parse_tree::iterator n, int depth, const config &cfg, const docu
     cout<<n->info.get_label();
     if (cfg.COREF_CoreferenceResolution) {
       // Print coreference group, if needed.
-      int ref = doc.get_coref_group(n->info);
+      int ref = doc.get_coref_group(n->info.get_node_id());
       if (ref != -1 and n->info.get_label() == "sn") cout<<"(REF:" << ref <<")";
     }
     cout << "_[" << endl;
@@ -140,7 +140,7 @@ void PrintDepTree (dep_tree::iterator n, int depth, const config & cfg, const do
 
   parse_tree::iterator pn = n->info.get_link();
   cout<<pn->info.get_label(); 
-  ref = (cfg.COREF_CoreferenceResolution ? doc.get_coref_group(pn->info) : -1);
+  ref = (cfg.COREF_CoreferenceResolution ? doc.get_coref_group(pn->info.get_node_id()) : -1);
   if (ref != -1 and pn->info.get_label() == "sn") {
     cout<<"(REF:" << ref <<")";
   }
