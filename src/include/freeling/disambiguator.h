@@ -10,14 +10,15 @@
 class disambiguator {
    public:
       /// Constructor
-  disambiguator(const std::string &, const std::string &, double, int);
+      disambiguator(const std::string &, const std::string &, double, int);
       /// Destructor
       ~disambiguator();
-      ///removal of trailing -a, -n, -v, or -r from synset code
-      std::string convert_synset(std::string);
-
       /// word sense disambiguation for each word in given sentences
       void analyze(std::list<sentence> &);
+      
+   private:
+      ///removal of trailing -a, -n, -v, or -r from synset code
+      std::string convert_synset(std::string);
 };
 
 #endif
