@@ -32,7 +32,7 @@ in the license applying to each of the involved modules.
      You'll find the license in the file LICENSES/CC-BY-SA.license included in this 
      package or at http://creativecommons.org/licenses/by-sa/2.0/  
 
- 3.- Spanish dictionary contained in the file data/es/dicc.src in this
+ 4.- Spanish dictionary contained in the file data/es/dicc.src in this
      package is extracted from the Spanish Resource Grammar projects
      (http://www.upf.edu/pdi/iula/montserrat.marimon/srg.html) and was
      developed at the Institut Universitari de Linguistica Aplicada 
@@ -42,12 +42,12 @@ in the license applying to each of the involved modules.
      You'll find the license in the file LICENSES/LGPLLR.license included 
      in this package or at http://sanskrit.inria.fr/DATA/LGPLLR.html
 
- 4.- Catalan dictionary was obtained from "El Corrector", a Catalan 
+ 5.- Catalan dictionary was obtained from "El Corrector", a Catalan 
      spellchecker project (http://projectes.lafarga.cat/projects/corrector), 
      which was funded  by the Catalan Government, developed by Fundacio 
      Barcelona Media (http://www.barcelonamedia.org/), and released under GPL.
 
- 5.- Portuguese dictionary contained in the file data/pt/dicc.src in this package is
+ 6.- Portuguese dictionary contained in the file data/pt/dicc.src in this package is
      extracted from the LABEL-LEX project (http://label.ist.utl.pt/pt/labellex_pt.php)
      developed by Laboratório de Engenharia da Linguagem (http://label.ist.utl.pt) at 
      Universidade Técnica de Lisboa (http://www.utl.pt), and adapted to FreeLing
@@ -56,8 +56,10 @@ in the license applying to each of the involved modules.
      LICENSES/CC-BY-SA.license included in this package or 
      at http://creativecommons.org/licenses/by-sa/2.0/  
 
- 6.- All other data and code modules in this package are distributed under GNU
-     General Public License (GPL).
-     You can find it in the file LICENSES/GPL.license included in this package 
-     or at http://www.gnu.org/licenses
-
+ 9.- All other data and code modules in this package are distributed
+     under GNU General Public License (GPL).  
+     Note that different GPL'ed linguistic resources in this package
+     may have different copyright holders.
+     You can find a copy of GPL license in the file
+     LICENSES/GPL.license included in this package or at
+     http://www.gnu.org/licenses
