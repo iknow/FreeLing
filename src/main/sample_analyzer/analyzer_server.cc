@@ -722,20 +722,8 @@ int main (int argc, char **argv) {
   }
 
   // Dependency parsing requested
-  if (cfg.InputFormat < PARSED && cfg.OutputFormat >= DEP) {
-    if (cfg.DEP_which == TXALA)
-      dep = new dep_txala (cfg.DEP_TxalaFile,
-			   parser->get_start_symbol ());
-    else if (cfg.DEP_which == MALT) {
-#ifdef ENABLE_MALT
-      dep = new malt_parser (cfg.DEP_MaltFile,cfg.Lang);
-#else
-      cerr <<"Error - Malt Parser was requested, but malt-plugin was not built." <<endl;
-      cerr <<"        Use option --enable-maltplugin when running ./configure"<<endl;	
-      exit (1);
-#endif
-    }
-  }
+  if (cfg.InputFormat < PARSED && cfg.OutputFormat >= DEP) 
+    dep = new dep_txala (cfg.DEP_TxalaFile, parser->get_start_symbol ());
 
   cerr<<"SERVER: Analyzers loaded."<<endl;
 
