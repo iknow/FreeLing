@@ -53,7 +53,6 @@
 
 // codes for dependency parsers
 #define TXALA	0
-#define MALT	1
 
 // codes for sense annotation
 #define NONE  0
@@ -134,9 +133,7 @@ class config {
     char * PARSER_GrammarFile;
 
     /// Dependency options
-    int DEP_which;
     char * DEP_TxalaFile;    
-    char * DEP_MaltFile;
 
     int COREF_CoreferenceResolution;
     char * COREF_CorefFile;
@@ -147,7 +144,7 @@ class config {
       register int ret;
       int help;
       // Auxiliary for string translation
-      char *InputF, *OutputF, *Ner, *Tagger, *SenseAnot, *Force, *DepParser;
+      char *InputF, *OutputF, *Ner, *Tagger, *SenseAnot, *Force;
       // Auxiliary for boolean handling
       int flush,noflush, afx,noafx,   loc,noloc,   numb,nonumb,
           punt,nopunt,   date,nodate,   quant,noquant,  dict,nodict,   prob,noprob,
@@ -239,8 +236,6 @@ class config {
 	{"grammar", 'G',  "GrammarFile",             CFG_STR, (void *) &PARSER_GrammarFile, 0},
         // dep options
 	{"txala", 'T', "DepTxalaFile",               CFG_STR, (void *) &DEP_TxalaFile, 0},
-	{"malt",  'M', "DepMaltFile",		     CFG_STR, (void *) &DEP_MaltFile,0},
-	{"dep",   'd', "DepParser",		     CFG_STR, (void *) &DepParser, 0},
 	// Coreference options
 	{"coref",   '\0', NULL,                        CFG_BOOL, (void *) &coref, 0},
 	{"nocoref", '\0', NULL,                        CFG_BOOL, (void *) &nocoref, 0},
@@ -256,7 +251,7 @@ class config {
       }
       
       // init auxiliary variables
-      InputF=NULL; OutputF=NULL;  Ner=NULL; Tagger=NULL; SenseAnot=NULL; Force=NULL; DepParser=NULL;
+      InputF=NULL; OutputF=NULL;  Ner=NULL; Tagger=NULL; SenseAnot=NULL; Force=NULL;
       flush=false; noflush=false; afx=false;   noafx=false; 
       loc=false;   noloc=false;   numb=false;   nonumb=false;   punt=false; nopunt=false;
       date=false;  nodate=false;  quant=false;  noquant=false;  dict=false; nodict=false; 
@@ -291,8 +286,8 @@ class config {
       TAGGER_RelaxMaxIter=0; TAGGER_RelaxScaleFactor=0.0; TAGGER_RelaxEpsilon=0.0;
       TAGGER_Retokenize=0; TAGGER_ForceSelect=0;
       PARSER_GrammarFile=NULL;
-      DEP_which=0; DEP_TxalaFile=NULL; DEP_MaltFile=NULL;
       COREF_CoreferenceResolution=false; COREF_CorefFile=NULL;
+      DEP_TxalaFile=NULL; 
 
        // parse comand line
       cfg_set_cmdline_context(con, 1, -1, argv);
@@ -363,7 +358,6 @@ class config {
       ExpandFileName(TAGGER_RelaxFile); 
       ExpandFileName(PARSER_GrammarFile); 
       ExpandFileName(DEP_TxalaFile);
-      ExpandFileName(DEP_MaltFile);
       ExpandFileName(COREF_CorefFile); 
 	     
       // Handle boolean options expressed with --myopt or --nomyopt in command line
@@ -417,11 +411,6 @@ class config {
       if (s=="hmm") TAGGER_which = HMM;
       else if (s=="relax") TAGGER_which = RELAX;
       else WARNING("Invalid tagger algorithm '"+s+"'. Using default.");
-
-      s = (DepParser==NULL ? "txala" : string(DepParser));
-      if (s == "malt") DEP_which = MALT;
-      else if (s == "txala") DEP_which = TXALA;
-      else WARNING("Invalid DEP parser '"+s+"'. Using default.");
 
       // Translate ForceSelect string to more useful integer values.
       s = (Force==NULL ? "retok" : string(Force));
@@ -533,9 +522,7 @@ class config {
       cout<<"--sf,-r float          Support scale factor for RELAX tagger (affects step size)"<<endl;
       cout<<"--eps float            Epsilon value to decide when RELAX tagger achieves no more changes"<<endl;
       cout<<"--grammar,-G filename  Grammar file for chart parser"<<endl;
-      cout<<"--dep,-d string        Dependency parser to use (txala, malt)"<<endl;
       cout<<"--txala,-T filename    Rule file for Txala dependency parser"<<endl;
-      cout<<"--malt,-M filename     Data file for dependency parser"<<endl;
       cout<<"--coref, --nocoref     Whether to perform coreference resolution"<<endl;
       cout<<"--fcorf,-C filename    Coreference solver data file"<<endl;
       cout<<endl;

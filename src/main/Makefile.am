@@ -6,15 +6,10 @@ analyzer_SOURCES = sample_analyzer/analyzer.cc sample_analyzer/config.h
 analyzer_server_SOURCES = sample_analyzer/analyzer_server.cc sample_analyzer/config.h
 analyzer_client_SOURCES = sample_analyzer/analyzer_client.cc
 
-if ENABLE_MALT
-  LJVM = -ljvm
-else
-  LJVM =
-endif
-analyzer_LDADD = -lmorfo -lfries -lomlet -lcfg+ -lpcre -ldb_cxx -lboost_filesystem $(LJVM)
+analyzer_LDADD = -lmorfo -lfries -lomlet -lcfg+ -lpcre -ldb_cxx -lboost_filesystem
 analyzer_LDFLAGS = -L$(top_srcdir)/src/libmorfo
 
-analyzer_server_LDADD = -lmorfo -lfries -lomlet -lcfg+ -lpcre -ldb_cxx -lboost_filesystem $(LJVM)
+analyzer_server_LDADD = -lmorfo -lfries -lomlet -lcfg+ -lpcre -ldb_cxx -lboost_filesystem
 analyzer_server_LDFLAGS = -L$(top_srcdir)/src/libmorfo
 
 analyzer_client_LDADD = -lpthread
