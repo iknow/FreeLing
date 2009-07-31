@@ -1,1 +1,1 @@
-SUBDIRS = libcfg+ include libmorfo main utilities
+SUBDIRS = include libmorfo main utilities
