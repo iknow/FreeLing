@@ -159,85 +159,144 @@ WordNet, such as semantic file codes, or hypernymy relationships.
       OpenSuse/Fedora/Mandriva: libpcre libpcre-devel \\
 
      \item {\tt libdb} (version 4.1.25 or higher) \\
-       Berkeley
-       DB. Included in all Linux distributions. You probably have it
+       Berkeley DB. Included in all Linux distributions. You probably have it
        already installed. Just make sure you have installed both
        runtime and development packages, as well as C++ support:\\
 
-      Orientative package names (check the package manager in your system):\\
+       Orientative package names (check the package manager in your system):\\
        Ubuntu/Debian: libdb4.6 libdb4.6-dev libdb4.6++ libdb4.6++-dev\\
        OpenSuse/Fedora/Mandriva: libdb-4.6 libdb-4.6-devel libdb\_cxx-4.6 libdb\_cxx-4.6-devel  \\
+
+     \item {\tt libboost} (version 1.31 or higher) \\
+       Boost library. Included in all Linux distributions. You probably {\bf do not} have it
+       installed. Make sure to installed both runtime and development packages:\\
+
+       Orientative package names (check the package manager in your system):\\
+       Ubuntu/Debian: libboost-dev libboost-filesystem libboost-graph\\
+       OpenSuse/Fedora/Mandriva: libboost-devel libboost  \\
 
      \item {\tt libcfg+} (version 0.6.1 or higher) \\
        Configuration file and command-line options management. 
        Probably not included in your linux distribution.
        Available from {\tt http://www.platon.sk/projects/libcfg+/},
-       follow installation instructions provided in the libcfg+ package.
+       follow installation instructions provided in the libcfg+ package. \\
 
-     \item {\tt Omlet \& Fries} (omlet v.1.0 or higher, fries v.1.0 or higher)//
+     \item {\tt Omlet \& Fries} (omlet v.1.0 or higher, fries v.1.1 or higher)//
         Machine Learning utility libraries, used by Named Entity Classifier.
-        Installation scripts are not very clever, so these libraries are 
+        These libraries contain linguistic data strucrures, so they are
         required even if you do not plan to use the NEC ability of FreeLing.
         Available from {\tt http://www.lsi.upc.edu/\~{\ }/nlp/omlet+fries}
 
     \end{itemize}
 \end{itemize}
 
-   Note that if you (or the library package) install those libraries
-   or headers in non-standard directories (that is, other than {\tt /usr/lib}
-   or {\tt /usr/local/lib} for libraries, or other than {\tt /usr/include} or 
-   {\tt /usr/local/include} for headers) you may need to use the {\tt CPPFLAGS}
-   or {\tt LDFLAGS} variables to properly run {\tt ./configure} script.
+   See details on the installation procedure in section \ref{sec-installation}.
+
+%..................................................
+\section{Installation}
+\label{sec-installation}
+
+Installation follows standard GNU autoconfigure installation procedures.
+See the file INSTALL for further details.
+
+This section provides a detailed guide on how to install FreeLing (and all its
+required packages)
+
+\begin{enumerate}
+
+\item Install packaged requirements
+
+ Many of the required libraries are standard packages in all Linux distributions. 
+Just open your favorite software package manager and install them.
+ 
+ As an example, commands to install the packages from command line in Ubuntu are 
+provided, though you can do the same using synaptic or a similar manager.
+
+\noindent {\bf Install libpcre headers:}
+\begin{verbatim}
+ sudo apt-get install libprec3-dev
+\end{verbatim}
+
+\noindent {\bf Install libdb headers}\\
+ (version doesn't need to be 4.6. Any 4.x available in your distribution will do):
+\begin{verbatim}
+ sudo apt-get install libdb4.6++-dev
+\end{verbatim}
+
+\noindent {\bf Install libboost headers and binaries}\\
+ (in Ubuntu, installing this single package, will pull in all the required others):
+\begin{verbatim}
+ sudo apt-get install libboost-dev
+\end{verbatim}
+
+
+\item Install non-packaged requirements
+
+\noindent {\bf Install libcfg+ library}\\
+ This library is not usually found packaged in Linux distributions, so you need to install it from source.
+\begin{verbatim}
+  wget http://platon.sk/projects/download.php?id=57
+  tar xzvf libcfg+-0.6.2.tar.gz
+  cd libcfg+-0.6.2
+  ./configure CPPFLAGS="-fPIC"
+  make
+  sudo make install
+\end{verbatim}
+
+  If you do not have {\tt wget}, you simply can get the package directly from {\tt http://www.platon.sk/projects/libcfg+/}.
+
+
+\item Install FreeLing
+
+\noindent {\bf Install libfries:}
+\begin{verbatim}
+  tar xzvf libfries-1.1.tar.gz
+  ./configure
+  make
+  sudo make install
+\end{verbatim}
+
+\noindent {\bf Install libomlet:}
+\begin{verbatim}
+  tar xzvf libomlet-1.0.tar.gz
+  ./configure
+  make
+  sudo make install
+\end{verbatim}
+
+ Omlet\&Fries libraries are contained in the files {\tt libomlet.so} and {\tt libfries.so}, installed by default in {\tt /usr/local/lib}. If you're a developer, you need to know that {\tt libfries.so} contains the classes storing linguistic information, which are described in section \ref{ssec-data}.
+
+\noindent {\bf Install FreeLing:}
+\begin{verbatim}
+  tar xzvf FreeLing-2.1.tar.gz
+  ./configure
+  make
+  sudo make install
+\end{verbatim}
+
+   Note that if you (or the library package) install some libraries or
+   headers in non-standard directories (that is, other than {\tt
+     /usr/lib} or {\tt /usr/local/lib} for libraries, or other than
+   {\tt /usr/include} or {\tt /usr/local/include} for headers) you may
+   need to use the {\tt CPPFLAGS} or {\tt LDFLAGS} variables to
+   properly run the {\tt ./configure} script when compiling FreeLing.
 
     For instance, if you installed BerkeleyDB from a {\tt rpm}
    package, the {\tt db\_cxx.h} header file may be located at {\tt
    /usr/include/db4} instead of the default {\tt /usr/include}.  So,
    if {\tt ./configure} complains about not finding the library
-   header, you'll have to specify where to find it:\\ 
-     {\tt ./configure CPPFLAGS='-I/usr/include/db4'} 
+   header, you'll have to specify where to find it, with something like:\\ 
+   {\tt ./configure CPPFLAGS='-I/usr/include/db4'} 
 
-%..................................................
-\section{Installation}
+ FreeLing library is entirely contained in the file {\tt libmorfo.so} installed by default in {\tt /usr/local/lib}.
 
-Installation follows standard GNU autoconfigure installation
-procedures. See the file INSTALL for further details.
+ Sample program {\tt analyze} is installed in {\tt /usr/local/bin}. See sections \ref{sec-execute} and \ref{cap-analyzer} for details.
 
-More detailed installation instructions and tricks can be found in
-FreeLing web page and discussion forums.
-
-The installation consists of a few basic steps:
-\begin{itemize}
- \item Install the required libraries mentioned in the previous section. 
- \item Decompress the FreeLing-X.X.tgz package in a temporary subdirectory.
- \item Issue the commands:\\
-   {\tt
-   ./configure\\
-   make\\
-   make install\\
-   }
-\end{itemize}
-The last command must be issued as root or with {\tt sudo} privileges.
-
-You may control the installation defaults providing appropriate
- parametres to the {\tt ./configure} script. The command: \\
-  {\tt ./configure --help } 
-
-   will provide help about installation options (e.g. non-default
-   installation directory, non standard locations for required
-   libraries, etc.) 
-
- The INSTALL file provides more information on standard installation 
- procedures.
-
-
- FreeLing library is contained in the file {\tt libmorfo.so} installed by default in {\tt /usr/local/lib}.
-
- Sample main programs (see section \ref{sec-main}) are installed in {\tt /usr/local/bin}
-
- Omlet\&Fries libraries are contained in the files {\tt libomlet.so} and {\tt libfries.so}, installed by default in {\tt /usr/local/lib}. If you're a developer, you need to know that {\tt libfries.so} contains the classes storing linguistic information, which are described in section \ref{ssec-data}.
+\end{enumerate}
 
 %..................................................
 \section{Executing}
+\label{sec-execute}
 
   FreeLing is a library, which means that it not a final-user oriented
   executable program, but a tool to develop new programs which may
@@ -261,8 +320,6 @@ You may control the installation defaults providing appropriate
   In the directory {\tt src/main/simple\_examples} in the tarball, you
  can find simpler sample programs that illustrate how to call the library, 
  and that can be used as a starting point to develop your own application.
-
-
 
 %..................................................
 \section{Porting to other platforms}
@@ -2729,8 +2786,8 @@ to the command above.
  {\tt analyzer} sample main program, which allows the user to process an input text
  to obtain several linguistic processings.
 
-  Take into account that it is impossible to write a program that fits
-  everyone's needs. The {\tt analyzer} program offers you almost all
+  Since it is impossible to write a program that fits
+  everyone's needs, the {\tt analyzer} program offers you almost all
   functionalities included in FreeLing, but if you want it to output
   more information, or do so in a specific format, or combine the
   modules in a different way, the right path to follow is building
@@ -2742,7 +2799,6 @@ to the command above.
   server remains loaded after analyzing each client's request, thus
   reducing the starting-up overhead if many small files have to be
   processed.
-
 
   To ease the invocation of the program, a script named {\tt analyze}
   (no final {\tt r}) is provided. This is script is able to locate
@@ -2789,6 +2845,12 @@ E.g.:
   When the server ends attending one request, a new client can be
   started, and the server will be ready to analyze it, without having
   to reload the analyzers.
+
+  The server doesn't take care of syncronizing with the clients, which means
+ that if two clients send data to the same server, their inputs will intermix
+ in the output.
+
+  The user starting the clients must ensure there is no overlapping in the requests.
 
 %..................................................
 \section{Usage example}
