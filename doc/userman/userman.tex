@@ -134,6 +134,7 @@ WordNet, such as semantic file codes, or hypernymy relationships.
 
 %..................................................
 \section{Requirements}
+\label{sec-requirements}
 
  To install FreeLing you'll need:
 
@@ -154,7 +155,7 @@ WordNet, such as semantic file codes, or hypernymy relationships.
       Expressions. Included in most Linux distributions. Just make
       sure you have installed both development and runtime packages.
 
-      Orientative package names (check the package manager in your system):\\
+      {\sl Orientative package names} (check the package manager in your system):\\
       Ubuntu/Debian: libpcre3-dev libpcre3\\
       OpenSuse/Fedora/Mandriva: libpcre libpcre-devel \\
 
@@ -163,7 +164,7 @@ WordNet, such as semantic file codes, or hypernymy relationships.
        already installed. Just make sure you have installed both
        runtime and development packages, as well as C++ support:\\
 
-       Orientative package names (check the package manager in your system):\\
+       {\sl Orientative package names} (check the package manager in your system):\\
        Ubuntu/Debian: libdb4.6 libdb4.6-dev libdb4.6++ libdb4.6++-dev\\
        OpenSuse/Fedora/Mandriva: libdb-4.6 libdb-4.6-devel libdb\_cxx-4.6 libdb\_cxx-4.6-devel  \\
 
@@ -171,7 +172,7 @@ WordNet, such as semantic file codes, or hypernymy relationships.
        Boost library. Included in all Linux distributions. You probably {\bf do not} have it
        installed. Make sure to installed both runtime and development packages:\\
 
-       Orientative package names (check the package manager in your system):\\
+       {\sl Orientative package names} (check the package manager in your system):\\
        Ubuntu/Debian: libboost-dev libboost-filesystem libboost-graph\\
        OpenSuse/Fedora/Mandriva: libboost-devel libboost  \\
 
@@ -181,7 +182,7 @@ WordNet, such as semantic file codes, or hypernymy relationships.
        Available from {\tt http://www.platon.sk/projects/libcfg+/},
        follow installation instructions provided in the libcfg+ package. \\
 
-     \item {\tt Omlet \& Fries} (omlet v.1.0 or higher, fries v.1.1 or higher)//
+     \item {\tt Omlet \& Fries} (omlet v.1.0 or higher, fries v.1.1 or higher)\\
         Machine Learning utility libraries, used by Named Entity Classifier.
         These libraries contain linguistic data strucrures, so they are
         required even if you do not plan to use the NEC ability of FreeLing.
@@ -196,43 +197,48 @@ WordNet, such as semantic file codes, or hypernymy relationships.
 \section{Installation}
 \label{sec-installation}
 
-Installation follows standard GNU autoconfigure installation procedures.
-See the file INSTALL for further details.
+Installation follows standard GNU autoconfigure installation procedures (that is, 
+the usual \verb#./configure && make && make install# stuff).
 
 This section provides a detailed guide on how to install FreeLing (and all its
 required packages)
 
 \begin{enumerate}
 
-\item Install packaged requirements
+\item {\bf Install packaged requirements}
 
  Many of the required libraries are standard packages in all Linux distributions. 
 Just open your favorite software package manager and install them.
- 
- As an example, commands to install the packages from command line in Ubuntu are 
-provided, though you can do the same using synaptic or a similar manager.
 
-\noindent {\bf Install libpcre headers:}
+  Package names may vary slightly in different
+ distributions. See section \ref{sec-requirements} for some hints on
+ possible package names.
+
+ As an example, commands to install the packages from command line in
+ Ubuntu are provided, though you can do the same using synaptic or a
+ similar manager. 
+
+\noindent {\sl Install libpcre headers:}
 \begin{verbatim}
- sudo apt-get install libprec3-dev
+ sudo apt-get install libpcre3-dev
 \end{verbatim}
 
-\noindent {\bf Install libdb headers}\\
+\noindent {\sl Install libdb headers}\\
  (version doesn't need to be 4.6. Any 4.x available in your distribution will do):
 \begin{verbatim}
  sudo apt-get install libdb4.6++-dev
 \end{verbatim}
 
-\noindent {\bf Install libboost headers and binaries}\\
- (in Ubuntu, installing this single package, will pull in all the required others):
+\noindent {\sl Install libboost headers and binaries}\\
+ (in Ubuntu Jaunty, installing this single package, will pull in all the required others):
 \begin{verbatim}
  sudo apt-get install libboost-dev
 \end{verbatim}
 
 
-\item Install non-packaged requirements
+\item {\bf Install non-packaged requirements}
 
-\noindent {\bf Install libcfg+ library}\\
+\noindent {\sl Install libcfg+ library}\\
  This library is not usually found packaged in Linux distributions, so you need to install it from source.
 \begin{verbatim}
   wget http://platon.sk/projects/download.php?id=57
@@ -246,9 +252,9 @@ provided, though you can do the same using synaptic or a similar manager.
   If you do not have {\tt wget}, you simply can get the package directly from {\tt http://www.platon.sk/projects/libcfg+/}.
 
 
-\item Install FreeLing
+\item {\bf Install FreeLing}
 
-\noindent {\bf Install libfries:}
+\noindent {\sl Install libfries:}
 \begin{verbatim}
   tar xzvf libfries-1.1.tar.gz
   ./configure
@@ -256,7 +262,7 @@ provided, though you can do the same using synaptic or a similar manager.
   sudo make install
 \end{verbatim}
 
-\noindent {\bf Install libomlet:}
+\noindent {\sl Install libomlet:}
 \begin{verbatim}
   tar xzvf libomlet-1.0.tar.gz
   ./configure
@@ -266,7 +272,7 @@ provided, though you can do the same using synaptic or a similar manager.
 
  Omlet\&Fries libraries are contained in the files {\tt libomlet.so} and {\tt libfries.so}, installed by default in {\tt /usr/local/lib}. If you're a developer, you need to know that {\tt libfries.so} contains the classes storing linguistic information, which are described in section \ref{ssec-data}.
 
-\noindent {\bf Install FreeLing:}
+\noindent {\sl Install FreeLing itself:}
 \begin{verbatim}
   tar xzvf FreeLing-2.1.tar.gz
   ./configure
@@ -1456,12 +1462,12 @@ class senses {
   \ref{mod-sense} is a lighter and faster option.
 
   The module is just a wrapper for UKB algorithm
-  \cite{soroa09}, which is integrated in FreeLing and distributed as-is
+  \cite{agirre09}, which is integrated in FreeLing and distributed as-is
    under its original GPL license.
 
   UKB algorithm relies on a semantic relation network (in this case,
   WN and XWN) to disambiguate the most likely senses for words in a
-  text using PageRank algorithm. See \cite{soroa09} for details on the
+  text using PageRank algorithm. See \cite{agirre09} for details on the
   algorithm.
 
  The module enriches each analysis of each word (for the selected PoS)
