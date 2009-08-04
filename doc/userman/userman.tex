@@ -1889,11 +1889,13 @@ class relax_tagger : public POS_tagger {
 \section{Named Entity Classification Module}
 \label{file-nec}
 
-  The mission of the Named Entity Classification module is to assing a class to
-named entities in the text. It is a Machine-Learning based module, so the classes
-can be anything the model has been trained to recognize.
+  The mission of the Named Entity Classification module is to assing a
+  class to named entities in the text. It is a Machine-Learning based
+  module, so the classes can be anything the model has been trained to
+  recognize.
 
-  When classified, the PoS tag of the word is changed to the label defined in the model.
+  When classified, the PoS tag of the word is changed to the label
+  defined in the model.
 
   This module depends on a NER module being applied previously. If no
   entities are recognized, none can be classified.
@@ -1920,8 +1922,7 @@ class nec {
 
   The constructor receives two parameters. The first is the tag that the
 NER module assigned to Named Entities, so the NEC can know which words to classify.
- The second parameter is the prefix of the configuration files for the model, as described
-below.
+ The second parameter is the prefix of the configuration files for the model, as described below.
 
 \subsection{NEC Data File}
 
@@ -2434,6 +2435,86 @@ mov     run     prep= to,towards   D.O.
 animal "animals.dat"
 \end{verbatim}
 
+\end{itemize}
+
+%..................................................
+\section{Coreference Resolution Module}
+
+  This module is a machine-learning based coreference solver,
+  following the algorithm proposed by \cite{soon01}.  It takes a
+  document parsed by the shallow parser to detect noun phrases, and
+  decides which noun phrases are coreferential.
+
+  The api of the module is the following:
+\begin{verbatim}
+class coref {
+   public:
+    /// Constructor
+    coref(const std::string &, const int);
+
+    /// Classify in coreference chains noun phrases in given document
+    void analyze(document &) const;
+};
+\end{verbatim}
+
+  The parameters received by the constructor are a filename, and an
+  integer bitmask specifying which attributes have to be used by the
+  classifier.
+
+  The meaning of the attributes can be found in the source file {\tt include/freeling/coref\_fex.h}. If you just want to use the module, set the value of this parameter to 0xFFFFFF to select all the attributes.
+
+  The string parameter is the name of the configuration file, which is described below:
+
+\subsection{Coreference Solver configuration file}
+
+  The Coreference Solver module reads this file to find out some needed parameters.
+
+  The file has three sections:
+\begin{itemize{
+   \item Section \verb#<ABModel># path to the file containing the
+     trained AdaBoost model.  The {\tt .abm} file contains an AdaBoost
+     model based on shallow Decision Trees (see \cite{carreras03} for
+     details). You don't need to understand this, unless you want to
+     enter into the code of the AdaBoost classifier.
+
+     The name of the file may be either absolute or relative to the 
+     location of the Coreference Solver config file.\\
+     e.g:
+\begin{verbatim}
+<ABModel>
+coref.abm
+</ABModel>
+\end{verbatim}
+
+     It may be generated from an annotated corpus using the training
+     programs in {\tt src/utilities/coref}, which use the libomlet
+     package. (see {\tt http://www.lsi.upc.edu/\~{\ }nlp/omlet+fries})
+
+     If you need to know more about this (e.g. to develop a
+     Coreference Solver for your language) please contact FreeLing
+     authors.
+
+   \item Section \verb#<SemDB># specifies the files that contain a
+    semantic database. This is required to compute some WN-based attributes
+    used by the solver.  
+     
+    The section must contain two lines specifying two semantic
+    information files, a {\tt SenseFile} and a {\tt WNFile}. The
+    filenames may be absolute or relative to the location of the
+    dependency rules file. For example:
+\begin{verbatim}
+<SEMDB>
+SenseFile ../senses16.db
+WNFile    ../../common/wn16.db
+</SEMDB>
+\end{verbatim}
+
+   \item Section \verb#<MaxDistance># states the maximum distance (in
+     words) at which possible corefernces will be considered. Short
+     values will cause the solver to miss distant coreferents.
+     Long distances will introduce a huge amount of possible coreferent 
+     candidate pairs, slow the system, and produce a larger amount of
+     false positives.
 \end{itemize}
 
 %..................................................
