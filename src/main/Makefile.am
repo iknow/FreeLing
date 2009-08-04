@@ -1,4 +1,4 @@
-EXTRA_DIST = LKB sample_analyzer sample_server_analyzer simple_examples README
+EXTRA_DIST = LKB sample_analyzer simple_examples README
 INCLUDES = -I$(top_srcdir)/src/include
 bin_PROGRAMS = analyzer analyzer_server analyzer_client
 
