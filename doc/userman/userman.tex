@@ -2467,10 +2467,8 @@ class coref {
 
 \subsection{Coreference Solver configuration file}
 
-  The Coreference Solver module reads this file to find out some needed parameters.
-
-  The file has three sections:
-\begin{itemize{
+  The Coreference Solver module reads this file to find out some needed parameters.  The file has three sections:
+\begin{itemize}
    \item Section \verb#<ABModel># path to the file containing the
      trained AdaBoost model.  The {\tt .abm} file contains an AdaBoost
      model based on shallow Decision Trees (see \cite{carreras03} for
@@ -2497,7 +2495,7 @@ coref.abm
    \item Section \verb#<SemDB># specifies the files that contain a
     semantic database. This is required to compute some WN-based attributes
     used by the solver.  
-     
+
     The section must contain two lines specifying two semantic
     information files, a {\tt SenseFile} and a {\tt WNFile}. The
     filenames may be absolute or relative to the location of the
@@ -2679,7 +2677,10 @@ in {\tt doc/html} and {\tt doc/latex} directories.
 \item {\tt parser}: Receives a list of {\tt sentence} objects and
   associates to each of them a {\tt parse\_tree} object.
 \item {\tt dependency}: Receives a list of parsed {\tt sentence}
- objects associates to each of them a {\tt dep\_tree} object.
+ objects and associates to each of them a {\tt dep\_tree} object.
+\item {\tt coref}: Receives a document (containing a list of parsed
+  {\tt sentence} objects) and labels each noun phrase as belonging
+  to a {\em coreference group}, if appropriate.
 \end{itemize}
 
   You may create as many instances of each as you need. 
