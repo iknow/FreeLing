@@ -198,12 +198,45 @@ WordNet, such as semantic file codes, or hypernymy relationships.
 \label{sec-installation}
 
 Installation follows standard GNU autoconfigure installation procedures (that is, 
-the usual \verb#./configure && make && make install# stuff).
+the usual \\
+\verb#./configure && make && make install# stuff).
 
 This section provides a detailed guide on how to install FreeLing (and all its
 required packages)
 
+\subsection{Install from {\tt .deb} packages}
+\label{sec-install-deb}
+
+This installation procedure is the fastest and easiest. 
+If you do not plan to modify the code, this is the option you should take.
+
+Runtime libraries needed by FreeLing must be installed beforehand. Package names and organization may vary from one distribution to another. Here are some examples for some of the most usual ones.
+
+\begin{itemize}
+\item {\sl Ubuntu (8.04 Hardy, 8.10 Intrepid, 9.04 Jaunty), Debian 5.0.2 Lenny}
+\begin{verbatim}
+  sudo apt-get install libdb4.6++ libpcre3 libboost-filesystem1.34.1
+  sudo dpkg -i FreeLing-2.1.deb
+\end{verbatim}
+
+   In the case of Debian, the above commands must be issued as root and without {\tt sudo}.
+\end{itemize}
+
+
+\subsection{Install from {\tt .tar.gz} source packages}
+\label{sec-install-tgz}
+
+ Installing from source is slower and harder, but it will work in any Linux box, even if
+you have library versions different than those required by the {\tt .deb} package.
+
 \begin{enumerate}
+
+\item {\bf Install development tools}\\
+ You'll need to install the C++ compiler:
+\begin{verbatim}
+  sudo apt-get install build-essential
+\end{verbatim}
+ (In Debian, use the same command as root, without {\sl sudo}).
 
 \item {\bf Install packaged requirements}
 
@@ -215,30 +248,40 @@ Just open your favorite software package manager and install them.
  possible package names.
 
  As an example, commands to install the packages from command line in
- Ubuntu are provided, though you can do the same using synaptic or a
+ Ubuntu and Debian are provided, though you can do the same using synaptic or a
  similar manager. 
 
-\noindent {\sl Install libpcre headers:}
+\begin{itemize}
+\item {\sl Install libpcre headers:} \\
+ Installing the headers will pull in the binaries, if not already there:
 \begin{verbatim}
- sudo apt-get install libpcre3-dev
+ sudo apt-get install libpcre3-dev 
 \end{verbatim}
 
-\noindent {\sl Install libdb headers}\\
- (version doesn't need to be 4.6. Any 4.x available in your distribution will do):
+\item {\sl Install libdb4 for C++:}\\
+ Version doesn't need to be exactly 4.6. Any 4.x available in your distribution will do.
+ Installing the headers will pull in the binaries:
 \begin{verbatim}
  sudo apt-get install libdb4.6++-dev
 \end{verbatim}
 
-\noindent {\sl Install libboost headers and binaries}\\
- (in Ubuntu Jaunty, installing this single package, will pull in all the required others):
+\item {\sl Install libboost headers and binaries:}\\ 
+In Ubuntu Intrepid, Ubuntu Jaunty, and Debian Lenny, installing this single package, will pull in all
+the required others:
 \begin{verbatim}
  sudo apt-get install libboost-dev
 \end{verbatim}
 
+In Ubuntu Hardy packages are organized slightly different:
+\begin{verbatim}
+ sudo apt-get install libboost-filesystem-dev libboost-graph-dev
+\end{verbatim}
+\end{itemize}
 
 \item {\bf Install non-packaged requirements}
 
-\noindent {\sl Install libcfg+ library}\\
+\begin{itemize}
+\item {\sl Install libcfg+ library}\\
  This library is not usually found packaged in Linux distributions, so you need to install it from source.
 \begin{verbatim}
   wget http://platon.sk/projects/download.php?id=57
@@ -250,11 +293,13 @@ Just open your favorite software package manager and install them.
 \end{verbatim}
 
   If you do not have {\tt wget}, you simply can get the package directly from {\tt http://www.platon.sk/projects/libcfg+/}.
+\end{itemize}
 
 
 \item {\bf Install FreeLing}
 
-\noindent {\sl Install libfries:}
+\begin{itemize}
+\item {\sl Install libfries:}
 \begin{verbatim}
   tar xzvf libfries-1.1.tar.gz
   ./configure
@@ -262,7 +307,7 @@ Just open your favorite software package manager and install them.
   sudo make install
 \end{verbatim}
 
-\noindent {\sl Install libomlet:}
+\item {\sl Install libomlet:}
 \begin{verbatim}
   tar xzvf libomlet-1.0.tar.gz
   ./configure
@@ -272,13 +317,14 @@ Just open your favorite software package manager and install them.
 
  Omlet\&Fries libraries are contained in the files {\tt libomlet.so} and {\tt libfries.so}, installed by default in {\tt /usr/local/lib}. If you're a developer, you need to know that {\tt libfries.so} contains the classes storing linguistic information, which are described in section \ref{ssec-data}.
 
-\noindent {\sl Install FreeLing itself:}
+\item {\sl Install FreeLing itself:}
 \begin{verbatim}
   tar xzvf FreeLing-2.1.tar.gz
   ./configure
   make
   sudo make install
 \end{verbatim}
+\end{itemize}
 
    Note that if you (or the library package) install some libraries or
    headers in non-standard directories (that is, other than {\tt
@@ -294,11 +340,78 @@ Just open your favorite software package manager and install them.
    header, you'll have to specify where to find it, with something like:\\ 
    {\tt ./configure CPPFLAGS='-I/usr/include/db4'} 
 
- FreeLing library is entirely contained in the file {\tt libmorfo.so} installed by default in {\tt /usr/local/lib}.
+ FreeLing library is entirely contained in the file {\tt libmorfo.so}
+ installed by default in {\tt /usr/local/lib}.
 
- Sample program {\tt analyze} is installed in {\tt /usr/local/bin}. See sections \ref{sec-execute} and \ref{cap-analyzer} for details.
+ Sample program {\tt analyze} is installed in {\tt
+   /usr/local/bin}. See sections \ref{sec-execute} and
+ \ref{cap-analyzer} for details.
+\end{enumerate}
+
+
+\subsection{Install from {\tt SVN} repositories}
+\label{sec-install-svn}
+
+  Installing from the SVN is very similar to installing from source, but you'll have the chance to easily update your FreeLing to the latest development version.
+
+\begin{enumerate}
+
+\item {\bf Install development tools}\\
+ You'll need to install the C++ compiler, the GNU autotools, and a SVN client.
+\begin{verbatim}
+  sudo apt-get install build-essential automake libtool subversion
+\end{verbatim}
+  
+\item {\bf Install packaged and non-packaged requirements}\\ 
+  Follow
+  the same procedure described in section \ref{sec-install-tgz} for
+  these two steps.
+
+\item {\bf Checkout FreeLing sources}\\
+\begin{verbatim}
+    mkdir mysrc
+    cd mysrc
+    svn checkout http://devel.cpl.upc.edu/freeling/svn/latest/freeling
+    svn checkout http://devel.cpl.upc.edu/freeling/svn/latest/omlet
+    svn checkout http://devel.cpl.upc.edu/freeling/svn/latest/fries
+\end{verbatim}
+
+\item {\bf Prepare local repositories for compilation}
+\begin{verbatim}
+    cd fries
+    aclocal; libtoolize; autoconf; automake -a
+    cd ../omlet
+    aclocal; libtoolize; autoconf; automake -a
+    cd ../freeling
+    aclocal; libtoolize; autoconf; automake -a
+    cd ..
+\end{verbatim}
+
+\item {\bf Build and install FreeLing}
+\begin{verbatim}
+    cd fries
+    ./configure && make
+    sudo make install
+
+    cd ../omlet
+    ./configure && make
+    sudo make install
+
+    cd ../freeling
+    ./configure && make
+    sudo make install
+\end{verbatim}
 
 \end{enumerate}
+
+\noindent If you keep the svn directories, you will be able to update to the latest version at any moment:
+\begin{verbatim}
+    cd freeling
+    svn update
+    ./configure && make
+    sudo make install
+\end{verbatim}
+  Obviously, you can also update {\tt fries} or {\tt omlet} versions in the same way.
 
 %..................................................
 \section{Executing}
