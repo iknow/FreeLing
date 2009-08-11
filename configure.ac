@@ -99,12 +99,6 @@ AC_CHECK_LIB([boost_filesystem],[main],[echo "OK">/dev/null],[echo "" &&
                       echo "   installed and can be found in a standard path." &&
                       echo "   You may need to set LDFLAGS to specify search path." &&
                       echo "" && exit])
-AC_CHECK_LIB([boost_graph],[main],[echo "OK">/dev/null],[echo "" &&
-                      echo "   boost_graph library not found." &&
-                      echo "   Make sure libboost_graph is" &&
-                      echo "   installed and can be found in a standard path." &&
-                      echo "   You may need to set LDFLAGS to specify search path." &&
-                      echo "" && exit])
 AC_CHECK_LIB([omlet],[main],[echo "OK">/dev/null],[echo "" &&
                       echo "   Omlet library not found." &&
                       echo "   Make sure libomlet is" &&
