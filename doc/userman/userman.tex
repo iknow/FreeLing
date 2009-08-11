@@ -315,7 +315,7 @@ In Ubuntu Hardy packages are organized slightly different:
   sudo make install
 \end{verbatim}
 
- Omlet\&Fries libraries are contained in the files {\tt libomlet.so} and {\tt libfries.so}, installed by default in {\tt /usr/local/lib}. If you're a developer, you need to know that {\tt libfries.so} contains the classes storing linguistic information, which are described in section \ref{ssec-data}.
+ Omlet\&Fries libraries are contained in the files {\tt libomlet.so} and {\tt libfries.so}, installed by default in {\tt /usr/local/lib} (or {\tt /usr/lib} if installed from binary package). If you're a developer, you need to know that {\tt libfries.so} contains the classes storing linguistic information, which are described in section \ref{ssec-data}.
 
 \item {\sl Install FreeLing itself:}
 \begin{verbatim}
@@ -1431,7 +1431,7 @@ class probabilities {
 
 \subsection{Lexical Probabilities File}
 
-This file can be generated from a tagged corpus using the {script {\tt
+This file can be generated from a tagged corpus using the script {\tt
  src/utilitities/TRAIN} provided in FreeLing
 package. See comments in the script file to find out which format
  the corpus is expected to have.
@@ -1613,8 +1613,10 @@ class disambiguator {
 \begin{verbatim}
    compile_ukb $FLSHARE/common/wn16-ukb.src $FLSHARE/common/wn16-ukb.bin
 \end{verbatim}
-    (\verb#$FLSHARE# refers to the \verb#share/FreeLing# directory in your
-FreeLing installation, which defaults to \verb#/usr/local/share/FreeLing#)
+    (\verb#$FLSHARE# refers to the \verb#share/FreeLing# directory in
+your FreeLing installation, which defaults to
+\verb#/usr/local/share/FreeLing# if you installed from source, and to
+\verb#/usr/share/FreeLing# if you used a binary {\tt .deb} package
 
     \item The second parameter is a sense dictionary, with the
       possible senses for each word. Since this is the same
@@ -1630,7 +1632,9 @@ FreeLing installation, which defaults to \verb#/usr/local/share/FreeLing#)
   convertdict <$FLSHARE/es/senses16.src >$FLSHARE/es/senses16.ukb
 \end{verbatim}
     (\verb#$FLSHARE# refers to the \verb#share/FreeLing# directory in your
-    FreeLing installation, which defaults to \verb#/usr/local/share/FreeLing#.
+    FreeLing installation, which defaults to \verb#/usr/local/share/FreeLing#
+    if you installed from source, and to \verb#/usr/share/FreeLing# if you 
+    used a binary {\tt .deb} package.
     Obviously, if you want to convert the file for a language different 
     than Spanish, you have to use the right path).
 
@@ -3025,11 +3029,12 @@ E.g.:
  {\tt analyzer.cfg} is searched in the current working 
  directory. 
   If it is specified but not located in the current directory, it will be searched
- in FreeLing installation directory ({\tt /usr/local/share/FreeLing/config} by default).
+ in FreeLing installation directory ({\tt /usr/local/share/FreeLing/config} 
+ if you installed from source, and \verb#/usr/share/FreeLing# if you used a 
+ binary {\tt .deb} package).
 
   Extra options may be specified in the command line to override any settings in
-  \verb#config-file#. See section \ref{ss-options} for details.
-  
+  \verb#config-file#. See section \ref{ss-options} for details.  
 
   If \verb#channel-name# is specified (any valid filename is acceptable),
  a server is initiated, and named pipes with the given name are created.\\
@@ -3171,7 +3176,8 @@ analyzer -f myconfig.cfg --inpf morfo --outf tagged <mytext.mrf >mytext.tag
 
   The FreeLing package includes default configuration files. They can
   be found at the directory {\tt share/FreeLing/config} under the FreeLing
-  installation directory (by default, {\tt /usr/local}).
+  installation directory ({\tt /usr/local}  if you installed from source, and
+   \verb#/usr/share/FreeLing# if you used a binary {\tt .deb} package).
    The {\tt analyze} script will try to locate the configuration file in
   that directory if it is not found in the current working directory.
 
@@ -3757,7 +3763,9 @@ Command line       & Configuration file   \\ \hline
   freeling with the default configuration files which --after
   installation-- are located in {\tt /usr/local/share/FreeLing/config}
   (note than prefix {\tt /usr/local} may differ if you specified an
-  alternative location when installing FreeLing).
+  alternative location when installing FreeLing. Also, it 
+   will be {\tt /usr/share/FreeLing/config} if you
+  installed from a binary {\tt .deb} package). 
 
   You also can use those files as a starting point to customize 
   one configuration file to suit your needs.
