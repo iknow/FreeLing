@@ -1,4 +1,4 @@
-FREELINGDIR = /home/padro/package/usr/local
+FREELINGDIR = /usr/local
 SWIGDIR = /usr/share/swig1.3
 JAVADIR = /usr/lib/jvm/java-6-sun
 LIBSDIR = /usr/local
