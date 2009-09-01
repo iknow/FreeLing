@@ -374,10 +374,10 @@ class paragraph : public std::list<sentence> {};
 class document : public std::list<paragraph> {
  public:
     document();
-    void add_positive(const node &, const node &);
-    int get_coref_group(const node &) const;
-    std::list<const node *> get_coref_nodes(const int) const;
-    bool is_coref(const node &, const node &) const;
+    void add_positive(std::string, std::string);
+    int get_coref_group(std::string) const;
+    std::list<std::string> get_coref_nodes(int) const;
+    bool is_coref(std::string, std::string) const;
 };
 
 
@@ -554,7 +554,7 @@ class senses {
 class disambiguator {
    public:
       /// Constructor
-       disambiguator(const std::string &, const std::string &);
+       disambiguator(const std::string &, const std::string &, double, int);
       /// Destructor
       ~disambiguator();
 
