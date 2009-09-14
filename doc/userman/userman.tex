@@ -287,7 +287,8 @@ In Ubuntu Hardy packages are organized slightly different:
   wget http://platon.sk/projects/download.php?id=57
   tar xzvf libcfg+-0.6.2.tar.gz
   cd libcfg+-0.6.2
-  ./configure CPPFLAGS="-fPIC"
+  export CPPFLAGS="-fPIC"
+  ./configure
   make
   sudo make install
 \end{verbatim}

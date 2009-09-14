@@ -77,6 +77,60 @@ void say(const string &s) {
   cerr<<s<<endl;
 }
 
+
+//---------------------------------------------
+// print one analysis.
+//---------------------------------------------
+void print_analysis(const analysis &a, const string &form) {
+
+  char c1=a.get_parole()[0];
+  char c2=a.get_parole()[1];
+  
+  if (a.is_retokenizable()) {            
+    say("    <analysis stem=\""+a.get_lemma()+"\" >");
+    list<word> rtk=a.get_retokenizable();
+    list<word>::iterator r;
+    string form;
+    for (r=rtk.begin(); r!= rtk.end(); r++) {
+      if(r == rtk.begin()) 
+	form = r->get_form();
+      else
+	form = form + r->get_form();
+      say("      <rule id=\""
+	  + string(r == rtk.begin() ? "" : "+") + r->get_parole() 
+	  + "\" form=\"" + form +"\" />");
+    }
+    say("    </analysis>");
+  }  
+  else if (c1!='Z' && c1!='W' && c1!='F' && !(c1=='N' && c2=='P') && !(c1=='A' && c2=='O')) {
+    say("    <analysis stem=\""+a.get_lemma()+"\" >");
+    say("      <rule id=\""+a.get_parole()+"\" form=\""+form+"\" />");
+    say("    </analysis>");
+  }
+  else if (c1=='Z' && (form=="un")) {
+    say("    <analysis stem=\"un\" >");
+    say("      <rule id=\""+a.get_parole()+"\" form=\""+form+"#"+a.get_lemma()+"\" />");
+    say("    </analysis>");
+  }
+  else if (c1=='Z' && (form=="una")) {
+    say("    <analysis stem=\"una\" >");
+    say("      <rule id=\""+a.get_parole()+"\" form=\""+form+"#"+a.get_lemma()+"\" />");
+    say("    </analysis>");
+  }
+  else if (c1=='Z' && (form=="uno")) {
+    say("    <analysis stem=\"uno\" >");
+    say("      <rule id=\""+a.get_parole()+"\" form=\""+form+"#"+a.get_lemma()+"\" />");
+    say("    </analysis>");
+  }
+  else {            
+    say("    <analysis stem=\""+a.get_parole()+"\" >");
+    say("      <rule id=\""+a.get_parole()+"\" form=\""+form+"#"+a.get_lemma()+"\" />");
+    say("    </analysis>");
+  }
+}
+
+
+
 //---------------------------------------------
 // print obtained analysis.
 //---------------------------------------------
@@ -97,69 +151,14 @@ void PrintResults(const list<sentence> &ls, const config &cfg) {
 
       if (cfg.OutputFormat==MORFO) {
 	for(ait=w->analysis_begin(); ait!=w->analysis_end(); ait++){
-	  
-          char c1=ait->get_parole()[0];
-          char c2=ait->get_parole()[1];
-	  
-	  if (ait->is_retokenizable()) {            
-	    say("    <analysis stem=\""+ait->get_lemma()+"\" >");
-	    list<word> rtk=ait->get_retokenizable();
-	    list<word>::iterator r;
-            string form;
-	    for (r=rtk.begin(); r!= rtk.end(); r++) {
-              if(r == rtk.begin()) 
-                form = r->get_form();
-              else
-                form = form + r->get_form();
-              say("      <rule id=\""
-                  + string(r == rtk.begin() ? "" : "+") + r->get_parole() 
-                  + "\" form=\"" + form +"\" />");
-	    }
-	    say("    </analysis>");
-	  }
-	  else if (c1!='Z' && c1!='W' && c1!='F' && !(c1=='N' && c2=='P') && !(c1=='A' && c2=='O')) {
-	    say("    <analysis stem=\""+ait->get_lemma()+"\" >");
-	    say("      <rule id=\""+ait->get_parole()+"\" form=\""+w->get_form()+"\" />");
-	    say("    </analysis>");
-	  }
-	  else if (c1=='Z' && (w->get_form()=="un")) {
-            say("    <analysis stem=\"un\" >");
-            say("      <rule id=\""+ait->get_parole()+"\" form=\""+w->get_form()+"#"+ait->get_lemma()+"\" />");
-            say("    </analysis>");
-	  }
-	  else if (c1=='Z' && (w->get_form()=="una")) {
-            say("    <analysis stem=\"una\" >");
-            say("      <rule id=\""+ait->get_parole()+"\" form=\""+w->get_form()+"#"+ait->get_lemma()+"\" />");
-            say("    </analysis>");
-	  }
-	  else if (c1=='Z' && (w->get_form()=="uno")) {
-            say("    <analysis stem=\"uno\" >");
-            say("      <rule id=\""+ait->get_parole()+"\" form=\""+w->get_form()+"#"+ait->get_lemma()+"\" />");
-            say("    </analysis>");
-	  }
-	  else {            
-	    say("    <analysis stem=\""+ait->get_parole()+"\" >");
-	    say("      <rule id=\""+ait->get_parole()+"\" form=\""+w->get_form()+"#"+ait->get_lemma()+"\" />");
-	    say("    </analysis>");
-	  }
-	}
+	  print_analysis(*ait,w->get_form());
+	}	  
       }
-#if 0
       else if (cfg.OutputFormat==TAGGED) {
-        char c1=w->get_parole()[0];
-        char c2=w->get_parole()[1];
-	if (c1!='Z' && c1!='W' && c1!='F' && !(c1=='N' && c2=='P')) {
-	  say("    <analysis stem=\""+w->get_lemma()+"\" tag=\""+w->get_parole()+"\" probability=\""+util::double2string(w->selected_analysis()->get_prob())+"\">");
-	  say("      <rule id=\""+w->get_parole()+"\" form=\""+w->get_form()+"\" />");
-	  say("    </analysis>");	 
-	}
-	else {
-	  say("    <analysis stem=\""+w->get_parole()+"\" tag=\""+w->get_parole()+"\" probability=\""+util::double2string(w->selected_analysis()->get_prob())+"\">");
-	  say("      <rule id=\""+w->get_parole()+"\" form=\""+w->get_form()+"#"+ait->get_lemma()+"\" />");
-	  say("    </analysis>");	 
-	}
+	for(ait=w->selected_begin(); ait!=w->selected_end(); ait++){
+	  print_analysis(*ait,w->get_form());
+	}	  
       }
-#endif
       say("  </token>");
     }
     say("</segment>");
