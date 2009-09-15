@@ -508,6 +508,20 @@ class relax_tagger {
        std::list<sentence> analyze(const std::list<sentence> &);
 };
 
+
+/*------------------------------------------------------------------------*/
+class nec {
+   public:
+      /// Constructor
+      nec(const std::string &, const std::string &); 
+      /// Destructor
+      ~nec();
+
+      /// Classify NEs in given sentence
+      void analyze(std::list<sentence> &) const;
+};
+
+
 /*------------------------------------------------------------------------*/
 class chart_parser {
  public:
