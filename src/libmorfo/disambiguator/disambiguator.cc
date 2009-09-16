@@ -51,6 +51,7 @@ void disambiguator::analyze(std::list<sentence> & ls) {
 
 			char pos(0);
 			pos = (util::lowercase(w->get_parole())).at(0);
+			if (pos=='j') pos='a';
 
 			if ((pos == 'a') || (pos == 'n') || (pos == 'r') || (pos == 'v')) {
 				const string & w_id = "" + id_numb;
