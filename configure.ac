@@ -123,7 +123,6 @@ AC_HEADER_STDC
 
 AC_CONFIG_FILES([Makefile
                  data/Makefile
-                 doc/Makefile
                  src/Makefile
                  src/include/Makefile
                  src/libmorfo/Makefile
