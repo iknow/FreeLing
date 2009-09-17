@@ -47,3 +47,6 @@
                cd doc/userman
 	       mkdir html
 	       latex2html userman.tex --dir html 
+
+
+
