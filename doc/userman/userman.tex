@@ -124,8 +124,8 @@ WordNet, such as semantic file codes, or hypernymy relationships.
   various improvements, submitting actual code or extending linguistic 
   databases. 
 
-  A detailed list can be found in {\sl Contributions} section at 
-  FreeLing webpage ({\tt http://www.lsi.upc.edu/~nlp/freeling}).
+  A detailed list can be found in {\sl Contributions} section at FreeLing webpage \\
+  ({\tt http://www.lsi.upc.edu/\~{ }nlp/freeling}).
 
 
 
@@ -141,6 +141,7 @@ WordNet, such as semantic file codes, or hypernymy relationships.
  \begin{itemize}
  \item A typical Linux box with usual development tools:
     \begin{itemize}
+    \itemsep 0cm
     \item bash
     \item make
     \item C++ compiler with basic STL support
@@ -150,43 +151,59 @@ WordNet, such as semantic file codes, or hypernymy relationships.
 
  \item Some external libraries are required to compile FreeLing:
     \begin{itemize}
+    \itemsep 0.25cm
     \item {\tt libpcre} (version 4.3 or higher)\\ 
       Perl C Regular
       Expressions. Included in most Linux distributions. Just make
       sure you have installed both development and runtime packages.
 
-      {\sl Orientative package names} (check the package manager in your system):\\
-      Ubuntu/Debian: libpcre3-dev libpcre3\\
-      OpenSuse/Fedora/Mandriva: libpcre libpcre-devel \\
+      {\sl Orientative package names} (check the package manager in your system):
+      \begin{itemize}
+      \itemsep 0cm
+      \item Ubuntu/Debian: {\tt libpcre3-dev libpcre3}
+      \item OpenSuse/Fedora/Mandriva: {\tt libpcre libpcre-devel}
+      \item Slackware: {\tt pcre}
+      \end{itemize}
 
      \item {\tt libdb} (version 4.1.25 or higher) \\
        Berkeley DB. Included in all Linux distributions. You probably have it
        already installed. Just make sure you have installed both
-       runtime and development packages, as well as C++ support:\\
+       runtime and development packages, as well as C++ support:
 
-       {\sl Orientative package names} (check the package manager in your system):\\
-       Ubuntu/Debian: libdb4.6 libdb4.6-dev libdb4.6++ libdb4.6++-dev\\
-       OpenSuse/Fedora/Mandriva: libdb-4.6 libdb-4.6-devel libdb\_cxx-4.6 libdb\_cxx-4.6-devel  \\
+       {\sl Orientative package names} (check the package manager in your system):
+      \begin{itemize}
+      \itemsep 0cm
+      \item Ubuntu/Debian: {\tt libdb4.6 libdb4.6-dev libdb4.6++ libdb4.6++-dev}
+      \item OpenSuse/Fedora/Mandriva: {\tt libdb-4.6 libdb-4.6-devel libdb\_cxx-4.6}\\
+                                      {\tt libdb\_cxx-4.6-devel }
+      \item Slackware: {\tt db4}
+      \end{itemize}
 
      \item {\tt libboost} (version 1.31 or higher) \\
        Boost library. Included in all Linux distributions. You probably {\bf do not} have it
-       installed. Make sure to installed both runtime and development packages:\\
+       installed. Make sure to installed both runtime and development packages:
 
-       {\sl Orientative package names} (check the package manager in your system):\\
-       Ubuntu/Debian: libboost-dev libboost-filesystem libboost-graph\\
-       OpenSuse/Fedora/Mandriva: libboost-devel libboost  \\
+       {\sl Orientative package names} (check the package manager in your system):
+       \begin{itemize}
+       \itemsep 0cm
+       \item Ubuntu/Debian: {\tt libboost-dev libboost-filesystem libboost-graph}
+       \item OpenSuse/Fedora/Mandriva: {\tt libboost-devel libboost }
+       \item Slackware: {\tt boost }
+       \end{itemize}
 
      \item {\tt libcfg+} (version 0.6.1 or higher) \\
        Configuration file and command-line options management. 
        Probably not included in your linux distribution.
        Available from {\tt http://www.platon.sk/projects/libcfg+/},
-       follow installation instructions provided in the libcfg+ package. \\
+       follow installation instructions provided in the libcfg+ package. 
+        Already included in FreeLing binary {\tt .deb} packages.
 
      \item {\tt Omlet \& Fries} (omlet v.1.0 or higher, fries v.1.1 or higher)\\
         Machine Learning utility libraries, used by Named Entity Classifier.
         These libraries contain linguistic data strucrures, so they are
         required even if you do not plan to use the NEC ability of FreeLing.
-        Available from {\tt http://www.lsi.upc.edu/\~{\ }/nlp/omlet+fries}
+        Available from {\tt http://www.lsi.upc.edu/\~{ }nlp/omlet+fries}.
+        Already included in FreeLing binary {\tt .deb} packages.
 
     \end{itemize}
 \end{itemize}
@@ -197,12 +214,8 @@ WordNet, such as semantic file codes, or hypernymy relationships.
 \section{Installation}
 \label{sec-installation}
 
-Installation follows standard GNU autoconfigure installation procedures (that is, 
-the usual \\
-\verb#./configure && make && make install# stuff).
-
-This section provides a detailed guide on how to install FreeLing (and all its
-required packages)
+This section provides a detailed guide on different options to install
+FreeLing (and all its required packages).
 
 \subsection{Install from {\tt .deb} packages}
 \label{sec-install-deb}
@@ -210,46 +223,56 @@ required packages)
 This installation procedure is the fastest and easiest. 
 If you do not plan to modify the code, this is the option you should take.
 
-Runtime libraries needed by FreeLing must be installed beforehand. Package names and organization may vary from one distribution to another. Here are some examples for some of the most usual ones.
+The provided packages will only work on debian-based distributions. 
+They have been tested in Ubuntu (8.04 Hardy, 8.10 Intrepid, 9.04 Jaunty) and Debian (5.0.2 Lenny).
 
-\begin{itemize}
-\item {\sl Ubuntu (8.04 Hardy, 8.10 Intrepid, 9.04 Jaunty), Debian 5.0.2 Lenny}
+The installation procedure for these distributions (will probably work for other debian-based distros) is the following:
+
 \begin{verbatim}
   sudo apt-get install libdb4.6++ libpcre3 libboost-filesystem1.34.1
   sudo dpkg -i FreeLing-2.1.deb
 \end{verbatim}
 
-   In the case of Debian, the above commands must be issued as root and without {\tt sudo}.
-\end{itemize}
+  In the case of Debian, the above commands must be issued as root and without {\tt sudo}.
 
+  Libraries {\tt libcfg+}, {\tt libfries}, and {\tt libomlet} are included in the FreeLing 
+  {\tt .deb} package, so you do not need to install them.
 
 \subsection{Install from {\tt .tar.gz} source packages}
 \label{sec-install-tgz}
+
+ Installation from source follows standard GNU autoconfigure installation procedures (that is, 
+the usual \verb#./configure && make && make install# stuff).
 
  Installing from source is slower and harder, but it will work in any Linux box, even if
 you have library versions different than those required by the {\tt .deb} package.
 
 \begin{enumerate}
 
-\item {\bf Install development tools}\\
+\item {\bf Install development tools}
+
  You'll need to install the C++ compiler:
 \begin{verbatim}
   sudo apt-get install build-essential
 \end{verbatim}
- (In Debian, use the same command as root, without {\sl sudo}).
+  In Debian, use the same command as root, without {\sl sudo}.
+  In other distributions, check the distribution package manager to install a working C++ compiler.
 
 \item {\bf Install packaged requirements}
 
  Many of the required libraries are standard packages in all Linux distributions. 
 Just open your favorite software package manager and install them.
 
-  Package names may vary slightly in different
- distributions. See section \ref{sec-requirements} for some hints on
- possible package names.
+  Package names may vary slightly in different distributions. See
+  section \ref{sec-requirements} for some hints on possible package
+  names.
 
- As an example, commands to install the packages from command line in
- Ubuntu and Debian are provided, though you can do the same using synaptic or a
- similar manager. 
+  As an example, commands to install the packages from command line in
+  Ubuntu and Debian are provided, though you can do the same using synaptic or a
+  similar manager. 
+
+  If you have another distribution, use your package manager to locate and install
+  the appropriate library packages (see section \ref{sec-requirements}).
 
 \begin{itemize}
 \item {\sl Install libpcre headers:} \\
@@ -278,6 +301,20 @@ In Ubuntu Hardy packages are organized slightly different:
 \end{verbatim}
 \end{itemize}
 
+  {\bf NOTE: } Alternatively, you can install the libraries above from
+  source. {\sl Don't} do that unless you know what you're
+  doing. Having more than one installation of libdb or libpcre may
+  confuse the compiler and cause errors when compiling FreeLing,
+  unless you master how to appropriately set paths for your compiler,
+  linker, and loader.\\
+   However, if you want to do so, follow the
+  installation instructions in the source packages for those
+  libraries. All of them use the standard {\tt ./configure \&\& make \&\&
+    make install} procedure. In the case of BerkeleyDB, you have to
+  build C++ support with the {\tt --enable-cxx} option for {\tt
+    ./configure}.
+
+
 \item {\bf Install non-packaged requirements}
 
 \begin{itemize}
@@ -293,7 +330,8 @@ In Ubuntu Hardy packages are organized slightly different:
   sudo make install
 \end{verbatim}
 
-  If you do not have {\tt wget}, you simply can get the package directly from {\tt http://www.platon.sk/projects/libcfg+/}.
+  If you do not have {\tt wget}, you simply can get the package directly from\\
+  {\tt http://www.platon.sk/projects/libcfg+/}.
 \end{itemize}
 
 
@@ -316,7 +354,7 @@ In Ubuntu Hardy packages are organized slightly different:
   sudo make install
 \end{verbatim}
 
- Omlet\&Fries libraries are contained in the files {\tt libomlet.so} and {\tt libfries.so}, installed by default in {\tt /usr/local/lib} (or {\tt /usr/lib} if installed from binary package). If you're a developer, you need to know that {\tt libfries.so} contains the classes storing linguistic information, which are described in section \ref{ssec-data}.
+ Omlet\&Fries libraries are contained in the files {\tt libomlet.so} and {\tt libfries.so}, installed by default in {\tt /usr/local/lib} (or {\tt /usr/lib} if installed from binary package). If you are a developer, you need to know that {\tt libfries.so} contains the classes storing linguistic information, which are described in section \ref{ssec-data}.
 
 \item {\sl Install FreeLing itself:}
 \begin{verbatim}
@@ -342,7 +380,7 @@ In Ubuntu Hardy packages are organized slightly different:
    {\tt ./configure CPPFLAGS='-I/usr/include/db4'} 
 
  FreeLing library is entirely contained in the file {\tt libmorfo.so}
- installed by default in {\tt /usr/local/lib}.
+ installed in {\tt /usr/local/lib} by default.
 
  Sample program {\tt analyze} is installed in {\tt
    /usr/local/bin}. See sections \ref{sec-execute} and
@@ -353,7 +391,9 @@ In Ubuntu Hardy packages are organized slightly different:
 \subsection{Install from {\tt SVN} repositories}
 \label{sec-install-svn}
 
-  Installing from the SVN is very similar to installing from source, but you'll have the chance to easily update your FreeLing to the latest development version.
+  Installing from the SVN is very similar to installing from source,
+  but you'll have the chance to easily update your FreeLing to the
+  latest development version.
 
 \begin{enumerate}
 
@@ -362,10 +402,13 @@ In Ubuntu Hardy packages are organized slightly different:
 \begin{verbatim}
   sudo apt-get install build-essential automake libtool subversion
 \end{verbatim}
+
+   If you use a distribution different than Debian or Ubuntu, these packages
+  may have different names. Use your package manager to locate and install
+  the appropriate ones.
   
 \item {\bf Install packaged and non-packaged requirements}\\ 
-  Follow
-  the same procedure described in section \ref{sec-install-tgz} for
+  Follow the same procedure described in section \ref{sec-install-tgz} for
   these two steps.
 
 \item {\bf Checkout FreeLing sources}\\
@@ -1616,8 +1659,9 @@ class disambiguator {
 \end{verbatim}
     (\verb#$FLSHARE# refers to the \verb#share/FreeLing# directory in
 your FreeLing installation, which defaults to
-\verb#/usr/local/share/FreeLing# if you installed from source, and to
-\verb#/usr/share/FreeLing# if you used a binary {\tt .deb} package
+\verb#/usr/local/share/FreeLing# if you installed from source 
+(\verb#/usr/share/FreeLing# if you used a binary {\tt .deb} package). 
+You can change this environment variable to use different linguistic data files.
 
     \item The second parameter is a sense dictionary, with the
       possible senses for each word. Since this is the same
@@ -1634,8 +1678,8 @@ your FreeLing installation, which defaults to
 \end{verbatim}
     (\verb#$FLSHARE# refers to the \verb#share/FreeLing# directory in your
     FreeLing installation, which defaults to \verb#/usr/local/share/FreeLing#
-    if you installed from source, and to \verb#/usr/share/FreeLing# if you 
-    used a binary {\tt .deb} package.
+    if you installed from source, (\verb#/usr/share/FreeLing# if you 
+    used a binary {\tt .deb} package).
     Obviously, if you want to convert the file for a language different 
     than Spanish, you have to use the right path).
 
@@ -2603,8 +2647,9 @@ coref.abm
 \end{verbatim}
 
      It may be generated from an annotated corpus using the training
-     programs in {\tt src/utilities/coref}, which use the libomlet
-     package. (see {\tt http://www.lsi.upc.edu/\~{\ }nlp/omlet+fries})
+     programs that can be found in {\tt src/utilities/coref}, which
+     use the libomlet package. (see {\tt
+       http://www.lsi.upc.edu/\~{\ }nlp/omlet+fries})
 
      If you need to know more about this (e.g. to develop a
      Coreference Solver for your language) please contact FreeLing
@@ -2648,18 +2693,18 @@ WNFile    ../../common/wn16.db
 
 \begin{verbatim}
 class semanticDB {
-   public:
-      /// Constructor
-      semanticDB(const std::string &, const std::string &); 
- 
-      /// get list of words for a sense+pos
-      std::list<std::string> get_sense_words(const std::string &, const std::string &);
+  public:
+    /// Constructor
+    semanticDB(const std::string &, const std::string &); 
 
-      /// get list of senses for a lemma+pos
-      std::list<std::string> get_word_senses(const std::string &, const std::string &);
+    /// get list of words for a sense+pos
+    std::list<std::string> get_sense_words(const std::string &, const std::string &);
 
-      /// get sense info for a sensecode+pos
-      sense_info get_sense_info(const std::string &, const std::string &);
+    /// get list of senses for a lemma+pos
+    std::list<std::string> get_word_senses(const std::string &, const std::string &);
+
+    /// get sense info for a sensecode+pos
+    sense_info get_sense_info(const std::string &, const std::string &);
 };
 \end{verbatim}
 
@@ -3598,6 +3643,7 @@ Command line       & Configuration file   \\ \hline
   \item no, none: Deactivate sense annotation.
   \item all: annotate with all possible senses in sense dictionary.
   \item mfs: annotate with most frequent sense.
+  \item ukb: annotate all senses, ranked by UKB algorithm.
  \end{itemize}
 
    Whether to perform sense anotation. If active, the PoS tag selected
@@ -3764,11 +3810,11 @@ Command line       & Configuration file   \\ \hline
   freeling with the default configuration files which --after
   installation-- are located in {\tt /usr/local/share/FreeLing/config}
   (note than prefix {\tt /usr/local} may differ if you specified an
-  alternative location when installing FreeLing. Also, it 
-   will be {\tt /usr/share/FreeLing/config} if you
-  installed from a binary {\tt .deb} package). 
+  alternative location when installing FreeLing. If you
+  installed from a binary {\tt .deb} package), it will be 
+  at {\tt /usr/share/FreeLing/config}.
 
-  You also can use those files as a starting point to customize 
+  You can use those files as a starting point to customize 
   one configuration file to suit your needs.
 
   Note that file paths in the sample configuration file contain
@@ -3844,6 +3890,10 @@ NECFilePrefix=$FREELINGSHARE/es/nec/nec
 SenseAnnotation=none
 SenseFile=$FREELINGSHARE/es/senses16.db
 DuplicateAnalysis=false
+UKBRelations=$FREELINGSHARE/common/wn16-ukb.bin
+UKBDictionary=$FREELINGSHARE/es/senses16.ukb
+UKBEpsilon=0.03
+UKBMaxIter=10
 
 #### Tagger options
 Tagger=hmm
