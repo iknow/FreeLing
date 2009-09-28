@@ -1,9 +1,9 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_INIT([FreeLing],[2.1])
+AC_INIT([FreeLing],[2.2-alfa1])
 AC_PREREQ(2.59)
-AM_INIT_AUTOMAKE(FreeLing,2.1)
+AM_INIT_AUTOMAKE(FreeLing,2.2-alfa1)
 
 AC_CANONICAL_HOST	
 AC_CONFIG_SRCDIR([src/main/sample_analyzer/analyzer.cc])
@@ -38,11 +38,6 @@ AC_LANG([C++])
 
 
 # Checks for header files.
-AC_CHECK_HEADERS([cfg+.h],[],[echo "" && echo "   cfg+.h not found." &&
-                      echo "   Make sure libcfg+ headers are installed" &&
-                      echo "   and can be found in a standard path." &&
-                      echo "   You may need to set CPPFLAGS to specify search path." &&
-                      echo "" && exit])
 AC_CHECK_HEADERS([pcre.h],[],[echo "" && echo "   pcre.h not found." &&
                       echo "   Make sure pcre headers (package libpcre3-dev or the like)" &&
                       echo "   are installed and can be found in a standard path." &&
@@ -75,12 +70,6 @@ AC_CHECK_HEADERS([fries.h],[],[echo "" && echo "   fries.h not found." &&
                       echo "" && exit])
 
 # Checks for libraries.
-AC_CHECK_LIB([cfg+],[main],[echo "OK">/dev/null],[echo "" && 
-                      echo "   cfg+ library not found." &&
-                      echo "   Make sure libcfg+ is installed and" &&
-                      echo "   can be found in a standard path." &&
-                      echo "   You may need to set LDFLAGS to specify search path." &&
-                      echo "" && exit])
 AC_CHECK_LIB([pcre],[main],[echo "OK">/dev/null],[echo "" && 
                       echo "   pcre library not found." &&
                       echo "   Make sure libpcre (package libpcre3 or the like)" &&
@@ -117,12 +106,11 @@ AC_HEADER_STDBOOL
 AC_C_CONST
 AC_C_INLINE
 AC_TYPE_SIZE_T
-
-# Checks for library functions.
 AC_HEADER_STDC
 
 AC_CONFIG_FILES([Makefile
                  data/Makefile
+                 libcfg+/Makefile
                  src/Makefile
                  src/include/Makefile
                  src/libmorfo/Makefile
