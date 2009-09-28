@@ -114,7 +114,7 @@ WordNet, such as semantic file codes, or hypernymy relationships.
 \section{Contributions}
  
   FreeLing was originally written by people in TALP Research 
-  Center at Universitat Politecnica de Catalunya (http://talp.upc.es). 
+  Center at Universitat Politecnica de Catalunya (http://talp.upc.edu). 
 
   Spanish and Catalan linguistic data were originally developed 
   by people in CLiC, Centre de Llenguatge i Computacio at Universitat
@@ -138,19 +138,19 @@ WordNet, such as semantic file codes, or hypernymy relationships.
 
  To install FreeLing you'll need:
 
- \begin{itemize}
+\begin{list}{\labelitemi}{\leftmargin=1em}
  \item A typical Linux box with usual development tools:
-    \begin{itemize}
+   \begin{list}{\labelitemii}{\leftmargin=1em}
     \itemsep 0cm
     \item bash
     \item make
     \item C++ compiler with basic STL support
-    \end{itemize}
+    \end{list}
 
  \item Enough hard disk space (about 400Mb)
 
  \item Some external libraries are required to compile FreeLing:
-    \begin{itemize}
+    \begin{list}{\labelitemii}{\leftmargin=1em}
     \itemsep 0.25cm
     \item {\tt libpcre} (version 4.3 or higher)\\ 
       Perl C Regular
@@ -158,12 +158,12 @@ WordNet, such as semantic file codes, or hypernymy relationships.
       sure you have installed both development and runtime packages.
 
       {\sl Orientative package names} (check the package manager in your system):
-      \begin{itemize}
+      \begin{list}{\labelitemiii}{\leftmargin=1em}
       \itemsep 0cm
       \item Ubuntu/Debian: {\tt libpcre3-dev libpcre3}
       \item OpenSuse/Fedora/Mandriva: {\tt libpcre libpcre-devel}
       \item Slackware: {\tt pcre}
-      \end{itemize}
+      \end{list}
 
      \item {\tt libdb} (version 4.1.25 or higher) \\
        Berkeley DB. Included in all Linux distributions. You probably have it
@@ -171,25 +171,25 @@ WordNet, such as semantic file codes, or hypernymy relationships.
        runtime and development packages, as well as C++ support:
 
        {\sl Orientative package names} (check the package manager in your system):
-      \begin{itemize}
+      \begin{list}{\labelitemiii}{\leftmargin=1em}
       \itemsep 0cm
       \item Ubuntu/Debian: {\tt libdb4.6 libdb4.6-dev libdb4.6++ libdb4.6++-dev}
       \item OpenSuse/Fedora/Mandriva: {\tt libdb-4.6 libdb-4.6-devel libdb\_cxx-4.6}\\
                                       {\tt libdb\_cxx-4.6-devel }
       \item Slackware: {\tt db4}
-      \end{itemize}
+      \end{list}
 
      \item {\tt libboost} (version 1.31 or higher) \\
        Boost library. Included in all Linux distributions. You probably {\bf do not} have it
        installed. Make sure to installed both runtime and development packages:
 
        {\sl Orientative package names} (check the package manager in your system):
-       \begin{itemize}
+      \begin{list}{\labelitemiii}{\leftmargin=1em}
        \itemsep 0cm
        \item Ubuntu/Debian: {\tt libboost-dev libboost-filesystem libboost-graph}
        \item OpenSuse/Fedora/Mandriva: {\tt libboost-devel libboost }
        \item Slackware: {\tt boost }
-       \end{itemize}
+       \end{list}
 
      \item {\tt libcfg+} (version 0.6.1 or higher) \\
        Configuration file and command-line options management. 
@@ -200,13 +200,13 @@ WordNet, such as semantic file codes, or hypernymy relationships.
 
      \item {\tt Omlet \& Fries} (omlet v.1.0 or higher, fries v.1.1 or higher)\\
         Machine Learning utility libraries, used by Named Entity Classifier.
-        These libraries contain linguistic data strucrures, so they are
+        These libraries contain linguistic data structures, so they are
         required even if you do not plan to use the NEC ability of FreeLing.
         Available from {\tt http://www.lsi.upc.edu/\~{ }nlp/omlet+fries}.
         Already included in FreeLing binary {\tt .deb} packages.
 
-    \end{itemize}
-\end{itemize}
+    \end{list}
+\end{list}
 
    See details on the installation procedure in section \ref{sec-installation}.
 
@@ -247,7 +247,7 @@ the usual \verb#./configure && make && make install# stuff).
  Installing from source is slower and harder, but it will work in any Linux box, even if
 you have library versions different than those required by the {\tt .deb} package.
 
-\begin{enumerate}
+\begin{list}{{\bf \arabic{enumi}.}}{\usecounter{enumi}\leftmargin=1.5em}
 
 \item {\bf Install development tools}
 
@@ -274,7 +274,7 @@ Just open your favorite software package manager and install them.
   If you have another distribution, use your package manager to locate and install
   the appropriate library packages (see section \ref{sec-requirements}).
 
-\begin{itemize}
+\begin{list}{\labelitemi}{\leftmargin=1em}
 \item {\sl Install libpcre headers:} \\
  Installing the headers will pull in the binaries, if not already there:
 \begin{verbatim}
@@ -299,7 +299,7 @@ In Ubuntu Hardy packages are organized slightly different:
 \begin{verbatim}
  sudo apt-get install libboost-filesystem-dev libboost-graph-dev
 \end{verbatim}
-\end{itemize}
+\end{list}
 
   {\bf NOTE: } Alternatively, you can install the libraries above from
   source. {\sl Don't} do that unless you know what you're
@@ -311,33 +311,37 @@ In Ubuntu Hardy packages are organized slightly different:
   installation instructions in the source packages for those
   libraries. All of them use the standard {\tt ./configure \&\& make \&\&
     make install} procedure. In the case of BerkeleyDB, you have to
-  build C++ support with the {\tt --enable-cxx} option for {\tt
+  build C++ support using the {\tt --enable-cxx} option with {\tt
     ./configure}.
 
 
 \item {\bf Install non-packaged requirements}
 
-\begin{itemize}
+\begin{list}{\labelitemi}{\leftmargin=1em}
 \item {\sl Install libcfg+ library}\\
  This library is not usually found packaged in Linux distributions, so you need to install it from source.
-\begin{verbatim}
-  wget http://platon.sk/projects/download.php?id=57
-  tar xzvf libcfg+-0.6.2.tar.gz
-  cd libcfg+-0.6.2
-  export CPPFLAGS="-fPIC"
-  ./configure
-  make
-  sudo make install
-\end{verbatim}
 
-  If you do not have {\tt wget}, you simply can get the package directly from\\
-  {\tt http://www.platon.sk/projects/libcfg+/}.
-\end{itemize}
+ Get the package\footnote{If you do not have {\tt wget} installed, you simply can use your browser to get the package from  {\tt http://www.platon.sk/projects/libcfg+/}.}:\\
+\verb#   wget http://platon.sk/projects/download.php?id=57#
+
+ Unpack it and cd to the package folder:\\
+\verb#   tar xzvf libcfg+-0.6.2.tar.gz#\\
+\verb#   cd libcfg+-0.6.2#
+
+ Set appropriate flags ({\bf IMPORTANT:} This command is needed only in 64-bit systems. If
+  you are using a 32-bit system, just omit it):\\
+\verb#   export CPPFLAGS="-fPIC"#
+
+ Configure, compile, and install the library:\\
+\verb#   ./configure#\\
+\verb#   make#\\
+\verb#   sudo make install#
+\end{list}
 
 
 \item {\bf Install FreeLing}
 
-\begin{itemize}
+\begin{list}{\labelitemi}{\leftmargin=1em}
 \item {\sl Install libfries:}
 \begin{verbatim}
   tar xzvf libfries-1.1.tar.gz
@@ -363,7 +367,7 @@ In Ubuntu Hardy packages are organized slightly different:
   make
   sudo make install
 \end{verbatim}
-\end{itemize}
+\end{list}
 
    Note that if you (or the library package) install some libraries or
    headers in non-standard directories (that is, other than {\tt
@@ -385,7 +389,7 @@ In Ubuntu Hardy packages are organized slightly different:
  Sample program {\tt analyze} is installed in {\tt
    /usr/local/bin}. See sections \ref{sec-execute} and
  \ref{cap-analyzer} for details.
-\end{enumerate}
+\end{list}
 
 
 \subsection{Install from {\tt SVN} repositories}
@@ -395,8 +399,8 @@ In Ubuntu Hardy packages are organized slightly different:
   but you'll have the chance to easily update your FreeLing to the
   latest development version.
 
-\begin{enumerate}
-
+\begin{list}{{\bf \arabic{enumi}.}}{\usecounter{enumi}\leftmargin=1.5em}
+\setcounter{enumi}{0}
 \item {\bf Install development tools}\\
  You'll need to install the C++ compiler, the GNU autotools, and a SVN client.
 \begin{verbatim}
@@ -410,8 +414,9 @@ In Ubuntu Hardy packages are organized slightly different:
 \item {\bf Install packaged and non-packaged requirements}\\ 
   Follow the same procedure described in section \ref{sec-install-tgz} for
   these two steps.
+ \newpage
 
-\item {\bf Checkout FreeLing sources}\\
+\item {\bf Checkout FreeLing sources}
 \begin{verbatim}
     mkdir mysrc
     cd mysrc
@@ -446,7 +451,7 @@ In Ubuntu Hardy packages are organized slightly different:
     sudo make install
 \end{verbatim}
 
-\end{enumerate}
+\end{list}
 
 \noindent If you keep the svn directories, you will be able to update to the latest version at any moment:
 \begin{verbatim}
