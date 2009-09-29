@@ -6,7 +6,7 @@
 #############################################
 
 ##--- Get FreeLing installation from the location of this script
-FREELING=$(dirname $(dirname $(readlink -e $0)))
+FREELING=$(dirname $(cd $(dirname $0) && echo $PWD))
 
 ##--- define FREELINGSHARE (if not already defined), which is used in default config files
 if [ "x$FREELINGSHARE" = "x" ]; then

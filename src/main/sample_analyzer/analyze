@@ -13,7 +13,7 @@
 
 
 ## Execute FreeLing environment initialization
-. $(dirname $(readlink -e $0))/initialize $@
+. $(cd $(dirname $0) && echo $PWD)/initialize $@
 
 ## call actual executable
 if [[ "x$1" == "x-"* || "x$1" == "x" ]]; then

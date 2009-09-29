@@ -446,8 +446,10 @@ bool completer::matching_context(const vector<parse_tree *> &trees, const size_t
   bool match = match_side(LEFT, trees, chk, conds, core) && match_side(RIGHT, trees, chk, conds, core);
 
   // apply negation if necessary
-  if (r.context_neg) return (!match);
-  else return match;
+  if (r.context_neg) match = !match;
+
+  TRACE(4,"        Context "+string(match?"matches":"does NOT match"));
+  return match;
 }
 
 
@@ -488,7 +490,7 @@ bool completer::matching_condition(parse_tree::iterator chunk, const list<string
       case '{':	ok = rx.Search(w.get_parole());	break;
       case '[': {
 	string vclass=c->substr(1,c->size()-2);
-	TRACE(4,"match CLASS: "+vclass+" "+w.get_lemma());
+	TRACE(4,"        matching CLASS: "+vclass+" lemma="+w.get_lemma());
 	ok = (check_wordclass::wordclasses.find(vclass+"#"+w.get_lemma()) != check_wordclass::wordclasses.end());	
 	break;
       }	
@@ -496,6 +498,7 @@ bool completer::matching_condition(parse_tree::iterator chunk, const list<string
     }
   }
 
+  TRACE(4,"        Conditions "+string(ok?"match":"do NOT match"));
   return ok;
 }
 
@@ -527,6 +530,7 @@ bool completer::match_pattern(parse_tree::iterator chunk, const string &pattern)
 
   if (neg) found= !found;
 
+  TRACE(5,"           Pattern "+string(found?"found":"NOT found"));
   return found;
 }
 
@@ -555,6 +559,7 @@ bool completer::matching_operation(const vector<parse_tree *> &trees, const size
       r.last=&(*i);  // remember node location in case the rule is finally selected.
   }
 
+  TRACE(4,"        Operation "+string(r.last!=NULL?"matches":"does NOT match"));
   return r.last!=NULL;
 }
 
