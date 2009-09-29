@@ -17,7 +17,7 @@
 
 
 ## Execute FreeLing environment initialization
-. $(dirname $(readlink -e $0))/initialize $@
+. $(cd $(dirname $0) && echo $PWD)/initialize $@
 
 ## call actual executable, wrapped in UTF8 conversor
 iconv -f utf-8 -t iso-8859-1 - | $FREELING/bin/analyzer $param | iconv -f iso-8859-1 -t utf-8 -
