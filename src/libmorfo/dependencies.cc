@@ -470,7 +470,8 @@ bool completer::matching_condition(parse_tree::iterator chunk, const list<string
   while (head->num_children()>0) {
     // locate the head children..
     parse_tree::sibling_iterator s;
-    for (s=head->sibling_begin(); s!=head->sibling_end() && !s->info.is_head(); ++s);    if (s==head->sibling_end())
+    for (s=head->sibling_begin(); s!=head->sibling_end() && !s->info.is_head(); ++s);    
+    if (s==head->sibling_end())
       WARNING("NO HEAD Found!!! Check your chunking grammar and your dependency-building rules.");
 
     // ...and get down to it
@@ -483,15 +484,15 @@ bool completer::matching_condition(parse_tree::iterator chunk, const list<string
   // check if all the conditions are satisfied
   bool ok=true;
   for (list<string>::const_iterator c=conds.begin(); ok && c!=conds.end(); c++) {
-
+    TRACE(4,"        matching condition "+(*c)+" with word ("+w.get_form()+","+w.get_lemma()+","+w.get_parole()+")");
     switch ((*c)[0]) {
       case '<':	ok = ("<"+w.get_lemma()+">" == (*c));   break;	
       case '(':	ok = ("("+w.get_form()+")" == (*c));    break;
       case '{':	ok = rx.Search(w.get_parole());	break;
       case '[': {
 	string vclass=c->substr(1,c->size()-2);
-	TRACE(4,"        matching CLASS: "+vclass+" lemma="+w.get_lemma());
 	ok = (check_wordclass::wordclasses.find(vclass+"#"+w.get_lemma()) != check_wordclass::wordclasses.end());	
+	TRACE(4,"        CLASS: "+(*c)+string(ok?" matches lemma":" does NOT match lemma"));
 	break;
       }	
       default: break; // should never get this far
