@@ -18,6 +18,9 @@ esdepdatadir = $(pkgdatadir)/es/dep
 esdepdata_DATA = es/dep/*
 escorefdatadir = $(pkgdatadir)/es/coref
 escorefdata_DATA = es/coref/*
+escorrecdatadir = $(pkgdatadir)/es/corrector
+escorrecdata_DATA = es/corrector/*
+
 
 cadatadir = $(pkgdatadir)/ca
 cadata_DATA = ca/*
@@ -72,13 +75,19 @@ commondatadir = $(pkgdatadir)/common
 commondata_DATA = common/*
 commonnecdatadir = $(pkgdatadir)/common/nec
 commonnecdata_DATA = common/nec/*
+commoncorrecdatadir = $(pkgdatadir)/common/corrector
+commoncorrecdata_DATA = common/corrector/*
 
 configdatadir = $(pkgdatadir)/config
 configdata_DATA = config/*
 
+
 install-data-hook:
 	@echo "Indexing language dictionaries. This will take some minutes."
 	@for lg in $(languages); do \
+	   echo "...Creating sound database for "$$lg" dictionary, please wait."; \
+	   rm -f $(pkgdatadir)/$$lg/corrector/corrector.db; \
+	   $(ZCAT) -f $(pkgdatadir)/$$lg/dicc.src | $(bindir)/createIndex $$lg |$(bindir)/indexdict $(pkgdatadir)/$$lg/corrector/corrector.db; \
 	   echo "...Indexing "$$lg" dictionary, please wait."; \
 	   rm -f $(pkgdatadir)/$$lg/maco.db; \
 	   $(ZCAT) -f $(pkgdatadir)/$$lg/dicc.src | $(bindir)/indexdict $(pkgdatadir)/$$lg/maco.db; \
@@ -97,3 +106,5 @@ install-data-hook:
 
 uninstall-hook:
 	@rm -rf $(pkgdatadir)
+
+
