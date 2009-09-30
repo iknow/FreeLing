@@ -46,6 +46,8 @@ maco_options::maco_options(const std::string &lg) {
   NumbersDetection=false; PunctuationDetection=false;
   DatesDetection=false;   QuantitiesDetection=false;
   DictionarySearch=false; ProbabilityAssignment=false;
+  OrthographicCorrection=false;
+
   NERecognition=0;    
 
   Decimal=",";  Thousand=".";
@@ -53,17 +55,18 @@ maco_options::maco_options(const std::string &lg) {
   LocutionsFile="";   QuantitiesFile="";    AffixFile=""; 
   ProbabilityFile=""; DictionaryFile=""; 
   NPdataFile="";      PunctuationFile="";
-
+  CorrectorLang="";	CorrectorCommon=""; DistanceMethod="";
+  
   ProbabilityThreshold=0.001;
 }
 
 void maco_options::set_active_modules(bool suf, bool mw, bool num, bool pun, bool dat, 
-                                      bool qt, bool dic, bool prb, int ner) {
+                                      bool qt, bool dic, bool prb, int ner, bool orto) {
   AffixAnalysis=suf;    MultiwordsDetection=mw;
   NumbersDetection=num;  PunctuationDetection=pun;
   DatesDetection=dat;    QuantitiesDetection=qt;
   DictionarySearch=dic;  ProbabilityAssignment=prb;
-  NERecognition=ner;
+  NERecognition=ner;	OrthographicCorrection=orto;
 }
 
 void maco_options::set_nummerical_points(const std::string &dec,const std::string &tho) {
@@ -73,12 +76,19 @@ void maco_options::set_nummerical_points(const std::string &dec,const std::strin
 
 void maco_options::set_data_files(const std::string &loc,const std::string &qty,const std::string &suf,
                                   const std::string &prb,const std::string &dic,const std::string &nps,
-                                  const std::string &pun) {
+                                  const std::string &pun, const std::string &clg,const std::string &ccm){
+
+
   LocutionsFile=loc;    QuantitiesFile=qty;  AffixFile=suf; 
   ProbabilityFile=prb;  DictionaryFile=dic;  NPdataFile=nps;
-  PunctuationFile=pun;  
+  PunctuationFile=pun;  CorrectorLang=clg;	CorrectorCommon=ccm;
+  
 }
 
 void maco_options::set_threshold(double t) {
   ProbabilityThreshold=t;
+}
+
+void maco_options::set_corrector_options(const std::string &d){
+	DistanceMethod=d;
 }

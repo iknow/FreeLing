@@ -64,6 +64,11 @@
 #define DEP_TRACE           0x00800000
 #define COREF_TRACE         0x01000000
 #define UTIL_TRACE          0x02000000
+#define CORRECTOR_TRACE     0x10000000
+#define PHONETICS_TRACE     0x10000001
+#define SOUNDCHANGE_TRACE   0x10000002
+#define PHONETICDISTANCE_TRACE   0x10000003
+#define SIMILARITY   0x10000004
 
 /// MOD_TRACECODE and MOD_TRACENAME are empty. The class 
 /// using the trace is expected to set them

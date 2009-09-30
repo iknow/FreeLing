@@ -60,6 +60,8 @@ maco::maco(const maco_options &opts): defaultOpt(opts) {
                                      : NULL);
   prob = (opts.ProbabilityAssignment ? new probabilities(opts.Lang, opts.ProbabilityFile, opts.ProbabilityThreshold)
                                      : NULL);
+
+ correct = (opts.OrthographicCorrection ? new corrector(opts.CorrectorLang, *dico, opts.CorrectorCommon, opts.DistanceMethod) : NULL); 
 }
 
 ///////////////////////////////////////////////////////////////
@@ -76,6 +78,7 @@ maco::~maco() {
   delete npm;
   delete quant;
   delete prob;
+  delete correct;
 }
 
 
@@ -85,8 +88,7 @@ maco::~maco() {
 
 void maco::analyze(std::list<sentence> &ls) {
   list<sentence>::iterator is;
-
-     
+  
      if (defaultOpt.NumbersDetection){ 
        // (Skipping number detection will affect dates and quantities modules)
        for (is=ls.begin(); is!=ls.end(); is++) {
@@ -139,6 +141,31 @@ void maco::analyze(std::list<sentence> &ls) {
        TRACE(2,"Sentences annotated by the quantities module.");
      }
 
+	if (defaultOpt.OrthographicCorrection){
+		for (is=ls.begin(); is!=ls.end(); is++) {
+			correct->annotate(*is);
+			
+			sentence se=*is;
+			sentence::iterator pos;
+			for (pos=se.begin(); pos!=se.end(); ++pos)  {
+				word w=*pos;
+				string forma=w.get_form();
+				for (word::iterator la=w.analysis_begin(); la!=w.analysis_end(); la++){
+					
+				
+				}
+				
+			}
+			
+			
+			
+			
+			
+		}
+ 		TRACE(2,"Orthographic correction of the sentence.");
+	}
+
+
      if (defaultOpt.ProbabilityAssignment) {
        for (is=ls.begin(); is!=ls.end(); is++) {
 	 prob->annotate(*is);    
@@ -150,7 +177,6 @@ void maco::analyze(std::list<sentence> &ls) {
      for (is=ls.begin(); is!=ls.end(); is++)
        for (sentence::iterator w=is->begin(); w!=is->end(); w++)
 	 w->select_all_analysis();
-
 }
 
 ///////////////////////////////////////////////////////////////

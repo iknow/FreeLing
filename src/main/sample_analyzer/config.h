@@ -95,7 +95,7 @@ class config {
     int MACO_AffixAnalysis, MACO_MultiwordsDetection, 
         MACO_NumbersDetection, MACO_PunctuationDetection, 
         MACO_DatesDetection, MACO_QuantitiesDetection, 
-        MACO_DictionarySearch, MACO_ProbabilityAssignment;
+        MACO_DictionarySearch, MACO_ProbabilityAssignment, MACO_OrthographicCorrection;
     int MACO_NER_which;
     /// Morphological analyzer options
     char *MACO_Decimal, *MACO_Thousand;
@@ -104,6 +104,10 @@ class config {
     char *MACO_LocutionsFile, *MACO_QuantitiesFile, *MACO_AffixFile, 
          *MACO_ProbabilityFile, *MACO_DictionaryFile, 
          *MACO_NPdataFile, *MACO_PunctuationFile;
+	
+    /// Orthographic correction options
+    char *MACO_CorrectorLang, *MACO_CorrectorCommon,*MACO_DistanceMethod;
+	 
     double MACO_ProbabilityThreshold;
 
     // NEC options
@@ -148,10 +152,11 @@ class config {
       // Auxiliary for boolean handling
       int flush,noflush, afx,noafx,   loc,noloc,   numb,nonumb,
           punt,nopunt,   date,nodate,   quant,noquant,  dict,nodict,   prob,noprob,
-  	  nec,nonec,     dup,nodup,      retok,noretok,  coref,nocoref;
+  	  nec,nonec,     dup,nodup,      retok,noretok,  coref,nocoref, orto, noorto;
       char *cf_flush, *cf_afx, *cf_loc,   *cf_numb,
            *cf_punt,  *cf_date, *cf_quant, *cf_dict, *cf_prob,
-	   *cf_nec,  *cf_dup,   *cf_retok,  *cf_coref;
+	   *cf_nec,  *cf_dup,   *cf_retok,  *cf_coref, *cf_orto;
+
  
       // Options structure
       struct cfg_option OptionList[] = {  // initialization
@@ -191,6 +196,9 @@ class config {
 	{NULL,      '\0', "QuantitiesDetection",     CFG_STR,  (void *) &cf_quant, 0},
 	{"dict",    '\0', NULL,                      CFG_BOOL, (void *) &dict, 0},
 	{"nodict",  '\0', NULL,                      CFG_BOOL, (void *) &nodict, 0},
+	{"orto",    '\0', NULL,                      CFG_BOOL, (void *) &orto, 0},
+	{"noorto",  '\0', NULL,                      CFG_BOOL, (void *) &noorto, 0},
+	{NULL,      '\0', "OrthographicCorrection",  CFG_STR,  (void *) &cf_orto, 0},
 	{NULL,      '\0', "DictionarySearch",        CFG_STR,  (void *) &cf_dict, 0},
 	{"prob",    '\0', NULL,                      CFG_BOOL, (void *) &prob, 0},
 	{"noprob",  '\0', NULL,                      CFG_BOOL, (void *) &noprob, 0},
@@ -204,6 +212,9 @@ class config {
 	{"fprob",   'P',  "ProbabilityFile",         CFG_STR,  (void *) &MACO_ProbabilityFile, 0},
 	{"thres",   'e',  "ProbabilityThreshold",    CFG_DOUBLE, (void *) &MACO_ProbabilityThreshold, 0},
 	{"fdict",   'D',  "DictionaryFile",          CFG_STR,  (void *) &MACO_DictionaryFile, 0},
+	{"fcorrl",   '\0',  "CorrectorLang",    CFG_STR,  (void *) &MACO_CorrectorLang, 0},
+	{"fcorrc",   '\0',  "CorrectorCommon",    CFG_STR,  (void *) &MACO_CorrectorCommon, 0},
+	{"distmethod", '\0', "DistanceMethod",         CFG_STR,  (void *) &MACO_DistanceMethod, 0},
 	{"fnp",     'N',  "NPDataFile",              CFG_STR,  (void *) &MACO_NPdataFile, 0},
 	{"fpunct",  'F',  "PunctuationFile",         CFG_STR,  (void *) &MACO_PunctuationFile, 0},
 	// NEC options
@@ -257,9 +268,10 @@ class config {
       date=false;  nodate=false;  quant=false;  noquant=false;  dict=false; nodict=false; 
       prob=false;  noprob=false;  nec=false;  nonec=false; 
       dup=false;   nodup=false;   retok=false; noretok=false; coref=false; nocoref=false;
+      orto=false; noorto=false; 
       cf_flush=NULL; cf_afx=NULL;  cf_loc=NULL;   cf_numb=NULL; 
       cf_punt=NULL;  cf_date=NULL;  cf_quant=NULL; cf_dict=NULL;  cf_prob=NULL;
-      cf_nec=NULL;   cf_dup=NULL;   cf_retok=NULL;  cf_coref=NULL;
+      cf_nec=NULL;   cf_dup=NULL;   cf_retok=NULL;  cf_coref=NULL; cf_orto=NULL;
       
       // Set built-in default values.
       ConfigFile=NULL; help=false;
@@ -275,6 +287,7 @@ class config {
       MACO_LocutionsFile=NULL; MACO_QuantitiesFile=NULL; MACO_AffixFile=NULL; 
       MACO_ProbabilityFile=NULL; MACO_DictionaryFile=NULL; 
       MACO_NPdataFile=NULL; MACO_PunctuationFile=NULL;
+      MACO_CorrectorLang=NULL; MACO_CorrectorCommon=NULL; MACO_DistanceMethod=NULL;
       MACO_ProbabilityThreshold=0.0; 
       MACO_NER_which=0;
       NEC_NEClassification=false; NEC_FilePrefix=NULL; 
@@ -328,6 +341,7 @@ class config {
       SetBooleanOptionCF(cf_quant,MACO_QuantitiesDetection,"QuantitiesDetection");
       SetBooleanOptionCF(cf_dict,MACO_DictionarySearch,"DictionarySearch");
       SetBooleanOptionCF(cf_prob,MACO_ProbabilityAssignment,"ProbabilityAssignment");
+      SetBooleanOptionCF(cf_orto,MACO_OrthographicCorrection,"OrthographicCorrection");
       SetBooleanOptionCF(cf_nec,NEC_NEClassification,"NEClassification");
       SetBooleanOptionCF(cf_dup,SENSE_DuplicateAnalysis,"DuplicateAnalysis");
       SetBooleanOptionCF(cf_retok,TAGGER_Retokenize,"TaggerRetokenize");
@@ -359,6 +373,9 @@ class config {
       ExpandFileName(PARSER_GrammarFile); 
       ExpandFileName(DEP_TxalaFile);
       ExpandFileName(COREF_CorefFile); 
+      ExpandFileName(MACO_CorrectorLang);
+      ExpandFileName(MACO_CorrectorCommon);
+      
 	     
       // Handle boolean options expressed with --myopt or --nomyopt in command line
       SetBooleanOptionCL(flush,noflush,AlwaysFlush,"flush");
@@ -370,6 +387,7 @@ class config {
       SetBooleanOptionCL(quant,noquant,MACO_QuantitiesDetection,"quant");
       SetBooleanOptionCL(dict,nodict,MACO_DictionarySearch,"dict");
       SetBooleanOptionCL(prob,noprob,MACO_ProbabilityAssignment,"prob");
+      SetBooleanOptionCL(orto,noorto,MACO_OrthographicCorrection,"orto");
       SetBooleanOptionCL(nec,nonec,NEC_NEClassification,"nec");
       SetBooleanOptionCL(dup,nodup,SENSE_DuplicateAnalysis,"dup");
       SetBooleanOptionCL(retok,noretok,TAGGER_Retokenize,"retk");
@@ -493,6 +511,7 @@ class config {
       cout<<"--quant, --noquant     Whether to perform quantities detection"<<endl;
       cout<<"--dict, --nodict       Whether to perform dictionary search"<<endl;
       cout<<"--prob, --noprob       Whether to perform probability assignment"<<endl;
+      cout<<"--orto, --noorto       Whether to perform orthographic correction"<<endl;
       cout<<"--ner string           Which kind of NE recognition is to be performed (basic, bio, none)"<<endl;
       cout<<"--dec string           Decimal point character"<<endl;
       cout<<"--thou string          Thousand point character"<<endl;
@@ -525,10 +544,14 @@ class config {
       cout<<"--txala,-T filename    Rule file for Txala dependency parser"<<endl;
       cout<<"--coref, --nocoref     Whether to perform coreference resolution"<<endl;
       cout<<"--fcorf,-C filename    Coreference solver data file"<<endl;
+      cout<<"--fcorrl filename      ubication of corrector files language based "<<endl;
+      cout<<"--fcorrc filename      ubication of corrector files common to all languages "<<endl;
+      cout<<"--distmethod method    decides the method to calculate distances in corrector (phonetic, similarity)"<<endl;
       cout<<endl;
     }
 
 };
+
 
 #endif
 

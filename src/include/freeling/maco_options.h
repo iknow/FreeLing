@@ -47,15 +47,20 @@ class maco_options {
     bool AffixAnalysis,   MultiwordsDetection, 
          NumbersDetection, PunctuationDetection, 
          DatesDetection,   QuantitiesDetection, 
-         DictionarySearch, ProbabilityAssignment;
+         DictionarySearch, ProbabilityAssignment,
+	 OrthographicCorrection;
     int NERecognition;
     /// Morphological analyzer options
     std::string Decimal, Thousand;
     /// Morphological analyzer options
     std::string LocutionsFile, QuantitiesFile, AffixFile, 
            ProbabilityFile, DictionaryFile, 
-           NPdataFile, PunctuationFile;
+           NPdataFile, PunctuationFile,
+	   CorrectorLang, CorrectorCommon;
+
     double ProbabilityThreshold;
+    /// corrector options
+    std::string DistanceMethod;
 
     /// constructor
     maco_options(const std::string &); 
@@ -64,11 +69,13 @@ class maco_options {
     /// Since option data members are public and can be accessed directly
     /// from C++, the following methods are not necessary, but may become
     /// convenient sometimes.
-    void set_active_modules(bool,bool,bool,bool,bool,bool,bool,bool,int);
+    void set_active_modules(bool,bool,bool,bool,bool,bool,bool,bool,int,bool);
     void set_nummerical_points(const std::string &,const std::string &);
     void set_data_files(const std::string &,const std::string &,const std::string &,const std::string &,
-                        const std::string &,const std::string &,const std::string &);
+                        const std::string &,const std::string &,const std::string &, const std::string &,
+			const std::string &);
     void set_threshold(double);
+    void set_corrector_options(const std::string &);
 };
 
 #endif
