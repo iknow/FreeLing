@@ -224,7 +224,7 @@ bool soundChange::check_cond(string text, string opt, int loc, string findStr){
 
   bool res;    
   if (rc == PCRE_ERROR_NOMATCH) res=false; 
-  else if (rc < 0) ERROR_CRASH("Error while matching");
+  else if (rc < 0) ERROR_CRASH("pcre: Error while matching");
   else {
     // the sign _ and the loc of the char to replace must be in te same location
     int loc_= calculatePosition(opt);

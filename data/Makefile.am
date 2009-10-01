@@ -85,9 +85,13 @@ configdata_DATA = config/*
 install-data-hook:
 	@echo "Indexing language dictionaries. This will take some minutes."
 	@for lg in $(languages); do \
-	   echo "...Creating sound database for "$$lg" dictionary, please wait."; \
-	   rm -f $(pkgdatadir)/$$lg/corrector/corrector.db; \
-	   $(ZCAT) -f $(pkgdatadir)/$$lg/dicc.src | $(bindir)/createIndex $$lg |$(bindir)/indexdict $(pkgdatadir)/$$lg/corrector/corrector.db; \
+	   if [ -f "$(pkgdatadir)/$$lg/corrector/corrector.db" ]; \
+	   	then rm -f $(pkgdatadir)/$$lg/corrector/corrector.db; \
+	   fi; \
+	   if [ -f "$(pkgdatadir)/$$lg/corrector/corrector.rules" ]; \
+		then echo "...Creating sound database for "$$lg" dictionary, please wait."; \
+		     $(ZCAT) -f $(pkgdatadir)/$$lg/dicc.src | $(bindir)/dicc2phon $(pkgdatadir)/$$lg/corrector/corrector.rules $(pkgdatadir)/common/corrector/corrector.soundDicFile $(pkgdatadir)/common/corrector/corrector.sampa  |$(bindir)/indexdict $(pkgdatadir)/$$lg/corrector/corrector.db; \
+           fi; \
 	   echo "...Indexing "$$lg" dictionary, please wait."; \
 	   rm -f $(pkgdatadir)/$$lg/maco.db; \
 	   $(ZCAT) -f $(pkgdatadir)/$$lg/dicc.src | $(bindir)/indexdict $(pkgdatadir)/$$lg/maco.db; \
@@ -98,7 +102,7 @@ install-data-hook:
 	     $(ZCAT) -f $$src | $(bindir)/indexdict $$name.db; \
 	     $(ZCAT) -f $$src | $(bindir)/convertdict > $$name.ukb; \
 	   done \
-	done
+	done 
 	@echo "Indexing WN-based semantic database"
 	@rm -f $(pkgdatadir)/common/wn16.db;
 	@$(ZCAT) -f $(pkgdatadir)/common/wn16.src | $(bindir)/indexdict $(pkgdatadir)/common/wn16.db;

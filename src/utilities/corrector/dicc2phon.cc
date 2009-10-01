@@ -37,6 +37,9 @@
 //
 //	The dictionary is passed as stdin and the text is the stdout
 //
+//	The paramaters are the 3 necesary files soundChangeRules
+//	soundChangeDicFile and sampaFile
+//
 ////////////////////////////////////////////////////////////////
 
 #include <iostream>
@@ -52,10 +55,8 @@ using namespace std;
 int main(int argc, char *argv[]){
 	
 	
-	if (!argc==1) { cout << "You need to specify the language as a parameter" << endl; exit(0);}
+	if (!argc==3) { cout << "You need to specify the 3 necesary files: soundChangeRules, soundChangeDicFile and sampaFile" << endl; exit(0);}
 	
-	string language=argv[1];
-		
 	string line;
 	vector<string> words;
 		
@@ -66,13 +67,10 @@ int main(int argc, char *argv[]){
 		words.push_back(vs.at(0));
 	}
 	
-	string pathFiles="/usr/local/share/FreeLing/";
-	string correctorLang=language+"/corrector/";
-	string correctorCommon="common/corrector/";
 			
-	string soundChangeRules=pathFiles+correctorLang+"corrector.rules";
-	string soundChangeDicFile=pathFiles+correctorCommon+"corrector.soundDicFile";
-	string sampaFile=pathFiles+correctorCommon+"corrector.sampa";
+	string soundChangeRules=argv[1];
+	string soundChangeDicFile=argv[2];
+	string sampaFile=argv[3];
 	
 	phonetics ph(soundChangeRules,soundChangeDicFile,sampaFile,true);
 	
@@ -96,7 +94,5 @@ int main(int argc, char *argv[]){
 		data=data.substr(1);
 		cout << keyword << " " << data << endl;
 	}
-	
-	
-	
+		
 }
