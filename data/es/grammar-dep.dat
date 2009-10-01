@@ -164,9 +164,8 @@ paton-fs ==> PP3FSA00.	%la
 paton-ms ==> PP3MSA00.	%lo: CD masculí singular
 paton ==> PP3CNA00.	%lo: atribut: inespecificat
 
-morf-pron ==> P01CS000 | P01CP000 | P02CS000 | P02CP000.
-morf-pron ==> P03CN000.	%se-pronominal
-
+morf-pron ==> P010S000 | P010P000 | P020S000 | P020P000.
+morf-pron ==> P0300000.	%se-pronominal
 
 morfema-verbal ==> P0000000.	%se impersonal/passiu
 grup-verb ==> morf-pron, +grup-verb.
@@ -675,19 +674,23 @@ s-adj ==> s-a-ms | s-a-fs | s-a-mp | s-a-fp.
 
 s-a-ms ==> Fe, +s-a-ms, Fe | Fpa, +s-a-ms, Fpt.
 s-a-ms ==> a-ms | s-a-ms, +Fc, s-a-ms | s-a-ms, +Fc, s-a-ms, Fs. %enumeració amb .../etc al final
-s-a-ms ==> s-a-ms, +coord, s-a-ms | sadv, +a-ms | sadv, +parti-ms |  +a-ms, s-a-ms. %NOVA: sadv, +parti-ms
+s-a-ms ==> s-a-ms, +coord, s-a-ms |  +a-ms, s-a-ms.
+%s-a-ms ==> sadv, +a-ms | sadv, +parti-ms. %solucio a les dependencies
 
 s-a-fs ==> Fe, +s-a-fs, Fe | Fpa, +s-a-fs, Fpt.
 s-a-fs ==> a-fs | s-a-fs, +Fc, s-a-fs | s-a-fs, +Fc, s-a-fs, Fs.
-s-a-fs ==> s-a-fs, +coord, s-a-fs | sadv, +a-fs | sadv, +parti-fs | +a-fs, s-a-fs.
+%s-a-fs ==> s-a-fs, +coord, s-a-fs | +a-fs, s-a-fs.
+%s-a-fs ==> sadv, +a-fs | sadv, +parti-fs. %solucio a les dependencies
  
 s-a-mp ==> Fe, +s-a-mp, Fe | Fpa, +s-a-mp, Fpt.
 s-a-mp ==> a-mp | s-a-mp, +Fc, s-a-mp | s-a-mp, +Fc, s-a-mp, Fs.	
-s-a-mp ==> s-a-mp, +coord, s-a-mp | sadv, +a-mp | sadv, +parti-mp | +a-mp, s-a-mp. 
+s-a-mp ==> s-a-mp, +coord, s-a-mp | +a-mp, s-a-mp. 
+%s-a-mp ==> sadv, +a-mp | sadv, +parti-mp. %solucio a les dependencies
 
 s-a-fp ==> Fe, +s-a-fp, Fe | Fpa, +s-a-fp, Fpt.
 s-a-fp ==> a-fp | s-a-fp, +Fc, s-a-fp | s-a-fp, +Fc, s-a-fp, Fs.
-s-a-fp ==> s-a-fp, +coord, s-a-fp | sadv, +a-fp | sadv, +parti-fp | +a-fp, s-a-fp.
+s-a-fp ==> s-a-fp, +coord, s-a-fp | +a-fp, s-a-fp.
+%s-a-fp ==> sadv, +a-fp | sadv, +parti-fp. %solucio a les dependencies
 
 s-a-ms ==> parti-ms.
 s-a-fs ==> parti-fs.

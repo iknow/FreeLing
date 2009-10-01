@@ -20,13 +20,11 @@
 %% -------------------------------------------------------------------- %%
 
 
-%% ----------- UPDATED: MARCH 2009 ------------ %%
-%
+%% ----------- UPDATED: SEPTEMBER 2009 ------------ %%
 %
 % INCORPORACIONS:
-% sn amb valor temporal --> cc (GRLAB)
-% prepos (abans) --> obj-prep (ara)
-% sn 'hace X tiempo' (GRPAR+GRLAB)
+% Adverbis especificadors d'adjectiu (GRPAR+GRLAB)
+% Adverbis especificadors d'adjectiu amb valor superlatiu (GRPAR+GRLAB); etiqueta: sadv-sup
 %
 %% -------------------------------------------- %%
 %
@@ -106,6 +104,52 @@
 
 9001  -  -  (sn,Fc)  top_left  RELABEL -  % (el president del patronat(,))
 9999 -  -  (sn,F-term)  top_left  RELABEL -  % signes que no acaben frase
+
+
+%% -------------------------------------------- %%
+%                                                %
+%  Sintagma adjectival                           %
+%                                                %
+%% -------------------------------------------- %%
+
+% ADVERBI SUPERLATIU ALS ADJECTIUS (La meva mare es la [mes] xerraire) %
+
+1 - espec-ms_$$ (sadv(més),s-adj) top_right RELABEL sadv-sup:- % ((mes) xerraire)
+1 - espec-fs_$$ (sadv(més),s-adj) top_right RELABEL sadv-sup:-
+1 - espec-mp_$$ (sadv(més),s-adj) top_right RELABEL sadv-sup:-
+1 - espec-fp_$$ (sadv(més),s-adj) top_right RELABEL sadv-sup:-
+
+1 - espec-ms_$$ (sadv(menys),s-adj) top_right RELABEL sadv-sup:- % ((menys) xerraire)
+1 - espec-fs_$$ (sadv(menys),s-adj) top_right RELABEL sadv-sup:-
+1 - espec-mp_$$ (sadv(menys),s-adj) top_right RELABEL sadv-sup:-
+1 - espec-fp_$$ (sadv(menys),s-adj) top_right RELABEL sadv-sup:-
+
+
+1 - espec-ms_$$ (sadv(més),parti-ms) top_right RELABEL sadv-sup:- % ((mes) adormida)
+1 - espec-fs_$$ (sadv(més),parti-fs) top_right RELABEL sadv-sup:-
+1 - espec-mp_$$ (sadv(més),parti-mp) top_right RELABEL sadv-sup:-
+1 - espec-fp_$$ (sadv(més),parti-fp) top_right RELABEL sadv-sup:-
+
+1 - espec-ms_$$ (sadv(menys),parti-ms) top_right RELABEL sadv-sup:- % ((menys) adormida)
+1 - espec-fs_$$ (sadv(menys),parti-fs) top_right RELABEL sadv-sup:-
+1 - espec-mp_$$ (sadv(menys),parti-mp) top_right RELABEL sadv-sup:-
+1 - espec-fp_$$ (sadv(menys),parti-fp) top_right RELABEL sadv-sup:-
+
+% ADJECTIUS ESPECIFICATS i: ADVERBIS (La meva mare esta [bastant] adormida)
+
+1 - - (sadv,s-adj) top_right RELABEL -:- % ((bastant) xerraire)
+
+1 - - (sadv,parti-ms) top_right RELABEL -:- % ((quasi) adormit)
+1 - - (sadv,parti-fs) top_right RELABEL -:-
+1 - - (sadv,parti-mp) top_right RELABEL -:-
+1 - - (sadv,parti-fp) top_right RELABEL -:-
+
+
+% ADJECTIUS ESPECIFICATS ii: DETERMINANTS (La meva mare es [la] mes xerraire) %
+2 - - (espec-ms,s-adj) top_right RELABEL -:- % ((el) mes xerraire)
+2 - - (espec-fs,s-adj) top_right RELABEL -:-
+2 - - (espec-mp,s-adj) top_right RELABEL -:-
+2 - - (espec-fp,s-adj) top_right RELABEL -:-
 
 
 %% -------------------------------------------- %%
@@ -2409,7 +2453,7 @@
 2301 - prel-adv_$$_patons_grup-verb (ger,morf-pron) top_left RELABEL subord-ger:- % dins de subordinada
 2301 - sn{^PT}_$$_patons_grup-verb (ger,morf-pron) top_left RELABEL subord-ger:- % dins de subordinada
 2301 - sadv{^PT}_$$_patons_grup-verb (ger,morf-pron) top_left RELABEL subord-ger:- % dins de subordinada
-2301 - $$_patons_grup-verb (ger,morf-pron) top_left RELABEL subord-ger:- % (escriure(-li)) li fa ilï¿½lusiï¿½
+2301 - $$_patons_grup-verb (ger,morf-pron) top_left RELABEL subord-ger:- % (escriure(-li)) li fa il.lusio
 
 2301 - conj-subord_$$_grup-verb (ger,morf-pron) top_left RELABEL subord-ger:- % dins de subordinada
 2301 - que-a_$$_grup-verb (ger,morf-pron) top_left RELABEL subord-ger:- % dins de subordinada
@@ -2438,7 +2482,7 @@
 2303 - prel-adv_$$_patons_grup-verb (ger,patons) top_left RELABEL subord-ger:- % dins de subordinada
 2303 - sn{^PT}_$$_patons_grup-verb (ger,patons) top_left RELABEL subord-ger:- % dins de subordinada
 2303 - sadv{^PT}_$$_patons_grup-verb (ger,patons) top_left RELABEL subord-ger:- % dins de subordinada
-2303 - $$_patons_grup-verb (ger,patons) top_left RELABEL subord-ger:- % (escriure(-li)) li fa ilï¿½lusiï¿½
+2303 - $$_patons_grup-verb (ger,patons) top_left RELABEL subord-ger:- % (escriure(-li)) li fa il.lusio
 
 2303 - conj-subord_$$_grup-verb (ger,patons) top_left RELABEL subord-ger:- % dins de subordinada
 2303 - que-a_$$_grup-verb (ger,patons) top_left RELABEL subord-ger:- % dins de subordinada
@@ -2465,7 +2509,7 @@
 2303  -  prel-adv_$$_patons_grup-verb  (subord-ger,patons)   top_left RELABEL -  % dins de subordinada
 2303  -  sn{^PT}_$$_patons_grup-verb  (subord-ger,patons)   top_left RELABEL -  % dins de subordinada
 2303  -  sadv{^PT}_$$_patons_grup-verb  (subord-ger,patons)   top_left RELABEL -  % dins de subordinada
-2303  -  $$_patons_grup-verb  (subord-ger,patons)   top_left RELABEL -  % (escriure(-li)) li fa ilï¿½lusiï¿½
+2303  -  $$_patons_grup-verb  (subord-ger,patons)   top_left RELABEL -  % (escriure(-li)) li fa il.lusio
 
 2303  -  conj-subord_$$_grup-verb  (subord-ger,patons)   top_left RELABEL -  % dins de subordinada
 2303  -  que-a_$$_grup-verb  (subord-ger,patons)   top_left RELABEL -  % dins de subordinada
@@ -3235,16 +3279,16 @@
 %%% COORDINACIO DE SINTAGMA ADJECTIVAL %%%
 
 1501 - - (coord,s-a-ms) top_left RELABEL coor-s-a:- % (i (tranquil))
-1501 - - (coord,s-a-fs) top_left RELABEL coor-s-a:- % (i (tranquilï¿½la)
+1501 - - (coord,s-a-fs) top_left RELABEL coor-s-a:- % (i (tranquil.la)
 1501 - - (coord,s-a-mp) top_left RELABEL coor-s-a:- % (i (tranquils))
-1501 - - (coord,s-a-fp) top_left RELABEL coor-s-a:- % (i (tranquilï¿½les))
+1501 - - (coord,s-a-fp) top_left RELABEL coor-s-a:- % (i (tranquil.les))
 1501 - - (coord,sadj) top_left RELABEL coor-s-a:- % (i (fredes)
 1503  -  -  (s-a-ms,coor-s-a)   top_right RELABEL -  % ((bonic) i tranquil)
-1503  -  -  (s-a-fs,coor-s-a)   top_right RELABEL -  % ((bonica) i tranquilï¿½la
+1503  -  -  (s-a-fs,coor-s-a)   top_right RELABEL -  % ((bonica) i tranquil.la
 1503  -  -  (s-a-mp,coor-s-a)   top_right RELABEL -  % ((bonics) i tranquils)
-1503  -  -  (s-a-fp,coor-s-a)   top_right RELABEL -  % ((boniques) i tranquilï¿½les
+1503  -  -  (s-a-fp,coor-s-a)   top_right RELABEL -  % ((boniques) i tranquil.les
 1503  -  -  (sadj,coor-s-a)   top_right RELABEL -  % ((cruels) i fredes)
-1505  -  -  (Fc,coor-s-a)   top_left RELABEL -  % antipï¿½tiques ((,) cruels i fredes)
+1505  -  -  (Fc,coor-s-a)   top_left RELABEL -  % antipatiques ((,) cruels i fredes)
 
 %%% COORDINACIO DE SINTAGMA ADVERBIAL%%%
 
@@ -3903,11 +3947,21 @@ data  espec  d.label=dem*
 data  espec  d.label=indef*
 
 %%% ESPECIFICADORS ADJECTIVALS %%%
+s-adj  espec  d.label=espec*
+s-a-ms  espec  d.label=espec*
+s-a-fs  espec  d.label=espec*
+s-a-mp  espec  d.label=espec*
+s-a-fp  espec  d.label=espec
 s-adj  espec  d.label=sadv
 s-a-ms  espec  d.label=sadv
 s-a-fs  espec  d.label=sadv
 s-a-mp  espec  d.label=sadv
 s-a-fp  espec  d.label=sadv
+s-adj  espec  d.label=sadv-sup
+s-a-ms  espec  d.label=sadv-sup
+s-a-fs  espec  d.label=sadv-sup
+s-a-mp  espec  d.label=sadv-sup
+s-a-fp  espec  d.label=sadv-sup
 subord  espec  d.label=espec*
 
 %%% ESPECIFICADORS DE SUBSTANTIVACIONS DE SUBORDINADES %%%

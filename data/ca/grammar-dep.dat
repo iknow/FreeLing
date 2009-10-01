@@ -181,12 +181,14 @@ pinterrog-s ==> PT0CS000.    %QUè, qui
 
 %Pronoms possessius	MODIFICACIÓ: Els possessius els tractem com a adjectius
 
-%% POTSER CAL PER l'EVALUACIO dels PARSES contra ANCORA
-%ppos-ms ==> PX1MS0S0|PX1MS0P0|PX2MS0S0|PX2MS0P0|PX3MS0C0|PX3MS0S0|PX3CS0P0.  
-%ppos-fs ==> PX1FS0S0|PX1FS0P0|PX2FS0S0|PX2FS0P0|PX3FS0C0|PX3FS0S0|PX3CS0P0.  
-%ppos-mp ==> PX1MP0S0|PX1MP0P0|PX2MP0S0|PX2MP0P0|PX3MP0C0|PX3MP0S0|PX3CP0P0.  
-%ppos-fp ==> PX1FP0S0|PX1FP0P0|PX2FP0S0|PX2FP0P0|PX3FP0C0|PX3FP0S0|PX3CP0P0.  
-
+%el_meu|el_teu|el_seu|el_nostre|el_vostre|llur
+%pposs-ms ==> DA0MS0,+DP1MSS | DA0MS0,+DP1MSP | DA0MS0,+DP2MSS | DA0MS0,+DP2MSP | DA0MS0,+DP3MS0. 
+%la_meva|la_teva|la_seva|la_nostra|la_vostra|llur
+%pposs-fs ==> DA0FS0,+DP1FSS | DA0FS0,+DP1FSP | DA0FS0,+DP2FSS | DA0FS0,+DP2FSP | DA0FS0,+DP3FS0.
+%els_meus|els_teus|els_seus|els_nostres|els_vostres|llurs
+%pposs-mp ==> DA0MP0, +DP1MPS | DA0MP0,+DP1MPP | DA0MP0,+DP2MPS | DA0MP0,+DP2MPP | DA0MP0,+DP3MP0.
+%les_meves|les_teves|les_seves|les_nostres|les_vostres|llurs
+%pposs-fp ==> DA0FP0,+DP1FPS | DA0FP0,+DP1FPP | DA0FP0,+DP2FPS | DA0FP0,+DP2FPP | DA0FP0,+DP3FP0.
 
 %Pronoms relatius
 %Pronoms relatius de lloc
@@ -259,10 +261,10 @@ dem-fp ==> DD0FP0 | DD0CP0. % aquestes | tals
 
 %Determinants  possesius	MODIFICACIÓ: Els possessius els tractem com a adjectius
 
-pos-mp ==> DP1MPP | DP1MPS | DP2MPP | DP2MPS | DP3CPP | DP3MP0 | DP3MPS.  %ELS_NOSTRES|MEUS,MONS|ELS_VOSTRES|TONS,TEUS|LLURS|SEUS|sons
-pos-fp ==> DP1FPP | DP1FPS | DP2FPP | DP2FPS | DP3CPP | DP3FP0 | DP3FPS.  %les_NOSTRES|MEves,MeS|les_VOSTRES|Tes,TEves|LLURS|SEves|ses
-pos-fs ==> DP1FSP | DP1FSS | DP2FSP | DP2FSS | DP3CSP | DP3FS0 | DP3FSS.  %la_NOSTRa|MEva,Ma|la_VOSTRa|Ta,Teva|LLUR|SEva|sa
-pos-ms ==> DP1MSP | DP1MSS | DP2MSP | DP2MSS | DP3CSP | DP3MS0 | DP3MSS.  %EL_NOSTRE|MEU,MON|EL_VOSTRE|TON,TEU|LLUR|SEU|son
+%pos-mp ==> DP1MPP | DP1MPS | DP2MPP | DP2MPS | DP3CPP | DP3MP0 | DP3MPS.  %ELS_NOSTRES|MEUS,MONS|ELS_VOSTRES|TONS,TEUS|LLURS|SEUS|sons
+%pos-fp ==> DP1FPP | DP1FPS | DP2FPP | DP2FPS | DP3CPP | DP3FP0 | DP3FPS.  %les_NOSTRES|MEves,MeS|les_VOSTRES|Tes,TEves|LLURS|SEves|ses
+%pos-fs ==> DP1FSP | DP1FSS | DP2FSP | DP2FSS | DP3CSP | DP3FS0 | DP3FSS.  %la_NOSTRa|MEva,Ma|la_VOSTRa|Ta,Teva|LLUR|SEva|sa
+%pos-ms ==> DP1MSP | DP1MSS | DP2MSP | DP2MSS | DP3CSP | DP3MS0 | DP3MSS.  %EL_NOSTRE|MEU,MON|EL_VOSTRE|TON,TEU|LLUR|SEU|son
 
 %Determinants interrogatius%
 int-ms ==> DT0MS0.%QUANT, QUIN
@@ -646,19 +648,23 @@ s-adj ==> s-a-ms | s-a-fs | s-a-mp | s-a-fp.
 
 s-a-ms ==> Fe, +s-a-ms, Fe | Fpa, +s-a-ms, Fpt.
 s-a-ms ==> a-ms | s-a-ms, +Fc, s-a-ms | s-a-ms, +Fc, s-a-ms, Fs. %enumeració amb .../etc al final
-s-a-ms ==> s-a-ms, +coord, s-a-ms | sadv, +a-ms | +a-ms, s-a-ms. 
+s-a-ms ==> s-a-ms, +coord, s-a-ms | +a-ms, s-a-ms.
+%s-a-ms ==> sadv, +a-ms. %v. dependencies
 
 s-a-fs ==> Fe, +s-a-fs, Fe | Fpa, +s-a-fs, Fpt.
 s-a-fs ==> a-fs | s-a-fs, +Fc, s-a-fs | s-a-fs, +Fc, s-a-fs, Fs.
-s-a-fs ==> s-a-fs, +coord, s-a-fs | sadv, +a-fs | +a-fs, s-a-fs.
+s-a-fs ==> s-a-fs, +coord, s-a-fs | +a-fs, s-a-fs.
+%s-a-fs ==> sadv, +a-fs. %v. dependencies
  
 s-a-mp ==> Fe, +s-a-mp, Fe | Fpa, +s-a-mp, Fpt.
 s-a-mp ==> a-mp | s-a-mp, +Fc, s-a-mp | s-a-mp, +Fc, s-a-mp, Fs.	
-s-a-mp ==> s-a-mp, +coord, s-a-mp | sadv, +a-mp | +a-mp, s-a-mp. 
+s-a-mp ==> s-a-mp, +coord, s-a-mp | +a-mp, s-a-mp.
+%s-a-mp ==> sadv, +a-mp. %v. dependencies
 
 s-a-fp ==> Fe, +s-a-fp, Fe | Fpa, +s-a-fp, Fpt.
 s-a-fp ==> a-fp | s-a-fp, +Fc, s-a-fp | s-a-fp, +Fc, s-a-fp, Fs.
-s-a-fp ==> s-a-fp, +coord, s-a-fp | sadv, +a-fp | +a-fp, s-a-fp.
+s-a-fp ==> s-a-fp, +coord, s-a-fp | +a-fp, s-a-fp.
+%s-a-fp ==> sadv, +a-fp. %v. dependencies
 
 s-a-ms ==> parti-ms.
 s-a-fs ==> parti-fs.

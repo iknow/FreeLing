@@ -20,22 +20,20 @@
 %% -------------------------------------------------------------------- %%
 
 
-%% ----------- UPDATED: MARCH 2009 ------------ %%
-%
+%% ----------- UPDATED: SEPTEMBER 2009 ------------ %%
 %
 % INCORPORACIONS:
-% sn amb valor temporal --> cc (GRLAB)
-% prepos (abans) --> obj-prep (ara)
-% sn 'hace X tiempo' (GRLAB)
+% Adverbis especificadors d'adjectiu (GRPAR+GRLAB)
+% Adverbis especificadors d'adjectiu amb valor superlatiu (GRPAR+GRLAB); etiqueta: sadv-sup
 %
 %% -------------------------------------------- %%
 %
 %
 % NUM. REGLES 
-% total rules: 4372
+% total rules: 4408
 % -----------------
-% GRPAR rules: 3782
-% GRLAB rules: 590
+% GRPAR rules: 3808
+% GRLAB rules: 600
 % CLASS files: 47
 %
 %% -------------------------------------------- %%
@@ -106,6 +104,53 @@
 
 9001 - - (sn,Fc) top_left RELABEL - % (el presidente del consejo(,))
 9999 - - (sn,F-term) top_left RELABEL - % signes que no acaben frase
+
+
+%% -------------------------------------------- %% 
+%						 %
+%  Sintagma adjectival				 %
+%						 %
+%% -------------------------------------------- %% 
+
+% ADVERBI SUPERLATIU ALS ADJECTIUS (La meva mare es la [mes] xerraire) %
+
+1 - espec-ms_$$ (sadv(más),s-adj) top_right RELABEL sadv-sup:- % ((mas) simpatico)
+1 - espec-fs_$$ (sadv(más),s-adj) top_right RELABEL sadv-sup:-
+1 - espec-mp_$$ (sadv(más),s-adj) top_right RELABEL sadv-sup:-
+1 - espec-fp_$$ (sadv(más),s-adj) top_right RELABEL sadv-sup:-
+
+1 - espec-ms_$$ (sadv(menos),s-adj) top_right RELABEL sadv-sup:- % ((menos) simpatico)
+1 - espec-fs_$$ (sadv(menos),s-adj) top_right RELABEL sadv-sup:-
+1 - espec-mp_$$ (sadv(menos),s-adj) top_right RELABEL sadv-sup:-
+1 - espec-fp_$$ (sadv(menos),s-adj) top_right RELABEL sadv-sup:-
+
+
+1 - espec-ms_$$ (sadv(más),parti-ms) top_right RELABEL sadv-sup:- % ((mas) dormido)
+1 - espec-fs_$$ (sadv(más),parti-fs) top_right RELABEL sadv-sup:-
+1 - espec-mp_$$ (sadv(más),parti-mp) top_right RELABEL sadv-sup:-
+1 - espec-fp_$$ (sadv(más),parti-fp) top_right RELABEL sadv-sup:-
+
+1 - espec-ms_$$ (sadv(menos),parti-ms) top_right RELABEL sadv-sup:- % ((menos) dormido)
+1 - espec-fs_$$ (sadv(menos),parti-fs) top_right RELABEL sadv-sup:-
+1 - espec-mp_$$ (sadv(menos),parti-mp) top_right RELABEL sadv-sup:-
+1 - espec-fp_$$ (sadv(menos),parti-fp) top_right RELABEL sadv-sup:-
+
+
+% ADJECTIUS ESPECIFICATS i: ADVERBIS (Mi hermano esta [casi] dormido)
+
+1 - - (sadv,s-adj) top_right RELABEL -:- % ((casi) simpatico)
+
+1 - - (sadv,parti-ms) top_right RELABEL -:- % ((casi) dormido)
+1 - - (sadv,parti-fs) top_right RELABEL -:-
+1 - - (sadv,parti-mp) top_right RELABEL -:-
+1 - - (sadv,parti-fp) top_right RELABEL -:-
+
+
+% ADJECTIUS ESPECIFICATS ii: DETERMINANTS (Mi hermano es [el] mas alto) %
+2 - - (espec-ms,s-adj) top_right RELABEL -:- % ((el) mas alto)
+2 - - (espec-fs,s-adj) top_right RELABEL -:-
+2 - - (espec-mp,s-adj) top_right RELABEL -:-
+2 - - (espec-fp,s-adj) top_right RELABEL -:-
 
 
 %% -------------------------------------------- %%
@@ -192,8 +237,8 @@
 %						 %
 %% -------------------------------------------- %%
 
-1 - - (neg<no>,sadv<sÃ³lo>) top_right RELABEL -:sadv
-650 - - (sadv<sÃ³lo>,grup-sp) top_left RELABEL grup-verb-el:- % no solo en la escenografia
+1 - - (neg<no>,sadv<sólo>) top_right RELABEL -:sadv
+650 - - (sadv<sólo>,grup-sp) top_left RELABEL grup-verb-el:- % no solo en la escenografia
 721 - - (sadv<a_bordo>,sp-de) top_left RELABEL - % (a bordo (de)) 
 
 
@@ -980,6 +1025,7 @@
 %%% PUNTUACIO DEL SINTAGMA VERBAL %%%
 
 9401 - - (grup-verb,Fc) top_left RELABEL - % (menjar (,))
+9001 - $_grup-verb_$ (grup-verb,F-term<.>) RELABEL - 
 9001 - - (grup-verb,F-term<.>) top_left RELABEL - % (pensar (.))
 9001 - - (grup-verb,F-term) top_left RELABEL - % (acordar (-)) - qualsevol signe de puntuacio
 
@@ -3450,7 +3496,7 @@
 2307 - prel-fs_$$_sn_grup-verb (ger,sn) top_left RELABEL subord-ger:- % dins de subordinada
 2307 - prel-mp_$$_sn_grup-verb (ger,sn) top_left RELABEL subord-ger:- % dins de subordinada
 2307 - prel-fp_$$_sn_grup-verb (ger,sn) top_left RELABEL subord-ger:- % dins de subordinada
-2307 - cuyo-ms_$$_sn_grup-verb (ger,sn) top_left RELABEL subord-ger:- % dins de subordinada nguï¿½
+2307 - cuyo-ms_$$_sn_grup-verb (ger,sn) top_left RELABEL subord-ger:- % dins de subordinada 
 2307 - cuyo-fs_$$_sn_grup-verb (ger,sn) top_left RELABEL subord-ger:- % dins de subordinada
 2307 - cuyo-mp_$$_sn_grup-verb (ger,sn) top_left RELABEL subord-ger:- % dins de subordinada
 2307 - cuyo-fp_$$_sn_grup-verb (ger,sn) top_left RELABEL subord-ger:- % dins de subordinada
@@ -4663,15 +4709,14 @@
 
 %%% COORDINACIO DE SINTAGMA ADVERBIAL %%%
 
-1701 - - (coord,sadv) top_left RELABEL coor-sadv:- % (y (alegremente))
+1701 - - (coor,sadv) top_right RELABEL coor-adv:- % ((alborotadamente) y alegremente)
 1703 - - (sadv,coor-sadv) top_right RELABEL - % ((alborotadamente) y alegremente)
 1705 - - (Fc,coor-sadv) top_right RELABEL - % ((,) alborotadamente y alegremente)
-
 </GRPAR>
 
 
 <SEMDB>
-SenseFile  ../senses16.db
+SenseFile ../senses16.db
 WNFile  ../../common/wn16.db
 </SEMDB>
 
@@ -5352,11 +5397,21 @@ data  espec  d.label=dem*
 data  espec  d.label=indef*
 
 %%% ESPECIFICADORS ADJECTIVALS %%%
+s-adj  espec  d.label=espec*
+s-a-ms  espec  d.label=espec*
+s-a-fs  espec  d.label=espec*
+s-a-mp  espec  d.label=espec*
+s-a-fp  espec  d.label=espec*
 s-adj  espec  d.label=sadv
 s-a-ms  espec  d.label=sadv
 s-a-fs  espec  d.label=sadv
 s-a-mp  espec  d.label=sadv
 s-a-fp  espec  d.label=sadv
+s-adj  espec  d.label=sadv-sup
+s-a-ms  espec  d.label=sadv-sup
+s-a-fs  espec  d.label=sadv-sup
+s-a-mp  espec  d.label=sadv-sup
+s-a-fp  espec  d.label=sadv-sup
 subord  espec  d.label=espec*
 
 %%% ESPECIFICADORS DE SUBSTANTIVACIONS DE SUBORDINADES %%%
