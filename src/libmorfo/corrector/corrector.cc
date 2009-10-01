@@ -124,27 +124,29 @@ return result;
 
 string corrector:: getListWords(string keyword) {
 
-	string data_string;
-	Dbt data, key;
-	int error,res;
-	string::size_type p;
-	char buff[100000];
-
- 	key.set_data((void *) keyword.c_str());
- 	key.set_size(keyword.length());
- 	error = morfodb.get (NULL, &key, &data, 0);
-
-	if (!error){
-     		// copy the data associated to the key to the buffer
-     		p=data.get_size();
-     		memcpy((void *)buff, data.get_data(), p);
-     		// convert char* to string into data_string
-     		buff[p]=0;
-     		data_string=buff;
-		TRACE(3,"Accesing database with keyword: "+keyword+", result: "+data_string);
-		return data_string; // the word will be sperated by coma 
-	}
- 	else if (error != DB_NOTFOUND) {ERROR_CRASH("Error "+util::int2string(error)+" while accessing database");}
+  string data_string;
+  Dbt data, key;
+  int error;
+  string::size_type p;
+  char buff[100000];
+  
+  key.set_data((void *) keyword.c_str());
+  key.set_size(keyword.length());
+  error = morfodb.get (NULL, &key, &data, 0);
+  
+  if (!error){
+    // copy the data associated to the key to the buffer
+    p=data.get_size();
+    memcpy((void *)buff, data.get_data(), p);
+    // convert char* to string into data_string
+    buff[p]=0;
+    data_string=buff;
+    TRACE(3,"Accesing database with keyword: "+keyword+", result: "+data_string);
+  }
+  else if (error != DB_NOTFOUND) 
+    ERROR_CRASH("Error "+util::int2string(error)+" while accessing database");
+  
+  return data_string; // the word will be sperated by coma 
 }
 
 ////////////////////////////////////////////////////////////////////////
