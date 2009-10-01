@@ -41,7 +41,8 @@
 
 #include <iostream>
 #include <string>
-#include "freeling.h"
+#include <cstdlib>
+#include "freeling/phonetics.h"
 #include "fries/util.h"
 
 

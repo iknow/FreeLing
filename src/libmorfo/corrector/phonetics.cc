@@ -182,7 +182,7 @@ string phonetics::getSound(string word){
 			sound=sc->change(form1);
 			TRACE(4,"soundChange returns: "+sound+" from word "+form1);
 			string result;
-			for (int i=0; i<sound.size(); i++) {
+			for (size_t i=0; i<sound.size(); i++) {
 				string it=sound.substr(i,1);
 				string res=SAMPA[it];
 				result=result+res;

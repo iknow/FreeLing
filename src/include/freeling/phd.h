@@ -7,6 +7,7 @@
 #ifndef _phd_h
 #define _phd_h
 
+#include <cstdlib>
 #include <iostream>
 #include <sstream>
 #include <fstream>

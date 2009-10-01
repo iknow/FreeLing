@@ -73,7 +73,7 @@ soundChange::~soundChange(){
 string soundChange::change(string word)
 {
 	string result=word;
-	for (int i=0;i<rules.size();i++){
+	for (size_t i=0;i<rules.size();i++){
 		TRACE(4,"from: "+from[i]+" to: "+to[i]+" env: "+env[i]);
 		result=find_and_replace(result,from[i],to[i],env[i]);
 		TRACE(4,"result: "+result);
@@ -88,7 +88,7 @@ string soundChange::change(string word)
 
 void soundChange::compile_rules(){
 
-	for (int i=0;i<rules.size();i++){
+	for (size_t i=0;i<rules.size();i++){
   		string rule= rules.at(i); 
 		map<string,string>::iterator iter;
 		
@@ -100,7 +100,7 @@ void soundChange::compile_rules(){
 			string envS=re.Match(3);
 
 			// escape $ letter to not be confused with end of word in regular expressions
-			for (int x=0;x<envS.size();x++) {
+			for (size_t x=0;x<envS.size();x++) {
       				string c=envS.substr(x,1);
 				if (c=="$") { envS.erase(x,1); envS.insert(x,"\\$"); x=x+1;; }
 				//else if (c=="@") { envS.erase(x,1); envS.insert(x,"\\@"); x=x+1; }
@@ -161,7 +161,7 @@ int soundChange::calculatePosition( string pattern){
 	string aux=pattern;
 		
 	// replace [...] with C to count chars to _
-    	for (int x=0;x<aux.size();x++) {
+    	for (size_t x=0;x<aux.size();x++) {
       		string c=aux.substr(x,1);
 		if (c=="[") { 
 			int pos=aux.find("]",0);
@@ -186,64 +186,53 @@ int soundChange::calculatePosition( string pattern){
 bool soundChange::check_cond(string text, string opt, int loc, string findStr){
 
 	
-	if (opt.size()<2) return true; // empty condition
+  if (opt.size()<2) return true; // empty condition
+  
+  const char *error;
+  int   erroffset;
+  pcre *re;
+  int   rc;
+  const char* str = text.c_str();  /* String to match */
+  int   ovector[OVECCOUNT];
+  
+  string aux="("+opt+")";
+  aux=find_and_replace(aux,"_",findStr,"");
+  
+  const char* pattern=aux.c_str();
+  
+  re = pcre_compile (
+		     pattern,       /* the pattern */
+		     0,                    /* default options */
+		     &error,               /* for error message */
+		     &erroffset,           /* for error offset */
+		     0);                   /* use default character tables */
+  
+  if (!re) {
+    ERROR_CRASH("pcre_compile failed");
+    return false;
+  }
+  
+  rc = pcre_exec (
+		  re,                   /* the compiled pattern */
+		  0,                    /* no extra data - pattern was not studied */
+		  str,                  /* the string to match */
+		  strlen(str),          /* the length of the string */
+		  0,                    /* start at offset 0 in the subject */
+		  0,                    /* default options */
+		  ovector,              /* output vector for substring information */
+		  OVECCOUNT);           /* number of elements in the output vector */
 
-	const char *error;
-        int   erroffset;
-        pcre *re;
-        int   rc;
-        const char* str = text.c_str();  /* String to match */
-        int   ovector[OVECCOUNT];
-	
-	string aux="("+opt+")";
-	aux=find_and_replace(aux,"_",findStr,"");
-	
-	const char* pattern=aux.c_str();
-
-	re = pcre_compile (
-        pattern,       /* the pattern */
-         0,                    /* default options */
-         &error,               /* for error message */
-         &erroffset,           /* for error offset */
-         0);                   /* use default character tables */
-
-	 if (!re) {
-    		ERROR_CRASH("pcre_compile failed");
-    		return false;
-	}
-
-	rc = pcre_exec (
-    re,                   /* the compiled pattern */
-    0,                    /* no extra data - pattern was not studied */
-    str,                  /* the string to match */
-    strlen(str),          /* the length of the string */
-    0,                    /* start at offset 0 in the subject */
-    0,                    /* default options */
-    ovector,              /* output vector for substring information */
-    OVECCOUNT);           /* number of elements in the output vector */
-
-	
-  	if (rc < 0) {
-    		switch (rc) {
-      			case PCRE_ERROR_NOMATCH:
-        		return false;
-        		break;
-
-      		default:
-        	ERROR_CRASH("Error while matching");
-        	break;
-    		}
-    		free(re);
-  	}
-	else{
-
-		// the sign _ and the loc of the char to replace must be in te same location
-		int loc_= calculatePosition(opt);
-		if (ovector[0]+loc_==loc)  return true;
-		else return false;	
-
-
-	}
+  bool res;    
+  if (rc == PCRE_ERROR_NOMATCH) res=false; 
+  else if (rc < 0) ERROR_CRASH("Error while matching");
+  else {
+    // the sign _ and the loc of the char to replace must be in te same location
+    int loc_= calculatePosition(opt);
+    res = (ovector[0]+loc_==loc);
+  }
+  
+  free(re);
+  return res;
 
 }
 
@@ -255,48 +244,50 @@ bool soundChange::check_cond(string text, string opt, int loc, string findStr){
 
 string soundChange::find_and_replace(string text, string findStr, string replaceStr, string opt){
 
-	size_t j;
-	string result=text;
-		
-	if ((findStr.substr(0,1)!="[") and (findStr!=replaceStr)) {
-		for (int x=0;(j = result.find(findStr,x)) != string::npos ;) {
-			if (check_cond(result,opt,j,findStr)){
-				string auxtext=result;
-				result.erase(j, findStr.size());
-				result.insert(j, replaceStr);
-				
-			}
-			if (j!=string::npos ){
-				if (replaceStr.size()>0) x=j+replaceStr.size();
-				else x=j+1;
+  size_t j;
+  string result=text;
+  
+  if ((findStr.substr(0,1)!="[") and (findStr!=replaceStr)) {
+    for (int x=0;(j = result.find(findStr,x)) != string::npos ;) {
+      if (check_cond(result,opt,j,findStr)){
+	string auxtext=result;
+	result.erase(j, findStr.size());
+	result.insert(j, replaceStr);
 	
-			}
-			else break;
-		}
+      }
+      if (j!=string::npos ){
+	if (replaceStr.size()>0) x=j+replaceStr.size();
+	else x=j+1;
+	
+      }
+      else break;
+    }
+  }
+  else {
+    string f=findStr.substr(1,findStr.size()-2);
+    string r;
+    if (replaceStr.size()>1) r=replaceStr.substr(1,replaceStr.size()-2);
+    else {
+      r=replaceStr;
+      for (size_t ii=r.size();ii<f.size();ii++)	{ // @ to @@@@@@@@@@@@@@ so change aeiou to @@@@@
+	r=r+r.substr(0,1);
+      }			
+    }
+    for (size_t z=0;z<f.size();z++){
+      if (f.at(z)!=r.at(z)){	
+	string cc=f.substr(z,1);
+	for (int x=0; (j = result.find(cc,x)) != string::npos ; ) {
+	  if (check_cond(result,opt,j,findStr)){
+	    string auxtext=result;
+	    result.erase(j,1);
+	    result.insert(j, r.substr(z,1));
+	  }
+	  if (j!=string::npos ) x=j+1;
+	  else break;
 	}
-	else {	string f=findStr.substr(1,findStr.size()-2);
-		string r;
-		if (replaceStr.size()>1) r=replaceStr.substr(1,replaceStr.size()-2);
-		else {	r=replaceStr;
-			for (int ii=r.size();ii<f.size();ii++)	{ // @ to @@@@@@@@@@@@@@ so change aeiou to @@@@@
-				r=r+r.substr(0,1);
-			}			
-		}
-		for (int z=0;z<f.size();z++){
-			if (f.at(z)!=r.at(z)){	
-				string cc=f.substr(z,1);
-				for (int x=0; (j = result.find(cc,x)) != string::npos ; ) {
-					if (check_cond(result,opt,j,findStr)){
-						string auxtext=result;
-						result.erase(j,1);
-						result.insert(j, r.substr(z,1));
-					}
-					if (j!=string::npos ) x=j+1;
-					else break;
-				}
-			}
-		}
-	}
-
-	return result;
+      }
+    }
+  }
+  
+  return result;
 }

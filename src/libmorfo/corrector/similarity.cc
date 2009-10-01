@@ -39,8 +39,8 @@ int similarity::ComputeDistance(string s, string t)
 
     int i=0;
     int j=0;
-    for(i=0; i <= n; distance[i][0]=i++);
-    for(j=0; j <= m; distance[0][j]=j++);
+    for(i=0; i <= n; i++) distance[i][0]=i;
+    for(j=0; j <= m; j++) distance[0][j]=j;
     //find min distance
 
     for(i=1; i <= n; i++){

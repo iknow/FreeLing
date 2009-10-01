@@ -42,5 +42,6 @@
 #include "freeling/dependency_parser.h"
 #include "freeling/dependencies.h"
 #include "freeling/coref.h"
+#include "freeling/corrector.h"
 
 #endif
