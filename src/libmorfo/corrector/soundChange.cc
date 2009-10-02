@@ -31,7 +31,7 @@
 #include <fstream>
 #include "regexp-pcre++.h"
 #include "freeling/soundChange.h"
-#include "pcre.h"
+//#include "pcre.h"
 #include "freeling/traces.h"
 
 #define OVECCOUNT 300   /* should be a multiple of 3 */
@@ -188,52 +188,21 @@ bool soundChange::check_cond(string text, string opt, int loc, string findStr){
 	
   if (opt.size()<2) return true; // empty condition
   
-  const char *error;
-  int   erroffset;
-  pcre *re;
-  int   rc;
-  const char* str = text.c_str();  /* String to match */
-  int   ovector[OVECCOUNT];
-  
   string aux="("+opt+")";
-  aux=find_and_replace(aux,"_",findStr,"");
+  string pattern=find_and_replace(aux,"_",findStr,""); // we substitute _ for findStr
   
-  const char* pattern=aux.c_str();
-  
-  re = pcre_compile (
-		     pattern,       /* the pattern */
-		     0,                    /* default options */
-		     &error,               /* for error message */
-		     &erroffset,           /* for error offset */
-		     0);                   /* use default character tables */
-  
-  if (!re) {
-    ERROR_CRASH("pcre_compile failed");
-    return false;
+  RegEx re(pattern);
+  if (re.Search(text)){
+	  int ini,fin;
+	  re.MatchPositions(0,ini,fin);
+	  if (ini!=-1) {
+		  int loc_= calculatePosition(opt);
+		  return (ini+loc_==loc); // the sign _ and the loc of the char to replace must be in te same location
+	  }
+	  else ERROR_CRASH("Error in MatchPosistions");
   }
+  return false; // no match
   
-  rc = pcre_exec (
-		  re,                   /* the compiled pattern */
-		  0,                    /* no extra data - pattern was not studied */
-		  str,                  /* the string to match */
-		  strlen(str),          /* the length of the string */
-		  0,                    /* start at offset 0 in the subject */
-		  0,                    /* default options */
-		  ovector,              /* output vector for substring information */
-		  OVECCOUNT);           /* number of elements in the output vector */
-
-  bool res;    
-  if (rc == PCRE_ERROR_NOMATCH) res=false; 
-  else if (rc < 0) ERROR_CRASH("pcre: Error while matching");
-  else {
-    // the sign _ and the loc of the char to replace must be in te same location
-    int loc_= calculatePosition(opt);
-    res = (ovector[0]+loc_==loc);
-  }
-  
-  free(re);
-  return res;
-
 }
 
 
