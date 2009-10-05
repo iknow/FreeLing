@@ -62,6 +62,11 @@ class corrector {
 	std::string distanceMethod;
 	/// the class that calculate the similarity between two words
 	similarity* sm;
+	/// contains the tags for the words to be checked that are present in the dictionary
+	vector <string> dictionaryCheck;
+	/// contains the tags for the words to be checked that are not present in the dictionary
+	vector <string> noDictionaryCheck;
+	
 	
       	/// returns the phonema's transcription of a word
 	std::string getSound(std::string);

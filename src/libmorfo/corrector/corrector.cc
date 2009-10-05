@@ -66,6 +66,7 @@ corrector::corrector(const std::string &correctorLang,  dictionary &dict1, const
 	string soundChangeRules=correctorLang+".rules";
 	string soundChangeDicFile=correctorCommon+".soundDicFile";
 	string sampaFile=correctorCommon+".sampa";
+	string configFile=correctorCommon+".config";
 	string phoneticDistanceFile=correctorCommon+".phdistances";
 	//string phoneticDistanceFile=correctorCommon+".similarity";
 
@@ -80,6 +81,45 @@ corrector::corrector(const std::string &correctorLang,  dictionary &dict1, const
 		
 	if (distanceMethod=="similarity") sm= new similarity();
 	else if (distanceMethod=="phonetic") phd= new phoneticDistance(phoneticDistanceFile);
+	
+	
+	//ofstream log ("milog.txt", ios::app);
+	
+	ifstream F;
+	F.open(configFile.c_str()); 
+	if(!F) { ERROR_CRASH("Error opening file "+configFile);}
+	string line;
+	while(getline(F,line)){
+		vector <string> vs=util::split(line," ");
+		/*for( vector<string>::iterator iter = vs.begin(); iter != vs.end(); iter++ ){
+			log << "split("+*iter+")" << endl;
+		}*/
+		
+		if (vs.at(0)=="dictionary") {
+				vector<string>::iterator iter; 
+				vs.erase(vs.begin());
+				for(iter= vs.begin() ; iter != vs.end(); iter++ ){
+				    dictionaryCheck.push_back(*iter);
+				    //log << "dictionary: push_back(" << *iter <<")" << endl;
+			    	}
+		}
+			    
+		else if (vs.at(0)=="noDictionary") {
+				vector<string>::iterator iter;
+				vs.erase(vs.begin());
+				iter++;
+				for( iter = vs.begin(); iter != vs.end(); iter++ ){
+				    noDictionaryCheck.push_back(*iter);
+				    //log << "noDictionary: push_back(" << *iter <<")" << endl;
+			    	}
+		
+		}
+	}
+		
+	F.close();
+	
+	//log.close();
+	
 
 	TRACE(3,"corrector succesfully created");
 	TRACE(3,"distance method: "+distanceMethod);
@@ -234,21 +274,66 @@ void corrector:: putWords(string listaPal, word &w, string wordOrig){
 void corrector:: annotate(sentence &se) 
 {
   sentence::iterator pos;
+  bool spellCheck=false;
   
+  // ofstream log ("milog.txt", ios::app);
   
   for (pos=se.begin(); pos!=se.end(); ++pos)  {
-	// If a find it in the dictionary and it's a verb or if i didn't find it in the dictionary 
-	if (((pos->get_n_analysis()) && (pos->get_parole()[0]=='V' || (pos->get_parole()[0]=='N' && pos->get_parole()[1]=='P'))) || (!pos->get_n_analysis())){
-		string wordOrig=pos->get_form();
-		string keyword = getSound(wordOrig); // calculate the sound without vowels of the current word
-		if (keyword.size()>0){
-			string listaPal=getListWords(keyword); // we obatin the list of word separated by coma that match the keyword in the databse
-			if (listaPal.size()>0){
-				putWords(listaPal,*pos, wordOrig); // we add the new words to the POS of the word
+	spellCheck=false;
+	
+	// If a find it in the dictionary and it's a verb or NP and if i didn't find it in the dictionary 
+	//if (((pos->get_n_analysis()) && (pos->get_parole()[0]=='V' || (pos->get_parole()[0]=='N' && pos->get_parole()[1]=='P'))) || (!pos->get_n_analysis())){
+	string parole=pos->get_parole();
+		
+	if (parole[0]!='F'){
+	
+		if (pos->get_n_analysis()) { // finded in dictionary
+				for(vector<string>::iterator iter= dictionaryCheck.begin() ; iter != dictionaryCheck.end(); iter++ ){
+					string aux=*iter;
+					if (aux=="ALL") spellCheck=true; // we spellcheck everything 
+					else {	spellCheck=true; 
+						for (string::size_type j=0; j<aux.size(); j++) { // we spell check if parole fits the conditions
+							if ((parole[j]!=aux[j]) and (aux[j]!='*')) { spellCheck=false; break;}
+							if (parole.size()==j+1) break;
+						}
+					}
+					// log << aux << ":" << spellCheck << endl;
+					if (spellCheck==true) break;
+					
+				}
+		}
+	
+		else if (!pos->get_n_analysis()) { // not finded in dictionary
+				for(vector<string>::iterator iter= noDictionaryCheck.begin() ; iter != noDictionaryCheck.end(); iter++ ){
+					string aux=*iter;
+					if (aux=="ALL") spellCheck=true; // we spellcheck everything 
+					else {	spellCheck=true;
+						for (string::size_type j=0; j<aux.size(); j++) { // we spell check if parole fits the conditions
+							if ((parole[j]!=aux[j]) and (aux[j]!='*')) { spellCheck=false; break;}
+							if (parole.size()==j+1) break;
+						}
+					}
+					if (spellCheck==true) break;
+					
+				}
+		}
+		
+		
+		if (spellCheck){
+			string listaPal;
+			string wordOrig=pos->get_form();
+			string keyword = getSound(wordOrig); // calculate the sound without vowels of the current word
+			if (keyword.size()>0){
+				listaPal=getListWords(keyword); // we obatin the list of word separated by coma that match the keyword in the databse
+				if (listaPal.size()>0){
+					putWords(listaPal,*pos, wordOrig); // we add the new words to the POS of the word
+				}
 			}
+			//log << "wordOrig: "+wordOrig+" sound: "+keyword+" listaPal: "+listaPal << endl;
 		}
 	}
     }
+    //log.close();
 
 }
 

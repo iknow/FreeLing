@@ -149,36 +149,6 @@ void soundChange::compile_vars(){
    	}
 }
 
-
-///////////////////////////////////////////////////////////////
-///  calculate the location of the _ in a pattern
-///////////////////////////////////////////////////////////////
-
-int soundChange::calculatePosition( string pattern){
-
-
-
-	string aux=pattern;
-		
-	// replace [...] with C to count chars to _
-    	for (size_t x=0;x<aux.size();x++) {
-      		string c=aux.substr(x,1);
-		if (c=="[") { 
-			int pos=aux.find("]",0);
-			aux.erase(x,pos-x+1);
-			aux.insert(x,"C");
-		}
-		else if (c=="^") { aux.erase(x,1); x--;}
-		
-		
-		
-   	}
-	int loc= aux.find("_",0);
-	return loc;
-}
-
-
-
 ///////////////////////////////////////////////////////////////
 ///  check that the enviorment is true
 ///////////////////////////////////////////////////////////////
@@ -189,15 +159,14 @@ bool soundChange::check_cond(string text, string opt, int loc, string findStr){
   if (opt.size()<2) return true; // empty condition
   
   string aux="("+opt+")";
-  string pattern=find_and_replace(aux,"_",findStr,""); // we substitute _ for findStr
+  string pattern=find_and_replace(aux,"_","("+findStr+")",""); // we substitute _ for findStr
   
   RegEx re(pattern);
   if (re.Search(text)){
 	  int ini,fin;
-	  re.MatchPositions(0,ini,fin);
+	  re.MatchPositions(1,ini,fin);
 	  if (ini!=-1) {
-		  int loc_= calculatePosition(opt);
-		  return (ini+loc_==loc); // the sign _ and the loc of the char to replace must be in te same location
+		  return (ini==loc); // the sign _ and the loc of the char to replace must be in te same location
 	  }
 	  else ERROR_CRASH("Error in MatchPosistions");
   }
