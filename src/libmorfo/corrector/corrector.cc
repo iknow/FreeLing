@@ -276,7 +276,7 @@ void corrector:: annotate(sentence &se)
   sentence::iterator pos;
   bool spellCheck=false;
   
-  ofstream log ("milog.txt", ios::app);
+  //ofstream log ("milog.txt", ios::app);
   
   for (pos=se.begin(); pos!=se.end(); ++pos)  {
 	spellCheck=false;
@@ -329,11 +329,11 @@ void corrector:: annotate(sentence &se)
 					putWords(listaPal,*pos, wordOrig); // we add the new words to the POS of the word
 				}
 			}
-			log << "wordOrig: "+wordOrig+" sound: "+keyword+" listaPal: "+listaPal << endl;
+			//log << "wordOrig: "+wordOrig+" sound: "+keyword+" listaPal: "+listaPal << endl;
 		}
 	}
     }
-   log.close();
+   //log.close();
 
 }
 
