@@ -149,7 +149,7 @@ int res;
 string corrector:: getSound(string word){ 
 	
 	string result= ph->getSound(word);
-	result=util::eliminateChars(result,"aeiou"); // eliminate vowels for generating a key for the database that will embrace more words
+	result=util::eliminateChars(result,"aeiou@AEIOU"); // eliminate vowels for generating a key for the database that will embrace more words
 	if (result.size()==0) result="aeiou"; // if the word only contains vowels we use the keyword aeiou
 	TRACE(3,"Getting the sound of word: "+word+", result: "+result);
 
@@ -276,7 +276,7 @@ void corrector:: annotate(sentence &se)
   sentence::iterator pos;
   bool spellCheck=false;
   
-  // ofstream log ("milog.txt", ios::app);
+  ofstream log ("milog.txt", ios::app);
   
   for (pos=se.begin(); pos!=se.end(); ++pos)  {
 	spellCheck=false;
@@ -329,11 +329,11 @@ void corrector:: annotate(sentence &se)
 					putWords(listaPal,*pos, wordOrig); // we add the new words to the POS of the word
 				}
 			}
-			//log << "wordOrig: "+wordOrig+" sound: "+keyword+" listaPal: "+listaPal << endl;
+			log << "wordOrig: "+wordOrig+" sound: "+keyword+" listaPal: "+listaPal << endl;
 		}
 	}
     }
-    //log.close();
+   log.close();
 
 }
 

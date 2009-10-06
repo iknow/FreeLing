@@ -82,7 +82,7 @@ int main(int argc, char *argv[]){
 	for( vector<string>::iterator iter = words.begin(); iter != words.end(); iter++ ) {
 		string word=*iter;
 		string sound=ph.getSound(word);
-		sound=util::eliminateChars(sound,"aeiou");
+		sound=util::eliminateChars(sound,"aeiou@AEIOU");
 		if (sound.size()==0) { sound="aeiou";}
 		bd[sound]+=","+word;
 	}
