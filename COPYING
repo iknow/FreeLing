@@ -59,6 +59,10 @@ in the license applying to each of the involved modules.
  7.- Welsh dictionary was extracted from Eurfa project (http://kevindonnelly.org.uk/eurfa/)
      developed by Kevin Donelly. It is distributed under its original GPL licencse.
 
+ 8.- Asturian dictionary was developed at the Universidad the Oviedo in the 
+     framework of the Eslema project (http://www.uniovi.es/eslema/). It is distributed
+     under its original GPL license.
+
  8.- Word Sense Disambiguation module UKB was developed at the Basque Country Universitiy,
      and is distributed under GPL 3.0.  See http://ixa2.si.ehu.es/ukb/ for details.
 
@@ -69,6 +73,3 @@ in the license applying to each of the involved modules.
      You can find a copy of GPL license in the file
      LICENSES/GPL.license included in this package or at
      http://www.gnu.org/licenses
-
-
-http://kevindonnelly.org.uk/eurfa/
