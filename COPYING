@@ -56,10 +56,19 @@ in the license applying to each of the involved modules.
      LICENSES/CC-BY-SA.license included in this package or 
      at http://creativecommons.org/licenses/by-sa/2.0/  
 
+ 7.- Welsh dictionary was extracted from Eurfa project (http://kevindonnelly.org.uk/eurfa/)
+     developed by Kevin Donelly. It is distributed under its original GPL licencse.
+
+ 8.- Word Sense Disambiguation module UKB was developed at the Basque Country Universitiy,
+     and is distributed under GPL 3.0.  See http://ixa2.si.ehu.es/ukb/ for details.
+
  9.- All other data and code modules in this package are distributed
-     under GNU General Public License (GPL).  
-     Note that different GPL'ed linguistic resources in this package
-     may have different copyright holders.
+     under GNU General Public License (GPL) and copyrighted by
+     Universitat Politècnica de Catalunya.
+
      You can find a copy of GPL license in the file
      LICENSES/GPL.license included in this package or at
      http://www.gnu.org/licenses
+
+
+http://kevindonnelly.org.uk/eurfa/
