@@ -596,6 +596,13 @@ int dates_es::ComputeToken(int state, sentence::iterator &j, sentence &se)
       token = TK_monthnum;
     break;
   // --------------------------------
+  case K:
+    TRACE(3,"In state K");     
+    if (token==TK_number && (form=="una" || form=="un"))
+      // ("año uno" is allright, but "año un/una" is an invalid date)
+      token = TK_other;
+    break;
+  // --------------------------------
   case S1:
     if (RE_Roman.Search(formU)) {
       TRACE(3,"Match ROMAN regex. "+RE_Roman.Match(0));
@@ -1555,6 +1562,13 @@ int dates_ca::ComputeToken(int state, sentence::iterator &j, sentence &se)
     TRACE(3,"In state E/F/G/H");     
     if (token==TK_number && value>=1 && value<=12) 
       token = TK_monthnum;
+    break;
+  // --------------------------------
+  case K:
+    TRACE(3,"In state K");     
+    if (token==TK_number && (form=="una" || form!="un"))
+      // ("un/una de gener" is an invalid date)
+      token = TK_other;
     break;
   // --------------------------------
   case S1:
