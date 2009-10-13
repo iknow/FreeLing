@@ -196,6 +196,7 @@ string corrector:: getListWords(string keyword) {
 
 void corrector:: putWords(string listaPal, word &w, string wordOrig){
 
+	ofstream log ("milog.txt", ios::app);
 
 	char delims[2] = ",";
 
@@ -219,8 +220,8 @@ void corrector:: putWords(string listaPal, word &w, string wordOrig){
 	 for( it=tokens.begin(); it!=tokens.end(); ++it){
 
  		string word=*it;
-		string lema;
-		string tags;
+		list <string> lemas;
+		list <string> tags;
 	
 		int diff=wordOrig.size()-word.size();
 		if (diff<0) diff=-1*diff;
@@ -244,11 +245,16 @@ void corrector:: putWords(string listaPal, word &w, string wordOrig){
 			else ERROR_CRASH("Error unknown distance method: "+distanceMethod);
 
 			if (simil>DISTANCE_LIMIT){	
-				dict->getInfoWord(word,lema,tags);
-				TRACE(3,"Adding ("+word+","+tags+") to analysis list");
-       				analysis a=analysis(lema+":"+word,tags);
-				a.set_distance(simil);
-				la.push_back(a);
+				dict->getInfoWord(word,lemas,tags);
+			
+				for (unsigned int it=0; it<=lemas.size(); it++){
+					analysis a=analysis(lemas.front()+":"+word,tags.front());
+					a.set_distance(simil);
+					la.push_back(a);
+					lemas.pop_front();
+					tags.pop_front();
+				}
+				
 			}
 		
 		}
@@ -263,6 +269,8 @@ void corrector:: putWords(string listaPal, word &w, string wordOrig){
      		TRACE(4,"   added analysis "+a->get_lemma());
 	}
 	
+	log.close();
+	
 }
 
 
@@ -276,7 +284,7 @@ void corrector:: annotate(sentence &se)
   sentence::iterator pos;
   bool spellCheck=false;
   
-  //ofstream log ("milog.txt", ios::app);
+  ofstream log ("milog.txt", ios::app);
   
   for (pos=se.begin(); pos!=se.end(); ++pos)  {
 	spellCheck=false;
@@ -323,17 +331,18 @@ void corrector:: annotate(sentence &se)
 			string listaPal;
 			string wordOrig=pos->get_form();
 			string keyword = getSound(wordOrig); // calculate the sound without vowels of the current word
+			log << endl << "wordOrig: "+wordOrig << endl; log << " sound: "+keyword<< endl; 
 			if (keyword.size()>0){
 				listaPal=getListWords(keyword); // we obatin the list of word separated by coma that match the keyword in the databse
 				if (listaPal.size()>0){
 					putWords(listaPal,*pos, wordOrig); // we add the new words to the POS of the word
 				}
 			}
-			//log << "wordOrig: "+wordOrig+" sound: "+keyword+" listaPal: "+listaPal << endl;
+			
 		}
 	}
     }
-   //log.close();
+   log.close();
 
 }
 

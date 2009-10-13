@@ -67,7 +67,7 @@ class dictionary {
       /// Get the analysis list from a given form (default options)
       void search_form(const std::string &, std::list<analysis> &);
 	/// get lema+tags from a word
-	void getInfoWord(const std::string &, std::string &, std::string &);
+	void getInfoWord(const std::string &, std::list<std::string> &, std::list<std::string> &);
       /// Search words in sentence using default options
       void annotate(sentence &);
 };

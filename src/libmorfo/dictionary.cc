@@ -90,7 +90,7 @@ int res;
 ///  Search word in the dictionary, get lema+tags
 /////////////////////////////////////////////////////////////////////////////
 
-void dictionary::getInfoWord(const std::string &s, std::string &lema, std::string &tags) {
+void dictionary::getInfoWord(const std::string &s, std::list<std::string>  &lemas, std::list<std::string>  &tags) {
   string data_string,lem,tag,lws;
   char buff[1024];
   string::size_type p;
@@ -126,8 +126,8 @@ void dictionary::getInfoWord(const std::string &s, std::string &lema, std::strin
        data_string=data_string.substr(p+1);
        // insert analysis
        
-	lema=lem;
-	tags=tag;
+	lemas.push_back(lem);
+	tags.push_back(tag);
 
      }
   }
