@@ -1,10 +1,6 @@
 languages = as ca cy en es gl it pt
 
-if OS_SOLARIS
-ZCAT=gzcat
-else
-ZCAT=zcat
-endif
+ZCAT=gunzip -c
 
 pkgdata_DATA =
 

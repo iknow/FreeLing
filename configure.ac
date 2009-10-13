@@ -25,9 +25,6 @@ AC_ARG_ENABLE([traces],
               ],
 	      [AM_CONDITIONAL([VERBOSE],[test 0 = 1])])
 
-
-AM_CONDITIONAL(OS_SOLARIS, [test x"$host_os" = xsolaris])
-
 # Checks for programs.
 AC_PROG_CXX
 AC_PROG_LIBTOOL
