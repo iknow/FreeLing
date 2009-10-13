@@ -14,12 +14,13 @@ public class analyzer {
 	
 	// create options set for maco analyzer. Default values are Ok, except for data files.
 	maco_options op = new maco_options(LANG);
-        op.set_active_modules(true,true,true,true,true,true,true,true,0);
+        op.set_active_modules(true,true,true,true,true,true,true,true,0,false);
 	op.set_data_files(DATA+LANG+"/locucions.dat", DATA+LANG+"/quantities.dat", 
 			  DATA+LANG+"/afixos.dat", DATA+LANG+"/probabilitats.dat", 
 			  DATA+LANG+"/maco.db", DATA+LANG+"/np.dat",  
-			  DATA+"common/punct.dat");
-		
+			  DATA+"common/punct.dat",DATA+"es/corrector/corrector",
+                          DATA+"common/corrector/corrector");
+
 	// create analyzers
         tokenizer tk=new tokenizer(DATA+LANG+"/tokenizer.dat");
 	splitter sp=new splitter(DATA+LANG+"/splitter.dat");
@@ -29,7 +30,7 @@ public class analyzer {
         chart_parser parser = new chart_parser(DATA+LANG+"/grammar-dep.dat");
         dep_txala dep = new dep_txala(DATA+LANG+"/dep/dependences.dat", parser.get_start_symbol());
 
-	disambiguator dis = new disambiguator(DATA+"common/wn16-ukb.bin",DATA+LANG+"/senses16.ukb");
+	disambiguator dis = new disambiguator(DATA+"common/wn16-ukb.bin",DATA+LANG+"/senses16.ukb",0.03,10);
 	// Instead of a "disambiguator", you can use a "senses" object, that simply
         // gives all possible WN senses, sorted by frequency.
 	// senses sen = new senses(DATA+LANG+"/senses16.db",false);
