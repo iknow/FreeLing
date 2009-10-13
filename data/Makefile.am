@@ -78,7 +78,6 @@ configdatadir = $(pkgdatadir)/config
 configdata_DATA = config/*
 
 
-
 install-data-hook:
 	@echo "Indexing language dictionaries. This will take some minutes."
 	@for lg in $(languages); do \
@@ -107,6 +106,9 @@ install-data-hook:
 
 uninstall-hook:
 	@rm -rf $(pkgdatadir)
+
+
+
 
 
 
