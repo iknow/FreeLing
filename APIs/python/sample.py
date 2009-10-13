@@ -20,8 +20,8 @@ tk=tokenizer(DATA+"es/tokenizer.dat");
 sp=splitter(DATA+"es/splitter.dat");
 mf=maco(op);
 
-## exchange comments in two following lines to change the tagger type used
 tg=hmm_tagger("es",DATA+"es/tagger.dat",1,2);
+sen=senses(DATA+"es/senses16.db",0);
 
 lin=sys.stdin.readline();
 while (lin) :
@@ -30,11 +30,12 @@ while (lin) :
     ls = sp.split(l,0);
     ls = mf.analyze(ls);
     ls = tg.analyze(ls);
+    ls = sen.analyze(ls);
 
     for s in ls :
        ws = s.get_words();
        for w in ws :
-         print w.get_form()+" "+w.get_lemma()+" "+w.get_parole();
+         print w.get_form()+" "+w.get_lemma()+" "+w.get_parole()+" "+w.get_senses_string();
 
        print;
 

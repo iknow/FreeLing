@@ -43,7 +43,7 @@ public class analyzer {
 	    ListWord l = tk.tokenize(line);      // tokenize
 	    ListSentence ls = sp.split(l,false);  // split sentences
 	    ls=mf.analyze(ls);                       // morphological analysis
-	    ls=tg.analyze(ls);                       // PoS tagging
+	    tg.analyze(ls);                       // PoS tagging
 
 	    // sen.analyze(ls);
             dis.analyze(ls);

@@ -53,6 +53,8 @@ class senses {
  
       /// sense annotate selected analysis for each word in given sentences
       void analyze(std::list<sentence> &);
+      /// sense annotate selected analysis for each word in given sentence, return copy (useful for python API)
+      std::list<sentence> analyze(const std::list<sentence> &);
 };
 
 #endif
