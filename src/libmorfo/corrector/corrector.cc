@@ -31,8 +31,8 @@
 #include <vector>
 
 #include "freeling/corrector.h"
-#include "fries/util.h"
 #include "freeling/traces.h"
+#include "fries/util.h"
 
 using namespace std;
 
@@ -57,72 +57,50 @@ using namespace std;
 ///  Create a corrector module, open database. 
 ///////////////////////////////////////////////////////////////
 
-corrector::corrector(const std::string &correctorLang,  dictionary &dict1, const std::string &correctorCommon, const std::string &dist): morfodb(NULL,DB_CXX_NO_EXCEPTIONS){
+corrector::corrector(const std::string &correctorLang,  dictionary &dict1, const std::string &correctorCommon, const std::string &dist): morfodb(NULL,DB_CXX_NO_EXCEPTIONS), dictionaryCheck("") {
  
-	int res;
-	dict=&dict1;
-	distanceMethod=dist;
-	string soundDicFile=correctorLang+".db";
-	string soundChangeRules=correctorLang+".rules";
-	string soundChangeDicFile=correctorCommon+".soundDicFile";
-	string sampaFile=correctorCommon+".sampa";
-	string configFile=correctorCommon+".config";
-	string phoneticDistanceFile=correctorCommon+".phdistances";
-	//string phoneticDistanceFile=correctorCommon+".similarity";
+  int res;
+  dict=&dict1;
+  distanceMethod=dist;
+  string soundDicFile=correctorLang+".db";
+  string soundChangeRules=correctorLang+".rules";
+  string soundChangeDicFile=correctorCommon+".soundDicFile";
+  string sampaFile=correctorCommon+".sampa";
+  string configFile=correctorCommon+".config";
+  string phoneticDistanceFile=correctorCommon+".phdistances";
+  //string phoneticDistanceFile=correctorCommon+".similarity";
+  
+  // Opening a 4.0 or higher BerkeleyDB database
+  if ((res=morfodb.OPEN(soundDicFile.c_str(),NULL,DB_UNKNOWN,DB_RDONLY,0)))
+    ERROR_CRASH("Error "+util::int2string(res)+" while opening database "+soundDicFile);
+  
+  if ((distanceMethod!="similarity") and (distanceMethod!="phonetic")) 
+    ERROR_CRASH("Error distance value: "+distanceMethod+", is not valid");
+  
+  ph= new phonetics(soundChangeRules,soundChangeDicFile,sampaFile,true);
+  
+  if (distanceMethod=="similarity") sm= new similarity();
+  else if (distanceMethod=="phonetic") phd= new phoneticDistance(phoneticDistanceFile);
+  
+  ifstream F;
+  F.open(configFile.c_str()); 
+  if (!F) 
+    ERROR_CRASH("Error opening file "+configFile);
 
-	// Opening a 4.0 or higher BerkeleyDB database
-  	if ((res=morfodb.OPEN(soundDicFile.c_str(),NULL,DB_UNKNOWN,DB_RDONLY,0))){
-    		ERROR_CRASH("Error "+util::int2string(res)+" while opening database "+soundDicFile);
-  	}
-	
-	if ((distanceMethod!="similarity") and (distanceMethod!="phonetic")) ERROR_CRASH("Error distance value: "+distanceMethod+", is not valid");
-	
-	ph= new phonetics(soundChangeRules,soundChangeDicFile,sampaFile,true);
-		
-	if (distanceMethod=="similarity") sm= new similarity();
-	else if (distanceMethod=="phonetic") phd= new phoneticDistance(phoneticDistanceFile);
-	
-	
-	//ofstream log ("milog.txt", ios::app);
-	
-	ifstream F;
-	F.open(configFile.c_str()); 
-	if(!F) { ERROR_CRASH("Error opening file "+configFile);}
-	string line;
-	while(getline(F,line)){
-		vector <string> vs=util::split(line," ");
-		/*for( vector<string>::iterator iter = vs.begin(); iter != vs.end(); iter++ ){
-			log << "split("+*iter+")" << endl;
-		}*/
-		
-		if (vs.at(0)=="dictionary") {
-				vector<string>::iterator iter; 
-				vs.erase(vs.begin());
-				for(iter= vs.begin() ; iter != vs.end(); iter++ ){
-				    dictionaryCheck.push_back(*iter);
-				    //log << "dictionary: push_back(" << *iter <<")" << endl;
-			    	}
-		}
-			    
-		else if (vs.at(0)=="noDictionary") {
-				vector<string>::iterator iter;
-				vs.erase(vs.begin());
-				iter++;
-				for( iter = vs.begin(); iter != vs.end(); iter++ ){
-				    noDictionaryCheck.push_back(*iter);
-				    //log << "noDictionary: push_back(" << *iter <<")" << endl;
-			    	}
-		
-		}
-	}
-		
-	F.close();
-	
-	//log.close();
-	
+  string line;
+  while(getline(F,line)){
+    vector <string> vs=util::split(line," ");
 
-	TRACE(3,"corrector succesfully created");
-	TRACE(3,"distance method: "+distanceMethod);
+    if (vs[0]=="dictionary")
+      dictionaryCheck = RegEx(vs[1]);
+    else if (vs[0]=="noDictionary")
+      noDictionaryCheck = (util::lowercase(vs[1])=="yes" or util::lowercase(vs[1])=="y");
+  }
+  
+  F.close();
+  
+  TRACE(3,"corrector succesfully created");
+  TRACE(3,"distance method: "+distanceMethod);
 }
 
 
@@ -136,9 +114,9 @@ int res;
   if ((res=morfodb.close(0))) {
     ERROR_CRASH("Error "+util::int2string(res)+" while closing database");
   }
-	// delete dict;
-	delete ph;
-	delete phd;
+  // delete dict;
+  delete ph;
+  delete phd;
 }
 
 
@@ -148,13 +126,12 @@ int res;
 
 string corrector:: getSound(string word){ 
 	
-	string result= ph->getSound(word);
-	result=util::eliminateChars(result,"aeiou@AEIOU"); // eliminate vowels for generating a key for the database that will embrace more words
-	if (result.size()==0) result="aeiou"; // if the word only contains vowels we use the keyword aeiou
-	TRACE(3,"Getting the sound of word: "+word+", result: "+result);
-
-return result;
-
+  string result= ph->getSound(word);
+  result=util::eliminateChars(result,"aeiou@AEIOU"); // eliminate vowels for generating a key for the database that will embrace more words
+  if (result.size()==0) result="aeiou"; // if the word only contains vowels we use the keyword aeiou
+  TRACE(3,"Getting the sound of word: "+word+", result: "+result);
+  
+  return result;
 }
 
 
@@ -196,84 +173,50 @@ string corrector:: getListWords(string keyword) {
 
 void corrector:: putWords(string listaPal, word &w, string wordOrig){
 
-	ofstream log ("milog.txt", ios::app);
+  list <string> tokens = util::string2list(listaPal,",");
+  
+  list<string>::iterator it;  
+  for( it=tokens.begin(); it!=tokens.end(); ++it){
+    
+    string word=*it;
+    list <string> lemas;
+    list <string> tags;
+    
+    int diff=wordOrig.size()-word.size();
+    if (diff<0) diff=-1*diff;
 
-	char delims[2] = ",";
-
-	list<analysis> la;
+    if (diff<MAX_SIZE_DIFF) {
+      
+      double simil;      
+      if (distanceMethod=="similarity") 
+	simil=(double) sm->getSimilarity(util::lowercase(wordOrig),util::lowercase(word));
+      else if (distanceMethod=="phonetic") { // phonetic distance
 	
-	list <string> tokens; 
-	char *token;
-
-	string aux=listaPal+",";
+	string word1=util::lowercase(wordOrig);
+	string word2=util::lowercase(word);
+	word1= ph->getSound(word1);
+	word2= ph->getSound(word2);
+	simil=(double) phd->getPhoneticDistance(word1,word2);
+	double simMax=(double) phd->getPhoneticDistance(word1,word1);
+	simil=simil/simMax;	
+      }
+      else ERROR_CRASH("Error unknown distance method: "+distanceMethod);
+      
+      if (simil>DISTANCE_LIMIT) {	
+	list<analysis> la;	
+	dict->search_form(word,la);
 	
-	token = strtok((char *) aux.c_str(),delims);
-	if (token!=NULL) { tokens.push_back(string(token)); /*tokens[nTokens]=string(token); nTokens++;*/}
-	while((token=strtok(NULL,delims))!=NULL){
-	 	//tokens[nTokens]=string(token);
-		tokens.push_back(string(token));
-	}
-	
-	
-	list<string>::iterator it;
+	for (list<analysis>::iterator it=la.begin(); it!=la.end(); it++) {
+	  it->set_distance(simil);
+	  it->set_lemma(it->get_lemma()+":"+word);
+	  w.add_analysis(*it);
+	  TRACE(4,"   added analysis "+it->get_lemma()+" "+it->get_parole());
+	}	
+      }
+    }
+  }
 
-	 for( it=tokens.begin(); it!=tokens.end(); ++it){
-
- 		string word=*it;
-		list <string> lemas;
-		list <string> tags;
-	
-		int diff=wordOrig.size()-word.size();
-		if (diff<0) diff=-1*diff;
-		if (diff<MAX_SIZE_DIFF){
-		
-			double simil;
-			
-			
-			if (distanceMethod=="similarity") simil=(double) sm->getSimilarity(util::lowercase(wordOrig),util::lowercase(word));
-			else if (distanceMethod=="phonetic") { // phonetic distance
-			
-				string word1=util::lowercase(wordOrig);
-				string word2=util::lowercase(word);
-				word1= ph->getSound(word1);
-				word2= ph->getSound(word2);
-				simil=(double) phd->getPhoneticDistance(word1,word2);
-				double simMax=(double) phd->getPhoneticDistance(word1,word1);
-				simil=simil/simMax;
-				
-			}
-			else ERROR_CRASH("Error unknown distance method: "+distanceMethod);
-
-			if (simil>DISTANCE_LIMIT){	
-				dict->getInfoWord(word,lemas,tags);
-			
-				for (unsigned int it=0; it<=lemas.size(); it++){
-					analysis a=analysis(lemas.front()+":"+word,tags.front());
-					a.set_distance(simil);
-					la.push_back(a);
-					lemas.pop_front();
-					tags.pop_front();
-				}
-				
-			}
-		
-		}
-
-	}
-
-
- 	list<analysis>::const_iterator a;
-
-	for (a=la.begin(); a!=la.end(); a++){
-     		w.add_analysis(*a);
-     		TRACE(4,"   added analysis "+a->get_lemma());
-	}
-	
-	log.close();
-	
 }
-
-
 
 ////////////////////////////////////////////////////////////////////////
 /// Navigates the sentence adding alternative words (possible correct spelling data)
@@ -281,69 +224,36 @@ void corrector:: putWords(string listaPal, word &w, string wordOrig){
 
 void corrector:: annotate(sentence &se) 
 {
+  bool spellCheck;
   sentence::iterator pos;
-  bool spellCheck=false;
-  
-  ofstream log ("milog.txt", ios::app);
-  
-  for (pos=se.begin(); pos!=se.end(); ++pos)  {
-	spellCheck=false;
-	
-	// If a find it in the dictionary and it's a verb or NP and if i didn't find it in the dictionary 
-	//if (((pos->get_n_analysis()) && (pos->get_parole()[0]=='V' || (pos->get_parole()[0]=='N' && pos->get_parole()[1]=='P'))) || (!pos->get_n_analysis())){
-	string parole=pos->get_parole();
-		
-	if (parole[0]!='F'){
-	
-		if (pos->get_n_analysis()) { // finded in dictionary
-				for(vector<string>::iterator iter= dictionaryCheck.begin() ; iter != dictionaryCheck.end(); iter++ ){
-					string aux=*iter;
-					if (aux=="ALL") spellCheck=true; // we spellcheck everything 
-					else {	spellCheck=true; 
-						for (string::size_type j=0; j<aux.size(); j++) { // we spell check if parole fits the conditions
-							if ((parole[j]!=aux[j]) and (aux[j]!='*')) { spellCheck=false; break;}
-							if (parole.size()==j+1) break;
-						}
-					}
-					// log << aux << ":" << spellCheck << endl;
-					if (spellCheck==true) break;
-					
-				}
-		}
-	
-		else if (!pos->get_n_analysis()) { // not finded in dictionary
-				for(vector<string>::iterator iter= noDictionaryCheck.begin() ; iter != noDictionaryCheck.end(); iter++ ){
-					string aux=*iter;
-					if (aux=="ALL") spellCheck=true; // we spellcheck everything 
-					else {	spellCheck=true;
-						for (string::size_type j=0; j<aux.size(); j++) { // we spell check if parole fits the conditions
-							if ((parole[j]!=aux[j]) and (aux[j]!='*')) { spellCheck=false; break;}
-							if (parole.size()==j+1) break;
-						}
-					}
-					if (spellCheck==true) break;
-					
-				}
-		}
-		
-		
-		if (spellCheck){
-			string listaPal;
-			string wordOrig=pos->get_form();
-			string keyword = getSound(wordOrig); // calculate the sound without vowels of the current word
-			log << endl << "wordOrig: "+wordOrig << endl; log << " sound: "+keyword<< endl; 
-			if (keyword.size()>0){
-				listaPal=getListWords(keyword); // we obatin the list of word separated by coma that match the keyword in the databse
-				if (listaPal.size()>0){
-					putWords(listaPal,*pos, wordOrig); // we add the new words to the POS of the word
-				}
-			}
-			
-		}
-	}
+    
+  for (pos=se.begin(); pos!=se.end(); ++pos)  {    
+
+    if (!pos->get_n_analysis())
+      spellCheck = noDictionaryCheck;
+    else {
+      spellCheck=false;
+      for (word::iterator a=pos->begin(); a!=pos->end() and !spellCheck; a++) 
+	spellCheck= dictionaryCheck.Search(a->get_parole());
     }
-   log.close();
+		      
+    TRACE(3,"Checking word "+pos->get_form()+": "+(spellCheck?"yes":"no"));
 
+    if (spellCheck){
+      string listaPal;
+      string wordOrig=pos->get_form();
+      string keyword = getSound(wordOrig); // calculate the sound without vowels of the current word
+
+      TRACE(3,"   Sound for word "+pos->get_form()+": "+keyword);
+      if (keyword.size()>0){
+	// we obatin the list of word separated by coma that match the keyword in the databse
+	listaPal=getListWords(keyword); 
+	TRACE(3,"   Obtained words: ["+listaPal+"]");
+
+	if (listaPal.size()>0)
+	  putWords(listaPal,*pos, wordOrig); // we add the new words to the POS of the word
+      }
+    }
+  }  
 }
-
 
