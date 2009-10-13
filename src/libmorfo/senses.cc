@@ -126,3 +126,15 @@ void senses::analyze(std::list<sentence> &ls) {
   TRACE(1,"Sentences annotated by the senses module.");
 }
 
+
+///////////////////////////////////////////////////////////////
+///  Analyze given sentences. Return analyzed copy.
+///////////////////////////////////////////////////////////////  
+
+std::list<sentence> senses::analyze(const std::list<sentence> &ls) {
+  
+  list<sentence> y=ls;
+  analyze(y);
+  return y;
+}
+

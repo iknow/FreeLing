@@ -480,8 +480,6 @@ class maco {
       maco(const maco_options &);
 
       /// analyze sentences
-      //void analyze(std::list<sentence> &);
-      /// analyze sentences, return analyzed copy
       std::list<sentence> analyze(const std::list<sentence> &);
 };
 
@@ -493,8 +491,7 @@ class hmm_tagger {
        hmm_tagger(const std::string &, const std::string &, bool, unsigned int);
 
        /// analyze sentences with default options
-       //void analyze(std::list<sentence> &);
-       std::list<sentence> analyze(const std::list<sentence> &);
+       void analyze(std::list<sentence> &);
 };
 
 
@@ -505,8 +502,7 @@ class relax_tagger {
        relax_tagger(const std::string &, int, double, double, bool, unsigned int);
 
        /// analyze sentences with default options
-       //void analyze(std::list<sentence> &);
-       std::list<sentence> analyze(const std::list<sentence> &);
+       void analyze(std::list<sentence> &);
 };
 
 

@@ -561,7 +561,8 @@ class senses {
       ~senses(); 
  
       /// sense annotate selected analysis for each word in given sentences
-      void analyze(std::list<sentence> &);
+      // void analyze(std::list<sentence> &);
+      std::list<sentence> analyze(const std::list<sentence> &);
 };
 
 
