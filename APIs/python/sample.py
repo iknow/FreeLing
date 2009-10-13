@@ -9,10 +9,10 @@ DATA = FREELINGDIR+"/share/FreeLing/";
 
 # create options set for maco analyzer. Default values are Ok, except for data files.
 op=maco_options("es");
-op.set_active_modules(1,1,1,1,1,1,1,1,1);
-op.set_data_files(DATA+"es/locucions.dat", DATA+"es/quantities.dat", DATA+"es/sufixos.dat",
+op.set_active_modules(1,1,1,1,1,1,1,1,1,1);
+op.set_data_files(DATA+"es/locucions.dat", DATA+"es/quantities.dat", DATA+"es/afixos.dat",
                   DATA+"es/probabilitats.dat", DATA+"es/maco.db", DATA+"es/np.dat",  
-                  DATA+"common/punct.dat");
+                  DATA+"common/punct.dat",DATA+"common/punct.dat",DATA+"es/corrector/corrector",DATA+"common/corrector/corrector");
 
 # create analyzers
 tk=tokenizer(DATA+"es/tokenizer.dat");
