@@ -37,7 +37,7 @@
 #include "freeling/phoneticDistance.h"
 #include "freeling/similarity.h"
 
-
+#include "regexp-pcre++.h"
 
 ////////////////////////////////////////////////////////////////
 ///
@@ -52,37 +52,34 @@ class corrector {
       /// C++ Interface to BerkeleyDB C API
       Db morfodb;
 	
-	/// The dictionary that is currently using freeling
-	dictionary* dict; 
-	/// The class that translate a word into phonetic sounds
-	phonetics* ph;
-	/// The class that calculate the phonetic distante between two phonetic transcriptions
-	phoneticDistance* phd;
-	/// The method to calculate the distance between words
-	std::string distanceMethod;
-	/// the class that calculate the similarity between two words
-	similarity* sm;
-	/// contains the tags for the words to be checked that are present in the dictionary
-	vector <string> dictionaryCheck;
-	/// contains the tags for the words to be checked that are not present in the dictionary
-	vector <string> noDictionaryCheck;
-	
-	
-      	/// returns the phonema's transcription of a word
-	std::string getSound(std::string);
-	/// returns the list of words from the database that have the string as a key
-	std::string getListWords(std::string);
-	/// adds the new words that are posible correct spellings from original word to the word analysys data
-	void putWords(std::string, word &, std::string);
+      /// The dictionary that is currently using freeling
+      dictionary* dict; 
+      /// The class that translate a word into phonetic sounds
+      phonetics* ph;
+      /// The class that calculate the phonetic distante between two phonetic transcriptions
+      phoneticDistance* phd;
+      /// The method to calculate the distance between words
+      std::string distanceMethod;
+      /// the class that calculate the similarity between two words
+      similarity* sm;
+      /// contains the tags for which the words that are present in the dictionary will be checked 
+      RegEx dictionaryCheck;
+      ///  whether words not present in the dictionary are to be spell checked
+      bool noDictionaryCheck;
       
-      
-
-   public:
+      /// returns the phonema's transcription of a word
+      std::string getSound(std::string);
+      /// returns the list of words from the database that have the string as a key
+      std::string getListWords(std::string);
+      /// adds the new words that are posible correct spellings from original word to the word analysys data
+      void putWords(std::string, word &, std::string);
+           
+ public:
       /// Constructor
       corrector(const std::string &, dictionary &, const std::string &,const std::string &);
       /// Destructor
       ~corrector();
-
+      
       /// Navigates the sentence adding alternative words (possible correct spelling data)
       void annotate(sentence &);
 };

@@ -85,59 +85,6 @@ int res;
   delete suf;
 }
 
-
-/////////////////////////////////////////////////////////////////////////////
-///  Search word in the dictionary, get lema+tags
-/////////////////////////////////////////////////////////////////////////////
-
-void dictionary::getInfoWord(const std::string &s, std::list<std::string>  &lemas, std::list<std::string>  &tags) {
-  string data_string,lem,tag,lws;
-  char buff[1024];
-  string::size_type p;
-  int error;
-  Dbt data, key;
-
-  // lowercase the string
-  lws=util::lowercase(s);
-
-  // Get data of the analysis associated to the key passed as argument
-  key.set_data((void *)lws.c_str());
-  key.set_size(lws.length());
-  error = morfodb.get (NULL, &key, &data, 0);
-
-  if (!error) {
-     // copy the data associated to the key to the buffer
-     p=data.get_size();
-     memcpy((void *)buff, data.get_data(), p);
-     // convert char* to string into data_string
-     buff[p]=0;
-     data_string=buff;
-     // process the data string into analysis list
-     p=0;
-     while(p!=string::npos){
-       TRACE(3,"data_string contains now: ["+data_string+"]");
-       // get lemma
-       p=data_string.find_first_of(" ");
-       lem=data_string.substr(0,p);
-       data_string=data_string.substr(p+1);
-       // get tag
-       p=data_string.find_first_of(" ");
-       tag=data_string.substr(0,p);
-       data_string=data_string.substr(p+1);
-       // insert analysis
-       
-	lemas.push_back(lem);
-	tags.push_back(tag);
-
-     }
-  }
-  else if (error != DB_NOTFOUND) {
-    ERROR_CRASH("Error "+util::int2string(error)+" while accessing database");
-  }
-
-}
-
-
 /////////////////////////////////////////////////////////////////////////////
 ///  Search form in the dictionary, according to given options,
 ///  *Add* found analysis to the given list

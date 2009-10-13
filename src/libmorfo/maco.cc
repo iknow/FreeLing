@@ -141,30 +141,13 @@ void maco::analyze(std::list<sentence> &ls) {
        TRACE(2,"Sentences annotated by the quantities module.");
      }
 
-	if (defaultOpt.OrthographicCorrection){
-		for (is=ls.begin(); is!=ls.end(); is++) {
-			correct->annotate(*is);
-			
-			sentence se=*is;
-			sentence::iterator pos;
-			for (pos=se.begin(); pos!=se.end(); ++pos)  {
-				word w=*pos;
-				string forma=w.get_form();
-				for (word::iterator la=w.analysis_begin(); la!=w.analysis_end(); la++){
-					
-				
-				}
-				
-			}
-			
-			
-			
-			
-			
-		}
- 		TRACE(2,"Orthographic correction of the sentence.");
-	}
-
+     if (defaultOpt.OrthographicCorrection){
+       for (is=ls.begin(); is!=ls.end(); is++) {
+	 correct->annotate(*is);
+       }
+       TRACE(2,"Orthographic correction of the sentence.");
+     }
+     
 
      if (defaultOpt.ProbabilityAssignment) {
        for (is=ls.begin(); is!=ls.end(); is++) {
