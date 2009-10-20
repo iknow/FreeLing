@@ -29,11 +29,11 @@
 #ifndef _SEMDB
 #define _SEMDB
 
-#include <db_cxx.h>  // header of BerkeleyDB C++ interface
 
 #include <string>
 #include <list>
 
+#include "freeling/database.h"
 #include "fries/language.h"
 
 
@@ -69,10 +69,8 @@ class sense_info {
 class semanticDB {
    private:
       /// C++ Interface to BerkeleyDB C API
-      Db sensesdb;
-      Db wndb;
-      /// acces indexed file to find a key
-      std::string access_semantic_db(Db &,const std::string &);
+      database sensesdb;
+      database wndb;
 
    public:
       /// Constructor

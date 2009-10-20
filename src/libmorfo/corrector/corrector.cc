@@ -62,12 +62,14 @@ corrector::corrector(const std::string &correctorLang,  dictionary &dict1, const
   int res;
   dict=&dict1;
   distanceMethod=dist;
-  string soundDicFile=correctorLang+".db";
-  string soundChangeRules=correctorLang+".rules";
-  string soundChangeDicFile=correctorCommon+".soundDicFile";
-  string sampaFile=correctorCommon+".sampa";
-  string configFile=correctorCommon+".config";
-  string phoneticDistanceFile=correctorCommon+".phdistances";
+  string soundDicFile=correctorLang+".db"; // indexed dictionary of similar-sounding words.
+  string soundChangeRules=correctorLang+".rules";  // language-specific phonetic rules.
+
+  string soundChangeDicFile=correctorCommon+".soundDicFile";   // /????
+  string sampaFile=correctorCommon+".sampa";                   // sampa codes for sounds
+  string phoneticDistanceFile=correctorCommon+".phdistances";  // phonetic distance tables
+  string configFile=correctorCommon+".config"; // define specific parameters
+
   //string phoneticDistanceFile=correctorCommon+".similarity";
   
   // Opening a 4.0 or higher BerkeleyDB database
@@ -171,46 +173,40 @@ string corrector:: getListWords(string keyword) {
 /// word to the word analysys data
 ////////////////////////////////////////////////////////////////////////
 
-void corrector:: putWords(string listaPal, word &w, string wordOrig){
+void corrector:: putWords(string listaPal, word &w, string wordOrig) {
 
-  list <string> tokens = util::string2list(listaPal,",");
+  list<string> tokens = util::string2list(listaPal,",");
   
-  list<string>::iterator it;  
-  for( it=tokens.begin(); it!=tokens.end(); ++it){
+  list<string>::iterator wd;  
+  for( wd=tokens.begin(); wd!=tokens.end(); wd++) {
     
-    string word=*it;
-    list <string> lemas;
-    list <string> tags;
-    
-    int diff=wordOrig.size()-word.size();
-    if (diff<0) diff=-1*diff;
+    int diff = wordOrig.size() - wd->size();
+    if (diff<0) diff = -diff;
 
-    if (diff<MAX_SIZE_DIFF) {
-      
-      double simil;      
+    if (diff<MAX_SIZE_DIFF) {      
+      double simil=0.0;      
       if (distanceMethod=="similarity") 
-	simil=(double) sm->getSimilarity(util::lowercase(wordOrig),util::lowercase(word));
-      else if (distanceMethod=="phonetic") { // phonetic distance
-	
+	simil=(double) sm->getSimilarity(util::lowercase(wordOrig),util::lowercase(*wd));
+
+      else if (distanceMethod=="phonetic") { // phonetic distance	
 	string word1=util::lowercase(wordOrig);
-	string word2=util::lowercase(word);
+	string word2=util::lowercase(*wd);
 	word1= ph->getSound(word1);
 	word2= ph->getSound(word2);
 	simil=(double) phd->getPhoneticDistance(word1,word2);
 	double simMax=(double) phd->getPhoneticDistance(word1,word1);
 	simil=simil/simMax;	
       }
-      else ERROR_CRASH("Error unknown distance method: "+distanceMethod);
-      
+
       if (simil>DISTANCE_LIMIT) {	
 	list<analysis> la;	
-	dict->search_form(word,la);
+	dict->search_form(*wd,la);
 	
-	for (list<analysis>::iterator it=la.begin(); it!=la.end(); it++) {
-	  it->set_distance(simil);
-	  it->set_lemma(it->get_lemma()+":"+word);
-	  w.add_analysis(*it);
-	  TRACE(4,"   added analysis "+it->get_lemma()+" "+it->get_parole());
+	for (list<analysis>::iterator an=la.begin(); an!=la.end(); an++) {
+	  an->set_distance(simil);
+	  an->set_lemma(an->get_lemma()+":"+(*wd));
+	  w.add_analysis(*an);
+	  TRACE(4,"   added analysis "+an->get_lemma()+" "+an->get_parole());
 	}	
       }
     }
