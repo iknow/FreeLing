@@ -39,23 +39,12 @@ using namespace std;
 #define MOD_TRACENAME "DICTIONARY"
 #define MOD_TRACECODE DICT_TRACE
 
-// define apropriate open calls depending on Berkeley-DB version.
-#if (DB_VERSION_MAJOR==4 && DB_VERSION_MINOR==0)
-  #define OPEN(name,db,type,flags,mode)  open(name,db,type,flags,mode)
-#else
-#if DB_VERSION_MAJOR>=4
-  #define OPEN(name,db,type,flags,mode)  open(NULL,name,db,type,flags,mode)
-#endif
-#endif
-
 
 ///////////////////////////////////////////////////////////////
 ///  Create a dictionary module, open database.
 ///////////////////////////////////////////////////////////////
 
-dictionary::dictionary(const std::string &Lang, const std::string &dicFile, bool activateAff, const std::string &sufFile): morfodb(NULL,DB_CXX_NO_EXCEPTIONS)
-{
-  int res;
+dictionary::dictionary(const std::string &Lang, const std::string &dicFile, bool activateAff, const std::string &sufFile) {
 
   // remember if affix analysis is to be performed
   AffixAnalysis = activateAff;
@@ -63,9 +52,7 @@ dictionary::dictionary(const std::string &Lang, const std::string &dicFile, bool
   suf = (AffixAnalysis ? new affixes(Lang, sufFile) : NULL);
 
   // Opening a 4.0 or higher BerkeleyDB database
-  if ((res=morfodb.OPEN(dicFile.c_str(),NULL,DB_UNKNOWN,DB_RDONLY,0))) {
-    ERROR_CRASH("Error "+util::int2string(res)+" while opening database "+dicFile);
-  }
+  morfodb.open_database(dicFile);
 
   TRACE(3,"analyzer succesfully created");
 }
@@ -76,11 +63,8 @@ dictionary::dictionary(const std::string &Lang, const std::string &dicFile, bool
 ////////////////////////////////////////////////
 
 dictionary::~dictionary(){
-int res;
   // Close the database
-  if ((res=morfodb.close(0))) {
-    ERROR_CRASH("Error "+util::int2string(res)+" while closing database");
-  }
+  morfodb.close_database();
   // delete affix analyzer, if any
   delete suf;
 }
@@ -91,48 +75,32 @@ int res;
 /////////////////////////////////////////////////////////////////////////////
 
 void dictionary::search_form(const std::string &s, std::list<analysis> &la) {
-  string data_string,lem,tag,lws;
-  char buff[1024];
-  string::size_type p;
-  int error;
-  Dbt data, key;
 
   // lowercase the string
-  lws=util::lowercase(s);
+  string key=util::lowercase(s);
+  string data = morfodb.access_database(key);
 
-  // Get data of the analysis associated to the key passed as argument
-  key.set_data((void *)lws.c_str());
-  key.set_size(lws.length());
-  error = morfodb.get (NULL, &key, &data, 0);
-
-  if (!error) {
-     // copy the data associated to the key to the buffer
-     p=data.get_size();
-     memcpy((void *)buff, data.get_data(), p);
-     // convert char* to string into data_string
-     buff[p]=0;
-     data_string=buff;
-     // process the data string into analysis list
-     p=0;
-     while(p!=string::npos){
-       TRACE(3,"data_string contains now: ["+data_string+"]");
-       // get lemma
-       p=data_string.find_first_of(" ");
-       lem=data_string.substr(0,p);
-       data_string=data_string.substr(p+1);
-       // get tag
-       p=data_string.find_first_of(" ");
-       tag=data_string.substr(0,p);
-       data_string=data_string.substr(p+1);
-       // insert analysis
-       TRACE(3,"Adding ("+lem+","+tag+") to analysis list");
-       la.push_back(analysis(lem,tag));
-     }
+  if (not data.empty()) {
+    // process the data string into analysis list
+    string::size_type p=0, q=0;
+    while (p!=string::npos) {
+      TRACE(3,"word '"+s+"'. remaining data: ["+data.substr(p)+"]");
+      // get lemma
+      q=data.find_first_of(" ",p);
+      string lem=data.substr(p,q-p);
+      TRACE(4,"   got lemma="+lem+" p="+util::int2string(p)+" q="+util::int2string(q));
+      // get tag
+      p=q+1;
+      q=data.find_first_of(" ",p);
+      string tag=data.substr(p,q-p);
+      TRACE(4,"   got tag="+tag+" p="+util::int2string(p)+" q="+util::int2string(q));
+      // prepare next
+      p= (q==string::npos? string::npos : q+1);
+      // insert analysis
+      TRACE(3,"Adding ("+lem+","+tag+") to analysis list");
+      la.push_back(analysis(lem,tag));
+    }
   }
-  else if (error != DB_NOTFOUND) {
-    ERROR_CRASH("Error "+util::int2string(error)+" while accessing database");
-  }
-
 }
 
 /////////////////////////////////////////////////////////////////////////////

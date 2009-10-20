@@ -29,9 +29,8 @@
 #ifndef _DICTIONARY
 #define _DICTIONARY
 
-#include <db_cxx.h>  // header of BerkeleyDB C++ interface
-
 #include "fries/language.h"
+#include "freeling/database.h"
 #include "freeling/suffixes.h"
 
 
@@ -51,7 +50,7 @@ class dictionary {
       affixes* suf;
 
       /// C++ Interface to BerkeleyDB C API
-      Db morfodb;
+      database morfodb;
 
       /// Fills the analysis list of a word and checks for suffixes
       void annotate_word(word &);
