@@ -43,23 +43,12 @@ using namespace std;
 #define MAX_SIZE_DIFF 3
 
 
-// define apropriate open calls depending on Berkeley-DB version.
-#if (DB_VERSION_MAJOR==4 && DB_VERSION_MINOR==0)
-  #define OPEN(name,db,type,flags,mode)  open(name,db,type,flags,mode)
-#else
-#if DB_VERSION_MAJOR>=4
-  #define OPEN(name,db,type,flags,mode)  open(NULL,name,db,type,flags,mode)
-#endif
-#endif
-
-
 ///////////////////////////////////////////////////////////////
 ///  Create a corrector module, open database. 
 ///////////////////////////////////////////////////////////////
 
-corrector::corrector(const std::string &correctorLang,  dictionary &dict1, const std::string &correctorCommon, const std::string &dist): morfodb(NULL,DB_CXX_NO_EXCEPTIONS), dictionaryCheck("") {
+corrector::corrector(const std::string &correctorLang,  dictionary &dict1, const std::string &correctorCommon, const std::string &dist): dictionaryCheck("") {
  
-  int res;
   dict=&dict1;
   distanceMethod=dist;
   string soundDicFile=correctorLang+".db"; // indexed dictionary of similar-sounding words.
@@ -72,9 +61,8 @@ corrector::corrector(const std::string &correctorLang,  dictionary &dict1, const
 
   //string phoneticDistanceFile=correctorCommon+".similarity";
   
-  // Opening a 4.0 or higher BerkeleyDB database
-  if ((res=morfodb.OPEN(soundDicFile.c_str(),NULL,DB_UNKNOWN,DB_RDONLY,0)))
-    ERROR_CRASH("Error "+util::int2string(res)+" while opening database "+soundDicFile);
+  // Opening  BerkeleyDB database
+  similar_words.open_database(soundDicFile);
   
   if ((distanceMethod!="similarity") and (distanceMethod!="phonetic")) 
     ERROR_CRASH("Error distance value: "+distanceMethod+", is not valid");
@@ -111,11 +99,8 @@ corrector::corrector(const std::string &correctorLang,  dictionary &dict1, const
 ////////////////////////////////////////////////
 
 corrector::~corrector(){
-int res;
-  // Close the database
-  if ((res=morfodb.close(0))) {
-    ERROR_CRASH("Error "+util::int2string(res)+" while closing database");
-  }
+  // close the database
+  similar_words.close_database();
   // delete dict;
   delete ph;
   delete phd;
@@ -136,37 +121,6 @@ string corrector:: getSound(string word){
   return result;
 }
 
-
-////////////////////////////////////////////////////////////////////////
-/// returns the list of words from the database that have the string as a key
-////////////////////////////////////////////////////////////////////////
-
-string corrector:: getListWords(string keyword) {
-
-  string data_string;
-  Dbt data, key;
-  int error;
-  string::size_type p;
-  char buff[100000];
-  
-  key.set_data((void *) keyword.c_str());
-  key.set_size(keyword.length());
-  error = morfodb.get (NULL, &key, &data, 0);
-  
-  if (!error){
-    // copy the data associated to the key to the buffer
-    p=data.get_size();
-    memcpy((void *)buff, data.get_data(), p);
-    // convert char* to string into data_string
-    buff[p]=0;
-    data_string=buff;
-    TRACE(3,"Accesing database with keyword: "+keyword+", result: "+data_string);
-  }
-  else if (error != DB_NOTFOUND) 
-    ERROR_CRASH("Error "+util::int2string(error)+" while accessing database");
-  
-  return data_string; // the word will be sperated by coma 
-}
 
 ////////////////////////////////////////////////////////////////////////
 /// adds the new words that are posible correct spellings from original 
@@ -243,7 +197,7 @@ void corrector:: annotate(sentence &se)
       TRACE(3,"   Sound for word "+pos->get_form()+": "+keyword);
       if (keyword.size()>0){
 	// we obatin the list of word separated by coma that match the keyword in the databse
-	listaPal=getListWords(keyword); 
+	listaPal= similar_words.access_database(keyword); 
 	TRACE(3,"   Obtained words: ["+listaPal+"]");
 
 	if (listaPal.size()>0)

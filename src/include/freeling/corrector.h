@@ -29,9 +29,8 @@
 #ifndef _CORRECTOR
 #define _CORRECTOR
 
-#include <db_cxx.h>  // header of BerkeleyDB C++ interface
-
 #include "fries/language.h"
+#include "freeling/database.h"
 #include "freeling/dictionary.h"
 #include "freeling/phonetics.h"
 #include "freeling/phoneticDistance.h"
@@ -49,8 +48,8 @@
 class corrector {
    private:
       
-      /// C++ Interface to BerkeleyDB C API
-      Db morfodb;
+      /// indexed file with similar words
+      database similar_words;
 	
       /// The dictionary that is currently using freeling
       dictionary* dict; 
@@ -66,11 +65,8 @@ class corrector {
       RegEx dictionaryCheck;
       ///  whether words not present in the dictionary are to be spell checked
       bool noDictionaryCheck;
-      
       /// returns the phonema's transcription of a word
       std::string getSound(std::string);
-      /// returns the list of words from the database that have the string as a key
-      std::string getListWords(std::string);
       /// adds the new words that are posible correct spellings from original word to the word analysys data
       void putWords(std::string, word &, std::string);
            
