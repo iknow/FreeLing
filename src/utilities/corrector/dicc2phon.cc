@@ -72,7 +72,7 @@ int main(int argc, char *argv[]){
 	string soundChangeDicFile=argv[2];
 	string sampaFile=argv[3];
 	
-	phonetics ph(soundChangeRules,soundChangeDicFile,sampaFile,true);
+	phonetics ph(soundChangeRules,soundChangeDicFile,sampaFile,false);
 	
 	// we translate every word for his phonetic sound
 	
