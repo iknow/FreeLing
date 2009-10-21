@@ -33,8 +33,20 @@
 #include <map>
 #include <vector>
 
-using namespace std;
 
+////////////////////////////////////////////////////////////////
+/// Auxiliar class to store a phonetic change rule
+////////////////////////////////////////////////////////////////
+
+class ph_rule {
+ public:
+   /// what to search and replace
+   std::string from;
+   /// what is the replacement
+   std::string to;
+   /// in which context
+   std::string env;
+};
 
 
 ////////////////////////////////////////////////////////////////
@@ -44,44 +56,24 @@ using namespace std;
 
 class soundChange {
 
-   private:
-      
-	/// variables and his valor
-	map <string, string> vars;
-	/// rules
-	vector <string> rules;
-	/// what to seacrh
-	vector <string> from;
-	/// what is the replace
-	vector <string> to;
-	/// what are the conditions to replace
-	vector <string> env;
+ private:
+   /// rules
+   std::vector<ph_rule> rules;
+   
+   /// find in a text a string and replace it with another string under certain conditions
+   std::string apply_rule(const std::string &, const ph_rule&) const;
+   /// check that the conditions for the sound change are true
+   bool check_cond(const std::string &, const std::string &, int, const std::string &) const;
 
-	/// compile the rules
-	void compile_rules();
-	/// compile de variables
-	void compile_vars();
-	/// find in a text a string and replace it with another string under certain conditions
-	string find_and_replace(string , string , string , string );
-	/// check that the conditions for the sound change are true
-	bool check_cond(string, string, int, string );
-	/// Calculate the location of the _ in a pattern
-	int calculatePosition(string);
-	
-
-   public:
-      /// Constructor with vars and rules
-      soundChange(map<string, string>, vector <string>);
-      /// Destructor
-      ~soundChange();
-
-	/// Returns the sound changed for the word
-	string change(string);
-
-
-
+ public:
+   /// Constructor with vars and rules
+   soundChange(const std::map<std::string,std::string> &, const std::vector<std::string> &);
+   /// Destructor
+   ~soundChange();
+   
+   /// Returns the sound changed for the word
+   std::string change(const std::string &) const;
 };
-
 
 
 #endif
