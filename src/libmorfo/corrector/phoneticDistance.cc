@@ -2,8 +2,9 @@
 #include "freeling/phoneticDistance.h"
 #include "freeling/traces.h"
 
-#define MOD_TRACENAME "PHONETICDISTANCE"
-#define MOD_TRACECODE PHONETICDISTANCE_TRACE
+#define MOD_TRACENAME "PHDISTANCE"
+#define MOD_TRACECODE PHONETICS_TRACE
+
 
 
 ///////////////////////////////////////////////////////////////

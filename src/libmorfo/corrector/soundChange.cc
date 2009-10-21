@@ -31,14 +31,10 @@
 #include <fstream>
 #include "regexp-pcre++.h"
 #include "freeling/soundChange.h"
-//#include "pcre.h"
 #include "freeling/traces.h"
 
-#define OVECCOUNT 300   /* should be a multiple of 3 */
-
-
 #define MOD_TRACENAME "SOUNDCHANGE"
-#define MOD_TRACECODE SOUNDCHANGE_TRACE
+#define MOD_TRACECODE PHONETICS_TRACE
 
 using namespace std;
 
@@ -47,12 +43,39 @@ using namespace std;
 ///  Create
 ///////////////////////////////////////////////////////////////
 
-soundChange::soundChange(map<string, string> vars1, vector <string> rules1){
+soundChange::soundChange(const map<string,string> &vars, const vector<string> &rls) {
 
-	vars=vars1;
-	rules=rules1;
-	compile_vars();
-	compile_rules();
+  for (vector<string>::const_iterator r=rls.begin(); r!=rls.end(); r++) {
+
+    RegEx re("^([^/]+)/([^/]*)/(.+)$");
+
+    if (re.Search(*r)) {
+      ph_rule newrule;
+      newrule.from = re.Match(1);
+      newrule.to   = re.Match(2);
+      newrule.env  = re.Match(3);
+      
+      // escape $ letter to not be confused with end of word in regular expressions
+      util::find_and_replace(newrule.env,"$","\\$");
+      if (newrule.env[0]=='#') newrule.env[0]='^';
+      if (newrule.env[newrule.env.size()-1]=='#') newrule.env[newrule.env.size()-1]='$';
+            
+      // We substitue any var in the rule for its value
+      for (map<string,string>::const_iterator v=vars.begin(); v!=vars.end(); v++) {
+	string var=v->first;
+	string val="["+v->second+"]";
+
+	util::find_and_replace(newrule.from, var, val);
+	util::find_and_replace(newrule.to, var, val);
+	util::find_and_replace(newrule.env, var, val);	
+      }
+
+      // store the resulting rule.
+      rules.push_back(newrule);
+    }
+    else 
+      WARNING("Wrongly formatted phonetic rule '"+(*r)+"' ignored.");
+  }  
 }
 
 
@@ -61,117 +84,48 @@ soundChange::soundChange(map<string, string> vars1, vector <string> rules1){
 ///  Destroy 
 ///////////////////////////////////////////////////////////////
 
-soundChange::~soundChange(){
- 
-}
+soundChange::~soundChange(){}
 
 
 ///////////////////////////////////////////////////////////////
 ///  returns the sound changed
 ///////////////////////////////////////////////////////////////
 
-string soundChange::change(string word)
-{
-	string result=word;
-	for (size_t i=0;i<rules.size();i++){
-		TRACE(4,"from: "+from[i]+" to: "+to[i]+" env: "+env[i]);
-		result=find_and_replace(result,from[i],to[i],env[i]);
-		TRACE(4,"result: "+result);
-	}
-	return result;
+string soundChange::change(const string &word) const {
+
+  string result=word;
+
+  for (vector<ph_rule>::const_iterator r=rules.begin(); r!=rules.end(); r++) {
+    TRACE(4,"appling rule ("+r->from+"/"+r->to+"/"+r->env+") to word '"+word+"'");
+    result= apply_rule(result,(*r));
+    TRACE(4,"  result: "+result);
+  }
+  return result;
 }
 
-
-///////////////////////////////////////////////////////////////
-/// compile the rules
-///////////////////////////////////////////////////////////////
-
-void soundChange::compile_rules(){
-
-	for (size_t i=0;i<rules.size();i++){
-  		string rule= rules.at(i); 
-		map<string,string>::iterator iter;
-		
-		RegEx re("^([^/]+)/([^/]*)/(.+)$");
-		RegEx re2("^(#?)([^_#]*)(_)([^_#]*)(#?)$");
-  		if(re.Search(rule)){
-			string fromS=re.Match(1);
-			string toS=re.Match(2);
-			string envS=re.Match(3);
-
-			// escape $ letter to not be confused with end of word in regular expressions
-			for (size_t x=0;x<envS.size();x++) {
-      				string c=envS.substr(x,1);
-				if (c=="$") { envS.erase(x,1); envS.insert(x,"\\$"); x=x+1;; }
-				//else if (c=="@") { envS.erase(x,1); envS.insert(x,"\\@"); x=x+1; }
-			}
-
-			if (envS.substr(0,1)=="#") envS.replace( 0, 1,"^");
-			if (envS.substr(envS.size()-1,1)=="#") envS.replace(envS.size()-1, 1,"$");
-
-						
-			// We substitue the var for his value on every rule
-			for( iter = vars.begin(); iter != vars.end(); ++iter ) {
-      				string var=iter->first;
-				string valor=iter->second;
-				fromS=find_and_replace(fromS,var,valor,"");
-				toS=find_and_replace(toS,var,valor,"");
-				envS=find_and_replace(envS,var,valor,"");
-			}
-		
-			from.push_back(fromS);
-			to.push_back(toS);
-			env.push_back(envS);
-
-			
-		}	
-			
-	}
-
-}
-
-
-
-///////////////////////////////////////////////////////////////
-///  compile de variables
-///////////////////////////////////////////////////////////////
-
-void soundChange::compile_vars(){
-
-
-	map<string,string>::iterator iter;
-	
-    	for( iter = vars.begin(); iter != vars.end(); ++iter ) {
-      		string var=iter->first;
-		string list=iter->second;
-		vars[var]="["+list+"]"; 
-				
-   	}
-}
 
 ///////////////////////////////////////////////////////////////
 ///  check that the enviorment is true
 ///////////////////////////////////////////////////////////////
 
-bool soundChange::check_cond(string text, string opt, int loc, string findStr){
-
+bool soundChange::check_cond(const string &text, const string &opt, int loc, const string &findStr) const {
 	
-  if (opt.size()<2) return true; // empty condition
+  if (opt.size()<=1) return true; // condition "_" always holds
   
-  string aux="("+opt+")";
-  string pattern=find_and_replace(aux,"_","("+findStr+")",""); // we substitute _ for findStr
+  string pattern="("+opt+")";
+  util::find_and_replace(pattern,"_","("+findStr+")"); // we substitute _ for findStr
   
   RegEx re(pattern);
   if (re.Search(text)){
-	  int ini,fin;
-	  re.MatchPositions(1,ini,fin);
-	  if (ini!=-1) {
-		  return (ini==loc); // the sign _ and the loc of the char to replace must be in te same location
-	  }
-	  else ERROR_CRASH("Error in MatchPosistions");
+    int ini,fin;
+    re.MatchPositions(1,ini,fin);
+    if (ini!=-1) 
+      return (ini==loc); // the sign _ and the loc of the char to replace must be in te same location
+    else 
+      ERROR_CRASH("Error in MatchPositions");
   }
-  return false; // no match
-  
+
+  return false; // no match  
 }
 
 
@@ -180,21 +134,21 @@ bool soundChange::check_cond(string text, string opt, int loc, string findStr){
 /// if "[findStr]" then replaces every char(i) of findStr for replaceStr(i)
 ///////////////////////////////////////////////////////////////
 
-string soundChange::find_and_replace(string text, string findStr, string replaceStr, string opt){
-
+string soundChange::apply_rule(const string &text, const ph_rule &rul) const {
+  
   size_t j;
   string result=text;
   
-  if ((findStr.substr(0,1)!="[") and (findStr!=replaceStr)) {
-    for (int x=0;(j = result.find(findStr,x)) != string::npos ;) {
-      if (check_cond(result,opt,j,findStr)){
+  if ((rul.from.substr(0,1)!="[") and (rul.from!=rul.to)) {
+    for (int x=0;(j = result.find(rul.from,x)) != string::npos ;) {
+      if (check_cond(result,rul.env,j,rul.from)){
 	string auxtext=result;
-	result.erase(j, findStr.size());
-	result.insert(j, replaceStr);
+	result.erase(j, rul.from.size());
+	result.insert(j, rul.to);
 	
       }
       if (j!=string::npos ){
-	if (replaceStr.size()>0) x=j+replaceStr.size();
+	if (rul.to.size()>0) x=j+rul.to.size();
 	else x=j+1;
 	
       }
@@ -202,11 +156,11 @@ string soundChange::find_and_replace(string text, string findStr, string replace
     }
   }
   else {
-    string f=findStr.substr(1,findStr.size()-2);
+    string f=rul.from.substr(1,rul.from.size()-2);
     string r;
-    if (replaceStr.size()>1) r=replaceStr.substr(1,replaceStr.size()-2);
+    if (rul.to.size()>1) r=rul.to.substr(1,rul.to.size()-2);
     else {
-      r=replaceStr;
+      r=rul.to;
       for (size_t ii=r.size();ii<f.size();ii++)	{ // @ to @@@@@@@@@@@@@@ so change aeiou to @@@@@
 	r=r+r.substr(0,1);
       }			
@@ -215,7 +169,7 @@ string soundChange::find_and_replace(string text, string findStr, string replace
       if (f.at(z)!=r.at(z)){	
 	string cc=f.substr(z,1);
 	for (int x=0; (j = result.find(cc,x)) != string::npos ; ) {
-	  if (check_cond(result,opt,j,findStr)){
+	  if (check_cond(result,rul.env,j,rul.from)){
 	    string auxtext=result;
 	    result.erase(j,1);
 	    result.insert(j, r.substr(z,1));
