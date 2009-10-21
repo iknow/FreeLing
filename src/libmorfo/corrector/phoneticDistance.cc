@@ -42,7 +42,7 @@ int phoneticDistance::getPhoneticDistance(string word1, string word2){
   aligner<int>::alin* result = al->align(a,strlen(a),b,strlen(b),GLOBAL);
   int resultado=result->score;
   delete(result);
-  TRACE(4,"word1: "+word1+" word2: "+word2+" result: "+resultado);
+  TRACE(4,"word1: "+word1+" word2: "+word2+" result: "+util::int2string(resultado));
   return resultado;
 }
 

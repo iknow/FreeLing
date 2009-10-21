@@ -67,7 +67,7 @@ corrector::corrector(const std::string &correctorLang,  dictionary &dict1, const
   if ((distanceMethod!="similarity") and (distanceMethod!="phonetic")) 
     ERROR_CRASH("Error distance value: "+distanceMethod+", is not valid");
   
-  ph= new phonetics(soundChangeRules,soundChangeDicFile,sampaFile,true);
+  ph= new phonetics(soundChangeRules,soundChangeDicFile,sampaFile,false);
   
   if (distanceMethod=="similarity") sm= new similarity();
   else if (distanceMethod=="phonetic") phd= new phoneticDistance(phoneticDistanceFile);
