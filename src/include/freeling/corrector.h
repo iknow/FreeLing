@@ -45,34 +45,45 @@
 ///
 ////////////////////////////////////////////////////////////////
 
+#define EDIT_DISTANCE 1
+#define PHONETIC_DISTANCE 2
+
 class corrector {
    private:
       
       /// indexed file with similar words
       database similar_words;
 	
-      /// The dictionary that is currently using freeling
+      /// The dictionary that FreeLing is currently using
       dictionary* dict; 
-      /// The class that translate a word into phonetic sounds
+      /// The class that translates a word into phonetic sounds
       phonetics* ph;
-      /// The class that calculate the phonetic distante between two phonetic transcriptions
+      /// Whether phonetic conversions should use a sound dictionary
+      bool useSoundDict;
+      /// The class that calculate the phonetic distante
+      /// between two phonetic transcriptions
       phoneticDistance* phd;
-      /// The method to calculate the distance between words
-      std::string distanceMethod;
-      /// the class that calculate the similarity between two words
+      /// the class that computes edit distance between two words
       similarity* sm;
-      /// contains the tags for which the words that are present in the dictionary will be checked 
+      /// The method to calculate the distance between words
+      int distanceMethod;
+      /// Minimum similariy to consider a word as a possible correction
+      double SimilarityThreshold;
+      /// Maximum lentgh difference to consider a word as a possible correction
+      int MaxSizeDiff;
+      /// contains the tags for which the words that are present 
+      /// in the dictionary will be checked 
       RegEx dictionaryCheck;
       ///  whether words not present in the dictionary are to be spell checked
       bool noDictionaryCheck;
-      /// returns the phonema's transcription of a word
-      std::string getSound(std::string);
+      /// returns the consonant key of a word
+      std::string getKey(std::string);
       /// adds the new words that are posible correct spellings from original word to the word analysys data
-      void putWords(std::string, word &, std::string);
+      void putWords(std::string, word &);
            
  public:
       /// Constructor
-      corrector(const std::string &, dictionary &, const std::string &,const std::string &);
+      corrector(const std::string &, dictionary &);
       /// Destructor
       ~corrector();
       

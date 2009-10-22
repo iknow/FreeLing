@@ -55,7 +55,7 @@ maco_options::maco_options(const std::string &lg) {
   LocutionsFile="";   QuantitiesFile="";    AffixFile=""; 
   ProbabilityFile=""; DictionaryFile=""; 
   NPdataFile="";      PunctuationFile="";
-  CorrectorLang="";	CorrectorCommon=""; DistanceMethod="";
+  CorrectorFile="";
   
   ProbabilityThreshold=0.001;
 }
@@ -76,19 +76,14 @@ void maco_options::set_nummerical_points(const std::string &dec,const std::strin
 
 void maco_options::set_data_files(const std::string &loc,const std::string &qty,const std::string &suf,
                                   const std::string &prb,const std::string &dic,const std::string &nps,
-                                  const std::string &pun, const std::string &clg,const std::string &ccm){
-
+                                  const std::string &pun, const std::string &corr){
 
   LocutionsFile=loc;    QuantitiesFile=qty;  AffixFile=suf; 
   ProbabilityFile=prb;  DictionaryFile=dic;  NPdataFile=nps;
-  PunctuationFile=pun;  CorrectorLang=clg;	CorrectorCommon=ccm;
-  
+  PunctuationFile=pun;  CorrectorFile=corr;  
 }
 
 void maco_options::set_threshold(double t) {
   ProbabilityThreshold=t;
 }
 
-void maco_options::set_corrector_options(const std::string &d){
-	DistanceMethod=d;
-}

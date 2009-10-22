@@ -56,11 +56,9 @@ class maco_options {
     std::string LocutionsFile, QuantitiesFile, AffixFile, 
            ProbabilityFile, DictionaryFile, 
            NPdataFile, PunctuationFile,
-	   CorrectorLang, CorrectorCommon;
+           CorrectorFile;
 
     double ProbabilityThreshold;
-    /// corrector options
-    std::string DistanceMethod;
 
     /// constructor
     maco_options(const std::string &); 
@@ -72,10 +70,8 @@ class maco_options {
     void set_active_modules(bool,bool,bool,bool,bool,bool,bool,bool,int,bool);
     void set_nummerical_points(const std::string &,const std::string &);
     void set_data_files(const std::string &,const std::string &,const std::string &,const std::string &,
-                        const std::string &,const std::string &,const std::string &, const std::string &,
-			const std::string &);
+                        const std::string &,const std::string &,const std::string &, const std::string &);
     void set_threshold(double);
-    void set_corrector_options(const std::string &);
 };
 
 #endif
