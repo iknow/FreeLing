@@ -82,7 +82,7 @@ void say(const string &s) {
 // print one analysis.
 //---------------------------------------------
 void print_analysis(const analysis &a, const string &form) {
-
+  string lcform = util::lowercase(form);
   char c1=a.get_parole()[0];
   char c2=a.get_parole()[1];
   
@@ -107,17 +107,17 @@ void print_analysis(const analysis &a, const string &form) {
     say("      <rule id=\""+a.get_parole()+"\" form=\""+form+"\" />");
     say("    </analysis>");
   }
-  else if (c1=='Z' && (form=="un")) {
+  else if (c1=='Z' && (lcform=="un")) {
     say("    <analysis stem=\"un\" >");
     say("      <rule id=\""+a.get_parole()+"\" form=\""+form+"#"+a.get_lemma()+"\" />");
     say("    </analysis>");
   }
-  else if (c1=='Z' && (form=="una")) {
+  else if (c1=='Z' && (lcform=="una")) {
     say("    <analysis stem=\"una\" >");
     say("      <rule id=\""+a.get_parole()+"\" form=\""+form+"#"+a.get_lemma()+"\" />");
     say("    </analysis>");
   }
-  else if (c1=='Z' && (form=="uno")) {
+  else if (c1=='Z' && (lcform=="uno")) {
     say("    <analysis stem=\"uno\" >");
     say("      <rule id=\""+a.get_parole()+"\" form=\""+form+"#"+a.get_lemma()+"\" />");
     say("    </analysis>");
@@ -134,19 +134,31 @@ void print_analysis(const analysis &a, const string &form) {
 //---------------------------------------------
 // print obtained analysis.
 //---------------------------------------------
-void PrintResults(const list<sentence> &ls, const config &cfg) {
+void PrintResults(list<sentence> &ls, const config &cfg) {
   word::const_iterator ait;
-  sentence::const_iterator w;
-  list<sentence>::const_iterator is;
+  sentence::iterator w;
+  sentence::iterator nxt;
+  list<sentence>::iterator is;
   parse_tree tr;  
   dep_tree dep;
   int nsentence=1;
- 
+  bool prevde=false; 
  
   for (is=ls.begin(); is!=ls.end(); is++,++nsentence) {
    
     say("<segment>");
-    for (w=is->begin(); w!=is->end(); w++) {
+    for (w=is->begin(); w!=is->end(); w++) {      
+
+      if (w->get_form()=="de" || w->get_form()=="a") {
+	sentence::iterator nxt=w;
+        nxt++;
+        if (nxt->get_form()=="el") {
+          int m=(w->get_span_start()+w->get_span_finish())/2;
+	  w->set_span(w->get_span_start(),m);
+	  nxt->set_span(m+1,nxt->get_span_finish());
+	}
+      }
+
       say("  <token form=\""+w->get_form()+"\" from=\""+util::int2string(w->get_span_start())+"\" to=\""+util::int2string(w->get_span_finish())+"\" >");
 
       if (cfg.OutputFormat==MORFO) {
@@ -158,7 +170,8 @@ void PrintResults(const list<sentence> &ls, const config &cfg) {
 	for(ait=w->selected_begin(); ait!=w->selected_end(); ait++){
 	  print_analysis(*ait,w->get_form());
 	}	  
-      }
+      } 
+
       say("  </token>");
     }
     say("</segment>");

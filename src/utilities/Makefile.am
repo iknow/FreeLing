@@ -7,7 +7,7 @@ indexdict_LDADD = -ldb_cxx
 convertdict_SOURCES = convertdict.cc
 convertdict_LDADD = -lfries -lpcre
 
-dicc2phon_SOURCES = corrector/dicc2phon.cc $(top_srcdir)/src/libmorfo/corrector/phonetics.cc $(top_srcdir)/src/libmorfo/corrector/soundChange.cc
+dicc2phon_SOURCES = corrector/dicc2phon.cc $(top_srcdir)/src/libmorfo/corrector/phonetics.cc $(top_srcdir)/src/libmorfo/corrector/soundChange.cc $(top_srcdir)/src/libmorfo/traces.cc
 dicc2phon_LDADD = -lfries -lpcre
 dicc2phon_CXXFLAGS = -I$(top_srcdir)/src/include/
 
