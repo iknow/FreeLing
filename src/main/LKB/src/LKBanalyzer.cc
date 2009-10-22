@@ -261,20 +261,23 @@ int main(int argc, char **argv) {
   maco_options opt(cfg.Lang);
   // boolean options to activate/desactivate modules
   // default: all modules activated (options set to "false")
-  opt.set_active_modules(cfg.MACO_AffixAnalysis,   cfg.MACO_MultiwordsDetection, 
-			 cfg.MACO_NumbersDetection, cfg.MACO_PunctuationDetection, 
-			 cfg.MACO_DatesDetection,   cfg.MACO_QuantitiesDetection,
-			 cfg.MACO_DictionarySearch, cfg.MACO_ProbabilityAssignment,
-			 cfg.MACO_NER_which);
+  opt.set_active_modules (cfg.MACO_AffixAnalysis,    cfg.MACO_MultiwordsDetection,
+			  cfg.MACO_NumbersDetection, cfg.MACO_PunctuationDetection,
+			  cfg.MACO_DatesDetection,   cfg.MACO_QuantitiesDetection,
+			  cfg.MACO_DictionarySearch, cfg.MACO_ProbabilityAssignment,
+			  cfg.MACO_NER_which,        false);
+
   // decimal/thousand separators used by number detection
   opt.set_nummerical_points(cfg.MACO_Decimal, cfg.MACO_Thousand);
   // Minimum probability for a tag for an unkown word
   opt.set_threshold(cfg.MACO_ProbabilityThreshold);
   // Data files for morphological submodules. by default set to ""
   // Only files for active modules have to be specified 
-  opt.set_data_files(cfg.MACO_LocutionsFile,   cfg.MACO_QuantitiesFile,   cfg.MACO_AffixFile, 
-		     cfg.MACO_ProbabilityFile, cfg.MACO_DictionaryFile, cfg.MACO_NPdataFile,
-		     cfg.MACO_PunctuationFile);
+  opt.set_data_files (cfg.MACO_LocutionsFile, cfg.MACO_QuantitiesFile,
+		      cfg.MACO_AffixFile, cfg.MACO_ProbabilityFile,
+		      cfg.MACO_DictionaryFile, cfg.MACO_NPdataFile,
+		      cfg.MACO_PunctuationFile, "", "");
+
   // create analyzer with desired options
   morfo = new maco(opt);
 
