@@ -30,17 +30,11 @@
 #define _PHONETICDISTANCE
 
 #include <string>
-//#include "../libmorfo/corrector/libPhDist/aligner.h"
-//#include "../libmorfo/corrector/libPhDist/golem.h"
-//#include "../libmorfo/corrector/libPhDist/simplesearch.h"
 #include "aligner.h"
 #include "golem.h"
 #include "simplesearch.h"
 
-
 using namespace std;
-
-
 
 ////////////////////////////////////////////////////////////////
 /// This class is wrapper to calculate the phonetic distance between two words

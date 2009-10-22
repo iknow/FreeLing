@@ -75,12 +75,6 @@ corrector::corrector(const std::string &configfile, dictionary &mydict): diction
 	sin>>SimilarityThreshold;
       else if (key=="MaxSizeDiff") 
 	sin>>MaxSizeDiff;
-      else if (key=="DistanceMeasure") {
-	sin>>value;
-	if (value=="phonetic") distanceMethod=PHONETIC_DISTANCE;
-        else if (value=="edit") distanceMethod=EDIT_DISTANCE;
-	else WARNING("Unknown DistanceMeasure "+value+". Using default.");
-      }
       else if (key=="CheckDictWords") {
 	sin>>value;
 	dictionaryCheck = RegEx(value);
@@ -100,7 +94,8 @@ corrector::corrector(const std::string &configfile, dictionary &mydict): diction
       }
       else if (key=="WordSoundDict") {
 	sin>>wd_sound_dict;
-	if (util::lowercase(wd_sound_dict)=="none" || util::lowercase(wd_sound_dict)=="no") {
+	if (util::lowercase(wd_sound_dict)=="none"
+             || util::lowercase(wd_sound_dict)=="no") {
 	  wd_sound_dict="";
 	  useSoundDict=false;
 	}	
@@ -115,7 +110,15 @@ corrector::corrector(const std::string &configfile, dictionary &mydict): diction
       }
       else if (key=="PhoneticDist") {
 	sin>>ph_dist_file;
-	ph_dist_file=util::absolute(ph_dist_file,path);
+	if (util::lowercase(ph_dist_file)=="none" 
+             || util::lowercase(ph_dist_file)=="no") {
+	  ph_dist_file="";
+	  distanceMethod=EDIT_DISTANCE;
+	}	
+	else {
+	  ph_dist_file=util::absolute(ph_dist_file,path);
+	  distanceMethod=PHONETIC_DISTANCE;
+	}
       }
       else 
 	WARNING("Unexpected keyword '"+key+"' in config file. Ignored.");
@@ -184,9 +187,10 @@ void corrector:: putWords(string listaPal, word &w) {
 
     if (diff<MaxSizeDiff) {      
       double simil=0.0;      
-      if (distanceMethod==EDIT_DISTANCE) 
-	simil=(double) sm->getSimilarity(wform,*wd);
-
+      if (distanceMethod==EDIT_DISTANCE) {
+	simil=(double) sm->getSimilarity(wform,*wd);	
+	TRACE(4,"   Simil "+util::double2string(simil)+" for ("+wform+") vs ("+(*wd)+")");
+      }
       else if (distanceMethod==PHONETIC_DISTANCE) { // phonetic distance	
 	string word1=ph->getSound(wform);
 	string word2=ph->getSound(*wd);
@@ -197,7 +201,7 @@ void corrector:: putWords(string listaPal, word &w) {
 	TRACE(4,"   Simil "+util::double2string(simil)+" for ("+wform+","+word1+") vs ("+(*wd)+","+word2+")");
       }
 
-      if (simil>SimilarityThreshold) {	
+      if (simil>=SimilarityThreshold) {	
 	list<analysis> la;	
 	dict->search_form(*wd,la);
 	
