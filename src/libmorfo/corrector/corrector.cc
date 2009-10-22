@@ -39,58 +39,98 @@ using namespace std;
 #define MOD_TRACENAME "CORRECTOR"
 #define MOD_TRACECODE CORRECTOR_TRACE
 
-#define DISTANCE_LIMIT 0.5
-#define MAX_SIZE_DIFF 3
-
 
 ///////////////////////////////////////////////////////////////
 ///  Create a corrector module, open database. 
 ///////////////////////////////////////////////////////////////
 
-corrector::corrector(const std::string &correctorLang,  dictionary &dict1, const std::string &correctorCommon, const std::string &dist): dictionaryCheck("") {
+corrector::corrector(const std::string &configfile, dictionary &mydict): dictionaryCheck("") {
  
-  dict=&dict1;
-  distanceMethod=dist;
-  string soundDicFile=correctorLang+".db"; // indexed dictionary of similar-sounding words.
-  string soundChangeRules=correctorLang+".rules";  // language-specific phonetic rules.
+  string path=configfile.substr(0,configfile.find_last_of("/\\")+1);
 
-  string soundChangeDicFile=correctorCommon+".soundDicFile";   // /????
-  string sampaFile=correctorCommon+".sampa";                   // sampa codes for sounds
-  string phoneticDistanceFile=correctorCommon+".phdistances";  // phonetic distance tables
-  string configFile=correctorCommon+".config"; // define specific parameters
-
-  //string phoneticDistanceFile=correctorCommon+".similarity";
-  
-  // Opening  BerkeleyDB database
-  similar_words.open_database(soundDicFile);
-  
-  if ((distanceMethod!="similarity") and (distanceMethod!="phonetic")) 
-    ERROR_CRASH("Error distance value: "+distanceMethod+", is not valid");
-  
-  ph= new phonetics(soundChangeRules,soundChangeDicFile,sampaFile,false);
-  
-  if (distanceMethod=="similarity") sm= new similarity();
-  else if (distanceMethod=="phonetic") phd= new phoneticDistance(phoneticDistanceFile);
-  
-  ifstream F;
-  F.open(configFile.c_str()); 
-  if (!F) 
-    ERROR_CRASH("Error opening file "+configFile);
-
-  string line;
-  while(getline(F,line)){
-    vector <string> vs=util::split(line," ");
-
-    if (vs[0]=="dictionary")
-      dictionaryCheck = RegEx(vs[1]);
-    else if (vs[0]=="noDictionary")
-      noDictionaryCheck = (util::lowercase(vs[1])=="yes" or util::lowercase(vs[1])=="y");
+  string line; 
+  ifstream fabr (configfile.c_str());
+  if (!fabr) { 
+    ERROR_CRASH("Error opening file "+configfile);
   }
   
-  F.close();
-  
-  TRACE(3,"corrector succesfully created");
-  TRACE(3,"distance method: "+distanceMethod);
+  // default
+  useSoundDict=false;
+  SimilarityThreshold=0.5;
+  MaxSizeDiff=3;
+  distanceMethod=PHONETIC_DISTANCE;
+  noDictionaryCheck=true;
+
+  string ph_rules_file, wd_sound_dict, sampa_file, ph_dist_file;
+
+  // load list of functional words that may be included in a NE.
+  while (getline(fabr,line)) {
+
+    istringstream sin;
+    sin.str(line);
+    string key,value;
+    sin>>key;
+    if (key.size()>0 && key[0]!='#') {
+      if (key=="SimilarityThreshold") 
+	sin>>SimilarityThreshold;
+      else if (key=="MaxSizeDiff") 
+	sin>>MaxSizeDiff;
+      else if (key=="DistanceMeasure") {
+	sin>>value;
+	if (value=="phonetic") distanceMethod=PHONETIC_DISTANCE;
+        else if (value=="edit") distanceMethod=EDIT_DISTANCE;
+	else WARNING("Unknown DistanceMeasure "+value+". Using default.");
+      }
+      else if (key=="CheckDictWords") {
+	sin>>value;
+	dictionaryCheck = RegEx(value);
+      }
+      else if (key=="CheckUnknown") {
+	sin>>value;
+	value=util::lowercase(value);
+	noDictionaryCheck = (value=="yes" or value=="y");
+      }
+      else if (key=="SimilarWordsDict") {
+	sin>>value;
+	similar_words.open_database(util::absolute(value,path));
+      }
+      else if (key=="PhoneticRules") {
+	sin>>ph_rules_file;
+	ph_rules_file=util::absolute(ph_rules_file,path);
+      }
+      else if (key=="WordSoundDict") {
+	sin>>wd_sound_dict;
+	if (util::lowercase(wd_sound_dict)=="none" || util::lowercase(wd_sound_dict)=="no") {
+	  wd_sound_dict="";
+	  useSoundDict=false;
+	}	
+	else {
+	  wd_sound_dict=util::absolute(wd_sound_dict,path);
+	  useSoundDict=true;
+	}
+      }
+      else if (key=="SampaCodes") {
+	sin>>sampa_file;
+	sampa_file=util::absolute(sampa_file,path);
+      }
+      else if (key=="PhoneticDist") {
+	sin>>ph_dist_file;
+	ph_dist_file=util::absolute(ph_dist_file,path);
+      }
+      else 
+	WARNING("Unexpected keyword '"+key+"' in config file. Ignored.");
+    }
+  }
+  fabr.close(); 
+
+  ph= new phonetics(ph_rules_file, wd_sound_dict, sampa_file, useSoundDict);
+
+  if (distanceMethod==EDIT_DISTANCE) sm= new similarity();
+  else if (distanceMethod==PHONETIC_DISTANCE) phd= new phoneticDistance(ph_dist_file);
+
+  dict=&mydict;
+    
+  TRACE(1,"corrector succesfully created");
 }
 
 
@@ -111,12 +151,16 @@ corrector::~corrector(){
 /// returns the phonema's transcription of a word
 ////////////////////////////////////////////////////////////////////////
 
-string corrector:: getSound(string word){ 
+string corrector:: getKey(string word){ 
 	
   string result= ph->getSound(word);
-  result=util::eliminateChars(result,"aeiou@AEIOU"); // eliminate vowels for generating a key for the database that will embrace more words
-  if (result.size()==0) result="aeiou"; // if the word only contains vowels we use the keyword aeiou
-  TRACE(3,"Getting the sound of word: "+word+", result: "+result);
+
+  // eliminate vowels to generate a key for the database 
+  // that will find similar words
+  result=util::eliminateChars(result,"aeiou@AEIOU"); 
+ // if the word only contains vowels we use the key aeiou
+  if (result.size()==0) result="aeiou";
+  TRACE(3,"Getting the key of word: "+word+", result: "+result);
   
   return result;
 }
@@ -127,32 +171,33 @@ string corrector:: getSound(string word){
 /// word to the word analysys data
 ////////////////////////////////////////////////////////////////////////
 
-void corrector:: putWords(string listaPal, word &w, string wordOrig) {
+void corrector:: putWords(string listaPal, word &w) {
 
   list<string> tokens = util::string2list(listaPal,",");
+  string wform = util::lowercase(w.get_form());
   
   list<string>::iterator wd;  
   for( wd=tokens.begin(); wd!=tokens.end(); wd++) {
     
-    int diff = wordOrig.size() - wd->size();
+    int diff = wform.size() - wd->size();
     if (diff<0) diff = -diff;
 
-    if (diff<MAX_SIZE_DIFF) {      
+    if (diff<MaxSizeDiff) {      
       double simil=0.0;      
-      if (distanceMethod=="similarity") 
-	simil=(double) sm->getSimilarity(util::lowercase(wordOrig),util::lowercase(*wd));
+      if (distanceMethod==EDIT_DISTANCE) 
+	simil=(double) sm->getSimilarity(wform,*wd);
 
-      else if (distanceMethod=="phonetic") { // phonetic distance	
-	string word1=util::lowercase(wordOrig);
-	string word2=util::lowercase(*wd);
-	word1= ph->getSound(word1);
-	word2= ph->getSound(word2);
+      else if (distanceMethod==PHONETIC_DISTANCE) { // phonetic distance	
+	string word1=ph->getSound(wform);
+	string word2=ph->getSound(*wd);
+
 	simil=(double) phd->getPhoneticDistance(word1,word2);
 	double simMax=(double) phd->getPhoneticDistance(word1,word1);
 	simil=simil/simMax;	
+	TRACE(4,"   Simil "+util::double2string(simil)+" for ("+wform+","+word1+") vs ("+(*wd)+","+word2+")");
       }
 
-      if (simil>DISTANCE_LIMIT) {	
+      if (simil>SimilarityThreshold) {	
 	list<analysis> la;	
 	dict->search_form(*wd,la);
 	
@@ -160,7 +205,7 @@ void corrector:: putWords(string listaPal, word &w, string wordOrig) {
 	  an->set_distance(simil);
 	  an->set_lemma(an->get_lemma()+":"+(*wd));
 	  w.add_analysis(*an);
-	  TRACE(4,"   added analysis "+an->get_lemma()+" "+an->get_parole());
+	  TRACE(3,"   added analysis "+an->get_lemma()+" "+an->get_parole());
 	}	
       }
     }
@@ -191,17 +236,17 @@ void corrector:: annotate(sentence &se)
 
     if (spellCheck){
       string listaPal;
-      string wordOrig=pos->get_form();
-      string keyword = getSound(wordOrig); // calculate the sound without vowels of the current word
+      // calculate the sound without vowels of the current word
+      string key = getKey(pos->get_form()); 
 
-      TRACE(3,"   Sound for word "+pos->get_form()+": "+keyword);
-      if (keyword.size()>0){
-	// we obatin the list of word separated by coma that match the keyword in the databse
-	listaPal= similar_words.access_database(keyword); 
+      TRACE(3,"   Key for word "+pos->get_form()+": "+key);
+      if (key.size()>0){
+	// Get the list of words with same key in the database
+	listaPal= similar_words.access_database(key); 
 	TRACE(3,"   Obtained words: ["+listaPal+"]");
 
-	if (listaPal.size()>0)
-	  putWords(listaPal,*pos, wordOrig); // we add the new words to the POS of the word
+	// filter and add the obtained words as new analysis
+	if (listaPal.size()>0) putWords(listaPal,*pos); 
       }
     }
   }  

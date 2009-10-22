@@ -684,7 +684,8 @@ int main (int argc, char **argv) {
       opt.set_data_files (cfg.MACO_LocutionsFile, cfg.MACO_QuantitiesFile,
 			  cfg.MACO_AffixFile, cfg.MACO_ProbabilityFile,
 			  cfg.MACO_DictionaryFile, cfg.MACO_NPdataFile,
-			  cfg.MACO_PunctuationFile,cfg.MACO_CorrectorLang,cfg.MACO_CorrectorCommon);
+			  cfg.MACO_PunctuationFile, cfg.MACO_CorrectorFile);
+
       // create analyzer with desired options
       morfo = new maco (opt);
   }

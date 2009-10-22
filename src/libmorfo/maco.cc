@@ -61,7 +61,7 @@ maco::maco(const maco_options &opts): defaultOpt(opts) {
   prob = (opts.ProbabilityAssignment ? new probabilities(opts.Lang, opts.ProbabilityFile, opts.ProbabilityThreshold)
                                      : NULL);
 
- correct = (opts.OrthographicCorrection ? new corrector(opts.CorrectorLang, *dico, opts.CorrectorCommon, opts.DistanceMethod) : NULL); 
+  correct = (opts.OrthographicCorrection ? new corrector(opts.CorrectorFile, *dico) : NULL); 
 }
 
 ///////////////////////////////////////////////////////////////

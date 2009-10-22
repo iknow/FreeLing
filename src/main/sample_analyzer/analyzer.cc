@@ -668,6 +668,7 @@ int main (int argc, char **argv) {
 			      cfg.MACO_ProbabilityAssignment,
 			      cfg.MACO_NER_which,
 			      cfg.MACO_OrthographicCorrection);
+
       // decimal/thousand separators used by number detection
       opt.set_nummerical_points (cfg.MACO_Decimal, cfg.MACO_Thousand);
       // Minimum probability for a tag for an unkown word
@@ -677,10 +678,8 @@ int main (int argc, char **argv) {
       opt.set_data_files (cfg.MACO_LocutionsFile, cfg.MACO_QuantitiesFile,
 			  cfg.MACO_AffixFile, cfg.MACO_ProbabilityFile,
 			  cfg.MACO_DictionaryFile, cfg.MACO_NPdataFile,
-			  cfg.MACO_PunctuationFile,cfg.MACO_CorrectorLang,cfg.MACO_CorrectorCommon);
-      // the distance method the corrector is gonna use
-      opt.set_corrector_options(cfg.MACO_DistanceMethod);
-      
+			  cfg.MACO_PunctuationFile,cfg.MACO_CorrectorFile);
+
       // create analyzer with desired options
       morfo = new maco (opt);
   }

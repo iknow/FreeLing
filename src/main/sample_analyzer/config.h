@@ -106,7 +106,7 @@ class config {
          *MACO_NPdataFile, *MACO_PunctuationFile;
 	
     /// Orthographic correction options
-    char *MACO_CorrectorLang, *MACO_CorrectorCommon,*MACO_DistanceMethod;
+    char *MACO_CorrectorFile;
 	 
     double MACO_ProbabilityThreshold;
 
@@ -208,13 +208,11 @@ class config {
 	{"thou",    '\0', "ThousandPoint",           CFG_STR,  (void *) &MACO_Thousand, 0},
 	{"floc",    'L',  "LocutionsFile",           CFG_STR,  (void *) &MACO_LocutionsFile, 0},
 	{"fqty",    'Q',  "QuantitiesFile",          CFG_STR,  (void *) &MACO_QuantitiesFile, 0},
-	{"fafx",    'S',  "AffixFile",              CFG_STR,  (void *) &MACO_AffixFile, 0},
+	{"fafx",    'S',  "AffixFile",               CFG_STR,  (void *) &MACO_AffixFile, 0},
 	{"fprob",   'P',  "ProbabilityFile",         CFG_STR,  (void *) &MACO_ProbabilityFile, 0},
 	{"thres",   'e',  "ProbabilityThreshold",    CFG_DOUBLE, (void *) &MACO_ProbabilityThreshold, 0},
 	{"fdict",   'D',  "DictionaryFile",          CFG_STR,  (void *) &MACO_DictionaryFile, 0},
-	{"fcorrl",   '\0',  "CorrectorLang",    CFG_STR,  (void *) &MACO_CorrectorLang, 0},
-	{"fcorrc",   '\0',  "CorrectorCommon",    CFG_STR,  (void *) &MACO_CorrectorCommon, 0},
-	{"distmethod", '\0', "DistanceMethod",         CFG_STR,  (void *) &MACO_DistanceMethod, 0},
+	{"fcorr",   'K',  "CorrectorFile",           CFG_STR,  (void *) &MACO_CorrectorFile, 0},
 	{"fnp",     'N',  "NPDataFile",              CFG_STR,  (void *) &MACO_NPdataFile, 0},
 	{"fpunct",  'F',  "PunctuationFile",         CFG_STR,  (void *) &MACO_PunctuationFile, 0},
 	// NEC options
@@ -287,7 +285,7 @@ class config {
       MACO_LocutionsFile=NULL; MACO_QuantitiesFile=NULL; MACO_AffixFile=NULL; 
       MACO_ProbabilityFile=NULL; MACO_DictionaryFile=NULL; 
       MACO_NPdataFile=NULL; MACO_PunctuationFile=NULL;
-      MACO_CorrectorLang=NULL; MACO_CorrectorCommon=NULL; MACO_DistanceMethod=NULL;
+      MACO_CorrectorFile=NULL; 
       MACO_ProbabilityThreshold=0.0; 
       MACO_NER_which=0;
       NEC_NEClassification=false; NEC_FilePrefix=NULL; 
@@ -373,9 +371,7 @@ class config {
       ExpandFileName(PARSER_GrammarFile); 
       ExpandFileName(DEP_TxalaFile);
       ExpandFileName(COREF_CorefFile); 
-      ExpandFileName(MACO_CorrectorLang);
-      ExpandFileName(MACO_CorrectorCommon);
-      
+      ExpandFileName(MACO_CorrectorFile);
 	     
       // Handle boolean options expressed with --myopt or --nomyopt in command line
       SetBooleanOptionCL(flush,noflush,AlwaysFlush,"flush");
@@ -544,9 +540,7 @@ class config {
       cout<<"--txala,-T filename    Rule file for Txala dependency parser"<<endl;
       cout<<"--coref, --nocoref     Whether to perform coreference resolution"<<endl;
       cout<<"--fcorf,-C filename    Coreference solver data file"<<endl;
-      cout<<"--fcorrl filename      ubication of corrector files language based "<<endl;
-      cout<<"--fcorrc filename      ubication of corrector files common to all languages "<<endl;
-      cout<<"--distmethod method    decides the method to calculate distances in corrector (phonetic, similarity)"<<endl;
+      cout<<"--fcorr,-K filename    Spell corrector configuration file"<<endl;
       cout<<endl;
     }
 
