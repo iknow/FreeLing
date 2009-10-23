@@ -23,17 +23,16 @@
 %% ----------- UPDATED: SEPTEMBER 2009 ------------ %%
 %
 % INCORPORACIONS:
-% Adverbis especificadors d'adjectiu (GRPAR+GRLAB)
-% Adverbis especificadors d'adjectiu amb valor superlatiu (GRPAR+GRLAB); etiqueta: sadv-sup
+% Unica assignacio d'etiqueta de subjecte (GRLAB)
 %
 %% -------------------------------------------- %%
 %
 %
 % NUM. REGLES 
-% total rules: 2952
+% total rules: 2996
 % -----------------
 % GRPAR rules: 2384
-% GRLAB rules: 568
+% GRLAB rules: 587
 % CLASS files: 32
 %
 %% -------------------------------------------- %%
@@ -3299,8 +3298,8 @@
 
 
 <SEMDB>
-SenseFile  ../senses16.db
-WNFile  ../../common/wn16.db
+SenseFile  /usr/local/share/FreeLing/ca/senses16.db
+WNFile  /usr/local/share/FreeLing/common/wn16.db
 </SEMDB>
 
 
@@ -3319,6 +3318,10 @@ WNFile  ../../common/wn16.db
 % grup-verb sp-obj d.label=grup-sp d.side=right d.lemma=a|al d:sn.tonto!=Human p.class=ditr|vp-a
 %
 %% -------------------------------------------- %% 
+
+
+%%% ETIQUETES QUE S'APLIQUEN UNA SOLA VEGADA (SI EL HEAD ES EL MATEIX) %%%
+UNIQUE subj
 
 
 %%% CIRCUMSTANCIAL: SN AMB VALOR TEMPORAL %%%
@@ -3403,6 +3406,16 @@ inf  dobj  d.label=coor-n  d.side=right  p.class!=intr|atrib
 infinitiu  dobj  d.label=coor-n  d.side=right  p.class!=intr|atrib
 subord-ger  dobj  d.label=coor-n  d.side=right  p.class!=intr|atrib
 subord-part  dobj  d.label=coor-n  d.side=right  p.class!=intr|atrib
+
+grup-verb  dobj  d.label=sn*  d.side=right
+grup-verb-inf  dobj  d.label=sn*  d.side=right
+subord-ger  dobj  d.label=sn*  d.side=right
+subord-part  dobj  d.label=sn*  d.side=right
+
+grup-verb  dobj  d.label=coor-n  d.side=right
+grup-verb-inf  dobj  d.label=coor-n  d.side=right
+subord-ger  dobj  d.label=coor-n  d.side=right
+subord-part  dobj  d.label=coor-n  d.side=right
 
 %%% OBJECTE DIRECTE POSTVERBAL: SUBORDINADA FINITA %%%
 grup-verb  dobj  d.label=subord  d.side=right  d.lemma=que|qui  p.class!=intr|atrib
