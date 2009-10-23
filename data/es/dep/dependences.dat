@@ -20,20 +20,19 @@
 %% -------------------------------------------------------------------- %%
 
 
-%% ----------- UPDATED: SEPTEMBER 2009 ------------ %%
+%% ----------- UPDATED: OCTOBER 2009 ------------ %%
 %
 % INCORPORACIONS:
-% Adverbis especificadors d'adjectiu (GRPAR+GRLAB)
-% Adverbis especificadors d'adjectiu amb valor superlatiu (GRPAR+GRLAB); etiqueta: sadv-sup
+% Unica assignacio d'etiqueta de subjecte (GRLAB)
 %
 %% -------------------------------------------- %%
 %
 %
 % NUM. REGLES 
-% total rules: 4408
+% total rules: 4417
 % -----------------
 % GRPAR rules: 3808
-% GRLAB rules: 600
+% GRLAB rules: 609
 % CLASS files: 47
 %
 %% -------------------------------------------- %%
@@ -4716,8 +4715,8 @@
 
 
 <SEMDB>
-SenseFile ../senses16.db
-WNFile  ../../common/wn16.db
+SenseFile  /usr/local/share/FreeLing/es/senses16.db
+WNFile  /usr/local/share/FreeLing/common/wn16.db
 </SEMDB>
 
 
@@ -4736,6 +4735,10 @@ WNFile  ../../common/wn16.db
 % grup-verb sp-obj d.label=grup-sp d.side=right d.lemma=a|al d:sn.tonto!=Human p.class=ditr|vp-a
 %
 %% -------------------------------------------- %% 
+
+
+%%% ETIQUETES QUE S'APLIQUEN UNA SOLA VEGADA (SI EL HEAD ES EL MATEIX) %%%
+UNIQUE subj
 
 
 %%% CIRCUMSTANCIAL: SN AMB VALOR TEMPORAL %%%
@@ -4828,6 +4831,16 @@ grup-verb  dobj  d.label=coor-n  d.side=right  p.class!=intr|atrib
 grup-verb-inf  dobj  d.label=coor-n  d.side=right  p.class!=intr|atrib
 subord-ger  dobj  d.label=coor-n  d.side=right  p.class!=intr|atrib
 subord-part  dobj  d.label=coor-n  d.side=right  p.class!=intr|atrib
+
+grup-verb  dobj  d.label=sn*  d.side=right
+grup-verb-inf  dobj  d.label=sn*  d.side=right
+subord-ger  dobj  d.label=sn*  d.side=right
+subord-part  dobj  d.label=sn*  d.side=right
+
+grup-verb  dobj  d.label=coor-n  d.side=right
+grup-verb-inf  dobj  d.label=coor-n  d.side=right
+subord-ger  dobj  d.label=coor-n  d.side=right
+subord-part  dobj  d.label=coor-n  d.side=right
 
 %%% ATRIBUT DE VERBS COPULATIUS: PRONOMS ATONS %%%
 grup-verb  att  d.label=patons  d.pos=PP3CNA00  p.class=atrib
