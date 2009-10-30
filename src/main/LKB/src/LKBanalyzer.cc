@@ -79,6 +79,28 @@ void say(const string &s) {
 
 
 //---------------------------------------------
+// encode special chars to XML
+//---------------------------------------------
+void toXML(string &s){
+  util::find_and_replace(s, "&", "&amp;");
+  util::find_and_replace(s, "\"", "&quot;");
+  util::find_and_replace(s, "<", "&lt;");
+  util::find_and_replace(s, ">", "&gt;");
+  util::find_and_replace(s, "'", "&apos;");
+}
+
+//---------------------------------------------
+// decode special chars from XML
+//---------------------------------------------
+void fromXML(string &s){
+  util::find_and_replace(s, "&quot;", "\"");
+  util::find_and_replace(s, "&lt;", "<");
+  util::find_and_replace(s, "&gt;", ">");
+  util::find_and_replace(s, "&apos;", "'");
+  util::find_and_replace(s, "&amp;", "&");
+}
+
+//---------------------------------------------
 // print one analysis.
 //---------------------------------------------
 void print_analysis(const analysis &a, const string &form) {
@@ -86,45 +108,49 @@ void print_analysis(const analysis &a, const string &form) {
   char c1=a.get_parole()[0];
   char c2=a.get_parole()[1];
   
+  string alemma=a.get_lemma();
+  toXML(alemma);
+
   if (a.is_retokenizable()) {            
-    say("    <analysis stem=\""+a.get_lemma()+"\" >");
+    say("    <analysis stem=\""+alemma+"\" >");
     list<word> rtk=a.get_retokenizable();
     list<word>::iterator r;
-    string form;
+    string rform;
     for (r=rtk.begin(); r!= rtk.end(); r++) {
       if(r == rtk.begin()) 
-	form = r->get_form();
+	rform = r->get_form();
       else
-	form = form + r->get_form();
+	rform = form + r->get_form();
+      toXML(rform);
       say("      <rule id=\""
 	  + string(r == rtk.begin() ? "" : "+") + r->get_parole() 
-	  + "\" form=\"" + form +"\" />");
+	  + "\" form=\"" + rform +"\" />");
     }
     say("    </analysis>");
   }  
   else if (c1!='Z' && c1!='W' && c1!='F' && !(c1=='N' && c2=='P') && !(c1=='A' && c2=='O')) {
-    say("    <analysis stem=\""+a.get_lemma()+"\" >");
+    say("    <analysis stem=\""+alemma+"\" >");
     say("      <rule id=\""+a.get_parole()+"\" form=\""+form+"\" />");
     say("    </analysis>");
   }
   else if (c1=='Z' && (lcform=="un")) {
     say("    <analysis stem=\"un\" >");
-    say("      <rule id=\""+a.get_parole()+"\" form=\""+form+"#"+a.get_lemma()+"\" />");
+    say("      <rule id=\""+a.get_parole()+"\" form=\""+form+"#"+alemma+"\" />");
     say("    </analysis>");
   }
   else if (c1=='Z' && (lcform=="una")) {
     say("    <analysis stem=\"una\" >");
-    say("      <rule id=\""+a.get_parole()+"\" form=\""+form+"#"+a.get_lemma()+"\" />");
+    say("      <rule id=\""+a.get_parole()+"\" form=\""+form+"#"+alemma+"\" />");
     say("    </analysis>");
   }
   else if (c1=='Z' && (lcform=="uno")) {
     say("    <analysis stem=\"uno\" >");
-    say("      <rule id=\""+a.get_parole()+"\" form=\""+form+"#"+a.get_lemma()+"\" />");
+    say("      <rule id=\""+a.get_parole()+"\" form=\""+form+"#"+alemma+"\" />");
     say("    </analysis>");
   }
   else {            
     say("    <analysis stem=\""+a.get_parole()+"\" >");
-    say("      <rule id=\""+a.get_parole()+"\" form=\""+form+"#"+a.get_lemma()+"\" />");
+    say("      <rule id=\""+a.get_parole()+"\" form=\""+form+"#"+alemma+"\" />");
     say("    </analysis>");
   }
 }
@@ -149,7 +175,10 @@ void PrintResults(list<sentence> &ls, const config &cfg) {
     say("<segment>");
     for (w=is->begin(); w!=is->end(); w++) {      
 
-      if (w->get_form()=="de" || w->get_form()=="a") {
+      string wform=w->get_form();
+      toXML(wform); 
+      
+      if (wform=="de" || wform=="a") {
 	sentence::iterator nxt=w;
         nxt++;
         if (nxt->get_form()=="el") {
@@ -159,16 +188,16 @@ void PrintResults(list<sentence> &ls, const config &cfg) {
 	}
       }
 
-      say("  <token form=\""+w->get_form()+"\" from=\""+util::int2string(w->get_span_start())+"\" to=\""+util::int2string(w->get_span_finish())+"\" >");
+      say("  <token form=\""+wform+"\" from=\""+util::int2string(w->get_span_start())+"\" to=\""+util::int2string(w->get_span_finish())+"\" >");
 
       if (cfg.OutputFormat==MORFO) {
 	for(ait=w->analysis_begin(); ait!=w->analysis_end(); ait++){
-	  print_analysis(*ait,w->get_form());
+	  print_analysis(*ait,wform);
 	}	  
       }
       else if (cfg.OutputFormat==TAGGED) {
 	for(ait=w->selected_begin(); ait!=w->selected_end(); ait++){
-	  print_analysis(*ait,w->get_form());
+	  print_analysis(*ait,wform);
 	}	  
       } 
 
@@ -217,8 +246,11 @@ void ProcessPlain(const config &cfg, tokenizer *tk, splitter *sp, maco *morfo, P
       else {
 	// clean xml tags from input
 	string::size_type p;
-	p=text.find("<text>"); if (p!=string::npos) text.erase(p,6);
-	p=text.find("</text>"); if (p!=string::npos) text.erase(p,7);
+	util::find_and_replace(text, "<text>", "");
+	util::find_and_replace(text, "</text>", "");
+
+        // translate XML chars to latin1
+	fromXML(text);
 	
 	av=tk->tokenize(text);
 	ls=sp->split(av, cfg.AlwaysFlush);
