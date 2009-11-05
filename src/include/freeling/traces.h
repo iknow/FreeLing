@@ -186,6 +186,7 @@ inline void traces::trace_sentence_list(int lv, const std::list<sentence> &ls, c
 #ifdef VERBOSE   
   /// ifdef VERBOSE --> TRACE macros exists
    #define TRACE(x,y) traces::trace(x,y,MOD_TRACENAME,MOD_TRACECODE)
+   #define TRACE_WORD(x,y) traces::trace_word(x,y,MOD_TRACENAME,MOD_TRACECODE)
    #define TRACE_WORD_LIST(x,y) traces::trace_word_list(x,y,MOD_TRACENAME,MOD_TRACECODE)
    #define TRACE_SENTENCE(x,y) traces::trace_sentence(x,y,MOD_TRACENAME,MOD_TRACECODE)
    #define TRACE_SENTENCE_LIST(x,y) traces::trace_sentence_list(x,y,MOD_TRACENAME,MOD_TRACECODE)
@@ -193,6 +194,7 @@ inline void traces::trace_sentence_list(int lv, const std::list<sentence> &ls, c
 #ifndef VERBOSE
   /// ifndef VERBOSE --> No messages displayed. Faster code.
   #define TRACE(x,y)
+  #define TRACE_WORD(x,y)
   #define TRACE_WORD_LIST(x,y)
   #define TRACE_SENTENCE(x,y)
   #define TRACE_SENTENCE_LIST(x,y)

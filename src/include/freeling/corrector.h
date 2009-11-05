@@ -67,8 +67,14 @@ class corrector {
       similarity* sm;
       /// The method to calculate the distance between words
       int distanceMethod;
-      /// Minimum similariy to consider a word as a possible correction
-      double SimilarityThreshold;
+      /// Minimum similariy to consider a word as a possible correction for a known word
+      double SimThresholdKnown;
+      /// Minimum similariy to consider a word as a possible correction for an
+      /// unknown word, when no exact phonetic match is found
+      double SimThresholdUnknownLow;
+      /// Minimum similariy to consider a word as a possible correction for an
+      /// unknown word, when some exact phonetic match is found
+      double SimThresholdUnknownHigh;
       /// Maximum lentgh difference to consider a word as a possible correction
       int MaxSizeDiff;
       /// contains the tags for which the words that are present 

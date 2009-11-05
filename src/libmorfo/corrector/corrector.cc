@@ -56,7 +56,9 @@ corrector::corrector(const std::string &configfile, dictionary &mydict): diction
   
   // default
   useSoundDict=false;
-  SimilarityThreshold=0.5;
+  SimThresholdKnown=0.5;
+  SimThresholdUnknownHigh=0.5;
+  SimThresholdUnknownLow=0.5;
   MaxSizeDiff=3;
   distanceMethod=PHONETIC_DISTANCE;
   noDictionaryCheck=true;
@@ -71,8 +73,12 @@ corrector::corrector(const std::string &configfile, dictionary &mydict): diction
     string key,value;
     sin>>key;
     if (key.size()>0 && key[0]!='#') {
-      if (key=="SimilarityThreshold") 
-	sin>>SimilarityThreshold;
+      if (key=="SimilarityThresholdKnown") 
+	sin>>SimThresholdKnown;
+      else if (key=="SimilarityThresholdUnknownHigh") 
+	sin>>SimThresholdUnknownHigh;
+      else if (key=="SimilarityThresholdUnknownLow") 
+	sin>>SimThresholdUnknownLow;
       else if (key=="MaxSizeDiff") 
 	sin>>MaxSizeDiff;
       else if (key=="CheckDictWords") {
@@ -126,6 +132,11 @@ corrector::corrector(const std::string &configfile, dictionary &mydict): diction
   }
   fabr.close(); 
 
+  if (SimThresholdUnknownHigh<SimThresholdUnknownLow) {
+    WARNING("SimilarityThresholdUnknownHigh must be higher than SimThresholdUnknownLow. Ignored");
+    SimThresholdUnknownHigh=SimThresholdUnknownLow;
+  }
+
   ph= new phonetics(ph_rules_file, wd_sound_dict, sampa_file, useSoundDict);
 
   if (distanceMethod==EDIT_DISTANCE) sm= new similarity();
@@ -178,14 +189,17 @@ void corrector:: putWords(string listaPal, word &w) {
 
   list<string> tokens = util::string2list(listaPal,",");
   string wform = util::lowercase(w.get_form());
+
+  int na=w.get_n_analysis();
   
+  bool found=false;
   list<string>::iterator wd;  
   for( wd=tokens.begin(); wd!=tokens.end(); wd++) {
     
     int diff = wform.size() - wd->size();
     if (diff<0) diff = -diff;
 
-    if (diff<MaxSizeDiff) {      
+    if (diff<MaxSizeDiff && wform!=(*wd)) { // do not repeat analysis in dict for a known form
       double simil=0.0;      
       if (distanceMethod==EDIT_DISTANCE) {
 	simil=(double) sm->getSimilarity(wform,*wd);	
@@ -201,7 +215,9 @@ void corrector:: putWords(string listaPal, word &w) {
 	TRACE(4,"   Simil "+util::double2string(simil)+" for ("+wform+","+word1+") vs ("+(*wd)+","+word2+")");
       }
 
-      if (simil>=SimilarityThreshold) {	
+      if (simil==1.0) found=true;
+
+      if ((!na && simil>SimThresholdUnknownLow) || (na && simil>SimThresholdKnown)) {
 	list<analysis> la;	
 	dict->search_form(*wd,la);
 	
@@ -209,8 +225,22 @@ void corrector:: putWords(string listaPal, word &w) {
 	  an->set_distance(simil);
 	  an->set_lemma(an->get_lemma()+":"+(*wd));
 	  w.add_analysis(*an);
-	  TRACE(3,"   added analysis "+an->get_lemma()+" "+an->get_parole());
+	  TRACE(3,"    - added analysis "+an->get_lemma()+" "+an->get_parole());
 	}	
+      }
+    }
+  }
+
+  // If the word was unkown but there was a perfect sound match
+  // filter the list using SimThresholdUnknownHigh
+  if (!na and found and SimThresholdUnknownHigh>SimThresholdUnknownLow) {
+    word::iterator pa;
+    for (word::iterator a=w.begin(); a!=w.end(); a++) {
+      if (a->get_distance()<=SimThresholdUnknownHigh) {	
+	TRACE(3,"    - threshold raised. Erasing analysis "+a->get_lemma()+" "+a->get_parole());
+	pa=a; pa--;
+	w.erase(a);
+	a=pa;
       }
     }
   }
