@@ -151,7 +151,8 @@ void probabilities::annotate_word(word &w) {
   // word found in dictionary, punctuation mark, number, or with retokenizable analysis 
   //  and with some analysis
   if ( (w.found_in_dict() || w.find_tag_match(RE_PunctNum) || w.has_retokenizable() ) && na>0 ) {
-    TRACE(2,"Form found in dict or punctuation");
+    TRACE(2,"Form with analysis. Found in dict ("+string(w.found_in_dict()?"yes":"no")+") or punctuation ("+string(w.find_tag_match(RE_PunctNum)?"yes":"no")+") or has_retok ("+string(w.has_retokenizable()?"yes":"no")+")");
+
     if (na==1) { 
       // form is inambiguous
       TRACE(2,"Inambiguous form, set prob to 1");
@@ -168,7 +169,7 @@ void probabilities::annotate_word(word &w) {
   // tags set by other modules (NE, dates, suffixes...)
   else {
     // form is unknown in the dictionary
-    TRACE(2,"Form NOT in dict. Guessing");
+    TRACE(2,"Form with NO analysis. Guessing");
     
     // set uniform distribution for analysis from previous modules.
     const double mass=1.0;

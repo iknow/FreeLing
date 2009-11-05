@@ -251,6 +251,10 @@ DN g/l
 DN g/m3
 </Measure>
 <MeasureNames>
+$ USD NNS I
+¤ ECU NNS I
+£ GBP NNS I
+¥ JPY NNS I
 algerian_<dinar> DZD $2:NN I
 argentine_<peso> ARS $2:NN I
 australian_<dollar> AUD $2:NN I

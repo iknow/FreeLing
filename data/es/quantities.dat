@@ -319,6 +319,10 @@ DN g/l
 DN g/m3
 </Measure>
 <MeasureNames>
+$ USD NCMN000 I
+¤ ECU NCMN000 I
+£ GBP NCFN000 I
+¥ JPY NCMN000 I
 Å Å NCMP000 I
 ac ac NCMP000 I
 ac-ft ac·ft NCMP000 I
