@@ -1,11 +1,11 @@
 
 ## macros to be used in RegExps rules
 <Macros>
-ALPHA      [^\]<>[(\.,";:?!¿¡«»'`)^@~|}{_/\\+=&$#*+%\s\d\-]     
-ALPHANUM   [^\]<>[(\.,";:?!¿¡«»'`)^@~|}{_/\\+=&$#*+%\s\-]
-NOALPHANUM [\]<>[(\.,";:?!¿¡«»'`)^@~|}{_/\\+=&$#*+%\s\-]
+ALPHA      [^\]<>[(\.,";:?!¿¡«»'`)^@~|}{_/\\+=&$¤£¢¥#*+%\s\d\-]     
+ALPHANUM   [^\]<>[(\.,";:?!¿¡«»'`)^@~|}{_/\\+=&$¤£¢¥#*+%\s\-]
+NOALPHANUM [\]<>[(\.,";:?!¿¡«»'`)^@~|}{_/\\+=&$¤£¢¥#*+%\s\-]
 PARTNUM    [^\]<>[(";:?!¿¡«»'`)^@~|}{\s]
-OTHERS     [\]<>[(\.,";:?!¿¡«»'`)^@~|}{_/\\+=&$#*+%\-]
+OTHERS     [\]<>[(\.,";:?!¿¡«»'`)^@~|}{_/\\+=&$¤£¢¥#*+%\-]
 APOSTR_WD  (all|anch|assuefa|c|cent|cinquant|citta|com|confa|d|da|dall|dell|di|diciott|disfa|dov|fa|l|libertà|liquefa|m|malfa|n|nell|novant|ottant|po|putrefa|pò|quarant|quarantott|quell|quest|rarefa|rida|ridi|rifa|riva|s|senz|sessant|settant|societa|soddisfa|sopraffa|sott|sottosta|sta|strafa|stupefa|sull|un|va|vent|ventott|vu)
 </Macros>
 
