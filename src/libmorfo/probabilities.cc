@@ -144,11 +144,9 @@ probabilities::probabilities(const std::string &Lang, const std::string &probFil
 /////////////////////////////////////////////////////////////////////////////
 
 void probabilities::annotate_word(word &w) {
-
-  string form=util::lowercase(w.get_form());
   
   int na=w.get_n_analysis();
-  TRACE(2,"--Assigning probabilitites to: "+form);
+  TRACE(2,"--Assigning probabilitites to: "+w.get_form());
   
   // word found in dictionary, punctuation mark, number, or with retokenizable analysis 
   //  and with some analysis
@@ -170,69 +168,15 @@ void probabilities::annotate_word(word &w) {
   // tags set by other modules (NE, dates, suffixes...)
   else {
     // form is unknown in the dictionary
-    TRACE(2,"Form NOT in dict, checking suffixes");
-    
-    // find longest suffix of word in unk_suffs map
-    string::size_type ln = form.length();
-    string::size_type mx = (ln<long_suff ? ln : long_suff);
-    string suf= form;
-    for (int j=mx; j>=0 && unk_suffs.find(suf)==unk_suffs.end(); j--) {
-      suf= form.substr(ln-j);
-    }
-    
-    TRACE(2,"longest suf: "+suf);
+    TRACE(2,"Form NOT in dict. Guessing");
     
     // set uniform distribution for analysis from previous modules.
     const double mass=1.0;
     for (word::iterator li=w.begin(); li!=w.end(); li++)
       li->set_prob(mass/w.get_n_analysis());
-    
-    // mass assigned so far.  This gives some more probability to the 
-    // preassigned tags than to those computed from suffixes.
-    double sum= (w.get_n_analysis()>0 ? mass : 0);
-    double sum2=0;
-    
-    TRACE(2,"initial sum=: "+util::double2string(sum));
-    
-    // to store analysis under threshold, just in case
-    list<analysis> la;
-    // for each possible tag, compute probability
-    for (map<string,double>::iterator t=unk_tags.begin(); t!=unk_tags.end(); t++) {
-      
-      // check if its a new tag (i.e., no previous module has set the same tag)
-      bool hasit=false;
-      for (word::iterator li=w.begin(); li!=w.end() && !hasit; li++)
-	hasit= (t->first.find(li->get_short_parole(Language))==0);
-      
-      // if we don't have it, consider including it in the list
-      if (!hasit) {
-	
-	double p = compute_probability(t->first,t->second,suf);
-	analysis a(form,t->first);
-	a.set_prob(p);
-	
-	TRACE(2,"   tag:"+t->first+"  pr="+util::double2string(p));
-	
-	// if the tag is new and higher than the threshold, keep it.
-	if (p >= MACO_ProbabilityThreshold) {
-	  sum += p;
-	  w.add_analysis(a);
-	  TRACE(2,"    added. sum is: "+util::double2string(sum));
-	}
-	// store candidates under treshold, just in case we need them later
-	else  {
-	  sum2 += p;
-	  la.push_back(a);
-	}
-      }
-    }
-    
-    // if the word had no analysis, and no candidates passed the threshold, assign them
-    // anyway, to avoid words with zero analysis
-    if (w.get_n_analysis()==0) {    
-      w.set_analysis(la);
-      sum = sum2;
-    }
+
+    // guess possible tags, keeping some mass for previously assigned tags    
+    double sum=guesser(w,mass);
     
     // normalize probabilities of all accumulated tags
     for (word::iterator li=w.begin();  li!=w.end(); li++)
@@ -241,11 +185,17 @@ void probabilities::annotate_word(word &w) {
   
   w.sort(); // sort analysis by decreasing probability,
 
+  //sorting may scramble selected/unselected list, and the tagger will
+  // need all analysis to be selected. This should be transparent here
+  // (probably move it to class 'word').
+  w.select_all_analysis();
+
   // if any of the analisys of the word was retokenizable, assign probabilities
   // to its sub-words, just in case they are selected.
   for (word::iterator li=w.begin();  li!=w.end(); li++) {
     list<word> rtk=li->get_retokenizable();
-    for (list<word>::iterator k=rtk.begin(); k!=rtk.end(); k++) annotate_word(*k);
+    for (list<word>::iterator k=rtk.begin(); k!=rtk.end(); k++) 
+      annotate_word(*k);
     li->set_retokenizable(rtk);
   }
 
@@ -311,7 +261,6 @@ void probabilities::smoothing(word &w) {
 
   }  
 
-
   map<string,double> temp_map;
   string form=util::lowercase(w.get_form());
 
@@ -370,5 +319,73 @@ double probabilities::compute_probability(const std::string &tag, double prob, s
     pt = it->second;
     return (pt + theeta*x)/(1+theeta);
   }
+}
+
+
+/////////////////////////////////////////////////////////////////////////////
+/// Guess possible tags, keeping some mass for previously assigned tags    
+/////////////////////////////////////////////////////////////////////////////
+
+double probabilities::guesser(word &w, double mass) {
+
+  string form=util::lowercase(w.get_form());
+
+  // find longest suffix of word in unk_suffs map
+  string::size_type ln = form.length();
+  string::size_type mx = (ln<long_suff ? ln : long_suff);
+  string suf= form;
+  for (int j=mx; j>=0 && unk_suffs.find(suf)==unk_suffs.end(); j--) {
+    suf= form.substr(ln-j);
+  }
   
+  TRACE(2,"longest suf: "+suf);
+  
+  // mass = mass assigned so far.  This gives some more probability to the 
+  // preassigned tags than to those computed from suffixes.
+  double sum= (w.get_n_analysis()>0 ? mass : 0);
+  double sum2=0;
+    
+  TRACE(2,"initial sum=: "+util::double2string(sum));
+  
+  // to store analysis under threshold, just in case
+  list<analysis> la;
+  // for each possible tag, compute probability
+  for (map<string,double>::iterator t=unk_tags.begin(); t!=unk_tags.end(); t++) {
+    
+    // See if it was already there, set by some other module
+    bool hasit=false;
+    for (word::iterator li=w.begin(); li!=w.end() && !hasit; li++)
+      hasit= (t->first.find(li->get_short_parole(Language))==0);
+    
+    // if we don't have it, consider including it in the list
+    if (!hasit) {
+      
+      double p = compute_probability(t->first,t->second,suf);
+      analysis a(form,t->first);
+      a.set_prob(p);
+      
+      TRACE(2,"   tag:"+t->first+"  pr="+util::double2string(p));
+      
+      // if the tag is new and higher than the threshold, keep it.
+      if (p >= MACO_ProbabilityThreshold) {
+	sum += p;
+	w.add_analysis(a);
+	TRACE(2,"    added. sum is: "+util::double2string(sum));
+      }
+      // store candidates under treshold, just in case we need them later
+      else  {
+	sum2 += p;
+	la.push_back(a);
+      }
+    }
+  }
+  
+  // if the word had no analysis, and no candidates passed the threshold, assign them
+  // anyway, to avoid words with zero analysis
+  if (w.get_n_analysis()==0) {    
+    w.set_analysis(la);
+    sum = sum2;
+  }
+
+  return sum;
 }
