@@ -133,7 +133,7 @@ corrector::corrector(const std::string &configfile, dictionary &mydict): diction
   fabr.close(); 
 
   if (SimThresholdUnknownHigh<SimThresholdUnknownLow) {
-    WARNING("SimilarityThresholdUnknownHigh must be higher than SimThresholdUnknownLow. Ignored");
+    WARNING("SimilarityThresholdUnknownHigh can't be lower than SimThresholdUnknownLow. Ignored");
     SimThresholdUnknownHigh=SimThresholdUnknownLow;
   }
 
@@ -193,6 +193,7 @@ void corrector:: putWords(string listaPal, word &w) {
   int na=w.get_n_analysis();
   
   bool found=false;
+  list<pair<word,double> > lalt;
   list<string>::iterator wd;  
   for( wd=tokens.begin(); wd!=tokens.end(); wd++) {
     
@@ -218,15 +219,14 @@ void corrector:: putWords(string listaPal, word &w) {
       if (simil==1.0) found=true;
 
       if ((!na && simil>SimThresholdUnknownLow) || (na && simil>SimThresholdKnown)) {
+
 	list<analysis> la;	
 	dict->search_form(*wd,la);
-	
-	for (list<analysis>::iterator an=la.begin(); an!=la.end(); an++) {
-	  an->set_distance(simil);
-	  an->set_lemma(an->get_lemma()+":"+(*wd));
-	  w.add_analysis(*an);
-	  TRACE(3,"    - added analysis "+an->get_lemma()+" "+an->get_parole());
-	}	
+
+	word alt(*wd);	alt.set_analysis(la);
+
+	lalt.push_back(make_pair(w,simil));
+	TRACE(3,"    - added alternative <"+(*wd)+","+util::double2string(simil)); 
       }
     }
   }
@@ -234,17 +234,19 @@ void corrector:: putWords(string listaPal, word &w) {
   // If the word was unkown but there was a perfect sound match
   // filter the list using SimThresholdUnknownHigh
   if (!na and found and SimThresholdUnknownHigh>SimThresholdUnknownLow) {
-    word::iterator pa;
-    for (word::iterator a=w.begin(); a!=w.end(); a++) {
-      if (a->get_distance()<=SimThresholdUnknownHigh) {	
-	TRACE(3,"    - threshold raised. Erasing analysis "+a->get_lemma()+" "+a->get_parole());
+    list<pair<word,double> >::iterator pa;
+    for (list<pair<word,double> >::iterator a=lalt.begin(); a!=lalt.end(); a++) {
+      if (a->second<=SimThresholdUnknownHigh) {	
+	TRACE(3,"    - threshold raised. Erasing alternative "+a->first.get_form());
 	pa=a; pa--;
-	w.erase(a);
+	lalt.erase(a);
 	a=pa;
       }
     }
   }
 
+  // add selected alternatives to the word
+  w.set_alternatives(lalt);
 }
 
 ////////////////////////////////////////////////////////////////////////
