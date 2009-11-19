@@ -12,8 +12,11 @@
 %relatius=
 %conj-subord=
 %sn= det + grup-nom
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%NOVETATS (NOV2009)%%%%%%%%%%
+% estar+participi/gerundi
+% P0300000 --> P03CN000
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%Regles afegides per opentrad
 verb ==> VMI*<querer>, +infinitiu | VMS*<querer>, +infinitiu.
@@ -165,7 +168,7 @@ paton-ms ==> PP3MSA00.	%lo: CD masculí singular
 paton ==> PP3CNA00.	%lo: atribut: inespecificat
 
 morf-pron ==> P010S000 | P010P000 | P020S000 | P020P000.
-morf-pron ==> P0300000.	%se-pronominal
+morf-pron ==> P03CN000.	%se-pronominal
 
 morfema-verbal ==> P0000000.	%se impersonal/passiu
 grup-verb ==> morf-pron, +grup-verb.
@@ -808,11 +811,15 @@ grup-verb-inf ==> +infinitiu.
 %ser amado/a/os/as | haber sido amado
 inf-pas ==> infaux-ser, +parti-flex | infaux, parti-ser, +parti-flex. 
 
-%he dicho |  han sido (escasos) ... ve aixi del MACO
-verb ==> vaux, +parti | vaux, +parti-ser.	
+%he dicho |  han sido (escasos) | está cansado | están cansados | están cantando... ve aixi del MACO
+verb ==> vaux, +parti | vaux, +parti-flex | vaux, +parti-ser | vaux, +forma-ger.
+verb ==> vaux, parti-aux, +forma-ger. %(ha estado cantando)
 
 %ha habido
 verb ==> vaux, +parti-aux.
+
+%está cansado | están cantando ... temps verbals simples
+%verb ==> VA*<estar>, +parti-flex | VA*<estar>, +forma-ger.
 
 %soy amado/a/os/as | he sido amado/a/os/as
 verb-pass ==> vser, +parti-flex | vaux, parti-ser,+parti-flex. 
