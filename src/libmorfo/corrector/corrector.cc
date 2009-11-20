@@ -169,6 +169,8 @@ string corrector:: getKey(string word){
 	
   string result= ph->getSound(word);
 
+  TRACE(3," Getting the sound of word: "+word+", result: "+result);
+
   // eliminate vowels to generate a key for the database 
   // that will find similar words
   result=util::eliminateChars(result,"aeiou@AEIOU"); 
@@ -223,10 +225,11 @@ void corrector:: putWords(string listaPal, word &w) {
 	list<analysis> la;	
 	dict->search_form(*wd,la);
 
-	word alt(*wd);	alt.set_analysis(la);
+	word alt(*wd);	
+        alt.set_analysis(la);
 
-	lalt.push_back(make_pair(w,simil));
-	TRACE(3,"    - added alternative <"+(*wd)+","+util::double2string(simil)); 
+	lalt.push_back(make_pair(alt,simil));
+	TRACE(3,"    - added alternative ("+(*wd)+","+util::double2string(simil)+")"); 
       }
     }
   }

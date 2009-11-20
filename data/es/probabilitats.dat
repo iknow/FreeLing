@@ -1,3 +1,12 @@
+<CheckerOverGuesser>
+3.0
+</CheckerOverGuesser>
+<ExactMatchBonus>
+2.0
+</ExactMatchBonus>
+<AlternativeAnalysisMass>
+0.8
+</AlternativeAnalysisMass>
 <UnknownTags>
 AQ0000 1
 AQ0CN0 27
