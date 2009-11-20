@@ -42,12 +42,19 @@
 
 class probabilities {
    private:
-      // Auxiliary regexps
+      /// Auxiliary regexps
       RegEx RE_PunctNum;
 
-      // Probability threshold for unknown words tags
-      double MACO_ProbabilityThreshold;
+      /// Probability threshold for unknown words tags
+      double ProbabilityThreshold;
       std::string Language;
+
+      /// Weight factor to favor checher over guesser for unknown words
+      double CheckerOverGuesser;
+      /// Weight factor to favor spell chekings with exact phonetic match
+      double ExactMatchBonus; 
+      /// Mass threshold to reduce count of analysis for an alternative
+      double AlternativeAnalysisMass;
 
       /// unigram probabilities
       std::map<std::string,double> single_tags;

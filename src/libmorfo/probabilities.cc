@@ -54,8 +54,13 @@ probabilities::probabilities(const std::string &Lang, const std::string &probFil
   int reading;
 
   Language = Lang;
-  MACO_ProbabilityThreshold = Threshold;
-  
+  ProbabilityThreshold = Threshold;
+
+  // default values, in case config file doesn't specify them. Values of 1.0 mean no effect.
+  CheckerOverGuesser = 1.0;
+  ExactMatchBonus = 1.0; 
+  AlternativeAnalysisMass = 1.0;
+
   ifstream fabr (probFile.c_str());
   if (!fabr) { 
     ERROR_CRASH("Error opening file "+probFile);
@@ -79,6 +84,12 @@ probabilities::probabilities(const std::string &Lang, const std::string &probFil
     else if (line == "</Theeta>") reading=0;
     else if (line == "<Suffixes>")  reading=6;
     else if (line == "</Suffixes>") reading=0;    
+    else if (line == "<CheckerOverGuesser>") reading=7;    
+    else if (line == "</CheckerOverGuesser>") reading=0;    
+    else if (line == "<ExactMatchBonus>") reading=8;    
+    else if (line == "</ExactMatchBonus>") reading=0;    
+    else if (line == "<AlternativeAnalysisMass>") reading=9;    
+    else if (line == "</AlternativeAnalysisMass>") reading=0;    
     else if (reading==1) {
       // reading Single tag frequencies
       sin>>key>>frq;
@@ -129,6 +140,21 @@ probabilities::probabilities(const std::string &Lang, const std::string &probFil
       }
       unk_suffs.insert(make_pair(key,temp_map));
     }
+    else if (reading==7) {
+      // reading CheckerOverGuesser factor
+      sin>>frq;
+      CheckerOverGuesser=util::string2double(frq);
+    }
+    else if (reading==8) {
+      // reading ExactMacthBonus factor
+      sin>>frq;
+      ExactMatchBonus=util::string2double(frq);
+    }
+    else if (reading==9) {
+      // reading AlternativeAnalysisMass threshold
+      sin>>frq;
+      AlternativeAnalysisMass=util::string2double(frq);
+    }
   }
   fabr.close(); 
     
@@ -145,45 +171,126 @@ probabilities::probabilities(const std::string &Lang, const std::string &probFil
 
 void probabilities::annotate_word(word &w) {
   
+  bool knw;
+  double sum;
   int na=w.get_n_analysis();
+  int nb=0;
   TRACE(2,"--Assigning probabilitites to: "+w.get_form());
   
+  if (w.has_alternatives()) {
+
+    // if the spell cheker added some alternatives, smooth each of them individually
+    double s=0;
+    for (list<pair<word,double> >::iterator a=w.alternatives_begin(); a!=w.alternatives_end(); a++) {
+      TRACE(3,"....Smoothing alternative: "+a->first.get_form());
+      smoothing(a->first);
+ 
+      // compute in n the number of relevant analysis for the 
+      // alternative (biggest that sum more than Thrs). This is to
+      // reduce the analysis count for alternatives with one very probable
+      // analysis and many low-probability. 
+      a->first.sort();
+      int n=0;
+      double pa=0;
+      for (word::iterator j=a->first.begin(); pa<AlternativeAnalysisMass && j!=a->first.end(); j++) {
+        pa += j->get_prob();
+	n++;
+      }
+
+      nb += a->first.get_n_analysis();
+      for (word::iterator j=a->first.begin(); j!=a->first.end(); j++) {
+        // give bonus weight to exact phonetic matches
+	double sim=(a->second==1.0 ? ExactMatchBonus : a->second);
+	// ponderate probability for each analisys of the alternative with the 
+        // word similarity, and taking into account the number of analysis
+	double p= j->get_prob() * sim * n ;
+	TRACE(4,"    weighting alternative analysis "+j->get_lemma()+" p="+util::double2string(p)+" n="+util::int2string(n)+" p0="+util::double2string(j->get_prob())+" sim="+util::double2string(sim));  
+
+	j->set_prob(p);
+	s += p;
+      }
+    }
+
+    // normalize probabilities for analysis of the alternatives.
+    for (list<pair<word,double> >::iterator a=w.alternatives_begin(); a!=w.alternatives_end(); a++) {
+      for (word::iterator j=a->first.begin(); j!=a->first.end(); j++) {
+	double p= j->get_prob()/s;
+	j->set_prob(p);
+      }
+    }
+  }
+
   // word found in dictionary, punctuation mark, number, or with retokenizable analysis 
   //  and with some analysis
-  if ( (w.found_in_dict() || w.find_tag_match(RE_PunctNum) || w.has_retokenizable() ) && na>0 ) {
+  if ( na>0 && (w.found_in_dict() || w.find_tag_match(RE_PunctNum) || w.has_retokenizable())) {
     TRACE(2,"Form with analysis. Found in dict ("+string(w.found_in_dict()?"yes":"no")+") or punctuation ("+string(w.find_tag_match(RE_PunctNum)?"yes":"no")+") or has_retok ("+string(w.has_retokenizable()?"yes":"no")+")");
+    knw=true;
 
-    if (na==1) { 
-      // form is inambiguous
-      TRACE(2,"Inambiguous form, set prob to 1");
-      w.begin()->set_prob(1);
-    }
-    else {
-      // form has analysis. begin probability back-off
-      TRACE(2,"Form with analysis");
-      smoothing(w);
-    }
-    
+    // smooth probabilities for original analysis
+    smoothing(w);
+    sum=1;
   }
   // word not found in dictionary, may (or may not) have
   // tags set by other modules (NE, dates, suffixes...)
   else {
     // form is unknown in the dictionary
     TRACE(2,"Form with NO analysis. Guessing");
+    knw=false;
     
     // set uniform distribution for analysis from previous modules.
     const double mass=1.0;
     for (word::iterator li=w.begin(); li!=w.end(); li++)
       li->set_prob(mass/w.get_n_analysis());
 
-    // guess possible tags, keeping some mass for previously assigned tags    
-    double sum=guesser(w,mass);
+    // guess possible tags, keeping some mass for previously assigned tags.
+    // setting mass to higher values above, will give more weight to 
+    // existing tags.
+    sum=guesser(w,mass);
     
     // normalize probabilities of all accumulated tags
     for (word::iterator li=w.begin();  li!=w.end(); li++)
       li->set_prob(li->get_prob()/sum);
+
+    // get number of analysis again, in case the guesser added some.
+    na=w.get_n_analysis();
   }
-  
+
+  if (w.has_alternatives()) {
+    /// move alternatives proposed by the spell checker to the analysis
+    /// list, so that the tagger may take them into account.
+    
+    // take into account the relative amount of analysis vs alternatives
+    double f=1.0;
+    if (knw) {
+      // For known words (knw), increase weitgh for dicc over spell checker 
+      if (na>nb) f=(double)nb/(double)na; 
+    }
+    else {
+      // For unknown words increase weight for spell checker (nb/na) 
+      // over guesser, with bonus.
+      f=CheckerOverGuesser*(double)nb/(double)na; 
+      if (na>nb) f=1/f;
+    }
+
+    sum=1.0; // mass already assigned to analysis
+    // copy alternatives to analysis, setting probability
+    for (list<pair<word,double> >::iterator a=w.alternatives_begin(); a!=w.alternatives_end(); a++) {
+      for (word::iterator j=a->first.begin(); j!=a->first.end(); j++) {
+	double p= f*j->get_prob();
+	j->set_prob(p);
+	w.add_analysis(*j);
+
+	sum += p;
+	TRACE(3,"    copied alternative "+j->get_lemma()+" p="+util::double2string(p)+" sum="+util::double2string(sum)+" f="+util::double2string(f));  
+      }
+    }    
+    
+    TRACE(3,"Normalizing alternatives. Sum="+util::double2string(sum));
+    // normalize probabilities of analysis + added alternatives
+    for (word::iterator li=w.begin();  li!=w.end(); li++)
+      li->set_prob(li->get_prob()/sum); 
+  }
+
   w.sort(); // sort analysis by decreasing probability,
 
   //sorting may scramble selected/unselected list, and the tagger will
@@ -223,6 +330,17 @@ sentence::iterator i;
 /////////////////////////////////////////////////////////////////////////////
 
 void probabilities::smoothing(word &w) {
+
+  int na=w.get_n_analysis();
+  if (na==1) {
+    // form is inambiguous
+    TRACE(2,"Inambiguous form, set prob to 1");
+    w.begin()->set_prob(1);
+    return; // we're done here
+  }
+
+  // form has analysis. begin probability back-off
+  TRACE(2,"Form with analysis. Smoothing probabilites.");
 
   // count occurrences of short tags 
   map<string,double> tags_short;
@@ -290,9 +408,8 @@ void probabilities::smoothing(word &w) {
   for (map<string,double>::iterator x=tags_short.begin(); x!=tags_short.end(); x++) 
     sum += temp_map[x->first] * x->second;
 
-  double m=w.get_n_analysis();
   for (word::iterator li=w.begin(); li!=w.end(); li++)
-    li->set_prob((temp_map[li->get_short_parole(Language)]+(1/m))/(sum+1));
+    li->set_prob((temp_map[li->get_short_parole(Language)]+(1/(double)na))/(sum+1));
   
 }
 
@@ -368,7 +485,7 @@ double probabilities::guesser(word &w, double mass) {
       TRACE(2,"   tag:"+t->first+"  pr="+util::double2string(p));
       
       // if the tag is new and higher than the threshold, keep it.
-      if (p >= MACO_ProbabilityThreshold) {
+      if (p >= ProbabilityThreshold) {
 	sum += p;
 	w.add_analysis(a);
 	TRACE(2,"    added. sum is: "+util::double2string(sum));
