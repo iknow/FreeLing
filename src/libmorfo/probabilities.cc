@@ -269,7 +269,8 @@ void probabilities::annotate_word(word &w) {
       // For unknown words increase weight for spell checker (nb/na) 
       // over guesser, with bonus.
       f=CheckerOverGuesser*(double)nb/(double)na; 
-      if (na>nb) f=1/f;
+      // make sure we are not *reducing* the weight for the checker
+      if (f<1.0) f=1.0;
     }
 
     sum=1.0; // mass already assigned to analysis
