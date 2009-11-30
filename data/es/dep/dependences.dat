@@ -20,14 +20,18 @@
 %% -------------------------------------------------------------------- %%
 
 
-%% ----------- UPDATED: OCTOBER 2009 ------------ %%
+% To execute Txala: analyze -f es.cfg --nec --outf dep
+
+
+%% ----------- UPDATED: NOVEMBER 2009 ------------ %%
 %
 % INCORPORACIONS:
 % Unica assigancio d'objecte directe (dobj) i objecte indirecte (iobj)
 % Objecte directe i objecte indirecte quan PP amb 'a' + amb NP 'Huma' i nom propi
 % No asignacio atribut (att) a PP amb preposicio 'por'
 % No asignacio argument preposicional (sp-obj) a PP amb preposicio 'con' excepte classe verbs amb 'con'
-%
+% Modficacio regles DOBJ/IOBJ referits a persones: d:sn.tonot!=Building|Place
+% Modficacio regles DOBJ referits a persones: p.class!=viobj|ditr (abans) --> p.class=trans (ara)
 %% -------------------------------------------- %%
 %
 %
@@ -4822,25 +4826,31 @@ subord-part  att  d.label=numero  d.side=right  p.class=atrib
 %%% OBJECTE DIRECTE POSTVERBAL: NOMS REFERITS A PERSONES (SP AMB "a") %%%
 
 %Noms comuns%
-grup-verb  dobj  d.label=grup-sp  d.side=right  d.lemma=a|al  d:sn.tonto=Human  p.class!=viobj|ditr
-verb-pass  dobj  d.label=grup-sp  d.side=right  d.lemma=a|al  d:sn.tonto=Human  p.class!=viobj|ditr
-grup-verb-inf  dobj  d.label=grup-sp  d.side=right  d.lemma=a|al  d:sn.tonto=Human  p.class!=viobj|ditr
-subord-ger  dobj  d.label=grup-sp  d.side=right  d.lemma=a|al  d:sn.tonto=Human  p.class!=viobj|ditr
-subord-part  dobj  d.label=grup-sp  d.side=right  d.lemma=a|al  d:sn.tonto=Human  p.class!=viobj|ditr
+grup-verb  dobj  d.label=grup-sp  d.side=right  d.lemma=a|al  d:sn.tonto=Human d:sn.tonto!=Building|Place  p.class=trans
+verb-pass  dobj  d.label=grup-sp  d.side=right  d.lemma=a|al  d:sn.tonto=Human  p.class=trans
+grup-verb-inf  dobj  d.label=grup-sp  d.side=right  d.lemma=a|al  d:sn.tonto=Human  d:sn.tonto!=Building|Place  p.class=trans
+subord-ger  dobj  d.label=grup-sp  d.side=right  d.lemma=a|al  d:sn.tonto=Human  d:sn.tonto!=Building|Place  p.class=trans
+subord-part  dobj  d.label=grup-sp  d.side=right  d.lemma=a|al  d:sn.tonto=Human  d:sn.tonto!=Building|Place  p.class=trans
 
-grup-verb  dobj  d.label=coor-sp  d.side=right  d.lemma=a|al  d:grup-sp:sn.tonto=Human  p.class!=viobj|ditr
-verb-pass  dobj  d.label=coor-sp  d.side=right  d.lemma=a|al  d:grup-sp:sn.tonto=Human  p.class!=viobj|ditr
-grup-verb-inf  dobj  d.label=coor-sp  d.side=right  d.lemma=a|al  d:grup-sp:sn.tonto=Human  p.class!=viobj|ditr
-subord-ger  dobj  d.label=coor-sp  d.side=right  d.lemma=a|al  d.grup-sp:sn.tonto=Human  p.class!=viobj|ditr
-subord-part  dobj  d.label=coor-sp  d.side=right  d.lemma=a|al  d.grup-sp:sn.tonto=Human  p.class!=viobj|ditr
+grup-verb  dobj  d.label=coor-sp  d.side=right  d.lemma=a|al  d:grup-sp:sn.tonto=Human  d:grup-sp:sn.tonto!=Building|Place  p.class=trans
+verb-pass  dobj  d.label=coor-sp  d.side=right  d.lemma=a|al  d:grup-sp:sn.tonto=Human  d:grup-sp:sn.tonto!=Building|Place  p.class=trans
+grup-verb-inf  dobj  d.label=coor-sp  d.side=right  d.lemma=a|al  d:grup-sp:sn.tonto=Human  d:grup-sp:sn.tonto!=Building|Place  p.class=trans
+subord-ger  dobj  d.label=coor-sp  d.side=right  d.lemma=a|al  d.grup-sp:sn.tonto=Human  d:grup-sp:sn.tonto!=Building|Place  p.class=trans
+subord-part  dobj  d.label=coor-sp  d.side=right  d.lemma=a|al  d.grup-sp:sn.tonto=Human  d:grup-sp:sn.tonto!=Building|Place  p.class=trans
 
 %Noms propis%
 %Nomes s'aplica si s'ha activat el reconeixedor de NE
-grup-verb  dobj  d.label=grup-sp  d.side=right  d.lemma=a|al  d:sn.pos=NP00SP0  p.class!=viobj|ditr
-verb-pass  dobj  d.label=grup-sp  d.side=right  d.lemma=a|al  d:sn.pos=NP00SP0  p.class!=viobj|ditr
-grup-verb-inf  dobj  d.label=grup-sp  d.side=right  d.lemma=a|al  d:sn.pos=NP00SP0  p.class!=viobj|ditr
-subord-ger  dobj  d.label=grup-sp  d.side=right  d.lemma=a|al  d:sn.pos=NP00SP0  p.class!=viobj|ditr
-subord-part  dobj  d.label=grup-sp  d.side=right  d.lemma=a|al  d:sn.pos=NP00SP0  p.class!=viobj|ditr
+grup-verb  dobj  d.label=grup-sp  d.side=right  d.lemma=a|al  d:sn.pos=NP00SP0  p.class=trans
+verb-pass  dobj  d.label=grup-sp  d.side=right  d.lemma=a|al  d:sn.pos=NP00SP0  p.class=trans
+grup-verb-inf  dobj  d.label=grup-sp  d.side=right  d.lemma=a|al  d:sn.pos=NP00SP0  p.class=trans
+subord-ger  dobj  d.label=grup-sp  d.side=right  d.lemma=a|al  d:sn.pos=NP00SP0  p.class=trans
+subord-part  dobj  d.label=grup-sp  d.side=right  d.lemma=a|al  d:sn.pos=NP00SP0  p.class=trans
+
+grup-verb  dobj  d.label=coor-sp  d.side=right  d.lemma=a|al  d:grup-sp:sn.pos=NP00SP0  p.class=trans
+verb-pass  dobj  d.label=coor-sp  d.side=right  d.lemma=a|al  d:grup-sp:sn.pos=NP00SP0  p.class=trans
+grup-verb-inf  dobj  d.label=coor-sp  d.side=right  d.lemma=a|al  d:grup-sp:sn.pos=NP00SP0  p.class=trans
+subord-ger  dobj  d.label=coor-sp  d.side=right  d.lemma=a|al  d:grup-sp:sn.pos=NP00SP0  p.class=trans
+subord-part  dobj  d.label=coor-sp  d.side=right  d.lemma=a|al  d:grup-sp:sn.pos=NP00SP0  p.class=trans
 
 %%% OBJECTE DIRECTE POSTVERBAL: SINTAGMA NOMINAL %%%
 grup-verb  dobj  d.label=sn*  d.side=right  p.class!=intr|atrib
@@ -4951,17 +4961,17 @@ subord-rel  obj-prep  d.label=j*
 %%% OBJECTE INDIRECTE POSTVERBAL: AMB BENEFICIARI HUMA %%%
 
 %Noms comuns%
-grup-verb  iobj  d.label=grup-sp  d.side=right  d.lemma=a|para  d:sn.tonto=Human  d:sn.tonto!=Building  p.class=ditr|viobj
-verb-pass  iobj  d.label=grup-sp  d.side=right  d.lemma=a|para  d:sn.tonto=Human  d:sn.tonto!=Building  p.class=ditr|viobj
-grup-verb-inf  iobj  d.label=grup-sp  d.side=right  d.lemma=a|para  d:sn.tonto=Human  d:sn.tonto!=Building  p.class=ditr|viobj
-subord-ger  iobj  d.label=grup-sp  d.side=right  d.lemma=a|para  d:sn.tonto=Human  d:sn.tonto!=Building  p.class=ditr|viobj
-subord-part  iobj  d.label=grup-sp  d.side=right  d.lemma=a|para  d:sn.tonto=Human  d:sn.tonto!=Building  p.class=ditr|viobj
+grup-verb  iobj  d.label=grup-sp  d.side=right  d.lemma=a|para  d:sn.tonto=Human  d:sn.tonto!=Building|Place  p.class=ditr|viobj
+verb-pass  iobj  d.label=grup-sp  d.side=right  d.lemma=a|para  d:sn.tonto=Human  d:sn.tonto!=Building|Place  p.class=ditr|viobj
+grup-verb-inf  iobj  d.label=grup-sp  d.side=right  d.lemma=a|para  d:sn.tonto=Human  d:sn.tonto!=Building|Place  p.class=ditr|viobj
+subord-ger  iobj  d.label=grup-sp  d.side=right  d.lemma=a|para  d:sn.tonto=Human  d:sn.tonto!=Building|Place  p.class=ditr|viobj
+subord-part  iobj  d.label=grup-sp  d.side=right  d.lemma=a|para  d:sn.tonto=Human  d:sn.tonto!=Building|Place  p.class=ditr|viobj
 
-grup-verb  iobj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=a|para  d:grup-sp:sn.tonto=Human  d:sn.tonto!=Building  p.class=ditr|viobj
-verb-pass  iobj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=a|para  d:grup-sp:sn.tonto=Human  d:sn.tonto!=Building  p.class=ditr|viobj
-grup-verb-inf  iobj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=a|para  d:grup-sp:sn.tonto=Human  d:sn.tonto!=Building  p.class=ditr|viobj
-subord-ger  iobj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=a|para  d:grup-sp:sn.tonto=Human  d:sn.tonto!=Building  p.class=ditr|viobj
-subord-part  iobj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=a|para  d:grup-sp:sn.tonto=Human  d:sn.tonto!=Building  p.class=ditr|viobj
+grup-verb  iobj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=a|para  d:grup-sp:sn.tonto=Human  d:sn.tonto!=Building|Place  p.class=ditr|viobj
+verb-pass  iobj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=a|para  d:grup-sp:sn.tonto=Human  d:sn.tonto!=Building|Place  p.class=ditr|viobj
+grup-verb-inf  iobj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=a|para  d:grup-sp:sn.tonto=Human  d:sn.tonto!=Building|Place  p.class=ditr|viobj
+subord-ger  iobj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=a|para  d:grup-sp:sn.tonto=Human  d:sn.tonto!=Building|Place  p.class=ditr|viobj
+subord-part  iobj  d.label=coor-sp  d.side=right  d:grup-sp.lemma=a|para  d:grup-sp:sn.tonto=Human  d:sn.tonto!=Building|Place  p.class=ditr|viobj
 
 %Noms propis%
 %Nomes s'aplica si s'ha activat el reconeixedor de NE
