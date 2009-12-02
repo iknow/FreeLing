@@ -468,8 +468,8 @@ class maco_options {
     void set_active_modules(bool,bool,bool,bool,bool,bool,bool,bool,int,bool);
     void set_nummerical_points(const std::string &,const std::string &);
     void set_data_files(const std::string &,const std::string &,const std::string &,const std::string &,
-                        const std::string &,const std::string &,const std::string &, const std::string &,
-			const std::string &);
+                        const std::string &,const std::string &,const std::string &, const std::string &);
+
     void set_threshold(double);
 };
 
