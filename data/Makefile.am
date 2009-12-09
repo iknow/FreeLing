@@ -5,7 +5,7 @@ ZCAT=gunzip -c
 pkgdata_DATA =
 
 esdatadir = $(pkgdatadir)/es
-esdata_DATA = es/*
+esdata_DATA = es/*.*
 esnecdatadir = $(pkgdatadir)/es/nec
 esnecdata_DATA = es/nec/*
 esnerdatadir = $(pkgdatadir)/es/ner
@@ -19,38 +19,38 @@ escorrecdata_DATA = es/corrector/*
 
 
 cadatadir = $(pkgdatadir)/ca
-cadata_DATA = ca/*
+cadata_DATA = ca/*.*
 canecdatadir = $(pkgdatadir)/ca/nec
 canecdata_DATA = ca/nec/*
 cadepdatadir = $(pkgdatadir)/ca/dep
 cadepdata_DATA = ca/dep/*
 
 gldatadir = $(pkgdatadir)/gl
-gldata_DATA = gl/*
+gldata_DATA = gl/*.*
 glnecdatadir = $(pkgdatadir)/gl/nec
 glnecdata_DATA = gl/nec/*
 gldepdatadir = $(pkgdatadir)/gl/dep
 gldepdata_DATA = gl/dep/*
 
 asdatadir = $(pkgdatadir)/as
-asdata_DATA = as/*
+asdata_DATA = as/*.*
 asnecdatadir = $(pkgdatadir)/as/nec
 asnecdata_DATA = as/nec/*
 asdepdatadir = $(pkgdatadir)/as/dep
 asdepdata_DATA = as/dep/*
 
 itdatadir = $(pkgdatadir)/it
-itdata_DATA = it/*
+itdata_DATA = it/*.*
 itnecdatadir = $(pkgdatadir)/it/nec
 itnecdata_DATA = it/nec/*
 
 ptdatadir = $(pkgdatadir)/pt
-ptdata_DATA = pt/*
+ptdata_DATA = pt/*.*
 ptnecdatadir = $(pkgdatadir)/pt/nec
 ptnecdata_DATA = pt/nec/*
 
 endatadir = $(pkgdatadir)/en
-endata_DATA = en/*
+endata_DATA = en/*.*
 ennecdatadir = $(pkgdatadir)/en/nec
 ennecdata_DATA = en/nec/*
 enchunkdir = $(pkgdatadir)/en/chunker
@@ -59,7 +59,7 @@ endepdatadir = $(pkgdatadir)/en/dep
 endepdata_DATA = en/dep/*
 
 cydatadir = $(pkgdatadir)/cy
-cydata_DATA = cy/*
+cydata_DATA = cy/*.*
 cynecdatadir = $(pkgdatadir)/cy/nec
 cynecdata_DATA = cy/nec/*
 cychunkdir = $(pkgdatadir)/cy/chunker
@@ -68,7 +68,7 @@ cydepdatadir = $(pkgdatadir)/cy/dep
 cydepdata_DATA = cy/dep/*
 
 commondatadir = $(pkgdatadir)/common
-commondata_DATA = common/*
+commondata_DATA = common/*.*
 commonnecdatadir = $(pkgdatadir)/common/nec
 commonnecdata_DATA = common/nec/*
 commoncorrecdatadir = $(pkgdatadir)/common/corrector
