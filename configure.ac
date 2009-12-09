@@ -79,12 +79,15 @@ AC_CHECK_LIB([db_cxx],[main],[echo "OK">/dev/null],[echo "" &&
                       echo "   or the like) is installed and can be found in a standard path." &&
                       echo "   You may need to set LDFLAGS to specify search path." &&
                       echo "" && exit])
-AC_CHECK_LIB([boost_filesystem],[main],[echo "OK">/dev/null],[echo "" &&
-                      echo "   boost_filesystem library not found." &&
-                      echo "   Make sure libboost_filesystem is" &&
-                      echo "   installed and can be found in a standard path." &&
-                      echo "   You may need to set LDFLAGS to specify search path." &&
-                      echo "" && exit])
+AC_CHECK_LIB([boost_filesystem],[main],[echo "OK">/dev/null],
+                      AC_CHECK_LIB([boost_filesystem-mt],[main],
+                           [echo "OK">/dev/null;AM_CONDITIONAL([BOOST_MT],[test 1 = 1])],
+                           [echo "" &&
+                            echo "   boost_filesystem library not found." &&
+                            echo "   Make sure libboost_filesystem is" &&
+                            echo "   installed and can be found in a standard path." &&
+                            echo "   You may need to set LDFLAGS to specify search path." &&
+                            echo "" && exit]))
 AC_CHECK_LIB([omlet],[main],[echo "OK">/dev/null],[echo "" &&
                       echo "   Omlet library not found." &&
                       echo "   Make sure libomlet is" &&

@@ -18,8 +18,7 @@ public class analyzer {
 	op.set_data_files(DATA+LANG+"/locucions.dat", DATA+LANG+"/quantities.dat", 
 			  DATA+LANG+"/afixos.dat", DATA+LANG+"/probabilitats.dat", 
 			  DATA+LANG+"/maco.db", DATA+LANG+"/np.dat",  
-			  DATA+"common/punct.dat",DATA+"es/corrector/corrector",
-                          DATA+"common/corrector/corrector");
+			  DATA+"common/punct.dat",DATA+"es/corrector/corrector");
 
 	// create analyzers
         tokenizer tk=new tokenizer(DATA+LANG+"/tokenizer.dat");
