@@ -128,7 +128,8 @@ void print_analysis(const analysis &a, const string &form) {
     }
     say("    </analysis>");
   }  
-  else if (c1!='Z' && c1!='W' && c1!='F' && !(c1=='N' && c2=='P') && !(c1=='A' && c2=='O')) {
+  //else if (c1!='Z' && c1!='W' && c1!='F' && !(c1=='N' && c2=='P') && !(c1=='A' && c2=='O')) {
+  else if (c1!='Z' && c1!='W' && !(c1=='N' && c2=='P') && !(c1=='A' && c2=='O')) {
     say("    <analysis stem=\""+alemma+"\" >");
     say("      <rule id=\""+a.get_parole()+"\" form=\""+form+"\" />");
     say("    </analysis>");

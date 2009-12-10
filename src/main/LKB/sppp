@@ -1,61 +1,31 @@
 #!/bin/bash
+
 #
 # sample script to fake the Simple PreProcessing Protocol (use with the SRG)
 #
 
 user=${USER}
-if [ -z "${user}" ]; then
-  user=$(whoami);
+if [ -z "${user}" ]; then user=$(whoami); fi
+
+if [ -f ${HOME}/.freelingrc ]; then
+  . ${HOME}/.freelingrc
 fi
 
-## If variable $ANALYZER is defined, it will be used as the LKBanalyzer
-## executable location.  If it is not defined, default locations will be used.
+if [ -z "${FREELINGANALYZER}" ]; then
+  export FREELINGANALYZER=${LOGONROOT}/upc/bin/LKBanalyzer
+fi
+if [ -z "${FREELINGCFG}" ]; then
+  export FREELINGCFG=${LOGONROOT}/upf/srg/freeling/logon.cfg
+fi
+if [ -z "${FREELINGSHARE}" ]; then
+  export FREELINGSHARE=${LOGONROOT}/upc/FreeLing
+fi
 
-
+#
 # when running as part of the LOGON tree, FreeLing is part of the same tree,
 # i.e. there is no need to have additional tools installed locally.  ideally,
 # the LOGON tree (including the SRG) will be functional an a wide rage of Linux
 # distributions, not assuming any non-standard additional packages.
-
-if [ -z "$LOGONROOT" ]; then
-
-  LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/FreeLing/lib/:/usr/local/lib/
-  export LD_LIBRARY_PATH
-
-  path=$(dirname $0)
-  if [ "${path#./}" != "${path}" ]; then
-    path="$(pwd)/${path#./}"
-  fi
-  if [ "${path#/}" = "${path}" ]; then
-    if [ "${path}" = "." ]; then
-      path="$(pwd)";
-    else 
-      path="$(pwd)/${path}"
-    fi
-  fi
-
-  file=/tmp/.sppp.${user}.$$
-
-  if [ -z "$ANALYZER" ]; then
-     export ANALYZER=$path/LKBanalyzer
-  fi
-
-
-  while read -d '' foo; do
-    echo $foo > $file
-    echo "" >> $file
-    /usr/bin/iconv -f utf-8 -t iso-8859-1 < $file \
-    | $ANALYZER -f $path/LKB.cfg 2>$path/errors \
-    | /usr/bin/iconv -f iso-8859-1 -t utf-8
-  done
-
-else
-
-  if [ -z "$ANALYZER" ]; then
-     export ANALYZER=$LOGONROOT/upc/bin/LKBanalyzer
-  fi
-  cd $LOGONROOT;
-  exec $ANALYZER \
-    -f $LOGONROOT/upf/srg/freeling/logon.cfg \
-    2> /tmp/freeling.debug.${user};
-fi
+#
+cd ${LOGONROOT};
+exec ${FREELINGANALYZER} -f ${FREELINGCFG} 2> /tmp/freeling.debug.${user};
