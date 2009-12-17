@@ -50,6 +50,9 @@
 #include <iostream>
 #include <string>
 #include <pthread.h>
+#include <cstdlib>
+#include <stdio.h>
+#include <string.h>
 
 using namespace std;
 
