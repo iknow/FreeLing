@@ -2,7 +2,14 @@
 
 #  usage:
 #
-#   analyze [options] 
+#  - analyze stdin in interactive mode:
+#     analyze [options]    
+#
+#  - start an analyzer server
+#     analyze NAME [options]    
+#
+#  - stop an analyzer server
+#     analyze stop NAME
 #
 #  Executes freeling analyzer with given options, taking care of
 #  paths and default locations
@@ -22,12 +29,27 @@ if [[ "x$1" == "x-"* || "x$1" == "x" ]]; then
   $FREELING/bin/analyzer $param
 else
   # if first parameter is NOT an option, assume
-  # it's a name for a pipe and start in client/server mode
-  echo "First parameter '$1' is not an option. Starting server mode."
-  echo "You can now analyze text with: "
-  echo "      analyzer_client $1  <input.txt >output.txt"
-  echo ""
-  $FREELING/bin/analyzer_server $param
+  # it's a name for a pipe and start in client/server mode, 
+  # unless it's the word "stop"
+
+  if [[ "$1" == "stop" ]]; then
+    if [[ "x$2" == "x" ]]; then
+      echo "Missing name for server to stop."
+      exit
+    fi
+    pid=`ps -f | grep $2 | grep analyzer_server | awk '{print $2}'`
+    if [[ "x$pid" == "x" ]]; then
+      echo "Server $2 not running"
+      exit
+    fi
+    kill -15 $pid
+  else
+    echo "First parameter '$1' is not an option. Starting server mode."
+    echo "You can now analyze text with: "
+    echo "      analyzer_client $1  <input.txt >output.txt"
+    echo ""
+    $FREELING/bin/analyzer_server $param &
+  fi
 fi
 
 

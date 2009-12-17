@@ -184,6 +184,7 @@ void * send_requests(void *fname) {
 	  char* aux=utf8toLatin((char*) line.c_str());
 	  line=aux;
 	  fin << line << endl;  
+	  free(aux);
   }
   fin.close();
 
