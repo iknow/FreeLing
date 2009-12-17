@@ -49,6 +49,7 @@
 using namespace std;
 
 #include "errno.h"
+#include "signal.h"
 #include "sys/stat.h"
 #include <fstream>
 #include <sstream>
@@ -62,6 +63,12 @@ using namespace std;
 
 /// config file/options handler for this particular sample application
 #include "config.h"
+
+
+
+//---------------------------------------------
+// Print senses informaion for an analysis
+//---------------------------------------------
 
 void OutputSenses (const analysis & a, const config &cfg) {
   list<pair<string,double> > ls = a.get_senses ();
@@ -78,6 +85,7 @@ void OutputSenses (const analysis & a, const config &cfg) {
 //---------------------------------------------
 // print obtained analysis.
 //---------------------------------------------
+
 void PrintTree (parse_tree::iterator n, int depth, const config &cfg, const document &doc=document()) {
   parse_tree::sibling_iterator d;
 
@@ -605,27 +613,61 @@ ProcessSplitted (const config & cfg, maco * morfo, POS_tagger * tagger,
 }
 
 
+// we use global variables to be able to clean on TERM signal.
+
+// we use pointers to the analyzers, so we
+// can create only those strictly necessary.
+tokenizer *tk = NULL;
+splitter *sp = NULL;
+maco *morfo = NULL;
+nec *neclass = NULL;
+senses *sens = NULL;
+disambiguator *dsb = NULL;
+POS_tagger *tagger = NULL;
+chart_parser *parser = NULL;
+dependency_parser *dep = NULL;
+coref *corfc = NULL;
+
+string FIFO_in;
+string FIFO_out;
+
+//---------------------------------------------
+// Capture signal to terminate process
+//---------------------------------------------
+void terminate (int param)
+{
+
+  // --- shutting down server
+  cerr<<"SERVER: Signal received. Stopping"<<endl;
+
+  // remove named pipes
+  remove(FIFO_in.c_str());
+  remove(FIFO_out.c_str());
+
+  // clean up. Note that deleting a null pointer is a safe (yet useless) operation
+  delete tk;
+  delete sp;
+  delete morfo;
+  delete tagger;
+  delete neclass;
+  delete sens;
+  delete parser;
+  delete dep;
+  delete corfc;
+
+  // terminate
+  exit(1);
+}
+
+
 //---------------------------------------------
 // Sample main program
 //---------------------------------------------
 int main (int argc, char **argv) {
 
-  // we use pointers to the analyzers, so we
-  // can create only those strictly necessary.
-  tokenizer *tk = NULL;
-  splitter *sp = NULL;
-  maco *morfo = NULL;
-  nec *neclass = NULL;
-  senses *sens = NULL;
-  disambiguator *dsb = NULL;
-  POS_tagger *tagger = NULL;
-  chart_parser *parser = NULL;
-  dependency_parser *dep = NULL;
-  coref *corfc = NULL;
-
   // use first parameter as the name for the named pipe
-  string FIFO_in = string(argv[1])+".in";
-  string FIFO_out = string(argv[1])+".out";
+  FIFO_in = string(argv[1])+".in";
+  FIFO_out = string(argv[1])+".out";
 
   argv++; argc--;   // use the rest of parameters normally
 
@@ -752,8 +794,12 @@ int main (int argc, char **argv) {
 
   cerr<<"SERVER: Pipes "<<FIFO_in<<" and "<<FIFO_out<<" created."<<endl;
 
+  // set ending signals processing to allow clean exits;
+  signal (SIGTERM,terminate);
+  signal (SIGQUIT,terminate);
+
   // serve client requests until server is killed
-  while (1) {
+  while (true) {
           
     cerr<<"SERVER: opening channels. Waiting for new connection"<<endl;
     
@@ -798,24 +844,4 @@ int main (int argc, char **argv) {
     cout.rdbuf(outbkp); fout.close(); 
   }
 
-  // Actually, we'll never reach here, but a fine server should trap 
-  // the signals and clean up before exiting.
-
-  // --- shutting down server
-  cerr<<"SERVER: Signal received. Stopping"<<endl;
-
-  // remove named pipes
-  remove(FIFO_in.c_str());
-  remove(FIFO_out.c_str());
-
-  // clean up. Note that deleting a null pointer is a safe (yet useless) operation
-  delete tk;
-  delete sp;
-  delete morfo;
-  delete tagger;
-  delete neclass;
-  delete sens;
-  delete parser;
-  delete dep;
-  delete corfc;
 }
