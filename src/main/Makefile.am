@@ -1,6 +1,6 @@
 EXTRA_DIST = LKB sample_analyzer simple_examples README
 INCLUDES = -I$(top_srcdir)/src/include -I$(top_srcdir)/libcfg+
-bin_PROGRAMS = analyzer analyzer_server analyzer_serverSTD analyzer_client analyzer_clientUTF
+bin_PROGRAMS = analyzer analyzer_server_npipe analyzer_server_socket analyzer_serverSTD analyzer_client_npipe analyzer_client_socket analyzer_clientUTF
 
 if BOOST_MT
  MT="-mt"
