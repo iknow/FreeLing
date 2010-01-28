@@ -28,8 +28,6 @@ class socket_CS {
     void write_message(const std::string &);
     void close_connection();
     void shutdown_connection(int);
-    void write_message(const std::list<sentence> *);
-    int read_message(std::list<sentence>* &);
 };
 
 
@@ -116,29 +114,6 @@ void socket_CS::write_message(const std::string &s) {
   int n;
   n = write(sock2,s.c_str(),s.length()+1); 
   if (n < 0) error("ERROR writing to socket",n);
-}
-
-void socket_CS::write_message(const std::list<sentence> *ls) {
-  int n;
-
-  std::cout<<"sending ls, size "<<sizeof(*ls)<<std::endl;
-  n = write(sock2, (char *) ls, sizeof(*ls)); 
-  if (n < 0) error("ERROR writing to socket",n);
-}
-
-int socket_CS::read_message(std::list<sentence>* &ls) {
-    
-  int n,nt;
-  char *buffer;
-
-  buffer= new char[BUFF_SZ];
-
-  n = read(sock2,buffer,BUFF_SZ);
-  if (n < 0) error("ERROR reading from socket",n);
-
-  ls = (std::list<sentence> *)buffer;
-
-  return n;
 }
 
 
