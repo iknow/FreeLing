@@ -48,12 +48,12 @@ else
     echo "First parameter '$1' is not an option. Starting server mode."
     echo ""
     echo "You can now analyze text with: "
-    echo "      analyzer_client $1  <input.txt >output.txt"
+    echo "      analyzer_client_npipe $1  <input.txt >output.txt"
     echo ""
     echo "Stop the server with: "
     echo "      analyze stop $1"
     echo ""
-    $FREELING/bin/analyzer_server $param &
+    $FREELING/bin/analyzer_server_npipe $param &
   fi
 fi
 
