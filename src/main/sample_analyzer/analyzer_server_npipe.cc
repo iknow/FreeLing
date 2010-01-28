@@ -65,15 +65,37 @@ using namespace std;
 #include "config.h"
 
 
+// we use global variables to be able to clean on TERM signal.
+
+// we use pointers to the analyzers, so we
+// can create only those strictly necessary.
+tokenizer *tk = NULL;
+splitter *sp = NULL;
+maco *morfo = NULL;
+nec *neclass = NULL;
+senses *sens = NULL;
+disambiguator *dsb = NULL;
+POS_tagger *tagger = NULL;
+chart_parser *parser = NULL;
+dependency_parser *dep = NULL;
+coref *corfc = NULL;
+// read configuration file and command-line options
+config *cfg;
+// communicate with clients;
+
+string FIFO_in;
+string FIFO_out;
+
+
 
 //---------------------------------------------
 // Print senses informaion for an analysis
 //---------------------------------------------
 
-void OutputSenses (const analysis & a, const config &cfg) {
+void OutputSenses (const analysis & a) {
   list<pair<string,double> > ls = a.get_senses ();
   if (ls.size () > 0) {
-    if (cfg.SENSE_SenseAnnotation == MFS)
+    if (cfg->SENSE_SenseAnnotation == MFS)
       cout << " " << ls.begin()->first;
     else  // ALL or UKB specified
       cout << " " << util::pairlist2string (ls, ":", "/");
@@ -86,7 +108,7 @@ void OutputSenses (const analysis & a, const config &cfg) {
 // print obtained analysis.
 //---------------------------------------------
 
-void PrintTree (parse_tree::iterator n, int depth, const config &cfg, const document &doc=document()) {
+void PrintTree (parse_tree::iterator n, int depth, const document &doc=document()) {
   parse_tree::sibling_iterator d;
 
   cout << string (depth * 2, ' ');
@@ -94,14 +116,14 @@ void PrintTree (parse_tree::iterator n, int depth, const config &cfg, const docu
     if (n->info.is_head ()) cout << "+";
     word w = n->info.get_word ();
     cout << "(" << w.get_form () << " " << w.get_lemma () << " " << w.get_parole ();
-    OutputSenses ((*w.selected_begin ()), cfg);
+    OutputSenses ((*w.selected_begin ()));
     cout << ")" << endl;
   }
   else {
     if (n->info.is_head ()) cout << "+";
 
     cout<<n->info.get_label();
-    if (cfg.COREF_CoreferenceResolution) {
+    if (cfg->COREF_CoreferenceResolution) {
       // Print coreference group, if needed.
       int ref = doc.get_coref_group(n->info.get_node_id());
       if (ref != -1 && n->info.get_label() == "sn") cout<<"(REF:" << ref <<")";
@@ -109,7 +131,7 @@ void PrintTree (parse_tree::iterator n, int depth, const config &cfg, const docu
     cout << "_[" << endl;
 
     for (d = n->sibling_begin (); d != n->sibling_end (); ++d) 
-      PrintTree (d, depth + 1, cfg, doc);
+      PrintTree (d, depth + 1, doc);
     cout << string (depth * 2, ' ') << "]" << endl;
   }
 }
@@ -140,7 +162,7 @@ void PrintTree (parse_tree::iterator n, int depth, const config &cfg, const docu
 // }
 
 
-void PrintDepTree (dep_tree::iterator n, int depth, const config & cfg, const document &doc=document()) {
+void PrintDepTree (dep_tree::iterator n, int depth, const document &doc=document()) {
   dep_tree::sibling_iterator d, dm;
   int last, min, ref;
   bool trob;
@@ -149,7 +171,7 @@ void PrintDepTree (dep_tree::iterator n, int depth, const config & cfg, const do
 
   parse_tree::iterator pn = n->info.get_link();
   cout<<pn->info.get_label(); 
-  ref = (cfg.COREF_CoreferenceResolution ? doc.get_coref_group(pn->info.get_node_id()) : -1);
+  ref = (cfg->COREF_CoreferenceResolution ? doc.get_coref_group(pn->info.get_node_id()) : -1);
   if (ref != -1 and pn->info.get_label() == "sn") {
     cout<<"(REF:" << ref <<")";
   }
@@ -157,7 +179,7 @@ void PrintDepTree (dep_tree::iterator n, int depth, const config & cfg, const do
 
   word w = n->info.get_word();
   cout << "(" << w.get_form() << " " << w.get_lemma() << " " << w.get_parole ();
-  OutputSenses ((*w.selected_begin()), cfg);
+  OutputSenses ((*w.selected_begin()));
   cout << ")";
   
   if (n->num_children () > 0) {
@@ -166,7 +188,7 @@ void PrintDepTree (dep_tree::iterator n, int depth, const config & cfg, const do
     // Print Nodes
     for (d = n->sibling_begin (); d != n->sibling_end (); ++d)
       if (!d->info.is_chunk ())
-	PrintDepTree (d, depth + 1, cfg, doc);
+	PrintDepTree (d, depth + 1, doc);
     
     // print CHUNKS (in order)
     last = 0;
@@ -186,7 +208,7 @@ void PrintDepTree (dep_tree::iterator n, int depth, const config & cfg, const do
 	}
       }
       if (trob)
-	PrintDepTree (dm, depth + 1, cfg, doc);
+	PrintDepTree (dm, depth + 1, doc);
       last = min;
     }
     
@@ -200,7 +222,7 @@ void PrintDepTree (dep_tree::iterator n, int depth, const config & cfg, const do
 // print obtained analysis.
 //---------------------------------------------
 
-void PrintResults (list < sentence > &ls, const config & cfg, const document &doc=document() ) {
+void PrintResults (list < sentence > &ls, const document &doc=document() ) {
   word::const_iterator ait;
   sentence::const_iterator w;
   list < sentence >::iterator is;
@@ -209,20 +231,20 @@ void PrintResults (list < sentence > &ls, const config & cfg, const document &do
   
   for (is = ls.begin (); is != ls.end (); is++, ++nsentence) {
 
-    if (cfg.OutputFormat >= PARSED) {
+    if (cfg->OutputFormat >= PARSED) {
       /// obtain parse tree and draw it at will
-      switch (cfg.OutputFormat) {
+      switch (cfg->OutputFormat) {
 	
         case PARSED: {
 	  parse_tree & tr = is->get_parse_tree ();
-	  PrintTree (tr.begin (), 0, cfg, doc);
+	  PrintTree (tr.begin (), 0, doc);
 	  cout << endl;
 	  }
 	  break;
 	
         case DEP: {
 	  dep_tree & dep = is->get_dep_tree ();
-	  PrintDepTree (dep.begin (), 0, cfg, doc);
+	  PrintDepTree (dep.begin (), 0, doc);
           }
 	  break;
 	
@@ -234,7 +256,7 @@ void PrintResults (list < sentence > &ls, const config & cfg, const document &do
       for (w = is->begin (); w != is->end (); w++) {
 	cout << w->get_form ();
 	
-	if (cfg.OutputFormat == MORFO || cfg.OutputFormat == TAGGED) {
+	if (cfg->OutputFormat == MORFO || cfg->OutputFormat == TAGGED) {
 	  //      for(ait=w->analysis_begin(); ait!=w->analysis_end(); ait++){
 	  for (ait = w->selected_begin (); ait != w->selected_end (); ait++) {
 	    if (ait->is_retokenizable ()) {
@@ -252,8 +274,8 @@ void PrintResults (list < sentence > &ls, const config & cfg, const document &do
 	      cout << " " << ait->get_lemma () << " " << ait->
 		get_parole () << " " << ait->get_prob ();
 	    }
-	    if (cfg.SENSE_SenseAnnotation != NONE)
-	      OutputSenses (*ait, cfg);
+	    if (cfg->SENSE_SenseAnnotation != NONE)
+	      OutputSenses (*ait);
 	  }
 	}
 	cout << endl;	
@@ -266,12 +288,32 @@ void PrintResults (list < sentence > &ls, const config & cfg, const document &do
 
 
 //---------------------------------------------
+// Apply analyzer cascade to sentences in given list
+//---------------------------------------------
+
+void AnalyzeSentences(list<sentence> &ls) {
+  if (cfg->OutputFormat >= MORFO)
+    morfo->analyze (ls);
+  if (cfg->OutputFormat >= MORFO and 
+      (cfg->SENSE_SenseAnnotation == MFS or cfg->SENSE_SenseAnnotation == ALL))
+    sens->analyze (ls);
+  if (cfg->OutputFormat >= TAGGED)
+    tagger->analyze (ls);
+  if (cfg->OutputFormat >= TAGGED and (cfg->SENSE_SenseAnnotation == UKB))  
+    dsb->analyze (ls);
+  if (cfg->OutputFormat >= TAGGED and cfg->NEC_NEClassification)
+    neclass->analyze (ls);
+  if (cfg->OutputFormat >= PARSED)
+    parser->analyze (ls);
+  if (cfg->OutputFormat >= DEP)
+    dep->analyze (ls);
+}
+
+
+//---------------------------------------------
 // Coreference resolution. Input is plain text, whole document.
 //---------------------------------------------
-void ProcessCoreference (const config & cfg, tokenizer * tk, splitter * sp, maco * morfo,
-	      POS_tagger * tagger, nec * neclass, senses * sens,
-	      chart_parser * parser, dependency_parser * dep, coref *corfc)
-{
+void ProcessCoreference () {
   string text;
   list < word > av;
   list < word >::const_iterator i;
@@ -329,7 +371,7 @@ void ProcessCoreference (const config & cfg, tokenizer * tk, splitter * sp, maco
 
   // output results in requested format 
   for (document::iterator par=doc.begin(); par!=doc.end(); par++) 
-    PrintResults(*par, cfg, doc);
+    PrintResults(*par, doc);
 
 }
 
@@ -337,10 +379,8 @@ void ProcessCoreference (const config & cfg, tokenizer * tk, splitter * sp, maco
 //---------------------------------------------
 // Plain text input, incremental processing
 //---------------------------------------------
-void ProcessPlain (const config & cfg, tokenizer * tk, splitter * sp, maco * morfo,
-	      POS_tagger * tagger, nec * neclass, senses * sens, disambiguator * dsb,
-	      chart_parser * parser, dependency_parser * dep)
-{
+void ProcessPlain () {
+
   string text;
   unsigned long offs = 0;
   list < word > av;
@@ -349,35 +389,21 @@ void ProcessPlain (const config & cfg, tokenizer * tk, splitter * sp, maco * mor
 
   while (std::getline (std::cin, text))
     {
-      if (cfg.OutputFormat >= TOKEN)
+      if (cfg->OutputFormat >= TOKEN)
 	av = tk->tokenize (text, offs);
-      if (cfg.OutputFormat >= SPLITTED)
-	ls = sp->split (av, cfg.AlwaysFlush);
-      if (cfg.OutputFormat >= MORFO)
-	morfo->analyze (ls);
-      if (cfg.OutputFormat >= MORFO and 
-	  (cfg.SENSE_SenseAnnotation == MFS or cfg.SENSE_SenseAnnotation == ALL))
-	sens->analyze (ls);
-      if (cfg.OutputFormat >= TAGGED)
-	tagger->analyze (ls);
-      if (cfg.OutputFormat >= TAGGED and (cfg.SENSE_SenseAnnotation == UKB))  
-	dsb->analyze (ls);
-      
-      if (cfg.OutputFormat >= TAGGED and cfg.NEC_NEClassification)
-	neclass->analyze (ls);
-      if (cfg.OutputFormat >= PARSED)
-	parser->analyze (ls);
-      if (cfg.OutputFormat >= DEP) 
-	dep->analyze (ls);
+      if (cfg->OutputFormat >= SPLITTED)
+	ls = sp->split (av, cfg->AlwaysFlush);
 
-      if (cfg.OutputFormat == TOKEN) {
+      AnalyzeSentences(ls);      
+
+      if (cfg->OutputFormat == TOKEN) {
 	// if only tokenizing, just print one token per line
 	for (i = av.begin (); i != av.end (); i++)
 	  cout << i->get_form () << endl;
       }
       else {
 	// if higher processing performed, print sentences separed by blank lines.
-	PrintResults (ls, cfg);
+	PrintResults (ls);
       }
       
       av.clear ();		// clear list of words for next use
@@ -385,26 +411,13 @@ void ProcessPlain (const config & cfg, tokenizer * tk, splitter * sp, maco * mor
     }
 
   // process last sentence in buffer (if any)
-  if (cfg.OutputFormat >= SPLITTED)
+  if (cfg->OutputFormat >= SPLITTED)
     ls = sp->split (av, true);	//flush splitter buffer
-  if (cfg.OutputFormat >= MORFO)
-    morfo->analyze (ls);
-  if (cfg.OutputFormat >= MORFO and 
-      (cfg.SENSE_SenseAnnotation == MFS or cfg.SENSE_SenseAnnotation == ALL))
-    sens->analyze (ls);
-  if (cfg.OutputFormat >= TAGGED)
-    tagger->analyze (ls);
-  if (cfg.OutputFormat >= TAGGED and (cfg.SENSE_SenseAnnotation == UKB))  
-    dsb->analyze (ls);
-  if (cfg.OutputFormat >= TAGGED and cfg.NEC_NEClassification)
-    neclass->analyze (ls);
-  if (cfg.OutputFormat >= PARSED)
-    parser->analyze (ls);
-  if (cfg.OutputFormat >= DEP)
-    dep->analyze (ls);
+
+  AnalyzeSentences(ls);      
 
   // if higher processing performed, print sentences separed by blank lines.
-  PrintResults (ls, cfg);
+  PrintResults (ls);
 }
 
 
@@ -413,10 +426,7 @@ void ProcessPlain (const config & cfg, tokenizer * tk, splitter * sp, maco * mor
 // This sample program expects one token per line.
 //----------------------------------------------
 void
-ProcessToken (const config & cfg, splitter * sp, maco * morfo,
-	      POS_tagger * tagger, nec * neclass, senses * sens,
-	      disambiguator * dsb, chart_parser * parser, dependency_parser * dep)
-{
+ProcessToken () {
   string text;
   list < word > av;
   list < sentence > ls;
@@ -434,25 +444,12 @@ ProcessToken (const config & cfg, splitter * sp, maco * morfo,
       if (av.size () > 10)
 	{
 
-	  if (cfg.OutputFormat >= SPLITTED)
+	  if (cfg->OutputFormat >= SPLITTED)
 	    ls = sp->split (av, false);
-	  if (cfg.OutputFormat >= MORFO)
-	    morfo->analyze (ls);
-	  if (cfg.OutputFormat >= MORFO and 
-	      (cfg.SENSE_SenseAnnotation == MFS or cfg.SENSE_SenseAnnotation == ALL))
-	    sens->analyze (ls);
-	  if (cfg.OutputFormat >= TAGGED)
-	    tagger->analyze (ls);
-	  if (cfg.OutputFormat >= TAGGED and (cfg.SENSE_SenseAnnotation == UKB))  
-	    dsb->analyze (ls);
-	  if (cfg.OutputFormat >= TAGGED and cfg.NEC_NEClassification)
-	    neclass->analyze (ls);
-	  if (cfg.OutputFormat >= PARSED)
-	    parser->analyze (ls);
-	  if (cfg.OutputFormat >= DEP) 
-	    dep->analyze (ls);
 
-	  PrintResults (ls, cfg);
+	  AnalyzeSentences(ls);      
+
+	  PrintResults (ls);
 
 	  av.clear ();		// clear list of words for next use
 	  ls.clear ();		// clear list of sentences for next use
@@ -460,25 +457,12 @@ ProcessToken (const config & cfg, splitter * sp, maco * morfo,
     }
 
   // process last sentence in buffer (if any)
-  if (cfg.OutputFormat >= SPLITTED)
+  if (cfg->OutputFormat >= SPLITTED)
     ls = sp->split (av, true);	//flush splitter buffer
-  if (cfg.OutputFormat >= MORFO)
-    morfo->analyze (ls);
-  if (cfg.OutputFormat >= MORFO and 
-      (cfg.SENSE_SenseAnnotation == MFS or cfg.SENSE_SenseAnnotation == ALL))
-    sens->analyze (ls);
-  if (cfg.OutputFormat >= TAGGED)
-    tagger->analyze (ls);
-  if (cfg.OutputFormat >= TAGGED and (cfg.SENSE_SenseAnnotation == UKB))  
-    dsb->analyze (ls);
-  if (cfg.OutputFormat >= TAGGED and cfg.NEC_NEClassification)
-    neclass->analyze (ls);
-  if (cfg.OutputFormat >= PARSED)
-    parser->analyze (ls);
-  if (cfg.OutputFormat >= DEP) 
-    dep->analyze (ls);
 
-  PrintResults (ls, cfg);
+  AnalyzeSentences(ls);      
+
+  PrintResults (ls);
 }
 
 
@@ -493,10 +477,7 @@ ProcessToken (const config & cfg, splitter * sp, maco * morfo,
 //   - of length 1 (tagged)
 //---------------------------------------------
 void
-ProcessSplitted (const config & cfg, maco * morfo, POS_tagger * tagger,
-		 nec * neclass, senses * sens, disambiguator * dsb, 
-		 chart_parser * parser, dependency_parser * dep)
-{
+ProcessSplitted () {
   string text, form, lemma, tag, sn, spr;
   sentence av;
   double prob;
@@ -521,7 +502,7 @@ ProcessSplitted (const config & cfg, maco * morfo, POS_tagger * tagger,
 	  // process word line, according to input format.
 	  // add all analysis in line to the word.
 	  w.clear ();
-	  if (cfg.InputFormat == MORFO)
+	  if (cfg->InputFormat == MORFO)
 	    {
 	      while (sin >> lemma >> tag >> spr)
 		{
@@ -531,7 +512,7 @@ ProcessSplitted (const config & cfg, maco * morfo, POS_tagger * tagger,
 		  w.add_analysis (an);
 		}
 	    }
-	  else if (cfg.InputFormat == SENSES)
+	  else if (cfg->InputFormat == SENSES)
 	    {
 	      while (sin >> lemma >> tag >> spr >> sn)
 		{
@@ -548,7 +529,7 @@ ProcessSplitted (const config & cfg, maco * morfo, POS_tagger * tagger,
 		  w.add_analysis (an);
 		}
 	    }
-	  else if (cfg.InputFormat == TAGGED)
+	  else if (cfg->InputFormat == TAGGED)
 	    {
 	      sin >> lemma >> tag;
 	      analysis an (lemma, tag);
@@ -565,24 +546,9 @@ ProcessSplitted (const config & cfg, maco * morfo, POS_tagger * tagger,
 
 	  ls.push_back (av);
 
-	  if (cfg.InputFormat < MORFO and cfg.OutputFormat >= MORFO)
-	    morfo->analyze (ls);
-	  if (cfg.InputFormat < SENSE and cfg.OutputFormat >= MORFO and 
-	      (cfg.SENSE_SenseAnnotation == MFS or cfg.SENSE_SenseAnnotation == ALL))
-	    sens->analyze (ls);
-	  if (cfg.InputFormat < TAGGED and cfg.OutputFormat >= TAGGED)
-	    tagger->analyze (ls);
-	  if (cfg.OutputFormat >= TAGGED and (cfg.SENSE_SenseAnnotation == UKB))  
-	    dsb->analyze (ls);
-	  if (cfg.InputFormat <= TAGGED and cfg.OutputFormat >= TAGGED
-	      and cfg.NEC_NEClassification)
-	    neclass->analyze (ls);
-	  if (cfg.InputFormat < PARSED and cfg.OutputFormat >= PARSED)
-	    parser->analyze (ls);
-	  if (cfg.InputFormat < DEP and cfg.OutputFormat >= DEP)
-	    dep->analyze (ls);
+	  AnalyzeSentences(ls);      
 
-	  PrintResults (ls, cfg);
+	  PrintResults (ls);
 
 	  av.clear ();		// clear list of words for next use
 	  ls.clear ();		// clear list of sentences for next use
@@ -592,44 +558,12 @@ ProcessSplitted (const config & cfg, maco * morfo, POS_tagger * tagger,
   // process last sentence in buffer (if any)
   ls.push_back (av);		// last sentence (may not have blank line after it)
 
-  if (cfg.InputFormat < MORFO and cfg.OutputFormat >= MORFO)
-    morfo->analyze (ls);
-  if (cfg.InputFormat < SENSE and cfg.OutputFormat >= MORFO and 
-      (cfg.SENSE_SenseAnnotation == MFS or cfg.SENSE_SenseAnnotation == ALL))
-    sens->analyze (ls);
-  if (cfg.InputFormat < TAGGED and cfg.OutputFormat >= TAGGED)
-    tagger->analyze (ls);
-  if (cfg.OutputFormat >= TAGGED and (cfg.SENSE_SenseAnnotation == UKB))  
-    dsb->analyze (ls);
-  if (cfg.InputFormat <= TAGGED and cfg.OutputFormat >= TAGGED
-      and cfg.NEC_NEClassification)
-    neclass->analyze (ls);
-  if (cfg.InputFormat < PARSED and cfg.OutputFormat >= PARSED)
-    parser->analyze (ls);
-  if (cfg.InputFormat < DEP and cfg.OutputFormat >= DEP)
-    dep->analyze (ls);
+  AnalyzeSentences(ls);      
 
-  PrintResults (ls, cfg);
+  PrintResults (ls);
 }
 
 
-// we use global variables to be able to clean on TERM signal.
-
-// we use pointers to the analyzers, so we
-// can create only those strictly necessary.
-tokenizer *tk = NULL;
-splitter *sp = NULL;
-maco *morfo = NULL;
-nec *neclass = NULL;
-senses *sens = NULL;
-disambiguator *dsb = NULL;
-POS_tagger *tagger = NULL;
-chart_parser *parser = NULL;
-dependency_parser *dep = NULL;
-coref *corfc = NULL;
-
-string FIFO_in;
-string FIFO_out;
 
 //---------------------------------------------
 // Capture signal to terminate process
@@ -654,6 +588,8 @@ void terminate (int param)
   delete parser;
   delete dep;
   delete corfc;
+  
+  delete cfg;
 
   // terminate
   exit(1);
@@ -672,102 +608,102 @@ int main (int argc, char **argv) {
   argv++; argc--;   // use the rest of parameters normally
 
   // read configuration file and command-line options
-  config cfg (argv);
+  cfg = new config(argv);
 
-  if (!((cfg.InputFormat < cfg.OutputFormat) ||
-	(cfg.InputFormat == cfg.OutputFormat && cfg.InputFormat == TAGGED
-	 && cfg.NEC_NEClassification)))
+  if (!((cfg->InputFormat < cfg->OutputFormat) ||
+	(cfg->InputFormat == cfg->OutputFormat && cfg->InputFormat == TAGGED
+	 && cfg->NEC_NEClassification)))
     {
       cerr <<"Error - Input format cannot be more complex than desired output."<<endl;
       exit (1);
     }
 
-  if (cfg.COREF_CoreferenceResolution && cfg.OutputFormat<=TAGGED) {
+  if (cfg->COREF_CoreferenceResolution && cfg->OutputFormat<=TAGGED) {
     cerr <<"Error - Requested coreference resolution is only compatible with output format 'parsed' or 'dep'." <<endl;
     exit (1);
   }
 
-  if (cfg.OutputFormat < TAGGED and (cfg.SENSE_SenseAnnotation == UKB))   {
+  if (cfg->OutputFormat < TAGGED and (cfg->SENSE_SenseAnnotation == UKB))   {
     cerr <<"Error - UKB word sense disambiguation requires PoS tagging. Specify 'tagged', 'parsed' or 'dep' output format." <<endl;
     exit (1);
   }
   //--- create needed analyzers, depending on given options ---//
 
   // tokenizer requested
-  if (cfg.InputFormat < TOKEN && cfg.OutputFormat >= TOKEN)
-    tk = new tokenizer (cfg.TOK_TokenizerFile);
+  if (cfg->InputFormat < TOKEN && cfg->OutputFormat >= TOKEN)
+    tk = new tokenizer (cfg->TOK_TokenizerFile);
   // splitter requested
-  if (cfg.InputFormat < SPLITTED && cfg.OutputFormat >= SPLITTED)
-    sp = new splitter (cfg.SPLIT_SplitterFile);
+  if (cfg->InputFormat < SPLITTED && cfg->OutputFormat >= SPLITTED)
+    sp = new splitter (cfg->SPLIT_SplitterFile);
 
   // morfological analysis requested
-  if (cfg.InputFormat < MORFO && cfg.OutputFormat >= MORFO) {
+  if (cfg->InputFormat < MORFO && cfg->OutputFormat >= MORFO) {
       // the morfo class requires several options at creation time.
       // they are passed packed in a maco_options object.
-      maco_options opt (cfg.Lang);
+      maco_options opt (cfg->Lang);
       // boolean options to activate/desactivate modules
       // default: all modules deactivated (options set to "false")
-      opt.set_active_modules (cfg.MACO_AffixAnalysis,
-			      cfg.MACO_MultiwordsDetection,
-			      cfg.MACO_NumbersDetection,
-			      cfg.MACO_PunctuationDetection,
-			      cfg.MACO_DatesDetection,
-			      cfg.MACO_QuantitiesDetection,
-			      cfg.MACO_DictionarySearch,
-			      cfg.MACO_ProbabilityAssignment,
-			      cfg.MACO_NER_which,
-			      cfg.MACO_OrthographicCorrection);
+      opt.set_active_modules (cfg->MACO_AffixAnalysis,
+			      cfg->MACO_MultiwordsDetection,
+			      cfg->MACO_NumbersDetection,
+			      cfg->MACO_PunctuationDetection,
+			      cfg->MACO_DatesDetection,
+			      cfg->MACO_QuantitiesDetection,
+			      cfg->MACO_DictionarySearch,
+			      cfg->MACO_ProbabilityAssignment,
+			      cfg->MACO_NER_which,
+			      cfg->MACO_OrthographicCorrection);
       // decimal/thousand separators used by number detection
-      opt.set_nummerical_points (cfg.MACO_Decimal, cfg.MACO_Thousand);
+      opt.set_nummerical_points (cfg->MACO_Decimal, cfg->MACO_Thousand);
       // Minimum probability for a tag for an unkown word
-      opt.set_threshold (cfg.MACO_ProbabilityThreshold);
+      opt.set_threshold (cfg->MACO_ProbabilityThreshold);
       // Data files for morphological submodules. by default set to ""
       // Only files for active modules have to be specified 
-      opt.set_data_files (cfg.MACO_LocutionsFile, cfg.MACO_QuantitiesFile,
-			  cfg.MACO_AffixFile, cfg.MACO_ProbabilityFile,
-			  cfg.MACO_DictionaryFile, cfg.MACO_NPdataFile,
-			  cfg.MACO_PunctuationFile, cfg.MACO_CorrectorFile);
+      opt.set_data_files (cfg->MACO_LocutionsFile, cfg->MACO_QuantitiesFile,
+			  cfg->MACO_AffixFile, cfg->MACO_ProbabilityFile,
+			  cfg->MACO_DictionaryFile, cfg->MACO_NPdataFile,
+			  cfg->MACO_PunctuationFile, cfg->MACO_CorrectorFile);
 
       // create analyzer with desired options
       morfo = new maco (opt);
   }
 
   // sense annotation requested
-  if (cfg.InputFormat < SENSE and cfg.OutputFormat >= MORFO
-      and (cfg.SENSE_SenseAnnotation == MFS or cfg.SENSE_SenseAnnotation == ALL))
-    sens = new senses (cfg.SENSE_SenseFile, cfg.SENSE_DuplicateAnalysis);
-  else if (cfg.InputFormat < SENSE and cfg.OutputFormat >= TAGGED
-      and (cfg.SENSE_SenseAnnotation == UKB))      
-    dsb = new disambiguator (cfg.UKB_BinFile, cfg.UKB_DictFile, cfg.UKB_Epsilon, cfg.UKB_MaxIter);
+  if (cfg->InputFormat < SENSE and cfg->OutputFormat >= MORFO
+      and (cfg->SENSE_SenseAnnotation == MFS or cfg->SENSE_SenseAnnotation == ALL))
+    sens = new senses (cfg->SENSE_SenseFile, cfg->SENSE_DuplicateAnalysis);
+  else if (cfg->InputFormat < SENSE and cfg->OutputFormat >= TAGGED
+      and (cfg->SENSE_SenseAnnotation == UKB))      
+    dsb = new disambiguator (cfg->UKB_BinFile, cfg->UKB_DictFile, cfg->UKB_Epsilon, cfg->UKB_MaxIter);
 
   // tagger requested, see which method
-  if (cfg.InputFormat < TAGGED && cfg.OutputFormat >= TAGGED) {
-      if (cfg.TAGGER_which == HMM)
+  if (cfg->InputFormat < TAGGED && cfg->OutputFormat >= TAGGED) {
+      if (cfg->TAGGER_which == HMM)
 	tagger =
-	  new hmm_tagger (cfg.Lang, cfg.TAGGER_HMMFile, cfg.TAGGER_Retokenize,
-			  cfg.TAGGER_ForceSelect);
-      else if (cfg.TAGGER_which == RELAX)
+	  new hmm_tagger (cfg->Lang, cfg->TAGGER_HMMFile, cfg->TAGGER_Retokenize,
+			  cfg->TAGGER_ForceSelect);
+      else if (cfg->TAGGER_which == RELAX)
 	tagger =
-	  new relax_tagger (cfg.TAGGER_RelaxFile, cfg.TAGGER_RelaxMaxIter,
-			    cfg.TAGGER_RelaxScaleFactor,
-			    cfg.TAGGER_RelaxEpsilon, cfg.TAGGER_Retokenize,
-			    cfg.TAGGER_ForceSelect);
+	  new relax_tagger (cfg->TAGGER_RelaxFile, cfg->TAGGER_RelaxMaxIter,
+			    cfg->TAGGER_RelaxScaleFactor,
+			    cfg->TAGGER_RelaxEpsilon, cfg->TAGGER_Retokenize,
+			    cfg->TAGGER_ForceSelect);
   }
 
   // NEC requested
-  if (cfg.InputFormat <= TAGGED && cfg.OutputFormat >= TAGGED && 
-          (cfg.NEC_NEClassification || cfg.COREF_CoreferenceResolution)) {
-      neclass = new nec ("NP", cfg.NEC_FilePrefix);
+  if (cfg->InputFormat <= TAGGED && cfg->OutputFormat >= TAGGED && 
+          (cfg->NEC_NEClassification || cfg->COREF_CoreferenceResolution)) {
+      neclass = new nec ("NP", cfg->NEC_FilePrefix);
   }
 
   // Chunking requested
-  if (cfg.InputFormat < PARSED && (cfg.OutputFormat >= PARSED || cfg.COREF_CoreferenceResolution)) {
-      parser = new chart_parser (cfg.PARSER_GrammarFile);
+  if (cfg->InputFormat < PARSED && (cfg->OutputFormat >= PARSED || cfg->COREF_CoreferenceResolution)) {
+      parser = new chart_parser (cfg->PARSER_GrammarFile);
   }
 
   // Dependency parsing requested
-  if (cfg.InputFormat < PARSED && cfg.OutputFormat >= DEP) 
-    dep = new dep_txala (cfg.DEP_TxalaFile, parser->get_start_symbol ());
+  if (cfg->InputFormat < PARSED && cfg->OutputFormat >= DEP) 
+    dep = new dep_txala (cfg->DEP_TxalaFile, parser->get_start_symbol ());
 
   cerr<<"SERVER: Analyzers loaded."<<endl;
 
@@ -820,22 +756,22 @@ int main (int argc, char **argv) {
     //--- get and process client input up to EOF ---
 
     // coreference requested, plain text input
-    if (cfg.COREF_CoreferenceResolution) {
+    if (cfg->COREF_CoreferenceResolution) {
       int vectors = COREFEX_DIST | COREFEX_IPRON | COREFEX_JPRON | COREFEX_IPRONM | COREFEX_JPRONM
 	| COREFEX_STRMATCH | COREFEX_DEFNP | COREFEX_DEMNP | COREFEX_GENDER | COREFEX_NUMBER
 	| COREFEX_SEMCLASS | COREFEX_PROPNAME | COREFEX_ALIAS | COREFEX_APPOS;
-      corfc = new coref(cfg.COREF_CorefFile, vectors);
-      ProcessCoreference (cfg, tk, sp, morfo, tagger, neclass, sens, parser, dep, corfc);
+      corfc = new coref(cfg->COREF_CorefFile, vectors);
+      ProcessCoreference ();
     } 
     // Input is plain text.
-    else if (cfg.InputFormat == PLAIN)
-      ProcessPlain (cfg, tk, sp, morfo, tagger, neclass, sens, dsb, parser, dep);
+    else if (cfg->InputFormat == PLAIN)
+      ProcessPlain ();
     // Input is tokenized. 
-    else if (cfg.InputFormat == TOKEN)
-      ProcessToken (cfg, sp, morfo, tagger, neclass, sens, dsb, parser, dep);
+    else if (cfg->InputFormat == TOKEN)
+      ProcessToken ();
     // Input is (at least) tokenized and splitted.
-    else if (cfg.InputFormat >= SPLITTED)
-      ProcessSplitted (cfg, morfo, tagger, neclass, sens, dsb, parser, dep);
+    else if (cfg->InputFormat >= SPLITTED)
+      ProcessSplitted ();
     
     cerr<<"SERVER: client ended. Closing connection."<<endl;
 

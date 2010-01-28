@@ -44,9 +44,14 @@ else
     fi
     kill -15 $pid
   else
+    echo ""
     echo "First parameter '$1' is not an option. Starting server mode."
+    echo ""
     echo "You can now analyze text with: "
     echo "      analyzer_client $1  <input.txt >output.txt"
+    echo ""
+    echo "Stop the server with: "
+    echo "      analyze stop $1"
     echo ""
     $FREELING/bin/analyzer_server $param &
   fi

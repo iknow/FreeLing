@@ -46,22 +46,27 @@
 //------------------------------------------------------------------//
 
 
-
 using namespace std;
 
+#include "errno.h"
+#include "signal.h"
+#include "sys/stat.h"
+#include <fstream>
 #include <sstream>
-#include <iostream> 
+#include <iostream>
 
 #include <map>
 #include <vector>
 
 /// headers to call freeling library
-#include "fries/util.h"
 #include "freeling.h"
 
 /// config file/options handler for this particular sample application
 #include "config.h"
+#include "socket.h"
 
+
+// we use global variables to be able to clean on TERM signal.
 
 // we use pointers to the analyzers, so we
 // can create only those strictly necessary.
@@ -78,51 +83,62 @@ coref *corfc = NULL;
 // read configuration file and command-line options
 config *cfg;
 // communicate with clients;
+socket_CS *sock;
 
 
+//---------------------------------------------
+// Print senses informaion for an analysis
+//---------------------------------------------
 
-void OutputSenses (const analysis & a) {
+string OutputSenses (const analysis & a) {
+
+  string res;
   list<pair<string,double> > ls = a.get_senses ();
   if (ls.size () > 0) {
     if (cfg->SENSE_SenseAnnotation == MFS)
-      cout << " " << ls.begin()->first;
+      res = " " + ls.begin()->first;
     else  // ALL or UKB specified
-      cout << " " << util::pairlist2string (ls, ":", "/");
+      res = " " + util::pairlist2string (ls, ":", "/");
   }
   else
-    cout << " -";
+    res = " -";
+
+  return res;
 }
 
 //---------------------------------------------
 // print obtained analysis.
 //---------------------------------------------
-void PrintTree (parse_tree::iterator n, int depth, const document &doc=document()) {
+
+void PrintTree (ostringstream &sout, parse_tree::iterator n, int depth, const document &doc=document()) {
+
   parse_tree::sibling_iterator d;
 
-  cout << string (depth * 2, ' ');  
+  sout << string (depth * 2, ' ');
   if (n->num_children () == 0) {
-    if (n->info.is_head ()) cout << "+";
+    if (n->info.is_head ()) sout << "+";
     word w = n->info.get_word ();
-    cout << "(" << w.get_form () << " " << w.get_lemma () << " " << w.get_parole ();
-    OutputSenses ((*w.selected_begin ()));
-    cout << ")" << endl;
+    sout << "(" << w.get_form () << " " << w.get_lemma () << " " << w.get_parole ();
+    sout << OutputSenses ((*w.selected_begin ()));
+    sout << ")" << endl;
   }
   else {
-    if (n->info.is_head ()) cout << "+";
+    if (n->info.is_head ()) sout << "+";
 
-    cout<<n->info.get_label();
+    sout<<n->info.get_label();
     if (cfg->COREF_CoreferenceResolution) {
       // Print coreference group, if needed.
       int ref = doc.get_coref_group(n->info.get_node_id());
-      if (ref != -1 and n->info.get_label() == "sn") cout<<"(REF:" << ref <<")";
+      if (ref != -1 && n->info.get_label() == "sn") sout<<"(REF:" << ref <<")";
     }
-    cout << "_[" << endl;
+    sout << "_[" << endl;
 
     for (d = n->sibling_begin (); d != n->sibling_end (); ++d) 
-      PrintTree (d, depth + 1, doc);
-    cout << string (depth * 2, ' ') << "]" << endl;
+      PrintTree (sout, d, depth + 1, doc);
+    sout << string (depth * 2, ' ') << "]" << endl;
   }
 }
+
 
 
 //---------------------------------------------
@@ -150,33 +166,33 @@ void PrintTree (parse_tree::iterator n, int depth, const document &doc=document(
 // }
 
 
-void PrintDepTree (dep_tree::iterator n, int depth, const document &doc=document()) {
+void PrintDepTree (ostringstream &sout, dep_tree::iterator n, int depth, const document &doc=document()) {
   dep_tree::sibling_iterator d, dm;
   int last, min, ref;
   bool trob;
 
-  cout << string (depth*2, ' ');
+  sout << string (depth*2, ' ');
 
   parse_tree::iterator pn = n->info.get_link();
-  cout<<pn->info.get_label(); 
+  sout<<pn->info.get_label(); 
   ref = (cfg->COREF_CoreferenceResolution ? doc.get_coref_group(pn->info.get_node_id()) : -1);
   if (ref != -1 and pn->info.get_label() == "sn") {
-    cout<<"(REF:" << ref <<")";
+    sout<<"(REF:" << ref <<")";
   }
-  cout<<"/" << n->info.get_label() << "/";
+  sout<<"/" << n->info.get_label() << "/";
 
   word w = n->info.get_word();
-  cout << "(" << w.get_form() << " " << w.get_lemma() << " " << w.get_parole ();
-  OutputSenses ((*w.selected_begin()));
-  cout << ")";
+  sout << "(" << w.get_form() << " " << w.get_lemma() << " " << w.get_parole ();
+  sout << OutputSenses ((*w.selected_begin()));
+  sout << ")";
   
   if (n->num_children () > 0) {
-    cout << " [" << endl;
+    sout << " [" << endl;
     
     // Print Nodes
     for (d = n->sibling_begin (); d != n->sibling_end (); ++d)
       if (!d->info.is_chunk ())
-	PrintDepTree (d, depth + 1, doc);
+	PrintDepTree (sout, d, depth + 1, doc);
     
     // print CHUNKS (in order)
     last = 0;
@@ -188,7 +204,7 @@ void PrintDepTree (dep_tree::iterator n, int depth, const document &doc=document
       for (d = n->sibling_begin (); d != n->sibling_end (); ++d) {
 	if (d->info.is_chunk ()) {
 	  if (d->info.get_chunk_ord () > last
-	      and d->info.get_chunk_ord () < min) {
+	      && d->info.get_chunk_ord () < min) {
 	    min = d->info.get_chunk_ord ();
 	    dm = d;
 	    trob = true;
@@ -196,13 +212,13 @@ void PrintDepTree (dep_tree::iterator n, int depth, const document &doc=document
 	}
       }
       if (trob)
-	PrintDepTree (dm, depth + 1, doc);
+	PrintDepTree (sout, dm, depth + 1, doc);
       last = min;
     }
     
-    cout << string (depth * 2, ' ') << "]";
+    sout << string (depth * 2, ' ') << "]";
   }
-  cout << endl;
+  sout << endl;
 }
 
 
@@ -210,13 +226,18 @@ void PrintDepTree (dep_tree::iterator n, int depth, const document &doc=document
 // print obtained analysis.
 //---------------------------------------------
 
-void PrintResults (list < sentence > &ls, const document &doc=document() ) {
+void PrintResults (list <sentence> &ls, const document &doc=document() ) {
   word::const_iterator ait;
   sentence::const_iterator w;
   list < sentence >::iterator is;
   int nsentence = 1;
-  
-  
+
+  if (ls.empty()) {
+    sock->write_message("FL-SERVER-READY");  
+    return;
+  }
+
+  ostringstream sout;
   for (is = ls.begin (); is != ls.end (); is++, ++nsentence) {
 
     if (cfg->OutputFormat >= PARSED) {
@@ -224,15 +245,14 @@ void PrintResults (list < sentence > &ls, const document &doc=document() ) {
       switch (cfg->OutputFormat) {
 	
         case PARSED: {
-	  parse_tree & tr = is->get_parse_tree ();
-	  PrintTree (tr.begin (), 0, doc);
-	  cout << endl;
+	   parse_tree & tr = is->get_parse_tree ();
+	   PrintTree (sout, tr.begin (), 0, doc);
 	  }
 	  break;
 	
         case DEP: {
-	  dep_tree & dep = is->get_dep_tree ();
-	  PrintDepTree (dep.begin (), 0, doc);
+	   dep_tree & dep = is->get_dep_tree ();
+	   PrintDepTree (sout, dep.begin (), 0, doc);
           }
 	  break;
 	
@@ -242,9 +262,9 @@ void PrintResults (list < sentence > &ls, const document &doc=document() ) {
     }
     else {
       for (w = is->begin (); w != is->end (); w++) {
-	cout << w->get_form ();
+	sout << w->get_form ();
 	
-	if (cfg->OutputFormat == MORFO or cfg->OutputFormat == TAGGED) {
+	if (cfg->OutputFormat == MORFO || cfg->OutputFormat == TAGGED) {
 	  for (ait = w->selected_begin (); ait != w->selected_end (); ait++) {
 	    if (ait->is_retokenizable ()) {
 	      list < word > rtk = ait->get_retokenizable ();
@@ -254,24 +274,28 @@ void PrintResults (list < sentence > &ls, const document &doc=document() ) {
 		lem = lem + "+" + r->get_lemma ();
 		par = par + "+" + r->get_parole ();
 	      }
-	      cout << " " << lem.substr (1) << " " 
+	      sout << " " << lem.substr (1) << " " 
 		   << par.substr (1) << " " << ait->get_prob ();
 	    }
 	    else {
-	      cout << " " << ait->get_lemma () << " " << ait->
+	      sout << " " << ait->get_lemma () << " " << ait->
 		get_parole () << " " << ait->get_prob ();
 	    }
 	    if (cfg->SENSE_SenseAnnotation != NONE)
-	      OutputSenses (*ait);
+	      sout << OutputSenses (*ait);
 	  }
 	}
-	cout << endl;	
+	sout << endl;	
       }
-    }
+    } 
     // sentence separator: blank line.
-    cout << endl;
+    sout << endl;	
   }
+
+  cout<<"RESPONSE:"<<sout.str()<<endl;
+  sock->write_message(sout.str());
 }
+
 
 //---------------------------------------------
 // Apply analyzer cascade to sentences in given list
@@ -300,6 +324,7 @@ void AnalyzeSentences(list<sentence> &ls) {
 // Coreference resolution. Input is plain text, whole document.
 //---------------------------------------------
 void ProcessCoreference () {
+
   string text;
   list < word > av;
   list < word >::const_iterator i;
@@ -308,7 +333,7 @@ void ProcessCoreference () {
   document doc;
 
   // get plain text input lines while not EOF.
-  while (getline(cin,text)) {
+  while (sock->read_message(text)) {
     if (text=="") { // new paragraph.
       // flush buffer
       ls=sp->split(av, true);
@@ -361,46 +386,40 @@ void ProcessCoreference () {
 
 }
 
+
 //---------------------------------------------
 // Plain text input, incremental processing
 //---------------------------------------------
 void ProcessPlain () {
+
   string text;
   unsigned long offs = 0;
   list < word > av;
   list < word >::const_iterator i;
   list < sentence > ls;
 
-  while (std::getline (std::cin, text))
+  while (sock->read_message(text)>0)
     {
+      cout<<"processing "<<text<<endl;
+
       if (cfg->OutputFormat >= TOKEN)
 	av = tk->tokenize (text, offs);
       if (cfg->OutputFormat >= SPLITTED)
 	ls = sp->split (av, cfg->AlwaysFlush);
 
-      AnalyzeSentences(ls);      
+      AnalyzeSentences(ls);
 
-      if (cfg->OutputFormat == TOKEN) {
-	// if only tokenizing, just print one token per line
-	for (i = av.begin (); i != av.end (); i++)
-	  cout << i->get_form () << endl;
-      }
-      else {
-	// if higher processing performed, print sentences separed by blank lines.
-	PrintResults (ls);
-      }
+      PrintResults (ls);
       
       av.clear ();		// clear list of words for next use
       ls.clear ();		// clear list of sentences for next use
     }
 
+  //flush splitter buffer
+  if (cfg->OutputFormat >= SPLITTED) ls = sp->split (av, true);
   // process last sentence in buffer (if any)
-  if (cfg->OutputFormat >= SPLITTED)
-    ls = sp->split (av, true);	//flush splitter buffer
-
-  AnalyzeSentences(ls);      
-
-  // if higher processing performed, print sentences separed by blank lines.
+  AnalyzeSentences(ls);
+  // Output results
   PrintResults (ls);
 }
 
@@ -411,41 +430,35 @@ void ProcessPlain () {
 //----------------------------------------------
 void
 ProcessToken () {
-
   string text;
   list < word > av;
   list < sentence > ls;
   unsigned long totlen = 0;
 
-  while (std::getline (std::cin, text))
-    {
-      // get next word
-      word w (text);
-      w.set_span (totlen, totlen + text.size ());
-      totlen += text.size () + 1;
-      av.push_back (w);
+  while (sock->read_message(text)) {
+    // get next word
+    word w (text);
+    w.set_span (totlen, totlen + text.size ());
+    totlen += text.size () + 1;
+    av.push_back (w);
+    
+    // check for splitting after some words have been accumulated, 
+    if (av.size () > 10)	{
+      if (cfg->OutputFormat >= SPLITTED) ls = sp->split (av, false);
 
-      // check for splitting after some words have been accumulated, 
-      if (av.size () > 10)
-	{
-
-	  if (cfg->OutputFormat >= SPLITTED)
-	    ls = sp->split (av, false);
-
-	  AnalyzeSentences(ls);      
-
-	  PrintResults (ls);
-
-	  av.clear ();		// clear list of words for next use
-	  ls.clear ();		// clear list of sentences for next use
-	}
+      AnalyzeSentences(ls);
+      
+      PrintResults (ls);
+      
+      av.clear ();		// clear list of words for next use
+      ls.clear ();		// clear list of sentences for next use
     }
-
+  }
+  
+  //flush splitter buffer
+  if (cfg->OutputFormat >= SPLITTED) ls = sp->split (av, true);	
   // process last sentence in buffer (if any)
-  if (cfg->OutputFormat >= SPLITTED)
-    ls = sp->split (av, true);	//flush splitter buffer
-
-  AnalyzeSentences(ls);      
+  AnalyzeSentences(ls);
 
   PrintResults (ls);
 }
@@ -461,18 +474,15 @@ ProcessToken () {
 //   - of variable length (morfological analysis)
 //   - of length 1 (tagged)
 //---------------------------------------------
-void
-ProcessSplitted () {
-
+void ProcessSplitted () {
   string text, form, lemma, tag, sn, spr;
   sentence av;
   double prob;
   list < sentence > ls;
   unsigned long totlen = 0;
 
-  while (std::getline (std::cin, text))
+  while (sock->read_message(text))
     {
-
       if (text != "")
 	{			// got a word line
 	  istringstream sin;
@@ -532,7 +542,7 @@ ProcessSplitted () {
 
 	  ls.push_back (av);
 
-	  AnalyzeSentences(ls);      
+	  AnalyzeSentences(ls);
 
 	  PrintResults (ls);
 
@@ -544,9 +554,37 @@ ProcessSplitted () {
   // process last sentence in buffer (if any)
   ls.push_back (av);		// last sentence (may not have blank line after it)
 
-  AnalyzeSentences(ls);      
+  AnalyzeSentences(ls);
 
   PrintResults (ls);
+}
+
+
+
+//---------------------------------------------
+// Capture signal to terminate process
+//---------------------------------------------
+void terminate (int param)
+{
+
+  // --- shutting down server
+  cerr<<"SERVER: Signal received. Stopping"<<endl;
+
+  // clean up. Note that deleting a null pointer is a safe (yet useless) operation
+  delete tk;
+  delete sp;
+  delete morfo;
+  delete tagger;
+  delete neclass;
+  delete sens;
+  delete parser;
+  delete dep;
+  delete corfc;
+
+  delete cfg;
+
+  // terminate
+  exit(1);
 }
 
 
@@ -555,18 +593,28 @@ ProcessSplitted () {
 //---------------------------------------------
 int main (int argc, char **argv) {
 
-  // read configuration file and command-line options
+  // read server port number
+  string sport(argv[1]); 
+  istringstream ssa1(sport);
+  int server_port; 
+  if (!(ssa1>>server_port)) { 
+    cerr<<"Wrong port number "<<sport<<endl;
+    exit(0);
+  }
+
+  // read config options
+  argv++; argc--;
   cfg = new config(argv);
 
-  if (!((cfg->InputFormat < cfg->OutputFormat) or
-	(cfg->InputFormat == cfg->OutputFormat and cfg->InputFormat == TAGGED
-	 and cfg->NEC_NEClassification)))
+  if (!((cfg->InputFormat < cfg->OutputFormat) ||
+	(cfg->InputFormat == cfg->OutputFormat && cfg->InputFormat == TAGGED
+	 && cfg->NEC_NEClassification)))
     {
       cerr <<"Error - Input format cannot be more complex than desired output."<<endl;
       exit (1);
     }
 
-  if (cfg->COREF_CoreferenceResolution and cfg->OutputFormat<=TAGGED) {
+  if (cfg->COREF_CoreferenceResolution && cfg->OutputFormat<=TAGGED) {
     cerr <<"Error - Requested coreference resolution is only compatible with output format 'parsed' or 'dep'." <<endl;
     exit (1);
   }
@@ -575,19 +623,17 @@ int main (int argc, char **argv) {
     cerr <<"Error - UKB word sense disambiguation requires PoS tagging. Specify 'tagged', 'parsed' or 'dep' output format." <<endl;
     exit (1);
   }
-  
-
   //--- create needed analyzers, depending on given options ---//
 
   // tokenizer requested
-  if (cfg->InputFormat < TOKEN and cfg->OutputFormat >= TOKEN)
+  if (cfg->InputFormat < TOKEN && cfg->OutputFormat >= TOKEN)
     tk = new tokenizer (cfg->TOK_TokenizerFile);
   // splitter requested
-  if (cfg->InputFormat < SPLITTED and cfg->OutputFormat >= SPLITTED)
+  if (cfg->InputFormat < SPLITTED && cfg->OutputFormat >= SPLITTED)
     sp = new splitter (cfg->SPLIT_SplitterFile);
 
   // morfological analysis requested
-  if (cfg->InputFormat < MORFO and cfg->OutputFormat >= MORFO) {
+  if (cfg->InputFormat < MORFO && cfg->OutputFormat >= MORFO) {
       // the morfo class requires several options at creation time.
       // they are passed packed in a maco_options object.
       maco_options opt (cfg->Lang);
@@ -603,7 +649,6 @@ int main (int argc, char **argv) {
 			      cfg->MACO_ProbabilityAssignment,
 			      cfg->MACO_NER_which,
 			      cfg->MACO_OrthographicCorrection);
-
       // decimal/thousand separators used by number detection
       opt.set_nummerical_points (cfg->MACO_Decimal, cfg->MACO_Thousand);
       // Minimum probability for a tag for an unkown word
@@ -613,7 +658,7 @@ int main (int argc, char **argv) {
       opt.set_data_files (cfg->MACO_LocutionsFile, cfg->MACO_QuantitiesFile,
 			  cfg->MACO_AffixFile, cfg->MACO_ProbabilityFile,
 			  cfg->MACO_DictionaryFile, cfg->MACO_NPdataFile,
-			  cfg->MACO_PunctuationFile,cfg->MACO_CorrectorFile);
+			  cfg->MACO_PunctuationFile, cfg->MACO_CorrectorFile);
 
       // create analyzer with desired options
       morfo = new maco (opt);
@@ -628,7 +673,7 @@ int main (int argc, char **argv) {
     dsb = new disambiguator (cfg->UKB_BinFile, cfg->UKB_DictFile, cfg->UKB_Epsilon, cfg->UKB_MaxIter);
 
   // tagger requested, see which method
-  if (cfg->InputFormat < TAGGED and cfg->OutputFormat >= TAGGED) {
+  if (cfg->InputFormat < TAGGED && cfg->OutputFormat >= TAGGED) {
       if (cfg->TAGGER_which == HMM)
 	tagger =
 	  new hmm_tagger (cfg->Lang, cfg->TAGGER_HMMFile, cfg->TAGGER_Retokenize,
@@ -642,48 +687,55 @@ int main (int argc, char **argv) {
   }
 
   // NEC requested
-  if (cfg->InputFormat <= TAGGED and cfg->OutputFormat >= TAGGED and 
-          (cfg->NEC_NEClassification or cfg->COREF_CoreferenceResolution)) {
+  if (cfg->InputFormat <= TAGGED && cfg->OutputFormat >= TAGGED && 
+          (cfg->NEC_NEClassification || cfg->COREF_CoreferenceResolution)) {
       neclass = new nec ("NP", cfg->NEC_FilePrefix);
   }
-  
+
   // Chunking requested
-  if (cfg->InputFormat < PARSED and (cfg->OutputFormat >= PARSED or cfg->COREF_CoreferenceResolution)) {
+  if (cfg->InputFormat < PARSED && (cfg->OutputFormat >= PARSED || cfg->COREF_CoreferenceResolution)) {
       parser = new chart_parser (cfg->PARSER_GrammarFile);
   }
 
   // Dependency parsing requested
-  if (cfg->InputFormat < PARSED and cfg->OutputFormat >= DEP) 
+  if (cfg->InputFormat < PARSED && cfg->OutputFormat >= DEP) 
     dep = new dep_txala (cfg->DEP_TxalaFile, parser->get_start_symbol ());
 
-  // coreference requested, plain text input
-  if (cfg->COREF_CoreferenceResolution) {
-    int vectors = COREFEX_DIST | COREFEX_IPRON | COREFEX_JPRON | COREFEX_IPRONM | COREFEX_JPRONM
-				| COREFEX_STRMATCH | COREFEX_DEFNP | COREFEX_DEMNP | COREFEX_GENDER | COREFEX_NUMBER
-				| COREFEX_SEMCLASS | COREFEX_PROPNAME | COREFEX_ALIAS | COREFEX_APPOS;
-    corfc = new coref(cfg->COREF_CorefFile, vectors);
-    ProcessCoreference ();
-  } 
-  // Input is plain text.  
-  else if (cfg->InputFormat == PLAIN)
-    ProcessPlain ();
-  // Input is tokenized. 
-  else if (cfg->InputFormat == TOKEN)
-    ProcessToken ();
-  // Input is (at least) tokenized and splitted.
-  else if (cfg->InputFormat >= SPLITTED)
-    ProcessSplitted ();
+  cerr<<"SERVER: Analyzers loaded."<<endl;
 
-  // clean up. Note that deleting a null pointer is a safe (yet useless) operation
-  delete tk;
-  delete sp;
-  delete morfo;
-  delete tagger;
-  delete neclass;
-  delete sens;
-  delete dsb;
-  delete parser;
-  delete dep;
-  delete corfc;
+  // crear socket
+  sock = new socket_CS(server_port);
+
+  // serve client requests until server is killed
+  while (true) {
+          
+    cerr<<"SERVER: opening channels. Waiting for new connection"<<endl;
+    sock->wait_client();
+    cerr<<"New client connected"<<endl;
+    
+    //--- get and process client input up to EOF ---
+
+    // coreference requested, plain text input
+    if (cfg->COREF_CoreferenceResolution) {
+      int vectors = COREFEX_DIST | COREFEX_IPRON | COREFEX_JPRON | COREFEX_IPRONM | COREFEX_JPRONM
+	| COREFEX_STRMATCH | COREFEX_DEFNP | COREFEX_DEMNP | COREFEX_GENDER | COREFEX_NUMBER
+	| COREFEX_SEMCLASS | COREFEX_PROPNAME | COREFEX_ALIAS | COREFEX_APPOS;
+      corfc = new coref(cfg->COREF_CorefFile, vectors);
+      ProcessCoreference ();
+    } 
+    // Input is plain text.
+    else if (cfg->InputFormat == PLAIN)
+      ProcessPlain ();
+    // Input is tokenized. 
+    else if (cfg->InputFormat == TOKEN)
+      ProcessToken ();
+    // Input is (at least) tokenized and splitted.
+    else if (cfg->InputFormat >= SPLITTED)
+      ProcessSplitted ();
+    
+    cerr<<"SERVER: client ended. Closing connection."<<endl;
+    sock->close_connection();
+
+  }
+
 }
-
