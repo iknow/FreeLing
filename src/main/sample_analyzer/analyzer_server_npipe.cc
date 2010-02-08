@@ -394,7 +394,7 @@ void ProcessPlain (double &cpuTime_total, int &sentences, int &words){
   while (std::getline (std::cin, text))
     {
 	clock_t start = clock();
-  	cout << "start" << start << endl;
+  	//cout << "start" << start << endl;
 	if (text=="RESET_STATS") {  // resetting command
        		cpuTime_total=0.0;
        		sentences=0;
@@ -403,7 +403,7 @@ void ProcessPlain (double &cpuTime_total, int &sentences, int &words){
     	}
     	else if (text=="PRINT_STATS") { // print_stats command
     		cout << "Words:  "<< words  <<" sentences: " << sentences << " cpuTime_total: " << cpuTime_total <<endl;
-       		cout << "Words for sentence:  "<< words/sentences <<" words/s: " << words/cpuTime_total << " sentences/s: " <<sentences/cpuTime_total <<endl;
+       		cout << "Words for sentence:  "<< words/sentences <<" words/second: " << words/cpuTime_total << " sentences/second: " <<sentences/cpuTime_total <<endl;
 		continue;
        }
 	    
@@ -439,7 +439,7 @@ void ProcessPlain (double &cpuTime_total, int &sentences, int &words){
       ls.clear ();		// clear list of sentences for next use
       
       	clock_t end = clock();
-  	cout << "end" << end << endl;
+  	//cout << "end" << end << endl;
   	cpuTime_total += (end-(double)start)/(CLOCKS_PER_SEC);
   
     
