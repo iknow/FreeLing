@@ -54,6 +54,7 @@ using namespace std;
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <time.h>
 
 #include <map>
 #include <vector>
@@ -379,23 +380,51 @@ void ProcessCoreference () {
 //---------------------------------------------
 // Plain text input, incremental processing
 //---------------------------------------------
-void ProcessPlain () {
+
+void ProcessPlain (double &cpuTime_total, int &sentences, int &words){
 
   string text;
   unsigned long offs = 0;
   list < word > av;
   list < word >::const_iterator i;
   list < sentence > ls;
+  
+
 
   while (std::getline (std::cin, text))
     {
+	clock_t start = clock();
+  	cout << "start" << start << endl;
+	if (text=="RESET_STATS") {  // resetting command
+       		cpuTime_total=0.0;
+       		sentences=0;
+  		words=0;
+		continue;
+    	}
+    	else if (text=="PRINT_STATS") { // print_stats command
+    		cout << "Words:  "<< words  <<" sentences: " << sentences << " cpuTime_total: " << cpuTime_total <<endl;
+       		cout << "Words for sentence:  "<< words/sentences <<" words/s: " << words/cpuTime_total << " sentences/s: " <<sentences/cpuTime_total <<endl;
+		continue;
+       }
+	    
+	    
       if (cfg->OutputFormat >= TOKEN)
 	av = tk->tokenize (text, offs);
       if (cfg->OutputFormat >= SPLITTED)
 	ls = sp->split (av, cfg->AlwaysFlush);
 
-      AnalyzeSentences(ls);      
-
+      AnalyzeSentences(ls);
+      sentences+=ls.size();
+          
+      list<sentence>::iterator is;
+      for (is=ls.begin(); is!=ls.end(); is++) {
+	      sentence se=*is;
+	      words+=se.size();
+              /*sentence::iterator pos;
+	      for (pos=se.begin(); pos!=se.end(); ++pos)  { words++; cout << "una palabra" << endl;}*/
+      }
+   
+   
       if (cfg->OutputFormat == TOKEN) {
 	// if only tokenizing, just print one token per line
 	for (i = av.begin (); i != av.end (); i++)
@@ -408,7 +437,13 @@ void ProcessPlain () {
       
       av.clear ();		// clear list of words for next use
       ls.clear ();		// clear list of sentences for next use
-    }
+      
+      	clock_t end = clock();
+  	cout << "end" << end << endl;
+  	cpuTime_total += (end-(double)start)/(CLOCKS_PER_SEC);
+  
+    
+   }// end while 
 
   // process last sentence in buffer (if any)
   if (cfg->OutputFormat >= SPLITTED)
@@ -418,6 +453,9 @@ void ProcessPlain () {
 
   // if higher processing performed, print sentences separed by blank lines.
   PrintResults (ls);
+  
+   
+ 
 }
 
 
@@ -733,6 +771,10 @@ int main (int argc, char **argv) {
   // set ending signals processing to allow clean exits;
   signal (SIGTERM,terminate);
   signal (SIGQUIT,terminate);
+  
+   double cpuTime_total=0.0;
+   int sentences=0;
+   int words=0;
 
   // serve client requests until server is killed
   while (true) {
@@ -765,7 +807,8 @@ int main (int argc, char **argv) {
     } 
     // Input is plain text.
     else if (cfg->InputFormat == PLAIN)
-      ProcessPlain ();
+      ProcessPlain (cpuTime_total, sentences, words);
+      //ProcessPlain ();
     // Input is tokenized. 
     else if (cfg->InputFormat == TOKEN)
       ProcessToken ();
