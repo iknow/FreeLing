@@ -80,7 +80,7 @@ while (indice<=tamanyo)
 {
   register int c;
   register unsigned long u;
-  auto int len;
+  int len;
 
   c = (int) cadena[indice];
 

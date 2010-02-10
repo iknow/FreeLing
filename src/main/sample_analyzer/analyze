@@ -37,7 +37,7 @@ else
       echo "Missing name for server to stop."
       exit
     fi
-    pid=`ps -f | grep $2 | grep analyzer_server | awk '{print $2}'`
+    pid=`ps -ef | grep $2 | grep analyzer_server | awk '{print $2}'`
     if [[ "x$pid" == "x" ]]; then
       echo "Server $2 not running"
       exit
