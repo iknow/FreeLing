@@ -8,6 +8,7 @@
 #include <netdb.h>
 #include <string.h>
 #include <cstdlib>
+#include <cstdio>
 #include <string>
 #include <fries/language.h>
 
