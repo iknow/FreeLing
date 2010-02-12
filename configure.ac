@@ -45,7 +45,7 @@ AC_CHECK_HEADERS([db_cxx.h],[],[echo "" && echo "   db_cxx.h not found." &&
                       echo "   or the like) are installed and can be found in a standard path." &&
                       echo "   You may need to set CPPFLAGS to specify search path." &&
                       echo "" && exit])
-AC_CHECK_HEADERS([boost/filesystem.hpp],[],[echo "" && echo "   boost/filesystem.hpp not found." &&
+AC_CHECK_HEADERS([boost/version.hpp],[],[echo "" && echo "   boost/version.hpp not found." &&
                       echo "   Make sure libboost headers (package libboost-dev or the like)" &&
                       echo "   installed and can be found in a standard path." &&
                       echo "   You may need to set CPPFLAGS to specify search path." &&
