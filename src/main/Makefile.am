@@ -2,10 +2,16 @@ EXTRA_DIST = LKB sample_analyzer simple_examples README
 INCLUDES = -I$(top_srcdir)/src/include -I$(top_srcdir)/libcfg+
 bin_PROGRAMS = analyzer analyzer_server_npipe analyzer_server_socket analyzer_serverSTD analyzer_client_npipe analyzer_client_socket analyzer_clientUTF
 
+if BOOST_GCC
+ B1="-gcc"
+else 
+ B1=""
+endif
+
 if BOOST_MT
- MT="-mt"
+ MT=$(B1)"-mt"
 else
- MT=""
+ MT=$(B1)
 endif
 
 analyzer_SOURCES = sample_analyzer/analyzer.cc sample_analyzer/config.h
