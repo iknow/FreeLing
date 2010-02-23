@@ -1,9 +1,3 @@
-#include "kbGraph.h"
-#include "common.h"
-#include "globalVars.h"
-#include "wdict.h"
-#include "prank.h"
-
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -35,6 +29,14 @@
 // dijkstra
 
 #include <boost/graph/dijkstra_shortest_paths.hpp>
+
+/// must go after boost includes or weird interactions
+/// confuse the compiler.
+#include "kbGraph.h"
+#include "common.h"
+#include "globalVars.h"
+#include "wdict.h"
+#include "prank.h"
 
 namespace ukb {
 
