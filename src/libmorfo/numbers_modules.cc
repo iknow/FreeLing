@@ -2563,7 +2563,7 @@ numbers_en::numbers_en(const std::string &dec, const std::string &thou): numbers
   value.insert(make_pair("nine",9));           value.insert(make_pair("ten",10));
   value.insert(make_pair("eleven",11));        value.insert(make_pair("twelve",12));
   value.insert(make_pair("thirteen",13));      value.insert(make_pair("fourteen",14));
-  value.insert(make_pair("quinze",15));        value.insert(make_pair("sixteen",16));
+  value.insert(make_pair("fifteen",15));        value.insert(make_pair("sixteen",16));
   value.insert(make_pair("seventeen",17));     value.insert(make_pair("eighteen",18)); 
   value.insert(make_pair("nineteen",19));      
   value.insert(make_pair("twenty", 20));       value.insert(make_pair("twenty-one",21));
@@ -2622,7 +2622,7 @@ numbers_en::numbers_en(const std::string &dec, const std::string &thou): numbers
   tok.insert(make_pair("nine",TK_u));           tok.insert(make_pair("ten",TK_u));
   tok.insert(make_pair("eleven",TK_u));        tok.insert(make_pair("twelve",TK_u));
   tok.insert(make_pair("thirteen",TK_u));      tok.insert(make_pair("fourteen",TK_u));
-  tok.insert(make_pair("quinze",TK_u));        tok.insert(make_pair("sixteen",TK_u));
+  tok.insert(make_pair("fifteen",TK_u));        tok.insert(make_pair("sixteen",TK_u));
   tok.insert(make_pair("seventeen",TK_u));     tok.insert(make_pair("eighteen",TK_u)); 
   tok.insert(make_pair("nineteen",TK_u));      
   tok.insert(make_pair("twenty", TK_u));       tok.insert(make_pair("twenty-one",TK_u));
