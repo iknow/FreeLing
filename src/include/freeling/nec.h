@@ -57,7 +57,8 @@ class nec {
 
       /// Classify NEs in given sentence
       void analyze(std::list<sentence> &) const;
-
+      /// Return annotated copy (useful for perl/python/java APIs)
+      std::list<sentence> analyze(const std::list<sentence> &) const;
 };
 
 #endif
