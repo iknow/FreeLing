@@ -1,16 +1,12 @@
 EXTRA_DIST = hmm_smooth.perl train-relax.perl make-probs-file.perl TRAIN unk-tags constr_gram.manual nec/README nec/TRAIN.sh nec/lexicon.cc nec/train.cc
 bin_PROGRAMS = indexdict convertdict dicc2phon compile_ukb
 
-if BOOST_GCC
- B1="-gcc"
-else 
- B1=""
+if BOOST_MT
+  MT="-mt"
 endif
 
-if BOOST_MT
- MT=$(B1)"-mt"
-else
- MT=$(B1)
+if BOOST_GCC
+ MT="-gcc-mt"
 endif
 
 indexdict_SOURCES = indexdict.cc
