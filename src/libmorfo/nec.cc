@@ -134,4 +134,9 @@ void nec::analyze(std::list<sentence> &ls) const {
   }
 }
 
+list<sentence> nec::analyze(const list<sentence> &ls) const {
+  list<sentence> s=ls;
+  analyze(s);
+  return s;
+}
 

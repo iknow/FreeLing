@@ -467,9 +467,9 @@ class maco_options {
     /// convenient sometimes.
     void set_active_modules(bool,bool,bool,bool,bool,bool,bool,bool,int,bool);
     void set_nummerical_points(const std::string &,const std::string &);
-    void set_data_files(const std::string &,const std::string &,const std::string &,const std::string &,
-                        const std::string &,const std::string &,const std::string &, const std::string &,
-			const std::string &);
+    void set_data_files(const std::string &,const std::string &,const std::string &,
+                        const std::string &,const std::string &,const std::string &,
+                        const std::string &,const std::string &);
     void set_threshold(double);
 };
 
@@ -480,8 +480,6 @@ class maco {
       maco(const maco_options &);
 
       /// analyze sentences
-      //void analyze(std::list<sentence> &);
-      /// analyze sentences, return analyzed copy
       std::list<sentence> analyze(const std::list<sentence> &);
 };
 
@@ -493,8 +491,7 @@ class hmm_tagger {
        hmm_tagger(const std::string &, const std::string &, bool, unsigned int);
 
        /// analyze sentences with default options
-       //void analyze(std::list<sentence> &);
-       std::list<sentence> analyze(const std::list<sentence> &);
+      std::list<sentence> analyze(const std::list<sentence> &);
 };
 
 
@@ -505,8 +502,7 @@ class relax_tagger {
        relax_tagger(const std::string &, int, double, double, bool, unsigned int);
 
        /// analyze sentences with default options
-       //void analyze(std::list<sentence> &);
-       std::list<sentence> analyze(const std::list<sentence> &);
+      std::list<sentence> analyze(const std::list<sentence> &);
 };
 
 
@@ -519,7 +515,7 @@ class nec {
       ~nec();
 
       /// Classify NEs in given sentence
-      void analyze(std::list<sentence> &) const;
+      std::list<sentence> analyze(const std::list<sentence> &) const;
 };
 
 
@@ -531,7 +527,7 @@ class chart_parser {
    /// Get the start symbol of the grammar
    std::string get_start_symbol(void) const;
    /// parse sentences in list
-   void analyze(std::list<sentence> &);
+   std::list<sentence> analyze(const std::list<sentence> &);
 };
 
 /*------------------------------------------------------------------------*/
@@ -539,7 +535,7 @@ class dependency_parser {
   public: 
    dependency_parser();
    virtual ~dependency_parser() {};
-   virtual void analyze(std::list<sentence> &)=0;
+   virtual std::list<sentence> analyze(const std::list<sentence> &)=0;
 };
 
 
@@ -547,7 +543,7 @@ class dependency_parser {
 class dep_txala : public dependency_parser {
  public:   
    dep_txala(const std::string &, const std::string &);
-   void analyze(std::list<sentence> &);
+   std::list<sentence> analyze(const std::list<sentence> &);
 };
 
 
@@ -561,7 +557,6 @@ class senses {
       ~senses(); 
  
       /// sense annotate selected analysis for each word in given sentences
-      // void analyze(std::list<sentence> &);
       std::list<sentence> analyze(const std::list<sentence> &);
 };
 
@@ -575,7 +570,7 @@ class disambiguator {
       ~disambiguator();
 
       /// word sense disambiguation for each word in given sentences
-      void analyze(std::list<sentence> &);
+      std::list<sentence> analyze(const std::list<sentence> &) const;
 };
 
 

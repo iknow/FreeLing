@@ -12,8 +12,7 @@ op=maco_options("es");
 op.set_active_modules(1,1,1,1,1,1,1,1,0,0);
 op.set_data_files(DATA+"es/locucions.dat", DATA+"es/quantities.dat", DATA+"es/afixos.dat",
                   DATA+"es/probabilitats.dat", DATA+"es/maco.db", DATA+"es/np.dat",  
-                  DATA+"common/punct.dat",DATA+"es/corrector/corrector",
-                  DATA+"common/corrector/corrector");
+                  DATA+"common/punct.dat",DATA+"es/corrector/corrector.dat");
 
 # create analyzers
 tk=tokenizer(DATA+"es/tokenizer.dat");
@@ -29,8 +28,8 @@ while (lin) :
     l = tk.tokenize(lin);
     ls = sp.split(l,0);
     ls = mf.analyze(ls);
-    ls = tg.analyze(ls);
-    ls = sen.analyze(ls);
+    tg.analyze(ls);
+    sen.analyze(ls);
 
     for s in ls :
        ws = s.get_words();
