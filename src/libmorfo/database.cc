@@ -56,9 +56,36 @@ database::~database() {}
 
 void database::open_database(const string &file) {
   int res;
-  if ((res=this->OPEN(file.c_str(),NULL,DB_UNKNOWN,DB_RDONLY,0))) {
-    ERROR_CRASH("Error '"+string(db_strerror(res))+"' while opening database "+file);
+
+  if (file.substr(file.size()-3)==".db") {
+    // open a Berkeley DB 
+    if ((res=this->OPEN(file.c_str(),NULL,DB_UNKNOWN,DB_RDONLY,0))) {
+      ERROR_CRASH("Error '"+string(db_strerror(res))+"' while opening database "+file);
+    }
+    usingDB=true;
   }
+
+  else if (file.substr(file.size()-4)==".src") {
+    // Load plain dictionary in a RAM map. 
+    ifstream fdic (file.c_str());
+    if (!fdic) ERROR_CRASH("Error opening file "+file);
+    
+    string line; 
+    dbmap.clear();
+    while (getline(fdic,line)) {
+      // split line in key+data
+      string form=line.substr(0,line.find(" "));
+      string analysis=line.substr(line.find(" ")+1);	
+      
+      dbmap.insert(make_pair(form,analysis));
+    }
+    
+    usingDB=false;
+  }
+  else {
+    ERROR_CRASH("Unknown dictionary type "+file+". Please provide either .db or .src file name");
+  }
+
 }
 
 ///////////////////////////////////////////////////////////////
@@ -67,9 +94,11 @@ void database::open_database(const string &file) {
 
 void database::close_database() {
   int res;
-  if ((res=this->close(0))) {
-    ERROR_CRASH("Error '"+string(db_strerror(res))+"' while closing database");
-  }
+
+  if (usingDB)
+    if ((res=this->close(0))) {
+      ERROR_CRASH("Error '"+string(db_strerror(res))+"' while closing database");
+    }
 }
 
 ///////////////////////////////////////////////////////////////
@@ -77,33 +106,46 @@ void database::close_database() {
 ///////////////////////////////////////////////////////////////
 
 string database::access_database(const string &clau) {
-  int error;
+
   string data_string;
-  char buff[1024];
-  unsigned int p;
-  Dbt data, key;
 
-  // Access the DB
-  key.set_data((void *)clau.c_str());
-  key.set_size(clau.length());
-  error = this->get (NULL, &key, &data, 0);
+  if (usingDB) {
+    // database is in berkeley DB
 
-  list<string> lsen;
-  if (!error) {  // key found
-    // copy the data associated to the key to the buffer
-    p=data.get_size();
-    memcpy((void *)buff, data.get_data(), p);
-
-    // convert char* to string into data_string
-    buff[p]=0; data_string=buff;    
-  }
-  else if (error == DB_NOTFOUND) {
-    data_string="";
+    int error;
+    char buff[1024];
+    unsigned int p;
+    Dbt data, key;
+        
+    // Access the DB
+    key.set_data((void *)clau.c_str());
+    key.set_size(clau.length());
+    error = this->get (NULL, &key, &data, 0);
+    
+    list<string> lsen;
+    if (!error) {  // key found
+      // copy the data associated to the key to the buffer
+      p=data.get_size();
+      memcpy((void *)buff, data.get_data(), p);
+      
+      // convert char* to string into data_string
+      buff[p]=0; data_string=buff;    
+    }
+    else if (error == DB_NOTFOUND) {
+      data_string="";
+    }
+    else {
+      ERROR_CRASH("Error '"+string(db_strerror(error))+"' while accessing database");
+    }
   }
   else {
-    ERROR_CRASH("Error '"+string(db_strerror(error))+"' while accessing database");
+    // database is in RAM map
+    map<string,string>::iterator p=dbmap.find(clau);
+    if (p!=dbmap.end()) data_string=p->second;
+    else data_string="";
   }
 
   return data_string;
 }
+
 
