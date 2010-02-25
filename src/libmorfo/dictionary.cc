@@ -51,9 +51,32 @@ dictionary::dictionary(const std::string &Lang, const std::string &dicFile, bool
   // create affix analyzer if required
   suf = (AffixAnalysis ? new affixes(Lang, sufFile) : NULL);
 
-  // Opening a 4.0 or higher BerkeleyDB database
-  morfodb.open_database(dicFile);
+  if (dicFile.substr(dicFile.size()-3)==".db") {
+    // Opening a 4.0 or higher BerkeleyDB database, somewhat slower, but saves RAM.
+    morfodb.open_database(dicFile);
+    usingDB=true;
+  }
+  else if (dicFile.substr(dicFile.size()-4)==".src") {
+    // Load plain dictionary in a map. Faster, but uses more RAM.
+    ifstream fdic (dicFile.c_str());
+    if (!fdic) ERROR_CRASH("Error opening file "+dicFile);
+    
+    string line; 
+    morfomap.clear();
+    while (getline(fdic,line)) {
+      // split line in key+data
+      string form=line.substr(0,line.find(" "));
+      string analysis=line.substr(line.find(" ")+1);	
 
+      morfomap.insert(make_pair(form,analysis));
+    }
+
+    usingDB=false;
+  }
+  else {
+    ERROR_CRASH("Unknown dictionary type "+dicFile+". Please provide either .db or .src file name");
+  }
+  
   TRACE(3,"analyzer succesfully created");
 }
 
@@ -63,8 +86,8 @@ dictionary::dictionary(const std::string &Lang, const std::string &dicFile, bool
 ////////////////////////////////////////////////
 
 dictionary::~dictionary(){
-  // Close the database
-  morfodb.close_database();
+  // Close the database (if open)
+  if (usingDB) morfodb.close_database();
   // delete affix analyzer, if any
   delete suf;
 }
@@ -77,8 +100,18 @@ dictionary::~dictionary(){
 void dictionary::search_form(const std::string &s, std::list<analysis> &la) {
 
   // lowercase the string
-  string key=util::lowercase(s);
-  string data = morfodb.access_database(key);
+  string key = util::lowercase(s);
+
+  // search word in the active dictionary  
+  string data;
+  data.clear();
+  if (usingDB) { 
+    data = morfodb.access_database(key);
+  }
+  else {
+    map<string,string>::iterator p=morfomap.find(key);
+    if (p!=morfomap.end()) data=p->second;
+  }
 
   if (not data.empty()) {
     // process the data string into analysis list
@@ -101,6 +134,8 @@ void dictionary::search_form(const std::string &s, std::list<analysis> &la) {
       la.push_back(analysis(lem,tag));
     }
   }
+
+
 }
 
 /////////////////////////////////////////////////////////////////////////////

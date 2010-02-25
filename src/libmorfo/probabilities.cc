@@ -425,17 +425,22 @@ double probabilities::compute_probability(const std::string &tag, double prob, s
   map<string,double>::const_iterator it;
   double x,pt;
 
+
   if (s == "") 
     return (prob);
   else {
     x = compute_probability(tag, prob, s.substr(1));
     
-    // search suffix in map.  It should be there.
+    // search suffix in map.
+    pt = 0;
     is = unk_suffs.find(s);
-    // search tag in suffix probability list. It should be there.
-    it = (is->second).find(tag);
+    if (is != unk_suffs.end()) {
+      // search tag in suffix probability list. It should be there.
+      it = (is->second).find(tag);
+      if (it != (is->second).end()) pt = it->second;
+    }
+
     // obtain probability
-    pt = it->second;
     return (pt + theeta*x)/(1+theeta);
   }
 }
@@ -483,7 +488,7 @@ double probabilities::guesser(word &w, double mass) {
       analysis a(form,t->first);
       a.set_prob(p);
       
-      TRACE(2,"   tag:"+t->first+"  pr="+util::double2string(p));
+      TRACE(2,"   tag:"+t->first+" ("+(hasit?"had it":"new")+")  pr="+util::double2string(p)+" "+util::double2string(t->second));
       
       // if the tag is new and higher than the threshold, keep it.
       if (p >= ProbabilityThreshold) {

@@ -29,6 +29,8 @@
 #ifndef _DICTIONARY
 #define _DICTIONARY
 
+#include <map>
+
 #include "fries/language.h"
 #include "freeling/database.h"
 #include "freeling/suffixes.h"
@@ -49,8 +51,12 @@ class dictionary {
       /// suffix analyzer
       affixes* suf;
 
-      /// C++ Interface to BerkeleyDB C API
+      /// remember if we are using a DB dictionary or a RAM one.
+      bool usingDB;
+      /// C++ Interface to BerkeleyDB C API to acces the dictionary
       database morfodb;
+      /// dictionary loaded into RAM (if no DB is used)
+      std::map<std::string,std::string> morfomap;
 
       /// Fills the analysis list of a word and checks for suffixes
       void annotate_word(word &);
