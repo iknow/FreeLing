@@ -30,6 +30,7 @@
 #define _DATABASE
 
 #include <string>
+#include <map>
 #include <db_cxx.h>  // header of BerkeleyDB C++ interface
 
 // define apropriate open calls depending on Berkeley-DB version.
@@ -48,6 +49,13 @@
 ///////////////////////////////////////////////////////////////
 
 class database : Db {
+ 
+  private:
+    /// remember if we are using a DB dictionary or a RAM one.
+    bool usingDB;
+    /// dictionary loaded into RAM (if no DB is used)
+    std::map<std::string,std::string> dbmap;
+
   public:
     /// constructor
     database();
