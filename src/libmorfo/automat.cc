@@ -175,6 +175,7 @@ sentence::iterator automat::BuildMultiword(sentence &se, sentence::iterator star
   string form;
 
   TRACE(3,"Building multiword");
+
   for (i=start; i!=end; i++){
     mw.push_back(*i);           
     form += i->get_form()+"_";
@@ -190,11 +191,13 @@ sentence::iterator automat::BuildMultiword(sentence &se, sentence::iterator star
 
   if (ValidMultiWord(w)) {  
     TRACE(3,"Valid Multiword. Modifying the sentence");
+
     // erasing from the sentence the words that composed the multiword
     end++;
     i=se.erase(start, end);
     // insert new multiword it into the sentence
     i=se.insert(i,w); 
+
     TRACE(3,"New word inserted");
     // Set morphological info for new MW
     SetMultiwordAnalysis(i,fs);

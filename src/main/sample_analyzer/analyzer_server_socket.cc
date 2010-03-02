@@ -326,8 +326,7 @@ void AnalyzeSentences(list<sentence> &ls) {
 void ProcessCoreference () {
 
   string text;
-  list < word > av;
-  list < word >::const_iterator i;
+  vector < word > av;
   list < sentence > ls;
   paragraph par;
   document doc;
@@ -336,7 +335,7 @@ void ProcessCoreference () {
   while (sock->read_message(text)) {
     if (text=="") { // new paragraph.
       // flush buffer
-      ls=sp->split(av, true);
+      sp->split(av, true, ls);
       // add sentece to paragraph
       par.insert(par.end(), ls.begin(), ls.end());  
       // Add paragraph to document
@@ -346,9 +345,9 @@ void ProcessCoreference () {
     }
     else {
       // tokenize input line into a list of words
-      av=tk->tokenize(text);
+      tk->tokenize(text,av);
       // accumulate list of words in splitter buffer, returning a list of sentences.
-      ls=sp->split(av, false);
+      sp->split(av, false, ls);
       // add sentece to paragraph
       par.insert(par.end(), ls.begin(), ls.end());
 
@@ -357,7 +356,7 @@ void ProcessCoreference () {
     }
   }
   // flush splitter buffer  
-  ls=sp->split(av, true);
+  sp->split(av, true, ls);
   // add sentece to paragraph
   par.insert(par.end(), ls.begin(), ls.end());
   // add paragraph to document.
@@ -394,8 +393,7 @@ void ProcessPlain () {
 
   string text;
   unsigned long offs = 0;
-  list < word > av;
-  list < word >::const_iterator i;
+  vector < word > av;
   list < sentence > ls;
 
   while (sock->read_message(text)>0)
@@ -403,9 +401,9 @@ void ProcessPlain () {
       cout<<"processing "<<text<<endl;
 
       if (cfg->OutputFormat >= TOKEN)
-	av = tk->tokenize (text, offs);
+	tk->tokenize (text, offs, av);
       if (cfg->OutputFormat >= SPLITTED)
-	ls = sp->split (av, cfg->AlwaysFlush);
+	sp->split (av, cfg->AlwaysFlush, ls);
 
       AnalyzeSentences(ls);
 
@@ -416,7 +414,7 @@ void ProcessPlain () {
     }
 
   //flush splitter buffer
-  if (cfg->OutputFormat >= SPLITTED) ls = sp->split (av, true);
+  if (cfg->OutputFormat >= SPLITTED) sp->split (av, true, ls);
   // process last sentence in buffer (if any)
   AnalyzeSentences(ls);
   // Output results
@@ -431,7 +429,7 @@ void ProcessPlain () {
 void
 ProcessToken () {
   string text;
-  list < word > av;
+  vector < word > av;
   list < sentence > ls;
   unsigned long totlen = 0;
 
@@ -444,7 +442,7 @@ ProcessToken () {
     
     // check for splitting after some words have been accumulated, 
     if (av.size () > 10)	{
-      if (cfg->OutputFormat >= SPLITTED) ls = sp->split (av, false);
+      if (cfg->OutputFormat >= SPLITTED) sp->split (av, false, ls);
 
       AnalyzeSentences(ls);
       
@@ -456,7 +454,7 @@ ProcessToken () {
   }
   
   //flush splitter buffer
-  if (cfg->OutputFormat >= SPLITTED) ls = sp->split (av, true);	
+  if (cfg->OutputFormat >= SPLITTED) sp->split (av, true, ls);	
   // process last sentence in buffer (if any)
   AnalyzeSentences(ls);
 

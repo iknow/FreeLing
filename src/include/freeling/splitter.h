@@ -59,19 +59,20 @@ class splitter {
       std::string mark_form;
 
       /// accumulated list of returned sentences 
-      std::list<sentence> ls; 
+      //      std::list<sentence> ls; 
       /// accumulated words of current sentence
       sentence buffer; 
 
       /// check for sentence markers
-      bool end_of_sentence(std::list<word>::const_iterator, const std::list<word> &) const;
+      bool end_of_sentence(std::vector<word>::const_iterator, const std::vector<word> &) const;
 
    public:
       /// Constructor
       splitter(const std::string &);
 
       /// split sentences with default options
-      std::list<sentence> split(const std::list<word> &, bool);
+      void split(const std::vector<word> &, bool, std::list<sentence> &ls);
+      std::list<sentence> split(const std::vector<word> &, bool);
 };
 
 #endif

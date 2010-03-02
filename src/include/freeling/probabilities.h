@@ -74,7 +74,7 @@ class probabilities {
       /// Smooth probabilities for the analysis of given word
       void smoothing(word &);
       /// Compute p(tag|suffix) using recursively shorter suffixes.
-      double compute_probability(const std::string &, double, std::string);
+      double compute_probability(const std::string &, double, const std::string &);
       /// Guess possible tags, keeping some mass for previously assigned tags    
       double guesser(word &, double);
 

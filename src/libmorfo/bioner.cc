@@ -212,7 +212,8 @@ void bioner::annotate(sentence &se) {
       // if we were inside NE, and the chosen class (best[i]) for this word is "B" or "O", 
       //  previous NE is finished: build multiword. 	
       if ((inNE && tag->second=="B") || (inNE && tag->second=="O")) {
-	w=BuildMultiword(se, beg, w-1, built);
+	sentence::iterator w1=w; w1--;
+	w=BuildMultiword(se, beg, w1, built);
 	w++; // add one because w point to last word of multiword, which is previous word
 	inNE=false;
 	TRACE(5,"  multiword built. Current word: "+w->get_form());
@@ -300,15 +301,16 @@ sentence::iterator bioner::BuildMultiword(sentence &se, sentence::iterator start
   // build new word with the mw list, and check whether it is acceptable
   word w(form,mw);
 	
+  sentence::iterator end1=end; end1++;
   if (ValidMultiWord(w)) {  
     if (splitNPs) {
-      for (sentence::iterator j=start; j!=se.end() && j!=end+1; j++){
+      for (sentence::iterator j=start; j!=se.end() && j!=end1; j++){
 	if (util::isuppercase(j->get_form()[0]))
 	{
 	  j->set_analysis(analysis(util::lowercase(j->get_form()),NE_tag));
 	}
       }
-      i=end+1;			
+      i=end1;
       built=true;
     }
     else {
@@ -326,7 +328,7 @@ sentence::iterator bioner::BuildMultiword(sentence &se, sentence::iterator start
   }
   else {
     TRACE(3," Multiword found, but rejected. Sentence untouched");
-    i=end+1;
+    i=end1;
     built=false;
   }
 	
