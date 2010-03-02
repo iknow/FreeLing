@@ -420,7 +420,7 @@ void probabilities::smoothing(word &w) {
 /// Compute probability of a tag given a word suffix.
 /////////////////////////////////////////////////////////////////////////////
 
-double probabilities::compute_probability(const std::string &tag, double prob, std::string s) {
+double probabilities::compute_probability(const std::string &tag, double prob, const std::string &s) {
   map<string,map<string,double> >::const_iterator is;
   map<string,double>::const_iterator it;
   double x,pt;

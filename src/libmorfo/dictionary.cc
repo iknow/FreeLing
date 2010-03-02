@@ -112,27 +112,27 @@ void dictionary::search_form(const std::string &s, std::list<analysis> &la) {
 ///  *Add* found analysis to the given word.
 /////////////////////////////////////////////////////////////////////////////
 
-void dictionary::annotate_word(word &w) {
-  string data_string,lem,tag,lws;
-  Dbt data, key;
-  list<analysis> la;
-  list<analysis>::const_iterator a;
+ void dictionary::annotate_word(word &w) {
+   string data_string,lem,tag,lws;
+   Dbt data, key;
+   list<analysis> la;
+   list<analysis>::const_iterator a;
 
-  search_form(w.get_form(), la);
-  w.set_found_in_dict( la.size()>0 );  // set "found_in_dict" accordingly to results
-  TRACE(3,"   Found "+util::int2string(la.size())+" analysis.");
+   search_form(w.get_form(), la);
+   w.set_found_in_dict( la.size()>0 );  // set "found_in_dict" accordingly to results
+   TRACE(3,"   Found "+util::int2string(la.size())+" analysis.");
 
-  for (a=la.begin(); a!=la.end(); a++) {
-     w.add_analysis(*a);
-     TRACE(4,"   added analysis "+a->get_lemma());
-  }
+   for (a=la.begin(); a!=la.end(); a++) {
+      w.add_analysis(*a);
+      TRACE(4,"   added analysis "+a->get_lemma());
+   }
 
-  // check whether the word is a derived form via suffixation
-  if (AffixAnalysis) {
-    TRACE(2,"Affix analisys active. SEARCHING FOR AFFIX. word n_analysis="+util::int2string(w.get_n_analysis()));
-    suf->look_for_affixes(w, *this);
-  }
-}
+   // check whether the word is a derived form via suffixation
+   if (AffixAnalysis) {
+     TRACE(2,"Affix analisys active. SEARCHING FOR AFFIX. word n_analysis="+util::int2string(w.get_n_analysis()));
+     suf->look_for_affixes(w, *this);
+   }
+ }
 
 
 ////////////////////////////////////////////////////////////////////////

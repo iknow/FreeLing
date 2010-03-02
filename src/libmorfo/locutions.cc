@@ -146,7 +146,7 @@ string::size_type p;
 //-- Implementation of virtual functions from class automat --//
 
 
-void locutions::check(const std::string s, std::set<std::string> &acc, bool &mw, bool &pref) 
+void locutions::check(const string s, set<string> &acc, bool &mw, bool &pref) 
 {  
   if (locut.find(s)!=locut.end()) {
     acc.insert(s); 
@@ -170,8 +170,8 @@ void locutions::check(const std::string s, std::set<std::string> &acc, bool &mw,
 int locutions::ComputeToken(int state, sentence::iterator &j, sentence &se)
 {
   set<string> acc;
-  string form, lem, tag;
   set<string>::const_iterator i;
+  string form, lem, tag;
   word::const_iterator a;
   int token;
   bool mw,pref;

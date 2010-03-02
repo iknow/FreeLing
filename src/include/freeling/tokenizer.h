@@ -56,10 +56,14 @@ class tokenizer {
        /// Constructor
        tokenizer(const std::string &);
 
-       /// tokenize string with default options
-       std::list<word> tokenize(const std::string &);
-       /// tokenize string with default options, tracking offset
-       std::list<word> tokenize(const std::string &, unsigned long &);
+       /// tokenize string 
+       void tokenize(const std::string &, std::vector<word> &);
+       /// tokenize string, return result as list
+       std::vector<word> tokenize(const std::string &);
+       /// tokenize string, tracking offset
+       void tokenize(const std::string &, unsigned long &, std::vector<word> &);
+       /// tokenize string, tracking offset, return result as list
+       std::vector<word> tokenize(const std::string &, unsigned long &);
 };
 
 #endif

@@ -301,8 +301,7 @@ void AnalyzeSentences(list<sentence> &ls) {
 //---------------------------------------------
 void ProcessCoreference () {
   string text;
-  list < word > av;
-  list < word >::const_iterator i;
+  vector < word > av;
   list < sentence > ls;
   paragraph par;
   document doc;
@@ -311,7 +310,7 @@ void ProcessCoreference () {
   while (getline(cin,text)) {
     if (text=="") { // new paragraph.
       // flush buffer
-      ls=sp->split(av, true);
+      sp->split(av, true, ls);
       // add sentece to paragraph
       par.insert(par.end(), ls.begin(), ls.end());  
       // Add paragraph to document
@@ -321,9 +320,10 @@ void ProcessCoreference () {
     }
     else {
       // tokenize input line into a list of words
-      av=tk->tokenize(text);
+      //av=tk->tokenize(text);
+      tk->tokenize(text, av);
       // accumulate list of words in splitter buffer, returning a list of sentences.
-      ls=sp->split(av, false);
+      sp->split(av, false, ls);
       // add sentece to paragraph
       par.insert(par.end(), ls.begin(), ls.end());
 
@@ -332,7 +332,7 @@ void ProcessCoreference () {
     }
   }
   // flush splitter buffer  
-  ls=sp->split(av, true);
+  sp->split(av, true, ls);
   // add sentece to paragraph
   par.insert(par.end(), ls.begin(), ls.end());
   // add paragraph to document.
@@ -367,8 +367,8 @@ void ProcessCoreference () {
 void ProcessPlain () {
   string text;
   unsigned long offs = 0;
-  list < word > av;
-  list < word >::const_iterator i;
+  vector < word > av;
+  vector < word >::const_iterator i;
   list < sentence > ls;
 
   while (std::getline (std::cin, text))
@@ -413,7 +413,7 @@ void
 ProcessToken () {
 
   string text;
-  list < word > av;
+  vector < word > av;
   list < sentence > ls;
   unsigned long totlen = 0;
 
@@ -430,7 +430,7 @@ ProcessToken () {
 	{
 
 	  if (cfg->OutputFormat >= SPLITTED)
-	    ls = sp->split (av, false);
+	    sp->split (av, false, ls);
 
 	  AnalyzeSentences(ls);      
 
@@ -443,7 +443,7 @@ ProcessToken () {
 
   // process last sentence in buffer (if any)
   if (cfg->OutputFormat >= SPLITTED)
-    ls = sp->split (av, true);	//flush splitter buffer
+    sp->split (av, true, ls);	//flush splitter buffer
 
   AnalyzeSentences(ls);      
 
@@ -685,5 +685,6 @@ int main (int argc, char **argv) {
   delete parser;
   delete dep;
   delete corfc;
+
 }
 

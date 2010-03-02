@@ -69,5 +69,7 @@ class locutions: public automat {
       void add_locution(const std::string &);
 };
 
+
+
 #endif
 
