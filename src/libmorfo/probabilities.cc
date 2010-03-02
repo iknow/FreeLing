@@ -425,24 +425,28 @@ double probabilities::compute_probability(const std::string &tag, double prob, c
   map<string,double>::const_iterator it;
   double x,pt;
 
+  x=prob;  
+  int spos=s.size();
+  bool found=true;
+  while (spos>0 && found) {
 
-  if (s == "") 
-    return (prob);
-  else {
-    x = compute_probability(tag, prob, s.substr(1));
-    
-    // search suffix in map.
-    pt = 0;
-    is = unk_suffs.find(s);
-    if (is != unk_suffs.end()) {
+    spos--;
+
+    is = unk_suffs.find(s.substr(spos));
+    found = (is != unk_suffs.end());
+
+    if (found) {
       // search tag in suffix probability list. It should be there.
       it = (is->second).find(tag);
       if (it != (is->second).end()) pt = it->second;
-    }
+      else pt = 0;
 
-    // obtain probability
-    return (pt + theeta*x)/(1+theeta);
+      x=(pt+theeta*x)/(1+theeta);
+    }
   }
+
+  return x;
+
 }
 
 
@@ -453,16 +457,6 @@ double probabilities::compute_probability(const std::string &tag, double prob, c
 double probabilities::guesser(word &w, double mass) {
 
   string form=util::lowercase(w.get_form());
-
-  // find longest suffix of word in unk_suffs map
-  string::size_type ln = form.length();
-  string::size_type mx = (ln<long_suff ? ln : long_suff);
-  string suf= form;
-  for (int j=mx; j>=0 && unk_suffs.find(suf)==unk_suffs.end(); j--) {
-    suf= form.substr(ln-j);
-  }
-  
-  TRACE(2,"longest suf: "+suf);
   
   // mass = mass assigned so far.  This gives some more probability to the 
   // preassigned tags than to those computed from suffixes.
@@ -471,6 +465,11 @@ double probabilities::guesser(word &w, double mass) {
     
   TRACE(2,"initial sum=: "+util::double2string(sum));
   
+  // remeber initial tags (if any)
+  set<string> stags;
+  for (word::iterator li=w.begin(); li!=w.end(); li++)
+    stags.insert(li->get_short_parole(Language));
+
   // to store analysis under threshold, just in case
   list<analysis> la;
   // for each possible tag, compute probability
@@ -478,13 +477,15 @@ double probabilities::guesser(word &w, double mass) {
     
     // See if it was already there, set by some other module
     bool hasit=false;
-    for (word::iterator li=w.begin(); li!=w.end() && !hasit; li++)
-      hasit= (t->first.find(li->get_short_parole(Language))==0);
+    for (set<string>::iterator li=stags.begin(); li!=stags.end() && !hasit; li++)
+      hasit= (t->first.find(*li)==0);
+      //      hasit= (t->first.find(li->get_short_parole(Language))==0);
+    //bool hasit= (stags.find(t->first) != stags.end());
     
     // if we don't have it, consider including it in the list
     if (!hasit) {
       
-      double p = compute_probability(t->first,t->second,suf);
+      double p = compute_probability(t->first,t->second,form);
       analysis a(form,t->first);
       a.set_prob(p);
       
