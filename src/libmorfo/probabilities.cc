@@ -476,17 +476,13 @@ double probabilities::guesser(word &w, double mass) {
   for (map<string,double>::iterator t=unk_tags.begin(); t!=unk_tags.end(); t++) {
     
     // See if it was already there, set by some other module
-    bool hasit=false;
-    for (set<string>::iterator li=stags.begin(); li!=stags.end() && !hasit; li++)
-      hasit= (t->first.find(*li)==0);
-      //      hasit= (t->first.find(li->get_short_parole(Language))==0);
-    //bool hasit= (stags.find(t->first) != stags.end());
+    analysis a(form,t->first);
+    bool hasit = (stags.find(a.get_short_parole(Language))!=stags.end());
     
     // if we don't have it, consider including it in the list
     if (!hasit) {
       
       double p = compute_probability(t->first,t->second,form);
-      analysis a(form,t->first);
       a.set_prob(p);
       
       TRACE(2,"   tag:"+t->first+" ("+(hasit?"had it":"new")+")  pr="+util::double2string(p)+" "+util::double2string(t->second));
