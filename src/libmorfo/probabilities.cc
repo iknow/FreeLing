@@ -381,37 +381,43 @@ void probabilities::smoothing(word &w) {
 
   }  
 
-  map<string,double> temp_map;
+  map<string,map<string,double> >::iterator it;
+  map<string,double> *temp_map=NULL;
   string form=util::lowercase(w.get_form());
 
-  if (lexical_tags.find(form)!=lexical_tags.end()) {
+  it = lexical_tags.find(form);
+  if (it!=lexical_tags.end()) {
     // word found in lexical probabilities list. Use them straightforwardly.
     TRACE(2,"Form '"+form+"' contained in the lexical_tags map");
-    temp_map=lexical_tags[form];
+    temp_map= &(it->second);    
   }  
-  else if (class_tags.find(cNP)!=class_tags.end()){
-    // Word not in lexical probs list. Back off to ambiguity class
-    TRACE(2,"Ambiguity class '"+cNP+"' found in class_tags map");
-    temp_map=class_tags[cNP];
-  }
-  else if (trysec and class_tags.find(c)!=class_tags.end()){
-    // Ambiguity class not found. Try secondary class, if any.
-    TRACE(2,"Secondary ambiguity class '"+c+"' found in class_tags map");
-    temp_map=class_tags[c];
-  }
   else {
-    // Ambiguity class not found. Back off to unigram probs.
-    TRACE(2,"unknown word and class. Using unigram probs");
-    temp_map=single_tags;
-  }	      
-  
+    it = class_tags.find(cNP);
+    if (it!=class_tags.end()){
+      // Word not in lexical probs list. Back off to ambiguity class
+      TRACE(2,"Ambiguity class '"+cNP+"' found in class_tags map");
+      temp_map= &(it->second);          
+    }
+    else if (trysec) {
+      it = class_tags.find(c);
+      if (it !=class_tags.end()){
+	// Ambiguity class not found. Try secondary class, if any.
+	TRACE(2,"Secondary ambiguity class '"+c+"' found in class_tags map");
+	temp_map= &(it->second);          
+      }
+    }
+  }
+
+  if (temp_map==NULL) temp_map = &single_tags;
+
   double sum=0;
   for (map<string,double>::iterator x=tags_short.begin(); x!=tags_short.end(); x++) 
-    sum += temp_map[x->first] * x->second;
-
-  for (word::iterator li=w.begin(); li!=w.end(); li++)
-    li->set_prob((temp_map[li->get_short_parole(Language)]+(1/(double)na))/(sum+1));
+    sum += (*temp_map)[x->first] * x->second;
   
+  for (word::iterator li=w.begin(); li!=w.end(); li++)
+    li->set_prob(((*temp_map)[li->get_short_parole(Language)]+(1/(double)na))/(sum+1));
+  
+ 
 }
 
 
