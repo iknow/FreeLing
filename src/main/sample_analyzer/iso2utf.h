@@ -67,7 +67,7 @@ to the total number of bytes in a UTF-8 character.
    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /* erroneous */
    2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 5, 6};
 
-char* utf8toLatin ( char* cadena) {
+string utf8toLatin ( const char* cadena) {
 
 int indice = 0;
 int tamanyo = strlen(cadena);
@@ -79,7 +79,7 @@ resultado = (char*)malloc (tamanyo * 6 + 1);
 while (indice<=tamanyo) 
 {
   register int c;
-  register unsigned long u;
+  register unsigned long u=0;
   int len;
 
   c = (int) cadena[indice];
@@ -125,8 +125,11 @@ while (indice<=tamanyo)
   }
   if (indice == tamanyo) break;
 	
-}
-return resultado;
+ }
+
+ string res=string(resultado);
+ free(resultado);
+ return res;
 }
 
 

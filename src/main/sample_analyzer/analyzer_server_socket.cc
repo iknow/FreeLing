@@ -292,7 +292,7 @@ void PrintResults (list <sentence> &ls, const document &doc=document() ) {
     sout << endl;	
   }
 
-  cout<<"RESPONSE:"<<sout.str()<<endl;
+  //cout<<"RESPONSE:"<<sout.str()<<endl;
   sock->write_message(sout.str());
 }
 
@@ -389,36 +389,79 @@ void ProcessCoreference () {
 //---------------------------------------------
 // Plain text input, incremental processing
 //---------------------------------------------
-void ProcessPlain () {
+void ProcessPlain (double &cpuTime_total, int &sentences, int &words){
 
   string text;
   unsigned long offs = 0;
   vector < word > av;
   list < sentence > ls;
 
-  while (sock->read_message(text)>0)
-    {
-      cout<<"processing "<<text<<endl;
-
-      if (cfg->OutputFormat >= TOKEN)
-	tk->tokenize (text, offs, av);
-      if (cfg->OutputFormat >= SPLITTED)
-	sp->split (av, cfg->AlwaysFlush, ls);
-
-      AnalyzeSentences(ls);
-
-      PrintResults (ls);
-      
-      av.clear ();		// clear list of words for next use
-      ls.clear ();		// clear list of sentences for next use
+  while (sock->read_message(text)>0) {
+    //cout<<"processing "<<text<<endl;
+    clock_t start = clock();
+    //cout << "start" << start << endl;
+    if (text=="RESET_STATS") {  // resetting command
+      cpuTime_total=0.0;
+      sentences=0;
+      words=0;
+      sock->write_message("FL-SERVER-READY");  
+      continue;
+    }
+    else if (text=="PRINT_STATS") { // print_stats command
+      ostringstream sout;
+      sout << "Words: "<<words<<", sentences: "<<sentences<<", cpuTime_total: "<<cpuTime_total<<endl;
+      sout << "Words/sentence: "<<(sentences>0?words/sentences:0)<<", words/second: "<<(cpuTime_total>0?words/cpuTime_total:0)<<", sentences/second: "<<(cpuTime_total>0?sentences/cpuTime_total:0)<<endl;
+      sock->write_message(sout.str());
+      continue;
+    }
+    
+    if (cfg->OutputFormat >= TOKEN)
+      tk->tokenize (text, offs, av);
+    if (cfg->OutputFormat >= SPLITTED)
+      sp->split (av, cfg->AlwaysFlush, ls);
+    
+    AnalyzeSentences(ls);
+    
+    // update stats
+    sentences+=ls.size();          
+    list<sentence>::iterator is;
+    for (is=ls.begin(); is!=ls.end(); is++) {
+      sentence se=*is;
+      words+=se.size();
     }
 
+    PrintResults (ls);
+
+    clock_t end = clock();
+    cpuTime_total += (end-(double)start)/(CLOCKS_PER_SEC);            
+    
+    av.clear ();		// clear list of words for next use
+    ls.clear ();		// clear list of sentences for next use
+  }
+  
+  clock_t start = clock();
+
   //flush splitter buffer
-  if (cfg->OutputFormat >= SPLITTED) sp->split (av, true, ls);
+  if (cfg->OutputFormat >= SPLITTED) 
+    sp->split (av, true, ls);
+
   // process last sentence in buffer (if any)
   AnalyzeSentences(ls);
+
+  // update stats
+  sentences+=ls.size();          
+  list<sentence>::iterator is;
+  for (is=ls.begin(); is!=ls.end(); is++) {
+    sentence se=*is;
+    words+=se.size();
+  }
+
   // Output results
   PrintResults (ls);
+
+  clock_t end = clock();
+  cpuTime_total += (end-(double)start)/(CLOCKS_PER_SEC);            
+
 }
 
 
@@ -426,8 +469,7 @@ void ProcessPlain () {
 // Process already tokenized text.
 // This sample program expects one token per line.
 //----------------------------------------------
-void
-ProcessToken () {
+void ProcessToken () {
   string text;
   vector < word > av;
   list < sentence > ls;
@@ -704,12 +746,16 @@ int main (int argc, char **argv) {
   // crear socket
   sock = new socket_CS(server_port);
 
+  double cpuTime_total=0.0;
+  int sentences=0;
+  int words=0;
+
   // serve client requests until server is killed
   while (true) {
           
-    cerr<<"SERVER: opening channels. Waiting for new connection"<<endl;
+    //cerr<<"SERVER: opening channels. Waiting for new connection"<<endl;
     sock->wait_client();
-    cerr<<"New client connected"<<endl;
+    //cerr<<"New client connected"<<endl;
     
     //--- get and process client input up to EOF ---
 
@@ -723,7 +769,7 @@ int main (int argc, char **argv) {
     } 
     // Input is plain text.
     else if (cfg->InputFormat == PLAIN)
-      ProcessPlain ();
+      ProcessPlain (cpuTime_total, sentences, words);
     // Input is tokenized. 
     else if (cfg->InputFormat == TOKEN)
       ProcessToken ();
@@ -731,7 +777,7 @@ int main (int argc, char **argv) {
     else if (cfg->InputFormat >= SPLITTED)
       ProcessSplitted ();
     
-    cerr<<"SERVER: client ended. Closing connection."<<endl;
+    //cerr<<"SERVER: client ended. Closing connection."<<endl;
     sock->close_connection();
 
   }

@@ -388,73 +388,67 @@ void ProcessPlain (double &cpuTime_total, int &sentences, int &words){
   vector < word >::const_iterator i;
   list < sentence > ls;
   
-
-
-  while (std::getline (std::cin, text))
-    {
-	clock_t start = clock();
-  	//cout << "start" << start << endl;
-	if (text=="RESET_STATS") {  // resetting command
-       		cpuTime_total=0.0;
-       		sentences=0;
-  		words=0;
-		continue;
-    	}
-    	else if (text=="PRINT_STATS") { // print_stats command
-    		cout << "Words:  "<< words  <<" sentences: " << sentences << " cpuTime_total: " << cpuTime_total <<endl;
-       		cout << "Words for sentence:  "<< words/sentences <<" words/second: " << words/cpuTime_total << " sentences/second: " <<sentences/cpuTime_total <<endl;
-		continue;
-       }
-	    
-	    
-      if (cfg->OutputFormat >= TOKEN)
-	tk->tokenize (text, offs, av);
-      if (cfg->OutputFormat >= SPLITTED)
-	sp->split (av, cfg->AlwaysFlush, ls);
-
-      AnalyzeSentences(ls);
-      sentences+=ls.size();
-          
-      list<sentence>::iterator is;
-      for (is=ls.begin(); is!=ls.end(); is++) {
-	      sentence se=*is;
-	      words+=se.size();
-              /*sentence::iterator pos;
-	      for (pos=se.begin(); pos!=se.end(); ++pos)  { words++; cout << "una palabra" << endl;}*/
-      }
-   
-   
-      if (cfg->OutputFormat == TOKEN) {
-	// if only tokenizing, just print one token per line
-	for (i = av.begin (); i != av.end (); i++)
-	  cout << i->get_form () << endl;
-      }
-      else {
-	// if higher processing performed, print sentences separed by blank lines.
-	PrintResults (ls);
-      }
-      
-      av.clear ();		// clear list of words for next use
-      ls.clear ();		// clear list of sentences for next use
-      
-      	clock_t end = clock();
-  	//cout << "end" << end << endl;
-  	cpuTime_total += (end-(double)start)/(CLOCKS_PER_SEC);
-  
+  while (std::getline (std::cin, text)) {
+    clock_t start = clock();
+    //cout << "start" << start << endl;
+    if (text=="RESET_STATS") {  // resetting command
+      cpuTime_total=0.0;
+      sentences=0;
+      words=0;
+      continue;
+    }
+    else if (text=="PRINT_STATS") { // print_stats command
+      cout << "Words: "<<words<<", sentences: "<<sentences<<", cpuTime_total: "<<cpuTime_total<<endl;
+      cout << "Words/sentence: "<<(sentences>0?words/sentences:0)<<", words/second: "<<(cpuTime_total>0?words/cpuTime_total:0)<<", sentences/second: "<<(cpuTime_total>0?sentences/cpuTime_total:0)<<endl;
+      continue;
+    }
     
-   }// end while 
+    
+    if (cfg->OutputFormat >= TOKEN)
+      tk->tokenize (text, offs, av);
+    if (cfg->OutputFormat >= SPLITTED)
+      sp->split (av, cfg->AlwaysFlush, ls);
+    
+    AnalyzeSentences(ls);
+    
+    // update stats
+    sentences+=ls.size();
+    list<sentence>::iterator is;
+    for (is=ls.begin(); is!=ls.end(); is++) {
+      sentence se=*is;
+      words+=se.size();
+    }
+        
+    PrintResults (ls);
+    
+    clock_t end = clock();
+    cpuTime_total += (end-(double)start)/(CLOCKS_PER_SEC);      
+    
+    av.clear ();		// clear list of words for next use
+    ls.clear ();		// clear list of sentences for next use    
+  }// end while 
+  
+  clock_t start = clock();
 
   // process last sentence in buffer (if any)
   if (cfg->OutputFormat >= SPLITTED)
     sp->split (av, true, ls);	//flush splitter buffer
-
+  
   AnalyzeSentences(ls);      
+  
+  // update stats
+  sentences+=ls.size();          
+  list<sentence>::iterator is;
+  for (is=ls.begin(); is!=ls.end(); is++) {
+    sentence se=*is;
+    words+=se.size();
+  }
 
   // if higher processing performed, print sentences separed by blank lines.
   PrintResults (ls);
   
-   
- 
+  clock_t end = clock();
+  cpuTime_total += (end-(double)start)/(CLOCKS_PER_SEC);            
 }
 
 
@@ -771,10 +765,10 @@ int main (int argc, char **argv) {
   signal (SIGTERM,terminate);
   signal (SIGQUIT,terminate);
   
-   double cpuTime_total=0.0;
-   int sentences=0;
-   int words=0;
-
+  double cpuTime_total=0.0;
+  int sentences=0;
+  int words=0;
+  
   // serve client requests until server is killed
   while (true) {
           
