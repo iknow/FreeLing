@@ -1,6 +1,6 @@
 EXTRA_DIST = LKB sample_analyzer simple_examples README
 INCLUDES = -I$(top_srcdir)/src/include -I$(top_srcdir)/libcfg+
-bin_PROGRAMS = analyzer analyzer_server_npipe analyzer_server_socket analyzer_serverSTD analyzer_client_npipe analyzer_client_socket analyzer_clientUTF
+bin_PROGRAMS = analyzer analyzer_server_npipe analyzer_server_socket analyzer_client_npipe analyzer_client_socket
 
 if BOOST_MT
   MT="-mt"
@@ -29,11 +29,8 @@ analyzer_server_npipe_LDFLAGS = -L$(top_srcdir)/src/libmorfo -L$(top_srcdir)/lib
 analyzer_server_socket_LDADD = -lmorfo -lfries -lomlet -lcfg+ -lpcre -ldb_cxx -lboost_filesystem$(MT)
 analyzer_server_socket_LDFLAGS = -L$(top_srcdir)/src/libmorfo -L$(top_srcdir)/libcfg+
 
-analyzer_serverSTD_LDADD = -lmorfo -lfries -lomlet -lcfg+ -lpcre -ldb_cxx -lboost_filesystem$(MT)
-analyzer_serverSTD_LDFLAGS = -L$(top_srcdir)/src/libmorfo -L$(top_srcdir)/libcfg+
-
 analyzer_client_npipe_LDADD = -lpthread
-analyzer_clientUTF_LDADD = -lpthread
+
 
 install-exec-hook:
 	cp sample_analyzer/analyze sample_analyzer/analyze.utf sample_analyzer/initialize $(bindir)
