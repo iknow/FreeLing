@@ -14,8 +14,6 @@ endif
 analyzer_SOURCES = sample_analyzer/analyzer.cc sample_analyzer/config.h
 analyzer_server_npipe_SOURCES = sample_analyzer/analyzer_server_npipe.cc sample_analyzer/config.h
 analyzer_client_npipe_SOURCES = sample_analyzer/analyzer_client_npipe.cc
-analyzer_serverSTD_SOURCES = sample_analyzer/analyzer_serverSTD.cc sample_analyzer/config.h
-analyzer_clientUTF_SOURCES = sample_analyzer/analyzer_clientUTF.cc
 
 analyzer_server_socket_SOURCES = sample_analyzer/analyzer_server_socket.cc sample_analyzer/config.h  sample_analyzer/socket.h
 analyzer_client_socket_SOURCES = sample_analyzer/analyzer_client_socket.cc sample_analyzer/socket.h
