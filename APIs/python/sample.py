@@ -28,8 +28,8 @@ while (lin) :
     l = tk.tokenize(lin);
     ls = sp.split(l,0);
     ls = mf.analyze(ls);
-    tg.analyze(ls);
-    sen.analyze(ls);
+    ls = tg.analyze(ls);
+    ls = sen.analyze(ls);
 
     for s in ls :
        ws = s.get_words();

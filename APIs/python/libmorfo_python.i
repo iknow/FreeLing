@@ -340,7 +340,7 @@ class dep_tree :  public tree<depnode> {
 /// It may include a parse tree.
 ////////////////////////////////////////////////////////////////
 
-class sentence : public std::vector<word> {
+class sentence : public std::list<word> {
  public:
   sentence();
   
@@ -389,7 +389,7 @@ class fex {
       /// Constructor
       fex(const std::string &, const std::string &lex=""); 
 
-      /// For Perl/java APIs, encode given sentence in feature names, return result as vector
+      /// For Perl/java APIs, encode given sentence in feature names, return result as list
       std::vector<std::list<std::string> > encode_name(const sentence &, bool);
       /// For Perl/java APIs, encode given sentence in feature codes, return result as vector
       std::vector<std::list<int> > encode_int(const sentence &);
@@ -491,7 +491,7 @@ class hmm_tagger {
        hmm_tagger(const std::string &, const std::string &, bool, unsigned int);
 
        /// analyze sentences with default options
-      std::list<sentence> analyze(const std::list<sentence> &);
+       std::list<sentence> analyze(const std::list<sentence> &);
 };
 
 
@@ -502,7 +502,7 @@ class relax_tagger {
        relax_tagger(const std::string &, int, double, double, bool, unsigned int);
 
        /// analyze sentences with default options
-      std::list<sentence> analyze(const std::list<sentence> &);
+       std::list<sentence> analyze(const std::list<sentence> &);
 };
 
 
@@ -515,7 +515,7 @@ class nec {
       ~nec();
 
       /// Classify NEs in given sentence
-      std::list<sentence> analyze(const std::list<sentence> &) const;
+      void analyze(std::list<sentence> &) const;
 };
 
 
@@ -527,7 +527,7 @@ class chart_parser {
    /// Get the start symbol of the grammar
    std::string get_start_symbol(void) const;
    /// parse sentences in list
-   std::list<sentence> analyze(const std::list<sentence> &);
+   void analyze(std::list<sentence> &);
 };
 
 /*------------------------------------------------------------------------*/
@@ -535,7 +535,7 @@ class dependency_parser {
   public: 
    dependency_parser();
    virtual ~dependency_parser() {};
-   virtual std::list<sentence> analyze(const std::list<sentence> &)=0;
+   virtual void analyze(std::list<sentence> &)=0;
 };
 
 
@@ -543,7 +543,7 @@ class dependency_parser {
 class dep_txala : public dependency_parser {
  public:   
    dep_txala(const std::string &, const std::string &);
-   std::list<sentence> analyze(const std::list<sentence> &);
+   void analyze(std::list<sentence> &);
 };
 
 
@@ -570,7 +570,7 @@ class disambiguator {
       ~disambiguator();
 
       /// word sense disambiguation for each word in given sentences
-      std::list<sentence> analyze(const std::list<sentence> &) const;
+      void analyze(std::list<sentence> &);
 };
 
 

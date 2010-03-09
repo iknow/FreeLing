@@ -47,6 +47,7 @@
 %include std_vector.i
 %include std_map.i
 
+%template(VectorWord) std::vector<word>;
 %template(ListWord) std::list<word>;
 %template(ListAnalysis) std::list<analysis>;
 %template(ListSentence) std::list<sentence>;
