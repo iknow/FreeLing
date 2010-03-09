@@ -44,19 +44,18 @@
 
 %include std_string.i
 %include std_list.i
-%include std_map.i
 %include std_vector.i
+%include std_map.i
 
-%template(VectorWord) std::vector<word>;
 %template(ListWord) std::list<word>;
 %template(ListAnalysis) std::list<analysis>;
 %template(ListSentence) std::list<sentence>;
 %template(ListParagraph) std::list<paragraph>;
 
 %template(ListString) std::list<std::string>;
-%template(ListInt) std::list<int >;
-%template(VectorListInt) std::vector<std::list<int > >;
-%template(VectorListString) std::vector<std::list<std::string > >;
+%template(ListInt) std::list<int>;
+%template(VectorListInt) std::vector<std::list<int> >;
+%template(VectorListString) std::vector<std::list<std::string> >;
 
 
 ###############  FRIES #####################
@@ -160,8 +159,9 @@ class analysis {
       bool is_retokenizable(void) const;
       std::list<word> get_retokenizable(void) const;
 
-      std::list<std::string> get_senses(void) const;
-      void set_senses(const std::list<std::string> &);
+      //void set_senses(const std::list<std::pair<std::string,double> > &);
+      //std::list<std::pair<std::string,double> > get_senses(void) const;
+      std::string get_senses_string(void) const;
 
 };
 
@@ -224,10 +224,11 @@ class word : public std::list<analysis> {
       /// get parole (short version) for the selected analysis  
       std::string get_short_parole(const std::string &) const;
 
-      /// get sense list for the selected analysis  
-      std::list<std::string> get_senses(void) const;
       /// set sense list for the selected analysis  
-      void set_senses(const std::list<std::string> &);
+      //void set_senses(const std::list<std::pair<std::string,double> > &);
+      /// get sense list for the selected analysis  
+      //std::list<std::pair<std::string,double> > get_senses(void) const;
+      std::string get_senses_string(void) const;
    
       /// get token span.
       unsigned long get_span_start(void) const;
@@ -338,7 +339,7 @@ class dep_tree :  public tree<depnode> {
 /// It may include a parse tree.
 ////////////////////////////////////////////////////////////////
 
-class sentence : public std::vector<word> {
+class sentence : public std::list<word> {
  public:
   sentence();
   
@@ -370,7 +371,12 @@ class paragraph : public std::list<sentence> {};
 ////////////////////////////////////////////////////////////////
 
 class document : public std::list<paragraph> {
-  paragraph title;
+ public:
+    document();
+    void add_positive(std::string, std::string);
+    int get_coref_group(std::string) const;
+    std::list<std::string> get_coref_nodes(int) const;
+    bool is_coref(std::string, std::string) const;
 };
 
 
@@ -382,7 +388,7 @@ class fex {
       /// Constructor
       fex(const std::string &, const std::string &lex=""); 
 
-      /// For Perl/java APIs, encode given sentence in feature names, return result as vector
+      /// For Perl/java APIs, encode given sentence in feature names, return result as list
       std::vector<std::list<std::string> > encode_name(const sentence &, bool);
       /// For Perl/java APIs, encode given sentence in feature codes, return result as vector
       std::vector<std::list<int> > encode_int(const sentence &);
@@ -398,7 +404,7 @@ class fex {
 };
 
 
-###############  FREEELING  #####################
+###############  FREELING  #####################
 
 class traces {
  public:
@@ -438,7 +444,7 @@ class maco_options {
     // Language analyzed
     std::string Lang;
     /// Morphological analyzer options
-    bool SuffixAnalysis, MultiwordsDetection,
+    bool AffixAnalysis, MultiwordsDetection,
         NumbersDetection, PunctuationDetection,
         DatesDetection, QuantitiesDetection,
         DictionarySearch, ProbabilityAssignment,
@@ -446,7 +452,7 @@ class maco_options {
     /// Morphological analyzer options
     std::string Decimal, Thousand;
     /// Morphological analyzer options
-    std::string LocutionsFile, QuantitiesFile, SuffixFile,
+    std::string LocutionsFile, QuantitiesFile, AffixFile,
            ProbabilityFile, DictionaryFile,
            NPdataFile, PunctuationFile;
     double ProbabilityThreshold;
@@ -458,10 +464,11 @@ class maco_options {
     /// Since option data members are public and can be accessed directly
     /// from C++, the following methods are not necessary, but may become
     /// convenient sometimes.
-    void set_active_modules(bool,bool,bool,bool,bool,bool,bool,bool,bool);
+    void set_active_modules(bool,bool,bool,bool,bool,bool,bool,bool,int,bool);
     void set_nummerical_points(const std::string &,const std::string &);
-    void set_data_files(const std::string &,const std::string &,const std::string &,const std::string &,
-                        const std::string &,const std::string &,const std::string &);
+    void set_data_files(const std::string &,const std::string &,const std::string &,
+                        const std::string &,const std::string &,const std::string &,
+                        const std::string &,const std::string &);
     void set_threshold(double);
 };
 
@@ -472,8 +479,6 @@ class maco {
       maco(const maco_options &);
 
       /// analyze sentences
-      //void analyze(std::list<sentence> &);
-      /// analyze sentences, return analyzed copy
       std::list<sentence> analyze(const std::list<sentence> &);
 };
 
@@ -485,8 +490,7 @@ class hmm_tagger {
        hmm_tagger(const std::string &, const std::string &, bool, unsigned int);
 
        /// analyze sentences with default options
-       //void analyze(std::list<sentence> &);
-       std::list<sentence> analyze(const std::list<sentence> &);
+       void analyze(std::list<sentence> &);
 };
 
 
@@ -497,9 +501,22 @@ class relax_tagger {
        relax_tagger(const std::string &, int, double, double, bool, unsigned int);
 
        /// analyze sentences with default options
-       //void analyze(std::list<sentence> &);
-       std::list<sentence> analyze(const std::list<sentence> &);
+       void analyze(std::list<sentence> &);
 };
+
+
+/*------------------------------------------------------------------------*/
+class nec {
+   public:
+      /// Constructor
+      nec(const std::string &, const std::string &); 
+      /// Destructor
+      ~nec();
+
+      /// Classify NEs in given sentence
+      void analyze(std::list<sentence> &) const;
+};
+
 
 /*------------------------------------------------------------------------*/
 class chart_parser {
@@ -512,15 +529,22 @@ class chart_parser {
    void analyze(std::list<sentence> &);
 };
 
+/*------------------------------------------------------------------------*/
+class dependency_parser {
+  public: 
+   dependency_parser();
+   virtual ~dependency_parser() {};
+   virtual void analyze(std::list<sentence> &)=0;
+};
+
 
 /*------------------------------------------------------------------------*/
-class dependencyMaker {
+class dep_txala : public dependency_parser {
  public:   
-   /// constructor
-   dependencyMaker(const std::string &, const std::string &);
-   /// Enrich all sentences in given list with a depenceny tree.
+   dep_txala(const std::string &, const std::string &);
    void analyze(std::list<sentence> &);
 };
+
 
 
 /*------------------------------------------------------------------------*/
@@ -532,6 +556,19 @@ class senses {
       ~senses(); 
  
       /// sense annotate selected analysis for each word in given sentences
+      void analyze(std::list<sentence> &);
+};
+
+
+/*------------------------------------------------------------------------*/
+class disambiguator {
+   public:
+      /// Constructor
+       disambiguator(const std::string &, const std::string &, double, int);
+      /// Destructor
+      ~disambiguator();
+
+      /// word sense disambiguation for each word in given sentences
       void analyze(std::list<sentence> &);
 };
 
@@ -554,6 +591,7 @@ class sense_info {
 
   /// constructor
   sense_info(const std::string &,const std::string &,const std::string &);
+  std::string get_parents_string() const;
 };
 
 

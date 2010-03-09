@@ -47,7 +47,6 @@
 %include std_vector.i
 %include std_map.i
 
-%template(VectorWord) std::vector<word>;
 %template(ListWord) std::list<word>;
 %template(ListAnalysis) std::list<analysis>;
 %template(ListSentence) std::list<sentence>;
@@ -340,7 +339,7 @@ class dep_tree :  public tree<depnode> {
 /// It may include a parse tree.
 ////////////////////////////////////////////////////////////////
 
-class sentence : public std::vector<word> {
+class sentence : public std::list<word> {
  public:
   sentence();
   
@@ -389,7 +388,7 @@ class fex {
       /// Constructor
       fex(const std::string &, const std::string &lex=""); 
 
-      /// For Perl/java APIs, encode given sentence in feature names, return result as vector
+      /// For Perl/java APIs, encode given sentence in feature names, return result as list
       std::vector<std::list<std::string> > encode_name(const sentence &, bool);
       /// For Perl/java APIs, encode given sentence in feature codes, return result as vector
       std::vector<std::list<int> > encode_int(const sentence &);
