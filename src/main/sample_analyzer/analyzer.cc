@@ -53,7 +53,7 @@ using namespace std;
 #include <iostream> 
 
 #include <map>
-#include <vector>
+#include <list>
 
 /// headers to call freeling library
 #include "fries/util.h"
@@ -301,7 +301,7 @@ void AnalyzeSentences(list<sentence> &ls) {
 //---------------------------------------------
 void ProcessCoreference () {
   string text;
-  vector < word > av;
+  list < word > av;
   list < sentence > ls;
   paragraph par;
   document doc;
@@ -367,8 +367,8 @@ void ProcessCoreference () {
 void ProcessPlain () {
   string text;
   unsigned long offs = 0;
-  vector < word > av;
-  vector < word >::const_iterator i;
+  list < word > av;
+  list < word >::const_iterator i;
   list < sentence > ls;
 
   while (std::getline (std::cin, text))
@@ -413,7 +413,7 @@ void
 ProcessToken () {
 
   string text;
-  vector < word > av;
+  list < word > av;
   list < sentence > ls;
   unsigned long totlen = 0;
 

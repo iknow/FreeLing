@@ -56,7 +56,7 @@ using namespace std;
 #include <iostream>
 
 #include <map>
-#include <vector>
+#include <list>
 
 /// headers to call freeling library
 #include "freeling.h"
@@ -326,7 +326,7 @@ void AnalyzeSentences(list<sentence> &ls) {
 void ProcessCoreference () {
 
   string text;
-  vector < word > av;
+  list < word > av;
   list < sentence > ls;
   paragraph par;
   document doc;
@@ -393,7 +393,7 @@ void ProcessPlain (double &cpuTime_total, int &sentences, int &words){
 
   string text;
   unsigned long offs = 0;
-  vector < word > av;
+  list < word > av;
   list < sentence > ls;
 
   while (sock->read_message(text)>0) {
@@ -471,7 +471,7 @@ void ProcessPlain (double &cpuTime_total, int &sentences, int &words){
 //----------------------------------------------
 void ProcessToken () {
   string text;
-  vector < word > av;
+  list < word > av;
   list < sentence > ls;
   unsigned long totlen = 0;
 

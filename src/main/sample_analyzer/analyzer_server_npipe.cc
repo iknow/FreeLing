@@ -57,7 +57,7 @@ using namespace std;
 #include <time.h>
 
 #include <map>
-#include <vector>
+#include <list>
 
 /// headers to call freeling library
 #include "freeling.h"
@@ -316,7 +316,7 @@ void AnalyzeSentences(list<sentence> &ls) {
 //---------------------------------------------
 void ProcessCoreference () {
   string text;
-  vector < word > av;
+  list < word > av;
   list < sentence > ls;
   paragraph par;
   document doc;
@@ -384,8 +384,8 @@ void ProcessPlain (double &cpuTime_total, int &sentences, int &words){
 
   string text;
   unsigned long offs = 0;
-  vector < word > av;
-  vector < word >::const_iterator i;
+  list < word > av;
+  list < word >::const_iterator i;
   list < sentence > ls;
   
   while (std::getline (std::cin, text)) {
@@ -459,7 +459,7 @@ void ProcessPlain (double &cpuTime_total, int &sentences, int &words){
 void
 ProcessToken () {
   string text;
-  vector < word > av;
+  list < word > av;
   list < sentence > ls;
   unsigned long totlen = 0;
 

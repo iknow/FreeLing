@@ -64,15 +64,15 @@ class splitter {
       sentence buffer; 
 
       /// check for sentence markers
-      bool end_of_sentence(std::vector<word>::const_iterator, const std::vector<word> &) const;
+      bool end_of_sentence(std::list<word>::const_iterator, const std::list<word> &) const;
 
    public:
       /// Constructor
       splitter(const std::string &);
 
       /// split sentences with default options
-      void split(const std::vector<word> &, bool, std::list<sentence> &ls);
-      std::list<sentence> split(const std::vector<word> &, bool);
+      void split(const std::list<word> &, bool, std::list<sentence> &ls);
+      std::list<sentence> split(const std::list<word> &, bool);
 };
 
 #endif

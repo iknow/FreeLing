@@ -31,7 +31,7 @@
 
 #include <set>
 #include <map>
-#include <vector>
+#include <list>
 
 #include "fries/language.h"
 #include "regexp-pcre++.h"
@@ -48,7 +48,7 @@ class tokenizer {
 	/// abreviations set (Dr. Mrs. etc. period is not separated)
         std::set<std::string> abrevs;
 	/// tokenization rules
-        std::vector<std::pair<std::string,RegEx> > rules;
+        std::list<std::pair<std::string,RegEx> > rules;
 	/// substrings to convert into tokens in each rule
         std::map<std::string,int> matches;
 
@@ -57,13 +57,13 @@ class tokenizer {
        tokenizer(const std::string &);
 
        /// tokenize string 
-       void tokenize(const std::string &, std::vector<word> &);
+       void tokenize(const std::string &, std::list<word> &);
        /// tokenize string, return result as list
-       std::vector<word> tokenize(const std::string &);
+       std::list<word> tokenize(const std::string &);
        /// tokenize string, tracking offset
-       void tokenize(const std::string &, unsigned long &, std::vector<word> &);
+       void tokenize(const std::string &, unsigned long &, std::list<word> &);
        /// tokenize string, tracking offset, return result as list
-       std::vector<word> tokenize(const std::string &, unsigned long &);
+       std::list<word> tokenize(const std::string &, unsigned long &);
 };
 
 #endif

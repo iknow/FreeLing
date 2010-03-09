@@ -124,8 +124,8 @@ splitter::splitter(const std::string &SplitFile) {
 ///  in buffer, and wait for further calls with more data.
 ///////////////////////////////////////////////////////////////
 
-void splitter::split(const std::vector<word> &v, bool flush, list<sentence> &ls) {
-  vector<word>::const_iterator w;
+void splitter::split(const std::list<word> &v, bool flush, list<sentence> &ls) {
+  list<word>::const_iterator w;
   map<string,bool>::const_iterator e;
   map<string,int>::const_iterator m;
 
@@ -220,7 +220,7 @@ void splitter::split(const std::vector<word> &v, bool flush, list<sentence> &ls)
 ///  Split and return a copy of the sentences
 ///////////////////////////////////////////////////////////////
 
-list<sentence> splitter::split(const std::vector<word> &v, bool flush) {
+list<sentence> splitter::split(const std::list<word> &v, bool flush) {
 
   list<sentence> ls;
   split (v, flush, ls);
@@ -233,8 +233,8 @@ list<sentence> splitter::split(const std::vector<word> &v, bool flush) {
 /// by a capitalized word).
 ///////////////////////////////////////////////////////////////
 
-bool splitter::end_of_sentence (std::vector<word>::const_iterator w, const std::vector<word> &v) const {
-  vector<word>::const_iterator r;
+bool splitter::end_of_sentence (std::list<word>::const_iterator w, const std::list<word> &v) const {
+  list<word>::const_iterator r;
   string f,g;
 
   // Search at given position w for the next word, to decide whether w contains a marker.
