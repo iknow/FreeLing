@@ -122,9 +122,9 @@ tokenizer::tokenizer(const std::string &TokFile)
 /// configuration file, returning a word object list.
 ///////////////////////////////////////////////////////////////
 
-void tokenizer::tokenize(const std::string &p, unsigned long &offset, vector<word> &v) {
+void tokenizer::tokenize(const std::string &p, unsigned long &offset, list<word> &v) {
   string t[10];
-  vector<pair<string,RegEx> >::iterator i;
+  list<pair<string,RegEx> >::iterator i;
   bool match;
   int j,start;
   int len=0;
@@ -256,21 +256,21 @@ void tokenizer::tokenize(const std::string &p, unsigned long &offset, vector<wor
 // }
 
 
-void tokenizer::tokenize(const string &p, vector<word> &lw) {
+void tokenizer::tokenize(const string &p, list<word> &lw) {
   unsigned long aux=0;
   tokenize(p,aux,lw);
 }
 
 
-vector<word> tokenizer::tokenize(const string &p, unsigned long &offset) {
-  vector<word> lw;
+list<word> tokenizer::tokenize(const string &p, unsigned long &offset) {
+  list<word> lw;
   tokenize(p,offset,lw);
   return lw;
 }
 
-vector<word> tokenizer::tokenize(const string &p) {
+list<word> tokenizer::tokenize(const string &p) {
   unsigned long aux=0;
-  vector<word> lw;
+  list<word> lw;
   tokenize(p,aux,lw);
   return lw;
 }
