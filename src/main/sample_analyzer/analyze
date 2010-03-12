@@ -19,8 +19,11 @@
 #  share/FreeLing/config under FreeLing installation directory.
 
 
+shopt -s extglob
+
 ## Execute FreeLing environment initialization
 . $(cd $(dirname $0) && echo $PWD)/initialize $@
+
 
 ## call actual executable
 if [[ "x$1" == "x-"* || "x$1" == "x" ]]; then
@@ -34,7 +37,7 @@ else
 
   if [[ "$1" == "stop" ]]; then
     if [[ "x$2" == "x" ]]; then
-      echo "Missing name for server to stop."
+      echo "Missing name or port for server to stop."
       exit
     fi
     pid=`ps -ef | grep $2 | grep analyzer_server | awk '{print $2}'`
@@ -43,9 +46,24 @@ else
       exit
     fi
     kill -15 $pid
-  else
+  elif [[ "x$1" == "x"+([0-9]) ]]; then
+    myIP=`ifconfig | grep -1 eth0 | grep 'inet addr' | sed 's/inet addr://' | awk '{print $1}'`
     echo ""
-    echo "First parameter '$1' is not an option. Starting server mode."
+    echo "Port number '$1' given as first parameter. Starting server mode."
+    echo ""
+    echo "You can now analyze text with the following command:"
+    echo "  - From this computer: "
+    echo "      analyzer_client_socket localhost $1 <input.txt >output.txt"
+    echo "  - From any other computer: "
+    echo "      analyzer_client_socket $myIP $1 <input.txt >output.txt"
+    echo ""
+    echo "Stop the server with: "
+    echo "      analyze stop $1"
+    echo ""
+    $FREELING/bin/analyzer_server_socket $param &
+  else 
+    echo ""
+    echo "Name '$1' given as first parameter. Starting server mode."
     echo ""
     echo "You can now analyze text with: "
     echo "      analyzer_client_npipe $1  <input.txt >output.txt"

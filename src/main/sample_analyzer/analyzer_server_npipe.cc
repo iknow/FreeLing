@@ -628,6 +628,22 @@ void terminate (int param)
 
 
 //---------------------------------------------
+// --- create a named pipe and abort if there are problems
+//---------------------------------------------
+void CreateNamedPipe(const string name) {
+  if (mkfifo(name.c_str(),0666)) {
+    if (errno==EEXIST) {
+      cerr<<"SERVER: Named pipe "<<name<<" already exists."<<endl;
+      cerr<<"        If no other server is using it, remove the file and try again."<<endl;
+    }
+    else {
+      cerr<<"Error creating named pipe "<<name<<endl;
+    }
+    exit(errno); 
+  }
+}
+
+//---------------------------------------------
 // Sample main program
 //---------------------------------------------
 int main (int argc, char **argv) {
@@ -739,25 +755,8 @@ int main (int argc, char **argv) {
   cerr<<"SERVER: Analyzers loaded."<<endl;
 
   // create named pipe for input and output
-  if (mkfifo(FIFO_in.c_str(),0666)) {
-    switch (errno) {
-    case EEXIST: cerr<<"SERVER: Named pipe "<<FIFO_in<<" already exists."<<endl;
-                   cerr<<"        If no other server is using it, remove the file and try again."<<endl;
-                   exit(1); break;
-      default: cerr<<"Error creating named pipe "<<FIFO_in<<endl;
-               exit(1);
-    }
-  }
-
-  if (mkfifo(FIFO_out.c_str(),0666)) {
-    switch (errno) {
-    case EEXIST: cerr<<"SERVER: Named pipe "<<FIFO_out<<" already exists."<<endl;
-                   cerr<<"        If no other server is using it, remove the file and try again."<<endl;
-                   exit(1); break;
-      default: cerr<<"Error creating named pipe "<<FIFO_out<<endl;
-               exit(1);
-    }
-  }
+  CreateNamedPipe(FIFO_in);
+  CreateNamedPipe(FIFO_out);
 
   cerr<<"SERVER: Pipes "<<FIFO_in<<" and "<<FIFO_out<<" created."<<endl;
 
@@ -769,7 +768,7 @@ int main (int argc, char **argv) {
   int sentences=0;
   int words=0;
   
-  // serve client requests until server is killed
+  // serve client requests until server is stopped
   while (true) {
           
     cerr<<"SERVER: opening channels. Waiting for new connection"<<endl;
