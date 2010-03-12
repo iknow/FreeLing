@@ -289,8 +289,7 @@ Just open your favorite software package manager and install them.
 \end{verbatim}
 
 \item {\sl Install libboost headers and binaries:}\\ 
-In Ubuntu Intrepid, Ubuntu Jaunty, and Debian Lenny, installing this single package, will pull in all
-the required others:
+In Ubuntu Intrepid, Ubuntu Jaunty, and Debian Lenny, installing this single package, will pull in all the required others:
 \begin{verbatim}
  sudo apt-get install libboost-dev
 \end{verbatim}
@@ -314,29 +313,6 @@ In Ubuntu Hardy packages are organized slightly different:
   build C++ support using the {\tt --enable-cxx} option with {\tt
     ./configure}.
 
-
-\item {\bf Install non-packaged requirements}
-
-\begin{list}{\labelitemi}{\leftmargin=1em}
-\item {\sl Install libcfg+ library}\\
- This library is not usually found packaged in Linux distributions, so you need to install it from source.
-
- Get the package\footnote{If you do not have {\tt wget} installed, you simply can use your browser to get the package from  {\tt http://www.platon.sk/projects/libcfg+/}.}:\\
-\verb#   wget http://platon.sk/projects/download.php?id=57#
-
- Unpack it and cd to the package folder:\\
-\verb#   tar xzvf libcfg+-0.6.2.tar.gz#\\
-\verb#   cd libcfg+-0.6.2#
-
- Set appropriate flags ({\bf IMPORTANT:} This command is needed only in 64-bit systems. If
-  you are using a 32-bit system, just omit it):\\
-\verb#   export CPPFLAGS="-fPIC"#
-
- Configure, compile, and install the library:\\
-\verb#   ./configure#\\
-\verb#   make#\\
-\verb#   sudo make install#
-\end{list}
 
 
 \item {\bf Install FreeLing}
@@ -3054,7 +3030,8 @@ to the command above.
   and {\tt analyzer\_client} that perform the same task, but the
   server remains loaded after analyzing each client's request, thus
   reducing the starting-up overhead if many small files have to be
-  processed.
+  processed. Server-client pairs may communicate via named pipes
+  or via sockets.
 
   To ease the invocation of the program, a script named {\tt analyze}
   (no final {\tt r}) is provided. This is script is able to locate
@@ -3108,6 +3085,49 @@ E.g.:
  in the output.
 
   The user starting the clients must ensure there is no overlapping in the requests.
+
+
+\section{Using socket client/server}
+
+  A client-server version based on sockets is also available (though not 
+ handled by the {\tt analyze} script).
+
+  To use it, you have to:
+
+ \begin{enumerate}
+  \item Start the server:
+\begin{verbatim}
+ analyzer_server_socket port_num [-f config-file] [options] &
+\end{verbatim}
+
+  The parameter {\tt port\_num} is the port where the server will be
+  listening for requests. 
+
+  The possible {\tt options} are the same
+  than for the {\tt analyze} script described above.
+
+   Note that defalt configuration files are located at {\tt
+     /usr/local/share/FreeLing/config}. Note also that those files
+   require the environment variable {\tt FREELINGSHARE} to be defined
+   and to point to a directory with valid FreeLing data files
+   (e.g. {\tt /usr/local/share/FreeLing}). The {\tt analyze} script
+   described above handles these paths and variables, but if you are
+   calling the {\tt analyzer\_server\_socket} directly, you need to
+   handle them yourself.
+
+ \item  Once the server is started, you can start clients that send requests to it:
+\begin{verbatim}
+analyzer_client_socket host port_num [--utf] < myinput > myoutput
+\end{verbatim}
+
+  The parameter {\tt host} indicates the name or IP of the host where
+  the server is running ({\tt localhost} if it is the same machine
+  than the client) and {\tt port\_num} is the port where the server
+  is listening for requests.
+
+  The flag \verb#--utf# must be set if the input is in utf8. 
+
+ \end{enumerate}
 
 %..................................................
 \section{Usage example}

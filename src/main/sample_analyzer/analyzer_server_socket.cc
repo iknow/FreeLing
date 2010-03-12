@@ -600,7 +600,6 @@ void ProcessSplitted () {
 }
 
 
-
 //---------------------------------------------
 // Capture signal to terminate process
 //---------------------------------------------
@@ -746,16 +745,19 @@ int main (int argc, char **argv) {
   // crear socket
   sock = new socket_CS(server_port);
 
+  // set ending signals processing to allow clean exits;
+  signal (SIGTERM,terminate);
+  signal (SIGQUIT,terminate);
+  
   double cpuTime_total=0.0;
   int sentences=0;
   int words=0;
 
-  // serve client requests until server is killed
+  // serve client requests until server is stopped
   while (true) {
           
-    //cerr<<"SERVER: opening channels. Waiting for new connection"<<endl;
+    cerr<<"SERVER: opening channels. Waiting connections"<<endl;
     sock->wait_client();
-    //cerr<<"New client connected"<<endl;
     
     //--- get and process client input up to EOF ---
 
@@ -777,7 +779,7 @@ int main (int argc, char **argv) {
     else if (cfg->InputFormat >= SPLITTED)
       ProcessSplitted ();
     
-    //cerr<<"SERVER: client ended. Closing connection."<<endl;
+    cerr<<"SERVER: client ended. Closing connection."<<endl;
     sock->close_connection();
 
   }

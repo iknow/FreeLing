@@ -44,12 +44,10 @@ int main(int argc, char *argv[]) {
   }
   
   // input ended. Make sure to flush server's buffer
-  //  if (r=="FL-SERVER-READY") {
-    sock.shutdown_connection(SHUT_WR);
-    sock.read_message(r);
-    if (r!="FL-SERVER-READY")
-      output_result(r,utf);
-    //  }
+  sock.shutdown_connection(SHUT_WR);
+  sock.read_message(r);
+  if (r!="FL-SERVER-READY")
+    output_result(r,utf);
 
   // terminate connection
   sock.close_connection();
