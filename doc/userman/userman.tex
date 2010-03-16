@@ -191,13 +191,6 @@ WordNet, such as semantic file codes, or hypernymy relationships.
        \item Slackware: {\tt boost }
        \end{list}
 
-     \item {\tt libcfg+} (version 0.6.1 or higher) \\
-       Configuration file and command-line options management. 
-       Probably not included in your linux distribution.
-       Available from {\tt http://www.platon.sk/projects/libcfg+/},
-       follow installation instructions provided in the libcfg+ package. 
-        Already included in FreeLing binary {\tt .deb} packages.
-
      \item {\tt Omlet \& Fries} (omlet v.1.0 or higher, fries v.1.1 or higher)\\
         Machine Learning utility libraries, used by Named Entity Classifier.
         These libraries contain linguistic data structures, so they are
@@ -235,7 +228,7 @@ The installation procedure for these distributions (will probably work for other
 
   In the case of Debian, the above commands must be issued as root and without {\tt sudo}.
 
-  Libraries {\tt libcfg+}, {\tt libfries}, and {\tt libomlet} are included in the FreeLing 
+  Libraries {\tt libfries}, and {\tt libomlet} are included in the FreeLing 
   {\tt .deb} package, so you do not need to install them.
 
 \subsection{Install from {\tt .tar.gz} source packages}
@@ -387,7 +380,7 @@ In Ubuntu Hardy packages are organized slightly different:
   may have different names. Use your package manager to locate and install
   the appropriate ones.
   
-\item {\bf Install packaged and non-packaged requirements}\\ 
+\item {\bf Install packaged requirements}\\ 
   Follow the same procedure described in section \ref{sec-install-tgz} for
   these two steps.
  \newpage
@@ -453,7 +446,7 @@ In Ubuntu Hardy packages are organized slightly different:
   The usage and options of this main program is described in chapter \ref{cap-analyzer}.
   
   Please take into account that this program is only a friendly
-  interface to demonstrate FreeLings abilities, but that there are
+  interface to demonstrate FreeLing abilities, but that there are
   many other potential usages of FreeLing.  
 
   Thus, the question is not {\sl why this program doesn't offer
@@ -470,7 +463,7 @@ In Ubuntu Hardy packages are organized slightly different:
 
 The FreeLing library is entirely written in C++, so it should be
 possible to compile it on non-unix platforms with a reasonable
-effort (additional pcre/db/cfg+ libraries porting might be 
+effort (additional pcre/db libraries porting might be 
 required also...). 
 
 Success have been reported on compiling FreeLing on MacOS, as well as on
@@ -3026,49 +3019,66 @@ to the command above.
   your own main program or adapting one of the existing, as described
   in section \ref{sec-main}
 
-  FreeLing provides also a couple of programs {\tt analyzer\_server}
+  FreeLing also provides a couple of programs {\tt analyzer\_server}
   and {\tt analyzer\_client} that perform the same task, but the
   server remains loaded after analyzing each client's request, thus
   reducing the starting-up overhead if many small files have to be
   processed. Server-client pairs may communicate via named pipes
   or via sockets.
 
+ \section{The easy way: Using the {\tt analyze} script}
+
   To ease the invocation of the program, a script named {\tt analyze}
   (no final {\tt r}) is provided. This is script is able to locate
   default configuration files, define library search paths, and 
-  decide whether you want the client-server or the staight version.
+  decide whether you want the client-server or the straight version.
 
  The sample main program is called with the command:
 \begin{verbatim}
  analyze [channel-name] [-f config-file] [options]
 \end{verbatim}
 
-  If \verb#channel-name# is ommited, the analyzer is started in straight mode:
-  It will load the configuration, read input from stdin, and write results to stdout.\\
-E.g.:
-\begin{verbatim}
- analyze -f en.cfg  <myinput  >myoutput
-\end{verbatim}
+  If \verb#channel-name# is ommited, the analyzer is started in
+  straight mode.  If it is a number, it will be assumed to be a port
+  and a server will be launched to accept socket connections on that
+  port.  Finally, if \verb#channel-name# is alphanumeric, it will be
+  assumed to be the name of a named pipe from which the server has to 
+  read requests.
 
-  When the input file ends, the analyzer will stop and will have to be
-  reloaded again to process a new file.
-
-  If \verb#config-file# is not specified, a file named 
+  If \verb#-f config-file# is not specified, a file named 
  {\tt analyzer.cfg} is searched in the current working 
  directory. 
-  If it is specified but not located in the current directory, it will be searched
- in FreeLing installation directory ({\tt /usr/local/share/FreeLing/config} 
- if you installed from source, and \verb#/usr/share/FreeLing# if you used a 
- binary {\tt .deb} package).
+
+  If \verb#-f config-file# is specified but not found in the current
+  directory, it will be searched in FreeLing installation directory
+  ({\tt /usr/local/share/FreeLing/config} if you installed from
+  source, and \verb#/usr/share/FreeLing# if you used a binary {\tt
+    .deb} package).
 
   Extra options may be specified in the command line to override any settings in
   \verb#config-file#. See section \ref{ss-options} for details.  
 
-  If \verb#channel-name# is specified (any valid filename is acceptable),
- a server is initiated, and named pipes with the given name are created.\\
-E.g.:
+
+\subsection{Straight mode}
+
+ When \verb#channel-name# is ommited, a stand-alone analyzer will be
+ launched.  It will load the configuration, read input from stdin,
+ write results to stdout, and exit.\\ 
+ E.g.:
 \begin{verbatim}
- analyze mychannel -f en.cfg  <myinput  >myoutput
+ analyze -f en.cfg  <myinput  >myoutput
+\end{verbatim}
+
+  When the input file ends, the analyzer will stop and it will have to be
+  reloaded again to process a new file.
+
+\subsection{Named pipe client/server mode}
+
+  If \verb#channel-name# is specified and is an alphanumeric string
+  (any valid filename is acceptable), a server is initiated, and named
+  pipes with the given name are created.\\ E.g.:
+\begin{verbatim}
+ analyze mychannel -f en.cfg  &
 \end{verbatim}
 
   Then, clients can request analysis to the server, with:
@@ -3085,49 +3095,70 @@ E.g.:
  in the output.
 
   The user starting the clients must ensure there is no overlapping in the requests.
+  Note also that for this client-server pair to work, they have to share  
+  diskspace, since named pipes are accessible as filenames.
 
 
-\section{Using socket client/server}
+\subsection{Socket client/server mode}
 
-  A client-server version based on sockets is also available (though not 
- handled by the {\tt analyze} script).
+  A client-server version based on sockets is also available.  The
+  advantatges are that clients are served in sequential order (that
+  is, a client will have to wait to the previous one ending its
+  request before it is allowed to send text to the server), and that
+  clients do not need to be on the same machine than the server.
 
-  To use it, you have to:
-
- \begin{enumerate}
-  \item Start the server:
+  To start the server, proceed as in the named pipe version, but
+ using a port number as a channel identifier.  \\ E.g:
 \begin{verbatim}
- analyzer_server_socket port_num [-f config-file] [options] &
+ analyze 54321 -f en.cfg  &
 \end{verbatim}
-
-  The parameter {\tt port\_num} is the port where the server will be
-  listening for requests. 
-
-  The possible {\tt options} are the same
-  than for the {\tt analyze} script described above.
-
-   Note that defalt configuration files are located at {\tt
-     /usr/local/share/FreeLing/config}. Note also that those files
-   require the environment variable {\tt FREELINGSHARE} to be defined
-   and to point to a directory with valid FreeLing data files
-   (e.g. {\tt /usr/local/share/FreeLing}). The {\tt analyze} script
-   described above handles these paths and variables, but if you are
-   calling the {\tt analyzer\_server\_socket} directly, you need to
-   handle them yourself.
-
- \item  Once the server is started, you can start clients that send requests to it:
+  
+  Then, clients can request analysis to the server, with:
 \begin{verbatim}
-analyzer_client_socket host port_num [--utf] < myinput > myoutput
+ analyzer_client localhost 54321  <myinput  >myoutput
 \end{verbatim}
+ or, from a remote machine:
+\begin{verbatim}
+ analyzer_client xx.xx.xx.xx 54321  <myinput  >myoutput
+\end{verbatim}
+(where \verb#xx.xx.xx.xx# should be the IP address or hostname for
+the machine where the server was started)
 
-  The parameter {\tt host} indicates the name or IP of the host where
-  the server is running ({\tt localhost} if it is the same machine
-  than the client) and {\tt port\_num} is the port where the server
-  is listening for requests.
 
-  The flag \verb#--utf# must be set if the input is in utf8. 
-
- \end{enumerate}
+%\begin{enumerate}
+%  \item Start the server:
+%\begin{verbatim}
+% analyzer_server_socket port_num [-f config-file] [options] &
+%\end{verbatim}
+%
+%  The parameter {\tt port\_num} is the port where the server will be
+%  listening for requests. 
+%
+%  The possible {\tt options} are the same
+%  than for the {\tt analyze} script described above.
+%
+%   Note that defalt configuration files are located at {\tt
+%     /usr/local/share/FreeLing/config}. Note also that those files
+%   require the environment variable {\tt FREELINGSHARE} to be defined
+%   and to point to a directory with valid FreeLing data files
+%   (e.g. {\tt /usr/local/share/FreeLing}). The {\tt analyze} script
+%   described above handles these paths and variables, but if you are
+%   calling the {\tt analyzer\_server\_socket} directly, you need to
+%   handle them yourself.
+%
+% \item  Once the server is started, you can start clients that send requests to it:
+%\begin{verbatim}
+%analyzer_client_socket host port_num [--utf] < myinput > myoutput
+%\end{verbatim}
+%
+%  The parameter {\tt host} indicates the name or IP of the host where
+%  the server is running ({\tt localhost} if it is the same machine
+%  than the client) and {\tt port\_num} is the port where the server
+%  is listening for requests.
+%
+%  The flag \verb#--utf# must be set if the input is in utf8. 
+%
+% \end{enumerate}
 
 %..................................................
 \section{Usage example}
