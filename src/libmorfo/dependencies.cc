@@ -33,10 +33,10 @@
 #include <vector>
 #include <algorithm>
 
-#include "freeling/traces.h"
-#include "freeling/dependencies.h"
-#include "freeling/dep_rules.h"
 #include "regexp-pcre++.h"
+#include "freeling/traces.h"
+#include "freeling/dep_rules.h"
+#include "freeling/dependencies.h"
 
 using namespace std;
 
@@ -896,6 +896,12 @@ rule_expression* depLabeler::build_expression(const string &condition) {
       ERROR_CRASH("Semantic function '"+func+"' was used in labeling rules, but no previous <SEMDB> section was found. Make sure <SEMDB> section is defined before <GRLAB> section.");
     }
 
+    // if the check is negated and we have As or Es, we must invert them
+    if (negated) {
+      if (node[0]=='A') node[0]='E';
+      else if (node[0]=='E') node[0]='A';
+    }
+
     // create rule checker for function requested in condition
     if (func=="label")        re=new check_category(node,value);
     else if (func=="side")    re=new check_side(node,value);
@@ -961,7 +967,7 @@ void depLabeler::label(dep_tree* dependency, dep_tree::iterator ancestor) {
 	    skip = (rl->label == d1->info.get_label());
 	
 	if (!skip) {
-	  found = (rl->eval(ancestor,d)); 
+	  found = (rl->check(ancestor,d)); 
 	  if (found) { 
 	    d->info.set_label(rl->label);
 	    TRACE(3,"      [line "+util::int2string(rl->line)+"] "+rl->ancestorLabel+" "+rl->label+" -- rule matches!");
