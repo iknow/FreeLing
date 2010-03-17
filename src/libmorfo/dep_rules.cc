@@ -234,9 +234,7 @@ dep_tree::iterator rule_expression::parse_node_ref(string nd, dep_tree::iterator
 /// is to be checked in this condition.
 ///////////////////////////////////////////////////////////////
 
-dep_tree::iterator rule_expression::node_to_check(dep_tree::iterator p, dep_tree::iterator d) const{
-
-  dep_tree::iterator res=NULL;
+bool rule_expression::nodes_to_check(dep_tree::iterator p, dep_tree::iterator d, list<dep_tree::iterator> &res) const{
 
   string top, nd;
   string::size_type t=node.find(':');
@@ -249,25 +247,64 @@ dep_tree::iterator rule_expression::node_to_check(dep_tree::iterator p, dep_tree
     nd=node.substr(t+1);
   }
 
-  if (top=="p") res=parse_node_ref(nd,p);
-  else if (top=="d") res=parse_node_ref(nd,d);
+  if (top=="p") res.push_back(parse_node_ref(nd,p));
+  else if (top=="d") res.push_back(parse_node_ref(nd,d));
+  else if (top=="As" or top=="Es") {
+    // add to the list all children (except d) of the same parent (p)
+    for (dep_tree::sibling_iterator s=p->sibling_begin(); s!=p->sibling_end(); ++s)
+      if (s!=d) res.push_back(parse_node_ref(nd,s));
+  }
 
-  return res;
+  return (top=="As"); // return true for AND, false for OR.
 }
 
 
 
-//---------- Derived from rule_expresion ----------------------------------
+///////////////////////////////////////////////////////////////
+/// Check wheter a rule_expression can be applied to the
+/// given pair of nodes
+///////////////////////////////////////////////////////////////
+
+bool rule_expression::check(dep_tree::iterator ancestor, dep_tree::iterator descendant) const {
+
+  list<dep_tree::iterator> ln;
+
+  // if "which_ao"=true then "eval" of all nodes in "ln" must be joined with AND
+  // if it is false, and OR must be used 
+  bool which_ao = nodes_to_check(ancestor, descendant, ln);  
+  if (ln.empty()) return false;
+
+// start with "true" for AND and "false" for OR
+  bool res= which_ao; 
+  // the loop goes on when res==true for AND and when res==false for OR
+  for (list<dep_tree::iterator>::iterator n=ln.begin(); n!=ln.end() and (res==which_ao); n++)
+    res=eval(*n);
+
+  return res;
+}
+
+///////////////////////////////////////////////////////////////
+/// eval whether a single node matches a condition
+/// only called from check if needed. The abstract class
+/// version should never be reached.
+///////////////////////////////////////////////////////////////
+
+bool rule_expression::eval(dep_tree::iterator n) const {
+  return false;
+}
+
+
+//---------- Classes derived from rule_expresion ----------------------------------
 
 /// check_and
 
 void check_and::add(rule_expression * re) {check_list.push_back(re);}
-bool check_and::eval(dep_tree::iterator ancestor, dep_tree::iterator descendant) const {
+bool check_and::check(dep_tree::iterator ancestor, dep_tree::iterator descendant) const {
   TRACE(4,"      eval AND");
   bool result=true;
   list<rule_expression *>::const_iterator ci=check_list.begin();
   while(result && ci!=check_list.end()) { 
-    result=(*ci)->eval(ancestor,descendant); 
+    result=(*ci)->check(ancestor,descendant); 
     ++ci;
   }
   return result;
@@ -276,9 +313,9 @@ bool check_and::eval(dep_tree::iterator ancestor, dep_tree::iterator descendant)
 /// check_not
 
 check_not::check_not(rule_expression * re) {check_op=re;}
-bool check_not::eval(dep_tree::iterator  ancestor, dep_tree::iterator  descendant) const {
+bool check_not::check(dep_tree::iterator  ancestor, dep_tree::iterator  descendant) const {
   TRACE(4,"      eval NOT");
-  return (! check_op->eval(ancestor,descendant));  
+  return (! check_op->check(ancestor,descendant));  
 }
 
 /// check_side
@@ -287,7 +324,7 @@ check_side::check_side(const string &n,const string &s) : rule_expression(n,s) {
   if (valueList.size()>1 || (s!="right" && s!="left")) 
     WARNING("Error reading dependency rules. Invalid condition "+node+".side="+s+". Must be one of 'left' or 'right'.");
 };
-bool check_side::eval(dep_tree::iterator ancestor, dep_tree::iterator descendant) const {
+bool check_side::check(dep_tree::iterator ancestor, dep_tree::iterator descendant) const {
   string side=*valueList.begin();
   TRACE(4,"      eval SIDE="+side);
   if ((side=="left" && node=="d") || (side=="right" && node=="p")) {
@@ -302,9 +339,8 @@ bool check_side::eval(dep_tree::iterator ancestor, dep_tree::iterator descendant
 /// check_wordclass
 
 check_wordclass::check_wordclass(const string &n,const string &c) : rule_expression(n,c) {}
-bool check_wordclass::eval (dep_tree::iterator ancestor, dep_tree::iterator descendant) const {
-  dep_tree::iterator n = node_to_check(ancestor, descendant);  
-  if (n==NULL) return false;
+bool check_wordclass::eval (dep_tree::iterator n) const {
+
   TRACE(4,"      Checking "+node+".class="+util::set2string(valueList,"|")+" ? lemma="+ n->info.get_word().get_lemma());
 
   bool found=false;
@@ -316,9 +352,7 @@ bool check_wordclass::eval (dep_tree::iterator ancestor, dep_tree::iterator desc
 /// check_lemma
 
 check_lemma::check_lemma(const string &n,const string &l) : rule_expression(n,l) {}
-bool check_lemma::eval(dep_tree::iterator  ancestor, dep_tree::iterator  descendant) const {
-  dep_tree::iterator n = node_to_check(ancestor, descendant);  
-  if (n==NULL) return false;
+bool check_lemma::eval(dep_tree::iterator n) const {
   TRACE(4,"      eval. "+node+".lemma "+n->info.get_word().get_lemma());
   return (find(n->info.get_word().get_lemma()));
 }
@@ -326,9 +360,7 @@ bool check_lemma::eval(dep_tree::iterator  ancestor, dep_tree::iterator  descend
 /// check head PoS
 
 check_pos::check_pos(const string &n,const string &l) : rule_expression(n,l) {}
-bool check_pos::eval(dep_tree::iterator  ancestor, dep_tree::iterator  descendant) const {
-  dep_tree::iterator n = node_to_check(ancestor, descendant);  
-  if (n==NULL) return false;
+bool check_pos::eval(dep_tree::iterator n) const {
   TRACE(4,"      eval. "+node+".pos "+n->info.get_word().get_lemma());
   return (match(n->info.get_word().get_parole()));
 }
@@ -337,9 +369,7 @@ bool check_pos::eval(dep_tree::iterator  ancestor, dep_tree::iterator  descendan
 /// check chunk label
 
 check_category::check_category(const string &n,const string &p) : rule_expression(n,p) {}
-bool check_category::eval(dep_tree::iterator ancestor, dep_tree::iterator descendant) const {
-  dep_tree::iterator n = node_to_check(ancestor, descendant);  
-  if (n==NULL) return false;
+bool check_category::eval(dep_tree::iterator n) const {
   return (find_match(n->info.get_link()->info.get_label()));
 }
 
@@ -347,10 +377,7 @@ bool check_category::eval(dep_tree::iterator ancestor, dep_tree::iterator descen
 /// check top-ontology
 
 check_tonto::check_tonto(semanticDB &db, const string &n, const string &t) : rule_expression(n,t), semdb(db) {}
-bool check_tonto::eval (dep_tree::iterator ancestor, dep_tree::iterator descendant) const {
-  dep_tree::iterator n = node_to_check(ancestor, descendant);  
-  if (n==NULL) return false;
-
+bool check_tonto::eval (dep_tree::iterator n) const {
   string lem=n->info.get_word().get_lemma();
   string pos=n->info.get_word().get_parole().substr(0,1);
   list<string> sens = semdb.get_word_senses(lem,pos);
@@ -364,10 +391,7 @@ bool check_tonto::eval (dep_tree::iterator ancestor, dep_tree::iterator descenda
 /// check semantic file
 
 check_semfile::check_semfile(semanticDB &db, const string &n, const string &f) : rule_expression(n,f), semdb(db) {}
-bool check_semfile::eval (dep_tree::iterator ancestor, dep_tree::iterator descendant) const {
-  dep_tree::iterator n = node_to_check(ancestor, descendant);  
-  if (n==NULL) return false;
-
+bool check_semfile::eval (dep_tree::iterator n) const {
   string lem=n->info.get_word().get_lemma();
   string pos=n->info.get_word().get_parole().substr(0,1);
   list<string> sens = semdb.get_word_senses(lem,pos);
@@ -381,10 +405,7 @@ bool check_semfile::eval (dep_tree::iterator ancestor, dep_tree::iterator descen
 /// check synonyms
 
 check_synon::check_synon(semanticDB &db, const string &n, const string &w) : rule_expression(n,w), semdb(db) {}
-bool check_synon::eval (dep_tree::iterator ancestor, dep_tree::iterator descendant) const {
-  dep_tree::iterator n = node_to_check(ancestor, descendant);  
-  if (n==NULL) return false;
-
+bool check_synon::eval (dep_tree::iterator n) const {
   string lem=n->info.get_word().get_lemma();
   string pos=n->info.get_word().get_parole().substr(0,1);
   list<string> sens = semdb.get_word_senses(lem,pos);
@@ -398,10 +419,7 @@ bool check_synon::eval (dep_tree::iterator ancestor, dep_tree::iterator descenda
 /// check ancestor synonyms
 
 check_asynon::check_asynon(semanticDB &db, const string &n, const string &w) : rule_expression(n,w), semdb(db) {}
-bool check_asynon::eval (dep_tree::iterator ancestor, dep_tree::iterator descendant) const {
-  dep_tree::iterator n = node_to_check(ancestor, descendant);  
-  if (n==NULL) return false;
-
+bool check_asynon::eval (dep_tree::iterator n) const {
   string lem=n->info.get_word().get_lemma();
   string pos=n->info.get_word().get_parole().substr(0,1);
 
@@ -442,8 +460,8 @@ ruleLabeler::ruleLabeler(const string &plabel, rule_expression* pre) {
 ///  Evaluate rule conditions
 ////////////////////////////////////////////////////////////////
 
-bool ruleLabeler::eval(dep_tree::iterator ancestor, dep_tree::iterator descendant) const {
+bool ruleLabeler::check(dep_tree::iterator ancestor, dep_tree::iterator descendant) const {
   TRACE(4,"      eval ruleLabeler");
-  return re->eval(ancestor, descendant);
+  return re->check(ancestor, descendant);
 }
 

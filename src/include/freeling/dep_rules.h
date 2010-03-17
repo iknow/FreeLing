@@ -111,8 +111,11 @@ class rule_expression {
     std::string node;
     // set of values (if any) to check against.
     std::set<std::string> valueList;
-    // obtain the iterator to the node to be checked
-    dep_tree::iterator node_to_check(dep_tree::iterator, dep_tree::iterator) const;
+    // obtain the iterator to the nodes to be checked 
+    // and the operation AND/OR to perform
+    bool nodes_to_check(dep_tree::iterator, dep_tree::iterator, std::list<dep_tree::iterator> &) const;
+    // virtual, evaluate expression
+    virtual bool eval(dep_tree::iterator) const;
 
   public:
     // constructors and destructors
@@ -126,7 +129,7 @@ class rule_expression {
     bool find_any(const std::list<std::string> &) const;
     bool find_any_match(const std::list<std::string> &) const;
     // virtual, evaluate expression
-    virtual bool eval(dep_tree::iterator, dep_tree::iterator) const =0;
+    virtual bool check(dep_tree::iterator, dep_tree::iterator) const;
 };
 
 
@@ -153,7 +156,7 @@ class check_and : public rule_expression {
     std::list<rule_expression *> check_list;
   public:
     void add(rule_expression *);
-    bool eval(dep_tree::iterator  ancestor, dep_tree::iterator  descendant) const;
+    bool check(dep_tree::iterator, dep_tree::iterator) const;
 };
 
 
@@ -166,7 +169,7 @@ class check_not : public rule_expression {
     rule_expression * check_op;
   public:
     check_not(rule_expression *);
-    bool eval(dep_tree::iterator, dep_tree::iterator) const;
+    bool check(dep_tree::iterator, dep_tree::iterator) const;
 };
 
 
@@ -177,7 +180,7 @@ class check_not : public rule_expression {
 class check_side : public rule_expression {
   public:
     check_side(const std::string &,const std::string &);
-    bool eval (dep_tree::iterator, dep_tree::iterator) const;
+    bool check(dep_tree::iterator, dep_tree::iterator) const;
 };
 
 
@@ -188,7 +191,7 @@ class check_side : public rule_expression {
 class check_lemma : public rule_expression {
   public:
     check_lemma(const std::string &,const std::string &);
-    bool eval(dep_tree::iterator, dep_tree::iterator) const;
+    bool eval(dep_tree::iterator) const;
 };
 
 ////////////////////////////////////////////////////////////////
@@ -198,7 +201,7 @@ class check_lemma : public rule_expression {
 class check_pos : public rule_expression {
   public:
     check_pos(const std::string &,const std::string &);
-    bool eval(dep_tree::iterator, dep_tree::iterator) const;
+    bool eval(dep_tree::iterator) const;
 };
 
 
@@ -209,7 +212,7 @@ class check_pos : public rule_expression {
 class check_category :public rule_expression {
   public:
     check_category(const std::string &,const std::string &);
-    bool eval(dep_tree::iterator, dep_tree::iterator) const;
+    bool eval(dep_tree::iterator) const;
 };
 
 
@@ -221,7 +224,7 @@ class check_wordclass : public rule_expression {
   public:    
     static std::set<std::string> wordclasses; // items are class#verbLemma
     check_wordclass(const std::string &, const std::string &);
-    bool eval (dep_tree::iterator, dep_tree::iterator) const;
+    bool eval(dep_tree::iterator) const;
 };
 
 ////////////////////////////////////////////////////////////////
@@ -233,7 +236,7 @@ class check_tonto : public rule_expression {
     semanticDB &semdb;
   public:    
     check_tonto(semanticDB &, const std::string &, const std::string &);
-    bool eval (dep_tree::iterator, dep_tree::iterator) const;
+    bool eval(dep_tree::iterator) const;
 };
 
 ////////////////////////////////////////////////////////////////
@@ -245,7 +248,7 @@ class check_semfile : public rule_expression {
     semanticDB &semdb;
   public:    
     check_semfile(semanticDB &, const std::string &, const std::string &);
-    bool eval (dep_tree::iterator, dep_tree::iterator) const;
+    bool eval(dep_tree::iterator) const;
 };
 
 ////////////////////////////////////////////////////////////////
@@ -257,7 +260,7 @@ class check_synon : public rule_expression {
     semanticDB &semdb;
   public:    
     check_synon(semanticDB &, const std::string &, const std::string &);
-    bool eval (dep_tree::iterator, dep_tree::iterator) const;
+    bool eval(dep_tree::iterator) const;
 };
 
 ////////////////////////////////////////////////////////////////
@@ -269,7 +272,7 @@ class check_asynon : public rule_expression {
     semanticDB &semdb;
   public:    
     check_asynon(semanticDB &, const std::string &, const std::string &);
-    bool eval (dep_tree::iterator, dep_tree::iterator) const;
+    bool eval(dep_tree::iterator) const;
 };
 
 
@@ -288,7 +291,7 @@ class ruleLabeler {
 
    ruleLabeler(void);
    ruleLabeler(const std::string &, rule_expression *);
-   bool eval(dep_tree::iterator, dep_tree::iterator) const;
+   bool check(dep_tree::iterator, dep_tree::iterator) const;
 };
 
 
