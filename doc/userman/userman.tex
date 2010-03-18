@@ -1652,8 +1652,8 @@ You can change this environment variable to use different linguistic data files.
 \end{verbatim}
     (\verb#$FLSHARE# refers to the \verb#share/FreeLing# directory in your
     FreeLing installation, which defaults to \verb#/usr/local/share/FreeLing#
-    if you installed from source, (\verb#/usr/share/FreeLing# if you 
-    used a binary {\tt .deb} package).
+    if you installed from source, or \verb#/usr/share/FreeLing# if you 
+    used a binary {\tt .deb} package.
     Obviously, if you want to convert the file for a language different 
     than Spanish, you have to use the right path).
 
@@ -1850,6 +1850,7 @@ class relax_tagger : public POS_tagger {
 
    The file consists of two sections: {\tt SETS} and {\tt CONSTRAINTS}.
 
+\subsubsection{Set definition}
    The {\tt SETS} section consists of a list of set definitions, each of the form
    {\tt Set-name = element1 element2 ... elementN ; }
     
@@ -1877,6 +1878,7 @@ class relax_tagger : public POS_tagger {
             [01813568] [01883430] [01947400] [07400072] [07501137];
 \end{verbatim}
 
+\subsubsection{Constraint definition}
    The {\tt CONSTRAINTS} section consists of a series of context
    constraits, each of the form: {\tt weight core context;}
 
@@ -1980,6 +1982,7 @@ class relax_tagger : public POS_tagger {
     it is unselecting the other copies of the same analysis with 
     different senses.
 
+\subsubsection{Examples}
 
 	Examples:\\
 	The next constraint states a high incompatibility for a word
@@ -2007,16 +2010,17 @@ class relax_tagger : public POS_tagger {
 	correctly tag Spanish words which have two different NC
 	analysis differing in gender: e.g. {\em el cura} (the priest)
 	vs. {\em la cura} (the cure):\\
-        {\tt 5.0 NCM* (-1* {DetMasc};}
+        {\tt 5.0 NCM* (-1* {DetMasc};)}
 
 	The next constraint adds some positive compatibility to a
 	3rd person personal pronoun being of undefined gender and
 	number ({\tt PP3CNA00}) if it has the possibility of being
         masculine singular ({\tt PP3MSA00}), the next word may have
-        lemma {\sl estar} (to be), and the sencond word to the right
+        lemma {\sl estar} (to be), and the second word to the right
 	is not a gerund ({\tt VMG}). This rule is intended to solve the 
-        different behaviour of the Spanish word {\sl lo} in sentences 
-        such as {\sl si, lo estoy} or {\sl lo estoy viendo}.\\
+        different behaviour of the Spanish word {\sl lo} (it) in sentences 
+        such as ``¿Cansado? Si, lo estoy.'' ({\sl Tired? Yes, I am [it]}) or 
+        ``lo estoy viendo.'' ({\sl I am watching it}).\\
 	{\tt 0.5 PP3CNA00 (0 PP3MSA00) (1 \verb#<estar>#) (not 2 VMG*);}
 
 
@@ -2256,9 +2260,9 @@ section \ref{file-dep}.
   sections: \verb#<GRPAR>#, \verb#<GRLAB>#, \verb#<SEMDB>#, and \verb#<CLASS>#,
   respectively closed by tags \verb#</GRPAR>#, \verb#</GRLAB>#, \verb#</SEMDB>#, and \verb#</CLASS>#.
 
-\begin{itemize} 
- \itemsep 0.2cm
-    \item Section \verb#<GRPAR># contains rules to complete the
+\subsubsection{Parse--tree completion rules}
+
+  Section \verb#<GRPAR># contains rules to complete the
     partial parsing provided by the chart parser. The tree is
     completed by combining chunk pairs as stated by the rules. Rules
     are applied from highest priority (lower values) to lowest
@@ -2272,6 +2276,7 @@ section \ref{file-dep}.
     If none of its enabling flags are on, the rule is not applied.
     Each rule may also state which flags have to be toggled on/off after
     its application, thus enabling/disabling other rule subsets.
+    \medskip
 
     Each line contains a rule, with the format:
 \begin{verbatim}
@@ -2453,7 +2458,8 @@ priority flags context (ancestor,descendant) operation op-params flag-ops
     the parsing starts.  The grammarian can define any alphanumerical
     string as a flag, simply toggling it on in some rule.
 
-\item Section \verb#<GRLAB># contains two kind of lines.
+\subsubsection{Dependency function labeling rules}
+ Section \verb#<GRLAB># contains two kind of lines.
 
   The first kind are the lines defining \verb#UNIQUE# labels, which
   have the format:
@@ -2497,15 +2503,32 @@ priority flags context (ancestor,descendant) operation op-params flag-ops
   node.attribute != value
 \end{verbatim}
 
-   Where \verb#node# is a string describing a node on which the \verb#attribute# has to be checked.
-   The \verb#value# is a string to be matched, or a set of strings (separated by ``\verb#|#''). The strings can be right-wildcarded (e.g. \verb#np*# is allowed, but not \verb#n*p#. For the \verb#pos# attribute, \verb#value# can be any valid regular expression.
+   Where \verb#node# is a string describing a node on which the
+   \verb#attribute# has to be checked.  The \verb#value# is a string
+   to be matched, or a set of strings (separated by ``\verb#|#''). The
+   strings can be right-wildcarded (e.g. \verb#np*# is allowed, but
+   not \verb#n*p#. For the \verb#pos# attribute, \verb#value# can be
+   any valid regular expression.
 
-   The \verb#node# expresses a path to locate the node to be checked. The path must start with \verb#p# (parent node) or \verb#d# (descendant node), and may be followed by a colon-separated list of labels. For instance \verb#p:sn:n# refers to the first node labeled \verb#n# found under a node labeled \verb#sn# which is under the dependency parent \verb#p#. 
- 
+   The \verb#node# expresses a path to locate the node to be
+   checked. The path must start with \verb#p# (parent node) or
+   \verb#d# (descendant node), and may be followed by a
+   colon-separated list of labels. For instance \verb#p:sn:n# refers
+   to the first node labeled \verb#n# found under a node labeled
+   \verb#sn# which is under the dependency parent \verb#p#.
+
+   The \verb#node# may be also \verb#As# ({\em All siblings}) or
+   \verb#Es# ({\sl Exists sibling}) which will check the list of all
+   children of the ancestor (\verb#p#), excluding the focus daughter
+   (\verb#d#).  \verb#As# and \verb#Es# may be followed by a path,
+   just like \verb#p# and \verb#d#. For instance, \verb#Es:sn:n# 
+   will check for a sibling with that path, and  \verb#As:sn:n# 
+   will check that all sibling have that path.
+  
    Possible {\tt attribute} to be used:
   \begin{itemize}
     \item \verb#label#: chunk label (or PoS tag) of the node.
-    \item \verb#side#: (left or right) position of the specified node with respect to the other.
+    \item \verb#side#: (left or right) position of the specified node with respect to the other.  Only valid for \verb#p# and \verb#d#.
     \item \verb#lemma#: lemma of the node head word.
     \item \verb#pos#: PoS tag of the node head word
     \item \verb#class#: word class (see below) of lemma of the node head word.
@@ -2533,8 +2556,28 @@ verb-phr    obj    d.label=np*  d:sn.tonto=Edible  p.lemma=eat|gulp
   a daughter labeled \verb#sn# that has {\tt Edible} property in EWN
   Top ontology, this dependence is to be labeled as \verb#obj#.
 
- 
-   \item Section \verb#<SEMDB># is only necessary if the dependency labeling rules in section \verb#<GRLAB># use conditions on semantic values (that is, any of \verb#tonto#, \verb#semfile#, \verb#synon#, or \verb#asynon#).  Since it is needed by \verb#<GRLAB># rules, section \verb#<SEMDB># must be defined {\em before} section \verb#<GRLAB>#.
+   Another example:
+\begin{verbatim}
+verb-phr    iobj   d.label=pp* d.lemma=to|for  Es.label=np*
+\end{verbatim}
+  states that if a \verb#verb-phr# has a descendant with a label
+  starting by \verb#pp# (prepositional phrase) and lemma {\em to} or
+  {\em for}, and there is another child of the same parent which is 
+  a noun phrase (\verb#np*#), this dependence is to be
+  labeled as \verb#iobj#.
+
+   Yet another:
+\begin{verbatim}
+verb-phr    dobj   d.label=pp* d.lemma=to|for  As.label!=np*
+\end{verbatim}
+  states that if a \verb#verb-phr# has a descendant with a label
+  starting by \verb#pp# (prepositional phrase) and lemma {\em to} or
+  {\em for}, and {\em all} the other children of the same parent are {\em not}
+  noun phrases (\verb#np*#), this dependence is to be
+  labeled as \verb#dobj#.
+
+\subsubsection{Semantic database location}
+  Section \verb#<SEMDB># is only necessary if the dependency labeling rules in section \verb#<GRLAB># use conditions on semantic values (that is, any of \verb#tonto#, \verb#semfile#, \verb#synon#, or \verb#asynon#).  Since it is needed by \verb#<GRLAB># rules, section \verb#<SEMDB># must be defined {\em before} section \verb#<GRLAB>#.
   The section must contain two lines specifying two semantic information files, a {\tt SenseFile} and a {\tt WNFile}. The filenames may be absolute or relative to the location of the dependency rules file.
 \begin{verbatim}
 <SEMDB>
@@ -2546,7 +2589,8 @@ WNFile    ../../common/wn16.db
    The \verb#SenseFile# must be a BerkeleyDB indexed file as described in the \ref{senses-file} section.
    The \verb#WNFile# must be a BerkeleyDB indexed file, containing ontology information (hyperonymy, Top Ontology, WN semantic File, etc. The contents of this file are described in section \ref{file-wn}.
 
-   \item Section \verb#<CLASS># contains class definitions which may
+\subsubsection{Class definitions}
+    Section \verb#<CLASS># contains class definitions which may
    be used as attributes in the dependency labelling rules.
 
    Each line contains a class assignation for a lemma, with two possible formats:
@@ -2571,7 +2615,7 @@ mov     run     prep= to,towards   D.O.
 animal "animals.dat"
 \end{verbatim}
 
-\end{itemize}
+
 
 %..................................................
 \section{Coreference Resolution Module}
