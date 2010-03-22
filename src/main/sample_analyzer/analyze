@@ -6,10 +6,10 @@
 #     analyze [options]    
 #
 #  - start an analyzer server
-#     analyze NAME [options]    
+#     analyze PORT [options]    
 #
 #  - stop an analyzer server
-#     analyze stop NAME
+#     analyze stop PORT
 #
 #  Executes freeling analyzer with given options, taking care of
 #  paths and default locations
@@ -53,9 +53,9 @@ else
     echo ""
     echo "You can now analyze text with the following command:"
     echo "  - From this computer: "
-    echo "      analyzer_client_socket localhost $1 <input.txt >output.txt"
+    echo "      analyzer_client localhost $1 <input.txt >output.txt"
     echo "  - From any other computer: "
-    echo "      analyzer_client_socket $myIP $1 <input.txt >output.txt"
+    echo "      analyzer_client $myIP $1 <input.txt >output.txt"
     echo ""
     echo "Stop the server with: "
     echo "      analyze stop $1"
@@ -63,15 +63,7 @@ else
     $FREELING/bin/analyzer_server_socket $param &
   else 
     echo ""
-    echo "Name '$1' given as first parameter. Starting server mode."
-    echo ""
-    echo "You can now analyze text with: "
-    echo "      analyzer_client_npipe $1  <input.txt >output.txt"
-    echo ""
-    echo "Stop the server with: "
-    echo "      analyze stop $1"
-    echo ""
-    $FREELING/bin/analyzer_server_npipe $param &
+    echo "Invalid port number '$1'."  fi
   fi
 fi
 
