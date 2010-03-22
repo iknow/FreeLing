@@ -44,8 +44,9 @@
 #define MORFO    3
 #define TAGGED   4
 #define SENSES   5
-#define PARSED   6
-#define DEP      7
+#define SHALLOW  6
+#define PARSED   7
+#define DEP      8
 
 // codes for tagging algorithms
 #define HMM   0
@@ -399,19 +400,17 @@ class config {
       else if (s=="morfo") InputFormat = MORFO;
       else if (s=="tagged") InputFormat = TAGGED;
       else if (s=="sense") InputFormat = SENSES;
-      else if (s=="parsed") InputFormat = PARSED;
-      else if (s=="dep") InputFormat = DEP;
-      else { ERROR_CRASH("UNKNOWN Input format: "+s);}
+      else { ERROR_CRASH("Unknown or invalid input format: "+s);}
       
       s = (OutputF==NULL ? "tagged" : string(OutputF));
-      if (s=="plain") OutputFormat = PLAIN;
-      else if (s=="token") OutputFormat = TOKEN;
+      if (s=="token") OutputFormat = TOKEN;
       else if (s=="splitted") OutputFormat = SPLITTED;
       else if (s=="morfo") OutputFormat = MORFO;
       else if (s=="tagged") OutputFormat = TAGGED;
+      else if (s=="shallow") OutputFormat = SHALLOW;
       else if (s=="parsed") OutputFormat = PARSED;
       else if (s=="dep") OutputFormat = DEP;
-      else { ERROR_CRASH("UNKNOWN Output format: "+s);}
+      else { ERROR_CRASH("Unknown or invalid output format: "+s);}
 
       // translate Ner string to more useful integer values.
       s = (Ner==NULL ? "basic" : string(Ner));
@@ -496,7 +495,7 @@ class config {
       cout<<"--lang language        Language (sp: Spanish, ca: Catalan, en: English)"<<endl;
       cout<<"--flush, --noflush     Consider each newline as a sentence end"<<endl;
       cout<<"--inpf string          Input format (plain,token,splitted,morfo,sense,tagged)"<< endl;
-      cout<<"--outf string          Output format (plain,token,splitted,morfo,tagged,parsed,dep)"<< endl;
+      cout<<"--outf string          Output format (token,splitted,morfo,tagged,shallow,parsed,dep)"<< endl;
       cout<<"--ftok filename        Tokenizer rules file "<<endl;
       cout<<"--fsplit filename      Splitter options file "<<endl;
       cout<<"--afx, --noafx         Whether to perform affix analysis"<<endl;

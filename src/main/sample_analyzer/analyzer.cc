@@ -62,238 +62,10 @@ using namespace std;
 /// config file/options handler for this particular sample application
 #include "config.h"
 
-
 // we use pointers to the analyzers, so we
 // can create only those strictly necessary.
-tokenizer *tk = NULL;
-splitter *sp = NULL;
-maco *morfo = NULL;
-nec *neclass = NULL;
-senses *sens = NULL;
-disambiguator *dsb = NULL;
-POS_tagger *tagger = NULL;
-chart_parser *parser = NULL;
-dependency_parser *dep = NULL;
-coref *corfc = NULL;
-// read configuration file and command-line options
-config *cfg;
-// communicate with clients;
-
-
-
-void OutputSenses (const analysis & a) {
-  list<pair<string,double> > ls = a.get_senses ();
-  if (ls.size () > 0) {
-    if (cfg->SENSE_SenseAnnotation == MFS)
-      cout << " " << ls.begin()->first;
-    else  // ALL or UKB specified
-      cout << " " << util::pairlist2string (ls, ":", "/");
-  }
-  else
-    cout << " -";
-}
-
-//---------------------------------------------
-// print obtained analysis.
-//---------------------------------------------
-void PrintTree (parse_tree::iterator n, int depth, const document &doc=document()) {
-  parse_tree::sibling_iterator d;
-
-  cout << string (depth * 2, ' ');  
-  if (n->num_children () == 0) {
-    if (n->info.is_head ()) cout << "+";
-    word w = n->info.get_word ();
-    cout << "(" << w.get_form () << " " << w.get_lemma () << " " << w.get_parole ();
-    OutputSenses ((*w.selected_begin ()));
-    cout << ")" << endl;
-  }
-  else {
-    if (n->info.is_head ()) cout << "+";
-
-    cout<<n->info.get_label();
-    if (cfg->COREF_CoreferenceResolution) {
-      // Print coreference group, if needed.
-      int ref = doc.get_coref_group(n->info.get_node_id());
-      if (ref != -1 and n->info.get_label() == "sn") cout<<"(REF:" << ref <<")";
-    }
-    cout << "_[" << endl;
-
-    for (d = n->sibling_begin (); d != n->sibling_end (); ++d) 
-      PrintTree (d, depth + 1, doc);
-    cout << string (depth * 2, ' ') << "]" << endl;
-  }
-}
-
-
-//---------------------------------------------
-// print obtained dependence analysis.
-//---------------------------------------------
-// void PrintDepTree(const dep_tree &tr, dep_tree::iterator n, int depth, const config &cfg) {
-//   dep_tree::sibling_iterator d;
-
-//     cout<<string(depth*2,' '); 
-
-//     if(n->is_chunk()) { cout<<n->get_link()->get_label()<<"_";}
-
-//     word w=n->get_word();
-//     cout<<"("<<w.get_form()<<" "<<w.get_lemma()<<" "<<w.get_parole();
-//     OutputSenses(w,cfg);
-//     cout<<")";  
-
-//     if (n.number_of_children()>0) { 
-//        cout<<" ["<<endl; 
-//        for (d=tr.begin(n); d!=tr.end(n); d++)
-//       PrintDepTree(tr, d, depth+1, cfg);
-//        cout<<string(depth*2,' ')<<"]"; 
-//     }
-//     cout<<endl;
-// }
-
-
-void PrintDepTree (dep_tree::iterator n, int depth, const document &doc=document()) {
-  dep_tree::sibling_iterator d, dm;
-  int last, min, ref;
-  bool trob;
-
-  cout << string (depth*2, ' ');
-
-  parse_tree::iterator pn = n->info.get_link();
-  cout<<pn->info.get_label(); 
-  ref = (cfg->COREF_CoreferenceResolution ? doc.get_coref_group(pn->info.get_node_id()) : -1);
-  if (ref != -1 and pn->info.get_label() == "sn") {
-    cout<<"(REF:" << ref <<")";
-  }
-  cout<<"/" << n->info.get_label() << "/";
-
-  word w = n->info.get_word();
-  cout << "(" << w.get_form() << " " << w.get_lemma() << " " << w.get_parole ();
-  OutputSenses ((*w.selected_begin()));
-  cout << ")";
-  
-  if (n->num_children () > 0) {
-    cout << " [" << endl;
-    
-    // Print Nodes
-    for (d = n->sibling_begin (); d != n->sibling_end (); ++d)
-      if (!d->info.is_chunk ())
-	PrintDepTree (d, depth + 1, doc);
-    
-    // print CHUNKS (in order)
-    last = 0;
-    trob = true;
-    while (trob) {
-      // while an unprinted chunk is found look, for the one with lower chunk_ord value
-      trob = false;
-      min = 9999;
-      for (d = n->sibling_begin (); d != n->sibling_end (); ++d) {
-	if (d->info.is_chunk ()) {
-	  if (d->info.get_chunk_ord () > last
-	      and d->info.get_chunk_ord () < min) {
-	    min = d->info.get_chunk_ord ();
-	    dm = d;
-	    trob = true;
-	  }
-	}
-      }
-      if (trob)
-	PrintDepTree (dm, depth + 1, doc);
-      last = min;
-    }
-    
-    cout << string (depth * 2, ' ') << "]";
-  }
-  cout << endl;
-}
-
-
-//---------------------------------------------
-// print obtained analysis.
-//---------------------------------------------
-
-void PrintResults (list < sentence > &ls, const document &doc=document() ) {
-  word::const_iterator ait;
-  sentence::const_iterator w;
-  list < sentence >::iterator is;
-  int nsentence = 1;
-  
-  
-  for (is = ls.begin (); is != ls.end (); is++, ++nsentence) {
-
-    if (cfg->OutputFormat >= PARSED) {
-      /// obtain parse tree and draw it at will
-      switch (cfg->OutputFormat) {
-	
-        case PARSED: {
-	  parse_tree & tr = is->get_parse_tree ();
-	  PrintTree (tr.begin (), 0, doc);
-	  cout << endl;
-	  }
-	  break;
-	
-        case DEP: {
-	  dep_tree & dep = is->get_dep_tree ();
-	  PrintDepTree (dep.begin (), 0, doc);
-          }
-	  break;
-	
-        default:   // should never happen
-	  break;
-      }
-    }
-    else {
-      for (w = is->begin (); w != is->end (); w++) {
-	cout << w->get_form ();
-	
-	if (cfg->OutputFormat == MORFO or cfg->OutputFormat == TAGGED) {
-	  for (ait = w->selected_begin (); ait != w->selected_end (); ait++) {
-	    if (ait->is_retokenizable ()) {
-	      list < word > rtk = ait->get_retokenizable ();
-	      list < word >::iterator r;
-	      string lem, par;
-	      for (r = rtk.begin (); r != rtk.end (); r++) {
-		lem = lem + "+" + r->get_lemma ();
-		par = par + "+" + r->get_parole ();
-	      }
-	      cout << " " << lem.substr (1) << " " 
-		   << par.substr (1) << " " << ait->get_prob ();
-	    }
-	    else {
-	      cout << " " << ait->get_lemma () << " " << ait->
-		get_parole () << " " << ait->get_prob ();
-	    }
-	    if (cfg->SENSE_SenseAnnotation != NONE)
-	      OutputSenses (*ait);
-	  }
-	}
-	cout << endl;	
-      }
-    }
-    // sentence separator: blank line.
-    cout << endl;
-  }
-}
-
-//---------------------------------------------
-// Apply analyzer cascade to sentences in given list
-//---------------------------------------------
-
-void AnalyzeSentences(list<sentence> &ls) {
-  if (cfg->OutputFormat >= MORFO)
-    morfo->analyze (ls);
-  if (cfg->OutputFormat >= MORFO and 
-      (cfg->SENSE_SenseAnnotation == MFS or cfg->SENSE_SenseAnnotation == ALL))
-    sens->analyze (ls);
-  if (cfg->OutputFormat >= TAGGED)
-    tagger->analyze (ls);
-  if (cfg->OutputFormat >= TAGGED and (cfg->SENSE_SenseAnnotation == UKB))  
-    dsb->analyze (ls);
-  if (cfg->OutputFormat >= TAGGED and cfg->NEC_NEClassification)
-    neclass->analyze (ls);
-  if (cfg->OutputFormat >= PARSED)
-    parser->analyze (ls);
-  if (cfg->OutputFormat >= DEP)
-    dep->analyze (ls);
-}
+#define MODE
+#include "analyzer_common.h"
 
 
 //---------------------------------------------
@@ -320,7 +92,6 @@ void ProcessCoreference () {
     }
     else {
       // tokenize input line into a list of words
-      //av=tk->tokenize(text);
       tk->tokenize(text, av);
       // accumulate list of words in splitter buffer, returning a list of sentences.
       sp->split(av, false, ls);
@@ -357,7 +128,7 @@ void ProcessCoreference () {
 
   // output results in requested format 
   for (document::iterator par=doc.begin(); par!=doc.end(); par++) 
-    PrintResults(*par, doc);
+    PrintResults(cout,*par, doc);
 
 }
 
@@ -371,37 +142,23 @@ void ProcessPlain () {
   list < word >::const_iterator i;
   list < sentence > ls;
 
-  while (std::getline (std::cin, text))
-    {
-      if (cfg->OutputFormat >= TOKEN)
-	av = tk->tokenize (text, offs);
-      if (cfg->OutputFormat >= SPLITTED)
-	ls = sp->split (av, cfg->AlwaysFlush);
-
-      AnalyzeSentences(ls);      
-
-      if (cfg->OutputFormat == TOKEN) {
-	// if only tokenizing, just print one token per line
-	for (i = av.begin (); i != av.end (); i++)
-	  cout << i->get_form () << endl;
-      }
-      else {
-	// if higher processing performed, print sentences separed by blank lines.
-	PrintResults (ls);
-      }
-      
-      av.clear ();		// clear list of words for next use
-      ls.clear ();		// clear list of sentences for next use
-    }
-
+  while (std::getline (std::cin, text)) {
+    if (cfg->OutputFormat >= TOKEN) tk->tokenize (text, offs, av);
+    if (cfg->OutputFormat >= SPLITTED) sp->split (av, cfg->AlwaysFlush, ls);
+    AnalyzeSentences(ls);      
+    
+    PrintResults (cout,ls);
+    
+    av.clear ();		// clear list of words for next use
+    ls.clear ();		// clear list of sentences for next use
+  }
+  
+  //flush splitter buffer
+  if (cfg->OutputFormat >= SPLITTED) sp->split (av, true, ls);	
   // process last sentence in buffer (if any)
-  if (cfg->OutputFormat >= SPLITTED)
-    ls = sp->split (av, true);	//flush splitter buffer
-
   AnalyzeSentences(ls);      
-
-  // if higher processing performed, print sentences separed by blank lines.
-  PrintResults (ls);
+  
+  PrintResults (cout,ls);
 }
 
 
@@ -409,45 +166,37 @@ void ProcessPlain () {
 // Process already tokenized text.
 // This sample program expects one token per line.
 //----------------------------------------------
-void
-ProcessToken () {
-
+void ProcessToken () {
   string text;
   list < word > av;
   list < sentence > ls;
   unsigned long totlen = 0;
 
-  while (std::getline (std::cin, text))
-    {
-      // get next word
-      word w (text);
-      w.set_span (totlen, totlen + text.size ());
-      totlen += text.size () + 1;
-      av.push_back (w);
-
-      // check for splitting after some words have been accumulated, 
-      if (av.size () > 10)
-	{
-
-	  if (cfg->OutputFormat >= SPLITTED)
-	    sp->split (av, false, ls);
-
-	  AnalyzeSentences(ls);      
-
-	  PrintResults (ls);
-
-	  av.clear ();		// clear list of words for next use
-	  ls.clear ();		// clear list of sentences for next use
-	}
+  while (std::getline (std::cin, text)) {
+    // get next word
+    word w (text);
+    w.set_span (totlen, totlen + text.size ());
+    totlen += text.size () + 1;
+    av.push_back (w);
+    
+    // check for splitting after some words have been accumulated, 
+    if (av.size () > 10) {  
+      if (cfg->OutputFormat >= SPLITTED) sp->split (av, false, ls);
+      AnalyzeSentences(ls);
+      
+      PrintResults (cout,ls);
+      
+      av.clear ();		// clear list of words for next use
+      ls.clear ();		// clear list of sentences for next use
     }
-
+  }
+  
+  //flush splitter buffer
+  if (cfg->OutputFormat >= SPLITTED) sp->split (av, true, ls);	
   // process last sentence in buffer (if any)
-  if (cfg->OutputFormat >= SPLITTED)
-    sp->split (av, true, ls);	//flush splitter buffer
+  AnalyzeSentences(ls);
 
-  AnalyzeSentences(ls);      
-
-  PrintResults (ls);
+  PrintResults (cout,ls);
 }
 
 
@@ -534,7 +283,7 @@ ProcessSplitted () {
 
 	  AnalyzeSentences(ls);      
 
-	  PrintResults (ls);
+	  PrintResults (cout,ls);
 
 	  av.clear ();		// clear list of words for next use
 	  ls.clear ();		// clear list of sentences for next use
@@ -546,7 +295,7 @@ ProcessSplitted () {
 
   AnalyzeSentences(ls);      
 
-  PrintResults (ls);
+  PrintResults (cout,ls);
 }
 
 
@@ -555,115 +304,13 @@ ProcessSplitted () {
 //---------------------------------------------
 int main (int argc, char **argv) {
 
-  // read configuration file and command-line options
-  cfg = new config(argv);
-
-  if (!((cfg->InputFormat < cfg->OutputFormat) or
-	(cfg->InputFormat == cfg->OutputFormat and cfg->InputFormat == TAGGED
-	 and cfg->NEC_NEClassification)))
-    {
-      cerr <<"Error - Input format cannot be more complex than desired output."<<endl;
-      exit (1);
-    }
-
-  if (cfg->COREF_CoreferenceResolution and cfg->OutputFormat<=TAGGED) {
-    cerr <<"Error - Requested coreference resolution is only compatible with output format 'parsed' or 'dep'." <<endl;
-    exit (1);
-  }
-
-  if (cfg->OutputFormat < TAGGED and (cfg->SENSE_SenseAnnotation == UKB))   {
-    cerr <<"Error - UKB word sense disambiguation requires PoS tagging. Specify 'tagged', 'parsed' or 'dep' output format." <<endl;
-    exit (1);
-  }
-  
-
-  //--- create needed analyzers, depending on given options ---//
-
-  // tokenizer requested
-  if (cfg->InputFormat < TOKEN and cfg->OutputFormat >= TOKEN)
-    tk = new tokenizer (cfg->TOK_TokenizerFile);
-  // splitter requested
-  if (cfg->InputFormat < SPLITTED and cfg->OutputFormat >= SPLITTED)
-    sp = new splitter (cfg->SPLIT_SplitterFile);
-
-  // morfological analysis requested
-  if (cfg->InputFormat < MORFO and cfg->OutputFormat >= MORFO) {
-      // the morfo class requires several options at creation time.
-      // they are passed packed in a maco_options object.
-      maco_options opt (cfg->Lang);
-      // boolean options to activate/desactivate modules
-      // default: all modules deactivated (options set to "false")
-      opt.set_active_modules (cfg->MACO_AffixAnalysis,
-			      cfg->MACO_MultiwordsDetection,
-			      cfg->MACO_NumbersDetection,
-			      cfg->MACO_PunctuationDetection,
-			      cfg->MACO_DatesDetection,
-			      cfg->MACO_QuantitiesDetection,
-			      cfg->MACO_DictionarySearch,
-			      cfg->MACO_ProbabilityAssignment,
-			      cfg->MACO_NER_which,
-			      cfg->MACO_OrthographicCorrection);
-
-      // decimal/thousand separators used by number detection
-      opt.set_nummerical_points (cfg->MACO_Decimal, cfg->MACO_Thousand);
-      // Minimum probability for a tag for an unkown word
-      opt.set_threshold (cfg->MACO_ProbabilityThreshold);
-      // Data files for morphological submodules. by default set to ""
-      // Only files for active modules have to be specified 
-      opt.set_data_files (cfg->MACO_LocutionsFile, cfg->MACO_QuantitiesFile,
-			  cfg->MACO_AffixFile, cfg->MACO_ProbabilityFile,
-			  cfg->MACO_DictionaryFile, cfg->MACO_NPdataFile,
-			  cfg->MACO_PunctuationFile,cfg->MACO_CorrectorFile);
-
-      // create analyzer with desired options
-      morfo = new maco (opt);
-  }
-
-  // sense annotation requested
-  if (cfg->InputFormat < SENSE and cfg->OutputFormat >= MORFO
-      and (cfg->SENSE_SenseAnnotation == MFS or cfg->SENSE_SenseAnnotation == ALL))
-    sens = new senses (cfg->SENSE_SenseFile, cfg->SENSE_DuplicateAnalysis);
-  else if (cfg->InputFormat < SENSE and cfg->OutputFormat >= TAGGED
-      and (cfg->SENSE_SenseAnnotation == UKB))      
-    dsb = new disambiguator (cfg->UKB_BinFile, cfg->UKB_DictFile, cfg->UKB_Epsilon, cfg->UKB_MaxIter);
-
-  // tagger requested, see which method
-  if (cfg->InputFormat < TAGGED and cfg->OutputFormat >= TAGGED) {
-      if (cfg->TAGGER_which == HMM)
-	tagger =
-	  new hmm_tagger (cfg->Lang, cfg->TAGGER_HMMFile, cfg->TAGGER_Retokenize,
-			  cfg->TAGGER_ForceSelect);
-      else if (cfg->TAGGER_which == RELAX)
-	tagger =
-	  new relax_tagger (cfg->TAGGER_RelaxFile, cfg->TAGGER_RelaxMaxIter,
-			    cfg->TAGGER_RelaxScaleFactor,
-			    cfg->TAGGER_RelaxEpsilon, cfg->TAGGER_Retokenize,
-			    cfg->TAGGER_ForceSelect);
-  }
-
-  // NEC requested
-  if (cfg->InputFormat <= TAGGED and cfg->OutputFormat >= TAGGED and 
-          (cfg->NEC_NEClassification or cfg->COREF_CoreferenceResolution)) {
-      neclass = new nec ("NP", cfg->NEC_FilePrefix);
-  }
-  
-  // Chunking requested
-  if (cfg->InputFormat < PARSED and (cfg->OutputFormat >= PARSED or cfg->COREF_CoreferenceResolution)) {
-      parser = new chart_parser (cfg->PARSER_GrammarFile);
-  }
-
-  // Dependency parsing requested
-  if (cfg->InputFormat < PARSED and cfg->OutputFormat >= DEP) 
-    dep = new dep_txala (cfg->DEP_TxalaFile, parser->get_start_symbol ());
+  // read configuration file and command-line options, 
+  // and create appropriate analyzers
+  CreateAnalyzers(argv);
 
   // coreference requested, plain text input
-  if (cfg->COREF_CoreferenceResolution) {
-    int vectors = COREFEX_DIST | COREFEX_IPRON | COREFEX_JPRON | COREFEX_IPRONM | COREFEX_JPRONM
-				| COREFEX_STRMATCH | COREFEX_DEFNP | COREFEX_DEMNP | COREFEX_GENDER | COREFEX_NUMBER
-				| COREFEX_SEMCLASS | COREFEX_PROPNAME | COREFEX_ALIAS | COREFEX_APPOS;
-    corfc = new coref(cfg->COREF_CorefFile, vectors);
+  if (cfg->COREF_CoreferenceResolution) 
     ProcessCoreference ();
-  } 
   // Input is plain text.  
   else if (cfg->InputFormat == PLAIN)
     ProcessPlain ();
@@ -674,17 +321,7 @@ int main (int argc, char **argv) {
   else if (cfg->InputFormat >= SPLITTED)
     ProcessSplitted ();
 
-  // clean up. Note that deleting a null pointer is a safe (yet useless) operation
-  delete tk;
-  delete sp;
-  delete morfo;
-  delete tagger;
-  delete neclass;
-  delete sens;
-  delete dsb;
-  delete parser;
-  delete dep;
-  delete corfc;
-
+  // clean up and exit
+  cleanup();
 }
 
