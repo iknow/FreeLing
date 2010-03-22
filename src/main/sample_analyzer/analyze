@@ -60,7 +60,7 @@ else
     echo "Stop the server with: "
     echo "      analyze stop $1"
     echo ""
-    $FREELING/bin/analyzer_server_socket $param &
+    $FREELING/bin/analyzer_server $param &
   else 
     echo ""
     echo "Invalid port number '$1'."  fi
