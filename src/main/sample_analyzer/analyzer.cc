@@ -86,16 +86,16 @@ config *cfg;
 
 
 #ifdef SERVER 
-  #define ReadLine(text)          sock->read_message(text)
-  #define WriteResults(ls)        SendResults(ls)
-  #define WriteResultsDoc(ls,doc) SendResults(ls,doc)
+  #define ReadLine(text)            sock->read_message(text)
+  #define WriteResults(ls,b)        SendResults(ls,b)
+  #define WriteResultsDoc(ls,b,doc) SendResults(ls,b,doc)
   #include "signal.h"
   #include "socket.h"
   socket_CS *sock;
 #else 
-  #define ReadLine(text)          getline(cin,text)
-  #define WriteResults(ls)        PrintResults(cout,ls)
-  #define WriteResultsDoc(ls,doc) PrintResults(cout,ls,doc)
+  #define ReadLine(text)            getline(cin,text)
+  #define WriteResults(ls,b)        PrintResults(cout,ls,b)
+  #define WriteResultsDoc(ls,b,doc) PrintResults(cout,ls,b,doc)
 #endif
 
 
@@ -241,10 +241,10 @@ void PrintDepTree (ostream &sout, dep_tree::iterator n, int depth, const documen
 // print obtained analysis.
 //---------------------------------------------
 
-void PrintResults (ostream &sout, list<sentence> &ls, const document &doc=document()) {
+void PrintResults (ostream &sout, list<sentence > &ls, bool separate, const document &doc=document()) {
   word::const_iterator ait;
   sentence::const_iterator w;
-  list < sentence >::iterator is;
+  list<sentence>::iterator is;
     
   for (is = ls.begin (); is != ls.end (); is++) {
     if (cfg->OutputFormat >= SHALLOW) {
@@ -298,7 +298,7 @@ void PrintResults (ostream &sout, list<sentence> &ls, const document &doc=docume
       }
     }
     // sentence separator: blank line.
-    sout << endl;
+    if (separate) sout << endl;
   }
 }
 
@@ -385,22 +385,33 @@ void UpdateStats(const list<sentence> &ls) {
 
 
 //---------------------------------------------
+// Send ACK to client. Let him know we expect more data.
+//---------------------------------------------
+
+#ifdef SERVER
+void SendACK () {  
+  sock->write_message("FL-SERVER-READY");  
+}
+#endif
+
+
+//---------------------------------------------
 // Send results via socket
 //---------------------------------------------
 
 #ifdef SERVER
-void SendResults (list <sentence> &ls, const document &doc=document() ) {
+void SendResults (list <sentence> &ls, bool sep, const document &doc=document() ) {
   word::const_iterator ait;
   sentence::const_iterator w;
-  list < sentence >::iterator is;
+  list<sentence>::iterator is;
 
   if (ls.empty()) {
-    sock->write_message("FL-SERVER-READY");  
+    SendACK();
     return;
   }
 
   ostringstream sout;
-  PrintResults(sout,ls,doc);
+  PrintResults(sout,ls,sep,doc);
   sock->write_message(sout.str());
 
   UpdateStats(ls);
@@ -582,7 +593,7 @@ void PostProcessCoref(const string &text, list<word> &av,
   
   // output results in requested format 
   for (document::iterator par=doc.begin(); par!=doc.end(); par++) 
-    WriteResultsDoc(*par, doc); 
+    WriteResultsDoc(*par, true, doc); 
 }
 
 //---------------------------------------------
@@ -590,33 +601,42 @@ void ProcessLinePlain(const string &text, unsigned long &offs) {
   list<word> av;
   list<sentence> ls;
 
-  if (cfg->OutputFormat >= TOKEN) tk->tokenize (text, offs, av);
-  if (cfg->OutputFormat >= SPLITTED) sp->split (av, cfg->AlwaysFlush, ls);
+  tk->tokenize (text, offs, av);
 
-  AnalyzeSentences(ls);        
-  WriteResults (ls);
-  
+  if (cfg->OutputFormat == TOKEN) {
+    ls.push_back(sentence(av));
+    WriteResults(ls,false);
+  }
+  else {  // OutputFormat >= SPLITTED    
+    sp->split (av, cfg->AlwaysFlush, ls);
+    AnalyzeSentences(ls);         
+    WriteResults (ls,true);
+ }
 }
 
 
 //---------------------------------------------
-void ProcessLineToken(const string &text, unsigned long &totlen,
-                      list<word> &av, list<sentence> &ls) {
+void ProcessLineToken(const string &text, unsigned long &totlen, list<word> &av) {
+
   // get next word
   word w (text);
   w.set_span (totlen, totlen + text.size ());
   totlen += text.size () + 1;
   av.push_back (w);
-  
+
   // check for splitting after some words have been accumulated, 
   if (av.size () > 10) {  
-    if (cfg->OutputFormat >= SPLITTED) sp->split (av, false, ls);
-
+    list<sentence> ls;
+    sp->split (av, false, ls);
     AnalyzeSentences(ls);    
-    WriteResults(ls);
+    WriteResults(ls,true);
     
     av.clear ();		// clear list of words for next use
-    ls.clear ();		// clear list of sentences for next use
+  }
+  else {
+    #ifdef SERVER
+      SendACK();
+    #endif
   }
 }
 
@@ -627,7 +647,7 @@ void ProcessLineSplitted(const string &text, unsigned long &totlen,
   double prob;
 
   if (text != "") {  // got a word line
-    istringstream sin;
+     istringstream sin;
     sin.str (text);
     // get word form
     sin >> form;
@@ -672,13 +692,17 @@ void ProcessLineSplitted(const string &text, unsigned long &totlen,
     
     // append new word to sentence
     av.push_back (w);
+
+    #ifdef SERVER
+      SendACK();
+    #endif
   }
   else { // blank line, sentence end.
     totlen += 2;
     ls.push_back (av);
     
     AnalyzeSentences(ls);      
-    WriteResults (ls);
+    WriteResults (ls,true);
     
     av.clear ();   // clear list of words for next use
     ls.clear ();   // clear list of sentences for next use
@@ -727,23 +751,23 @@ int main (int argc, char **argv) {
   while (not stop) {  /// The standalone version will stop after one iteration.
 
     #ifdef SERVER
-    cerr<<"SERVER: opening channels. Waiting connections"<<endl;
-    sock->wait_client();
+      cerr<<"SERVER: opening channels. Waiting connections"<<endl;
+      sock->wait_client();
     #endif
 
     // --- Main loop: read an process all input lines up to EOF ---
     while (ReadLine(text)) {
       
       #ifdef SERVER
-      start = clock();
-      if (text=="RESET_STATS") { 
-	ResetStats();
-	continue;
-      }
-      else if (text=="PRINT_STATS") {
-	PrintStats();
-	continue;
-      }
+        start = clock();
+        if (text=="RESET_STATS") { 
+  	  ResetStats();
+	  continue;
+	}
+	else if (text=="PRINT_STATS") {
+	  PrintStats();
+	  continue;
+	}
       #endif
 
       if (cfg->COREF_CoreferenceResolution)  // coreference requested, plain text input 
@@ -753,7 +777,7 @@ int main (int argc, char **argv) {
 	ProcessLinePlain(text,offs);
 	  
       else if (cfg->InputFormat == TOKEN)    // Input is tokenized.
-	ProcessLineToken(text,offs,av,ls);
+	ProcessLineToken(text,offs,av);
       
       else if (cfg->InputFormat >= SPLITTED) // Input is (at least) tokenized and splitted.
 	ProcessLineSplitted(text,offs,sent,ls);   
@@ -764,7 +788,7 @@ int main (int argc, char **argv) {
     // (or just make sure to empty splitter buffers).
     
     #ifdef SERVER
-    start = clock();
+      start = clock();
     #endif
 
     if (cfg->COREF_CoreferenceResolution)   // All document read, solve correferences.
@@ -777,20 +801,20 @@ int main (int argc, char **argv) {
 	if (cfg->OutputFormat >= SPLITTED) sp->split (av, true, ls);	
       }
       else { // cfg->InputFormat >= SPLITTED.
-	// add last sentence in case it's missing a blank line after it
-	ls.push_back(sent);
+	// add last sentence in case it was missing a blank line after it
+	if (!sent.empty()) ls.push_back(sent);
       }
       
       // process last sentence in buffer (if any)
       AnalyzeSentences(ls);
-      WriteResults(ls);
+      WriteResults(ls,true);
     }
     
     #ifdef SERVER
-    cerr<<"SERVER: client ended. Closing connection."<<endl;
-    sock->close_connection();
+      cerr<<"SERVER: client ended. Closing connection."<<endl;
+      sock->close_connection();
     #else 
-    stop=true;   // if not server version, stop when document is processed
+      stop=true;   // if not server version, stop when document is processed
     #endif
   }
   
