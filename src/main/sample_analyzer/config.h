@@ -85,6 +85,8 @@ class config {
     int InputFormat, OutputFormat;
     /// General options
     int AlwaysFlush;
+    /// General options
+    int TrainingOutput;
 
     /// Tokenizer options
     char * TOK_TokenizerFile;
@@ -151,7 +153,7 @@ class config {
       // Auxiliary for string translation
       char *InputF, *OutputF, *Ner, *Tagger, *SenseAnot, *Force;
       // Auxiliary for boolean handling
-      int flush,noflush, afx,noafx,   loc,noloc,   numb,nonumb,
+      int train, flush,noflush, afx,noafx,   loc,noloc,   numb,nonumb,
           punt,nopunt,   date,nodate,   quant,noquant,  dict,nodict,   prob,noprob,
   	  nec,nonec,     dup,nodup,      retok,noretok,  coref,nocoref, orto, noorto;
       char *cf_flush, *cf_afx, *cf_loc,   *cf_numb,
@@ -169,6 +171,7 @@ class config {
 	{"tmod",     'm', "TraceModule",             CFG_INT,  (void *) &traces::TraceModule, 0},
 	{"inpf",    '\0', "InputFormat",             CFG_STR,  (void *) &InputF, 0},
 	{"outf",    '\0', "OutputFormat",            CFG_STR,  (void *) &OutputF, 0},
+	{"train",   '\0', NULL,                      CFG_BOOL, (void *) &train, 0},
 	{"flush",   '\0', NULL,                      CFG_BOOL, (void *) &flush, 0},
 	{"noflush", '\0', NULL,                      CFG_BOOL, (void *) &noflush, 0},
 	{NULL,      '\0', "AlwaysFlush",             CFG_STR,  (void *) &cf_flush, 0},
@@ -262,6 +265,7 @@ class config {
       
       // init auxiliary variables
       InputF=NULL; OutputF=NULL;  Ner=NULL; Tagger=NULL; SenseAnot=NULL; Force=NULL;
+      train=false;
       flush=false; noflush=false; afx=false;   noafx=false; 
       loc=false;   noloc=false;   numb=false;   nonumb=false;   punt=false; nopunt=false;
       date=false;  nodate=false;  quant=false;  noquant=false;  dict=false; nodict=false; 
@@ -276,6 +280,7 @@ class config {
       ConfigFile=NULL; help=false;
       Lang=NULL; traces::TraceLevel=0; traces::TraceModule=0;
       AlwaysFlush=false;
+      TrainingOutput=false;
       TOK_TokenizerFile=NULL;
       SPLIT_SplitterFile=NULL;
       MACO_AffixAnalysis=false;   MACO_MultiwordsDetection=false; 
@@ -375,6 +380,7 @@ class config {
       ExpandFileName(MACO_CorrectorFile);
 	     
       // Handle boolean options expressed with --myopt or --nomyopt in command line
+      SetBooleanOptionCL(train,!train,TrainingOutput,"train");
       SetBooleanOptionCL(flush,noflush,AlwaysFlush,"flush");
       SetBooleanOptionCL(afx,noafx,MACO_AffixAnalysis,"afx");
       SetBooleanOptionCL(loc,noloc, MACO_MultiwordsDetection,"loc");
@@ -496,6 +502,7 @@ class config {
       cout<<"--flush, --noflush     Consider each newline as a sentence end"<<endl;
       cout<<"--inpf string          Input format (plain,token,splitted,morfo,sense,tagged)"<< endl;
       cout<<"--outf string          Output format (token,splitted,morfo,tagged,shallow,parsed,dep)"<< endl;
+      cout<<"--train                Produce output format suitable for train scripts (default: disabled)"<<endl;
       cout<<"--ftok filename        Tokenizer rules file "<<endl;
       cout<<"--fsplit filename      Splitter options file "<<endl;
       cout<<"--afx, --noafx         Whether to perform affix analysis"<<endl;

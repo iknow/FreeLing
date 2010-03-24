@@ -104,12 +104,12 @@ config *cfg;
 //---------------------------------------------
 
 void AnalyzeSentences(list<sentence> &ls) {
-  if (cfg->OutputFormat >= MORFO)
+  if (cfg->InputFormat < MORFO && cfg->OutputFormat >= MORFO)
     morfo->analyze (ls);
   if (cfg->OutputFormat >= MORFO and 
       (cfg->SENSE_SenseAnnotation == MFS or cfg->SENSE_SenseAnnotation == ALL))
     sens->analyze (ls);
-  if (cfg->OutputFormat >= TAGGED)
+  if (cfg->InputFormat < TAGGED && cfg->OutputFormat >= TAGGED)
     tagger->analyze (ls);
   if (cfg->OutputFormat >= TAGGED and (cfg->SENSE_SenseAnnotation == UKB))  
     dsb->analyze (ls);
@@ -238,11 +238,49 @@ void PrintDepTree (ostream &sout, dep_tree::iterator n, int depth, const documen
 
 
 //---------------------------------------------
+// print analysis for a word
+//---------------------------------------------
+
+void PrintWord (ostream &sout, const word &w, bool only_sel, bool probs) {
+  word::const_iterator ait;
+
+  word::const_iterator a_beg,a_end;
+  if (only_sel) {
+    a_beg = w.selected_begin();
+    a_end = w.selected_end();
+  }
+  else {
+    a_beg = w.analysis_begin();
+    a_end = w.analysis_end();
+  }
+
+  for (ait = a_beg; ait != a_end; ait++) {
+    if (ait->is_retokenizable ()) {
+      list < word > rtk = ait->get_retokenizable ();
+      list < word >::iterator r;
+      string lem, par;
+      for (r = rtk.begin (); r != rtk.end (); r++) {
+	lem = lem + "+" + r->get_lemma ();
+	par = par + "+" + r->get_parole ();
+      }
+      sout << " " << lem.substr (1) << " " << par.substr (1);
+      if (probs) sout << " " << ait->get_prob ();
+    }
+    else {
+      sout << " " << ait->get_lemma () << " " << ait->get_parole ();
+      if (probs) sout << " " << ait->get_prob ();
+    }
+
+    if (cfg->SENSE_SenseAnnotation != NONE)
+      sout << OutputSenses (*ait);
+  }
+}
+
+//---------------------------------------------
 // print obtained analysis.
 //---------------------------------------------
 
 void PrintResults (ostream &sout, list<sentence > &ls, bool separate, const document &doc=document()) {
-  word::const_iterator ait;
   sentence::const_iterator w;
   list<sentence>::iterator is;
     
@@ -274,26 +312,18 @@ void PrintResults (ostream &sout, list<sentence > &ls, bool separate, const docu
 	sout << w->get_form ();
 	
 	if (cfg->OutputFormat == MORFO or cfg->OutputFormat == TAGGED) {
-	  for (ait = w->selected_begin (); ait != w->selected_end (); ait++) {
-	    if (ait->is_retokenizable ()) {
-	      list < word > rtk = ait->get_retokenizable ();
-	      list < word >::iterator r;
-	      string lem, par;
-	      for (r = rtk.begin (); r != rtk.end (); r++) {
-		lem = lem + "+" + r->get_lemma ();
-		par = par + "+" + r->get_parole ();
-	      }
-	      sout << " " << lem.substr (1) << " " 
-		   << par.substr (1) << " " << ait->get_prob ();
-	    }
-	    else {
-	      sout << " " << ait->get_lemma () << " " << ait->
-		get_parole () << " " << ait->get_prob ();
-	    }
-	    if (cfg->SENSE_SenseAnnotation != NONE)
-	      sout << OutputSenses (*ait);
+	  if (not cfg->TrainingOutput) {
+	    /// Normal output: selected analysis + probs
+	    PrintWord(sout,*w,true,true);  
+	  }
+	  else {
+	    /// Trainig output: selected analysis + all analysis + no probs
+	    PrintWord(sout,*w,true,false);
+	    sout<<" #";
+	    PrintWord(sout,*w,false,false);
 	  }
 	}
+
 	sout << endl;	
       }
     }
@@ -444,6 +474,11 @@ void CreateAnalyzers(char **argv) {
   if (cfg->OutputFormat < TAGGED and (cfg->SENSE_SenseAnnotation == UKB))   {
     cerr <<"Error - UKB word sense disambiguation requires PoS tagging. Specify 'tagged', 'parsed' or 'dep' output format." <<endl;
     exit (1);
+  }
+
+  if (cfg->OutputFormat != TAGGED and cfg->TrainingOutput) {
+    cerr <<"Warning - OutputFormat changed to 'tagged' since option --train was specified." <<endl;
+    cfg->OutputFormat = TAGGED;
   }
   
   //--- create needed analyzers, depending on given options ---//
@@ -641,8 +676,7 @@ void ProcessLineToken(const string &text, unsigned long &totlen, list<word> &av)
 }
 
 //---------------------------------------------
-void ProcessLineSplitted(const string &text, unsigned long &totlen,
-                      sentence &av, list<sentence> &ls) {
+void ProcessLineSplitted(const string &text, unsigned long &totlen, sentence &av) {
   string form, lemma, tag, sn, spr;
   double prob;
 
@@ -663,7 +697,7 @@ void ProcessLineSplitted(const string &text, unsigned long &totlen,
     if (cfg->InputFormat == MORFO) {
       while (sin >> lemma >> tag >> spr) {
 	analysis an (lemma, tag);
-	prob = util::string2double (spr);
+	prob = util::string2double (spr);	  
 	an.set_prob (prob);
 	w.add_analysis (an);
       }
@@ -698,6 +732,8 @@ void ProcessLineSplitted(const string &text, unsigned long &totlen,
     #endif
   }
   else { // blank line, sentence end.
+    list<sentence> ls;
+
     totlen += 2;
     ls.push_back (av);
     
@@ -705,7 +741,6 @@ void ProcessLineSplitted(const string &text, unsigned long &totlen,
     WriteResults (ls,true);
     
     av.clear ();   // clear list of words for next use
-    ls.clear ();   // clear list of sentences for next use
   }
 }  
 
@@ -780,7 +815,7 @@ int main (int argc, char **argv) {
 	ProcessLineToken(text,offs,av);
       
       else if (cfg->InputFormat >= SPLITTED) // Input is (at least) tokenized and splitted.
-	ProcessLineSplitted(text,offs,sent,ls);   
+	ProcessLineSplitted(text,offs,sent);   
 
     } // --- end while(readline)
     
