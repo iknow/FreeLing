@@ -313,13 +313,7 @@ void PrintResults (ostream &sout, list<sentence > &ls, bool separate, const docu
 	
 	if (cfg->OutputFormat == MORFO or cfg->OutputFormat == TAGGED) {
 	  if (cfg->TrainingOutput) {
-	    /// Trainig output: selected analysis (no prob) + all analysis (no probs)
-	    PrintWord(sout,*w,true,false);
-	    sout<<" #";
-	    PrintWord(sout,*w,false,false);
-	  }
-	  else if (cfg->TestOutput) {
-	    /// Test output: selected analysis (no prob) + all analysis (with probs)
+	    /// Trainig output: selected analysis (no prob) + all analysis (with probs)
 	    PrintWord(sout,*w,true,false);
 	    sout<<" #";
 	    PrintWord(sout,*w,false,true);
@@ -482,13 +476,8 @@ void CreateAnalyzers(char **argv) {
     exit (1);
   }
 
-  if (cfg->TrainingOutput and cfg->TestOutput) {
-    cerr <<"Error - Incompatible options --train and --test." <<endl;
-    exit (1);
-  }
-
-  if (cfg->OutputFormat != TAGGED and (cfg->TrainingOutput or cfg->TestOutput)) {
-    cerr <<"Warning - OutputFormat changed to 'tagged' since one of --train or --test was specified." <<endl;
+  if (cfg->OutputFormat != TAGGED and cfg->TrainingOutput) {
+    cerr <<"Warning - OutputFormat changed to 'tagged' since option --train was specified." <<endl;
     cfg->OutputFormat = TAGGED;
   }
   
