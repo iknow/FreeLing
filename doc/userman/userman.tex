@@ -3067,8 +3067,23 @@ to the command above.
   and {\tt analyzer\_client} that perform the same task, but the
   server remains loaded after analyzing each client's request, thus
   reducing the starting-up overhead if many small files have to be
-  processed. Server-client pairs may communicate via named pipes
-  or via sockets.
+  processed. Server-client pairs communicate via sockets.
+
+  Both {\tt analyzer} and {\tt analyzer\_server} are usually called 
+  with an option \verb#-f config-file#  (if ommitted, they will search
+  for a file named {\tt analyzer.cfg} in the current directory).
+  The given \verb#config-file# must be an absolute file name, or a 
+  relative path to the current directory.
+
+  For instance, you can use the defalt configuration files, located
+  at {\tt /usr/local/share/FreeLing/config}. Note that those
+  files require the environment variable {\tt FREELINGSHARE} to be
+  defined and to point to a directory with valid FreeLing data files
+  (e.g. {\tt /usr/local/share/FreeLing}). 
+
+  The {\tt analyze} script described below handles all these default
+  paths and variables and makes everything easier if you want to use
+  the defaults
 
  \section{The easy way: Using the {\tt analyze} script}
 
@@ -3079,15 +3094,12 @@ to the command above.
 
  The sample main program is called with the command:
 \begin{verbatim}
- analyze [channel-name] [-f config-file] [options]
+ analyze [port-number] [-f config-file] [options]
 \end{verbatim}
 
-  If \verb#channel-name# is ommited, the analyzer is started in
-  straight mode.  If it is a number, it will be assumed to be a port
-  and a server will be launched to accept socket connections on that
-  port.  Finally, if \verb#channel-name# is alphanumeric, it will be
-  assumed to be the name of a named pipe from which the server has to 
-  read requests.
+  If \verb#port-number# is ommited, the analyzer is started in
+  straight mode.  If a port number is provided, a server will be
+  launched to accept socket connections on that port. 
 
   If \verb#-f config-file# is not specified, a file named 
  {\tt analyzer.cfg} is searched in the current working 
@@ -3099,13 +3111,13 @@ to the command above.
   source, and \verb#/usr/share/FreeLing# if you used a binary {\tt
     .deb} package).
 
-  Extra options may be specified in the command line to override any settings in
-  \verb#config-file#. See section \ref{ss-options} for details.  
-
+  Extra options may be specified in the command line to override any
+  settings in \verb#config-file#. See section \ref{ss-options} for
+  details.
 
 \subsection{Straight mode}
 
- When \verb#channel-name# is ommited, a stand-alone analyzer will be
+ When \verb#port-number# is ommited, a stand-alone analyzer will be
  launched.  It will load the configuration, read input from stdin,
  write results to stdout, and exit.\\ 
  E.g.:
@@ -3118,48 +3130,15 @@ to the command above.
 
 \subsection{Named pipe client/server mode}
 
-  If \verb#channel-name# is specified and is an alphanumeric string
-  (any valid filename is acceptable), a server is initiated, and named
-  pipes with the given name are created.\\ E.g.:
+  If \verb#port-number# is specified, a server is initiated and
+  starts listening for incoming requests.\\ E.g.:
 \begin{verbatim}
- analyze mychannel -f en.cfg  &
+ analyze 50005 -f en.cfg  &
 \end{verbatim}
 
   Then, clients can request analysis to the server, with:
 \begin{verbatim}
- analyzer_client mychannel  <myinput  >myoutput
-\end{verbatim}
-
-  When the server ends attending one request, a new client can be
-  started, and the server will be ready to analyze it, without having
-  to reload the analyzers.
-
-  The server doesn't take care of syncronizing with the clients, which means
- that if two clients send data to the same server, their inputs will intermix
- in the output.
-
-  The user starting the clients must ensure there is no overlapping in the requests.
-  Note also that for this client-server pair to work, they have to share  
-  diskspace, since named pipes are accessible as filenames.
-
-
-\subsection{Socket client/server mode}
-
-  A client-server version based on sockets is also available.  The
-  advantatges are that clients are served in sequential order (that
-  is, a client will have to wait to the previous one ending its
-  request before it is allowed to send text to the server), and that
-  clients do not need to be on the same machine than the server.
-
-  To start the server, proceed as in the named pipe version, but
- using a port number as a channel identifier.  \\ E.g:
-\begin{verbatim}
- analyze 54321 -f en.cfg  &
-\end{verbatim}
-  
-  Then, clients can request analysis to the server, with:
-\begin{verbatim}
- analyzer_client localhost 54321  <myinput  >myoutput
+ analyzer_client localhost 50005  <myinput  >myoutput
 \end{verbatim}
  or, from a remote machine:
 \begin{verbatim}
@@ -3167,6 +3146,9 @@ to the command above.
 \end{verbatim}
 (where \verb#xx.xx.xx.xx# should be the IP address or hostname for
 the machine where the server was started)
+
+ Any client trying to connect to the server while it is attending another
+ request, will be blocked and attended when the current request is finished.
 
 
 %\begin{enumerate}
