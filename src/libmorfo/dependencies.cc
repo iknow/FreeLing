@@ -301,8 +301,10 @@ parse_tree completer::complete(parse_tree &tr, const string & startSymbol) {
   }
   
   // rebuild node index with new iterators, maintaining id's
-  trees[0]->rebuild_node_index();
-  return (*trees[0]);
+  parse_tree ret_val = (*trees[0]); 
+  delete trees[0];
+  ret_val.rebuild_node_index();
+  return (ret_val);
 }
 
 //---------- completer private functions 
