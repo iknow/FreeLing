@@ -6,21 +6,22 @@ import sys
 ## Modify this line to be your FreeLing installation directory
 FREELINGDIR = "/usr/local";
 DATA = FREELINGDIR+"/share/FreeLing/";
+LANG="es";
 
 # create options set for maco analyzer. Default values are Ok, except for data files.
 op=maco_options("es");
 op.set_active_modules(1,1,1,1,1,1,1,1,0,0);
-op.set_data_files(DATA+"es/locucions.dat", DATA+"es/quantities.dat", DATA+"es/afixos.dat",
-                  DATA+"es/probabilitats.dat", DATA+"es/maco.db", DATA+"es/np.dat",  
-                  DATA+"common/punct.dat",DATA+"es/corrector/corrector.dat");
+op.set_data_files(DATA+LANG+"/locucions.dat", DATA+LANG+"/quantities.dat", DATA+LANG+"/afixos.dat",
+                  DATA+LANG+"/probabilitats.dat", DATA+LANG+"/maco.db", DATA+LANG+"/np.dat",  
+                  DATA+"common/punct.dat",DATA+LANG+"/corrector/corrector.dat");
 
 # create analyzers
-tk=tokenizer(DATA+"es/tokenizer.dat");
-sp=splitter(DATA+"es/splitter.dat");
+tk=tokenizer(DATA+LANG+"/tokenizer.dat");
+sp=splitter(DATA+LANG+"/splitter.dat");
 mf=maco(op);
 
-tg=hmm_tagger("es",DATA+"es/tagger.dat",1,2);
-sen=senses(DATA+"es/senses16.db",0);
+tg=hmm_tagger("es",DATA+LANG+"/tagger.dat",1,2);
+sen=senses(DATA+LANG+"/senses16.db",0);
 
 lin=sys.stdin.readline();
 while (lin) :

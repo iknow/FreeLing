@@ -490,7 +490,7 @@ class hmm_tagger {
        /// Constructor
        hmm_tagger(const std::string &, const std::string &, bool, unsigned int);
 
-       /// analyze sentences with default options
+       /// analyze sentences, return analyzed copy
        std::list<sentence> analyze(const std::list<sentence> &);
 };
 
@@ -500,8 +500,7 @@ class relax_tagger {
    public:
        /// Constructor, given the constraints file and config parameters
        relax_tagger(const std::string &, int, double, double, bool, unsigned int);
-
-       /// analyze sentences with default options
+       /// analyze sentences, return analyzed copy
        std::list<sentence> analyze(const std::list<sentence> &);
 };
 
@@ -514,8 +513,8 @@ class nec {
       /// Destructor
       ~nec();
 
-      /// Classify NEs in given sentence
-      void analyze(std::list<sentence> &) const;
+      /// analyze sentences, return analyzed copy
+      std::list<sentence> analyze(const std::list<sentence> &);
 };
 
 
@@ -526,8 +525,8 @@ class chart_parser {
    chart_parser(const std::string&);
    /// Get the start symbol of the grammar
    std::string get_start_symbol(void) const;
-   /// parse sentences in list
-   void analyze(std::list<sentence> &);
+   /// parse sentences in list, return analyzed copy
+   std::list<sentence> analyze(const std::list<sentence> &);
 };
 
 /*------------------------------------------------------------------------*/
@@ -535,7 +534,7 @@ class dependency_parser {
   public: 
    dependency_parser();
    virtual ~dependency_parser() {};
-   virtual void analyze(std::list<sentence> &)=0;
+   virtual std::list<sentence> analyze(const std::list<sentence> &)=0;
 };
 
 
@@ -543,7 +542,8 @@ class dependency_parser {
 class dep_txala : public dependency_parser {
  public:   
    dep_txala(const std::string &, const std::string &);
-   void analyze(std::list<sentence> &);
+   /// parse sentences in list, return analyzed copy
+   std::list<sentence> analyze(const std::list<sentence> &);
 };
 
 
@@ -556,7 +556,8 @@ class senses {
       /// Destructor
       ~senses(); 
  
-      /// sense annotate selected analysis for each word in given sentences
+      /// sense annotate selected analysis for each word in 
+      /// given sentences, return analyzed copy
       std::list<sentence> analyze(const std::list<sentence> &);
 };
 
