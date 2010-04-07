@@ -26,3 +26,6 @@ analyzer_client_SOURCES = sample_analyzer/analyzer_client.cc sample_analyzer/soc
 install-exec-hook:
 	cp sample_analyzer/analyze sample_analyzer/analyze.utf sample_analyzer/initialize $(bindir)
 	chmod +x $(bindir)/analyze $(bindir)/analyze.utf
+
+uninstall-hook:
+	@rm -rf $(bindir)/analyze $(bindir)/analyze.utf $(bindir)/initialize
