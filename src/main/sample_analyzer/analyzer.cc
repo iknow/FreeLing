@@ -62,6 +62,9 @@ using namespace std;
 /// config file/options handler for this particular sample application
 #include "config.h"
 
+/// utf <-> latin1 conversion
+#include "iso2utf.h"
+
 // we use pointers to the analyzers, so we
 // can create only those strictly necessary.
 tokenizer *tk;
@@ -98,6 +101,7 @@ config *cfg;
   #define WriteResultsDoc(ls,b,doc) PrintResults(cout,ls,b,doc)
 #endif
 
+#define encode(s)  (cfg->UTF8?Latin1toUTF8(s.c_str()):s)
 
 //---------------------------------------------
 // Apply analyzer cascade to sentences in given list
@@ -155,7 +159,7 @@ void PrintTree (ostream &sout, parse_tree::iterator n, int depth, const document
   if (n->num_children () == 0) {
     if (n->info.is_head ()) sout << "+";
     word w = n->info.get_word ();
-    sout << "(" << w.get_form () << " " << w.get_lemma () << " " << w.get_parole ();
+    sout << "(" << encode(w.get_form()) << " " << encode(w.get_lemma()) << " " << w.get_parole ();
     sout << OutputSenses ((*w.selected_begin ()));
     sout << ")" << endl;
   }
@@ -197,7 +201,7 @@ void PrintDepTree (ostream &sout, dep_tree::iterator n, int depth, const documen
   sout<<"/" << n->info.get_label() << "/";
 
   word w = n->info.get_word();
-  sout << "(" << w.get_form() << " " << w.get_lemma() << " " << w.get_parole ();
+  sout << "(" << encode(w.get_form()) << " " << encode(w.get_lemma()) << " " << w.get_parole ();
   sout << OutputSenses ((*w.selected_begin()));
   sout << ")";
   
@@ -263,11 +267,11 @@ void PrintWord (ostream &sout, const word &w, bool only_sel, bool probs) {
 	lem = lem + "+" + r->get_lemma ();
 	par = par + "+" + r->get_parole ();
       }
-      sout << " " << lem.substr (1) << " " << par.substr (1);
+      sout << " " << encode(lem.substr(1)) << " " << par.substr(1);
       if (probs) sout << " " << ait->get_prob ();
     }
     else {
-      sout << " " << ait->get_lemma () << " " << ait->get_parole ();
+      sout << " " << encode(ait->get_lemma()) << " " << ait->get_parole ();
       if (probs) sout << " " << ait->get_prob ();
     }
 
@@ -309,7 +313,7 @@ void PrintResults (ostream &sout, list<sentence > &ls, bool separate, const docu
     }
     else {
       for (w = is->begin (); w != is->end (); w++) {
-	sout << w->get_form ();
+	sout << encode(w->get_form());
 	
 	if (cfg->OutputFormat == MORFO or cfg->OutputFormat == TAGGED) {
 	  if (cfg->TrainingOutput) {
@@ -792,7 +796,7 @@ int main (int argc, char **argv) {
 
     // --- Main loop: read an process all input lines up to EOF ---
     while (ReadLine(text)) {
-      
+
       #ifdef SERVER
         start = clock();
         if (text=="RESET_STATS") { 
@@ -804,6 +808,9 @@ int main (int argc, char **argv) {
 	  continue;
 	}
       #endif
+
+      if (cfg->UTF8) // input is utf, convert to latin-1
+	text=utf8toLatin(text.c_str());      
 
       if (cfg->COREF_CoreferenceResolution)  // coreference requested, plain text input 
         ProcessLineCoref(text,av,ls,par,doc);
