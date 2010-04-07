@@ -24,8 +24,8 @@ analyzer_server_CPPFLAGS = -DSERVER
 analyzer_client_SOURCES = sample_analyzer/analyzer_client.cc sample_analyzer/socket.h
 
 install-exec-hook:
-	cp sample_analyzer/analyze sample_analyzer/analyze.utf sample_analyzer/initialize $(bindir)
-	chmod +x $(bindir)/analyze $(bindir)/analyze.utf
+	cp sample_analyzer/analyze sample_analyzer/initialize $(bindir)
+	chmod +x $(bindir)/analyze
 
 uninstall-hook:
-	@rm -rf $(bindir)/analyze $(bindir)/analyze.utf $(bindir)/initialize
+	@rm -rf $(bindir)/analyze $(bindir)/initialize
