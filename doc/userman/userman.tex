@@ -3476,6 +3476,59 @@ Command line       & Configuration file   \\ \hline
   \item dep:  tokenized, sentence-splitted, morphologically analyzed, PoS-tagged, optionally sense--annotated, and dependency-parsed text. 
  \end{itemize}
 
+
+\item {\bf Produce training output format}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--train# & N/A  \\ \hline
+\end{tabular}
+
+  When this option (only available at command line) is specified,
+  \verb#OutputFormat# is forced to \verb#tagged# and results are
+  printed in the format:
+\begin{verbatim}
+ word lemma tag # lemma1 tag1 lemma2 tag2 ...
+\end{verbatim}
+that is, one word per line, with the selected lemma and tag as fields
+2 and 3, a separator (\verb/#/) and a list of all possible pairs
+lemma-tag for the word (including the selected one).
+
+ This format is expected by the training scripts. Thus, this option can
+ be used to annotate a corpus, correct the output manually, and use it
+ to retrain the taggers with the script {\tt src/utilitities/TRAIN}
+ provided in FreeLing package. See comments in the script file for
+ details about how to use it.
+  
+\item {\bf Use UTF8 encoding}
+
+\begin{tabular}{|l|l|}
+Command line       & Configuration file   \\ \hline
+\verb#--utf# & \verb#UseUTF=(yes|y|on|no|n|off)#  \\ \hline
+\end{tabular}
+
+  FreeLing internally uses \verb#latin1# ISO encoding.
+ When this option is active, the input is assumed to be in \verb#utf8#, 
+and converted to \verb#latin1# before processing. The results
+are converted back to \verb#utf8# before being output.
+
+  Note that this will {\em not} work with \verb#utf8# encodings that cannot be
+converted to \verb#latin1#.
+
+  When using the server version (see chapter~\ref{cap-analyzer}), you
+  can choose whether it will be the server or the client who will
+  perform the conversion. 
+
+  Specifying \verb#--utf# at the server command line
+  means that the server expects \verb#utf8# input, so the client must 
+  send so (thus, no conversion must be carried out by the client).
+  
+  Specifying \verb#--utf# at the client command line means
+  that the client will convert \verb#utf8# input to \verb#latin1# before
+  sending the request to the server. So, the server has to be 
+  expecting \verb#latin1# input (i.e. no conversion in the server side).
+
+
 \item {\bf Tokenizer File}
 
 \begin{tabular}{|l|l|}
