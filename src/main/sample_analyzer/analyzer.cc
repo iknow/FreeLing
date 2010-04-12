@@ -108,16 +108,16 @@ config *cfg;
 //---------------------------------------------
 
 void AnalyzeSentences(list<sentence> &ls) {
-  if (cfg->InputFormat < MORFO && cfg->OutputFormat >= MORFO)
+  if (cfg->InputFormat < MORFO && cfg->OutputFormat >= MORFO) 
     morfo->analyze (ls);
   if (cfg->OutputFormat >= MORFO and 
-      (cfg->SENSE_SenseAnnotation == MFS or cfg->SENSE_SenseAnnotation == ALL))
+      (cfg->SENSE_SenseAnnotation == MFS or cfg->SENSE_SenseAnnotation == ALL)) 
     sens->analyze (ls);
-  if (cfg->InputFormat < TAGGED && cfg->OutputFormat >= TAGGED)
+  if (cfg->InputFormat < TAGGED && cfg->OutputFormat >= TAGGED) 
     tagger->analyze (ls);
-  if (cfg->OutputFormat >= TAGGED and (cfg->SENSE_SenseAnnotation == UKB))  
+  if (cfg->OutputFormat >= TAGGED and (cfg->SENSE_SenseAnnotation == UKB)) 
     dsb->analyze (ls);
-  if (cfg->OutputFormat >= TAGGED and cfg->NEC_NEClassification)
+  if (cfg->OutputFormat >= TAGGED and cfg->NEC_NEClassification) 
     neclass->analyze (ls);
   if (cfg->OutputFormat >= SHALLOW)
     parser->analyze (ls);
