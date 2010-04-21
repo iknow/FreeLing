@@ -71,7 +71,7 @@ hmm_tagger::hmm_tagger(const std::string &lang, const std::string &HMM_File, boo
 {
   double prob, coef;
   string nom1,nom2,categ,line,aux;
-  int reading, i;
+  int reading;
 
   Language = lang;
 
@@ -80,7 +80,7 @@ hmm_tagger::hmm_tagger(const std::string &lang, const std::string &HMM_File, boo
     ERROR_CRASH("Error opening file "+HMM_File);
   }
 
-  reading=0; i=0;
+  reading=0;
   while (getline(model,line)) {
 
     istringstream sin;
@@ -103,6 +103,9 @@ hmm_tagger::hmm_tagger(const std::string &lang, const std::string &HMM_File, boo
  
     else if (line == "<Smoothing>") reading=6;
     else if (line == "</Smoothing>") reading=0;
+
+    else if (line == "<Forbidden>") reading=7;
+    else if (line == "</Forbidden>") reading=0;
  
     else if (reading == 1) {
       // Reading tag probabilities
@@ -137,11 +140,17 @@ hmm_tagger::hmm_tagger(const std::string &lang, const std::string &HMM_File, boo
     else if (reading == 6) {
       // Reading the coeficients
       sin>>nom1>>coef;
-      c[i]=coef;
-      i++;
+      if (nom1=="c1") c[0]=coef;
+      else if (nom1=="c2") c[1]=coef;
+      else if (nom1=="c3") c[2]=coef;
+    }
+
+    else if (reading == 7) {
+      // Reading forbidden transitions
+      sin>>aux;
+      Forbidden.insert(aux);
     }
   }
-  // for (i=0;i<4;i++) cout<<i<<"  "<< c[i]<<"\n";
 
   TRACE(3,"analyzer succesfully created");
 }
@@ -165,25 +174,32 @@ double hmm_tagger::ProbA_log(const std::string &state_i, const std::string &stat
   t3=state_j.substr(state_j.find_last_of('.')+1); 
   t2t3=state_j;  
   t1t2t3=state_i+"."+t3;
+
+
+  if (Forbidden.find("*."+t2t3)!=Forbidden.end() or
+      Forbidden.find(t1t2t3)!=Forbidden.end())
+    // if it's a forbidden transition, set zero probability
+    prob=0;
+  else {
   
-  k=PTag.find(t3);
-  if (k!=PTag.end())    // Tag found in map
-    prob+=c[0]*(k->second);
-  else {     // unobserved tag look for a generic one
-    k=PTag.find("x");
-    prob+=c[0]*(k->second);  
+    k=PTag.find(t3);
+    if (k!=PTag.end())    // Tag found in map
+      prob+=c[0]*(k->second);
+    else {     // unobserved tag look for a generic one
+      k=PTag.find("x");
+      prob+=c[0]*(k->second);  
+    }
+    
+    k=PBg.find(t2t3);
+    if (k!=PBg.end())      // Bigram found in map
+      prob+=c[1]*(k->second);
+  
+    k=PTrg.find(t1t2t3);
+    if (k!=PTrg.end())    // Trigram found in map
+      prob+=c[2]*(k->second);  
   }
-  
-  k=PBg.find(t2t3);
-  if (k!=PBg.end())      // Bigram found in map
-    prob+=c[1]*(k->second);
-  
-  k=PTrg.find(t1t2t3);
-  if (k!=PTrg.end())    // Trigram found in map
-    prob+=c[2]*(k->second);  
-  
-  prob=log(prob);  
-  
+
+  prob=log(prob);
   return prob;
 }
 
