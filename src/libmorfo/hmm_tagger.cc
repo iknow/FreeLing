@@ -75,6 +75,8 @@ hmm_tagger::hmm_tagger(const std::string &lang, const std::string &HMM_File, boo
 
   Language = lang;
 
+  ZERO_logprob = log(0); // -inf
+
   ifstream model (HMM_File.c_str());
   if (!model) {
     ERROR_CRASH("Error opening file "+HMM_File);
@@ -168,20 +170,20 @@ double hmm_tagger::ProbA_log(const std::string &state_i, const std::string &stat
   map <string, double>::const_iterator k;
   string t3, t2t3, t1t2t3;
  
-  prob=0;
 
+  prob=0;
+  
   // state_i=t1.t2 --  state_j=t2.t3  
   t3=state_j.substr(state_j.find_last_of('.')+1); 
   t2t3=state_j;  
   t1t2t3=state_i+"."+t3;
-
-
+  
   if (Forbidden.find("*."+t2t3)!=Forbidden.end() or
       Forbidden.find(t1t2t3)!=Forbidden.end())
     // if it's a forbidden transition, set zero probability
     prob=0;
   else {
-  
+    
     k=PTag.find(t3);
     if (k!=PTag.end())    // Tag found in map
       prob+=c[0]*(k->second);
@@ -193,13 +195,14 @@ double hmm_tagger::ProbA_log(const std::string &state_i, const std::string &stat
     k=PBg.find(t2t3);
     if (k!=PBg.end())      // Bigram found in map
       prob+=c[1]*(k->second);
-  
+    
     k=PTrg.find(t1t2t3);
     if (k!=PTrg.end())    // Trigram found in map
       prob+=c[2]*(k->second);  
   }
-
+  
   prob=log(prob);
+    
   return prob;
 }
 
@@ -276,7 +279,7 @@ double hmm_tagger::ProbPi_log(const std::string &state_i) const
   }
   else {
     // non-initial state, zero probability, but log(0) = -inf, 
-    ppi_log = -1E5;
+    ppi_log = ZERO_logprob;
   }
 
   return ppi_log;
@@ -335,7 +338,7 @@ void hmm_tagger::analyze(std::list<sentence> &ls) {
       for(k=emms->begin(); k!=emms->end(); k++) {
 
         TRACE(3,"    possible emission from "+(*k));
-	max= -1E5;
+	max= ZERO_logprob;
 	for (kant=emmsant->begin(); kant!=emmsant->end(); kant++) {
 	  // ignore nonsense transitions. E.g, check A.B->B.C
           // but not transition  A.B->C.D
@@ -345,7 +348,7 @@ void hmm_tagger::analyze(std::list<sentence> &ls) {
 	      aux=(kd->second)+ProbA_log(*kant,*k);
 	    }
 	    else 
-	      aux = -1E5;
+	      aux = ZERO_logprob;
             TRACE(3,"       coming from "+(*kant)+"  prob "+util::double2string(aux)); 
 	    if (max <= aux) {
 	      max=aux;
@@ -357,7 +360,7 @@ void hmm_tagger::analyze(std::list<sentence> &ls) {
 
 	aux = max+ProbB_log(*k,*w);
 	
-	TRACE(3,"       **probability for "+w->get_form()+","+(*k)+": "+util::double2string(aux)+", from:"+state_ant_max+" emm prob="+util::double2string(aux-max));
+	TRACE(3,"       **probability for "+w->get_form()+","+(*k)+": "+util::double2string(aux)+", from:"+state_ant_max+" emm prob="+(((aux==max)&&(max==ZERO_logprob))? util::double2string(max) : util::double2string(aux-max)));
 	v.delta_log[t].insert(make_pair(*k,aux));
 	v.phi[t].insert(make_pair(*k,state_ant_max));
       }
@@ -368,7 +371,7 @@ void hmm_tagger::analyze(std::list<sentence> &ls) {
     }
     
     // Termination state, last word.
-    max=-1E5;
+    max=ZERO_logprob;
     w=--is->end();
     emms=--lemm.end();
     for(k=emms->begin(); k!=emms->end(); k++) {
@@ -376,7 +379,7 @@ void hmm_tagger::analyze(std::list<sentence> &ls) {
 	if(kd!=v.delta_log[is->size()-1].end())
 	  aux=kd->second;
 	else 
-	  aux=-1E5;
+	  aux=ZERO_logprob;
 	
 	TRACE(4, "       delta for "+(*k)+"is "+util::double2string(aux));
 	if(max<=aux) {

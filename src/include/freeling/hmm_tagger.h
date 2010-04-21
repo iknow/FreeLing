@@ -93,6 +93,8 @@ class hmm_tagger: public POS_tagger {
 
       /// set of hand-specified forbidden bigram and trigram transitions
       std::set <std::string> Forbidden;
+      /// log prob for zero
+      float ZERO_logprob;
 
       /// coeficients to compute linear interpolation
       double c[3];
