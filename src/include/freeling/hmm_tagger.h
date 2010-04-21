@@ -91,6 +91,9 @@ class hmm_tagger: public POS_tagger {
       std::map <std::string, double> PInitial;
       std::map <std::string, double> PWord;
 
+      /// set of hand-specified forbidden bigram and trigram transitions
+      std::set <std::string> Forbidden;
+
       /// coeficients to compute linear interpolation
       double c[3];
 
