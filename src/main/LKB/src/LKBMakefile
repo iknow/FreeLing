@@ -1,12 +1,12 @@
 
-#FREELINGDIR=/usr/local/FreeLing
-FREELINGDIR=/home/padro/test
+FREELINGDIR=/usr/local
+#FREELINGDIR=/home/padro/test
 MYINCLUDES=../../../../libcfg+
 MYLIBS=/usr/local/lib
 
 IPATH= -I$(FREELINGDIR)/include  -I/usr/include/db4 -I$(MYINCLUDES)
 LPATH= -L$(FREELINGDIR)/lib  -L$(MYLIBS)
-LIBS= -lmorfo -lfries -lomlet -ldb_cxx -lpcre -lcfg+ -lboost_filesystem
+LIBS= -lmorfo -lfries -lomlet -ldb_cxx -lpcre -lcfg+ -lboost_filesystem-mt
 
 LKBanalyzer :	LKBanalyzer.cc LKBconfig.h
 	g++ -o LKBanalyzer LKBanalyzer.cc $(IPATH) $(LPATH) $(LIBS)
