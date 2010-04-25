@@ -117,10 +117,7 @@ void print_analysis(const analysis &a, const string &form) {
     list<word>::iterator r;
     string rform;
     for (r=rtk.begin(); r!= rtk.end(); r++) {
-      if(r == rtk.begin()) 
-	rform = r->get_form();
-      else
-	rform = form + r->get_form();
+      rform = r->get_form();
       toXML(rform);
       say("      <rule id=\""
 	  + string(r == rtk.begin() ? "" : "+") + r->get_parole() 
