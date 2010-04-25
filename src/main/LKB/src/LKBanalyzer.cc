@@ -128,7 +128,6 @@ void print_analysis(const analysis &a, const string &form) {
     }
     say("    </analysis>");
   }  
-  //else if (c1!='Z' && c1!='W' && c1!='F' && !(c1=='N' && c2=='P') && !(c1=='A' && c2=='O')) {
   else if (c1!='Z' && c1!='W' && !(c1=='N' && c2=='P') && !(c1=='A' && c2=='O')) {
     say("    <analysis stem=\""+alemma+"\" >");
     say("      <rule id=\""+a.get_parole()+"\" form=\""+form+"\" />");
@@ -191,7 +190,7 @@ void PrintResults(list<sentence> &ls, const config &cfg) {
 
       say("  <token form=\""+wform+"\" from=\""+util::int2string(w->get_span_start())+"\" to=\""+util::int2string(w->get_span_finish())+"\" >");
 
-      if (cfg.OutputFormat==MORFO) {
+      if (cfg.OutputFormat==MORFO or w->get_form()=="que") {
 	for(ait=w->analysis_begin(); ait!=w->analysis_end(); ait++){
 	  print_analysis(*ait,wform);
 	}	  
@@ -206,8 +205,9 @@ void PrintResults(list<sentence> &ls, const config &cfg) {
     }
     say("</segment>");
   }
+  }
 
-}
+
 
 //---------------------------------------------
 // Plain text, start with tokenizer.
