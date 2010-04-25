@@ -1,6 +1,5 @@
 
 FREELINGDIR=/usr/local
-#FREELINGDIR=/home/padro/test
 MYINCLUDES=../../../../libcfg+
 MYLIBS=/usr/local/lib
 
