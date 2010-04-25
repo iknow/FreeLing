@@ -23,6 +23,7 @@
 
 <Prefixes>
 anti	*	^NC	AQ0CN0	0	0	1	A+L	0	-
+auto	*	^VM	*	0	0	1	A+L	0	-
 anti-	*	^NC	AQ0CN0	0	0	1	anti+L	0	-
 re	*	^VM	*	0	0	1	A+L	0	-
 semi	*	^RG	*	0	0	1	F	0	-
