@@ -150,7 +150,51 @@ hmm_tagger::hmm_tagger(const std::string &lang, const std::string &HMM_File, boo
     else if (reading == 7) {
       // Reading forbidden transitions
       sin>>aux;
-      Forbidden.insert(aux);
+      bool err=false;
+      vector<string> l;
+      l.push_back("");l.push_back("");l.push_back("");
+
+      TRACE(4," reading forbidden ("+aux+")");
+      vector<string> ltg=util::string2vector(aux,".");
+      for (int i=0; i<3; i++) {
+        TRACE(4,"    ... processing  ("+ltg[i]+")");
+	size_t p=ltg[i].find("<"); 
+	if (p!=string::npos) {
+	  l[i]=ltg[i].substr(p);
+	  ltg[i]=ltg[i].substr(0,p);
+	}
+	// it is illegal to use a lema with * or 0, and
+        // to use * or 0 out of first position
+        err=((not l[i].empty() or i!=0) and (ltg[i]=="*" or ltg[i]=="0"));
+      }
+
+      if (err)
+	WARNING("Wrong format for forbidden trigram '"+aux+"'. Ignored.");
+      else {
+
+	vector<string> stg;
+	for (int i=0; i<3; i++) {     
+	  if (ltg[i]=="*" and ltg[i]=="0") {
+	    stg.push_back(ltg[i]);
+	    ltg[i]= "";
+	  }
+	  else {
+	    analysis an("",ltg[i]);
+	    stg.push_back(an.get_short_parole(Language));
+	    if (stg[i]==ltg[i]) ltg[i]="";
+	  }
+	}
+      
+        string tr=util::vector2string(stg,".");
+	string lt=util::vector2string(ltg,".");
+
+	string lm="";
+	if (not (l[0].empty() and l[1].empty() and l[2].empty()))
+	  lm=util::vector2string(l,".");
+		
+	TRACE(4,"Inserting forbidden ("+tr+","+lm+"#"+lt+")");
+	Forbidden.insert(make_pair(tr,lm+"#"+lt));
+      }
     }
   }
 
@@ -159,17 +203,88 @@ hmm_tagger::hmm_tagger(const std::string &lang, const std::string &HMM_File, boo
 
 
 ////////////////////////////////////////////////
-///  Compute transition log_probability from
-/// state_i to state_j, returning appropriate 
-/// smoothed values if no evidence is available.
+/// check if a trigram is in the forbidden list.
 ////////////////////////////////////////////////
 
-double hmm_tagger::ProbA_log(const std::string &state_i, const std::string &state_j) const
+bool hmm_tagger::is_forbidden(const string &trig, sentence::const_iterator w) const {
+
+  string lemm0,lemm1,lemm2;
+
+  bool fbd=false;
+
+  pair<map<string,string>::const_iterator,map<string,string>::const_iterator> range;
+  range = Forbidden.equal_range(trig);
+
+  // check all possible rules for that trigram, if any.
+  for (map<string,string>::const_iterator t=range.first;
+       t!=range.second and not fbd;
+       t++) { 
+
+    TRACE(4,"       Checking rule for forbidden trigram "+t->first+":"+t->second);
+    if (t->second.empty())  // no lemmas, the trigram is always forbidden
+      fbd=true;
+
+    else  { 
+      // if we get here, the trigram is forbidden only 
+      // for some specific lemmas. Check if it's the case.
+
+      vector<string> stags=util::string2vector(t->first,".");
+      vector<string> vaux=util::string2vector(t->second,"#");
+      vector<string> lems=util::string2vector(vaux[0],".");
+      vector<string> ltags=util::string2vector(vaux[1],".");
+
+      TRACE(4,"       check rule: stags=["+util::vector2string(stags,",")+"] lems=["+util::vector2string(lems,",")+"] ltags=["+util::vector2string(ltags,",")+"]");
+
+      fbd=true; int i=3;
+      while (i>0 and fbd) {
+	i--;
+
+	// if more detail than short tags is required, look for 
+        // the pair tag-lemma in the corresponding word.
+	if (not (lems[i].empty() and ltags[i].empty())) {
+
+	  fbd=false;
+	  for (word::const_iterator an=w->begin(); an!=w->end() and not fbd; an++) {
+	    if (not ltags[i].empty() and not lems[i].empty()) {
+              // we have both lemma and long tag
+	      fbd = (ltags[i]==an->get_parole()) and (lems[i]=="<"+an->get_lemma()+">");
+	      TRACE(4,"       ... checking "+ltags[i]+","+lems[i]+": "+(fbd?"forbidden":"allowed"));
+	    }
+	    else if (ltags[i].empty()) {  // we have lemma, but not long tag.
+	      fbd = (stags[i]==an->get_short_parole(Language)) and 
+                    (lems[i]=="<"+an->get_lemma()+">");
+	      TRACE(4,"       ... checking "+lems[i]+" (no ltag): "+(fbd?"forbidden":"allowed"));
+	    }
+	    else { // we have long tag, but not lemma
+	      fbd = (ltags[i]==an->get_parole());
+	      TRACE(4,"       ... checking "+ltags[i]+" (no lemm): "+(fbd?"forbidden":"allowed"));
+	    }
+	  }	 
+	}
+	
+	// check position 0 only if there is a lemma to check
+        // (i.e. prevent checking for wildcards at sentence beggining)
+	if (i>1 or not lems[0].empty()) w--;
+      }
+    }
+  }
+
+  TRACE(4,"       ...trigram "+trig+" is "+(fbd?"forbidden.":"not forbidden."));
+  return fbd;
+}
+
+
+////////////////////////////////////////////////
+///  Compute transition log_probability from state_i to state_j,
+///  returning appropriate smoothed values if no evidence is available.
+///  If the trigram is in the "forbidden" list, result is probability zero.
+////////////////////////////////////////////////
+
+double hmm_tagger::ProbA_log(const std::string &state_i, const std::string &state_j, sentence::const_iterator w) const
 {
   double prob;
   map <string, double>::const_iterator k;
-  string t3, t2t3, t1t2t3;
- 
+  string t3, t2t3, t1t2t3; 
 
   prob=0;
   
@@ -178,8 +293,7 @@ double hmm_tagger::ProbA_log(const std::string &state_i, const std::string &stat
   t2t3=state_j;  
   t1t2t3=state_i+"."+t3;
   
-  if (Forbidden.find("*."+t2t3)!=Forbidden.end() or
-      Forbidden.find(t1t2t3)!=Forbidden.end())
+  if (is_forbidden("*."+t2t3,w) or is_forbidden(t1t2t3,w)) 
     // if it's a forbidden transition, set zero probability
     prob=0;
   else {
@@ -345,7 +459,7 @@ void hmm_tagger::analyze(std::list<sentence> &ls) {
           if(kant->substr(kant->find_last_of('.')+1)==k->substr(0,k->find_last_of('.'))) {
 	    kd=v.delta_log[t-1].find(*kant);
 	    if(kd!=v.delta_log[t-1].end()) {
-	      aux=(kd->second)+ProbA_log(*kant,*k);
+	      aux=(kd->second)+ProbA_log(*kant,*k,w);
 	    }
 	    else 
 	      aux = ZERO_logprob;

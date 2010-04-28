@@ -92,14 +92,15 @@ class hmm_tagger: public POS_tagger {
       std::map <std::string, double> PWord;
 
       /// set of hand-specified forbidden bigram and trigram transitions
-      std::set <std::string> Forbidden;
+      std::multimap <std::string, std::string> Forbidden;
       /// log prob for zero
       float ZERO_logprob;
 
       /// coeficients to compute linear interpolation
       double c[3];
 
-      double ProbA_log(const std::string &, const std::string &) const;
+      bool is_forbidden(const std::string &, sentence::const_iterator) const;
+      double ProbA_log(const std::string &, const std::string &, sentence::const_iterator) const;
       double ProbB_log(const std::string &, const word &) const;
       double ProbPi_log(const std::string &) const;
 

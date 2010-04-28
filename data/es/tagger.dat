@@ -1,5 +1,18 @@
 <Forbidden>
 *.PT.NC
+*.VAI<haber>.SP
+*.VAI<haber>.DA
+*.VAI<haber>.DI
+*.VAI<haber>.DT
+*.VAI<haber>.NC
+*.VAI<haber>.AQ
+*.VAI<haber>.VMS
+*.VAI<haber>.VMS
+*.VAI<haber>.VMI
+*.VAI<haber>.VMM
+*.VAI<haber>.VMP00SF
+*.VAI<haber>.VMP00PF
+*.VAI<haber>.VMP00PM
 </Forbidden>
 <Tag>
 0 0.0373861801089429
