@@ -187,13 +187,13 @@ hmm_tagger::hmm_tagger(const std::string &lang, const std::string &HMM_File, boo
       
         string tr=util::vector2string(stg,".");
 	string lt=util::vector2string(ltg,".");
-
-	string lm="";
-	if (not (l[0].empty() and l[1].empty() and l[2].empty()))
-	  lm=util::vector2string(l,".");
+	string lm=util::vector2string(l,".");
 		
-	TRACE(4,"Inserting forbidden ("+tr+","+lm+"#"+lt+")");
-	Forbidden.insert(make_pair(tr,lm+"#"+lt));
+	string s=""; 
+        if (lt!=".." or lm!="..") s=lm+"#"+lt;
+
+	TRACE(4,"Inserting forbidden ("+tr+","+s+")");
+	Forbidden.insert(make_pair(tr,s));
       }
     }
   }
@@ -235,6 +235,7 @@ bool hmm_tagger::is_forbidden(const string &trig, sentence::const_iterator w) co
 
       TRACE(4,"       check rule: stags=["+util::vector2string(stags,",")+"] lems=["+util::vector2string(lems,",")+"] ltags=["+util::vector2string(ltags,",")+"]");
 
+      sentence::const_iterator wd = w;
       fbd=true; int i=3;
       while (i>0 and fbd) {
 	i--;
@@ -244,7 +245,7 @@ bool hmm_tagger::is_forbidden(const string &trig, sentence::const_iterator w) co
 	if (not (lems[i].empty() and ltags[i].empty())) {
 
 	  fbd=false;
-	  for (word::const_iterator an=w->begin(); an!=w->end() and not fbd; an++) {
+	  for (word::const_iterator an=wd->begin(); an!=wd->end() and not fbd; an++) {
 	    if (not ltags[i].empty() and not lems[i].empty()) {
               // we have both lemma and long tag
 	      fbd = (ltags[i]==an->get_parole()) and (lems[i]=="<"+an->get_lemma()+">");
@@ -264,7 +265,7 @@ bool hmm_tagger::is_forbidden(const string &trig, sentence::const_iterator w) co
 	
 	// check position 0 only if there is a lemma to check
         // (i.e. prevent checking for wildcards at sentence beggining)
-	if (i>1 or not lems[0].empty()) w--;
+	if (i>1 or not lems[0].empty()) wd--;
       }
     }
   }
