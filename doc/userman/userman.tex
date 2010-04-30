@@ -3125,8 +3125,11 @@ to the command above.
   The given \verb#config-file# must be an absolute file name, or a 
   relative path to the current directory.
 
-  For instance, you can use the defalt configuration files, located
-  at {\tt /usr/local/share/FreeLing/config}. Note that those
+  You can use the default configuration files (located 
+  at {\tt /usr/local/share/FreeLing/config} if you installed from tarball, 
+  or at {\tt /usr/share/FreeLing/config} if you used a .deb package), or 
+  either a config file that suits your needs. 
+   Note that the default configuration
   files require the environment variable {\tt FREELINGSHARE} to be
   defined and to point to a directory with valid FreeLing data files
   (e.g. {\tt /usr/local/share/FreeLing}). 
@@ -3178,7 +3181,7 @@ to the command above.
   When the input file ends, the analyzer will stop and it will have to be
   reloaded again to process a new file.
 
-\subsection{Named pipe client/server mode}
+\subsection{Client/server mode}
 
   If \verb#port-number# is specified, a server is initiated and
   starts listening for incoming requests.\\ E.g.:
@@ -3186,13 +3189,13 @@ to the command above.
  analyze 50005 -f en.cfg  &
 \end{verbatim}
 
-  Then, clients can request analysis to the server, with:
+\noindent Then, clients can request analysis to the server, with:
 \begin{verbatim}
  analyzer_client localhost 50005  <myinput  >myoutput
 \end{verbatim}
  or, from a remote machine:
 \begin{verbatim}
- analyzer_client xx.xx.xx.xx 54321  <myinput  >myoutput
+ analyzer_client xx.xx.xx.xx 50005  <myinput  >myoutput
 \end{verbatim}
 (where \verb#xx.xx.xx.xx# should be the IP address or hostname for
 the machine where the server was started)
@@ -3239,7 +3242,7 @@ the machine where the server was started)
 %..................................................
 \section{Usage example}
 
-   Assuming we have the folowing input file {\tt mytext.txt}:
+   Assuming we have the following input file {\tt mytext.txt}:
 {\small {\tt 
 \begin{center}
 \begin{tabular}{p{6cm}}
