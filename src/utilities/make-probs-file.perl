@@ -51,6 +51,10 @@
 #   unknown word might take)
 
 use strict;
+use File::Spec::Functions qw(rel2abs);
+use File::Basename;
+
+my $path = dirname(rel2abs($0));
 
 my %freqclasses1=();
 my %probclasses=();
@@ -61,8 +65,8 @@ my $PAROLE=$ARGV[0];
 
 my ($forma,@tags,$tagOK,%clas,$tag,$classe,%classeforma,$x,$y,@t,%seen,@uniq,$nt,%unk,%occ,%occT,$nocc);
 
-if ($PAROLE) {open TAGS,"unk-tags.parole";}
-else {open TAGS,"unk-tags";}
+if ($PAROLE) {open TAGS,$path."/unk-tags.parole";}
+else {open TAGS,$path."/unk-tags";}
 
 while (<TAGS>) {
     chomp;
