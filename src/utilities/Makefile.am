@@ -1,4 +1,4 @@
-EXTRA_DIST = hmm_smooth.perl train-relax.perl make-probs-file.perl TRAIN unk-tags constr_gram.manual nec/README nec/TRAIN.sh nec/lexicon.cc nec/train.cc
+EXTRA_DIST = hmm_smooth.perl train-relax.perl make-probs-file.perl TRAIN unk-tags unk-tags.parole constr_gram.manual nec/README nec/TRAIN.sh nec/lexicon.cc nec/train.cc ner/README ner/TRAIN.sh ner/lexicon.cc ner/train.cc
 bin_PROGRAMS = indexdict convertdict dicc2phon compile_ukb
 
 if BOOST_MT
