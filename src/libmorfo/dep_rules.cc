@@ -247,12 +247,22 @@ bool rule_expression::nodes_to_check(dep_tree::iterator p, dep_tree::iterator d,
     nd=node.substr(t+1);
   }
 
-  if (top=="p") res.push_back(parse_node_ref(nd,p));
-  else if (top=="d") res.push_back(parse_node_ref(nd,d));
+  if (top=="p") {
+    dep_tree::iterator x=parse_node_ref(nd,p);
+    if (x!=NULL) res.push_back(x);   
+  }
+  else if (top=="d") {
+    dep_tree::iterator x=parse_node_ref(nd,d);
+    if (x!=NULL) res.push_back(x);
+  }
   else if (top=="As" or top=="Es") {
     // add to the list all children (except d) of the same parent (p)
-    for (dep_tree::sibling_iterator s=p->sibling_begin(); s!=p->sibling_end(); ++s)
-      if (s!=d) res.push_back(parse_node_ref(nd,s));
+    for (dep_tree::sibling_iterator s=p->sibling_begin(); s!=p->sibling_end(); ++s) {
+      if (s!=d) {
+	dep_tree::iterator x=parse_node_ref(nd,s);
+	if (x!=NULL) res.push_back(x);
+      }
+    }
   }
 
   return (top=="As"); // return true for AND, false for OR.
@@ -274,11 +284,15 @@ bool rule_expression::check(dep_tree::iterator ancestor, dep_tree::iterator desc
   bool which_ao = nodes_to_check(ancestor, descendant, ln);  
   if (ln.empty()) return false;
 
-// start with "true" for AND and "false" for OR
+  TRACE(4,"      found nodes to check.");
+
+  // start with "true" for AND and "false" for OR
   bool res= which_ao; 
   // the loop goes on when res==true for AND and when res==false for OR
-  for (list<dep_tree::iterator>::iterator n=ln.begin(); n!=ln.end() and (res==which_ao); n++)
+  for (list<dep_tree::iterator>::iterator n=ln.begin(); n!=ln.end() and (res==which_ao); n++) {
+    TRACE(4,"      checking node.");
     res=eval(*n);
+  }
 
   return res;
 }
@@ -361,7 +375,7 @@ bool check_lemma::eval(dep_tree::iterator n) const {
 
 check_pos::check_pos(const string &n,const string &l) : rule_expression(n,l) {}
 bool check_pos::eval(dep_tree::iterator n) const {
-  TRACE(4,"      eval. "+node+".pos "+n->info.get_word().get_lemma());
+  TRACE(4,"      eval. "+node+".pos "+n->info.get_word().get_parole());
   return (match(n->info.get_word().get_parole()));
 }
 
@@ -370,6 +384,7 @@ bool check_pos::eval(dep_tree::iterator n) const {
 
 check_category::check_category(const string &n,const string &p) : rule_expression(n,p) {}
 bool check_category::eval(dep_tree::iterator n) const {
+  TRACE(4,"      eval. "+node+".label "+n->info.get_link()->info.get_label());
   return (find_match(n->info.get_link()->info.get_label()));
 }
 
@@ -378,6 +393,7 @@ bool check_category::eval(dep_tree::iterator n) const {
 
 check_tonto::check_tonto(semanticDB &db, const string &n, const string &t) : rule_expression(n,t), semdb(db) {}
 bool check_tonto::eval (dep_tree::iterator n) const {
+  TRACE(4,"      eval "+node+".tonto "+n->info.get_link()->info.get_label());
   string lem=n->info.get_word().get_lemma();
   string pos=n->info.get_word().get_parole().substr(0,1);
   list<string> sens = semdb.get_word_senses(lem,pos);
