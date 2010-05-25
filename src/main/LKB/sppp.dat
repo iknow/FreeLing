@@ -1,0 +1,48 @@
+
+## List of forms for which PoS tagger output will be ignored (no analysis discarded)
+<NoDisambiguate>
+que
+</NoDisambiguate>
+
+## List of words for which the list of output analysis given
+## by FreeLing must be ignored and replaced by the specified list.
+## One entry per line, format:
+##      form lemma1 tag1 lemma2 tag2 ...
+<ReplaceAll>
+aquí aquí NC00000
+allí allí NC00000
+</ReplaceAll>
+
+## List of tag fusions to perform. 
+## When a word has all tags at the left hand side (with the same lemma),
+## they are replaced by the tag at the right hand side (keeping the same lemma).
+## Format:
+##    tag1 tag2 ... tagn => tag
+<Fusion>
+VMII1S0 VMII3S0 => VMII4S0
+</Fusion>
+
+## Rearrangements to SPPP output fields
+## Rule form is:
+##     form lemma tag  =>  stem rule_id form
+##
+##  On the left hand side:
+##    "form", "lemma", and "tag" are regular expressions.
+##    "*" may be used to mean "anything".
+##    For "form" and "lemma" complete match will be checked.
+##    For "tag" prefix match will be used.
+##    Symbol "!" preceding the regexp negates it.
+##
+##  On the right hand side:
+##    "stem" may be "F" (form), "L" (lemma), "T" (tag), or any lowercase literal.
+##    "rule_id" may be "F" (form), "L" (lemma), or "T" (tag).
+##    "form" may be any combination of "F", "L", and "T". form/lemma/tag will be 
+##           concatenated in the given order, separated by "#".
+##
+##  Rules are applied in order, until a match is found, thus, a last default
+##  rule "* * *" is needed.
+<Output>
+*             *  !(Z|W|NP|AO)  =>  L  T  F   ## stem=lema per tots excepte numeros, dates, NPs i AOs.
+(un|una|uno)  *  Z             =>  F  T  FL  ## lema="un/o/a" per "un/o/a" amb tag Z (tenien lema="1")
+*             *  *             =>  T  T  FL  ## stem=tag per la resta (numeros!="un/o/a", dates, NPs, AOs)
+</Output>

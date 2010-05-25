@@ -102,9 +102,9 @@ int main (int argc, char **argv) {
   // very simple example, it doesn't matter much.
   maco_options opt ("xx");     
   // We use the bare minimum of modules (ner = NONE = no NER)
-  // set_active_modules(bool suf, bool mw, bool num, bool pun, bool dat, bool qt, bool dic, bool prb, int ner) 
-  opt.set_active_modules(false, false, false, false, false, false, true, false, NER_NONE);
-  opt.set_data_files ("", "", "", "", argv[3], "", "");
+  // set_active_modules(bool suf, bool mw, bool num, bool pun, bool dat, bool qt, bool dic, bool prb, int ner, bool corr) 
+  opt.set_active_modules(false, false, false, false, false, false, true, false, NER_NONE, false);
+  opt.set_data_files ("", "", "", "", argv[3], "", "", "");
   
   // create tha analyzer with the above options.
   morfo = new maco (opt);
