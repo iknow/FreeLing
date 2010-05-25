@@ -52,8 +52,12 @@ using namespace std;
 #include <sstream>
 #include <iostream>
 
+#include <set>
 #include <map>
 #include <vector>
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/fstream.hpp>
+#include <sstream>
 
 #include "fries/util.h"
 #include "freeling/tokenizer.h"
@@ -67,6 +71,43 @@ using namespace std;
 #include "LKBconfig.h"
 
 const char FORMFEED=0x0C;
+
+// we use pointers to the analyzers, so we
+// can create only those strictly necessary.
+tokenizer *tk=NULL;
+splitter *sp=NULL;
+maco *morfo=NULL;
+nec *neclass=NULL;
+POS_tagger *tagger=NULL;
+
+// FL configuration options
+config *cfg=NULL;
+
+// Variables and classes to hold transformation rules FL->SPPP
+class SPPP_rule {
+  public:
+    RegEx form1;
+    RegEx lemma;
+    RegEx tag;
+    bool any_form, pn_form;
+    bool any_lemma, pn_lemma;
+    bool any_tag, pn_tag;
+ 
+    string stem;    
+    string rule_id;
+    string form2;
+
+     SPPP_rule() : form1(""),lemma(""),tag("") {any_form=true; any_lemma=true; any_tag=true; 
+                                                pn_form=true;  pn_lemma=true;  pn_tag=true;}
+    ~SPPP_rule() {};
+};
+
+set<string> noTag;
+list<SPPP_rule> rules;
+map<string,list<analysis> > replaces;
+list<list<string> > fusion;
+
+
 
 
 //---------------------------------------------
@@ -104,11 +145,10 @@ void fromXML(string &s){
 // print one analysis.
 //---------------------------------------------
 void print_analysis(const analysis &a, const string &form) {
+ 
   string lcform = util::lowercase(form);
-  char c1=a.get_parole()[0];
-  char c2=a.get_parole()[1];
-  
-  string alemma=a.get_lemma();
+  string parole = a.get_parole();
+  string alemma = a.get_lemma();
   toXML(alemma);
 
   if (a.is_retokenizable()) {            
@@ -125,39 +165,135 @@ void print_analysis(const analysis &a, const string &form) {
     }
     say("    </analysis>");
   }  
-  else if (c1!='Z' && c1!='W' && !(c1=='N' && c2=='P') && !(c1=='A' && c2=='O')) {
-    say("    <analysis stem=\""+alemma+"\" >");
-    say("      <rule id=\""+a.get_parole()+"\" form=\""+form+"\" />");
-    say("    </analysis>");
-  }
-  else if (c1=='Z' && (lcform=="un")) {
-    say("    <analysis stem=\"un\" >");
-    say("      <rule id=\""+a.get_parole()+"\" form=\""+form+"#"+alemma+"\" />");
-    say("    </analysis>");
-  }
-  else if (c1=='Z' && (lcform=="una")) {
-    say("    <analysis stem=\"una\" >");
-    say("      <rule id=\""+a.get_parole()+"\" form=\""+form+"#"+alemma+"\" />");
-    say("    </analysis>");
-  }
-  else if (c1=='Z' && (lcform=="uno")) {
-    say("    <analysis stem=\"uno\" >");
-    say("      <rule id=\""+a.get_parole()+"\" form=\""+form+"#"+alemma+"\" />");
-    say("    </analysis>");
-  }
-  else {            
-    say("    <analysis stem=\""+a.get_parole()+"\" >");
-    say("      <rule id=\""+a.get_parole()+"\" form=\""+form+"#"+alemma+"\" />");
+
+  else {
+
+    string stem="NO-RULE-FOUND"; string rid="NO-RULE-FOUND"; string frm="NO-RULE-FOUND";
+    bool trobat = false;
+    for (list<SPPP_rule>::iterator r=rules.begin(); r!=rules.end() and not trobat; r++) {
+      
+      if ( (r->any_form or r->form1.Search(lcform)==r->pn_form) and
+	   (r->any_lemma or r->lemma.Search(alemma)==r->pn_lemma) and
+	   (r->any_tag or r->tag.Search(parole)==r->pn_tag) ) {
+	
+	// matching rule found, apply right hand side.
+	trobat = true;
+	
+	// compute stem
+	if (r->stem=="L") stem=alemma;
+	else if (r->stem=="T") stem=parole;
+	else if (r->stem=="F") stem=lcform;
+	else stem=r->stem;
+	
+	// compute rule_id
+	if (r->rule_id=="L") rid=alemma;
+	else if (r->rule_id=="T") rid=parole;
+	else if (r->rule_id=="F") rid=lcform;
+	
+	// compute form
+	string f="";
+	for (size_t i=0; i<r->form2.size(); i++) {
+	  if (r->form2[i]=='L') f=f+"#"+alemma;
+	  else if (r->form2[i]=='T') f=f+"#"+parole;
+	  else if (r->form2[i]=='F') f=f+"#"+form;
+	}
+	if (not f.empty()) frm=f.substr(1);      
+      }
+    }
+    
+    say("    <analysis stem=\""+stem+"\" >");
+    say("      <rule id=\""+rid+"\" form=\""+frm+"\" />");
     say("    </analysis>");
   }
 }
 
 
+//---------------------------------------------
+// check if the word matches some Fusion rule,
+// and apply it if so.
+//---------------------------------------------
+void CheckFusion(word &w, bool tagged) {
+  word::iterator wb,we,a;
+  set<string> common;
+
+  if (not tagged) {
+     wb = w.analysis_begin();
+     we = w.analysis_end();
+  }
+  else {
+     wb = w.selected_begin();
+     we = w.selected_end();
+  }
+
+  // check all fusion rules.
+  list<list<string> >::iterator r;
+  for (r=fusion.begin(); r!=fusion.end(); r++) {
+ 
+    common.clear(); // clear set of common lemmas.
+
+    // check rule
+    bool ok=true;
+    list<string>::iterator tagout=r->begin(); // first tag is the output
+    list<string>::iterator tag1=r->begin(); tag1++; // second tag is first condition
+
+    list<string>::iterator tr;
+    for (tr=tag1; tr!=r->end() and ok; tr++) {
+      // build a set with lemmas for current rule tag
+      set<string> lems; 
+      for (a=wb; a!=we; a++) 
+	if ((*tr)==a->get_parole()) 
+	  lems.insert(a->get_lemma());
+
+      if (tr==tag1) 
+	// first iteration, intersection so far is lem.
+	common=lems; 
+      else {
+	// further iterations, accumulate intersection.
+	set<string> is;
+	set_intersection(common.begin(), common.end(), lems.begin(), lems.end(), inserter(is,is.begin()) );
+	common=is;
+      }
+
+      // if acumulated intersection is empty, rule won't match.
+      ok = not common.empty();
+    }
+
+    if (ok) {  // rule matched. Apply it      
+      // for each lemma matching rule tags
+      for (set<string>::iterator lem=common.begin(); lem!=common.end(); lem++) {
+
+	// Locate and erase analysis, replacing the first 
+        // with new tag.
+	bool done=false;
+	for (a=wb; a!=we; a++) {
+	  bool found=false;
+	  for (tr=r->begin(), tr++; tr!=r->end() and not found; tr++)
+	    found = ((*tr)==a->get_parole() and (*lem)==a->get_lemma());
+	  
+	  if (found) {  // tag and lemma match. Delete analysis
+	    if (not done) {
+	      // first matching analysis. just replace tag.
+	      a->set_parole(*tagout);
+	      done=true;
+	    }
+	    else {
+	      // not the first, delete.
+	      word::iterator a2=a; a2++;
+	      w.erase(a);	      
+	      a2--; a=a2;  // fix iteration control
+	    }
+	  }
+	}
+      }	  
+    }
+  }
+}
+
 
 //---------------------------------------------
 // print obtained analysis.
 //---------------------------------------------
-void PrintResults(list<sentence> &ls, const config &cfg) {
+void PrintResults(list<sentence> &ls) {
   word::const_iterator ait;
   sentence::iterator w;
   sentence::iterator nxt;
@@ -174,30 +310,29 @@ void PrintResults(list<sentence> &ls, const config &cfg) {
 
       string wform=w->get_form();
       toXML(wform); 
+      string lcform=util::lowercase(wform);
       
-      if (wform=="de" || wform=="a") {
-	sentence::iterator nxt=w;
-        nxt++;
-        if (nxt->get_form()=="el") {
-          int m=(w->get_span_start()+w->get_span_finish())/2;
-	  w->set_span(w->get_span_start(),m);
-	  nxt->set_span(m+1,nxt->get_span_finish());
-	}
-      }
-
       say("  <token form=\""+wform+"\" from=\""+util::int2string(w->get_span_start())+"\" to=\""+util::int2string(w->get_span_finish())+"\" >");
 
-      if (cfg.OutputFormat==MORFO or w->get_form()=="que") {
-	for(ait=w->analysis_begin(); ait!=w->analysis_end(); ait++){
-	  print_analysis(*ait,wform);
-	}	  
-      }
-      else if (cfg.OutputFormat==TAGGED) {
-	for(ait=w->selected_begin(); ait!=w->selected_end(); ait++){
-	  print_analysis(*ait,wform);
-	}	  
-      } 
+      // if the word is in the 'replace' list, replace all its analysis.
+      map<string,list<analysis> >::iterator p=replaces.find(lcform);
+      if (p!=replaces.end()) w->set_analysis(p->second);
 
+      // Assume OutputFormat=TAGGED. Output only selected analysis.
+      bool tagged=true;
+      word::iterator wb = w->selected_begin();
+      word::iterator we = w->selected_end();
+      
+      // ..but if output is MORFO or word was in NoDisambiguate list, output all analysis.
+      if (cfg->OutputFormat==MORFO or noTag.find(lcform)!=noTag.end()) {
+	wb = w->analysis_begin();
+	we = w->analysis_end();
+	tagged=false;
+      }
+
+      CheckFusion(*w,tagged);
+      for (ait=wb; ait!=we; ait++) print_analysis(*ait,wform);
+      
       say("  </token>");
     }
     say("</segment>");
@@ -209,7 +344,7 @@ void PrintResults(list<sentence> &ls, const config &cfg) {
 //---------------------------------------------
 // Plain text, start with tokenizer.
 //---------------------------------------------
-void ProcessPlain(const config &cfg, tokenizer *tk, splitter *sp, maco *morfo, POS_tagger *tagger, nec* neclass) {
+void ProcessPlain() {
   string text;
   list<word> av;
   list<word>::const_iterator i;
@@ -233,10 +368,10 @@ void ProcessPlain(const config &cfg, tokenizer *tk, splitter *sp, maco *morfo, P
 	// process last sentence in buffer (if any)
 	ls=sp->split(av, true);  //flush splitter buffer
 	morfo->analyze(ls);
-	if (cfg.OutputFormat>=TAGGED) tagger->analyze(ls);
-	if (cfg.OutputFormat>=TAGGED && cfg.NEC_NEClassification) neclass->analyze(ls);
+	if (cfg->OutputFormat>=TAGGED) tagger->analyze(ls);
+	if (cfg->OutputFormat>=TAGGED && cfg->NEC_NEClassification) neclass->analyze(ls);
 	
-	PrintResults(ls, cfg);
+	PrintResults(ls);
         cout<<FORMFEED<<endl; 
         cerr<<FORMFEED<<endl; 
         head=false;
@@ -251,12 +386,12 @@ void ProcessPlain(const config &cfg, tokenizer *tk, splitter *sp, maco *morfo, P
 	fromXML(text);
 	
 	av=tk->tokenize(text);
-	ls=sp->split(av, cfg.AlwaysFlush);
+	ls=sp->split(av, cfg->AlwaysFlush);
 	morfo->analyze(ls);
-	if (cfg.OutputFormat>=TAGGED) tagger->analyze(ls);
-	if (cfg.OutputFormat>=TAGGED && cfg.NEC_NEClassification) neclass->analyze(ls);
+	if (cfg->OutputFormat>=TAGGED) tagger->analyze(ls);
+	if (cfg->OutputFormat>=TAGGED && cfg->NEC_NEClassification) neclass->analyze(ls);
 
-	PrintResults(ls, cfg);	
+	PrintResults(ls);	
 	av.clear(); // clear list of words for next use
 	ls.clear(); // clear list of sentences for next use
       }
@@ -265,72 +400,167 @@ void ProcessPlain(const config &cfg, tokenizer *tk, splitter *sp, maco *morfo, P
 }
 
 
+//---------------------------------------------
+// Locate file sppp.dat in the same place than 
+// the executable, and load the transformation 
+// rules.
+//---------------------------------------------
+void read_SPPP_rules(string fn) {
+
+  boost::filesystem::path p(fn);
+  p=system_complete(p);
+  p.remove_filename();
+  p = p/"sppp.dat";
+  
+  boost::filesystem::ifstream fitx(p);
+
+  string line;
+  int reading=0;
+  while (getline(fitx,line)) {
+    if (line == "<NoDisambiguate>") reading=1;
+    else if (line == "</NoDisambiguate>") reading=0;
+    else if (line == "<ReplaceAll>") reading=2;
+    else if (line == "</ReplaceAll>") reading=0;
+    else if (line == "<Fusion>") reading=3;
+    else if (line == "</Fusion>") reading=0;
+    else if (line == "<Output>") reading=4;
+    else if (line == "</Output>") reading=0;
+
+    else if (reading==1)   // reading NoDisambiguate section
+      noTag.insert(line);
+    
+    else if (reading==2) { // whole analysis list replacements
+      istringstream sin(line);
+
+      string form,al,at;
+      sin>>form;
+      list<analysis> la;
+      while (sin>>al>>at) la.push_back(analysis(al,at));
+      replaces.insert(make_pair(form,la));
+    }
+ 
+    else if (reading==3) {
+      istringstream sin(line);
+      list<string> rul;
+
+      string tag;
+      sin>>tag;
+      while (tag!="=>") {
+	rul.push_back(tag);
+	sin>>tag;
+      }
+      // store last tag at the first place.
+      sin>>tag;
+      rul.push_front(tag);
+
+      fusion.push_back(rul);
+    }
+ 
+    else if (reading==4) {  // Read output field arrangements
+      istringstream sin(line);
+
+      SPPP_rule r;  // new rule.
+
+      string x;
+      sin>>x;  /// get form
+      if (x!="*") {
+	r.any_form=false;
+	if (x[0]=='!') { r.pn_form=false; x = x.substr(1); }	  
+	r.form1 = RegEx("^"+x+"$");
+      }
+      sin>>x;  /// get lemma
+      if (x!="*") {
+	r.any_lemma=false;
+	if (x[0]=='!') { r.pn_lemma=false; x = x.substr(1); }
+	r.lemma = RegEx("^"+x+"$");
+      }
+      sin>>x;  /// get tag
+      if (x!="*") {
+	r.any_tag=false;
+	if (x[0]=='!') { r.pn_tag=false; x = x.substr(1); }	  
+	r.tag = RegEx("^"+x);
+      }
+
+      sin>>x; 
+      if (x!="=>") ERROR_CRASH("Expecting '=>' in rule read from sppp.dat");
+
+      sin>>r.stem;
+      sin>>r.rule_id;
+      sin>>r.form2;
+
+      // Rest of the line (if any) is ignored (comments).
+
+      // add rule to rule list.
+      rules.push_back(r);
+    }
+  }
+}
+  
+
 
 //---------------------------------------------
 // Sample main program
 //---------------------------------------------
 int main(int argc, char **argv) {
 
-  // we use pointers to the analyzers, so we
-  // can create only those strictly necessary.
-  tokenizer *tk=NULL;
-  splitter *sp=NULL;
-  maco *morfo=NULL;
-  nec *neclass=NULL;
-  POS_tagger *tagger=NULL;
+
+  /// load transformation file from FreeLing to SPPP
+  read_SPPP_rules(argv[0]);
 
   // read configuration file and command-line options
-  config cfg(argv);
+  cfg = new config(argv);
 
   // create required analyzers
-  tk = new tokenizer(cfg.TOK_TokenizerFile); 
-  sp = new splitter(cfg.SPLIT_SplitterFile);
+  tk = new tokenizer(cfg->TOK_TokenizerFile); 
+  sp = new splitter(cfg->SPLIT_SplitterFile);
 
   // the morfo class requires several options at creation time.
   // they are passed packed in a maco_options object.
-  maco_options opt(cfg.Lang);
+  maco_options opt(cfg->Lang);
   // boolean options to activate/desactivate modules
   // default: all modules activated (options set to "false")
-  opt.set_active_modules (cfg.MACO_AffixAnalysis,    cfg.MACO_MultiwordsDetection,
-			  cfg.MACO_NumbersDetection, cfg.MACO_PunctuationDetection,
-			  cfg.MACO_DatesDetection,   cfg.MACO_QuantitiesDetection,
-			  cfg.MACO_DictionarySearch, cfg.MACO_ProbabilityAssignment,
-			  cfg.MACO_NER_which,        false);
+  opt.set_active_modules (cfg->MACO_AffixAnalysis,    cfg->MACO_MultiwordsDetection,
+			  cfg->MACO_NumbersDetection, cfg->MACO_PunctuationDetection,
+			  cfg->MACO_DatesDetection,   cfg->MACO_QuantitiesDetection,
+			  cfg->MACO_DictionarySearch, cfg->MACO_ProbabilityAssignment,
+			  cfg->MACO_NER_which,        false);
 
   // decimal/thousand separators used by number detection
-  opt.set_nummerical_points(cfg.MACO_Decimal, cfg.MACO_Thousand);
+  opt.set_nummerical_points(cfg->MACO_Decimal, cfg->MACO_Thousand);
   // Minimum probability for a tag for an unkown word
-  opt.set_threshold(cfg.MACO_ProbabilityThreshold);
+  opt.set_threshold(cfg->MACO_ProbabilityThreshold);
   // Data files for morphological submodules. by default set to ""
   // Only files for active modules have to be specified 
-  opt.set_data_files (cfg.MACO_LocutionsFile, cfg.MACO_QuantitiesFile,
-		      cfg.MACO_AffixFile, cfg.MACO_ProbabilityFile,
-		      cfg.MACO_DictionaryFile, cfg.MACO_NPdataFile,
-		      cfg.MACO_PunctuationFile, "");
+  opt.set_data_files (cfg->MACO_LocutionsFile, cfg->MACO_QuantitiesFile,
+		      cfg->MACO_AffixFile, cfg->MACO_ProbabilityFile,
+		      cfg->MACO_DictionaryFile, cfg->MACO_NPdataFile,
+		      cfg->MACO_PunctuationFile, "");
 
   // create analyzer with desired options
   morfo = new maco(opt);
 
-  if (cfg.OutputFormat>=TAGGED) {
-     if (cfg.TAGGER_which == HMM)
-       tagger = new hmm_tagger(cfg.Lang, cfg.TAGGER_HMMFile,
-                               cfg.TAGGER_Retokenize, cfg.TAGGER_ForceSelect);
-     else if (cfg.TAGGER_which == RELAX)
-       tagger = new relax_tagger(cfg.TAGGER_RelaxFile, cfg.TAGGER_RelaxMaxIter,
-                                 cfg.TAGGER_RelaxScaleFactor,
-                                 cfg.TAGGER_RelaxEpsilon,
-                                 cfg.TAGGER_Retokenize,
-                                 cfg.TAGGER_ForceSelect);
+  if (cfg->OutputFormat>=TAGGED) {
+     if (cfg->TAGGER_which == HMM)
+       tagger = new hmm_tagger(cfg->Lang, cfg->TAGGER_HMMFile,
+                               cfg->TAGGER_Retokenize, cfg->TAGGER_ForceSelect);
+     else if (cfg->TAGGER_which == RELAX)
+       tagger = new relax_tagger(cfg->TAGGER_RelaxFile, cfg->TAGGER_RelaxMaxIter,
+                                 cfg->TAGGER_RelaxScaleFactor,
+                                 cfg->TAGGER_RelaxEpsilon,
+                                 cfg->TAGGER_Retokenize,
+                                 cfg->TAGGER_ForceSelect);
   }
 
-  if (cfg.OutputFormat>=TAGGED && cfg.NEC_NEClassification) {
-    neclass = new nec("NP", cfg.NEC_FilePrefix);
+  if (cfg->OutputFormat>=TAGGED && cfg->NEC_NEClassification) {
+    neclass = new nec("NP", cfg->NEC_FilePrefix);
   }
+
 
   // Input is plain text.
-  ProcessPlain(cfg,tk,sp,morfo,tagger,neclass);
+  ProcessPlain();
 
   // clean up. Note that deleting a null pointer is a safe (yet useless) operation
+  delete cfg;
   delete tk;
   delete sp; 
   delete morfo; 
