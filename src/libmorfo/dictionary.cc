@@ -243,14 +243,17 @@ void dictionary:: annotate(sentence &se) {
         TRACE(2,"Contraction found, replacing... "+pos->get_form()+". span=("+util::int2string(pos->get_span_start())+","+util::int2string(pos->get_span_finish())+")");
 
         int st=pos->get_span_start(); 
-        int ed=pos->get_span_finish()-lw.size()+1; 
-        for (i=lw.begin(); i!=lw.end(); i++,st++,ed++) {
-	  i->set_span(st,ed);
+        int step=(pos->get_span_finish()-st+1)/lw.size(); 
+        if (step<1) step=1;
+
+        for (i=lw.begin(); i!=lw.end(); i++) {
+	  i->set_span(st,st+step-1);
 	  i->user=pos->user;
 
           TRACE(2,"  Inserting "+i->get_form()+". span=("+util::int2string(i->get_span_start())+","+util::int2string(i->get_span_finish())+")");
           pos=se.insert(pos,*i); 
           pos++;
+	  st=st+step;
          }
 
 	TRACE(2,"  Erasing "+pos->get_form());
