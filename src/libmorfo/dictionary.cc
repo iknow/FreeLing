@@ -244,10 +244,11 @@ void dictionary:: annotate(sentence &se) {
 
         int st=pos->get_span_start(); 
         int step=(pos->get_span_finish()-st+1)/lw.size(); 
-        if (step<1) step=1;
+	step=max(1,step);
+	int len=max(1,step-1);
 
         for (i=lw.begin(); i!=lw.end(); i++) {
-	  i->set_span(st,st+step-1);
+	  i->set_span(st,st+len);
 	  i->user=pos->user;
 
           TRACE(2,"  Inserting "+i->get_form()+". span=("+util::int2string(i->get_span_start())+","+util::int2string(i->get_span_finish())+")");
