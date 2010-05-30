@@ -22,13 +22,40 @@
 
 
 <Prefixes>
+# a-, an-, bi-, bien- bio-, cardi-, cardio-, ciclo-, co-, cuatri-, di-, dis-, des-, demo-, dermo-, filo-, fono-, foto-, geo-, hetereo-, hidro-, in-, infra-, inter-, logo-, 
+ante	*	^NC	*	0	0	1	A+L	0	-
+anti	*	^AQ	*	0	0	1	A+L	0	-
+anti	*	^NC	*	0	0	1	A+L	0	-
 anti	*	^NC	AQ0CN0	0	0	1	A+L	0	-
+antirr	r	^AQ	*	0	0	1	antir+L	0	-
+archi	*	^AQ	*	0	0	1	A+L	0	-
+archi	*	^NC	*	0	0	1	A+L	0	-
+ex-	*	^AQ	*	0	0	1	A+L	0	-
+ex-	*	^NC	*	0	0	1	A+L	0	-
+	*	^AQ	*	0	0	1	A+L	0	-
+	*	^NC	*	0	0	1	A+L	0	-
+
+auto	*	^AQ	*	0	0	1	A+L	0	-
+auto	*	^NC	*	0	0	1	A+L	0	-
 auto	*	^VM	*	0	0	1	A+L	0	-
-anti-	*	^NC	AQ0CN0	0	0	1	anti+L	0	-
+pos	*	^AQ	*	0	0	1	A+L	0	-
+post	*	^AQ	*	0	0	1	A+L	0	-
+pre	*	^AQ	*	0	0	1	A+L	0	-
 re	*	^VM	*	0	0	1	A+L	0	-
 semi	*	^RG	*	0	0	1	F	0	-
 semi	*	^AQ	*	0	0	1	A+L	0	-
 semi	*	^VM	*	0	0	1	A+L	0	-
+
+afro	*	^AQ	*	0	0	1	A+L	0	-
+afro-	*	^AQ	*	0	0	1	afro+L	0	-
+anglo	*	^AQ	*	0	0	1	A+L	0	-
+anglo-	*	^AQ	*	0	0	1	anglo+L	0	-
+franco	*	^AQ	*	0	0	1	A+L	0	-
+franco-	*	^AQ	*	0	0	1	franco+L	0	-
+hispano	*	^AQ	*	0	0	1	A+L	0	-
+hispano-	*	^AQ	*	0	0	1	hispano+L	0	-
+hispanorr	r	^AQ	*	0	0	1	hispanor+L	0	-
+
 </Prefixes>
 
 <Suffixes>

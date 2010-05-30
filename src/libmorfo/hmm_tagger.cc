@@ -548,10 +548,14 @@ void hmm_tagger::analyze(std::list<sentence> &ls) {
     TRACE(3,"sentence analyzed"); 
   }
 
-  // once everything is tagged, force select if required
-  force_select(ls);
-  // ... and perform retokenization if needed.
-  retokenize(ls);
+  // once everything is tagged, force select if required after tagging
+  if (force==FORCE_TAGGER) force_select(ls);
+
+  // perform retokenization if needed.
+  if (retok) retokenize(ls);
+
+  // once everything is tagged, force select if required after retokenization
+  if (force==FORCE_RETOK) force_select(ls);
 }
 
 ///////////////////////////////////////////////////////////////  
