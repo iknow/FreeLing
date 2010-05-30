@@ -9,8 +9,32 @@ que
 ## One entry per line, format:
 ##      form lemma1 tag1 lemma2 tag2 ...
 <ReplaceAll>
-aquí aquí NC00000
+acá aquí NC00000
+acullá acullá NC00000
+ahí ahí NC00000
+ahora ahora NC00000
+allá allá NC00000
+allende allende NC00000
 allí allí NC00000
+anoche anoche NC00000
+antaño antaño NC00000
+anteanoche anteanoche NC00000
+anteanteayer anteanteayer NC00000
+anteayer anteayer NC00000
+antes_de_anoche antes_de_anoche NC00000
+antes_de_ayer antes_de_ayer NC00000
+aquende aquende NC00000
+aquí aquí NC00000
+así así NC00000
+ayer ayer NC00000
+ayer_noche ayer_noche NC00000
+entonces entonces NC00000
+hogaño hogaño NC00000
+hoy hoy NC00000
+ibídem ibídem NC00000
+mañana mañana NC00000
+pasado_mañana pasado_mañana NC00000
+ni ni CC ni RG
 </ReplaceAll>
 
 ## List of tag fusions to perform. 
@@ -20,6 +44,12 @@ allí allí NC00000
 ##    tag1 tag2 ... tagn => tag
 <Fusion>
 VMII1S0 VMII3S0 => VMII4S0
+VMII1P0 VMIS1P0 => VMIB1P0
+VSII1S0 VSII3S0 => VSII4S0
+VSII1P0 VSIS1P0 => VSIB1P0
+VAII1S0 VSII3S0 => VAII4S0
+VAII1P0 VSIS1P0 => VAIB1P0
+PP3CNA00 PP3MSA00 => PP3MSA00
 </Fusion>
 
 ## Rearrangements to SPPP output fields

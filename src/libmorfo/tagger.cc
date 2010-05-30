@@ -53,21 +53,19 @@ void POS_tagger::force_select(std::list<sentence> &ls) {
   sentence::iterator w;
   word::iterator i;
 
-  if (force==FORCE_TAGGER) {
-    for (se=ls.begin(); se!=ls.end(); se++) {
-      // process each word
-      for (w=se->begin(); w!=se->end(); w++) {
-	
-	TRACE(2,"Forcing select, word: "+w->get_form());
-	
-	// unselect all analysis in selected list but one      
-	i=w->selected_begin();
-	w->unselect_all_analysis();
-	w->select_analysis(i);
-      }
+  for (se=ls.begin(); se!=ls.end(); se++) {
+    // process each word
+    for (w=se->begin(); w!=se->end(); w++) {
       
-      TRACE_SENTENCE(1,(*se));    
+      TRACE(2,"Forcing select, word: "+w->get_form());
+      
+      // unselect all analysis in selected list but one      
+      i=w->selected_begin();
+      w->unselect_all_analysis();
+      w->select_analysis(i);
     }
+    
+    TRACE_SENTENCE(1,(*se));    
   }
 }
 
@@ -84,57 +82,41 @@ void POS_tagger::retokenize(std::list<sentence> &ls) {
   sentence::iterator w,q;
   list<word>::iterator i;
 
-  if (retok) {
-
-    for (se=ls.begin(); se!=ls.end(); se++) {
-      // process each word
-      for (w=se->begin(); w!=se->end(); w++) {
+  for (se=ls.begin(); se!=ls.end(); se++) {
+    // process each word
+    for (w=se->begin(); w!=se->end(); w++) {
+      
+      TRACE(2,"word: "+w->get_form());
+      // we only retokenize if the word has only one analysis
+      if (w->get_n_selected()==1 && w->selected_begin()->is_retokenizable()) {
 	
-	TRACE(2,"word: "+w->get_form());
-	// we only retokenize if the word has only one analysis
-	if (w->get_n_selected()==1 && w->selected_begin()->is_retokenizable()) {
+	// retokenize word.
+	TRACE(2,"Retokenization found, replacing... "+w->get_form()+". span=("+util::int2string(w->get_span_start())+","+util::int2string(w->get_span_finish())+")");
+	
+	list<word> lw=w->selected_begin()->get_retokenizable();
+	p=w->get_span_start();
+	for (i=lw.begin(); i!=lw.end(); i++) {
+	  f= ( p+i->get_form().length()>w->get_span_finish() ? 
+	       w->get_span_finish() :
+	       p+i->get_form().length() );
+	  i->set_span(p,f);
+	  p = f;  
+	  i->user=w->user;
 	  
-	  // retokenize word.
-	  TRACE(2,"Retokenization found, replacing... "+w->get_form()+". span=("+util::int2string(w->get_span_start())+","+util::int2string(w->get_span_finish())+")");
-	  
-	  list<word> lw=w->selected_begin()->get_retokenizable();
-	  p=w->get_span_start();
-	  for (i=lw.begin(); i!=lw.end(); i++) {
-	    f= ( p+i->get_form().length()>w->get_span_finish() ? 
-		 w->get_span_finish() :
-		 p+i->get_form().length() );
-	    i->set_span(p,f);
-	    p = f;  
-	    i->user=w->user;
-
-	    TRACE(2,"  Inserting "+i->get_form()+". span=("+util::int2string(i->get_span_start())+","+util::int2string(i->get_span_finish())+")");
-	    w=se->insert(w,*i); 
-	    w++;
-	  }
-	  
-	  TRACE(2,"  Erasing "+w->get_form());
-	  q=w; q--;     // save position of previous word
-	  se->erase(w);  // erase contracted word
-	  w=q;          // fix iteration control
-	  
+	  TRACE(2,"  Inserting "+i->get_form()+". span=("+util::int2string(i->get_span_start())+","+util::int2string(i->get_span_finish())+")");
+	  w=se->insert(w,*i); 
+	  w++;
 	}
+	
+	TRACE(2,"  Erasing "+w->get_form());
+	q=w; q--;     // save position of previous word
+	se->erase(w);  // erase contracted word
+	w=q;          // fix iteration control
+	
       }
-      
-      if (force==FORCE_RETOK) {
-	// process each word
-	for (w=se->begin(); w!=se->end(); w++) {
-	  
-	  TRACE(2,"Forcing select after, word: "+w->get_form());
-	  
-	  // unselect all analysis in selected list but one      
-	  word::iterator j=w->selected_begin();
-	  w->unselect_all_analysis();
-	  w->select_analysis(j);
-	} 
-      }
-      
-      TRACE_SENTENCE(1,(*se)); 
     }
+    
+    TRACE_SENTENCE(1,(*se)); 
   }
 }
 
