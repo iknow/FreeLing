@@ -74,9 +74,6 @@ class coref_fex{
 		int vectors;
 
 		int jump(const std::vector<std::string> &);
-		void set_head(SAMPLE &sample, int num);
-		void get_head(SAMPLE &sample1);
-		void get_head(EXAMPLE &ex);
 		int get_dist(const EXAMPLE &);
 		int get_numdedist(const EXAMPLE &);
 		int get_dedist(const EXAMPLE &);
