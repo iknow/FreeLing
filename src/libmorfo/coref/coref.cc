@@ -57,6 +57,13 @@ void outSample(SAMPLE &sa){
     cout << (*it) << " ";
   cout << endl;
 }
+///////////////////////////////////////////////////////////////
+/// Create a coreference module, without classifier
+///////////////////////////////////////////////////////////////
+
+coref::coref() {
+	extractor = NULL;
+}
 
 ///////////////////////////////////////////////////////////////
 /// Create a coreference module, loading
@@ -67,15 +74,15 @@ coref::coref(const std::string &filename, const int vectors) {
   int lnum=0;
   string path=filename.substr(0,filename.find_last_of("/\\")+1);
   string line,sf,wf;
-  
+
   ifstream fin;
-  fin.open(filename.c_str());  
+  fin.open(filename.c_str());
   if (fin.fail()) ERROR_CRASH("Cannot open Coreference config file "+filename);
 
-  int reading=0; 
+  int reading=0;
   while (getline(fin,line)) {
     lnum++;
-    
+
     if (line.empty() || line[0]=='%') {} // ignore comment and empty lines
 
     else if (line == "<ABModel>") reading=1;
@@ -92,7 +99,7 @@ coref::coref(const std::string &filename, const int vectors) {
       istringstream sin;  sin.str(line);
       string fname;
       sin>>fname;
-      fname = util::absolute(fname,path); 
+      fname = util::absolute(fname,path);
       // create AdaBoost classifier
       TRACE(3," Loading adaboost model "+fname);
       classifier = new adaboost(fname);
@@ -103,14 +110,14 @@ coref::coref(const std::string &filename, const int vectors) {
       sin>>MaxDistance ;
     }
     else if (reading==3) {
-      ////// load SEMDB section 
+      ////// load SEMDB section
       string key,fname;
       istringstream sin;  sin.str(line);
       sin>>key>>fname;
-      
-      if (key=="SenseFile")   sf= util::absolute(fname,path); 
-      else if (key=="WNFile") wf= util::absolute(fname,path); 
-      else 
+
+      if (key=="SenseFile")   sf= util::absolute(fname,path);
+      else if (key=="WNFile") wf= util::absolute(fname,path);
+      else
 	WARNING("Unknown parameter "+key+" in SEMDB section of file "+filename+". SemDB not loaded");
     }
   }
@@ -132,12 +139,12 @@ void coref::set_sample(parse_tree::iterator pt, SAMPLE & sample) const{
     word wo=pt->info.get_word();
     string w = util::lowercase(wo.get_form());
     string t = util::lowercase(wo.get_parole());
-    
+
     sample.posend++;
     sample.text += " " + w;
     sample.texttok.push_back(w);
     sample.tags.push_back(t);
-  } 
+  }
   else {
     for (d=pt->sibling_begin(); d!=pt->sibling_end(); ++d) {
       set_sample(d, sample);
@@ -151,10 +158,10 @@ void coref::set_sample(parse_tree::iterator pt, SAMPLE & sample) const{
 
 void coref::add_candidates(int sent, int & word, parse_tree::iterator pt, list<SAMPLE> & candidates) const{
   parse_tree::sibling_iterator d;
-  
+
   if (pt->num_children()==0) {
     word++;
-  } 
+  }
   else {
     if (pt->info.get_label() == "sn"){
       SAMPLE candidate;
@@ -181,7 +188,7 @@ bool coref::check_coref(const SAMPLE & sa1, const SAMPLE & sa2) const{
   double pred[classifier->get_nlabels()];
   std::vector<int> encoded;
   EXAMPLE ex;
-  
+
   TRACE(5,"    -Encoding example");
   ex.sample1 = sa1;
   ex.sample2 = sa2;
@@ -196,10 +203,10 @@ bool coref::check_coref(const SAMPLE & sa1, const SAMPLE & sa2) const{
     TRACE(5,"          "+util::int2string(*it));
   }
 
-  TRACE(5,"    -Classifying");  
+  TRACE(5,"    -Classifying");
   // classify current example
   classifier->classify(exampl,pred);
-  
+
   TRACE(4,"    -Prediction for "+classifier->get_label(0)+" = "+util::double2string(pred[0]));
   TRACE(4,"    -Prediction for "+classifier->get_label(1)+" = "+util::double2string(pred[1]));
 
@@ -213,9 +220,9 @@ bool coref::check_coref(const SAMPLE & sa1, const SAMPLE & sa2) const{
 /////////////////////////////////////////////////////////////////////////////
 
 void coref::analyze(document & doc) const {
-  
+
   list<SAMPLE> candidates;
-  
+
   TRACE(3,"Searching for candidate noun phrases");
   int sent1 = 0;
   int word1 = 0;
@@ -225,23 +232,23 @@ void coref::analyze(document & doc) const {
       sent1++;
     }
   }
-  
+
   TRACE(3,"Pairing candidates ("+util::int2string(candidates.size())+")");
   list<SAMPLE>::const_iterator i = candidates.begin();
   ++i;
   while (i != candidates.end()) {
 
     TRACE(4,"   pairing "+i->text+" with all previous");
-    bool found = false; 
+    bool found = false;
     bool end = false;
     int count = MaxDistance;
-    list<SAMPLE>::const_iterator j = i; 
+    list<SAMPLE>::const_iterator j = i;
     --j;
     while (!end && !found && count > 0) {
       TRACE(4,"   checking pair ("+j->text+"<"+j->node1->get_node_id()+">,"+i->text+"<"+i->node1->get_node_id()+">)");
       found = check_coref(*j, *i);
       if (found) doc.add_positive(j->node1->get_node_id(), i->node1->get_node_id());
-      
+
       if (j==candidates.begin()) end=true;
       else --j;
 
@@ -250,5 +257,3 @@ void coref::analyze(document & doc) const {
     ++i;
   }
 }
-
-

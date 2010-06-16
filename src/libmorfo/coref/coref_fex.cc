@@ -2,45 +2,87 @@
 //    Class for the feature extractor.
 //////////////////////////////////////////////////////////////////
 
-#define COREFEX_FEATURE_SENT_SAME		0
-#define COREFEX_FEATURE_SENT_1			1
-#define COREFEX_FEATURE_SENT_2			2
-#define COREFEX_FEATURE_SENT_3			3
-#define COREFEX_FEATURE_SENT_4MORE		4
-#define COREFEX_FEATURE_DIST0			10
-#define COREFEX_FEATURE_DIST1			11
-#define COREFEX_FEATURE_DIST2			12
-#define COREFEX_FEATURE_DIST3			13
-#define COREFEX_FEATURE_DIST4			14
-#define COREFEX_FEATURE_DIST5MORE		15
-#define COREFEX_FEATURE_IPRON			20
-#define COREFEX_FEATURE_IPRONP			21
-#define COREFEX_FEATURE_IPROND			22
-#define COREFEX_FEATURE_IPRONX			23
-#define COREFEX_FEATURE_IPRONI			24
-#define COREFEX_FEATURE_IPRONT			25
-#define COREFEX_FEATURE_IPRONR			26
-#define COREFEX_FEATURE_IPRONE			27
-#define COREFEX_FEATURE_JPRON			30
-#define COREFEX_FEATURE_JPRONP			31
-#define COREFEX_FEATURE_JPROND			32
-#define COREFEX_FEATURE_JPRONX			33
-#define COREFEX_FEATURE_JPRONI			34
-#define COREFEX_FEATURE_JPRONT			35
-#define COREFEX_FEATURE_JPRONR			36
-#define COREFEX_FEATURE_JPRONE			37
-#define COREFEX_FEATURE_STRMATH			40
-#define COREFEX_FEATURE_DEFNP			41
-#define COREFEX_FEATURE_DEMNP			42
-#define COREFEX_FEATURE_NUMBER			43
-#define COREFEX_FEATURE_GENDER			44
-#define COREFEX_FEATURE_SEMCLASS		45
-#define COREFEX_FEATURE_PROPERNAME		46
-#define COREFEX_FEATURE_ACRONIM			50
-#define COREFEX_FEATURE_FIXLEFT			51
-#define COREFEX_FEATURE_FIXRIGHT		52
-#define COREFEX_FEATURE_ORDER			53
-#define COREFEX_FEATURE_APPOS			60
+#define COREFEX_FEATURE_SENT_SAME			0
+#define COREFEX_FEATURE_SENT_1				1
+#define COREFEX_FEATURE_SENT_2				2
+#define COREFEX_FEATURE_SENT_3				3
+#define COREFEX_FEATURE_SENT_4				4
+#define COREFEX_FEATURE_SENT_5MORE			5
+#define COREFEX_FEATURE_NUMDEDIST0			10
+#define COREFEX_FEATURE_NUMDEDIST1			11
+#define COREFEX_FEATURE_NUMDEDIST2			12
+#define COREFEX_FEATURE_NUMDEDIST3			13
+#define COREFEX_FEATURE_NUMDEDIST4			14
+#define COREFEX_FEATURE_NUMDEDIST5			15
+#define COREFEX_FEATURE_NUMDEDIST6MORE		16
+#define COREFEX_FEATURE_DIST0			20
+#define COREFEX_FEATURE_DIST1			21
+#define COREFEX_FEATURE_DIST2			22
+#define COREFEX_FEATURE_DIST3			23
+#define COREFEX_FEATURE_DIST4			24
+#define COREFEX_FEATURE_DIST5			25
+#define COREFEX_FEATURE_DIST6MORE		26
+#define COREFEX_FEATURE_IPRON			30
+#define COREFEX_FEATURE_IPRONP			31
+#define COREFEX_FEATURE_IPROND			32
+#define COREFEX_FEATURE_IPRONX			33
+#define COREFEX_FEATURE_IPRONI			34
+#define COREFEX_FEATURE_IPRONT			35
+#define COREFEX_FEATURE_IPRONR			36
+#define COREFEX_FEATURE_IPRONE			37
+#define COREFEX_FEATURE_JPRON			40
+#define COREFEX_FEATURE_JPRONP			41
+#define COREFEX_FEATURE_JPROND			42
+#define COREFEX_FEATURE_JPRONX			43
+#define COREFEX_FEATURE_JPRONI			44
+#define COREFEX_FEATURE_JPRONT			45
+#define COREFEX_FEATURE_JPRONR			46
+#define COREFEX_FEATURE_JPRONE			47
+#define COREFEX_FEATURE_STRMATH			50
+#define COREFEX_FEATURE_DEFNP			51
+#define COREFEX_FEATURE_DEMNP			52
+#define COREFEX_FEATURE_NUMBER			53
+#define COREFEX_FEATURE_UNK_NUMBER		54
+#define COREFEX_FEATURE_GENDER			55
+#define COREFEX_FEATURE_UNK_GENDER		56
+#define COREFEX_FEATURE_SEMCLASS		57
+#define COREFEX_FEATURE_UNK_SEMCLASS	58
+#define COREFEX_FEATURE_PROPERNAME		59
+#define COREFEX_FEATURE_ACRONIM			60
+#define COREFEX_FEATURE_FIXLEFT			61
+#define COREFEX_FEATURE_FIXRIGHT		62
+#define COREFEX_FEATURE_ORDER			63
+#define COREFEX_FEATURE_APPOS			70
+#define COREFEX_FEATURE_IQUOTE			80
+#define COREFEX_FEATURE_JQUOTE			81
+#define COREFEX_FEATURE_IPARENTHESIS	90
+#define COREFEX_FEATURE_JPARENTHESIS	91
+#define COREFEX_FEATURE_ITHIRT			100
+#define COREFEX_FEATURE_JTHIRT			101
+
+// DONE
+//	I/J IN QUOTES		mi/j is in quotes or inside a NP or a sentence in quotes: y,n
+//	I/J IN PARENTHESIS		mi/j is in parenthesis: y,n
+//	I/J THIRD PERSON	mi/j is 3rd person: y,n
+// UNKNOW
+//	Number, gender, semclass, proper_name?
+// NEW
+//	PRO STR			Both are pronouns and their strings match: y,n
+//	PN STR			Both are proper names and their strings match: y,n
+//	AGREEMENT		Gender and number of both mentions match: y,n,u
+//	I/J REFLEXIVE		mi/j is a reﬂexive pronoun: y,n
+
+//	NESTED			One mention is included in the other: y,n
+//	I/J PERSON		mi/j is a person (pronoun or proper name in a list): y,n
+//	ANIMACY			Animacy of both mentions match (persons, objects): y,n
+//	MAXIMALNP		Both mentions have the same NP parent or they are nested: y,n
+//	I/J MAXIMALNP		mi/j is not included in any other mention: y,n
+//	J INDEF NP		mj is an indeﬁnite NP: y,n
+//	I EMBEDDED		mi is a noun and is not a maximal NP: y,n
+//	BINDING			Conditions B and C of binding theory: y,n
+//	I/J FIRST		mi/j is the ﬁrst mention in the sentence: y,n
+//	I/J TYPE		mi/j is a pronoun (p), entity (e) or nominal (n)
+
 
 #include <stdio.h>
 #include <string.h>
@@ -60,14 +102,14 @@ using namespace std;
 coref_fex::coref_fex(const int t, const int v, const string &sf, const string &wf) {
 
   typeVector = t;
-  if (v==0) 
-    vectors = COREFEX_DIST | COREFEX_IPRON | COREFEX_JPRON | COREFEX_IPRONM | COREFEX_JPRONM 
+  if (v==0)
+    vectors = COREFEX_DIST | COREFEX_IPRON | COREFEX_JPRON | COREFEX_IPRONM | COREFEX_JPRONM
               | COREFEX_STRMATCH | COREFEX_DEFNP | COREFEX_DEMNP | COREFEX_GENDER | COREFEX_NUMBER
               | COREFEX_SEMCLASS | COREFEX_PROPNAME | COREFEX_ALIAS | COREFEX_APPOS;
-  else 
+  else
     vectors = v;
 
-      
+
  if ( !(sf.empty() && wf.empty()) ) {
     semdb= new semanticDB(sf,wf);
     TRACE(3,"Coreference solver loaded SemDB");
@@ -94,6 +136,1393 @@ int coref_fex::jump(const vector<string> &list){
 }
 
 //////////////////////////////////////////////////////////////////
+///    Function that eliminates other parts than the head.
+//////////////////////////////////////////////////////////////////
+
+void coref_fex::set_head(SAMPLE &sample, int num){
+	sample.posend = sample.posend - (sample.texttok.size() - num);
+	sample.texttok.erase (sample.texttok.begin()+num, sample.texttok.end());
+	sample.tags.erase (sample.tags.begin()+num, sample.tags.end());
+	std::vector<std::string>::iterator it_text = sample.texttok.begin();
+	sample.text = "";
+	while(it_text != sample.texttok.end()){
+		sample.text += (*it_text);
+		++it_text;
+		if (it_text != sample.texttok.end())
+			sample.text += " ";
+	}
+}
+//////////////////////////////////////////////////////////////////
+///    Function that eliminates other parts than the head.
+//////////////////////////////////////////////////////////////////
+
+void coref_fex::get_head(SAMPLE &sample){
+	std::vector<std::string>::iterator it_text = sample.texttok.begin();
+	std::vector<std::string>::iterator it_tag = sample.tags.begin();
+	bool head = false;
+
+	while (!head){
+		while(sample.tags[0].compare(0, 1, "f") == 0 ){
+			sample.tags.erase(sample.tags.begin());
+			sample.texttok.erase(sample.texttok.begin());
+			sample.posbegin++;
+		}
+		int s = sample.texttok.size();
+		if(s >= 6 && !head){
+			if(	sample.tags[0].compare(0, 1, "p")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0 &&
+				sample.tags[2].compare(0, 1, "d")==0 &&
+				sample.tags[3].compare(0, 1, "n")==0 &&
+				sample.tags[4].compare(0, 1, "a")==0 &&
+				sample.tags[5].compare(0, 2, "sp")==0){
+					set_head(sample, 5);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 1, "a")==0 &&
+				sample.tags[3].compare(0, 1, "d")==0 &&
+				sample.tags[4].compare(0, 1, "n")==0 &&
+				sample.tags[5].compare(0, 2, "sp")==0){
+					set_head(sample, 5);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 2, "rg")==0 &&
+				sample.tags[2].compare(0, 2, "sp")==0 &&
+				sample.tags[3].compare(0, 1, "z")==0 &&
+				sample.tags[4].compare(0, 1, "n")==0 &&
+				sample.tags[5].compare(0, 2, "aq")==0){
+					set_head(sample, 6);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "sp")==0 &&
+				sample.tags[1].compare(0, 1, "d")==0 &&
+				sample.tags[2].compare(0, 1, "z")==0 &&
+				sample.tags[3].compare(0, 2, "cc")==0 &&
+				sample.tags[4].compare(0, 1, "d")==0 &&
+				sample.tags[5].compare(0, 1, "z")==0){
+					set_head(sample, 6);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "nc")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0 &&
+				sample.tags[2].compare(0, 2, "da")==0 &&
+				sample.tags[3].compare(0, 2, "nc")==0 &&
+				sample.tags[4].compare(0, 2, "aq")==0 &&
+				sample.tags[5].compare(0, 2, "sp")==0){
+					set_head(sample, 5);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "pi")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0 &&
+				sample.tags[2].compare(0, 2, "dp")==0 &&
+				sample.tags[3].compare(0, 2, "aq")==0 &&
+				sample.tags[4].compare(0, 2, "nc")==0 &&
+				sample.tags[5].compare(0, 2, "fc")==0){
+					set_head(sample, 5);
+					head = true;
+			}
+		}
+		if(s >= 5 && !head){
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "a")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 1, "n")==0 &&
+				sample.tags[4].compare(0, 2, "sp")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "sp")==0 &&
+				sample.tags[1].compare(0, 2, "pp")==0 &&
+				sample.tags[2].compare(0, 1, "d")==0 &&
+				sample.tags[3].compare(0, 1, "n")==0 &&
+				sample.tags[4].compare(0, 1, "f")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0 &&
+				sample.tags[2].compare(0, 1, "d")==0 &&
+				sample.tags[3].compare(0, 1, "n")==0 &&
+				sample.tags[4].compare(0, 1, "a")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0 &&
+				sample.tags[3].compare(0, 2, "aq")==0 &&
+				sample.tags[4].compare(0, 1, "f")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 2, "fe")==0 &&
+				sample.tags[2].compare(0, 1, "a")==0 &&
+				sample.tags[3].compare(0, 1, "n")==0 &&
+				sample.tags[4].compare(0, 2, "fe")==0){
+					set_head(sample, 5);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "rg")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 2, "cs")==0 &&
+				sample.tags[3].compare(0, 1, "d")==0 &&
+				sample.tags[4].compare(0, 1, "n")==0){
+					set_head(sample, 5);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "n")==0 &&
+				sample.tags[1].compare(0, 2, "cc")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 2, "aq")==0 &&
+				sample.tags[4].compare(0, 2, "sp")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "d")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 2, "aq")==0 &&
+				sample.tags[4].compare(0, 2, "fc")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "aq")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 2, "sp")==0 &&
+				sample.tags[3].compare(0, 1, "n")==0 &&
+				sample.tags[4].compare(0, 2, "cc")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "d")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 2, "aq")==0 &&
+				sample.tags[4].compare(0, 2, "sp")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "rg")==0 &&
+				sample.tags[1].compare(0, 1, "d")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0 &&
+				sample.tags[3].compare(0, 1, "n")==0 &&
+				sample.tags[4].compare(0, 1, "f")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "f")==0 &&
+				sample.tags[2].compare(0, 2, "nc")==0 &&
+				sample.tags[3].compare(0, 1, "f")==0 &&
+				sample.tags[4].compare(0, 2, "sp")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "f")==0 &&
+				sample.tags[2].compare(0, 2, "nc")==0 &&
+				sample.tags[3].compare(0, 2, "aq")==0 &&
+				sample.tags[4].compare(0, 1, "f")==0){
+					set_head(sample, 5);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "aq")==0 &&
+				sample.tags[1].compare(0, 1, "f")==0 &&
+				sample.tags[2].compare(0, 2, "nc")==0 &&
+				sample.tags[3].compare(0, 2, "aq")==0 &&
+				sample.tags[4].compare(0, 1, "f")==0){
+					set_head(sample, 5);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "f")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0 &&
+				sample.tags[3].compare(0, 2, "nc")==0 &&
+				sample.tags[4].compare(0, 2, "sp")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 2, "nc")==0 &&
+				sample.tags[2].compare(0, 2, "rg")==0 &&
+				sample.tags[3].compare(0, 2, "aq")==0 &&
+				sample.tags[4].compare(0, 2, "sp")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0 &&
+				sample.tags[2].compare(0, 1, "d")==0 &&
+				sample.tags[3].compare(0, 2, "nc")==0 &&
+				sample.tags[4].compare(0, 2, "sp")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "rg")==0 &&
+				sample.tags[1].compare(0, 1, "d")==0 &&
+				sample.tags[2].compare(0, 2, "sp")==0 &&
+				sample.tags[3].compare(0, 1, "d")==0 &&
+				sample.tags[4].compare(0, 2, "nc")==0){
+					set_head(sample, 5);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "da")==0 &&
+				sample.tags[1].compare(0, 2, "aq")==0 &&
+				sample.tags[2].compare(0, 2, "nc")==0 &&
+				sample.tags[3].compare(0, 2, "aq")==0 &&
+				sample.tags[4].compare(0, 2, "fc")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "aq")==0 &&
+				sample.tags[1].compare(0, 2, "nc")==0 &&
+				sample.tags[2].compare(0, 2, "sp")==0 &&
+				sample.tags[3].compare(0, 2, "nc")==0 &&
+				sample.tags[4].compare(0, 2, "fc")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "da")==0 &&
+				sample.tags[1].compare(0, 2, "ao")==0 &&
+				sample.tags[2].compare(0, 2, "nc")==0 &&
+				sample.tags[3].compare(0, 2, "aq")==0 &&
+				sample.tags[4].compare(0, 2, "sp")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "n")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 2, "aq")==0 &&
+				sample.tags[4].compare(0, 2, "pr")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "n")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0 &&
+				sample.tags[2].compare(0, 1, "d")==0 &&
+				sample.tags[3].compare(0, 1, "n")==0 &&
+				sample.tags[4].compare(0, 1, "f")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "d")==0 &&
+				sample.tags[2].compare(0, 1, "f")==0 &&
+				sample.tags[3].compare(0, 1, "n")==0 &&
+				sample.tags[4].compare(0, 1, "f")==0){
+					set_head(sample, 5);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "da")==0 &&
+				sample.tags[1].compare(0, 2, "nc")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0 &&
+				sample.tags[3].compare(0, 2, "aq")==0 &&
+				sample.tags[4].compare(0, 2, "sp")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "z")==0 &&
+				sample.tags[1].compare(0, 2, "nc")==0 &&
+				sample.tags[2].compare(0, 2, "sp")==0 &&
+				sample.tags[3].compare(0, 1, "z")==0 &&
+				sample.tags[4].compare(0, 1, "f")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+		}
+		if(s >= 4 && !head){
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 2, "rg")==0 &&
+				sample.tags[3].compare(0, 2, "sp")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 2, "rg")==0 &&
+				sample.tags[3].compare(0, 2, "cs")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "p")==0 &&
+				sample.tags[2].compare(0, 2, "sp")==0 &&
+				sample.tags[3].compare(0, 1, "p")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "d")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 2, "cs")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "d")==0 &&
+				sample.tags[2].compare(0, 1, "a")==0 &&
+				sample.tags[3].compare(0, 1, "n")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 2, "rg")==0 &&
+				sample.tags[3].compare(0, 1, "a")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "pn")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 2, "cc")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0 &&
+				sample.tags[2].compare(0, 2, "rg")==0 &&
+				sample.tags[3].compare(0, 2, "fc")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "n")==0 &&
+				sample.tags[1].compare(0, 2, "cc")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 2, "sp")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "pi")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0 &&
+				sample.tags[2].compare(0, 1, "d")==0 &&
+				sample.tags[3].compare(0, 2, "pr")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0 &&
+				sample.tags[3].compare(0, 2, "pr")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "a")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 1, "d")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "d")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 1, "a")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "sp")==0 &&
+				sample.tags[1].compare(0, 1, "z")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 2, "sp")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "a")==0 &&
+				sample.tags[2].compare(0, 1, "d")==0 &&
+				sample.tags[3].compare(0, 1, "n")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "z")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 2, "sp")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "rg")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0 &&
+				sample.tags[2].compare(0, 1, "z")==0 &&
+				sample.tags[3].compare(0, 1, "n")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 2, "cc")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 2, "rg")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0 &&
+				sample.tags[3].compare(0, 1, "n")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 2, "aq")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 2, "aq")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0 &&
+				sample.tags[3].compare(0, 2, "aq")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 2, "fe")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 2, "cc")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 2, "aq")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 2, "cc")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 2, "sp")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "rg")==0 &&
+				sample.tags[1].compare(0, 1, "d")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 1, "f")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "rg")==0 &&
+				sample.tags[1].compare(0, 1, "z")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 2, "sp")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "rg")==0 &&
+				sample.tags[1].compare(0, 1, "d")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 2, "sp")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0 &&
+				sample.tags[3].compare(0, 2, "cc")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0 &&
+				sample.tags[3].compare(0, 2, "rg")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 2, "aq")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 2, "pr")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "f")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 2, "sp")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "f")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 1, "f")==0){
+					set_head(sample, 4);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "n")==0 &&
+				sample.tags[1].compare(0, 2, "aq")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0 &&
+				sample.tags[3].compare(0, 2, "fc")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "rg")==0 &&
+				sample.tags[1].compare(0, 1, "d")==0 &&
+				sample.tags[2].compare(0, 1, "z")==0 &&
+				sample.tags[3].compare(0, 2, "sp")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 2, "rg")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0 &&
+				sample.tags[3].compare(0, 2, "sp")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 1, "f")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "aq")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0 &&
+				sample.tags[3].compare(0, 1, "f")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 2, "ao")==0 &&
+				sample.tags[2].compare(0, 2, "nc")==0 &&
+				sample.tags[3].compare(0, 2, "sp")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 2, "nc")==0 &&
+				sample.tags[2].compare(0, 2, "pi")==0 &&
+				sample.tags[3].compare(0, 2, "sp")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0 &&
+				sample.tags[3].compare(0, 1, "f")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 2, "aq")==0 &&
+				sample.tags[2].compare(0, 2, "nc")==0 &&
+				sample.tags[3].compare(0, 2, "sp")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 2, "aq")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 1, "f")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "d")==0 &&
+				sample.tags[2].compare(0, 2, "nc")==0 &&
+				sample.tags[3].compare(0, 2, "sp")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "d")==0 &&
+				sample.tags[2].compare(0, 2, "nc")==0 &&
+				sample.tags[3].compare(0, 2, "pr")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "da")==0 &&
+				sample.tags[1].compare(0, 2, "nc")==0 &&
+				sample.tags[2].compare(0, 2, "rg")==0 &&
+				sample.tags[3].compare(0, 2, "sp")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "di")==0 &&
+				sample.tags[1].compare(0, 2, "nc")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0 &&
+				sample.tags[3].compare(0, 2, "cs")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "da")==0 &&
+				sample.tags[1].compare(0, 2, "nc")==0 &&
+				sample.tags[2].compare(0, 1, "z")==0 &&
+				sample.tags[3].compare(0, 2, "sp")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "da")==0 &&
+				sample.tags[1].compare(0, 2, "fe")==0 &&
+				sample.tags[2].compare(0, 2, "nc")==0 &&
+				sample.tags[3].compare(0, 2, "pr")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "dd")==0 &&
+				sample.tags[1].compare(0, 2, "nc")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0 &&
+				sample.tags[3].compare(0, 2, "cc")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "da")==0 &&
+				sample.tags[1].compare(0, 2, "nc")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0 &&
+				sample.tags[3].compare(0, 2, "np")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 2, "nc")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0 &&
+				sample.tags[3].compare(0, 2, "sp")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "pn")==0 &&
+				sample.tags[1].compare(0, 2, "di")==0 &&
+				sample.tags[2].compare(0, 2, "pi")==0 &&
+				sample.tags[3].compare(0, 2, "fd")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+// 			if(	sample.tags[0].compare(0, 2, "di")==0 &&
+// 				sample.tags[1].compare(0, 2, "nc")==0 &&
+// 				sample.tags[2].compare(0, 2, "sp")==0 &&
+// 				sample.tags[3].compare(0, 2, "nc")==0){
+// 					set_head(sample, 4);
+// 					head = true;
+// 			}
+			if(	sample.tags[0].compare(0, 2, "nc")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 2, "sp")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "nc")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 2, "fc")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "np")==0 &&
+				sample.tags[1].compare(0, 2, "cc")==0 &&
+				sample.tags[2].compare(0, 2, "np")==0 &&
+				sample.tags[3].compare(0, 2, "sp")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+		}
+		if(s >= 3 && !head){
+			if(	sample.tags[0].compare(0, 1, "z")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 2, "cc")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "a")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 2, "sp")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 2, "aq")==0 &&
+				sample.tags[2].compare(0, 2, "pr")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "w")==0 &&
+				sample.tags[2].compare(0, 1, "f")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "aq")==0 &&
+				sample.tags[1].compare(0, 2, "nc")==0 &&
+				sample.tags[2].compare(0, 2, "sp")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "aq")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0 &&
+				sample.tags[2].compare(0, 2, "fe")==0){
+					set_head(sample, 1);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 2, "cs")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "nc")==0 &&
+				sample.tags[1].compare(0, 2, "aq")==0 &&
+				sample.tags[2].compare(0, 2, "cc")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "nc")==0 &&
+				sample.tags[1].compare(0, 2, "aq")==0 &&
+				sample.tags[2].compare(0, 2, "pr")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 2, "ao")==0 &&
+				sample.tags[2].compare(0, 1, "f")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "n")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 1, "f")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "aq")==0 &&
+				sample.tags[1].compare(0, 2, "nc")==0 &&
+				sample.tags[2].compare(0, 2, "cc")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "np")==0 &&
+				sample.tags[1].compare(0, 1, "d")==0 &&
+				sample.tags[2].compare(0, 2, "rg")==0){
+					set_head(sample, 1);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "nc")==0 &&
+				sample.tags[1].compare(0, 2, "aq")==0 &&
+				sample.tags[2].compare(0, 1, "f")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "z")==0 &&
+				sample.tags[2].compare(0, 2, "sp")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "p")==0 &&
+				sample.tags[1].compare(0, 2, "rg")==0 &&
+				sample.tags[2].compare(0, 2, "cs")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "z")==0 &&
+				sample.tags[1].compare(0, 2, "nc")==0 &&
+				sample.tags[2].compare(0, 1, "f")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "z")==0 &&
+				sample.tags[1].compare(0, 2, "nc")==0 &&
+				sample.tags[2].compare(0, 2, "sp")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "np")==0 &&
+				sample.tags[1].compare(0, 2, "cc")==0 &&
+				sample.tags[2].compare(0, 2, "np")==0){
+					set_head(sample, 3);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "da")==0 &&
+				sample.tags[1].compare(0, 2, "aq")==0 &&
+				sample.tags[2].compare(0, 2, "sp")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "da")==0 &&
+				sample.tags[1].compare(0, 2, "aq")==0 &&
+				sample.tags[2].compare(0, 2, "fc")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "di")==0 &&
+				sample.tags[1].compare(0, 1, "d")==0 &&
+				sample.tags[2].compare(0, 2, "pr")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 2, "cc")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 1, "f")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 2, "nc")==0 &&
+				sample.tags[2].compare(0, 2, "pr")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "np")==0 &&
+				sample.tags[1].compare(0, 2, "fc")==0 &&
+				sample.tags[2].compare(0, 2, "pr")==0){
+					set_head(sample, 1);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 2, "nc")==0 &&
+				sample.tags[2].compare(0, 2, "sp")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "nc")==0 &&
+				sample.tags[1].compare(0, 2, "aq")==0 &&
+				sample.tags[2].compare(0, 2, "cs")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "nc")==0 &&
+				sample.tags[1].compare(0, 2, "aq")==0 &&
+				sample.tags[2].compare(0, 2, "sp")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "da")==0 &&
+				sample.tags[1].compare(0, 2, "np")==0 &&
+				sample.tags[2].compare(0, 2, "fp")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "nc")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0 &&
+				sample.tags[2].compare(0, 1, "z")==0){
+					set_head(sample, 1);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "nc")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0 &&
+				sample.tags[2].compare(0, 1, "v")==0){
+					set_head(sample, 1);
+					head = true;
+			}
+		}
+		if(s >= 2 && !head){
+			if(	sample.tags[0].compare(0, 1, "w")==0 &&
+				sample.tags[1].compare(0, 2, "fp")==0){
+					set_head(sample, 1);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "pi")==0 &&
+				sample.tags[1].compare(0, 2, "pr")==0){
+					set_head(sample, 1);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "nc")==0 &&
+				sample.tags[1].compare(0, 2, "rg")==0){
+					set_head(sample, 1);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "z")==0 &&
+				sample.tags[1].compare(0, 2, "fp")==0){
+					set_head(sample, 1);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "n")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0){
+					set_head(sample, 1);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "da")==0 &&
+				sample.tags[1].compare(0, 2, "pr")==0){
+					set_head(sample, 2);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "n")==0 &&
+				sample.tags[1].compare(0, 1, "p")==0){
+					set_head(sample, 1);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "n")==0 &&
+				sample.tags[1].compare(0, 1, "f")==0){
+					set_head(sample, 1);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "w")==0 &&
+				sample.tags[1].compare(0, 2, "fc")==0){
+					set_head(sample, 1);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "z")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0){
+					set_head(sample, 1);
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "np")==0 &&
+				sample.tags[1].compare(0, 2, "cc")==0){
+					set_head(sample, 1);
+					head = true;
+			}
+		}
+		if(s == 5 && !head){
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 1, "z")==0 &&
+				sample.tags[3].compare(0, 2, "cc")==0 &&
+				sample.tags[4].compare(0, 1, "z")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "d")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 1, "a")==0 &&
+				sample.tags[4].compare(0, 1, "a")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "da")==0 &&
+				sample.tags[1].compare(0, 1, "z")==0 &&
+				sample.tags[2].compare(0, 2, "cc")==0 &&
+				sample.tags[3].compare(0, 1, "d")==0 &&
+				sample.tags[4].compare(0, 1, "w")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "aq")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 2, "sp")==0 &&
+				sample.tags[3].compare(0, 1, "d")==0 &&
+				sample.tags[4].compare(0, 1, "n")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "p")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0 &&
+				sample.tags[2].compare(0, 1, "d")==0 &&
+				sample.tags[3].compare(0, 1, "z")==0 &&
+				sample.tags[4].compare(0, 1, "n")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "p")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0 &&
+				sample.tags[2].compare(0, 1, "d")==0 &&
+				sample.tags[3].compare(0, 1, "d")==0 &&
+				sample.tags[4].compare(0, 1, "n")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "rg")==0 &&
+				sample.tags[1].compare(0, 2, "aq")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 2, "sp")==0 &&
+				sample.tags[4].compare(0, 1, "n")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0 &&
+				sample.tags[3].compare(0, 2, "aq")==0 &&
+				sample.tags[4].compare(0, 2, "rg")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "rg")==0 &&
+				sample.tags[1].compare(0, 2, "rg")==0 &&
+				sample.tags[2].compare(0, 2, "sp")==0 &&
+				sample.tags[3].compare(0, 1, "z")==0 &&
+				sample.tags[4].compare(0, 2, "nc")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "da")==0 &&
+				sample.tags[1].compare(0, 2, "nc")==0 &&
+				sample.tags[2].compare(0, 2, "np")==0 &&
+				sample.tags[3].compare(0, 2, "cc")==0 &&
+				sample.tags[4].compare(0, 2, "np")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "da")==0 &&
+				sample.tags[1].compare(0, 2, "fe")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0 &&
+				sample.tags[3].compare(0, 2, "fe")==0 &&
+				sample.tags[4].compare(0, 2, "np")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "da")==0 &&
+				sample.tags[1].compare(0, 2, "nc")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0 &&
+				sample.tags[3].compare(0, 2, "sp")==0 &&
+				sample.tags[4].compare(0, 2, "np")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "nc")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0 &&
+				sample.tags[2].compare(0, 2, "da")==0 &&
+				sample.tags[3].compare(0, 2, "nc")==0 &&
+				sample.tags[4].compare(0, 2, "aq")==0){
+					head = true;
+			}
+		}
+		if(s == 4 && !head){
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "a")==0 &&
+				sample.tags[2].compare(0, 1, "d")==0 &&
+				sample.tags[3].compare(0, 1, "w")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "n")==0 &&
+				sample.tags[1].compare(0, 2, "aq")==0 &&
+				sample.tags[2].compare(0, 2, "cc")==0 &&
+				sample.tags[3].compare(0, 2, "aq")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "z")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0 &&
+				sample.tags[3].compare(0, 2, "aq")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "p")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0 &&
+				sample.tags[2].compare(0, 1, "d")==0 &&
+				sample.tags[3].compare(0, 1, "n")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0 &&
+				sample.tags[3].compare(0, 2, "aq")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "n")==0 &&
+				sample.tags[1].compare(0, 2, "cc")==0 &&
+				sample.tags[2].compare(0, 1, "d")==0 &&
+				sample.tags[3].compare(0, 1, "n")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 2, "rg")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0 &&
+				sample.tags[3].compare(0, 1, "n")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "ao")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 2, "rg")==0 &&
+				sample.tags[3].compare(0, 2, "aq")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "d")==0 &&
+				sample.tags[2].compare(0, 1, "d")==0 &&
+				sample.tags[3].compare(0, 1, "n")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "da")==0 &&
+				sample.tags[1].compare(0, 2, "aq")==0 &&
+				sample.tags[2].compare(0, 2, "nc")==0 &&
+				sample.tags[3].compare(0, 2, "aq")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "nc")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0 &&
+				sample.tags[2].compare(0, 2, "da")==0 &&
+				sample.tags[3].compare(0, 2, "aq")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "nc")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0 &&
+				sample.tags[2].compare(0, 2, "da")==0 &&
+				sample.tags[3].compare(0, 2, "np")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "dp")==0 &&
+				sample.tags[1].compare(0, 2, "ao")==0 &&
+				sample.tags[2].compare(0, 2, "nc")==0 &&
+				sample.tags[3].compare(0, 2, "aq")==0){
+					head = true;
+			}
+		}
+		if(s == 3 && !head){
+			if(	sample.tags[0].compare(0, 1, "z")==0 &&
+				sample.tags[1].compare(0, 2, "cc")==0 &&
+				sample.tags[2].compare(0, 1, "z")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "w")==0 &&
+				sample.tags[1].compare(0, 2, "cc")==0 &&
+				sample.tags[2].compare(0, 1, "w")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "n")==0 &&
+				sample.tags[1].compare(0, 1, "a")==0 &&
+				sample.tags[2].compare(0, 1, "a")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "z")==0 &&
+				sample.tags[2].compare(0, 1, "z")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "z")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "f")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 2, "rg")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "da")==0 &&
+				sample.tags[1].compare(0, 2, "aq")==0 &&
+				sample.tags[2].compare(0, 1, "w")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "rg")==0 &&
+				sample.tags[1].compare(0, 1, "d")==0 &&
+				sample.tags[2].compare(0, 1, "z")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "z")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "rg")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0 &&
+				sample.tags[2].compare(0, 1, "z")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "n")==0 &&
+				sample.tags[1].compare(0, 2, "cc")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 2, "aq")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "rg")==0 &&
+				sample.tags[1].compare(0, 2, "rg")==0 &&
+				sample.tags[2].compare(0, 1, "z")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "rg")==0 &&
+				sample.tags[1].compare(0, 1, "z")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "v")==0 &&
+				sample.tags[1].compare(0, 1, "d")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "rg")==0 &&
+				sample.tags[1].compare(0, 1, "d")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 2, "rg")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "n")==0 &&
+				sample.tags[1].compare(0, 2, "aq")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "d")==0 &&
+				sample.tags[2].compare(0, 2, "nc")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "da")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0 &&
+				sample.tags[2].compare(0, 2, "rg")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "a")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "nc")==0 &&
+				sample.tags[1].compare(0, 2, "sp")==0 &&
+				sample.tags[2].compare(0, 1, "n")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "np")==0 &&
+				sample.tags[1].compare(0, 2, "cc")==0 &&
+				sample.tags[2].compare(0, 2, "np")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "pr")==0 &&
+				sample.tags[1].compare(0, 2, "nc")==0 &&
+				sample.tags[2].compare(0, 2, "aq")==0){
+					head = true;
+			}
+
+		}
+
+		if(s == 2 && !head){
+			if(	sample.tags[0].compare(0, 1, "p")==0 &&
+				sample.tags[1].compare(0, 1, "a")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "r")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "n")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "n")==0 &&
+				sample.tags[1].compare(0, 1, "a")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "p")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "v")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "z")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "rg")==0 &&
+				sample.tags[1].compare(0, 1, "z")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "a")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "da")==0 &&
+				sample.tags[1].compare(0, 2, "pr")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "da")==0 &&
+				sample.tags[1].compare(0, 1, "w")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "da")==0 &&
+				sample.tags[1].compare(0, 1, "a")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 1, "n")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "nc")==0 &&
+				sample.tags[1].compare(0, 2, "aq")==0){
+					head = true;
+			}
+// 			if(	sample.tags[0].compare(0, 2, "aq")==0 &&
+// 				sample.tags[1].compare(0, 2, "np")==0){
+// 					head = true;
+// 			}
+			if(	sample.tags[0].compare(0, 2, "aq")==0 &&
+				sample.tags[1].compare(0, 2, "aq")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "z")==0 &&
+				sample.tags[1].compare(0, 2, "nc")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "z")==0 &&
+				sample.tags[1].compare(0, 2, "aq")==0){
+					head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "d")==0 &&
+				sample.tags[1].compare(0, 2, "pi")==0){
+					head = true;
+			}
+		}
+		if(s == 1 && !head){
+			if(	sample.tags[0].compare(0, 2, "np")==0){
+				head = true;
+			}
+			if(	sample.tags[0].compare(0, 2, "nc")==0){
+				head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "p")==0){
+				head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "w")==0){
+				head = true;
+			}
+			if(	sample.tags[0].compare(0, 1, "z")==0){
+				head = true;
+			}
+		}
+		if(!head){
+			it_text = sample.texttok.begin();
+			it_tag = sample.tags.begin();
+			cout << endl;
+			cout << sample.posbegin << endl;
+			cout << sample.posend << endl;
+			while(it_text != sample.texttok.end()){
+				cout << (*it_text) << "	";
+				++it_text;
+			}
+			cout << endl;
+			while(it_tag != sample.tags.end()){
+				cout << (*it_tag) << "	";
+				++it_tag;
+			}
+			cout << endl;
+			head = true;
+//			exit(0);
+		}
+	}
+}
+
+//////////////////////////////////////////////////////////////////
+///    Function that eliminates other parts than the head in a example
+//////////////////////////////////////////////////////////////////
+
+void coref_fex::get_head(EXAMPLE &ex){
+	get_head(ex.sample1);
+	get_head(ex.sample2);
+}
+
+//////////////////////////////////////////////////////////////////
 ///    Returns the distance in sentences of the example.
 //////////////////////////////////////////////////////////////////
 
@@ -111,14 +1540,49 @@ int coref_fex::get_dist(const EXAMPLE &ex){
 		case 3:
 			return COREFEX_FEATURE_SENT_3;
 			break;
+		case 4:
+			return COREFEX_FEATURE_SENT_4;
+			break;
 		default:
-			return COREFEX_FEATURE_SENT_4MORE;
+			return COREFEX_FEATURE_SENT_5MORE;
 			break;
 	}
 }
 
 //////////////////////////////////////////////////////////////////
 ///    Returns the distance in DE's of the example.
+//////////////////////////////////////////////////////////////////
+
+int coref_fex::get_numdedist(const EXAMPLE &ex){
+	int res = ex.sample2.numde - ex.sample1.numde;
+
+	switch(res){
+		case 0:
+			return COREFEX_FEATURE_NUMDEDIST0;
+			break;
+		case 1:
+			return COREFEX_FEATURE_NUMDEDIST1;
+			break;
+		case 2:
+			return COREFEX_FEATURE_NUMDEDIST2;
+			break;
+		case 3:
+			return COREFEX_FEATURE_NUMDEDIST3;
+			break;
+		case 4:
+			return COREFEX_FEATURE_NUMDEDIST4;
+			break;
+		case 5:
+			return COREFEX_FEATURE_NUMDEDIST5;
+			break;
+		default:
+			return COREFEX_FEATURE_NUMDEDIST6MORE;
+			break;
+	}
+}
+
+//////////////////////////////////////////////////////////////////
+///    Returns the distance in words of the example.
 //////////////////////////////////////////////////////////////////
 
 int coref_fex::get_dedist(const EXAMPLE &ex){
@@ -140,8 +1604,11 @@ int coref_fex::get_dedist(const EXAMPLE &ex){
 		case 4:
 			return COREFEX_FEATURE_DIST4;
 			break;
+		case 5:
+			return COREFEX_FEATURE_DIST5;
+			break;
 		default:
-			return COREFEX_FEATURE_DIST5MORE;
+			return COREFEX_FEATURE_DIST6MORE;
 			break;
 	}
 }
@@ -371,7 +1838,7 @@ int coref_fex::get_j_pronoum_e(const EXAMPLE &ex){
 }
 
 //////////////////////////////////////////////////////////////////
-///    Returns if 'i' matches the string of 'j' 
+///    Returns if 'i' matches the string of 'j'
 //////////////////////////////////////////////////////////////////
 
 int coref_fex::get_str_match(const EXAMPLE &ex){
@@ -464,7 +1931,7 @@ int coref_fex::get_number(const EXAMPLE &ex){
 	}
 
 	pos = jump(ex.sample2.tags);
-	
+
 	//Articulos, adjetivos y pronombres
 	if(ex.sample2.tags[pos].compare(0, 1, "a") == 0 || ex.sample2.tags[pos].compare(0, 1, "d") == 0 || ex.sample2.tags[pos].compare(0, 1, "p") == 0){
 		num2 = ex.sample2.tags[pos][4];
@@ -475,8 +1942,8 @@ int coref_fex::get_number(const EXAMPLE &ex){
 
 	if(num1 == num2 && num1 != '0')
 		return COREFEX_FEATURE_NUMBER;
-//	else if((num1 == '0' || num2 == '0') && typeVector == COREFEX_TYPE_THREE)
-//		return 2;
+	else if((num1 != '0' && num2 != '0' && num1 != num2) && typeVector == COREFEX_TYPE_THREE)
+		return COREFEX_FEATURE_UNK_NUMBER;
 	else
 		return 0;
 }
@@ -499,7 +1966,6 @@ int coref_fex::get_semclass(const EXAMPLE &ex){
 	tag2 = ex.sample2.tags[pos2];
 	t1 = txt1[pos1];
 	t2 = txt2[pos2];
-
 	while (tag1.compare(0, 1, "n") != 0 && txt1.size() > (pos1+1)) {
 		pos1++;
 		t1 = txt1[pos1];
@@ -546,7 +2012,7 @@ int coref_fex::get_semclass(const EXAMPLE &ex){
 						type1 = "o0";
 					} else if(check_place){
 						type1 = "g0";
-					} else if(type1 == "00"){
+					} else if(type1 == "00" || type1 == ""){
 						type1 = "v0";
 					}
 				}
@@ -574,7 +2040,7 @@ int coref_fex::get_semclass(const EXAMPLE &ex){
 						type2 = "o0";
 					} else if(check_place){
 						type2 = "g0";
-					} else if(type1 == "00"){
+					} else if(type2 == "00" || type2 == ""){
 						type2 = "v0";
 					}
 				}
@@ -585,8 +2051,8 @@ int coref_fex::get_semclass(const EXAMPLE &ex){
 		return COREFEX_FEATURE_SEMCLASS;
 	} else if(type1 == "sp" && tag2.compare(0, 2, "pp") == 0){
 		return COREFEX_FEATURE_SEMCLASS;
+//	} else if(type1 == "" && type2 ==
 	}
-
 	return 0;
 }
 
@@ -599,7 +2065,7 @@ int coref_fex::get_gender(const EXAMPLE &ex){
 	unsigned int pos = 0;
 
 	pos = jump(ex.sample1.tags);
-	
+
 	//Articulos, adjetivos y pronombres
 	if(ex.sample1.tags[pos].compare(0, 1, "a") == 0 || ex.sample1.tags[pos].compare(0, 1, "d") == 0 || ex.sample1.tags[pos].compare(0, 1, "p") == 0){
 		gen1 = ex.sample1.tags[pos][3];
@@ -610,7 +2076,7 @@ int coref_fex::get_gender(const EXAMPLE &ex){
 
 
 	pos = jump(ex.sample2.tags);
-	
+
 	//Articulos, adjetivos y pronombres
 	if(ex.sample2.tags[pos].compare(0, 1, "a") == 0 || ex.sample2.tags[pos].compare(0, 1, "d") == 0 || ex.sample2.tags[pos].compare(0, 1, "p") == 0){
 		gen2 = ex.sample2.tags[pos][3];
@@ -621,8 +2087,8 @@ int coref_fex::get_gender(const EXAMPLE &ex){
 
 	if(gen1 == gen2 && gen1 != '0')
 		return COREFEX_FEATURE_GENDER;
-//	else if((gen1 == '0' || gen2 == '0') && typeVector == COREFEX_TYPE_THREE)
-//		return 2;
+	else if((gen1 != '0' && gen2 != '0' && gen1 != gen2) && typeVector == COREFEX_TYPE_THREE)
+		return COREFEX_FEATURE_UNK_GENDER;
 	else
 		return 0;
 }
@@ -732,7 +2198,7 @@ int coref_fex::check_fixesleft(const EXAMPLE &ex){
 	int max = (total1 > total2) ? total1 : total2;
 	int count;
 	int ret = 0;
-	
+
 	if(total1 >= 1 && total2 >= 1 && max > 1){
 		itT1 = ex.sample1.texttok.begin();
 		itT2 = ex.sample2.texttok.begin();
@@ -765,7 +2231,7 @@ int coref_fex::check_fixesright(const EXAMPLE &ex){
 	int max = (total1 > total2) ? total1 : total2;
 	int count;
 	int ret = 0;
-	
+
 	if(total1 >= 1 && total2 >= 1 && max > 1){
 		ritT1 = ex.sample1.texttok.rbegin();
 		ritT2 = ex.sample2.texttok.rbegin();
@@ -857,15 +2323,83 @@ int coref_fex::get_alias_order(const EXAMPLE &ex){
 //////////////////////////////////////////////////////////////////
 
 int coref_fex::get_appositive(const EXAMPLE &ex){
-	bool ret = 0;
+	int ret = 0;
 
-	if( (ex.sample2.posbegin > ex.sample1.posbegin && ex.sample1.posend == ex.sample2.posend) ||
-		(ex.sample2.posbegin == (ex.sample1.posend+1))) {
-		if(ex.sample2.tags[0] == "fpa" || ex.sample2.tags[0] == "fc"){
+	if( ex.sample2.posbegin > ex.sample1.posbegin && ex.sample2.posbegin == (ex.sample1.posend+1) ) {
+//		if(ex.sample2.tags[0] == "fpa" || ex.sample2.tags[0] == "fc"){
+		if(ex.sample2.tags[0] == "fc"){
 			ret = COREFEX_FEATURE_APPOS;
 		}
 	}
 	return ret;
+}
+int coref_fex::get_i_inquotes(const EXAMPLE &ex){
+	int ret = 0;
+
+	if(ex.sample1.tags.size() > 2){
+		if(ex.sample1.tags[0] == "fe" && ex.sample1.tags[ex.sample1.tags.size()-1] == "fe"){
+			ret = COREFEX_FEATURE_IQUOTE;
+		}else if(ex.sample1.tags[0] == "fra" && ex.sample1.tags[ex.sample1.tags.size()-1] == "frc"){
+			ret = COREFEX_FEATURE_IQUOTE;
+		}
+	}
+	return ret;
+}
+int coref_fex::get_j_inquotes(const EXAMPLE &ex){
+	int ret = 0;
+
+	if(ex.sample2.tags.size() > 2){
+		if(ex.sample2.tags[0] == "fe" && ex.sample2.tags[ex.sample2.tags.size()-1] == "fe"){
+			ret = COREFEX_FEATURE_JQUOTE;
+		}else if(ex.sample2.tags[0] == "fra" && ex.sample2.tags[ex.sample2.tags.size()-1] == "frc"){
+			ret = COREFEX_FEATURE_JQUOTE;
+		}
+	}
+	return ret;
+}
+int coref_fex::get_i_inparenthesis(const EXAMPLE &ex){
+	int ret = 0;
+
+	if(ex.sample1.tags.size() > 2){
+		if(ex.sample1.tags[0] == "fpa" && ex.sample1.tags[ex.sample1.tags.size()-1] == "fpt"){
+			ret = COREFEX_FEATURE_IPARENTHESIS;
+		}
+	}
+	return ret;
+}
+int coref_fex::get_j_inparenthesis(const EXAMPLE &ex){
+	int ret = 0;
+
+	if(ex.sample2.tags.size() > 2){
+		if(ex.sample2.tags[0] == "fpa" && ex.sample2.tags[ex.sample2.tags.size()-1] == "fpt"){
+			ret = COREFEX_FEATURE_JPARENTHESIS;
+		}
+	}
+	return ret;
+}
+int coref_fex::get_i_thirtperson(const EXAMPLE &ex){
+	int pos = 0;
+	char p = '0';
+
+	pos = jump(ex.sample1.tags);
+	if(ex.sample1.tags[pos].compare(0, 1, "d") == 0 || ex.sample1.tags[pos].compare(0, 1, "p") == 0)
+		p = ex.sample1.tags[pos][2];
+	if(p == '3')
+		return COREFEX_FEATURE_ITHIRT;
+	else
+		return 0;
+}
+int coref_fex::get_j_thirtperson(const EXAMPLE &ex){
+	int pos = 0;
+	char p = '0';
+
+	pos = jump(ex.sample2.tags);
+	if(ex.sample2.tags[pos].compare(0, 1, "d") == 0 || ex.sample2.tags[pos].compare(0, 1, "p") == 0)
+		p = ex.sample2.tags[pos][2];
+	if(p == '3')
+		return COREFEX_FEATURE_JTHIRT;
+	else
+		return 0;
 }
 
 //////////////////////////////////////////////////////////////////
@@ -900,10 +2434,13 @@ void coref_fex::put_feature(int f, std::vector<int> &result){
 void coref_fex::extract(EXAMPLE &ex, std::vector<int> &result){
 	result.clear();
 
+//	get_head(ex);
 	if (vectors & COREFEX_DIST){
 		result.push_back(get_dist(ex));
+		result.push_back(get_numdedist(ex));
 		result.push_back(get_dedist(ex));
 	}
+
 	if (vectors & COREFEX_IPRON)
 		put_feature(get_i_pronoum(ex), result);
 	if (vectors & COREFEX_JPRON)
@@ -918,7 +2455,6 @@ void coref_fex::extract(EXAMPLE &ex, std::vector<int> &result){
 		put_feature(get_i_pronoum_r(ex), result);
 		put_feature(get_i_pronoum_e(ex), result);
 	}
-
 
 	if (vectors & COREFEX_JPRONM) {
 		put_feature(get_j_pronoum_p(ex), result);
@@ -954,6 +2490,14 @@ void coref_fex::extract(EXAMPLE &ex, std::vector<int> &result){
 
 	if (vectors & COREFEX_APPOS)
 		put_feature(get_appositive(ex), result);
+
+	put_feature(get_i_inquotes(ex), result);
+	put_feature(get_j_inquotes(ex), result);
+	put_feature(get_i_inparenthesis(ex), result);
+	put_feature(get_j_inparenthesis(ex), result);
+
+	put_feature(get_i_thirtperson(ex), result);
+	put_feature(get_j_thirtperson(ex), result);
 
 }
 
