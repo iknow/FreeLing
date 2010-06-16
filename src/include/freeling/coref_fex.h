@@ -23,6 +23,7 @@
 class SAMPLE {
  public:
 	int sent;
+	int numde;
 	int posbegin;
 	int posend;
 	node *node1;
@@ -38,6 +39,7 @@ class SAMPLE {
 class EXAMPLE {
  public:
 	int sent;
+	int numde;
 	SAMPLE sample1;
 	SAMPLE sample2;
 };
@@ -72,7 +74,11 @@ class coref_fex{
 		int vectors;
 
 		int jump(const std::vector<std::string> &);
+		void set_head(SAMPLE &sample, int num);
+		void get_head(SAMPLE &sample1);
+		void get_head(EXAMPLE &ex);
 		int get_dist(const EXAMPLE &);
+		int get_numdedist(const EXAMPLE &);
 		int get_dedist(const EXAMPLE &);
 		int get_i_pronoum(const EXAMPLE &);
 		int get_j_pronoum(const EXAMPLE &);
@@ -107,11 +113,17 @@ class coref_fex{
 		int get_alias_fixright(const EXAMPLE &);
 		int get_alias_order(const EXAMPLE &);
 		int get_appositive(const EXAMPLE &);
+		int get_i_inquotes(const EXAMPLE &);
+		int get_j_inquotes(const EXAMPLE &);
+		int get_i_inparenthesis(const EXAMPLE &);
+		int get_j_inparenthesis(const EXAMPLE &);
+		int get_i_thirtperson(const EXAMPLE &);
+		int get_j_thirtperson(const EXAMPLE &);
 
 		void put_feature(int, std::vector<int> &);
 	public:
 		int typeVector;
-		
+
 		coref_fex(const int, const int, const std::string&, const std::string&);
 		coref_fex();
 		~coref_fex();

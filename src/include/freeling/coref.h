@@ -54,11 +54,11 @@ class coref {
 
 	public:
 		/// Constructor
+		coref();
 		coref(const std::string &, const int);
 
 		/// Classify SN's in given sentence in groups of coreference
 		void analyze(document &) const;
-
 };
 
 #endif
