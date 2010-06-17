@@ -1,6 +1,12 @@
 #! /usr/bin/python
+# -*- coding: iso-8859-1 -*-
 
-from libmorfo_python import *
+## Run as root ./sample.py
+## Reads from stdin and writes to stdout
+## For example:
+##     ./sample.py <prueba.txt >prueba_out.txt
+
+import libmorfo_python
 import sys
 
 ## Modify this line to be your FreeLing installation directory
@@ -9,23 +15,23 @@ DATA = FREELINGDIR+"/share/FreeLing/";
 LANG="es";
 
 # create options set for maco analyzer. Default values are Ok, except for data files.
-op=maco_options("es");
+op= libmorfo_python.maco_options("es");
 op.set_active_modules(1,1,1,1,1,1,1,1,0,0);
 op.set_data_files(DATA+LANG+"/locucions.dat", DATA+LANG+"/quantities.dat", DATA+LANG+"/afixos.dat",
                   DATA+LANG+"/probabilitats.dat", DATA+LANG+"/maco.db", DATA+LANG+"/np.dat",  
                   DATA+"common/punct.dat",DATA+LANG+"/corrector/corrector.dat");
 
 # create analyzers
-tk=tokenizer(DATA+LANG+"/tokenizer.dat");
-sp=splitter(DATA+LANG+"/splitter.dat");
-mf=maco(op);
+tk=libmorfo_python.tokenizer(DATA+LANG+"/tokenizer.dat");
+sp=libmorfo_python.splitter(DATA+LANG+"/splitter.dat");
+mf=libmorfo_python.maco(op);
 
-tg=hmm_tagger("es",DATA+LANG+"/tagger.dat",1,2);
-sen=senses(DATA+LANG+"/senses16.db",0);
+tg=libmorfo_python.hmm_tagger("es",DATA+LANG+"/tagger.dat",1,2);
+sen=libmorfo_python.senses(DATA+LANG+"/senses16.db",0);
 
 lin=sys.stdin.readline();
 while (lin) :
-    
+        
     l = tk.tokenize(lin);
     ls = sp.split(l,0);
     ls = mf.analyze(ls);
@@ -35,8 +41,8 @@ while (lin) :
     for s in ls :
        ws = s.get_words();
        for w in ws :
-         print w.get_form()+" "+w.get_lemma()+" "+w.get_parole()+" "+w.get_senses_string();
-
-       print;
+            print w.get_form()+" "+w.get_lemma()+" "+w.get_parole();
+       print
 
     lin=sys.stdin.readline();
+    
