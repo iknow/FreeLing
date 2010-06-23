@@ -1,11 +1,11 @@
 
 ## macros to be used in RegExps rules
 <Macros>
-ALPHA      [^\]<>[(\.,";:?!¿¡«»'`)^@~|}{_/\\+=&$¤£¢¥#*+%\s\d\-]     
-ALPHANUM   [^\]<>[(\.,";:?!¿¡«»'`)^@~|}{_/\\+=&$¤£¢¥#*+%\s\-]
-NOALPHANUM [\]<>[(\.,";:?!¿¡«»'`)^@~|}{_/\\+=&$¤£¢¥#*+%\s\-]
+ALPHA      [^\]<>[(\.,";:?!¿¡«»'`)^@~|}{_/\\+=&$#*+%\s\d\-]     
+ALPHANUM   [^\]<>[(\.,";:?!¿¡«»'`)^@~|}{_/\\+=&$#*+%\s\-]
+NOALPHANUM [\]<>[(\.,";:?!¿¡«»'`)^@~|}{_/\\+=&$#*+%\s\-]
 PARTNUM    [^\]<>[(";:?!¿¡«»'`)^@~|}{\s]
-OTHERS     [\]<>[(\.,";:?!¿¡«»'`)^@~|}{_/\\+=&$¤£¢¥#*+%\-]
+OTHERS     [\]<>[(\.,";:?!¿¡«»'`)^@~|}{_/\\+=&$#*+%\-]
 </Macros>
 
 ## Tokenization rules. They are applied in the order of definition.
@@ -73,6 +73,7 @@ OTHERS_C        0  {OTHERS}
 # Fl.
 # Num.
 # Pgs.
+# Eds.
 # Séc.
 # Ex.
 # Nº.
@@ -203,6 +204,7 @@ dto.
 dom.
 dupdo.
 ed.
+eds.
 ee.uu.
 ej.
 emma.

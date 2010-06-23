@@ -319,10 +319,6 @@ DN g/l
 DN g/m3
 </Measure>
 <MeasureNames>
-$ USD NCMN000 I
-¤ ECU NCMN000 I
-£ GBP NCFN000 I
-¥ JPY NCMN000 I
 <afghani> AFA $1:NC I
 <afghani>_<afghano> AFA $1:NC I
 <austral> ARA $1:NC I

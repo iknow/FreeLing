@@ -17,27 +17,23 @@
 # 9 Consider the suffix always, not only for unknown words.
 # 10 How to retokenize the word if necessary (see uer manual).
 #==============================================================
-#--------------------------------------
-# Regras de sufixación para o galego
-#--------------------------------------
-#  Xavier Gómez Guinovart
-#  Seminario de Lingüística Informática
-#  Universidade de Vigo
-#  http://sli.uvigo.es
-#--------------------------------------
-#  Pablo Gamallo Otero
-#  Marcos Garcia González
-#  Grupo ProLNat
-#  Departamento de Língua Espanhola
-#  Universidade de Santiago de Compostela
-#  http://gramatica.usc.es/pln
-#--------------------------------------
-
 
 <Prefixes>
 </Prefixes>
 
 <Suffixes>
+
+to	*	^V|N	VMIP1S0	0	0	1	R+tar	0	-
+
+## Prova: contracções ambíguas.
+## Como pôr toda a palavra (para não amanhar "melo", etc.?
+## Como dar opcionalidade no tag (aquele (DD) + outro DD/PI)?
+ola	    or	   ^V|S|P|D *	 0	0    0	L     1	$$+a:SPS+DA
+olas	    or	   ^V|S|P|D *	 0	0    0	L     1	$$+as:SPS+DA
+olo	    or	   ^V|S|P|D *	 0	0    0	L     1	$$+o:SPS+DA
+olos	    or	   ^V|S|P|D *	 0	0    0	L     1	$$+os:SPS+DA
+s	    *	   ^S	    *	 1	0    0	L     1	a+as:SPS+DA
+
 #############################################
 ################ CLITICOS ###################
 #############################################
@@ -647,8 +643,8 @@ ciña	*	^NCFS	NCFS00D	1	0	0	L	0	-
 
 # neniño
 
-iñas	a|e|i|o|u	^NCMS	NCFP00D	1	0	0	L	0	-
-iña	a|e|i|o|u	^NCMS	NCFS00D	1	0	0	L	0	-
+iñas	a|e|i|u		^NCMS	NCFP00D	1	0	0	L	0	-
+iña	a|e|i|u		^NCMS	NCFS00D	1	0	0	L	0	-
 iños	a|e|i|o|u	^NCMS	NCMP00D	1	0	0	L	0	-
 iño	a|e|i|o|u	^NCMS	NCMS00D	1	0	0	L	0	-
 
