@@ -55,8 +55,9 @@ class splitter {
   
       // current state
       bool betweenMrk;
-      int no_split_count,mark_type;
-      std::string mark_form;
+      int no_split_count;
+      std::list<int> mark_type;
+      std::list<std::string> mark_form;
 
       /// accumulated list of returned sentences 
       //      std::list<sentence> ls; 

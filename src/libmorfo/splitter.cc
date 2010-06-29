@@ -63,7 +63,8 @@ splitter::splitter(const std::string &SplitFile) {
     // current state
     betweenMrk=false;
     no_split_count=0; 
-    mark_type=0;
+    mark_type.clear();
+    mark_form.clear();
 
     nmk=1;
     reading=0;
@@ -130,7 +131,7 @@ void splitter::split(const std::list<word> &v, bool flush, list<sentence> &ls) {
   map<string,int>::const_iterator m;
 
   TRACE(3,"Looking for a sentence marker. Max no split is: "+util::int2string(SPLIT_MaxLines));
-  TRACE_WORD_LIST(3,v);
+  TRACE_WORD_LIST(4,v);
 
   // clear list of sentences from previous use
   ls.clear();
@@ -139,43 +140,54 @@ void splitter::split(const std::list<word> &v, bool flush, list<sentence> &ls) {
 
     // check whether we are entering "between markers" state
     m=markers.find(w->get_form());
-    if (m!=markers.end() && m->second>0 && !betweenMrk && !SPLIT_AllowBetweenMarkers) {
-      mark_form = m->first;
-      mark_type = m->second;
-      TRACE(3,"Start no split period, marker "+m->first+" code:"+util::int2string(m->second));
-      betweenMrk=true;
+
+    if (betweenMrk and !SPLIT_AllowBetweenMarkers and 
+        m!=markers.end() and m->second==(m->second>SAME?1:-1)*mark_type.front()) {
+      // last opened marker is being closed
+      TRACE(3,"End no split period. marker="+m->first+" code:"+util::int2string(m->second));
+      mark_type.pop_front(); 
+      mark_form.pop_front(); 
+      if (mark_type.empty()) {
+	betweenMrk=false;
+	no_split_count=0; 
+      }
+      else
+	no_split_count++;
+
       buffer.push_back(*w);
     }
-    // check whether we are leaving "between markers" state
-    else if (betweenMrk && !SPLIT_AllowBetweenMarkers){
-      TRACE(3,"no-split flag continues set. word="+w->get_form()+" expecting code:"+util::int2string(mark_type)+" (closing "+mark_form+")");
-      
+    else if (m!=markers.end() and m->second>0 and !SPLIT_AllowBetweenMarkers) {
+      // new marker being opened
+      mark_form.push_front(m->first);  // open markers stack
+      mark_type.push_front(m->second); 
+      TRACE(3,"Start no split period, marker "+m->first+" code:"+util::int2string(m->second));
+      betweenMrk=true;
       no_split_count++;
-      // check if we are closing the opened marker
-      if ((m!=markers.end() && m->second==(m->second>SAME?1:-1)*mark_type) || (SPLIT_MaxLines>0 && no_split_count>SPLIT_MaxLines)) {
-        TRACE(3,"End no split period. marker="+m->first+" code:"+util::int2string(m->second));
-	betweenMrk=false; mark_type=0; no_split_count=0; 
-      }
+      buffer.push_back(*w);
+    }
+    else if (betweenMrk) {
+      // regular word
+      TRACE(3,"no-split flag continues set. word="+w->get_form()+" expecting code:"+util::int2string(mark_type.front())+" (closing "+mark_form.front()+")");      
+      no_split_count++;
+      buffer.push_back(*w);
 
       if (no_split_count>VERY_LONG && no_split_count<=VERY_LONG+5) {
 	WARNING("Ridiculously long sentence between markers at token '"+w->get_form()+"' at input offset "+util::int2string(w->get_span_start())+".");
 	if (no_split_count==VERY_LONG+5) {
 	  WARNING("...etc...");
-          WARNING("Expecting code "+util::int2string(mark_type)+" (closing "+mark_form+") for over "+util::int2string(VERY_LONG)+" words. Probable marker mismatch in document.");
+          WARNING("Expecting code "+util::int2string(mark_type.front())+" (closing "+mark_form.front()+") for over "+util::int2string(VERY_LONG)+" words. Probable marker mismatch in document.");
           WARNING("If this causes crashes try setting AllowBetweenMarkers=1 in");
           WARNING("your splitter configuration file (e.g. splitter.dat)");
 	}
       }
-
-      buffer.push_back(*w);
     }
-    else{
-      TRACE(3,"Outside Marks");
-
+    else {
+      // outside markers
       e = enders.find(w->get_form());
       if (e!=enders.end()) {
 	// Possible sentence ending. 
-        // We split if the delimiter is "sure" (e->second==true) or if the context checking returns true. 
+        // We split if the delimiter is "sure" (e->second==true) or if the context
+        // checking returns true. 
 	if (e->second || end_of_sentence(w,v)) {
 	  TRACE(2,"Sentence marker ["+w->get_form()+"] found");
 	  // Complete the sentence
@@ -186,7 +198,7 @@ void splitter::split(const std::list<word> &v, bool flush, list<sentence> &ls) {
 	  // Clear sentence, look for a new one
 	  buffer.clear();
 	  // reset state
-          betweenMrk=false; mark_type=0; no_split_count=0; 
+          betweenMrk=false; mark_type.clear(); mark_form.clear(); no_split_count=0; 
 	}
 	else {
 	  // context indicated it was not a sentence ending.
@@ -206,7 +218,7 @@ void splitter::split(const std::list<word> &v, bool flush, list<sentence> &ls) {
      TRACE(3,"Flushing the remaining words into a sentence");
      ls.push_back(buffer);         // add sentence to return list
      buffer.clear();
-     betweenMrk=false; mark_type=0; no_split_count=0; 
+     betweenMrk=false; mark_type.clear(); mark_form.clear(); no_split_count=0; 
   }
 
   TRACE_SENTENCE_LIST(1,ls);
