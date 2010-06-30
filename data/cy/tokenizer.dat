@@ -29,7 +29,7 @@ NAMES_CODES	0  ({PARTNUM}*[0-9]{PARTNUM}*{ALPHANUM})
 THREE_DOTS 	 0  (\.\.\.)
 QUOTES	         0  (``|<<|>>|'')
 MAILS 	         0  {ALPHANUM}+([\._]{ALPHANUM}+)*@{ALPHANUM}+([\._]{ALPHANUM}+)*
-URLS 	         0  ((mailto:|(news|http|https|ftp|ftps)://)\S+|^(www(\.\S+)+))
+URLS  	         0  ((mailto:|(news|http|https|ftp|ftps)://)[\w\.\-]+|^(www(\.[\w\-]+)+))
 CONTRACT1        1  ({ALPHA}+)('([sdm]|ma|na|m|th|ch|i|u|n|un|r)({NOALPHANUM}|$))
 CONTRACT2        1  ('([sdm]|ma|na|m|th|ch|i|u|n|un|r))({NOALPHANUM}|$)
 KEEP_COMPOUNDS   0  {ALPHA}+(['_\-]{ALPHA}+)+

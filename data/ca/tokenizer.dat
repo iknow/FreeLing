@@ -32,7 +32,7 @@ MAILS 	        0  {ALPHANUM}+([\._]{ALPHANUM}+)*@{ALPHANUM}+([\._]{ALPHANUM}+)*
 APOSTR_CAT      1  ([dlmtsnDLMTSN]')({ALPHA})
 PRON_CAT1	2  ({ALPHA}*)(\-(hi|ho|en|li|la|los|les|me|te|se|nos|vos|us|ne|lo|em|ens|el|els|[lnmst]))({NOALPHANUM}|$)
 PRON_CAT2	2  ({ALPHA}*)(\'([mnst]|l|ls|ns|hi|ho|en))({NOALPHANUM}|$)
-URLS 	        0  ((mailto:|(news|http|https|ftp|ftps)://)\S+|^(www(\.\S+)+))
+URLS 	        0  ((mailto:|(news|http|https|ftp|ftps)://)[\w\.\-]+|^(www(\.[\w\-]+)+))
 KEEP_COMPOUNDS  0  {ALPHA}+(['_\-]{ALPHA}+)+
 *ABREVIATIONS1  0  (({ALPHA}+\.)+)(?!\.\.)
 *ABREVIATIONS2  0  ({ALPHA}+\.)(?!\.\.)
