@@ -38,8 +38,8 @@ using namespace std;
 #define MOD_TRACENAME "SPLITTER"
 #define MOD_TRACECODE SPLIT_TRACE
 
-#define SAME 1000
-#define VERY_LONG 2000
+#define SAME 100
+#define VERY_LONG 1000
 
 ///////////////////////////////////////////////////////////////
 /// Create a sentence splitter.
