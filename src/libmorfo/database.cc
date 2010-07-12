@@ -41,7 +41,11 @@ using namespace std;
 ///  Create a database accessing module
 ///////////////////////////////////////////////////////////////
 
+#ifdef USE_LIBDB
 database::database() : Db(NULL,DB_CXX_NO_EXCEPTIONS) {}
+#else
+database::database() {}
+#endif
 
 ///////////////////////////////////////////////////////////////
 ///  Destructor
@@ -58,11 +62,16 @@ void database::open_database(const string &file) {
   int res;
 
   if (file.substr(file.size()-3)==".db") {
-    // open a Berkeley DB 
-    if ((res=this->OPEN(file.c_str(),NULL,DB_UNKNOWN,DB_RDONLY,0))) {
-      ERROR_CRASH("Error '"+string(db_strerror(res))+"' while opening database "+file);
-    }
-    usingDB=true;
+
+    #ifdef USE_LIBDB
+      // open a Berkeley DB 
+      if ((res=this->OPEN(file.c_str(),NULL,DB_UNKNOWN,DB_RDONLY,0))) {
+        ERROR_CRASH("Error '"+string(db_strerror(res))+"' while opening database "+file);
+      }
+      usingDB=true;
+    #else
+      ERROR_CRASH("Error opening database "+file+". BerkeleyDB support was not compiled in this FreeLing installation.");
+    #endif
   }
 
   else if (file.substr(file.size()-4)==".src") {
@@ -95,10 +104,12 @@ void database::open_database(const string &file) {
 void database::close_database() {
   int res;
 
-  if (usingDB)
-    if ((res=this->close(0))) {
-      ERROR_CRASH("Error '"+string(db_strerror(res))+"' while closing database");
-    }
+  #ifdef USE_LIBDB
+    if (usingDB)
+      if ((res=this->close(0))) {
+        ERROR_CRASH("Error '"+string(db_strerror(res))+"' while closing database");
+      }
+  #endif
 }
 
 ///////////////////////////////////////////////////////////////
@@ -112,31 +123,35 @@ string database::access_database(const string &clau) {
   if (usingDB) {
     // database is in berkeley DB
 
-    int error;
-    char buff[1024];
-    unsigned int p;
-    Dbt data, key;
-        
-    // Access the DB
-    key.set_data((void *)clau.c_str());
-    key.set_size(clau.length());
-    error = this->get (NULL, &key, &data, 0);
-    
-    list<string> lsen;
-    if (!error) {  // key found
-      // copy the data associated to the key to the buffer
-      p=data.get_size();
-      memcpy((void *)buff, data.get_data(), p);
+    #ifdef USE_LIBDB
+      int error;
+      char buff[1024];
+      unsigned int p;
+      Dbt data, key;
       
-      // convert char* to string into data_string
-      buff[p]=0; data_string=buff;    
-    }
-    else if (error == DB_NOTFOUND) {
-      data_string="";
-    }
-    else {
-      ERROR_CRASH("Error '"+string(db_strerror(error))+"' while accessing database");
-    }
+      // Access the DB
+      key.set_data((void *)clau.c_str());
+      key.set_size(clau.length());
+      error = this->get (NULL, &key, &data, 0);
+      
+      list<string> lsen;
+      if (!error) {  // key found
+	// copy the data associated to the key to the buffer
+	p=data.get_size();
+	memcpy((void *)buff, data.get_data(), p);
+	
+	// convert char* to string into data_string
+	buff[p]=0; data_string=buff;    
+      }
+      else if (error == DB_NOTFOUND) {
+	data_string="";
+      }
+      else {
+	ERROR_CRASH("Error '"+string(db_strerror(error))+"' while accessing database");
+      }
+    #else
+      ERROR_CRASH("BerkeleyDB support was not compiled in this FreeLing installation.");
+    #endif
   }
   else {
     // database is in RAM map

@@ -113,8 +113,6 @@ void dictionary::search_form(const std::string &s, std::list<analysis> &la) {
 /////////////////////////////////////////////////////////////////////////////
 
  void dictionary::annotate_word(word &w) {
-   string data_string,lem,tag,lws;
-   Dbt data, key;
    list<analysis> la;
    list<analysis>::const_iterator a;
 

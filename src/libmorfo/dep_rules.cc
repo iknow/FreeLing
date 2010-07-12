@@ -195,7 +195,7 @@ bool rule_expression::find_any_match(const list<string> &ls) const {
 
 
 ///////////////////////////////////////////////////////////////
-/// Recursive disassembly of node reference string (e.g. p-sn-sajd)
+/// Recursive disassembly of node reference string (e.g. p:sn:sajd)
 /// to get the right iterator.  
 ///////////////////////////////////////////////////////////////
 

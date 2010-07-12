@@ -25,6 +25,20 @@ AC_ARG_ENABLE([traces],
               ],
 	      [AM_CONDITIONAL([VERBOSE],[test 0 = 1])])
 
+AC_ARG_ENABLE([libDB],
+              [AS_HELP_STRING([--disable-libDB],[Compile without support for BerkelyDB dictionaries. Default is: enabled.])],
+	      [if test "$enableval" = yes; then
+	         # define symbol for CPP
+		 AC_DEFINE(USE_LIBDB)
+               fi
+	       # pass info to automake
+	       AM_CONDITIONAL([USE_LIBDB],[test "$enableval" = yes])
+              ],
+	      [# define symbol for CPP
+	       AC_DEFINE(USE_LIBDB)
+               AM_CONDITIONAL([USE_LIBDB],[test 0 = 0])
+              ])
+
 # Checks for programs.
 AC_PROG_CXX
 AC_PROG_LIBTOOL
