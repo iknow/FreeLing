@@ -31,6 +31,8 @@
 
 #include <string>
 #include <map>
+
+#ifdef USE_LIBDB
 #include <db_cxx.h>  // header of BerkeleyDB C++ interface
 
 // define apropriate open calls depending on Berkeley-DB version.
@@ -42,13 +44,19 @@
 #endif
 #endif
 
+#endif
+
 
 ///////////////////////////////////////////////////////////////
 ///  Class to wrap a berkeley DB database and unify access.
 ///  All databases in Freeling use a string key to index string data.
 ///////////////////////////////////////////////////////////////
 
+#ifdef USE_LIBDB
 class database : Db {
+#else
+class database {
+#endif
  
   private:
     /// remember if we are using a DB dictionary or a RAM one.
