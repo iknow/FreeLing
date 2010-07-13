@@ -17,6 +17,9 @@ fi
 if [ -z "${FREELINGCFG}" ]; then
   export FREELINGCFG=${LOGONROOT}/upf/srg/freeling/logon.cfg
 fi
+if [ -z "${FREELINGSPPP}" ]; then
+  export FREELINGSPPP=${LOGONROOT}/upf/srg/freeling/sppp.dat
+fi
 if [ -z "${FREELINGSHARE}" ]; then
   export FREELINGSHARE=${LOGONROOT}/upc/FreeLing
 fi
