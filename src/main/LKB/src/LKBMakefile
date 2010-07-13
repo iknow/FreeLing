@@ -1,14 +1,17 @@
+## Makefile to compile the SPPP nterface for LKB
+## FreeLing must be compiled with the --disable-libDB option
+## Config files can not use .db dictionarires, only plain text .src files.
 
 FREELINGDIR=/usr/local
 MYINCLUDES=../../../../libcfg+
 MYLIBS=/usr/local/lib
 
-IPATH= -I$(FREELINGDIR)/include  -I/usr/include/db4 -I$(MYINCLUDES)
+IPATH= -I$(FREELINGDIR)/include -I$(MYINCLUDES)
 LPATH= -L$(FREELINGDIR)/lib  -L$(MYLIBS)
-LIBS= -lmorfo -lfries -lomlet -ldb_cxx -lpcre -lcfg+ -lboost_filesystem-mt
+LIBS= -lmorfo -lfries -lomlet -lpcre -lcfg+ -lboost_system
 
 LKBanalyzer :	LKBanalyzer.cc LKBconfig.h
-	g++ -o LKBanalyzer LKBanalyzer.cc $(IPATH) $(LPATH) $(LIBS)
+	g++ -o LKBanalyzer LKBanalyzer.cc $(IPATH) $(LPATH) $(LIBS) --static
 	cp LKBanalyzer ..
 
 clean:

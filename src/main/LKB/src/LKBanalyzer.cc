@@ -50,14 +50,13 @@
 using namespace std;
 
 #include <sstream>
+#include <fstream>
 #include <iostream>
 
 #include <set>
 #include <map>
 #include <vector>
 #include <boost/filesystem.hpp>
-#include <boost/filesystem/fstream.hpp>
-#include <sstream>
 
 #include "fries/util.h"
 #include "freeling/tokenizer.h"
@@ -69,6 +68,9 @@ using namespace std;
 #include "freeling/relax_tagger.h"
 #include "freeling/maco_options.h"
 #include "LKBconfig.h"
+
+#undef MOD_TRACENAME
+#define MOD_TRACENAME "LKB_ANALYZER"
 
 const char FORMFEED=0x0C;
 
@@ -405,17 +407,23 @@ void ProcessPlain() {
 // the executable, and load the transformation 
 // rules.
 //---------------------------------------------
-void read_SPPP_rules(string fn) {
+void read_SPPP_rules() {
 
-  boost::filesystem::path p(fn);
-  p=system_complete(p);
-  p.remove_filename();
-  p = p/"sppp.dat";
+  string name;
+  char* exp=getenv("FREELINGSPPP");
+  if (exp==NULL){
+    ERROR_CRASH("FREELINGSPPP is not defined. It should point to a file with rules tuning FreeLing output to meet the LKB grammar needs.");
+  }
   
-  boost::filesystem::ifstream fitx(p);
+  ifstream fitx(exp);
+  if (!fitx) { 
+    ERROR_CRASH("Error opening rule file "+string(exp));
+  }
+  
 
   string line;
   int reading=0;
+  int read=0;
   while (getline(fitx,line)) {
     if (line == "<NoDisambiguate>") reading=1;
     else if (line == "</NoDisambiguate>") reading=0;
@@ -493,7 +501,11 @@ void read_SPPP_rules(string fn) {
       // add rule to rule list.
       rules.push_back(r);
     }
+
+    if (reading!=0) read++;
   }
+
+  if (read==0) ERROR_CRASH("Rule file "+string(exp)+" contains no rules.");
 }
   
 
@@ -503,9 +515,8 @@ void read_SPPP_rules(string fn) {
 //---------------------------------------------
 int main(int argc, char **argv) {
 
-
   /// load transformation file from FreeLing to SPPP
-  read_SPPP_rules(argv[0]);
+  read_SPPP_rules();
 
   // read configuration file and command-line options
   cfg = new config(argv);
