@@ -274,7 +274,6 @@ parse_tree completer::complete(parse_tree &tr, const string & startSymbol) {
     size_t chk=0;
     completerRule bestR = find_grammar_rule(trees, chk);
     int best_prio= bestR.weight;
-    int nbest=1;
     size_t best_pchunk = chk;
 
     chk=1;
@@ -282,10 +281,6 @@ parse_tree completer::complete(parse_tree &tr, const string & startSymbol) {
       completerRule r = find_grammar_rule(trees, chk);
 
       if ( (r.weight==best_prio && chk<best_pchunk) || (r.weight>0 && r.weight<best_prio) || (best_prio<=0 && r.weight>best_prio) ) {
-
-        // count how many share the best prio
-	if (r.weight==best_prio) nbest++; else nbest=1;
-
 	best_prio = r.weight;
         best_pchunk = chk;
 	bestR = r;
@@ -294,7 +289,7 @@ parse_tree completer::complete(parse_tree &tr, const string & startSymbol) {
       chk++;
     }
     
-    TRACE(2,"BEST RULE SELECTED (among "+util::int2string(nbest)+" with same priority). Apply rule [line "+util::int2string(bestR.line)+"] "+util::int2string(bestR.weight)+" "+util::set2string(bestR.enabling_flags,"|")+" "+(bestR.context_neg?"not:":"")+bestR.context+" ("+bestR.leftChk+util::list2string(bestR.leftConds,"")+","+bestR.rightChk+util::list2string(bestR.rightConds,"")+") "+bestR.operation+" "+bestR.newNode1+":"+bestR.newNode2+" +("+util::set2string(bestR.flags_toggle_on,"/")+") -("+util::set2string(bestR.flags_toggle_off,"/")+")  to chunk trees["+util::int2string(best_pchunk)+"]");
+    TRACE(2,"BEST RULE SELECTED. Apply rule [line "+util::int2string(bestR.line)+"] "+util::int2string(bestR.weight)+" "+util::set2string(bestR.enabling_flags,"|")+" "+(bestR.context_neg?"not:":"")+bestR.context+" ("+bestR.leftChk+util::list2string(bestR.leftConds,"")+","+bestR.rightChk+util::list2string(bestR.rightConds,"")+") "+bestR.operation+" "+bestR.newNode1+":"+bestR.newNode2+" +("+util::set2string(bestR.flags_toggle_on,"/")+") -("+util::set2string(bestR.flags_toggle_off,"/")+")  to chunk trees["+util::int2string(best_pchunk)+"]");
     
     parse_tree * resultingTree=applyRule(bestR, trees[best_pchunk], trees[best_pchunk+1]);
 
