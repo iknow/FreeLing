@@ -59,11 +59,11 @@ database::~database() {}
 ///////////////////////////////////////////////////////////////
 
 void database::open_database(const string &file) {
-  int res;
 
   if (file.substr(file.size()-3)==".db") {
 
     #ifdef USE_LIBDB
+      int res;
       // open a Berkeley DB 
       if ((res=this->OPEN(file.c_str(),NULL,DB_UNKNOWN,DB_RDONLY,0))) {
         ERROR_CRASH("Error '"+string(db_strerror(res))+"' while opening database "+file);
@@ -102,9 +102,9 @@ void database::open_database(const string &file) {
 ///////////////////////////////////////////////////////////////
 
 void database::close_database() {
-  int res;
 
   #ifdef USE_LIBDB
+    int res;
     if (usingDB)
       if ((res=this->close(0))) {
         ERROR_CRASH("Error '"+string(db_strerror(res))+"' while closing database");
