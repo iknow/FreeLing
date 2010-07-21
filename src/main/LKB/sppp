@@ -12,7 +12,7 @@ if [ -f ${HOME}/.freelingrc ]; then
 fi
 
 if [ -z "${FREELINGANALYZER}" ]; then
-  export FREELINGANALYZER=${LOGONROOT}/upc/bin/LKBanalyzer
+  export FREELINGANALYZER=${LOGONROOT}/upc/bin/LKBanalyzer-static32
 fi
 if [ -z "${FREELINGCFG}" ]; then
   export FREELINGCFG=${LOGONROOT}/upf/srg/freeling/logon.cfg
