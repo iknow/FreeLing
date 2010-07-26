@@ -100,9 +100,10 @@ install-data-hook:
 	   done \
 	done 
 	@echo "Indexing WN-based semantic database"
-	@rm -f $(pkgdatadir)/common/wn16.db;
-	@$(ZCAT) -f $(pkgdatadir)/common/wn16.src | $(bindir)/indexdict $(pkgdatadir)/common/wn16.db;
-	@$(bindir)/compile_ukb $(pkgdatadir)/common/wn16-ukb.src $(pkgdatadir)/common/wn16-ukb.bin;
+	@rm -f $(pkgdatadir)/common/wn30.db;
+	@$(ZCAT) -f $(pkgdatadir)/common/wn30.src | $(bindir)/indexdict $(pkgdatadir)/common/wn30.db;
+	@$(bindir)/compile_kb -o $(pkgdatadir)/common/wn30-ukb.bin $(pkgdatadir)/common/wnet30_rels.txt;
+	@$(bindir)/compile_kb -o $(pkgdatadir)/common/xwn30-ukb.bin $(pkgdatadir)/common/wnet30_rels.txt $(pkgdatadir)/common/wnet30g_rels.txt
 
 uninstall-hook:
 	@rm -rf $(pkgdatadir)
