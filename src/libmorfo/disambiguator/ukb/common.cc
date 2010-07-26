@@ -51,11 +51,20 @@ namespace ukb {
   void trim_spaces(std::string &l) {
 
 	std::string res("");
-	std::string::size_type start = l.find_first_not_of(" \t");
-	std::string::size_type end = l.find_last_not_of(" \t");
+	std::string::size_type start = l.find_first_not_of(" \t\r");
+	std::string::size_type end = l.find_last_not_of(" \t\r");
 	if (start != std::string::npos) {
 	  res = l.substr(start, end - start + 1);
 	}
 	l.swap(res);
+  }
+
+  std::istream & read_line_noblank(std::istream & is, std::string & line, size_t & l_n) {
+	do {
+	  std::getline(is, line, '\n');
+	  trim_spaces(line);
+	  l_n++;
+	} while(is && !line.size());
+	return is;
   }
 }

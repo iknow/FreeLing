@@ -1,3 +1,9 @@
+#include "kbGraph.h"
+#include "common.h"
+#include "globalVars.h"
+#include "wdict.h"
+#include "prank.h"
+
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -6,6 +12,7 @@
 #include <string>
 #include <map>
 #include <iterator>
+#include <algorithm>
 #include <ostream>
 
 // Tokenizer
@@ -30,13 +37,10 @@
 
 #include <boost/graph/dijkstra_shortest_paths.hpp>
 
-/// must go after boost includes or weird interactions
-/// confuse the compiler.
-#include "kbGraph.h"
-#include "common.h"
-#include "globalVars.h"
-#include "wdict.h"
-#include "prank.h"
+// strong components
+
+#include <boost/graph/strong_components.hpp>
+
 
 namespace ukb {
 
@@ -128,7 +132,12 @@ namespace ukb {
   bool Kb::bfs (Kb_vertex_t src,
 				 std::vector<Kb_vertex_t> & parents) const {
 
-	vector<Kb_vertex_t>(num_vertices(g)).swap(parents);  // reset parents
+	size_t m = num_vertices(g);
+	if(parents.size() == m) {
+	  std::fill(parents.begin(), parents.end(), Kb_vertex_t());
+	} else {
+	  vector<Kb_vertex_t>(m).swap(parents);  // reset parents
+	}
 
 	breadth_first_search(g,
 						 src,
@@ -142,8 +151,14 @@ namespace ukb {
   bool Kb::dijkstra (Kb_vertex_t src,
 					  std::vector<Kb_vertex_t> & parents) const {
 
-	vector<Kb_vertex_t>(num_vertices(g)).swap(parents);  // reset parents
-	vector<float> dist(num_vertices(g));
+	size_t m = num_vertices(g);
+	if(parents.size() == m) {
+	  std::fill(parents.begin(), parents.end(), Kb_vertex_t());
+	} else {
+	  vector<Kb_vertex_t>(m).swap(parents);  // reset parents
+	}
+
+	vector<float> dist(m);
 
 	dijkstra_shortest_paths(g,
 							src,
@@ -325,6 +340,8 @@ namespace ukb {
 	Kb_edge_t e;
 	bool existsP;
 
+	if (u == v)
+	  throw runtime_error("Can't insert self loop !");
 	//if (w != 1.0) ++w; // minimum weight is 1
 	tie(e, existsP) = edge(u, v, g);
 	if(!existsP) {
@@ -335,6 +352,10 @@ namespace ukb {
 	  put(edge_rtype, g, e, static_cast<boost::uint32_t>(0));
 	}
 	return e;
+  }
+
+  void Kb::unlink_vertex(Kb_vertex_t u) {
+	clear_vertex(u, g);
   }
 
   size_t Kb::unlink_dangling() {
@@ -477,15 +498,17 @@ namespace ukb {
 
   const std::vector<float> & Kb::static_prank() const {
 	if (static_ranks.size()) return static_ranks;
+	size_t N = num_vertices(g);
 
 	// Hack to remove const-ness
     Kb & me = const_cast<Kb &>(*this);
 	vector<float> & ranks = me.static_ranks;
+	me.out_coefs.resize(N);
 
-	// Calculate static pageRank
-	size_t N = size();
-	if (N == 0) return static_ranks; // empty graph
-	vector<float> ppv(N, 1.0/static_cast<float>(N));
+	size_t N_no_isolated = prank::init_out_coefs(g, &me.out_coefs[0]);
+
+	if (N_no_isolated == 0) return static_ranks; // empty graph
+	vector<float> ppv(N, 1.0/static_cast<float>(N_no_isolated));
 	me.pageRank_ppv(ppv, ranks);
 	return static_ranks;
   }
@@ -715,6 +738,55 @@ namespace ukb {
 	}
   }
 
+
+  std::pair<size_t, size_t> Kb::indeg_maxmin() const {
+
+	size_t m = std::numeric_limits<size_t>::max();
+	size_t M = std::numeric_limits<size_t>::min();
+
+	size_t d;
+
+	graph_traits<KbGraph>::vertex_iterator it, end;
+	tie(it, end) = vertices(g);
+	for(; it != end; ++it) {
+	  d = in_degree(*it, g);
+	  if (d > M) M = d;
+	  if (d < m) m = d;
+	}
+	return make_pair<size_t, size_t>(m, M);
+  }
+
+  std::pair<size_t, size_t> Kb::outdeg_maxmin() const {
+
+	size_t m = std::numeric_limits<size_t>::max();
+	size_t M = std::numeric_limits<size_t>::min();
+
+	size_t d;
+
+	graph_traits<KbGraph>::vertex_iterator it, end;
+	tie(it, end) = vertices(g);
+	for(; it != end; ++it) {
+	  d = out_degree(*it, g);
+	  if (d > M) M = d;
+	  if (d < m) m = d;
+	}
+	return make_pair<size_t, size_t>(m, M);
+  }
+
+
+  int Kb::components() const {
+
+	//	std::vector<int> component(num_vertices(g)), discover_time(num_vertices(g));
+	//	std::vector<default_color_type> color(num_vertices(g));
+	//	std::vector<Vertex> root(num_vertices(g));
+	vector<int> v(num_vertices(g));
+	int i = boost::strong_components(g,&v[0]);
+
+	return i;
+
+  }
+
+
   ////////////////////////////////////////////////////////////////////////////////
   // Add token vertices and link them to synsets
 
@@ -864,42 +936,48 @@ namespace ukb {
   void Kb::pageRank_ppv(const vector<float> & ppv_map,
 						vector<float> & ranks) {
 
+	typedef graph_traits<KbGraph>::edge_descriptor edge_descriptor;
+	property_map<Kb::boost_graph_t, edge_weight_t>::type weight_map = get(edge_weight, g);
+	prank::constant_property_map <edge_descriptor, float> cte_weight(1.0); // always return 1
+
 	size_t N = num_vertices(g);
-	vector<float>(N, 0.0).swap(ranks); // Initialize rank vector
+
+	if (N == ranks.size()) {
+	  std::fill(ranks.begin(), ranks.end(), 0.0);
+	} else {
+	  vector<float>(N, 0.0).swap(ranks); // Initialize rank vector
+	}
 	vector<float> rank_tmp(N, 0.0);    // auxiliary rank vector
 
-	// ugly ugly hack @@CHANGE ME !!!
-
-	vector<Kb_vertex_t> V(N);
-
-	graph_traits<KbGraph>::vertex_iterator it, end;
-	tie(it, end) = vertices(g);
-	copy(it, end, V.begin());
-
 	if (glVars::prank::use_weight) {
-	  property_map<Kb::boost_graph_t, edge_weight_t>::type weight_map = get(edge_weight, g);
 	  if(coef_status != 2) {
-		vector<float>(num_vertices(g), 0.0f).swap(out_coefs);
-		prank::init_out_coefs(g, V, &out_coefs[0], weight_map);
+		out_coefs.resize(N);
+		fill(out_coefs.begin(), out_coefs.end(), 0.0);
+		N_no_isolated = prank::init_out_coefs(g,  &out_coefs[0], weight_map);
 		coef_status = 2;
 	  }
-	  prank::do_pageRank(g, V, &ppv_map[0],
+	} else {
+	  if(coef_status != 1) {
+		out_coefs.resize(N);
+		fill(out_coefs.begin(), out_coefs.end(), 0.0);
+		N_no_isolated = prank::init_out_coefs(g, &out_coefs[0], cte_weight);
+		coef_status = 1;
+	  }
+	}
+
+	if (glVars::prank::use_weight) {
+	  prank::do_pageRank(g, N_no_isolated, &ppv_map[0],
 						 weight_map, &ranks[0], &rank_tmp[0],
 						 glVars::prank::num_iterations,
 						 glVars::prank::threshold,
+						 glVars::prank::damping,
 						 out_coefs);
 	} else {
-	  typedef graph_traits<KbGraph>::edge_descriptor edge_descriptor;
-	  prank::constant_property_map <edge_descriptor, float> cte_weight(1); // always return 1
-	  if(coef_status != 1) {
-		vector<float>(num_vertices(g), 0.0f).swap(out_coefs);
-		prank::init_out_coefs(g, V, &out_coefs[0], cte_weight);
-		coef_status = 1;
-	  }
-	  prank::do_pageRank(g, V, &ppv_map[0],
+	  prank::do_pageRank(g, N_no_isolated, &ppv_map[0],
 						 cte_weight, &ranks[0], &rank_tmp[0],
 						 glVars::prank::num_iterations,
 						 glVars::prank::threshold,
+						 glVars::prank::damping,
 						 out_coefs);
 	}
   }

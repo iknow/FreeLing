@@ -28,8 +28,13 @@ namespace ukb {
 	extern std::string dict_filename;
 
 	namespace csentence {
+	  extern bool pv_no_weight; // Don bot use context word weights when initalizing PV for the context
 	  extern bool concepts_in;
 	  extern bool disamb_minus_static;
+	}
+
+	namespace dict {
+	  extern bool use_weight; // Use weights when linking words to concepts
 	}
 
 	namespace chsq {
@@ -38,9 +43,10 @@ namespace ukb {
 	}
 
 	namespace prank {
-	  extern bool use_weight;
+	  extern bool use_weight;   // Use weights in pagerank calculations
 	  extern size_t num_iterations;
 	  extern float threshold;
+	  extern float damping;
 	}
 
 
@@ -55,8 +61,9 @@ namespace ukb {
 
 	// Output stuff
 	namespace output {
-	  extern bool allranks; // print all ranks (with weights or just best ranks)
+	  extern bool allranks;   // print all ranks (with weights or just best ranks)
 	  extern bool monosemous; // print monosemous words
+	  extern bool ties;       // print also if ties
 	}
 
 	namespace kb {
