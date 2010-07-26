@@ -136,6 +136,8 @@ public:
 
   Kb_edge_t find_or_insert_edge(Kb_vertex_t u, Kb_vertex_t v, float w );
 
+  void unlink_vertex(Kb_vertex_t u);
+
   // Unlink dangling_nodes (out_degree == 0).
   // Return num. of unlinked nodes
 
@@ -200,6 +202,12 @@ public:
   void display_info(std::ostream & o) const;
   size_t size() const {return num_vertices(g); }
 
+  std::pair<size_t, size_t> indeg_maxmin() const;
+  std::pair<size_t, size_t> outdeg_maxmin() const;
+
+  // get how many (strong) components the graph has
+  int components() const;
+
   const std::vector<std::string> & get_comments() const;
 
   // Get a random vertex
@@ -236,7 +244,7 @@ private:
   static Kb * create();
 
   // Private methods
-  Kb() : coef_status(0) {};
+  Kb() : N_no_isolated(0), coef_status(0) {};
   Kb(const Kb &) {};
   Kb &operator=(const Kb &);
   ~Kb() {};
@@ -264,9 +272,10 @@ private:
   // Aux variables
 
   std::vector<float> out_coefs;          // aux. vector of out-degree coefficients
+  size_t N_no_isolated;                  // Number of non-isolated vertices
   char coef_status;                      // 0 invalid
-  // 1 calculated without weights
-  // 2 calculated with weights
+                                         // 1 calculated without weights
+                                         // 2 calculated with weights
   std::vector<float> static_ranks;       // aux. vector with static prank computation
   };
 }

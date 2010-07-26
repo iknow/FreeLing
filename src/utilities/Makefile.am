@@ -1,5 +1,5 @@
 EXTRA_DIST = hmm_smooth.perl train-relax.perl make-probs-file.perl TRAIN unk-tags unk-tags.parole constr_gram.manual nec/README nec/TRAIN.sh nec/lexicon.cc nec/train.cc ner/README ner/TRAIN.sh ner/lexicon.cc ner/train.cc
-bin_PROGRAMS = indexdict convertdict dicc2phon compile_ukb
+bin_PROGRAMS = indexdict convertdict dicc2phon compile_kb
 
 if BOOST_MT
   MT="-mt"
@@ -19,8 +19,7 @@ dicc2phon_SOURCES = corrector/dicc2phon.cc $(top_srcdir)/src/libmorfo/corrector/
 dicc2phon_LDADD = -lfries -lpcre
 dicc2phon_CXXFLAGS = -I$(top_srcdir)/src/include/
 
-compile_ukb_SOURCES = compile_ukb.cc $(top_srcdir)/src/libmorfo/disambiguator/ukb/globalVars.cc $(top_srcdir)/src/libmorfo/disambiguator/ukb/kbGraph.cc $(top_srcdir)/src/libmorfo/disambiguator/ukb/wdict.cc $(top_srcdir)/src/libmorfo/disambiguator/ukb/common.cc 
-compile_ukb_CXXFLAGS = -I$(top_srcdir)/src/libmorfo/disambiguator/ukb
-compile_ukb_LDADD = -lboost_filesystem$(MT)
-
+compile_kb_SOURCES = compile_kb.cc $(top_srcdir)/src/libmorfo/disambiguator/ukb/globalVars.cc $(top_srcdir)/src/libmorfo/disambiguator/ukb/kbGraph.cc $(top_srcdir)/src/libmorfo/disambiguator/ukb/wdict.cc $(top_srcdir)/src/libmorfo/disambiguator/ukb/common.cc 
+compile_kb_CXXFLAGS = -I$(top_srcdir)/src/libmorfo/disambiguator/ukb
+compile_kb_LDADD = -lboost_filesystem$(MT) -lboost_program_options$(MT)
 

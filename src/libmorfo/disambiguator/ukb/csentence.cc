@@ -14,14 +14,31 @@ namespace ukb {
   using namespace std;
   using namespace boost;
 
-  void fill_syns(const string & w,
-				 vector<string> & syns,
-				 vector<float> & ranks,
-				 char pos = 0) {
+  static CWord::cwtype cast_int_cwtype(int i) {
+	CWord::cwtype res;
 
-	//W2Syn & w2syn = W2Syn::instance();
+	switch(i) {
+	case CWord::cwtoken:
+	  res = CWord::cwtoken;
+	  break;
+	case CWord::cwdist:
+	  res = CWord::cwdist;
+	  break;
+	case CWord::cwsynset:
+	  res = CWord::cwsynset;
+	  break;
+	default:
+	  res = CWord::cwerror;
+	  break;
+	}
+	return res;
+  }
+
+  bool CWord::tie_to_kb() {
+
 	Kb & kb = ukb::Kb::instance();
-
+	bool existP;
+	map<string, pair<Kb_vertex_t, float> > str2kb;
 	vector<string>::const_iterator str_it;
 	vector<string>::const_iterator str_end;
 
@@ -30,50 +47,90 @@ namespace ukb {
 	for(size_t i= 0; i < entries.size(); ++i) {
 
 	  const string & syn_str = entries.get_entry(i);
+	  float syn_freq = glVars::dict::use_weight ? entries.get_freq(i) : 1.0;
 
-	  bool existP;
-	  Kb_vertex_t kb_v;
-	  if(pos && glVars::input::filter_pos) {
+	  if(m_pos && glVars::input::filter_pos) {
 		// filter synsets by pos
 		char synpos = entries.get_pos(i);
 		if(!synpos) {
-		  throw std::runtime_error("CWord: Error reading context. " + syn_str + " has no POS\n");
+		  throw std::runtime_error("CWord: dictionary concept " + syn_str + " has no POS\n");
 		}
-		if (pos != synpos) continue;
+		if (m_pos != synpos) continue;
 	  }
-	  tie(kb_v, existP) = kb.get_vertex_by_name(syn_str, Kb::is_concept);
+
+	  Kb_vertex_t syn_v;
+	  tie(syn_v, existP) = kb.get_vertex_by_name(syn_str, Kb::is_concept);
 	  if (existP) {
-		syns.push_back(syn_str);
-		ranks.push_back(0.0f);
+		m_syns.push_back(syn_str);
+		str2kb[syn_str] = make_pair(syn_v, syn_freq);
 	  } else {
 		if (glVars::debug::warning) {
 		  cerr << "W:CWord: synset " << syn_str << " of word " << w << " is not in KB" << endl;
 		}
-		// debug: synset  which is not in kb
 	  }
 	}
-  }
 
-  void CWord::shuffle_synsets() {
+	if (m_syns.size() == 0) return false;
+
+	// Shuffle synsets string vector
 	boost::random_number_generator<boost::mt19937, long int> rand_dist(glVars::rand_generator);
-	//std::random_shuffle(syns.begin(), syns.end(), rand_dist);
 	std::random_shuffle(m_syns.begin(), m_syns.end(), rand_dist);
+
+	// Update ranks
+	vector<float>(m_syns.size(), 0.0).swap(m_ranks);
+
+	// Update KB with CWord
+	// Kb_vertex_t word_v;
+	// Kb_vertex_t wpos_v;
+	// Kb_vertex_t w_v;
+
+	// Insert word in KB
+
+	// word_v = kb.find_or_insert_word(word());
+	// w_v = word_v;
+	// // If pos then insert wpos and link to word
+	// if(m_pos && glVars::input::filter_pos) {
+	//   wpos_v = kb.find_or_insert_word(wpos());
+	//   kb.find_or_insert_edge(word_v, wpos_v, 1.0);
+	//   w_v = wpos_v;
+	// }
+
+	// Insert related concepts/synsets
+
+	for(vector<string>::iterator it = m_syns.begin(), end = m_syns.end();
+		it != end; ++it) {
+	  pair<Kb_vertex_t, float> uf = str2kb[*it];
+	  m_V.push_back(uf.first);
+	  // tie word to synsets
+	  //kb.find_or_insert_edge(w_v, uf.first, uf.second);
+	}
+	return true;
   }
 
-  // CWord::CWord(const string & w_) :
-  //   w(w_), m_id(string()), pos(0), m_weight(1.0),
-  //   m_is_synset(false), m_distinguished(true), m_ranks_equal(true) {
-  //   fill_syns(w_, syns, ranks, 0);
-  //   m_disamb = (1 == syns.size()); // monosemous words are disambiguated
-  //   shuffle_synsets();
-  // }
+  CWord::CWord(const string & w_, const string & id_, char pos_, cwtype type_, float wght_)
+	: w(w_), m_id(id_), m_pos(pos_), m_weight(wght_), m_type(type_) {
+	switch(m_type) {
+	case cwsynset:
 
-  CWord::CWord(const string & w_, const string & id_, char pos_, bool dist_)
-	: w(w_), m_id(id_), m_pos(pos_), m_weight(1.0), m_is_synset(false),
-	  m_distinguished(dist_) {
-	fill_syns(w_, m_syns, m_ranks, pos_);
-	m_disamb = (1 == m_syns.size()); // monosemous words are disambiguated
-	shuffle_synsets();
+	  Kb_vertex_t u;
+	  bool P;
+	  tie(u, P) = ukb::Kb::instance().get_vertex_by_name(w, Kb::is_concept);
+	  if (!P) {
+		throw std::runtime_error("CWord concept " + w + " not in KB");
+	  }
+	  m_syns.push_back(w);
+	  m_V.push_back(u);
+	  m_ranks.push_back(0.0f);
+
+	  break;
+	case cwtoken:
+	case cwdist:
+	  tie_to_kb();
+	  m_disamb = (1 == m_syns.size()); // monosemous words are disambiguated
+	  break;
+	default:
+	  break;
+	}
   }
 
   CWord & CWord::operator=(const CWord & cw_) {
@@ -83,47 +140,44 @@ namespace ukb {
 	  m_weight = cw_.m_weight;
 	  m_pos = cw_.m_pos;
 	  m_syns = cw_.m_syns;
+	  m_V = cw_.m_V;
 	  m_ranks = cw_.m_ranks;
-	  m_is_synset = cw_.m_is_synset;
-	  m_distinguished = cw_.m_distinguished;
 	  m_disamb = cw_.m_disamb;
 	}
 	return *this;
   }
 
-  // Create a special CWord which is a synset and a weigth.
-
-  CWord CWord::create_synset_cword(const string & syn, const string & id_, float w) {
-	Kb_vertex_t aux;
-	bool P;
-	tie(aux, P) = ukb::Kb::instance().get_vertex_by_name(syn, Kb::is_concept);
-	if (!P) {
-	  throw std::runtime_error("CWord::create_synset_cword " + syn + " not in KB");
-	  return CWord();
-	}
-	CWord cw;
-	cw.m_weight = w;
-	cw.w = syn;
-	cw.m_id = id_;
-	cw.m_is_synset = true;
-	cw.m_distinguished=false;
-	cw.m_syns.push_back(syn);
-	cw.m_ranks.push_back(0.0f);
-	return cw;
-  }
-
   string CWord::wpos() const {
 
-	if (m_is_synset) {
-	  std::runtime_error("CWoord::wpos: can't get wpos of Cword synset " + w);
-	}
-	string wpos(w);
+	if (is_synset()) return word();
+	string wpos(word());
 	char pos = get_pos();
-	if(!glVars::input::filter_pos || pos == 0) return wpos;
+	if(pos == 0) return wpos;
 	wpos.append("#");
 	wpos.append(1,pos);
 	return wpos;
   };
+
+  ostream & CWord::debug(ostream & o) const  {
+
+	o << "w: " << w << " \n";
+	o <<  "m_id: " << m_id << string(" \n");
+	o << "m_pos: "  << m_pos << string(" \n");
+	o << "m_weight: "  << lexical_cast<string>(m_weight) << string(" \n");
+	o << "m_distinguished: "  << lexical_cast<int>(m_type) << string(" \n");
+	o << "m_disamb: "  << lexical_cast<bool>(m_disamb) << string(" \n");
+	o << "m_syns: ";
+	writeV(o, m_syns);
+	o << string(" \n");
+	o << "m_V: ";
+	writeV(o, m_V);
+	o << string(" \n");
+	o << "m_ranks: ";
+	writeV(o, m_ranks);
+	o << string(" \n");
+	return o;
+  }
+
 
   struct CWSort {
 
@@ -175,7 +229,7 @@ namespace ukb {
 	  o << "-" << cw_.m_pos;
 	if(glVars::csentence::concepts_in)
 	  o << "#" << cw_.m_weight;
-	o << "#" << cw_.m_id << "#" << cw_.m_distinguished << " " << cw_.m_disamb;
+	o << "#" << cw_.m_id << "#" << cw_.m_type << " " << cw_.m_disamb;
 	o << '\n';
 	for(size_t i = 0; i < cw_.m_syns.size(); ++i) {
 	  assert(i < cw_.m_ranks.size());
@@ -252,7 +306,7 @@ namespace ukb {
 	write_atom_to_stream(o,m_id);
 	write_atom_to_stream(o,m_pos);
 	write_vector_to_stream(o,m_syns);
-	write_atom_to_stream(o,m_distinguished);
+	write_atom_to_stream(o,m_type);
 	return o;
 
   };
@@ -264,92 +318,112 @@ namespace ukb {
 	read_atom_from_stream(i,m_pos);
 	read_vector_from_stream(i,m_syns);
 	vector<float>(m_syns.size()).swap(m_ranks); // Init ranks vector
-	read_atom_from_stream(i,m_distinguished);
+	read_atom_from_stream(i,m_type);
 
 	m_disamb = (1 == m_syns.size());
-	shuffle_synsets();
   };
 
   ////////////////////////////////////////////////////////////////
   // CSentence
 
-  static bool read_ctx_line(istream & is, string & line, size_t & l_n) {
-	do {
-	  getline(is, line, '\n');
-	  trim_spaces(line);
-	  l_n++;
-	} while(is && !line.size());
-	if(!is) return false;
-	return true;
+  struct ctw_parse_t {
+	string lemma;
+	string pos;
+	string id;
+	int dist; // 0 -> no dist; 1 -> dist; 2 -> concept (no dist)
+	float w;
+
+	ctw_parse_t() : lemma(), pos(), id(), dist(0), w(1.0) {}
+
+  };
+
+  ctw_parse_t parse_ctw(const string & word) {
+
+	ctw_parse_t res;
+
+	char_separator<char> wsep("#", "", keep_empty_tokens);
+	tokenizer<char_separator<char> > wtok(word, wsep);
+	tokenizer<char_separator<char> >::iterator it = wtok.begin();
+	tokenizer<char_separator<char> >::iterator end = wtok.end();
+	if (it == end) return res; // empty line
+	vector<string> fields;
+	copy(it, end, back_inserter(fields));
+	size_t m = fields.size();
+	if (m != 4 && m != 5) {
+	  throw std::runtime_error(word + " : too few fields.");
+	}
+	res.lemma = fields[0];
+	res.pos = fields[1];
+	res.id = fields[2];
+	try {
+	  res.dist = lexical_cast<int>(fields[3]);
+	  if (m == 5)
+		res.w = lexical_cast<float>(fields[4]);
+	} catch (boost::bad_lexical_cast &) {
+	  throw std::runtime_error(word + " : Parsing error.");
+	}
+
+	if (res.w < 0.0) {
+	  throw std::runtime_error(word + " : Negative weight.");
+	}
+	return res;
   }
 
   // AW file read (create a csentence from a context)
 
-  istream & CSentence::read_aw(istream & is) {
+  istream & CSentence::read_aw(istream & is, size_t & l_n) {
 
   string line;
-  size_t l_n = 0;
 
-	if(is) {
-	  if(!read_ctx_line(is, line, l_n)) return is;
+  if(read_line_noblank(is, line, l_n)) {
 
-	  // first line is id
-	  char_separator<char> sep(" \t");
-	  vector<string> ctx;
+	// first line is id
+	char_separator<char> sep(" \t");
+	vector<string> ctx;
 
-	  tokenizer<char_separator<char> > tok_id(line, sep);
-	  copy(tok_id.begin(), tok_id.end(), back_inserter(ctx));
-	  if (ctx.size() == 0) return is; // blank line or EOF
-	  cs_id = ctx[0];
-	  vector<string>().swap(ctx);
-	  // next comes the context
-	  if(!read_ctx_line(is, line, l_n)) return is;
+	tokenizer<char_separator<char> > tok_id(line, sep);
+	copy(tok_id.begin(), tok_id.end(), back_inserter(ctx));
+	if (ctx.size() == 0) return is; // blank line or EOF
+	cs_id = ctx[0];
+	vector<string>().swap(ctx);
+	// next comes the context
+	if(!read_line_noblank(is, line, l_n)) return is;
 
-	  tokenizer<char_separator<char> > tok_ctx(line, sep);
-	  copy(tok_ctx.begin(), tok_ctx.end(), back_inserter(ctx));
-	  if (ctx.size() == 0) return is; // blank line or EOF
-	  int i = 0;
-	  try {
-		for(vector<string>::const_iterator it = ctx.begin(); it != ctx.end(); ++i, ++it) {
-		  vector<string> fields;
-		  char_separator<char> wsep("#");
-		  tokenizer<char_separator<char> > wtok(*it, wsep);
+	tokenizer<char_separator<char> > tok_ctx(line, sep);
+	copy(tok_ctx.begin(), tok_ctx.end(), back_inserter(ctx));
+	if (ctx.size() == 0) return is; // blank line or EOF
+	int i = 0;
+	try {
+	  for(vector<string>::const_iterator it = ctx.begin(); it != ctx.end(); ++i, ++it) {
 
-		  copy(wtok.begin(), wtok.end(), back_inserter(fields));
+		ctw_parse_t ctwp = parse_ctw(*it);
+		if (ctwp.lemma.size() == 0) continue;
+		char pos(0);
+		CWord::cwtype cw_type = cast_int_cwtype(ctwp.dist);
+		if (cw_type != CWord::cwsynset && glVars::input::filter_pos) {
+		  if (!ctwp.pos.size()) throw std::runtime_error(*it + " has no POS.");
+		  if (ctwp.pos.size() != 1) throw std::runtime_error(*it + " has invalid POS (more than 1 char).");
+		  pos = ctwp.pos[0];
+		}
+		CWord new_cw(ctwp.lemma, ctwp.id, pos, cw_type, ctwp.w);
 
-		  if (fields.size() < 4)
-			throw std::runtime_error("Bad word " + *it + " " + lexical_cast<string>(i));
-		  int dist = lexical_cast<int>(fields[3]);
-		  string spos = fields[1];
-		  char pos(0);
-		  if (fields[1].size() && glVars::input::filter_pos) pos = fields[1].at(0);
-		  CWord new_cw(fields[0], fields[2], pos, dist > 0);
-		  if (dist == 2) {
-			new_cw = CWord::create_synset_cword(fields[0], fields[2], 1.0);
-		  }
-		  if(glVars::csentence::concepts_in) {
-			if (fields.size() != 5)
-			  throw std::runtime_error("Bad word " + *it + " " + lexical_cast<string>(i) + ": no weight");
-			// optional weight
-			new_cw.set_weight(lexical_cast<float>(fields[4]));
-		  }
-		  if (new_cw.size()) {
-			v.push_back(new_cw);
-		  } else {
-			// No synset for that word.
-			if (glVars::debug::warning) {
-			  cerr << "W: " << fields[0];
-			  if (glVars::input::filter_pos && pos)
-				cerr << "-" << fields[1];
-			  cerr << " can't be mapped to KB." << endl;
-			}
+		if (new_cw.size()) {
+		  v.push_back(new_cw);
+		} else {
+		  // No synset for that word.
+		  if (glVars::debug::warning) {
+			cerr << "W: " << ctwp.lemma;
+			if (glVars::input::filter_pos && pos)
+			  cerr << "-" << pos;
+			cerr << " can't be mapped to KB." << endl;
 		  }
 		}
-	  } catch (std::exception & e) {
-		throw std::runtime_error("Context error in line " + lexical_cast<string>(l_n) + " : " + e.what() );
 	  }
+	} catch (std::exception & e) {
+	  throw std::runtime_error("Context error in line " + lexical_cast<string>(l_n) + "\n" + e.what() );
 	}
-	return is;
+  }
+  return is;
   }
 
 
@@ -410,7 +484,7 @@ namespace ukb {
 	for(; cw_it != cw_end; ++cw_it) {
 	  if (cw_it->size() == 0) continue;
 	  if (!cw_it->is_distinguished()) continue;
-	  if (!cw_it->is_disambiguated()) continue;
+	  if (!cw_it->is_disambiguated() && !glVars::output::ties) continue;
 	  if (cw_it->is_monosemous() && !glVars::output::monosemous) return o; // Don't output monosemous words
 
 	  cw_it->print_cword_aw(o);
@@ -426,7 +500,7 @@ namespace ukb {
 	for(; cw_it != cw_end; ++cw_it) {
 	  if (cw_it->size() == 0) continue;
 	  if (!cw_it->is_distinguished()) continue;
-	  if (!cw_it->is_disambiguated()) continue;
+	  if (!cw_it->is_disambiguated() && !glVars::output::ties) continue;
 	  if (cw_it->is_monosemous() && !glVars::output::monosemous) return o; // Don't output monosemous words
 
 	  cw_it->print_cword_semcor_aw(o);
@@ -442,7 +516,7 @@ namespace ukb {
 	for(; cw_it != cw_end; ++cw_it) {
 	  if (cw_it->size() == 0) continue;
 	  if (!cw_it->is_distinguished()) continue;
-	  if (!cw_it->is_disambiguated()) continue;
+	  if (!cw_it->is_disambiguated() && !glVars::output::ties) continue;
 	  if (cw_it->is_monosemous() && !glVars::output::monosemous) return o; // Don't output monosemous words
 	  o << cs_id << " ";
 	  cw_it->print_cword_simple(o);
@@ -455,6 +529,50 @@ namespace ukb {
   // PageRank in Kb
 
 
+  // Get personalization vector giving an csentence
+  // 'light' wpos
+
+  int cs_pv_vector_w(const CSentence & cs,
+					 vector<float> & pv,
+					 CSentence::const_iterator exclude_word_it) {
+
+	Kb & kb = ukb::Kb::instance();
+	vector<float> (kb.size(), 0.0).swap(pv);
+	bool aux;
+	set<string> S;
+	vector<float> ranks;
+	int inserted_i = 0;
+
+	float K = 0.0;
+	// put pv to the synsets of words except exclude_word
+	for(CSentence::const_iterator it = cs.begin(), end = cs.end();
+		it != end; ++it) {
+	  if (it == exclude_word_it) continue;
+	  unsigned char sflags = it->is_synset() ? Kb::is_concept : Kb::is_word;
+	  string wpos = it->wpos();
+
+	  set<string>::iterator aux_set;
+	  tie(aux_set, aux) = S.insert(wpos);
+	  if (aux) {
+		Kb_vertex_t u;
+		tie(u, aux) = kb.get_vertex_by_name(wpos, sflags);
+		float w = glVars::csentence::pv_no_weight ? 1.0 : it->get_weight();
+		if (aux && w != 0.0) {
+		  pv[u] += w;
+		  K +=w;
+		  inserted_i++;
+		}
+	  }
+	}
+	if (!inserted_i) return 0;
+	// Normalize PPV vector
+	float div = 1.0 / static_cast<float>(K);
+	for(vector<float>::iterator it = pv.begin(), end = pv.end();
+		it != end; ++it) *it *= div;
+	return inserted_i;
+  }
+
+
   // Given a CSentence apply Personalized PageRank and obtain obtain it's
   // Personalized PageRank Vector (PPV)
   //
@@ -464,44 +582,11 @@ namespace ukb {
 						vector<float> & res) {
 
 	Kb & kb = ukb::Kb::instance();
-	bool aux;
-	set<string> S;
-
-	// Initialize result vector
-	vector<float> (kb.size(), 0.0).swap(res);
-
-	// Initialize PPV vector
-	vector<float> ppv(kb.size(), 0.0);
-	CSentence::const_iterator it = cs.begin();
-	CSentence::const_iterator end = cs.end();
-	float K = 0.0;
-	for(;it != end; ++it) {
-	  //if(!it->is_distinguished()) continue;
-	  unsigned char sflags = it->is_synset() ? Kb::is_concept : Kb::is_word;
-	  //string wpos = it->wpos();
-	  string wpos = it->word();
-
-	  set<string>::iterator aux_set;
-	  tie(aux_set, aux) = S.insert(wpos);
-	  if (aux) {
-		Kb_vertex_t u;
-		tie(u, aux) = kb.get_vertex_by_name(wpos, sflags);
-		float w = 1.0;
-		if(glVars::csentence::concepts_in) w = it->get_weight();
-		if (aux) {
-		  ppv[u] = w;
-		  K +=w;
-		}
-	  }
-	}
-	if (K == 0.0) return false;
-	// Normalize PPV vector
-	float div = 1.0 / static_cast<float>(K);
-	for(vector<float>::iterator rit = ppv.begin(); rit != ppv.end(); ++rit)
-	  *rit *= div;
-
+	vector<float> pv;
+	int aux = cs_pv_vector_w(cs, pv, cs.end());
+	if (!aux) return false;
 	// Execute PageRank
-	kb.pageRank_ppv(ppv, res);
+	kb.pageRank_ppv(pv, res);
 	return true;
   }
 
@@ -528,7 +613,8 @@ namespace ukb {
   void calculate_kb_ppr_by_word_and_disamb(CSentence & cs) {
 
 	Kb & kb = ukb::Kb::instance();
-	bool aux;
+	vector<float> pv;
+	vector<float> ranks;
 
 	vector<CWord>::iterator cw_it = cs.begin();
 	vector<CWord>::iterator cw_end = cs.end();
@@ -537,44 +623,17 @@ namespace ukb {
 	  // Target word must be distinguished.
 	  if(!cw_it->is_distinguished()) continue;
 
-	  set<string> S;
-	  vector<float> ranks;
-	  // Initialize PPV vector
-	  vector<float> ppv(kb.size(), 0.0);
-	  float K = 0.0;
-	  // put ppv to the synsets of words except cw_it
-	  for(CSentence::const_iterator it = cs.begin(); it != cw_end; ++it) {
-		if(it == cw_it) continue;
-		unsigned char sflags = it->is_synset() ? Kb::is_concept : Kb::is_word;
-		string wpos = it->word();
-
-		set<string>::iterator aux_set;
-		tie(aux_set, aux) = S.insert(wpos);
-		if (aux) {
-		  Kb_vertex_t u;
-		  tie(u, aux) = kb.get_vertex_by_name(wpos, sflags);
-		  float w =  1.0;
-		  if(glVars::csentence::concepts_in) w = it->get_weight();
-		  if (aux) {
-			ppv[u] = w;
-			K +=w;
-		  }
-		}
-	  }
-	  if (K == 0.0) continue;
-	  // Normalize PPV vector
-	  float div = 1.0 / static_cast<float>(K);
-	  for(vector<float>::iterator rit = ppv.begin(); rit != ppv.end(); ++rit)
-		*rit *= div;
-
+	  int aux = cs_pv_vector_w(cs, pv, cw_it);
 	  // Execute PageRank
-	  kb.pageRank_ppv(ppv, ranks);
-	  // disambiguate cw_it
-	  if (glVars::csentence::disamb_minus_static) {
-		struct va2vb newrank(ranks, kb.static_prank());
-		cw_it->rank_synsets(kb, newrank);
-	  } else {
-		cw_it->rank_synsets(kb, ranks);
+	  if (aux) {
+		kb.pageRank_ppv(pv, ranks);
+		// disambiguate cw_it
+		if (glVars::csentence::disamb_minus_static) {
+		  struct va2vb newrank(ranks, kb.static_prank());
+		  cw_it->rank_synsets(newrank);
+		} else {
+		  cw_it->rank_synsets(ranks);
+		}
 	  }
 	  cw_it->disamb_cword();
 	}
@@ -639,9 +698,9 @@ namespace ukb {
 	  if (!cw_it->is_distinguished()) continue;
 	  if (glVars::csentence::disamb_minus_static) {
 		struct va2vb newrank(ranks, kb.static_prank());
-		cw_it->rank_synsets(kb, newrank);
+		cw_it->rank_synsets(newrank);
 	  } else {
-		cw_it->rank_synsets(kb, ranks);
+		cw_it->rank_synsets(ranks);
 	  }
 	  cw_it->disamb_cword();
 	}

@@ -1,10 +1,12 @@
 #include "globalVars.h"
 #include "common.h"
+#include "version.h"
 #include <iostream>
 #include <ctime>
 
-#ifdef UKB_VER
-#define UKB_VERSION UKB_VER
+
+#ifdef UKB_UKB_VERSION
+#define UKB_VERSION UKB_UKB_VERSION
 #else
 #define UKB_VERSION "unknown"
 #endif
@@ -26,8 +28,13 @@ namespace ukb {
 	boost::mt19937 rand_generator(static_cast<unsigned int>(std::time(0)));
 
 	namespace csentence {
-	  bool concepts_in = false;
+	  bool pv_no_weight = false;
+	  bool concepts_in = true;
 	  bool disamb_minus_static = false;
+	}
+
+	namespace dict {
+	  bool use_weight = false; // Use weights when linking words to concepts
 	}
 
 	namespace chsq {
@@ -39,6 +46,7 @@ namespace ukb {
 	  bool use_weight = false;
 	  size_t num_iterations = 30; // Conservative, but stop if threshold is reached. If zero, just use threshold.
 	  float threshold = 0.0001; // If zero just use num_iterations
+	  float damping = 0.85; // damping factor
 	}
 
 	namespace input {
@@ -48,6 +56,7 @@ namespace ukb {
 	namespace output {
 	  bool allranks = false;
 	  bool monosemous = true;
+	  bool ties = false;
 	}
 
 

@@ -55,7 +55,7 @@ void disambiguator::analyze(std::list<sentence> & ls) const {
       
       if ((pos == 'a') || (pos == 'n') || (pos == 'r') || (pos == 'v')) {
 	const string & w_id = "" + id_numb;
-	CWord new_cw(w->get_lemma(), w_id, pos, true);
+	CWord new_cw(w->get_lemma(), w_id, pos, CWord::cwtoken, 1.0);
 	cs.push_back(new_cw);
 	lwctx.push_back(w);
       }
