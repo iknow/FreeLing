@@ -84,7 +84,7 @@ int main() {
   while (im != m.end()) {
     cout << (im->first);
     for (list<string>::iterator lsi = (im->second).begin(); lsi != (im->second).end(); lsi++) {
-      cout << " " << (*lsi);
+      cout << " " << (*lsi) << ":0";
     }
     cout << endl;
     
