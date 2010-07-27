@@ -10,9 +10,9 @@
 \begin{titlepage}
 \vspace*{7cm}
 \begin{center}
-{\Large FreeLing User Manual\\[1ex]\large 2.1}\\
+{\Large FreeLing User Manual\\[1ex]\large 2.2}\\
 \vspace*{1cm}
-{\small June 2009}\\
+{\small July 2010}\\
 \end{center}
 \end{titlepage}
 
@@ -60,29 +60,33 @@ can call the library.
 %..................................................
 \section{What is NOT FreeLing}
 
-FreeLing is not a user-oriented text analysis tool. That is, it is not designed
-to be user friendly, or to output results with a cute image, or in a certain format.
+FreeLing is not a user-oriented text analysis tool. That is, it is not
+designed to be user friendly, or to output results with a cute image,
+or in a certain format.
 
-FreeLing results are linguistic analysis in a data structure. Each end-user application
-(e.g. anything from a machine translation system to a syntactic-tree drawing interface)
-can access those data and process them as needed.
+FreeLing results are linguistic analysis in a data structure. Each
+end-user application (e.g. anything from a machine translation system
+to a syntactic-tree drawing interface) can access those data and
+process them as needed.
 
 Nevertheless, FreeLing package provides a quite complete application
 program ({\tt analyzer}) that enables an end user to obtain the
 analysis of a text. See chapter \ref{cap-analyzer} for details.
 
-This program offers a set of options that cover almost all FreeLing capabilities. Nevertheless,
-much more advantadge can be taken of FreeLing, and more information can be accessed if you 
-call FreeLing from your own application program as described above.
+This program offers a set of options that cover almost all FreeLing
+capabilities. Nevertheless, much more advantadge can be taken of
+FreeLing, and more information can be accessed if you call FreeLing
+from your own application program as described above.
 
 %..................................................
 \section{Supported Languages}
 
-The distributed version supports (to different extents)
-English, Spanish, Catalan, Galician, Italian, Portuguese, and Welsch.
+The distributed version supports (to different extents) English,
+Spanish, Catalan, Galician, Italian, Portuguese, Asturian and Welsch.
 
 See the {\tt Linguistic Data} section on FreeLing webpage to find out
-about the size of the morphological dictionaries and the source of their data.
+about the size of the morphological dictionaries and the source of
+their data.
 
  FreeLing also includes WordNet-based sense dictionaries for some of
 the covered languages, as well as some knowledge extracted from
@@ -92,8 +96,11 @@ WordNet, such as semantic file codes, or hypernymy relationships.
      and therefore is distributed under the terms of WN license, as is all 
      knowledge extracted from WN contained in thos package. 
 
-   \item Catalan and Spanish sense dictionaries are extracted from EuroWordNet, and the
-     reduced subsets included in this FreeLing package are distributed under GPL.
+   \item Spanish sense dictionary is a reduced subset extracted from EuroWordNet, 
+        This subset, included in this FreeLing package, is distributed under GPL.
+
+   \item Catalan sense dictionary is extracted from CREL project, funded by the
+      Catalan government, and is distributed under GPL.
 
    See http://wordnet.princeton.edu for details on WordNet, \\
    and http://www.illc.uva.nl/EuroWordNet for more information on EuroWordNet.
@@ -103,9 +110,11 @@ WordNet, such as semantic file codes, or hypernymy relationships.
 %..................................................
 \section{License}
 
-\noindent FreeLing code is licensed under GNU General Public License (GPL). 
+\noindent FreeLing code is licensed under GNU General Public License
+(GPL).
   
-\noindent The linguistic data are licensed under diverse licenses, depending on their original sources.
+\noindent The linguistic data are licensed under diverse licenses,
+depending on their original sources.
 
 \noindent Find the details in the {\tt COPYING} file in the tarball, or in the
   {\tt License} section in FreeLing webpage.
@@ -713,11 +722,11 @@ class maco_options {
     /// from C++, the following methods are not necessary, but may become
     /// convenient sometimes.
     /// The order of the parameters is the same they are defined above.
-    void set_active_modules(bool,bool,bool,bool,bool,bool,bool,bool,int);
+    void set_active_modules(bool,bool,bool,bool,bool,bool,bool,bool,int,bool);
     void set_data_files(const std::string &,const std::string &,
                         const std::string &,const std::string &,
                         const std::string &,const std::string &,
-                        const std::string &);
+                        const std::string &,const std::string &);
     void set_nummerical_points(const std::string &,const std::string &);
     void set_threshold(double);
 \end{verbatim}
@@ -726,7 +735,7 @@ class maco_options {
   instantiate a {\tt maco\_options} object, initialize its fields with the desired values, 
   and use it to call the constructor of the {\tt maco} class.
 
-  The created object will create the required sumbodules, and when asked to {\tt analyze}
+  The created object will create the required submodules, and when asked to {\tt analyze}
  some sentences, it will just pass it down to each the submodule, and return the final result.
 
 %..................................................
@@ -1522,6 +1531,16 @@ The probabilities file has six sections:
    E.g. {\tt NCMS000 33438}
 \end{itemize}
 
+%..................................................
+\section{Ortographic Correction Module}
+\label{file-orto}
+
+  This module takes into account phonetic similarities and tries to provide analysis for words that would be otherwise treated as unknown words.
+
+  For instance, if a mispelled word such as {\em cavallo} is found, this module will find out that it sounds the same than a correct word in the dictionary ({\em caballo}), thus providing analysis for that otherwise unknown word.
+
+  This module is under development, and it is not operational yet.
+
 
 %..................................................
 \section{Sense Labelling Module}
@@ -1624,12 +1643,14 @@ class disambiguator {
     is a binary file containing pairs of related senses (WN synsets in
     this case). Relations are not labelled nor directed.
 
-    This file is created from the plain file
-    \verb#data/common/wn16-ukb.src# by FreeLing installation scripts.
+    This file is created from the plain files (extracted from UKB package)
+    \verb#data/common/wnet30-rels.txt# and  \verb#data/common/wnet30g-rels.txt# 
+    by FreeLing installation scripts.
     You can re-create it (or create a new one using a different
-    relation set) with the following command:
+    relation set) with the following commands:
 \begin{verbatim}
-   compile_ukb $FLSHARE/common/wn16-ukb.src $FLSHARE/common/wn16-ukb.bin
+   compile_ukb -o $FLSHARE/common/wn30-ukb.bin $FLSHARE/common/wnet30-rels.txt 
+   compile_ukb -o $FLSHARE/common/xwn30-ukb.bin $FLSHARE/common/wnet30-rels.txt $FLSHARE/common/wnet30g-rels.txt
 \end{verbatim}
     (\verb#$FLSHARE# refers to the \verb#share/FreeLing# directory in
 your FreeLing installation, which defaults to
@@ -1648,7 +1669,7 @@ You can change this environment variable to use different linguistic data files.
       You can re-create this file (or use any other sense dictionary
     with the right format) with the command (paths may differ):
 \begin{verbatim}
-  convertdict <$FLSHARE/es/senses16.src >$FLSHARE/es/senses16.ukb
+  convertdict <$FLSHARE/es/senses30.src >$FLSHARE/es/senses30.ukb
 \end{verbatim}
     (\verb#$FLSHARE# refers to the \verb#share/FreeLing# directory in your
     FreeLing installation, which defaults to \verb#/usr/local/share/FreeLing#
@@ -1675,7 +1696,7 @@ You can change this environment variable to use different linguistic data files.
 
   The second module, named {\tt relax\_tagger}, is a hybrid system capable to integrate statistical and hand-coded knowledge, following \cite{padro98a}.
 
-  The {\tt hmm\_tagger} module is somewhat faster than {\tt relax\_tagger} but slightly less accurate (specially if you use manual constraints with the later). Its API is the following:
+  The {\tt hmm\_tagger} module is somewhat faster than {\tt relax\_tagger}, but the later allows you to add manual constraints to the model. Its API is the following:
 \begin{verbatim}
 class hmm_tagger: public POS_tagger {
    public:
@@ -1700,7 +1721,7 @@ class hmm_tagger: public POS_tagger {
 \end{itemize}
 
 
-  The {\tt relax\_tagger} module has a higher precision, and can be tuned with hand written constraint, but is about 1.5 or 2 times slower than {\tt hmm\_tagger}.
+  The {\tt relax\_tagger} module can be tuned with hand written constraint, but is about 2 times slower than {\tt hmm\_tagger}.
 \begin{verbatim}
 class relax_tagger : public POS_tagger {
    public:
@@ -2963,7 +2984,7 @@ int main() {
   opt.PunctuationDetection = true; opt.DatesDetection = true; opt.QuantitiesDetection = false; 
   opt.DictionarySearch = true; opt.ProbabilityAssignment = true; opt.NERecognition = NER_BASIC;   
   // alternatively, you can set active modules in a single call:
-  //     opt.set_active_modules(true, true, true, true, true, false, true, true, NER_BASIC);
+  //     opt.set_active_modules(true, true, true, true, true, false, true, true, NER_BASIC, false);
 
   // and provide files for morphological submodules. Note that it is not necessary
   // to set opt.QuantitiesFile, since Quantities module was deactivated.
@@ -2973,7 +2994,7 @@ int main() {
   // alternatively, you can set the files in a single call:
   //  opt.set_data_files(path+"locucions.dat", "", path+"afixos.dat", 
   //                     path+"probabilitats.dat", path+"maco.db", 
-  //                     path+"np.dat", path+"../common/punct.dat");
+  //                     path+"np.dat", path+"../common/punct.dat", "");
   
   // create the analyzer with the just build set of maco_options
   maco morfo(opt); 
@@ -3078,7 +3099,7 @@ void ProcessResults(const list<sentence> &ls) {
 
  Once you have compiled and installed FreeLing, you can build this
  sample program (or any other you may want to write) with the command:\\
- {\tt g++ -o sample sample.cc -lmorfo -ldb\_cxx -lpcre -lomlet -fries}
+ {\tt g++ -o sample sample.cc -lmorfo -ldb\_cxx -lpcre -lomlet -fries -lboost\_filesystem}
 
  Check the README file in the directory to learn more about compiling and using
  the sample programs.
