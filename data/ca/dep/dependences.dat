@@ -3298,8 +3298,8 @@
 
 
 <SEMDB>
-SenseFile  /usr/local/share/FreeLing/ca/senses16.db
-WNFile  /usr/local/share/FreeLing/common/wn16.db
+SenseFile  /usr/local/share/FreeLing/ca/senses30.db
+WNFile  /usr/local/share/FreeLing/common/wn30.db
 </SEMDB>
 
 
