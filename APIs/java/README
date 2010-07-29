@@ -22,39 +22,24 @@
                   (probably /usr/local if you compiled the libraries, or /usr if 
                    you installed them from distribution packages)
        SWIG_DIR = directory where swig share files are installed in your system
-                  (e.g. /usr/local/share/swig/1.3.29)
+                  (e.g. /usr/local/share/swig/1.3)
 
-   2. Check if your swig version includes "std_list.i" template for java 
-       (it should be in $SWIG_DIR/java/std_list.i)
-      If the file is not included, copy the std_list.i provided here to
-      the directory $SWIG_DIR/java 
+   2. issue 'make' to build the java API
 
-   3. Copy the std_string.i provided in this directory to 
-      $SWIG_DIR/java in your swig installation, overwriting the 
-      original file installed by swig.
+   3.  Make sure that the directory contanining libmorfo.so
+       ($FREELING_DIR/lib) is in your LD_LIBRARY_PATH.  Make sure that
+       the directory contanining libmorfo_java.so (just created by
+       make) is in your LD_LIBRARY_PATH.
 
-       **WARNING**    If you use swig to generate java APIs for libraries 
-       **WARNING**    other than FreeLing, you probably want to keep the
-       **WARNING**    original swig configuration, so, make sure to backup
-       **WARNING**    the original std_string.i for java before overwriting 
-       **WARNING**    it with the version provided here.
-
-       ***** IMPORTANT WARNING ****   The modifications to swig file std_string.i
-       ***** IMPORTANT WARNING ****   provided here are experimental.
-       ***** IMPORTANT WARNING ****   Use them to your own risk. Report errors, please.
-
-   4. issue 'make' to build the java API
-
-   5.  Make sure that the directory contanining libmorfo.so ($FREELING_DIR/lib) is in your LD_LIBRARY_PATH.
-       Make sure that the directory contanining libmorfo_java.so (just created by make) is in your LD_LIBRARY_PATH.
-
-   6.  Make sure that the path to package "libmorfo_java.jar" created by make is in your CLASSPATH
+   4.  Make sure that the path to package "libmorfo_java.jar" created
+       by make is in your CLASSPATH
  
-   7.  compile and execute the sample program: 
+   5.  compile and execute the sample program: 
          javac analyzer.java
          java analyzer
 
-   See FreeLing documentation and sample programs in src/main to understand what this sample program is doing.
+   See FreeLing documentation and sample programs in src/main to
+   understand what this sample program is doing.
 
 
    NOTES
