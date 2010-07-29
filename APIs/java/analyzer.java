@@ -29,13 +29,13 @@ public class analyzer {
         chart_parser parser = new chart_parser(DATA+LANG+"/grammar-dep.dat");
         dep_txala dep = new dep_txala(DATA+LANG+"/dep/dependences.dat", parser.get_start_symbol());
 
-	disambiguator dis = new disambiguator(DATA+"common/wn16-ukb.bin",DATA+LANG+"/senses16.ukb",0.03,10);
+	disambiguator dis = new disambiguator(DATA+"common/xwn30-ukb.bin",DATA+LANG+"/senses30.ukb",0.03,10);
 	// Instead of a "disambiguator", you can use a "senses" object, that simply
         // gives all possible WN senses, sorted by frequency.
 	// senses sen = new senses(DATA+LANG+"/senses16.db",false);
 
-	BufferedReader input = new BufferedReader(new InputStreamReader(System.in, "iso-8859-15"));
-	// BufferedReader input = new BufferedReader(new InputStreamReader(System.in,"utf-8"));
+        // make sure the encoding matches your input text (utf-8, iso-8859-15, ...)
+	BufferedReader input = new BufferedReader(new InputStreamReader(System.in,"utf-8"));
         String line = input.readLine();
         while (line != null) {
 
