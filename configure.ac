@@ -59,12 +59,12 @@ AC_CHECK_HEADERS([db_cxx.h],[],[echo "" && echo "   db_cxx.h not found." &&
                       echo "   or the like) are installed and can be found in a standard path." &&
                       echo "   You may need to set CPPFLAGS to specify search path." &&
                       echo "" && exit])
-AC_CHECK_HEADERS([boost/version.hpp],[],[echo "" && echo "   boost/version.hpp not found." &&
+AC_CHECK_HEADERS([boost/filesystem.hpp],[],[echo "" && echo "   boost/filesystem.hpp not found." &&
                       echo "   Make sure libboost headers (package libboost-dev or the like)" &&
                       echo "   installed and can be found in a standard path." &&
                       echo "   You may need to set CPPFLAGS to specify search path." &&
                       echo "" && exit])
-AC_CHECK_HEADERS([boost/graph/graphviz.hpp],[],[echo "" && echo "   boost/graph not found." &&
+AC_CHECK_HEADERS([boost/program_options.hpp],[],[echo "" && echo "   boost/program_options.hpp not found." &&
                       echo "   Make sure libboost headers (package libboost-dev or the like)" &&
                       echo "   are installed and can be found in a standard path." &&
                       echo "   You may need to set CPPFLAGS to specify search path." &&
@@ -105,6 +105,19 @@ AC_CHECK_LIB([boost_filesystem],[main],
                                  [echo "" &&
                                   echo "   boost_filesystem library not found." &&
                                   echo "   Make sure libboost_filesystem is" &&
+                                  echo "   installed and can be found in a standard path." &&
+                                  echo "   You may need to set LDFLAGS to specify search path." &&
+                                  echo "" && exit])))
+
+AC_CHECK_LIB([boost_program_options],[main],
+                      [echo "OK">/dev/null;],
+                      AC_CHECK_LIB([boost_program_options-mt],[main],
+                           [echo "OK">/dev/null;AM_CONDITIONAL([BOOST_MT],[test 1 = 1])],
+			   AC_CHECK_LIB([boost_program_options-gcc-mt],[main],
+                                 [echo "OK">/dev/null;AM_CONDITIONAL([BOOST_GCC],[test 1 = 1])],
+                                 [echo "" &&
+                                  echo "   boost_program_options library not found." &&
+                                  echo "   Make sure libboost_program_options is" &&
                                   echo "   installed and can be found in a standard path." &&
                                   echo "   You may need to set LDFLAGS to specify search path." &&
                                   echo "" && exit])))
