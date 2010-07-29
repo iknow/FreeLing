@@ -14,7 +14,7 @@
 
 %{
 #include <string>
-#include "ustring.h"
+#include "iso2utf.h"
 %}
 
 namespace std {
@@ -38,11 +38,8 @@ class string;
     const char *$1_pstr = (const char *)jenv->GetStringUTFChars($input, 0); 
     if (!$1_pstr) return $null;
 
-    std::string $1_utf_str = std::string($1_pstr);
+    $1 = utf8toLatin ($1_pstr);
     jenv->ReleaseStringUTFChars($input, $1_pstr); 
-
-    lyc::UTF_to_ISO_String $1_str;  $1_str=$1_utf_str;
-    $1 = std::string($1_str.c_str()); 
 %}
 
 %typemap(directorout) string 
@@ -53,21 +50,18 @@ class string;
    const char *$1_pstr = (const char *)jenv->GetStringUTFChars($input, 0); 
    if (!$1_pstr) return $null;
 
-   std::string $1_utf_str = std::string($1_pstr);
+   $1 = utf8toLatin ($1_pstr);
    jenv->ReleaseStringUTFChars($input, $1_pstr);
-
-   lyc::UTF_to_ISO_String $1_str;  $1_str=$1_utf_str;
-   $1 = std::string($1_str.c_str()); 
 %}
 
 %typemap(directorin,descriptor="Ljava/lang/String;") string 
 %{ std::string $1_utf_str = jenv->NewStringUTF($1.c_str());
-   lyc::UTF_to_ISO_String $1_str;  $1_str=$1_utf_str;
-   $input = std::string($1_str.c_str()); 
+   $input = utf8toLatin($1_utf_str.c_str())
 %}
 
 %typemap(out) string 
-%{ lyc::ISO_to_UTF_String $1_str;  $1_str=$1;
+%{
+   std::string $1_str = Latin1toUTF8 ($1.c_str());
    $result = jenv->NewStringUTF($1_str.c_str());
 %}
 
@@ -98,11 +92,9 @@ class string;
    const char *$1_pstr = (const char *)jenv->GetStringUTFChars($input, 0); 
    if (!$1_pstr) return $null;
 
-   std::string $1_utf_str($1_pstr);
+   std::string $1_ref = utf8toLatin($1_pstr);
    jenv->ReleaseStringUTFChars($input, $1_pstr);
 
-   lyc::UTF_to_ISO_String $1_str;  $1_str=$1_utf_str;
-   std::string $1_ref = std::string($1_str.c_str());
    $1 = &$1_ref;
 %}
 
@@ -116,24 +108,22 @@ class string;
    const char *$1_pstr = (const char *)jenv->GetStringUTFChars($input, 0); 
    if (!$1_pstr) return $null;
 
-   /* possible thread/reentrant code problem */
-   static std::string $1_utf_str($1_pstr);
+   std::string $1_ref = utf8toLatin($1_pstr);
    jenv->ReleaseStringUTFChars($input, $1_pstr);
 
-   lyc::UTF_to_ISO_String $1_str;  $1_str=$1_utf_str;
-   std::string $1_ref = std::string($1_str.c_str());
    $1 = &$1_ref;
 %}
 
 
 %typemap(directorin,descriptor="Ljava/lang/String;") const string &
-%{ std::string $1_utf_str = jenv->NewStringUTF($1.c_str());
-   lyc::UTF_to_ISO_String $1_str;  $1_str=$1_utf_str;
-   $input = std::string($1_str.c_str());
+%{ 
+   std::string $1_utf_str = jenv->NewStringUTF($1.c_str());
+   $input = utf8toLatin($1_utf_str.c_str())
 %}
 
 %typemap(out) const string & 
-%{ lyc::ISO_to_UTF_String $1_str;  $1_str=(*$1);
+%{ 
+   std::string $1_str = Latin1toUTF8($1->c_str());
    $result = jenv->NewStringUTF($1_str.c_str());
 %}
 
