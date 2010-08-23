@@ -24,6 +24,8 @@ canecdatadir = $(pkgdatadir)/ca/nec
 canecdata_DATA = ca/nec/*
 cadepdatadir = $(pkgdatadir)/ca/dep
 cadepdata_DATA = ca/dep/*
+cacorefdatadir = $(pkgdatadir)/ca/coref
+cacorefdata_DATA = ca/coref/*
 
 gldatadir = $(pkgdatadir)/gl
 gldata_DATA = gl/*.*
