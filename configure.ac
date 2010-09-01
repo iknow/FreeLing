@@ -64,11 +64,6 @@ AC_CHECK_HEADERS([boost/filesystem.hpp],[],[echo "" && echo "   boost/filesystem
                       echo "   installed and can be found in a standard path." &&
                       echo "   You may need to set CPPFLAGS to specify search path." &&
                       echo "" && exit])
-AC_CHECK_HEADERS([boost/program_options.hpp],[],[echo "" && echo "   boost/program_options.hpp not found." &&
-                      echo "   Make sure libboost headers (package libboost-dev or the like)" &&
-                      echo "   are installed and can be found in a standard path." &&
-                      echo "   You may need to set CPPFLAGS to specify search path." &&
-                      echo "" && exit])
 AC_CHECK_HEADERS([omlet.h],[],[echo "" && echo "   omlet.h not found." &&
                       echo "   Make sure libomlet headers are installed" &&
                       echo "   and can be found in a standard path." &&
@@ -105,19 +100,6 @@ AC_CHECK_LIB([boost_filesystem],[main],
                                  [echo "" &&
                                   echo "   boost_filesystem library not found." &&
                                   echo "   Make sure libboost_filesystem is" &&
-                                  echo "   installed and can be found in a standard path." &&
-                                  echo "   You may need to set LDFLAGS to specify search path." &&
-                                  echo "" && exit])))
-
-AC_CHECK_LIB([boost_program_options],[main],
-                      [echo "OK">/dev/null;],
-                      AC_CHECK_LIB([boost_program_options-mt],[main],
-                           [echo "OK">/dev/null;AM_CONDITIONAL([BOOST_MT],[test 1 = 1])],
-			   AC_CHECK_LIB([boost_program_options-gcc-mt],[main],
-                                 [echo "OK">/dev/null;AM_CONDITIONAL([BOOST_GCC],[test 1 = 1])],
-                                 [echo "" &&
-                                  echo "   boost_program_options library not found." &&
-                                  echo "   Make sure libboost_program_options is" &&
                                   echo "   installed and can be found in a standard path." &&
                                   echo "   You may need to set LDFLAGS to specify search path." &&
                                   echo "" && exit])))
