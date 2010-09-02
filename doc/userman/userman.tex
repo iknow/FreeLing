@@ -856,30 +856,44 @@ class dictionary {
    The parameters of the constructor are:
 \begin{itemize}
  \item The language of the processed text. This is required by the affixation submodule to properly handle graphical accents in latin languages.
- \item The dictionary file name. This must be a BerkeleyDB--indexed file. See below for details.
+ \item The dictionary file name. This may be a BerkeleyDB--indexed file (with extension {\tt .db} or either a plain text file (with extension {\tt .src}). See below for details.
  \item A boolean stating whether affixation analysis has to be applied.
  \item The affixation rules file name (it may be an empty string if the boolean above is set to false) 
  \end{itemize}
 
 \subsection{Form Dictionary File}
  
-   The form dictionary is a BerkeleyDB--indexed file.
+  The form dictionary is either a plain text file, or a
+  BerkeleyDB--indexed file. 
+  The dictionary module relies on the
+  extension to decide which format to expect ({\tt .src} for plain
+  text, {\tt .db} for indexed files)
 
-  It can be created with the {\tt indexdict} program provided with
-  FreeLing, which is called with the command:
+  The plain text dictionary file ({\tt .src}) format is described below.
+  This file can be directly passed to the constructor of the dictionary search module.
+
+  Indexed Berkeley-DB files ({\tt .db}) may be created with the {\tt indexdict} 
+  program provided with FreeLing, which is called with the command:
   \begin{verbatim}
-   indexdict indexed-dict-name  <source-dict 
+   indexdict indexed-dict-name.db  <source-dict.src 
   \end{verbatim}
+  Where {\tt source-dict.src} is a plain text dictionary, and {\tt
+  indexed-dict-name.db} is the resulting indexed file, which can be
+  directly passed to the constructor of the dictionary search module.
+
   See the (very simple) source code in {\tt src/main/utilities/indexdict.cc}
- if you're interested on how it is indexed.
+  if you're interested on how it is indexed.
 
-  The {\tt source-dict} file must have the lemma--PoS list for a word
-  form at each line.
+\subsubsection{Format for {\tt .src} dictionary files}
 
-  Each line has format: {\tt form lemma1 PoS1 lemma2 PoS2 ...}.  \\
-  E.g.:\\
-  \verb#casa casa NCFS000 casar VMIP3S0 casar VMM02S0# \\
+  Each line in the file must have the lemma--PoS list for one word.
+  That is, each line has the format: {\tt form lemma1 PoS1 lemma2 PoS2 ...}. \\ 
+  E.g.:\\ 
+  \verb#casa casa NCFS000 casar VMIP3S0 casar VMM02S0#\\
   \verb#backs back NNS back VBZ#
+
+  Whitespaces act as separators, so, make sure not to have extra
+  whitespaces between fields or at the end of the line.
 
   Lines corresponding to words that are contractions may have an
   alternative format if the contraction is to be splitted. The format
