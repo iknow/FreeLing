@@ -12,7 +12,7 @@
 \begin{center}
 {\Large FreeLing User Manual\\[1ex]\large 2.2}\\
 \vspace*{1cm}
-{\small July 2010}\\
+{\small September 2010}\\
 \end{center}
 \end{titlepage}
 
@@ -301,7 +301,6 @@ In Ubuntu Hardy packages are organized slightly different:
 \begin{verbatim}
  sudo apt-get install libboost-filesystem-dev libboost-program-options-dev libboost-graph-dev
 \end{verbatim}
-\end{list}
 
 In Ubuntu Lucid, you need to install:
 \begin{verbatim}
@@ -319,9 +318,7 @@ In Ubuntu Lucid, you need to install:
   installation instructions in the source packages for those
   libraries. All of them use the standard {\tt ./configure \&\& make \&\&
     make install} procedure. In the case of BerkeleyDB, you have to
-  build C++ support using the {\tt --enable-cxx} option with {\tt
-    ./configure}.
-
+  build C++ support using the {\tt --enable-cxx} option with {\tt ./configure}.
 
 
 \item {\bf Install FreeLing}
@@ -863,7 +860,7 @@ class dictionary {
    The parameters of the constructor are:
 \begin{itemize}
  \item The language of the processed text. This is required by the affixation submodule to properly handle graphical accents in latin languages.
- \item The dictionary file name. This may be a BerkeleyDB--indexed file (with extension {\tt .db} or either a plain text file (with extension {\tt .src}). See below for details.
+ \item The dictionary file name. This may be a BerkeleyDB--indexed file (with extension {\tt .db}) or either a plain text file (with extension {\tt .src}). See below for details.
  \item A boolean stating whether affixation analysis has to be applied.
  \item The affixation rules file name (it may be an empty string if the boolean above is set to false) 
  \end{itemize}
@@ -896,19 +893,20 @@ class dictionary {
   Each line in the file must have the lemma--PoS list for one word.
   That is, each line has the format: {\tt form lemma1 PoS1 lemma2 PoS2 ...}. \\ 
   E.g.:\\ 
-  \verb#casa casa NCFS000 casar VMIP3S0 casar VMM02S0#\\
-  \verb#backs back NNS back VBZ#
+  \verb#  casa casa NCFS000 casar VMIP3S0 casar VMM02S0#\\
+  \verb#  backs back NNS back VBZ#
 
-  Whitespaces act as separators, so, make sure not to have extra
+  \noindent Whitespaces act as separators, so, make sure not to have extra
   whitespaces between fields or at the end of the line.
+  \smallskip
 
   Lines corresponding to words that are contractions may have an
   alternative format if the contraction is to be splitted. The format
-  is  {\tt form form1+form2+... PoS1+PoS2+...}. \\
+  is: {\tt form form1+form2+... PoS1+PoS2+...}. \\
   For instance:\\
-  \verb#del de+el SPS+DA#
+  \verb#  del de+el SPS+DA#
   
-  This line expresses that whenever the form {\sl del} is found, it is
+  \noindent This line expresses that whenever the form {\sl del} is found, it is
   replaced with two words:  {\sl de} and {\sl el}. Each of the new two
   word forms are searched in the dictionary, and assigned any tag
   matching their correspondig tag in the third field. So, {\sl de}
@@ -920,15 +918,17 @@ class dictionary {
   corresponding to different forms (e.g. {\tt he's = he+is | he+has}),
   so only a combination of forms and a combination of tags may appear
   in the dictionary.
+  \smallskip
 
-   Nevertheless, a set of tags may be specified for a given form, e.g.:\\
-  \verb#he'd he+'d PRP+VB/MD#
+   \noindent Nevertheless, a set of tags may be specified for a given form, e.g.:\\
+  \verb#  he'd he+'d PRP+VB/MD#
 
-   This will produce two words: {\sl he} with {\tt PRP} analysis, and
+   \noindent This will produce two words: {\sl he} with {\tt PRP} analysis, and
    {\sl 'd} with its analysis matching any of the two given tags
    (i.e. {\tt have\_VBZ} and {\tt would\_MD}).  Note that this will
    work only if the form {\sl 'd} is found in the dictionary with
    those possible analysis.
+   \smallskip
 
    If all tags for one of the new forms are to be used, a wildcard may
    be written as a tag. E.g.:\\
