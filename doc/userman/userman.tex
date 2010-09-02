@@ -200,7 +200,7 @@ depending on their original sources.
        \item Slackware: {\tt boost }
        \end{list}
 
-     \item {\tt Omlet \& Fries} (omlet v.1.0 or higher, fries v.1.1 or higher)\\
+     \item {\tt Omlet \& Fries} (omlet v.1.0.1 or higher, fries v.1.2 or higher)\\
         Machine Learning utility libraries, used by Named Entity Classifier.
         These libraries contain linguistic data structures, so they are
         required even if you do not plan to use the NEC ability of FreeLing.
@@ -226,13 +226,14 @@ This installation procedure is the fastest and easiest.
 If you do not plan to modify the code, this is the option you should take.
 
 The provided packages will only work on debian-based distributions. 
-They have been tested in Ubuntu (8.04 Hardy, 8.10 Intrepid, 9.04 Jaunty) and Debian (5.0.2 Lenny).
+They have been tested in Ubuntu (8.04 Hardy, 8.10 Intrepid, 9.04 Jaunty, 9.10 Karmic, 10.04 Lucid) and Debian (5.0.5 Lenny).
 
-The installation procedure for these distributions (will probably work for other debian-based distros) is the following:
+ To install the package, just double-click on the package file should launch the debian installer, which will take care of the dependencies.
 
+ If that doesn't work, you can install it manually:
 \begin{verbatim}
   sudo apt-get install libdb4.6++ libpcre3 libboost-filesystem1.34.1
-  sudo dpkg -i FreeLing-2.1.deb
+  sudo dpkg -i FreeLing-2.2.deb
 \end{verbatim}
 
   In the case of Debian, the above commands must be issued as root and without {\tt sudo}.
@@ -291,14 +292,20 @@ Just open your favorite software package manager and install them.
 \end{verbatim}
 
 \item {\sl Install libboost headers and binaries:}\\ 
-In Ubuntu Intrepid, Ubuntu Jaunty, and Debian Lenny, installing this single package, will pull in all the required others:
+In Ubuntu Intrepid/Jaunty/Karmic, and Debian Lenny, installing this single package, will pull in all the required others:
 \begin{verbatim}
  sudo apt-get install libboost-dev
 \end{verbatim}
 
 In Ubuntu Hardy packages are organized slightly different:
 \begin{verbatim}
- sudo apt-get install libboost-filesystem-dev libboost-graph-dev
+ sudo apt-get install libboost-filesystem-dev libboost-program-options-dev libboost-graph-dev
+\end{verbatim}
+\end{list}
+
+In Ubuntu Lucid, you need to install:
+\begin{verbatim}
+ sudo apt-get install  libboost-filesystem1.40-dev libboost-program-options1.40-dev
 \end{verbatim}
 \end{list}
 
@@ -322,7 +329,7 @@ In Ubuntu Hardy packages are organized slightly different:
 \begin{list}{\labelitemi}{\leftmargin=1em}
 \item {\sl Install libfries:}
 \begin{verbatim}
-  tar xzvf libfries-1.1.tar.gz
+  tar xzvf libfries-1.2.tar.gz
   ./configure
   make
   sudo make install
@@ -330,7 +337,7 @@ In Ubuntu Hardy packages are organized slightly different:
 
 \item {\sl Install libomlet:}
 \begin{verbatim}
-  tar xzvf libomlet-1.0.tar.gz
+  tar xzvf libomlet-1.0.1.tar.gz
   ./configure
   make
   sudo make install
@@ -340,7 +347,7 @@ In Ubuntu Hardy packages are organized slightly different:
 
 \item {\sl Install FreeLing itself:}
 \begin{verbatim}
-  tar xzvf FreeLing-2.1.tar.gz
+  tar xzvf FreeLing-2.2.tar.gz
   ./configure
   make
   sudo make install
