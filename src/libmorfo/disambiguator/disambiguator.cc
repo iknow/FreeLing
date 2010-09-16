@@ -88,8 +88,7 @@ void disambiguator::analyze(std::list<sentence> & ls) const {
       if (pos=='j') pos='a';
       
       if ((pos == 'a') || (pos == 'n') || (pos == 'r') || (pos == 'v')) {
-	const string & w_id = "" + id_numb;
-	CWord new_cw(w->get_lemma(), w_id, pos, CWord::cwdist);
+	CWord new_cw(w->get_lemma(), util::int2string(id_numb), pos, CWord::cwdist);
 	cs.push_back(new_cw);
 	lwctx.push_back(w);
       }
