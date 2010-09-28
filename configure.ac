@@ -54,11 +54,13 @@ AC_CHECK_HEADERS([pcre.h],[],[echo "" && echo "   pcre.h not found." &&
                       echo "   are installed and can be found in a standard path." &&
                       echo "   You may need to set CPPFLAGS to specify search path." &&
                       echo "" && exit])
-AC_CHECK_HEADERS([db_cxx.h],[],[echo "" && echo "   db_cxx.h not found." &&
+AS_IF([test "x$enable_libDB" != "xno"], [
+  AC_CHECK_HEADERS([db_cxx.h],[],[echo "" && echo "   db_cxx.h not found." &&
                       echo "   Make sure BerkeleyDB headers for C++ (package libdb4.6++-dev" &&
                       echo "   or the like) are installed and can be found in a standard path." &&
                       echo "   You may need to set CPPFLAGS to specify search path." &&
                       echo "" && exit])
+])
 AC_CHECK_HEADERS([boost/filesystem.hpp],[],[echo "" && echo "   boost/filesystem.hpp not found." &&
                       echo "   Make sure libboost headers (package libboost-dev or the like)" &&
                       echo "   installed and can be found in a standard path." &&
@@ -87,13 +89,14 @@ AC_CHECK_LIB([pcre],[main],[echo "OK">/dev/null],[echo "" &&
                       echo "   is installed and can be found in a standard path." &&
                       echo "   You may need to set LDFLAGS to specify search path." &&
                       echo "" && exit])
-AC_CHECK_LIB([db_cxx],[main],[echo "OK">/dev/null],[echo "" &&
+AS_IF([test "x$enable_libDB" != "xno"], [
+  AC_CHECK_LIB([db_cxx],[main],[echo "OK">/dev/null],[echo "" &&
                       echo "   db library not found." &&
                       echo "   Make sure Berkeley DB for C++ (package libdb4.6++, libdb_cxx" &&
                       echo "   or the like) is installed and can be found in a standard path." &&
                       echo "   You may need to set LDFLAGS to specify search path." &&
                       echo "" && exit])
-
+])
 AM_CONDITIONAL([BOOST_MT],[test 1 = 0]) 
 AM_CONDITIONAL([BOOST_GCC],[test 1 = 0])
 AC_CHECK_LIB([boost_filesystem],[main],
