@@ -9,8 +9,10 @@ if BOOST_GCC
  MT="-gcc-mt"
 endif
 
-indexdict_SOURCES = indexdict.cc
-indexdict_LDADD = -ldb_cxx
+if USE_LIBDB
+ indexdict_SOURCES = indexdict.cc
+ indexdict_LDADD = -ldb_cxx
+endif
 
 convertdict_SOURCES = convertdict.cc
 convertdict_LDADD = -lfries -lpcre
