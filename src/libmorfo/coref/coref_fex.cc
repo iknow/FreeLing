@@ -248,7 +248,7 @@ int coref_fex::get_j_pronoum(const EXAMPLE &ex){
 	int pos = 0;
 
 	pos = jump(ex.sample2.tags);
-	if(ex.sample2.tags[pos].compare(0, 1, "p") == 0)
+	if(ex.sample2.tags[0].compare(0, 1, "p") == 0)
 		return COREFEX_FEATURE_JPRON;
 	else
 		return 0;
@@ -276,7 +276,7 @@ int coref_fex::get_j_pronoum_p(const EXAMPLE &ex){
 	int pos = 0;
 
 	pos = jump(ex.sample2.tags);
-	if(ex.sample2.tags[pos].compare(0, 2, "pp") == 0)
+	if(ex.sample2.tags[0].compare(0, 2, "pp") == 0)
 		return COREFEX_FEATURE_JPRONP;
 	else
 		return 0;
@@ -304,7 +304,7 @@ int coref_fex::get_j_pronoum_d(const EXAMPLE &ex){
 	int pos = 0;
 
 	pos = jump(ex.sample2.tags);
-	if(ex.sample2.tags[pos].compare(0, 2, "pd") == 0)
+	if(ex.sample2.tags[0].compare(0, 2, "pd") == 0)
 		return COREFEX_FEATURE_JPROND;
 	else
 		return 0;
@@ -332,7 +332,7 @@ int coref_fex::get_j_pronoum_x(const EXAMPLE &ex){
 	int pos = 0;
 
 	pos = jump(ex.sample2.tags);
-	if(ex.sample2.tags[pos].compare(0, 2, "px") == 0)
+	if(ex.sample2.tags[0].compare(0, 2, "px") == 0)
 		return COREFEX_FEATURE_JPRONX;
 	else
 		return 0;
@@ -360,7 +360,7 @@ int coref_fex::get_j_pronoum_i(const EXAMPLE &ex){
 	int pos = 0;
 
 	pos = jump(ex.sample2.tags);
-	if(ex.sample2.tags[pos].compare(0, 2, "pi") == 0)
+	if(ex.sample2.tags[0].compare(0, 2, "pi") == 0)
 		return COREFEX_FEATURE_JPRONI;
 	else
 		return 0;
@@ -388,7 +388,7 @@ int coref_fex::get_j_pronoum_t(const EXAMPLE &ex){
 	int pos = 0;
 
 	pos = jump(ex.sample2.tags);
-	if(ex.sample2.tags[pos].compare(0, 2, "pt") == 0)
+	if(ex.sample2.tags[0].compare(0, 2, "pt") == 0)
 		return COREFEX_FEATURE_JPRONT;
 	else
 		return 0;
@@ -416,7 +416,7 @@ int coref_fex::get_j_pronoum_r(const EXAMPLE &ex){
 	int pos = 0;
 
 	pos = jump(ex.sample2.tags);
-	if(ex.sample2.tags[pos].compare(0, 2, "pr") == 0)
+	if(ex.sample2.tags[0].compare(0, 2, "pr") == 0)
 		return COREFEX_FEATURE_JPRONR;
 	else
 		return 0;
@@ -444,7 +444,7 @@ int coref_fex::get_j_pronoum_e(const EXAMPLE &ex){
 	int pos = 0;
 
 	pos = jump(ex.sample2.tags);
-	if(ex.sample2.tags[pos].compare(0, 2, "pe") == 0)
+	if(ex.sample2.tags[0].compare(0, 2, "pe") == 0)
 		return COREFEX_FEATURE_JPRONE;
 	else
 		return 0;

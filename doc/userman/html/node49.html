@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>NEC Data File</TITLE>
+<META NAME="description" CONTENT="NEC Data File">
+<META NAME="keywords" CONTENT="userman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="userman.css">
+
+<LINK REL="previous" HREF="node48.html">
+<LINK REL="up" HREF="node48.html">
+<LINK REL="next" HREF="node50.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html815"
+  HREF="node50.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html811"
+  HREF="node48.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html807"
+  HREF="node48.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html813"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html816"
+  HREF="node50.html">Chart Parser Module</A>
+<B> Up:</B> <A NAME="tex2html812"
+  HREF="node48.html">Named Entity Classification Module</A>
+<B> Previous:</B> <A NAME="tex2html808"
+  HREF="node48.html">Named Entity Classification Module</A>
+ &nbsp; <B>  <A NAME="tex2html814"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION004161000000000000000">
+NEC Data File</A>
+</H2>
+
+<P>
+The Named Entity Classification module requires three configuration
+  files, with the same path and name, with suffixes <TT>.rgf</TT>, <TT>  .lex</TT>, and <TT>.abm</TT>.  Only the basename must be given as a
+  parameter at instantiation time, file extensions are automatically added.
+
+<P>
+The <TT>.abm</TT> file contains an AdaBoost model based on shallow
+  Decision Trees (see [<A
+ HREF="node91.html#carreras03">CMP03</A>] for details). You don't need
+  to understand this, unless you want to enter into the code of the
+  AdaBoost classifier.
+
+<P>
+The <TT>.lex</TT> file is a dictionary that assigns a number to each
+  symbolic feature used in the AdaBoost model. You don't need to
+  understand this either unless you are a Machine Learning student or
+  the like.
+
+<P>
+Both <TT>.abm</TT> and <TT>.lex</TT> files may be generated from an
+  annotated corpus using the training programs in <TT>libomlet</TT> package.
+<BR>  (see <TT>http://www.lsi.upc.edu/~ nlp/omlet+fries</TT>)
+
+<P>
+The important file in the set is the <TT>.rgf</TT> file. This contains
+  a definition of the context features that must be extracted for each
+  named entity.  The feature extraction language is that of
+  [<A
+ HREF="node91.html#roth04">RCSY04</A>] with some useful extensions.
+
+<P>
+If you need to know more about this (e.g. to develop a NE classifier
+  for your language) please contact FreeLing authors.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html815"
+  HREF="node50.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html811"
+  HREF="node48.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html807"
+  HREF="node48.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html813"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html816"
+  HREF="node50.html">Chart Parser Module</A>
+<B> Up:</B> <A NAME="tex2html812"
+  HREF="node48.html">Named Entity Classification Module</A>
+<B> Previous:</B> <A NAME="tex2html808"
+  HREF="node48.html">Named Entity Classification Module</A>
+ &nbsp; <B>  <A NAME="tex2html814"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Lluís Padró
+2010-09-02
+</ADDRESS>
+</BODY>
+</HTML>

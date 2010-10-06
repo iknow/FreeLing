@@ -1,0 +1,378 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Parse-tree completion rules</TITLE>
+<META NAME="description" CONTENT="Parse-tree completion rules">
+<META NAME="keywords" CONTENT="userman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="userman.css">
+
+<LINK REL="next" HREF="node55.html">
+<LINK REL="previous" HREF="node53.html">
+<LINK REL="up" HREF="node53.html">
+<LINK REL="next" HREF="node55.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html881"
+  HREF="node55.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html877"
+  HREF="node53.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html871"
+  HREF="node53.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html879"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html882"
+  HREF="node55.html">Dependency function labeling rules</A>
+<B> Up:</B> <A NAME="tex2html878"
+  HREF="node53.html">Dependency Parsing Rule File</A>
+<B> Previous:</B> <A NAME="tex2html872"
+  HREF="node53.html">Dependency Parsing Rule File</A>
+ &nbsp; <B>  <A NAME="tex2html880"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION004181100000000000000">
+Parse-tree completion rules</A>
+</H3>
+
+<P>
+Section <code>&lt;GRPAR&gt;</code> contains rules to complete the
+    partial parsing provided by the chart parser. The tree is
+    completed by combining chunk pairs as stated by the rules. Rules
+    are applied from highest priority (lower values) to lowest
+    priority (higher values), and left-to right.
+    That is, the pair of adjacent chunks matching the most prioritary
+    rule is found, and the rule is applied, joining both chunks in
+    one. The process is repeated until only one chunk is left.
+
+<P>
+The rules can be enabled/disabled via the activation of global flags.
+    Each rule may be stated to be enabled only if certain flags are on. 
+    If none of its enabling flags are on, the rule is not applied.
+    Each rule may also state which flags have to be toggled on/off after
+    its application, thus enabling/disabling other rule subsets.
+    
+<P>
+<BR>
+
+<P>
+Each line contains a rule, with the format:
+<PRE>
+priority flags context (ancestor,descendant) operation op-params flag-ops
+</PRE>
+  where:
+  
+<UL>
+<LI><code>priority</code> is a number stating the priority of a rule
+      (the lower the number, the higher the priority).
+
+<P>
+</LI>
+<LI><code>flags</code> is a list of strings separated by vertical bars
+      (``<code>|</code>'').  Each string is the name of a flag that will
+      cause the rule to be enabled.  If <code>enabling_flags</code> equals
+      ``<code>-</code>'', the rule will be always enabled.
+
+<P>
+</LI>
+<LI><code>context</code> is a context limiting the application of the
+      rule only to chunk pairs that are surrounded by the appropriate
+      context (``<code>-</code>'' means no limitations, and the rule is applied to
+      any matching chunk pair) (see below).
+
+<P>
+</LI>
+<LI><code>(ancestor,descendant)</code> are the labels of the adjacent pair of
+    chunks the rule will be applied to. The labels are either assigned by
+    the chunk parser, or by a <code>RELABEL</code> operation on some other completion rule.
+    The pair must be enclosed in parenthesis, separated by a comma, and 
+    contain NO whitespaces.
+
+<P>
+The chunk labels may be suffixed with one extra condition of the form:
+    <code>(form)</code>, <code>&lt;lemma&gt;</code>, <code>[class]</code>, or <code>{PoS_regex}</code>.
+
+<P>
+For instance,
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">The label:</TD>
+<TD ALIGN="LEFT">Would match:</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>np</code></TD>
+<TD ALIGN="LEFT">any chunk labeled <code>np</code> by the chunker</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>np(cats)</code></TD>
+<TD ALIGN="LEFT">any chunk labeled <code>np</code> by the chunker</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">with a head word with form <code>cats</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>np&lt;cat&gt;</code></TD>
+<TD ALIGN="LEFT">any chunk labeled <code>np</code> by the chunker</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">with a head word with lemma <code>cat</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>np[animal]</code></TD>
+<TD ALIGN="LEFT">any chunk labeled <code>np</code> by the chunker</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">with a head word with a lemma in <code>animal</code></TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">category (see <code>CLASS</code> section below)</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>np{^N.M}</code></TD>
+<TD ALIGN="LEFT">any chunk labeled <code>np</code> by the chunker</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">with a head word with a PoS tag matching</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">the <code>^N.M</code> regular expression</TD>
+</TR>
+</TABLE>
+
+<P>
+</LI>
+<LI><code>operation</code> is the way in which <code>ancestor</code>
+    and <code>descendant</code> nodes are to be combined (see below).
+
+<P>
+</LI>
+<LI>The <code>op-params</code> component has two meanings, depending
+      on the <code>operation</code> field: <code>top_left</code> and
+      <code>top_right</code> operations must be followed by the literal
+      <code>RELABEL</code> plus the new label(s) to assign to the chunks.
+      Other operations must be followed by the literal <code>MATCHING</code> 
+      plus the label to be matched.
+
+<P>
+For <code>top_left</code> and <code>top_right</code> operations the labels
+      following the keyword <code>RELABEL</code> state the labels with which
+      each chunk in the pair will be relabelled, in the format
+      <code>label1:label2</code>.  If specified, <code>label1</code> will be the
+      new label for the left chunk, and <code>label2</code> the one for the
+      right chunk. A dash ( ``<code>-</code>'') means no relabelling. In none of
+      both chunks is to be relabelled,  ``<code>-</code>'' may be used instead of
+       ``<code>-:-</code>''.
+<BR>
+For example, the rule:
+<BR>      <code>20 - - (np,pp&lt;of&gt;) top_left RELABEL np-of:-  - </code>       will hang the <code>pp</code> chunk as a daughter of the left chunk 
+      in the pair (i.e. <code>np</code>), then
+      relabel the <code>np</code> to <code>np-of</code>, and leave the label for 
+      the <code>pp</code> unchanged.
+
+<P>
+For <code>last_left</code>, <code>last_right</code> and
+       <code>cover_last_left</code> operations, the label following the keyword
+       <code>MATCHING</code> states the label that a node must have in
+       order to be considered a valid ``last'' and get the subtree as
+       a new child. This label may carry the same modifying suffixes
+       than the chunk labels. If no node with this label is found in
+       the tree, the rule is not applied.
+<BR>
+For example, the rule:
+<BR>      <code>20 - - (vp,pp&lt;of&gt;) last_left MATCHING np -</code>
+<BR>
+will hang the <code>pp</code> chunk as a daughter of the last subtree 
+      labeled <code>np</code> found inside the <code>vp</code> chunk.
+
+<P>
+</LI>
+<LI>The last field <code>flag-ops</code> is a space-separated list of
+     flags to be toggled on/off.  The list may be empty (meaning that
+     the rule doesn't change the status of any flag).  If a flag name
+     is preceded by a ``<code>+</code>'', it will be toggled on. If the leading
+     symbol is a ``<code>-</code>'', it will be toggled off.
+
+<P>
+</LI>
+</UL>
+
+<P>
+For instance, the rule:
+<PRE>
+  20 - - (np,pp&lt;of&gt;) top_left RELABEL - -
+</PRE>
+
+<P>
+states that if two subtrees labelled <code>np</code> and <code>pp</code> are
+  found contiguous in the partial tree, and the second head word has
+  lemma <code>of</code>, then the later (rightmost) is added as a new child
+  of the former (leftmost), whatever the context is, without need of
+  any special flag active, and performing no relabelling of the new
+  tree root.
+
+<P>
+The supported tree-building operations are the following:
+  
+<UL>
+<LI><code>top_left</code>: The right subtree is added as a daughter of
+     the left subtree. The root of the new tree is the root of the
+     left subtree. If a <code>label</code> value other than ``<code>-</code>'' is
+     specified, the root is relabelled with that string.
+</LI>
+<LI><code>last_left</code>: The right subtree is added as a daughter of
+     the last node inside the left subtree matching <code>label</code> value
+     (or to the root if none is found). The root of the new tree is
+     the root of the left subtree.
+</LI>
+<LI><code>top_right</code>: The left subtree is added as a new daughter
+     of the right subtree. The root of the new tree is the root of the
+     right subtree. If a <code>label</code> value other than ``<code>-</code>'' is
+     specified, the root is relabelled with that string.
+</LI>
+<LI><code>last_right</code>: The left subtree is added as a daughter of
+     the last node inside the right subtree matching <code>label</code>
+     value (or to the root if none is found). The root of the new tree
+     is the root of the right subtree.
+</LI>
+<LI><code>cover_last_left</code>: The left subtree (<SPAN CLASS="MATH"><IMG
+ WIDTH="11" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img6.png"
+ ALT="$s$"></SPAN>) takes the
+     position of the last node (<SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img7.png"
+ ALT="$x$"></SPAN>) inside the right subtree matching
+     <code>label</code> value. The node <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img7.png"
+ ALT="$x$"></SPAN> is hanged as new child of <SPAN CLASS="MATH"><IMG
+ WIDTH="11" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img6.png"
+ ALT="$s$"></SPAN>.
+     The root of the new tree is the root of the right subtree.
+  
+</LI>
+</UL>
+
+<P>
+The context may be specified as a sequence of chunk labels,
+  separated by underscores ``<code>_</code>''.
+   One of the chunk labels must be <code>$$</code>, and refers to the pair of chunks
+  which the rule is being applied to.
+
+<P>
+For instance, the rule:
+<PRE>
+   20 - $$_vp (np,pp&lt;of&gt;) top_left RELABEL -
+</PRE>
+
+<P>
+would add the rightmost chunk in the pair (<code>pp&lt;of&gt;</code>) under the
+  leftmost (<code>np</code>) only if the chunk immediate to the right of the pair
+  is labeled <code>vp</code>.
+
+<P>
+Other admitted labels in the context are: <code>?</code> (matching exactly
+  one chunk, with any label), <code>*</code> (matching zero or more chunks
+  with any label), and <code>OUT</code> (matching a sentence boundary).
+
+<P>
+For instance the context <code>np_$$_*_vp_?_OUT</code> would match a
+  sentence in which the focus pair of chunks is immediately after an
+  <code>np</code>, and the second-to-last chunk is labeled <code>vp</code>.
+
+<P>
+Context conditions can be globally negated preceding them with an exclamation
+  mark (<code>!</code>). E.g. <code>!np_$$_*_vp</code> would cause the rule to be applied only
+  if that particular context is <EM>not satisfied</EM>.
+
+<P>
+Context condition components may also be individually negated
+  preceding them with the symbol <code>~</code>. E.g. the rule
+  <code>np_$$_~vp</code> would be satisfied if the preceding chunk is
+  labeled <code>np</code> and the following chunk has any label but
+  <code>vp</code>.
+
+<P>
+Enabling flags may be defined and used at the grammarian's will. 
+  For instance, the rule:
+<PRE>
+20 INIT|PH1 $$_vp (np,pp&lt;of&gt;) last_left MATCHING npms[animal] +PH2 -INIT -PH1
+</PRE>
+
+<P>
+Will be applied if either <code>INIT</code> or <code>PH1</code> flags are
+   on, the chunk pair is a <code>np</code> followed by a <code>pp</code> with head
+   lemma <code>of</code>, and the context (one <code>vp</code> chunk following the
+   pair) is met. Then, the deepest rightmost node matching the label
+   <code>npms[animal]</code> will be sought in the left chunk, and the right
+   chunk will be linked as one of its children. If no such node is found,
+   the rule will not be applied. 
+
+<P>
+After applying the rule, the flag <code>PH2</code> will be toggled
+    on, and the flags <code>INIT</code> and <code>PH1</code> will be toggled
+    off.
+
+<P>
+The only predefined flag is <code>INIT</code>, which is toggled on when
+    the parsing starts.  The grammarian can define any alphanumerical
+    string as a flag, simply toggling it on in some rule.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html881"
+  HREF="node55.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html877"
+  HREF="node53.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html871"
+  HREF="node53.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html879"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html882"
+  HREF="node55.html">Dependency function labeling rules</A>
+<B> Up:</B> <A NAME="tex2html878"
+  HREF="node53.html">Dependency Parsing Rule File</A>
+<B> Previous:</B> <A NAME="tex2html872"
+  HREF="node53.html">Dependency Parsing Rule File</A>
+ &nbsp; <B>  <A NAME="tex2html880"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Lluís Padró
+2010-09-02
+</ADDRESS>
+</BODY>
+</HTML>

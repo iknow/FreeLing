@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Dates Detection Module</TITLE>
+<META NAME="description" CONTENT="Dates Detection Module">
+<META NAME="keywords" CONTENT="userman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="userman.css">
+
+<LINK REL="next" HREF="node26.html">
+<LINK REL="previous" HREF="node23.html">
+<LINK REL="up" HREF="node16.html">
+<LINK REL="next" HREF="node26.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html527"
+  HREF="node26.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html523"
+  HREF="node16.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html517"
+  HREF="node24.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html525"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html528"
+  HREF="node26.html">Dictionary Search Module</A>
+<B> Up:</B> <A NAME="tex2html524"
+  HREF="node16.html">Analysis Modules</A>
+<B> Previous:</B> <A NAME="tex2html518"
+  HREF="node24.html">Punctuation Tags File</A>
+ &nbsp; <B>  <A NAME="tex2html526"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00460000000000000000"></A>
+<A NAME="file-dates"></A>
+<BR>
+Dates Detection Module
+</H1>
+
+<P>
+The dates detection module, as the number detection module in section <A HREF="node22.html#file-numb">3.4</A>, is a collection of language-specific finite-state automata, and for this reason needs no data file to be provided at instantiation time.
+
+<P>
+For languages that do not have a specific automata, a default analyzer is used that detects simple date patterns (e.g. <TT>DD-MM-AAAA</TT>, <TT>MM/DD/AAAA</TT>, etc.)
+
+<P>
+The API of the class is:
+<PRE>        
+class dates {             
+   public:   
+      /// Constructor: receives the language code
+      dates(const std::string &amp;); 
+
+      /// Detect date/time expressions in given sentence
+      void annotate(sentence &amp;);
+};
+</PRE>        
+
+<P>
+The only parameter expected by the constructor is the language of the text to analyze, in order to be able to apply the appropriate specific automata, or select the default one if none is available.
+
+<P>
+<BR><HR>
+<ADDRESS>
+Lluís Padró
+2010-09-02
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Named Entity Classification Module</TITLE>
+<META NAME="description" CONTENT="Named Entity Classification Module">
+<META NAME="keywords" CONTENT="userman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="userman.css">
+
+<LINK REL="next" HREF="node50.html">
+<LINK REL="previous" HREF="node42.html">
+<LINK REL="up" HREF="node16.html">
+<LINK REL="next" HREF="node49.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html804"
+  HREF="node49.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html800"
+  HREF="node16.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html794"
+  HREF="node47.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html802"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html805"
+  HREF="node49.html">NEC Data File</A>
+<B> Up:</B> <A NAME="tex2html801"
+  HREF="node16.html">Analysis Modules</A>
+<B> Previous:</B> <A NAME="tex2html795"
+  HREF="node47.html">Examples</A>
+ &nbsp; <B>  <A NAME="tex2html803"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION004160000000000000000"></A>
+<A NAME="file-nec"></A>
+<BR>
+Named Entity Classification Module
+</H1>
+
+<P>
+The mission of the Named Entity Classification module is to assing a
+  class to named entities in the text. It is a Machine-Learning based
+  module, so the classes can be anything the model has been trained to
+  recognize.
+
+<P>
+When classified, the PoS tag of the word is changed to the label
+  defined in the model.
+
+<P>
+This module depends on a NER module being applied previously. If no
+  entities are recognized, none can be classified.
+
+<P>
+Models provided with FreeLing distinguish four classes: Person (tag
+  <TT>NP00SP0</TT>), Geographical location (<TT>NP00G00</TT>), Organization
+  (<TT>NP00O00</TT>), and Others (<TT>NP00V00</TT>).
+
+<P>
+If you have an anotated corpus, the models can be trained using the
+  scripts in <TT>src/utilities/nec</TT>.  See the README there and the comments
+  int the script for the details.
+
+<P>
+The API of the class is the following:
+<PRE>
+class nec {
+   public:
+      /// Constructor
+      nec(const std::string &amp;, const std::string &amp;); 
+
+      /// Classify NEs in given sentence
+      void analyze(std::list&lt;sentence&gt; &amp;) const;
+};
+</PRE>
+
+<P>
+The constructor receives two parameters. The first is the tag that the
+NER module assigned to Named Entities, so the NEC can know which words to classify.
+ The second parameter is the prefix of the configuration files for the model, as described below.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html806"
+  HREF="node49.html">NEC Data File</A>
+</UL>
+<!--End of Table of Child-Links-->
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html804"
+  HREF="node49.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html800"
+  HREF="node16.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html794"
+  HREF="node47.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html802"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html805"
+  HREF="node49.html">NEC Data File</A>
+<B> Up:</B> <A NAME="tex2html801"
+  HREF="node16.html">Analysis Modules</A>
+<B> Previous:</B> <A NAME="tex2html795"
+  HREF="node47.html">Examples</A>
+ &nbsp; <B>  <A NAME="tex2html803"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Lluís Padró
+2010-09-02
+</ADDRESS>
+</BODY>
+</HTML>

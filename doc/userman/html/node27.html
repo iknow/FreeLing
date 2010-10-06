@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Form Dictionary File</TITLE>
+<META NAME="description" CONTENT="Form Dictionary File">
+<META NAME="keywords" CONTENT="userman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="userman.css">
+
+<LINK REL="next" HREF="node29.html">
+<LINK REL="previous" HREF="node26.html">
+<LINK REL="up" HREF="node26.html">
+<LINK REL="next" HREF="node28.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html554"
+  HREF="node28.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html550"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html544"
+  HREF="node26.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html552"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html555"
+  HREF="node28.html">Format for .src dictionary</A>
+<B> Up:</B> <A NAME="tex2html551"
+  HREF="node26.html">Dictionary Search Module</A>
+<B> Previous:</B> <A NAME="tex2html545"
+  HREF="node26.html">Dictionary Search Module</A>
+ &nbsp; <B>  <A NAME="tex2html553"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00471000000000000000">
+Form Dictionary File</A>
+</H2>
+
+<P>
+The form dictionary is either a plain text file, or a
+  BerkeleyDB-indexed file. 
+  The dictionary module relies on the
+  extension to decide which format to expect (<TT>.src</TT> for plain
+  text, <TT>.db</TT> for indexed files)
+
+<P>
+The plain text dictionary file (<TT>.src</TT>) format is described below.
+  This file can be directly passed to the constructor of the dictionary search module.
+
+<P>
+Indexed Berkeley-DB files (<TT>.db</TT>) may be created with the <TT>indexdict</TT> 
+  program provided with FreeLing, which is called with the command:
+  <PRE>
+   indexdict indexed-dict-name.db  &lt;source-dict.src
+</PRE>
+  Where <TT>source-dict.src</TT> is a plain text dictionary, and <TT>  indexed-dict-name.db</TT> is the resulting indexed file, which can be
+  directly passed to the constructor of the dictionary search module.
+
+<P>
+See the (very simple) source code in <TT>src/main/utilities/indexdict.cc</TT>
+  if you're interested on how it is indexed.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html556"
+  HREF="node28.html">Format for <TT>.src</TT> dictionary files</A>
+</UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+<ADDRESS>
+Lluís Padró
+2010-09-02
+</ADDRESS>
+</BODY>
+</HTML>

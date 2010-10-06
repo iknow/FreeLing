@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Tokenizer Module</TITLE>
+<META NAME="description" CONTENT="Tokenizer Module">
+<META NAME="keywords" CONTENT="userman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="userman.css">
+
+<LINK REL="next" HREF="node19.html">
+<LINK REL="previous" HREF="node16.html">
+<LINK REL="up" HREF="node16.html">
+<LINK REL="next" HREF="node18.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html434"
+  HREF="node18.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html430"
+  HREF="node16.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html424"
+  HREF="node16.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html432"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html435"
+  HREF="node18.html">Tokenizer Rules File</A>
+<B> Up:</B> <A NAME="tex2html431"
+  HREF="node16.html">Analysis Modules</A>
+<B> Previous:</B> <A NAME="tex2html425"
+  HREF="node16.html">Analysis Modules</A>
+ &nbsp; <B>  <A NAME="tex2html433"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00410000000000000000"></A>
+<A NAME="file-tok"></A>
+<BR>
+Tokenizer Module
+</H1>
+
+<P>
+The first module in the chain is the tokenizer. It converts plain text to a vector of <TT>word</TT> objects, according to a set of tokenization rules.
+
+<P>
+Tokenization rules are regular expressions that are matched against the beggining of the text line being processed. The first matching rule is used to extract the token, the matching substring is deleted from the line, and the process is repeated until the line is empty.
+
+<P>
+The API of the tokenizer module is the following:
+<PRE>
+class tokenizer {
+  public:
+    /// Constructor, receives the name of the file with tokenization rules
+    tokenizer(const std::string &amp;);
+
+    /// tokenize string with default options
+    std::list&lt;word&gt; tokenize(const std::string &amp;);
+
+    /// tokenize string with default options, accumulating byte-offset of words
+    std::list&lt;word&gt; tokenize(const std::string &amp;, unsigned long &amp;);
+};
+</PRE>
+
+<P>
+That is, once created, the tokenizer module receives plain text in a string, tokenizes it, and returns a list of <TT>word</TT> objects corresponding to the created tokens
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html436"
+  HREF="node18.html">Tokenizer Rules File</A>
+</UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+<ADDRESS>
+Lluís Padró
+2010-09-02
+</ADDRESS>
+</BODY>
+</HTML>

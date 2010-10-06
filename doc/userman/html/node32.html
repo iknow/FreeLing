@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Named Entity Recognition Module</TITLE>
+<META NAME="description" CONTENT="Named Entity Recognition Module">
+<META NAME="keywords" CONTENT="userman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="userman.css">
+
+<LINK REL="next" HREF="node35.html">
+<LINK REL="previous" HREF="node30.html">
+<LINK REL="up" HREF="node16.html">
+<LINK REL="next" HREF="node33.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html610"
+  HREF="node33.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html606"
+  HREF="node16.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html600"
+  HREF="node31.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html608"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html611"
+  HREF="node33.html">Basic NER Options File</A>
+<B> Up:</B> <A NAME="tex2html607"
+  HREF="node16.html">Analysis Modules</A>
+<B> Previous:</B> <A NAME="tex2html601"
+  HREF="node31.html">Multiword Definition File</A>
+ &nbsp; <B>  <A NAME="tex2html609"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00490000000000000000"></A>
+<A NAME="file-ner"></A>
+<BR>
+Named Entity Recognition Module
+</H1>
+
+<P>
+There are two different modules able to perform NE recognizer. The application should decide which method is to be used, and instantiate the right class.
+
+<P>
+The first NER module is the <TT>np</TT> class, which is a just a FSA that basically detects sequences of capitalized words, taking into account some functional words (e.g. <EM>Bank of England</EM>) and captialization at sentence begginings.
+
+<P>
+The second module, named <TT>bioner</TT>, is based on machine learning algorithms in Omlet&amp;Fries libraries, and has to be trained from a tagged corpus.
+
+<P>
+The <TT>np</TT> module is simple and fast, and easy to adapt for use in new languages, provided capitalization is the basic clue for NE detection. The estimated performance of this module is about 85% correctly recognized named entities. Its API is the following:
+<PRE>
+class np: public ner, public automat {
+  public:
+    /// Constructor, receives a configuration file.
+    np(const std::string &amp;); 
+
+    /// ("annotate" is inherited from "automat")
+    void annotate(sentence &amp;);
+};
+</PRE>
+
+<P>
+The <TT>bioner</TT> module has a higher precision (over 90%), but is much slower, and adaptation to new languages requires a training corpus, and some feature engineering.
+<PRE>
+class bioner: public ner {
+  public:
+    /// Constructor, receives the name of the configuration file.
+    bioner ( const std::string &amp; );
+
+    /// Recognize NEs in given sentence
+    void annotate ( sentence &amp; );
+};
+</PRE>
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html612"
+  HREF="node33.html">Basic NER Options File (module <TT>np</TT>) </A>
+<LI><A NAME="tex2html613"
+  HREF="node34.html"><EM>BIO</EM> NER Options File (module <TT>bioner</TT>)</A>
+</UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+<ADDRESS>
+Lluís Padró
+2010-09-02
+</ADDRESS>
+</BODY>
+</HTML>

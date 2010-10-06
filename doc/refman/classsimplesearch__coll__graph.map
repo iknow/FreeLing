@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" href="$classgolem.html" title="golem" alt="" coords="5,197,61,227"/>
+<area shape="rect" href="$classaligner.html" title="aligner\&lt; int \&gt;" alt="" coords="85,197,181,227"/>
+<area shape="rect" href="$classphd.html" title="phd\&lt; int \&gt;" alt="" coords="23,101,103,131"/>
+<area shape="rect" href="$classphd.html" title="phd\&lt; T \&gt;" alt="" coords="25,5,100,35"/>
+<area shape="rect" href="$classaligner.html" title="aligner\&lt; T \&gt;" alt="" coords="127,101,217,131"/>
+</map>

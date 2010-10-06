@@ -1,0 +1,188 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Affixation Rules File</TITLE>
+<META NAME="description" CONTENT="Affixation Rules File">
+<META NAME="keywords" CONTENT="userman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="userman.css">
+
+<LINK REL="previous" HREF="node27.html">
+<LINK REL="up" HREF="node26.html">
+<LINK REL="next" HREF="node30.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html575"
+  HREF="node30.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html571"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html567"
+  HREF="node28.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html573"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html576"
+  HREF="node30.html">Multiword Recognition Module</A>
+<B> Up:</B> <A NAME="tex2html572"
+  HREF="node26.html">Dictionary Search Module</A>
+<B> Previous:</B> <A NAME="tex2html568"
+  HREF="node28.html">Format for .src dictionary</A>
+ &nbsp; <B>  <A NAME="tex2html574"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00472000000000000000"></A>
+<A NAME="file-suf"></A>
+<BR>
+Affixation Rules File
+</H2>
+
+<P>
+The submodule of the dictionary handler that deals with affixes requires a set of affixation rules.
+
+<P>
+The file consists of two (optional) sections: <code>&lt;Suffixes&gt;</code> and <code>&lt;Prefixes&gt;</code>. The first one contains suffixation rules, and the second, prefixation rules. They may appear in any order.
+
+<P>
+Both kinds of rules have the same format, and only differ in whether the affix is checked at the beggining or at the end of the word.
+
+<P>
+Each rule has to be written in a different line, and has 10 fields:
+
+<OL>
+<LI>Affix to erase form word form (e.g: crucecita - cecita = cru)
+</LI>
+<LI>Affix (* for emtpy string) to add to the resulting root to rebuild the lemma that must be searched in dictionary  (e.g. cru + z = cruz)
+</LI>
+<LI>Condition on the parole tag of found dictionary entry
+ (e.g. cruz is NCFS). The condition is a perl RegExp
+</LI>
+<LI>Parole tag for suffixed word (* = keep tag in dictionary entry)
+</LI>
+<LI>Check lemma adding accents
+</LI>
+<LI>Enclitic suffix (special accent behaviour in Spanish)
+</LI>
+<LI>Prevent later modules (e.g. probabilities) from assigning additional tags to the word
+</LI>
+<LI>Lemma to assign: Any combination of: <TT>F</TT>, <TT>R</TT>, <TT>L</TT>, <TT>A</TT>, or a string literal separated with a <TT>+</TT> sign. For instance: <TT>R+A</TT>, <TT>A+L</TT>, <TT>R+mente</TT>, etc.
+
+<P>
+<TT>F</TT> stands for the original form (before affix removal, e.g. <EM>crucecitas</EM>), <TT>R</TT> stands for root found in dictionary (after affix removal and root reconstruction,  e.g. <EM>cruces</EM>), <TT>L</TT> stands for lemma in matching dictionary entry (e.g. <EM>cruz</EM>), <TT>A</TT>stands for the affix that the rule removed
+
+<P>
+</LI>
+<LI>Try the affix always, not only for unknown words.
+
+<P>
+</LI>
+<LI>Retokenization info, explained below (``<code>-</code>'' for none)
+</LI>
+</OL>
+
+<P>
+E.g., prefix rules:
+<BR> <code>anti    *     ^NC    AQ0CN0   0  0  1  A+L 0  -</code>
+
+<P>
+This prefix rule states that <TT>anti</TT> should be removed from the beggining of the word, nothing (<TT>*</TT>) should be added, and the resulting root should be found in the dictionary with a NC PoS tag. If that is satisfied, the word would receive the <TT>AQ0CN0</TT> tag and the affix (<TT>anti</TT>) plus the lemma as the lemma of the prefixed word.
+  For instance, the word <TT>antimisiles</TT> would match this rule: <TT>misiles</TT> would be found in the dictionary with lema <TT>misil</TT> and PoS <TT>NCMP000</TT>. Then, the word will be assigned the lemma <TT>antimisil</TT> (<TT>A+L = anti+misil</TT>) and the tag AQ0CN0.
+
+<P>
+E.g., sufix rules:
+<BR>  <code>cecita  z|za  ^NCFS  NCFS00A  0  0  1  L   0  -</code>
+<BR>  <code>les     *     ^V      *       0  1  0  L   1  $$+les:$$+PP</code>
+
+<P>
+The first suffix rule above (<TT>cecita</TT>) states a suffix rule that will be
+  applied to unknown words, to see whether a valid feminine singular
+  noun is obtained when substituting the suffix <TT>cecita</TT> with <TT>  z</TT> ot <TT>za</TT>. This is the case of <TT>crucecita</TT> (diminutive of
+  <TT>cruz</TT>). If such a base form is found, the original word is
+  analyzed as diminutive suffixed form. No retokenization is performed.
+
+<P>
+The second rule (<TT>les</TT>) applies to all words and tries to check
+  whether a valid verb form is obtained when removing the suffix <TT>  les</TT>. This is the case of words such as <TT>viles</TT> (which may mean 
+  <I CLASS="slanted">I saw them</I>, but also is the plural of the adjective <TT>  vil</TT>). In this case, the retokenization info states that if
+  eventually the verb tag is selected for this word, it may be
+  retokenized in two words: The base verb form (referred to as <TT>  $$</TT>, <TT>vi</TT> in the example) plus the word <TT>les</TT>. The tags
+  for these new words are expressed after the colon: The base form
+  must keep its PoS tag (this is what the second <TT>$$</TT> means)
+  and the second word may take any tag starting with PP it may have in
+  the dictionary.
+
+<P>
+So, for word <TT>viles</TT> would obtain its adjective analysis from
+  the dictionary, plus its verb + clitic pronoun from the suffix
+  rule:
+<BR>  <code>viles vil AQ0CP0 ver VMIS1S0</code>
+
+<P>
+The second analysis will carry the retokenization information, so if
+  eventually the PoS tagger selects the <TT>VMI</TT> analysis (and the
+  TaggerRetokenize option is set), the word will be retokenized into:
+<PRE>
+   vi ver VMIS1S0
+   les ellos PP3CPD00
+</PRE>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html575"
+  HREF="node30.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html571"
+  HREF="node26.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html567"
+  HREF="node28.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html573"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html576"
+  HREF="node30.html">Multiword Recognition Module</A>
+<B> Up:</B> <A NAME="tex2html572"
+  HREF="node26.html">Dictionary Search Module</A>
+<B> Previous:</B> <A NAME="tex2html568"
+  HREF="node28.html">Format for .src dictionary</A>
+ &nbsp; <B>  <A NAME="tex2html574"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Lluís Padró
+2010-09-02
+</ADDRESS>
+</BODY>
+</HTML>

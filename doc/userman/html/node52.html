@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Dependency Parser Module</TITLE>
+<META NAME="description" CONTENT="Dependency Parser Module">
+<META NAME="keywords" CONTENT="userman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="userman.css">
+
+<LINK REL="next" HREF="node58.html">
+<LINK REL="previous" HREF="node50.html">
+<LINK REL="up" HREF="node16.html">
+<LINK REL="next" HREF="node53.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html850"
+  HREF="node53.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html846"
+  HREF="node16.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html840"
+  HREF="node51.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html848"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html851"
+  HREF="node53.html">Dependency Parsing Rule File</A>
+<B> Up:</B> <A NAME="tex2html847"
+  HREF="node16.html">Analysis Modules</A>
+<B> Previous:</B> <A NAME="tex2html841"
+  HREF="node51.html">Shallow Parser CFG file</A>
+ &nbsp; <B>  <A NAME="tex2html849"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION004180000000000000000">
+Dependency Parser Module</A>
+</H1>
+
+<P>
+The Txala dependency parser [<A
+ HREF="node91.html#atserias05">ACM05</A>] gets parsed sentences -that is, <TT>sentence</TT> objects which have been enriched with a <TT>parse_tree</TT> by the <TT>chart_parser</TT> (or by any other means).
+
+<P>
+<PRE>
+class dep_txala : public dependency_parser {
+ public:   
+   /// constructor
+   dep_txala(const std::string &amp;, const std::string &amp;);
+
+   /// Enrich all sentences in given list with a depenceny tree.
+   void analyze(std::list&lt;sentence&gt; &amp;);
+};
+</PRE>
+
+<P>
+The constructor receives two strings: the name of the file containging the dependency rules to be used, and the start symbol of the grammar used by the <TT>chart_parser</TT> to parse the sentence.
+
+<P>
+The dependency parser works in three stages:
+
+<UL>
+<LI>At the first stage, the
+   <code>&lt;GRPAR&gt;</code> rules are used to complete the shallow parsing
+   produced by the chart into a complete parsing tree.  The rules are
+   applied to a pair of adjacent chunks. At each step, the selected
+   pair is fused in a single chunk. The process stops when only one chunk remains
+
+<P>
+</LI>
+<LI>The next step is an automatic conversion of the complete parse tree to
+  a dependency tree. Since the parsing grammar encodes information about the head of
+  each rule, the conversion is straighforward
+
+<P>
+</LI>
+<LI>The last step is the labeling. Each edge in the dependeny tree is labeled with a 
+  syntactic function, using the <code>&lt;GRLAB&gt;</code> rules
+</LI>
+</UL>
+
+<P>
+The syntax and semantics of <code>&lt;GRPAR&gt;</code> and <code>&lt;GRLAB&gt;</code> rules are described in 
+section <A HREF="node53.html#file-dep">3.18.1</A>.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html852"
+  HREF="node53.html">Dependency Parsing Rule File</A>
+<UL>
+<LI><A NAME="tex2html853"
+  HREF="node54.html">Parse-tree completion rules</A>
+<LI><A NAME="tex2html854"
+  HREF="node55.html">Dependency function labeling rules</A>
+<LI><A NAME="tex2html855"
+  HREF="node56.html">Semantic database location</A>
+<LI><A NAME="tex2html856"
+  HREF="node57.html">Class definitions</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html850"
+  HREF="node53.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html846"
+  HREF="node16.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html840"
+  HREF="node51.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html848"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html851"
+  HREF="node53.html">Dependency Parsing Rule File</A>
+<B> Up:</B> <A NAME="tex2html847"
+  HREF="node16.html">Analysis Modules</A>
+<B> Previous:</B> <A NAME="tex2html841"
+  HREF="node51.html">Shallow Parser CFG file</A>
+ &nbsp; <B>  <A NAME="tex2html849"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Lluís Padró
+2010-09-02
+</ADDRESS>
+</BODY>
+</HTML>

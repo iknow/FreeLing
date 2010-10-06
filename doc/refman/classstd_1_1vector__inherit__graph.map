@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" href="$classchart.html" title="Class chart contains an array of cells that constitute a chart." alt="" coords="5,83,99,112"/>
+<area shape="rect" href="$classconstraint.html" title="The class constraint implements a constraint for the relaxation labelling algorithm..." alt="" coords="123,83,357,112"/>
+<area shape="rect" href="$classproblem.html" title="The class problem stores the structure of a problem, namely, a vector with a position..." alt="" coords="381,83,576,112"/>
+</map>
