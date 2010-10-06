@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" href="$classdatabase.html" title="Class to wrap a berkeley DB database and unify access." alt="" coords="5,197,80,227"/>
+<area shape="rect" href="$classaffixes.html" title="Class suffixes implements suffixation rules and dictionary search for suffixed word..." alt="" coords="104,197,163,227"/>
+<area shape="rect" href="$classaccents.html" title="The class accents provides a wrapper to transparently create and access an accents_module..." alt="" coords="100,101,167,131"/>
+<area shape="rect" href="$classaccents__module.html" title="The abstract class accents_module generalizes accentuation rules for different languages..." alt="" coords="76,5,191,35"/>
+</map>

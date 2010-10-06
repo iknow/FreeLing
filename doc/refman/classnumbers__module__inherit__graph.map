@@ -1,0 +1,9 @@
+<map id="G" name="G">
+<area shape="rect" href="$classnumbers__ca.html" title="The derived class numbers_ca implements a Catalan number recognizer." alt="" coords="5,160,96,189"/>
+<area shape="rect" href="$classnumbers__default.html" title="The derived class numbers_default implements a default number recognizer (only numbers..." alt="" coords="120,160,237,189"/>
+<area shape="rect" href="$classnumbers__en.html" title="The derived class numbers_en implements an English number recognizer." alt="" coords="261,160,352,189"/>
+<area shape="rect" href="$classnumbers__es.html" title="The derived class numbers_es implements a Spanish number recognizer." alt="" coords="376,160,467,189"/>
+<area shape="rect" href="$classnumbers__gl.html" title="The derived class numbers_ca implements a Galician number recognizer." alt="" coords="491,160,579,189"/>
+<area shape="rect" href="$classnumbers__it.html" title="The derived class numbers_it implements a Italian number recognizer." alt="" coords="603,160,688,189"/>
+<area shape="rect" href="$classautomat.html" title="Abstract class to implement a Finite&#45;State Automaton which is used by modules recognizing..." alt="" coords="331,5,397,35"/>
+</map>

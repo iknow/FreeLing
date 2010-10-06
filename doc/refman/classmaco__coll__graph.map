@@ -1,0 +1,28 @@
+<map id="G" name="G">
+<area shape="rect" href="$classpunts.html" title="Class numbers implements a punctuation sign recognizer." alt="" coords="892,5,945,35"/>
+<area shape="rect" href="$classquantities.html" title="Class quantities implements a wrapper to transparently create and access a quantities_module..." alt="" coords="880,59,957,88"/>
+<area shape="rect" href="$classquantities__module.html" title="The abstract class quantities_module generalizes a percentage, ratios, and currency..." alt="" coords="620,59,745,88"/>
+<area shape="rect" href="$classautomat.html" title="Abstract class to implement a Finite&#45;State Automaton which is used by modules recognizing..." alt="" coords="224,135,291,164"/>
+<area shape="rect" href="$classlocutions.html" title="Class locutions recognizes multiwords belonging to a list obtained from a configuration..." alt="" coords="416,105,488,135"/>
+<area shape="rect" href="$classnumbers__module.html" title="The abstract class numbers_module generalizes nummeric expression recognizer for..." alt="" coords="392,159,512,188"/>
+<area shape="rect" href="$classdates__module.html" title="The abstract class dates_module generalizes temporal expression recognizer for different..." alt="" coords="401,212,503,241"/>
+<area shape="rect" href="$classcorrector.html" title="corrector" alt="" coords="883,341,955,371"/>
+<area shape="rect" href="$classphoneticDistance.html" title="This class is wrapper to calculate the phonetic distance between two words." alt="" coords="623,264,743,293"/>
+<area shape="rect" href="$classaligner.html" title="aligner\&lt; int \&gt;" alt="" coords="404,265,500,295"/>
+<area shape="rect" href="$classphd.html" title="phd\&lt; int \&gt;" alt="" coords="217,247,297,276"/>
+<area shape="rect" href="$classphd.html" title="phd\&lt; T \&gt;" alt="" coords="27,247,101,276"/>
+<area shape="rect" href="$classaligner.html" title="aligner\&lt; T \&gt;" alt="" coords="212,300,303,329"/>
+<area shape="rect" href="$classsimilarity.html" title="This class calculate the similarity between two words." alt="" coords="647,317,719,347"/>
+<area shape="rect" href="$classphonetics.html" title="This class is a will calculate the phonetic translation of a word." alt="" coords="644,371,721,400"/>
+<area shape="rect" href="$classsoundChange.html" title="This class is a sound change applier." alt="" coords="403,371,501,400"/>
+<area shape="rect" href="$classdatabase.html" title="Class to wrap a berkeley DB database and unify access." alt="" coords="415,445,489,475"/>
+<area shape="rect" href="$classdictionary.html" title="The class dictionary implements dictionary search and suffix analysis for word forms..." alt="" coords="644,492,721,521"/>
+<area shape="rect" href="$classaffixes.html" title="Class suffixes implements suffixation rules and dictionary search for suffixed word..." alt="" coords="423,516,481,545"/>
+<area shape="rect" href="$classaccents.html" title="The class accents provides a wrapper to transparently create and access an accents_module..." alt="" coords="224,516,291,545"/>
+<area shape="rect" href="$classaccents__module.html" title="The abstract class accents_module generalizes accentuation rules for different languages..." alt="" coords="7,516,121,545"/>
+<area shape="rect" href="$classner.html" title="The class ner is an abstract class that implements a general NE Recognizer." alt="" coords="899,520,939,549"/>
+<area shape="rect" href="$classmaco__options.html" title="Class maco_options implements a set of specific options of the morphological analyzer..." alt="" coords="868,573,969,603"/>
+<area shape="rect" href="$classnumbers.html" title="Class numbers implements a wrapper to transparently create and access a numbers_module..." alt="" coords="771,167,843,196"/>
+<area shape="rect" href="$classprobabilities.html" title="Class probabilities sets lexical probabilities for each PoS tag of each word in a..." alt="" coords="873,627,964,656"/>
+<area shape="rect" href="$classdates.html" title="The class dates provides a wrapper to transparently create and access a dates_module..." alt="" coords="780,219,833,248"/>
+</map>

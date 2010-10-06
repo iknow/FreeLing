@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Set definition</TITLE>
+<META NAME="description" CONTENT="Set definition">
+<META NAME="keywords" CONTENT="userman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="userman.css">
+
+<LINK REL="next" HREF="node46.html">
+<LINK REL="previous" HREF="node44.html">
+<LINK REL="up" HREF="node44.html">
+<LINK REL="next" HREF="node46.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html770"
+  HREF="node46.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html766"
+  HREF="node44.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html760"
+  HREF="node44.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html768"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html771"
+  HREF="node46.html">Constraint definition</A>
+<B> Up:</B> <A NAME="tex2html767"
+  HREF="node44.html">Relaxation-Labelling Constraint Grammar File</A>
+<B> Previous:</B> <A NAME="tex2html761"
+  HREF="node44.html">Relaxation-Labelling Constraint Grammar File</A>
+ &nbsp; <B>  <A NAME="tex2html769"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION004152100000000000000">
+Set definition</A>
+</H3>
+   The <TT>SETS</TT> section consists of a list of set definitions, each of the form
+   <TT>Set-name = element1 element2 ... elementN ; </TT>
+
+<P>
+Where the <TT>Set-name</TT> is any alphanumeric string starting with
+    a capital letter, and the elements are either forms, lemmas, plain
+    PoS tags, or senses. Forms are enclosed in parenthesis
+    -e.g. <code>(comimos)</code>-, lemmas in angle brackets
+    -e.g. <code>&lt;comer&gt;</code>-, PoS tags are alphanumeric strings
+    starting with a capital letter -e.g. <code>NCMS000</code>-, and senses
+    are enclosed in square brackets -e.g. <code>[00794578]</code>.  The
+    sets must be homogeneous: That is, all the elements of a set have
+    to be of the same kind.
+
+<P>
+Examples of set definitions:
+<PRE>
+   DetMasc = DA0MS0 DA0MP0 DD0MS0 DD0MP0 DI0MS0 DI0MP0 DP1MSP DP1MPP
+             DP2MSP DP2MPP DT0MS0 DT0MP0 DE0MS0 DE0MP0 AQ0MS0 AQ0MP0;
+   VerbPron = &lt;dar_cuenta&gt; &lt;atrever&gt; &lt;arrepentir&gt; &lt;equivocar&gt; &lt;inmutar&gt;
+              &lt;morir&gt; &lt;ir&gt; &lt;manifestar&gt; &lt;precipitar&gt; &lt;referir&gt; &lt;venir&gt;;
+   Animal = [00008019] [00862484] [00862617] [00862750] [00862871] [00863425]
+            [00863992] [00864099] [00864394] [00865075] [00865379] [00865569]
+            [00865638] [00867302] [00867448] [00867773] [00867864] [00868028]
+            [00868297] [00868486] [00868585] [00868729] [00911889] [00985200]
+            [00990770] [01420347] [01586897] [01661105] [01661246] [01664986] 
+            [01813568] [01883430] [01947400] [07400072] [07501137];
+</PRE>
+
+<P>
+<BR><HR>
+<ADDRESS>
+Lluís Padró
+2010-09-02
+</ADDRESS>
+</BODY>
+</HTML>

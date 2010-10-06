@@ -1,0 +1,4 @@
+<map id="G" name="G">
+<area shape="rect" href="$classner.html" title="The class ner is an abstract class that implements a general NE Recognizer." alt="" coords="5,5,45,35"/>
+<area shape="rect" href="$classvis__viterbi.html" title="The class vis_viterbi implements the viterbi algorithm given the weights of different..." alt="" coords="69,5,149,35"/>
+</map>

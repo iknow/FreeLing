@@ -1,0 +1,1220 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Valid options</TITLE>
+<META NAME="description" CONTENT="Valid options">
+<META NAME="keywords" CONTENT="userman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="userman.css">
+
+<LINK REL="next" HREF="node75.html">
+<LINK REL="previous" HREF="node73.html">
+<LINK REL="up" HREF="node73.html">
+<LINK REL="next" HREF="node75.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html1125"
+  HREF="node75.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1121"
+  HREF="node73.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1115"
+  HREF="node73.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1123"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1126"
+  HREF="node75.html">Sample Configuration File</A>
+<B> Up:</B> <A NAME="tex2html1122"
+  HREF="node73.html">Configuration File and Command</A>
+<B> Previous:</B> <A NAME="tex2html1116"
+  HREF="node73.html">Configuration File and Command</A>
+ &nbsp; <B>  <A NAME="tex2html1124"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00631000000000000000"></A>
+<A NAME="ss-options"></A>
+<BR>
+Valid options
+</H2>
+
+<P>
+This section presents the options that can be given to the <TT>     analyzer</TT> program (and thus, also to the <TT>analyzer_server</TT>
+   program and to the <TT>analyze</TT> script). All options can be
+   written in the configuration file as well as in the command line.
+   The later has always precedence over the former.
+
+<P>
+
+<UL>
+<LI><B>Help</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-h</code>, <code>--help</code></TD>
+<TD ALIGN="LEFT"><TT>N/A</TT></TD>
+</TR>
+</TABLE>
+
+<P>
+Prints to stdout a help screen with valid options and exits.
+
+<P>
+</LI>
+<LI><B>Configuration file</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-f &lt;filename&gt;</code></TD>
+<TD ALIGN="LEFT"><TT>N/A</TT></TD>
+</TR>
+</TABLE>
+
+<P>
+Specify configuration file to use (default: analyzer.cfg).
+
+<P>
+</LI>
+<LI><B>Trace Level</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-l &lt;int&gt;</code>, <code>--tlevel &lt;int&gt;</code></TD>
+<TD ALIGN="LEFT"><code>TraceLevel=&lt;int&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Set the trace level (0 = no trace, higher values = more trace), for
+ debugging purposes.
+
+<P>
+This will work only if the library was compiled with tracing information, 
+ using <TT>./configure -enable-traces</TT>.
+ Note that the code with tracing information is slower than the code 
+ compiled without it, even when traces are not active.
+
+<P>
+</LI>
+<LI><B>Trace Module</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-m &lt;mask&gt;</code>, <code>--tmod &lt;mask&gt;</code></TD>
+<TD ALIGN="LEFT"><code>TraceModule=&lt;mask&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Specify modules to trace. Each module is identified with an hexadecimal flag.
+ All flags may be OR-ed to specificy the set of modules to be traced.
+
+<P>
+Valid masks are:
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT"><B>Module</B></TD>
+<TD ALIGN="LEFT"><B>Mask</B></TD>
+</TR>
+<TR><TD ALIGN="LEFT">Splitter</TD>
+<TD ALIGN="LEFT">0x00000001</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Tokenizer</TD>
+<TD ALIGN="LEFT">0x00000002</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Morphological analyzer</TD>
+<TD ALIGN="LEFT">0x00000004</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Options management</TD>
+<TD ALIGN="LEFT">0x00000008</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Number detection</TD>
+<TD ALIGN="LEFT">0x00000010</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Date identification</TD>
+<TD ALIGN="LEFT">0x00000020</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Punctuation detection</TD>
+<TD ALIGN="LEFT">0x00000040</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Dictionary search</TD>
+<TD ALIGN="LEFT">0x00000080</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Suffixation rules</TD>
+<TD ALIGN="LEFT">0x00000100</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Multiword detection</TD>
+<TD ALIGN="LEFT">0x00000200</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Named entity detection</TD>
+<TD ALIGN="LEFT">0x00000400</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Probability assignment</TD>
+<TD ALIGN="LEFT">0x00000800</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Quantities detection</TD>
+<TD ALIGN="LEFT">0x00001000</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Named entity classification</TD>
+<TD ALIGN="LEFT">0x00002000</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Automata (abstract)</TD>
+<TD ALIGN="LEFT">0x00004000</TD>
+</TR>
+<TR><TD ALIGN="LEFT">PoS Tagger (abstract)</TD>
+<TD ALIGN="LEFT">0x00008000</TD>
+</TR>
+<TR><TD ALIGN="LEFT">HMM tagger</TD>
+<TD ALIGN="LEFT">0x00010000</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Relaxation labelling</TD>
+<TD ALIGN="LEFT">0x00020000</TD>
+</TR>
+<TR><TD ALIGN="LEFT">RL tagger</TD>
+<TD ALIGN="LEFT">0x00040000</TD>
+</TR>
+<TR><TD ALIGN="LEFT">RL tagger constr. grammar</TD>
+<TD ALIGN="LEFT">0x00080000</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Sense annotation</TD>
+<TD ALIGN="LEFT">0x00100000</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Chart parser</TD>
+<TD ALIGN="LEFT">0x00200000</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Parser grammar</TD>
+<TD ALIGN="LEFT">0x00400000</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Dependency parser</TD>
+<TD ALIGN="LEFT">0x00800000</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Correference resolution</TD>
+<TD ALIGN="LEFT">0x01000000</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Utilities</TD>
+<TD ALIGN="LEFT">0x02000000</TD>
+</TR>
+</TABLE>
+
+<P>
+</LI>
+<LI><B>Language of input text</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--lang &lt;language&gt;</code></TD>
+<TD ALIGN="LEFT"><code>Lang=&lt;language&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Language of input text (es: Spanish, ca: Catalan, en: English, cy:
+   Welsh, it: Italian, gl: Galician, pt: Portuguese).
+
+<P>
+Other languages may be added to the library. See
+   chapter&nbsp;<A HREF="node76.html#c-adding-lang">6</A> for details.
+
+<P>
+</LI>
+<LI><B>Splitter Buffer Flushing</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--flush</code>, <code>--noflush</code></TD>
+<TD ALIGN="LEFT"><code>AlwaysFlush=(yes|y|on|no|n|off)</code></TD>
+</TR>
+</TABLE>
+
+<P>
+When inactive (most usual choice) sentence splitter buffers lines
+   until a sentence marker is found. Then, it outputs a complete
+   sentence. 
+   When active, the splitter never buffers any token, and 
+   considers each newline as sentence end, thus processing each line
+   as an independent sentence.
+
+<P>
+</LI>
+<LI><B>Input Format</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--inpf &lt;string&gt;</code></TD>
+<TD ALIGN="LEFT"><code>InputFormat=&lt;string&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Format of input data (plain, token, splitted, morfo, tagged, sense).
+ 
+<UL>
+<LI>plain: plain text.
+</LI>
+<LI>token: tokenized text (one token per line).
+</LI>
+<LI>splitted : tokenized and sentence-splitted text (one token per line, sentences separated with one blank line).
+</LI>
+<LI>morfo: tokenized, sentence-splitted, and morphologically analyzed text. 
+    One token per line, sentences separated with one blank line.
+<BR>
+Each line has the format:     <TT>word (lemma tag prob)<SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img8.png"
+ ALT="$^+$"></SPAN> </TT>
+</LI>
+<LI>tagged:  tokenized, sentence-splitted, morphologically analyzed, and PoS-tagged text. 
+    One token per line, sentences separated with one blank line.
+<BR>
+Each line has the format:  <TT>word lemma tag</TT>.
+</LI>
+<LI>sense:  tokenized, sentence-splitted, morphologically
+    analyzed, PoS-tagged text, and sense-annotated. 
+    One token per line, sentences separated with one blank line.
+<BR>
+Each line has the format: 
+    <TT>word (lemma tag prob sense<SPAN CLASS="MATH"><IMG
+ WIDTH="11" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img9.png"
+ ALT="$_1$"></SPAN>:...:sense<SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img10.png"
+ ALT="$_N$"></SPAN>)<SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img8.png"
+ ALT="$^+$"></SPAN></TT>
+ 
+</LI>
+</UL>
+
+<P>
+</LI>
+<LI><B>Output Format</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--outf &lt;string&gt;</code></TD>
+<TD ALIGN="LEFT"><code>OutputFormat=&lt;string&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Format of output data (token, splitted, morfo, tagged, parsed, dep).
+ 
+<UL>
+<LI>token: tokenized text (one token per line).
+</LI>
+<LI>splitted : tokenized and sentence-splitted text (one token per line, sentences separated with one blank line).
+</LI>
+<LI>morfo: tokenized, sentence-splitted, and morphologically analyzed text. 
+    One token per line, sentences separated with one blank line.
+<BR>
+Each line has the format:  
+<BR>    <TT>word (lemma tag prob)<SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img8.png"
+ ALT="$^+$"></SPAN> </TT>
+<BR>
+or (if sense tagging has been activated):
+<BR>    <TT>word (lemma tag prob sense<SPAN CLASS="MATH"><IMG
+ WIDTH="11" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img9.png"
+ ALT="$_1$"></SPAN>:...:sense<SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img10.png"
+ ALT="$_N$"></SPAN>)<SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img8.png"
+ ALT="$^+$"></SPAN></TT>
+</LI>
+<LI>tagged:  tokenized, sentence-splitted, morphologically analyzed, and PoS-tagged text. 
+    One token per line, sentences separated with one blank line.
+<BR>
+Each line has the format:  <TT>word lemma tag prob</TT>
+<BR>
+or, if sense tagging has been activated: <TT>word lemma tag prob sense<SPAN CLASS="MATH"><IMG
+ WIDTH="11" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img9.png"
+ ALT="$_1$"></SPAN>:...:sense<SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img10.png"
+ ALT="$_N$"></SPAN></TT> 
+</LI>
+<LI>parsed:  tokenized, sentence-splitted, morphologically
+  analyzed, PoS-tagged, optionally sense-annotated, and parsed text. 
+</LI>
+<LI>dep:  tokenized, sentence-splitted, morphologically analyzed, PoS-tagged, optionally sense-annotated, and dependency-parsed text. 
+ 
+</LI>
+</UL>
+
+<P>
+</LI>
+<LI><B>Produce training output format</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--train</code></TD>
+<TD ALIGN="LEFT">N/A</TD>
+</TR>
+</TABLE>
+
+<P>
+When this option (only available at command line) is specified,
+  <code>OutputFormat</code> is forced to <code>tagged</code> and results are
+  printed in the format:
+<PRE>
+ word lemma tag # lemma1 tag1 lemma2 tag2 ...
+</PRE>
+that is, one word per line, with the selected lemma and tag as fields
+2 and 3, a separator (<code>#</code>) and a list of all possible pairs
+lemma-tag for the word (including the selected one).
+
+<P>
+This format is expected by the training scripts. Thus, this option can
+ be used to annotate a corpus, correct the output manually, and use it
+ to retrain the taggers with the script <TT>src/utilitities/TRAIN</TT>
+ provided in FreeLing package. See comments in the script file for
+ details about how to use it.
+
+<P>
+</LI>
+<LI><B>Use UTF8 encoding</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--utf</code></TD>
+<TD ALIGN="LEFT"><code>UseUTF=(yes|y|on|no|n|off)</code></TD>
+</TR>
+</TABLE>
+
+<P>
+FreeLing internally uses <code>latin1</code> ISO encoding.
+ When this option is active, the input is assumed to be in <code>utf8</code>, 
+and converted to <code>latin1</code> before processing. The results
+are converted back to <code>utf8</code> before being output.
+
+<P>
+Note that this will <EM>not</EM> work with <code>utf8</code> encodings that cannot be
+converted to <code>latin1</code>.
+
+<P>
+When using the server version (see chapter&nbsp;<A HREF="node68.html#cap-analyzer">5</A>), you
+  can choose whether it will be the server or the client who will
+  perform the conversion. 
+
+<P>
+Specifying <code>--utf</code> at the server command line
+  means that the server expects <code>utf8</code> input, so the client must 
+  send so (thus, no conversion must be carried out by the client).
+
+<P>
+Specifying <code>--utf</code> at the client command line means
+  that the client will convert <code>utf8</code> input to <code>latin1</code> before
+  sending the request to the server. So, the server has to be 
+  expecting <code>latin1</code> input (i.e. no conversion in the server side).
+
+<P>
+</LI>
+<LI><B>Tokenizer File</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--abrev &lt;filename&gt;</code></TD>
+<TD ALIGN="LEFT"><code>TokenizerFile=&lt;filename&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+File of tokenization rules. See section&nbsp;<A HREF="node17.html#file-tok">3.1</A> for details.
+
+<P>
+</LI>
+<LI><B>Splitter File</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--fsplit &lt;filename&gt;</code></TD>
+<TD ALIGN="LEFT"><code>SplitterFile=&lt;filename&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+File of splitter options rules. See section&nbsp;<A HREF="node19.html#file-split">3.2</A> for details.
+
+<P>
+</LI>
+<LI><B>Affix Analysis</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--afx</code>, <code>--noafx</code></TD>
+<TD ALIGN="LEFT"><code>AffixAnalysis=(yes|y|on|no|n|off)</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Whether to perform affix analysis on unknown words. 
+  Affix analysis applies a set of  affixation rules to the word to check whether it is a derived form of a known word.
+
+<P>
+</LI>
+<LI><B>Affixation Rules File</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-S &lt;filename&gt;</code>, <code>--fafx &lt;filename&gt;</code></TD>
+<TD ALIGN="LEFT"><code>AffixFile=&lt;filename&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Affix rules file. See section <A HREF="node29.html#file-suf">3.7.2</A> for details.
+
+<P>
+</LI>
+<LI><B>Multiword Detection</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--loc</code>, <code>--noloc</code></TD>
+<TD ALIGN="LEFT"><code>MultiwordsDetection=(yes|y|on|no|n|off)</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Whether to perform multiword detection. Multiwords may be detected if a multiword file is provided.
+ Multiword File option, below).
+
+<P>
+</LI>
+<LI><B>Multiword File</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-L &lt;filename&gt;</code>, <code>--floc &lt;filename&gt;</code></TD>
+<TD ALIGN="LEFT"><code>LocutionsFile=&lt;filename&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Multiword definition file. See section <A HREF="node30.html#file-mw">3.8</A> for details.
+
+<P>
+</LI>
+<LI><B>Number Detection</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--numb</code>, <code>--nonumb</code></TD>
+<TD ALIGN="LEFT"><code>NumbersDetection=(yes|y|on|no|n|off)</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Whether to perform nummerical expression detection. Deactivating this
+ feature will affect the behaviour of date/time and ratio/currency detection modules.
+
+<P>
+</LI>
+<LI><B>Decimal Point</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--dec &lt;string&gt;</code></TD>
+<TD ALIGN="LEFT"><code>DecimalPoint=&lt;string&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Specify decimal point character for the number detection module (for instance, in English is a dot, but in Spanish is a comma).
+
+<P>
+</LI>
+<LI><B>Thousand Point</B> 
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--thou &lt;string&gt;</code></TD>
+<TD ALIGN="LEFT"><code>ThousandPoint=&lt;string&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Specify thousand point character for the number detection module (for instance, in English is a comma, but in Spanish is a dot).
+
+<P>
+</LI>
+<LI><B>Punctuation Detection</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--punt</code>, <code>--nopunt</code></TD>
+<TD ALIGN="LEFT"><code>PunctuationDetection=(yes|y|on|no|n|off)</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Whether to assign PoS tag to punctuation signs.
+
+<P>
+</LI>
+<LI><B>Punctuation Detection File</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-M &lt;filename&gt;</code>, <code>--fpunct &lt;filename&gt;</code></TD>
+<TD ALIGN="LEFT"><code>PunctuationFile=&lt;filename&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Punctuation symbols file.  See section <A HREF="node23.html#file-punt">3.5</A> for details.
+
+<P>
+</LI>
+<LI><B>Date Detection</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--date</code>, <code>--nodate</code></TD>
+<TD ALIGN="LEFT"><code>DatesDetection=(yes|y|on|no|n|off)</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Whether to perform date and time expression detection.
+
+<P>
+</LI>
+<LI><B>Quantities Detection</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--quant</code>, <code>--noquant</code></TD>
+<TD ALIGN="LEFT"><code>QuantitiesDetection=(yes|y|on|no|n|off)</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Whether to perform currency amounts, physical magnitudes, and ratio detection. 
+
+<P>
+</LI>
+<LI><B>Quantity Recognition File</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-Q &lt;filename&gt;</code>, <code>--fqty &lt;filename&gt;</code></TD>
+<TD ALIGN="LEFT"><code>QuantitiesFile=&lt;filename&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Quantitiy recognition configuration file. See section <A HREF="node35.html#file-quant">3.10</A> for details.
+
+<P>
+</LI>
+<LI><B>Dictionary Search</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--dict</code>, <code>--nodict</code></TD>
+<TD ALIGN="LEFT"><code>DictionarySearch=(yes|y|on|no|n|off)</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Whether to search word forms in dictionary. Deactivating this feature
+ also deactivates AffixAnalysis option.
+
+<P>
+</LI>
+<LI><B>Dictionary File</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-D &lt;filename&gt;</code>, <code>--fdict &lt;filename&gt;</code></TD>
+<TD ALIGN="LEFT"><code>DictionaryFile=&lt;filename&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Dictionary database. Must be a Berkeley DB indexed file. 
+ See section <A HREF="node26.html#file-dict">3.7</A> and chapter <A HREF="node76.html#c-adding-lang">6</A> for details.
+
+<P>
+</LI>
+<LI><B>Probability Assignment</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--prob</code>, <code>--noprob</code></TD>
+<TD ALIGN="LEFT"><code>ProbabilityAssignment=(yes|y|on|no|n|off)</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Whether to compute a lexical probability for each tag of each word. 
+ Deactivating this feature will affect the behaviour of the PoS tagger.
+
+<P>
+</LI>
+<LI><B>Lexical Probabilities File</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-P &lt;filename&gt;</code>, <code>--fprob &lt;filename&gt;</code></TD>
+<TD ALIGN="LEFT"><code>ProbabilityFile=&lt;filename&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Lexical probabilities file. The probabilities in this file are used
+ to compute the most likely tag for a word, as well to estimate the
+ likely tags for unknown words. See section <A HREF="node37.html#file-prob">3.11</A> for details.
+
+<P>
+</LI>
+<LI><B>Unknown Words Probability Threshold.</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--thres &lt;float&gt;</code></TD>
+<TD ALIGN="LEFT"><code>ProbabilityThreshold=&lt;float&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Threshold that must be reached by the probability of a tag given the
+ suffix of an unknown word in order to be included in the list of
+ possible tags for that word. Default is zero (all tags are included
+ in the list). A non-zero value (e.g. 0.0001, 0.001) is recommended.
+
+<P>
+</LI>
+<LI><B>Named Entity Recognition</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--ner [bio|basic|none]</code></TD>
+<TD ALIGN="LEFT"><code>NERecognition=(bio|basic|none)</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Whether to perform NE recognition and which recognizer to use:
+  ``bio'' for AdaBoost based NER, ``basic'' for a simple heuristic NE
+  recognizer and ``none'' to perform no NE recognition . Deactivating
+  this feature will cause the NE Classification module to have no
+  effect.
+
+<P>
+</LI>
+<LI><B>Named Entity Recognizer File</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--ner [bio|basic|none]</code>, <code>--fnp &lt;filename&gt;</code></TD>
+<TD ALIGN="LEFT"><code>NPDataFile=&lt;filename&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Configuration data file for active NE recognizer (either ``bio'' or ``basic'').
+  See section <A HREF="node32.html#file-ner">3.9</A> for details.
+
+<P>
+</LI>
+<LI><B>Named Entity Classification</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--nec</code>, <code>--nonec</code></TD>
+<TD ALIGN="LEFT"><code>NEClassification=(yes|y|on|no|n|off)</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Whether to perform NE classification.
+
+<P>
+</LI>
+<LI><B>Named Entity Classifier File Prefix</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--fnec &lt;filename&gt;</code></TD>
+<TD ALIGN="LEFT"><code>NECFilePrefix=&lt;filename&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Prefix to find files for Named Entity Classifier configuration. 
+
+<P>
+The searched files will be the given prefix with the following
+  extensions: 
+ 
+<UL>
+<LI><TT>.rfg</TT>: Feature extractor rule file. 
+</LI>
+<LI><TT>.lex</TT>: Feature dictionary.
+</LI>
+<LI><TT>.abm</TT>: AdaBoost model for NEC.
+ 
+</LI>
+</UL>
+
+<P>
+See section <A HREF="node48.html#file-nec">3.16</A> for details.
+
+<P>
+</LI>
+<LI><B>Sense Annotation</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--sense &lt;string&gt;</code></TD>
+<TD ALIGN="LEFT"><code>SenseAnnotation=&lt;string&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Kind of sense annotation to perform
+ 
+<UL>
+<LI>no, none: Deactivate sense annotation.
+</LI>
+<LI>all: annotate with all possible senses in sense dictionary.
+</LI>
+<LI>mfs: annotate with most frequent sense.
+</LI>
+<LI>ukb: annotate all senses, ranked by UKB algorithm.
+ 
+</LI>
+</UL>
+
+<P>
+Whether to perform sense anotation. If active, the PoS tag selected
+   by the tagger for each word is enriched with a list of all its
+   possible WN synsets. The sense repository used depends on the contents
+   of the ``Sense Dictionary File'' described below.
+
+<P>
+</LI>
+<LI><B>Sense Dictionary File</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--fsense &lt;filename&gt;</code></TD>
+<TD ALIGN="LEFT"><code>SenseFile=&lt;filename&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Word sense data file. It is a Berkeley DB indexed file.
+  See section <A HREF="node61.html#file-sense">3.20.1</A> for details.
+
+<P>
+</LI>
+<LI><B>Duplicate Analysis for each Sense</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--dup</code>, <code>--nodup</code></TD>
+<TD ALIGN="LEFT"><code>DuplicateAnalysis=(yes|y|on|no|n|off)</code></TD>
+</TR>
+</TABLE>
+
+<P>
+When this option is set, the senses annotator will duplicate the
+  analysis once for each of its possible senses. 
+  See section <A HREF="node40.html#mod-sense">3.13</A> for details.
+
+<P>
+This may be useful if one wants to perform WSD, or to use the <EM>    sense</EM> field in the <TT>analysis</TT> in the constraint grammar (see
+  section <A HREF="node44.html#file-relax">3.15.2</A>).
+
+<P>
+</LI>
+<LI><B>Tagger algorithm</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-T &lt;string&gt;</code>, <code>--tag &lt;string&gt;</code></TD>
+<TD ALIGN="LEFT"><code>Tagger=&lt;string&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Algorithm to use for PoS tagging
+ 
+<UL>
+<LI>hmm:  Hidden Markov Model tagger, based on [<A
+ HREF="node91.html#brants00">Bra00</A>].
+</LI>
+<LI>relax: Relaxation Labelling tagger, based on [<A
+ HREF="node91.html#padro98a">Pad98</A>].
+ 
+</LI>
+</UL>
+
+<P>
+</LI>
+<LI><B>HMM Tagger configuration File</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-H &lt;filename&gt;</code>, <code>--hmm &lt;filename&gt;</code></TD>
+<TD ALIGN="LEFT"><code>TaggerHMMFile=&lt;filename&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Parameters file for HMM tagger. 
+  See section <A HREF="node43.html#file-hmm">3.15.1</A> for details.
+
+<P>
+</LI>
+<LI><B>Relaxation labelling tagger constraints file</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-R &lt;filename&gt;</code></TD>
+<TD ALIGN="LEFT"><code>TaggerRelaxFile=&lt;filename&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+File containing the constraints to apply to solve the PoS tagging.
+   See section <A HREF="node44.html#file-relax">3.15.2</A> for details.
+
+<P>
+</LI>
+<LI><B>Relaxation labelling tagger iteration limit</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--iter &lt;int&gt;</code></TD>
+<TD ALIGN="LEFT"><code>TaggerRelaxMaxIter=&lt;int&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Maximum numbers of iterations to perform in case relaxation does
+   not converge.
+
+<P>
+</LI>
+<LI><B>Relaxation labelling tagger scale factor</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--sf &lt;float&gt;</code></TD>
+<TD ALIGN="LEFT"><code>TaggerRelaxScaleFactor=&lt;float&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Scale factor to normalize supports inside RL algorithm. It is
+   comparable to the step lenght in a hill-climbing algorithm: The
+   larger scale factor, the smaller step.
+
+<P>
+</LI>
+<LI><B>Relaxation labelling tagger epsilon value</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--eps &lt;float&gt;</code></TD>
+<TD ALIGN="LEFT"><code>TaggerRelaxEpsilon=&lt;float&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Real value used to determine when a relaxation labelling iteration
+   has produced no significant changes. The algorithm stops when no
+   weight has changed above the specified epsilon.
+
+<P>
+</LI>
+<LI><B>Retokenize after tagging</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--retk</code>, <code>--noretk</code></TD>
+<TD ALIGN="LEFT"><code>TaggerRetokenize=(yes|y|on|no|n|off)</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Determine whether the tagger must perform retokenization after the
+   appropriate analysis has been selected for each word.  This is
+   closely related to affix analysis and PoS taggers, see sections
+   <A HREF="node29.html#file-suf">3.7.2</A> and <A HREF="node42.html#sec-pos">3.15</A> for details.
+
+<P>
+</LI>
+<LI><B>Force the selection of one unique tag</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>--force &lt;string&gt;</code></TD>
+<TD ALIGN="LEFT"><code>TaggerForceSelect=(none,tagger,retok)</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Determine whether the tagger must be forced to (probably randomly) make a unique choice and when.
+   
+<UL>
+<LI><TT>none</TT>: Do not force the tagger, allow ambiguous output.
+</LI>
+<LI><TT>tagger</TT>: Force the tagger to choose before
+      retokenization (i.e. if retokenization introduces any ambiguity,
+      it will be present in the final output).
+</LI>
+<LI><TT>retok</TT>: Force the tagger to choose after retokenization (no remaining ambiguity)
+   
+</LI>
+</UL>
+
+<P>
+See <A HREF="node42.html#sec-pos">3.15</A> for more information.
+
+<P>
+</LI>
+<LI><B>Chart Parser Grammar File</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-G &lt;filename&gt;</code>, <code>--grammar &lt;filename&gt;</code></TD>
+<TD ALIGN="LEFT"><code>GrammarFile=&lt;filename&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+This file contains a CFG grammar for the chart parser, and some
+  directives to control which chart edges are selected to build the
+  final tree.
+   See section <A HREF="node51.html#file-cfg">3.17.1</A> for details.
+
+<P>
+</LI>
+<LI><B>Dependency Parser Rule File</B>
+
+<P>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Command line</TD>
+<TD ALIGN="LEFT">Configuration file</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><code>-J &lt;filename&gt;</code>, <code>--dep &lt;filename&gt;</code></TD>
+<TD ALIGN="LEFT"><code>DepRulesFile==&lt;filename&gt;</code></TD>
+</TR>
+</TABLE>
+
+<P>
+Rules to be used to perform dependency analysis.
+  See section <A HREF="node53.html#file-dep">3.18.1</A> for details.
+
+<P>
+</LI>
+</UL>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1125"
+  HREF="node75.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1121"
+  HREF="node73.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1115"
+  HREF="node73.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1123"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1126"
+  HREF="node75.html">Sample Configuration File</A>
+<B> Up:</B> <A NAME="tex2html1122"
+  HREF="node73.html">Configuration File and Command</A>
+<B> Previous:</B> <A NAME="tex2html1116"
+  HREF="node73.html">Configuration File and Command</A>
+ &nbsp; <B>  <A NAME="tex2html1124"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Lluís Padró
+2010-09-02
+</ADDRESS>
+</BODY>
+</HTML>

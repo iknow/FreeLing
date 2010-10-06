@@ -1,0 +1,31 @@
+<map id="G" name="G">
+<area shape="rect" href="$accents_8cc.html" title="accents.cc" alt="" coords="5,83,91,112"/>
+<area shape="rect" href="$accents__modules_8cc.html" title="accents_modules.cc" alt="" coords="115,83,256,112"/>
+<area shape="rect" href="$automat_8cc.html" title="automat.cc" alt="" coords="280,83,365,112"/>
+<area shape="rect" href="$bioner_8cc.html" title="bioner.cc" alt="" coords="389,83,464,112"/>
+<area shape="rect" href="$database_8cc.html" title="database.cc" alt="" coords="488,83,579,112"/>
+<area shape="rect" href="$dates_8cc.html" title="dates.cc" alt="" coords="603,83,675,112"/>
+<area shape="rect" href="$dates__modules_8cc.html" title="dates_modules.cc" alt="" coords="699,83,827,112"/>
+<area shape="rect" href="$dep__rules_8cc.html" title="dep_rules.cc" alt="" coords="851,83,947,112"/>
+<area shape="rect" href="$dependencies_8cc.html" title="dependencies.cc" alt="" coords="971,83,1091,112"/>
+<area shape="rect" href="$dictionary_8cc.html" title="dictionary.cc" alt="" coords="1115,83,1211,112"/>
+<area shape="rect" href="$hmm__tagger_8cc.html" title="hmm_tagger.cc" alt="" coords="1235,83,1347,112"/>
+<area shape="rect" href="$locutions_8cc.html" title="locutions.cc" alt="" coords="1371,83,1461,112"/>
+<area shape="rect" href="$maco_8cc.html" title="maco.cc" alt="" coords="1485,83,1557,112"/>
+<area shape="rect" href="$maco__options_8cc.html" title="maco_options.cc" alt="" coords="1581,83,1701,112"/>
+<area shape="rect" href="$nec_8cc.html" title="nec.cc" alt="" coords="1725,83,1784,112"/>
+<area shape="rect" href="$np_8cc.html" title="np.cc" alt="" coords="1808,83,1861,112"/>
+<area shape="rect" href="$numbers_8cc.html" title="numbers.cc" alt="" coords="1885,83,1973,112"/>
+<area shape="rect" href="$numbers__modules_8cc.html" title="numbers_modules.cc" alt="" coords="1997,83,2141,112"/>
+<area shape="rect" href="$probabilities_8cc.html" title="probabilities.cc" alt="" coords="2165,83,2272,112"/>
+<area shape="rect" href="$punts_8cc.html" title="punts.cc" alt="" coords="2296,83,2368,112"/>
+<area shape="rect" href="$quantities_8cc.html" title="quantities.cc" alt="" coords="2392,83,2488,112"/>
+<area shape="rect" href="$quantities__modules_8cc.html" title="quantities_modules.cc" alt="" coords="2512,83,2664,112"/>
+<area shape="rect" href="$semdb_8cc.html" title="semdb.cc" alt="" coords="2688,83,2765,112"/>
+<area shape="rect" href="$senses_8cc.html" title="senses.cc" alt="" coords="2789,83,2869,112"/>
+<area shape="rect" href="$splitter_8cc.html" title="splitter.cc" alt="" coords="2893,83,2971,112"/>
+<area shape="rect" href="$suffixes_8cc.html" title="suffixes.cc" alt="" coords="2995,83,3080,112"/>
+<area shape="rect" href="$tagger_8cc.html" title="tagger.cc" alt="" coords="3104,83,3179,112"/>
+<area shape="rect" href="$tokenizer_8cc.html" title="tokenizer.cc" alt="" coords="3203,83,3293,112"/>
+<area shape="rect" href="$traces_8cc.html" title="traces.cc" alt="" coords="3317,83,3392,112"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" href="$classrule__expression.html" title="The class rule_expression is an abstract class (interface) for building dynamic restriction..." alt="" coords="5,120,117,149"/>
+<area shape="rect" href="$classsemanticDB.html" title="Class semanticDB implements a semantic DB interface." alt="" coords="141,120,232,149"/>
+<area shape="rect" href="$classdatabase.html" title="Class to wrap a berkeley DB database and unify access." alt="" coords="149,5,224,35"/>
+</map>

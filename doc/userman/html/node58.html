@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Coreference Resolution Module</TITLE>
+<META NAME="description" CONTENT="Coreference Resolution Module">
+<META NAME="keywords" CONTENT="userman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="userman.css">
+
+<LINK REL="next" HREF="node60.html">
+<LINK REL="previous" HREF="node52.html">
+<LINK REL="up" HREF="node16.html">
+<LINK REL="next" HREF="node59.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html927"
+  HREF="node59.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html923"
+  HREF="node16.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html917"
+  HREF="node57.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html925"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html928"
+  HREF="node59.html">Coreference Solver configuration file</A>
+<B> Up:</B> <A NAME="tex2html924"
+  HREF="node16.html">Analysis Modules</A>
+<B> Previous:</B> <A NAME="tex2html918"
+  HREF="node57.html">Class definitions</A>
+ &nbsp; <B>  <A NAME="tex2html926"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION004190000000000000000">
+Coreference Resolution Module</A>
+</H1>
+
+<P>
+This module is a machine-learning based coreference solver,
+  following the algorithm proposed by [<A
+ HREF="node91.html#soon01">SNL01</A>].  It takes a
+  document parsed by the shallow parser to detect noun phrases, and
+  decides which noun phrases are coreferential.
+
+<P>
+The api of the module is the following:
+<PRE>
+class coref {
+   public:
+    /// Constructor
+    coref(const std::string &amp;, const int);
+
+    /// Classify in coreference chains noun phrases in given document
+    void analyze(document &amp;) const;
+};
+</PRE>
+
+<P>
+The parameters received by the constructor are a filename, and an
+  integer bitmask specifying which attributes have to be used by the
+  classifier.
+
+<P>
+The meaning of the attributes can be found in the source file <TT>include/freeling/coref_fex.h</TT>. If you just want to use the module, set the value of this parameter to 0xFFFFFF to select all the attributes.
+
+<P>
+The string parameter is the name of the configuration file, which is described below:
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html929"
+  HREF="node59.html">Coreference Solver configuration file</A>
+</UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+<ADDRESS>
+Lluís Padró
+2010-09-02
+</ADDRESS>
+</BODY>
+</HTML>

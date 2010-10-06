@@ -1,0 +1,246 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Dependency function labeling rules</TITLE>
+<META NAME="description" CONTENT="Dependency function labeling rules">
+<META NAME="keywords" CONTENT="userman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="userman.css">
+
+<LINK REL="next" HREF="node56.html">
+<LINK REL="previous" HREF="node54.html">
+<LINK REL="up" HREF="node53.html">
+<LINK REL="next" HREF="node56.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html893"
+  HREF="node56.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html889"
+  HREF="node53.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html883"
+  HREF="node54.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html891"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html894"
+  HREF="node56.html">Semantic database location</A>
+<B> Up:</B> <A NAME="tex2html890"
+  HREF="node53.html">Dependency Parsing Rule File</A>
+<B> Previous:</B> <A NAME="tex2html884"
+  HREF="node54.html">Parse-tree completion rules</A>
+ &nbsp; <B>  <A NAME="tex2html892"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION004181200000000000000">
+Dependency function labeling rules</A>
+</H3>
+ Section <code>&lt;GRLAB&gt;</code> contains two kind of lines.
+
+<P>
+The first kind are the lines defining <code>UNIQUE</code> labels, which
+  have the format:
+<PRE>
+  UNIQUE label1 label2 label3 ...
+</PRE>
+
+<P>
+You can specify many <code>UNIQUE</code> lines, each with one or more
+  labels. The effect is the same than having all of them in a single
+  line, and the order is not relevant.
+
+<P>
+Labels in <code>UNIQUE</code> lists will be assigned only once per
+  head. That is, if a head has a daugther with a dependency already
+  labeled as <code>label1</code>, rules assigning this label will be ignored
+  for all other daugthers of the same head. (e.g. if a verb has got a
+  <code>subject</code> label for one of its dependencies, no other
+  dependency will get that label, even if it meets the conditions to
+  do so).
+
+<P>
+The second kind of lines state the rules to label the
+  dependences extracted from the full parse tree build with the
+  rules in previous section:
+
+<P>
+Each line contains a rule, with the format:
+<PRE>
+  ancestor-label dependence-label condition1 condition2 ...
+</PRE>
+
+<P>
+where:
+  
+<UL>
+<LI><code>ancestor-label</code> is the label of the node which is
+    head of the dependence.
+</LI>
+<LI><code>dependence-label</code> is the label to be assigned to the dependence
+</LI>
+<LI><code>condition</code> is a list of conditions that the dependence
+    has to match to satisfy the rule.
+  
+</LI>
+</UL>
+
+<P>
+Each <code>condition</code> has one of the forms:
+<PRE>
+  node.attribute = value
+  node.attribute != value
+</PRE>
+
+<P>
+Where <code>node</code> is a string describing a node on which the
+   <code>attribute</code> has to be checked.  The <code>value</code> is a string
+   to be matched, or a set of strings (separated by ``<code>|</code>''). The
+   strings can be right-wildcarded (e.g. <code>np*</code> is allowed, but
+   not <code>n*p</code>. For the <code>pos</code> attribute, <code>value</code> can be
+   any valid regular expression.
+
+<P>
+The <code>node</code> expresses a path to locate the node to be
+   checked. The path must start with <code>p</code> (parent node) or
+   <code>d</code> (descendant node), and may be followed by a
+   colon-separated list of labels. For instance <code>p:sn:n</code> refers
+   to the first node labeled <code>n</code> found under a node labeled
+   <code>sn</code> which is under the dependency parent <code>p</code>.
+
+<P>
+The <code>node</code> may be also <code>As</code> (<EM>All siblings</EM>) or
+   <code>Es</code> (<I CLASS="slanted">Exists sibling</I>) which will check the list of all
+   children of the ancestor (<code>p</code>), excluding the focus daughter
+   (<code>d</code>).  <code>As</code> and <code>Es</code> may be followed by a path,
+   just like <code>p</code> and <code>d</code>. For instance, <code>Es:sn:n</code> 
+   will check for a sibling with that path, and  <code>As:sn:n</code> 
+   will check that all sibling have that path.
+
+<P>
+Possible <TT>attribute</TT> to be used:
+  
+<UL>
+<LI><code>label</code>: chunk label (or PoS tag) of the node.
+</LI>
+<LI><code>side</code>: (left or right) position of the specified node with respect to the other.  Only valid for <code>p</code> and <code>d</code>.
+</LI>
+<LI><code>lemma</code>: lemma of the node head word.
+</LI>
+<LI><code>pos</code>: PoS tag of the node head word
+</LI>
+<LI><code>class</code>: word class (see below) of lemma of the node head word.
+</LI>
+<LI><code>tonto</code>: EWN Top Ontology properties of the node head word.
+</LI>
+<LI><code>semfile</code>: WN semantic file of the node head word.
+</LI>
+<LI><code>synon</code>: Synonym lemmas of the node head word (according to WN).
+</LI>
+<LI><code>asynon</code>: Synonym lemmas of the node head word ancestors (according to WN).
+  
+</LI>
+</UL>
+
+<P>
+Note that since no disambiguation is required, the attributes dealing with semantic properties will be satisfied if any of the word senses matches the condition.
+
+<P>
+For instance, the rule:
+<PRE>
+verb-phr    subj    d.label=np*      d.side=left
+</PRE>
+  states that if a <code>verb-phr</code> node has a daughter to its left, with a label
+  starting by <code>np</code>, this dependence is to be labeled as <code>subj</code>.
+
+<P>
+Similarly, the rule:
+<PRE>
+verb-phr    obj    d.label=np*  d:sn.tonto=Edible  p.lemma=eat|gulp
+</PRE>
+  states that if a <code>verb-phr</code> node has <TT>eat</TT> or <TT>gulp</TT> as
+  lemma, and a descendant with a label starting by <code>np</code> and containing
+  a daughter labeled <code>sn</code> that has <TT>Edible</TT> property in EWN
+  Top ontology, this dependence is to be labeled as <code>obj</code>.
+
+<P>
+Another example:
+<PRE>
+verb-phr    iobj   d.label=pp* d.lemma=to|for  Es.label=np*
+</PRE>
+  states that if a <code>verb-phr</code> has a descendant with a label
+  starting by <code>pp</code> (prepositional phrase) and lemma <EM>to</EM> or
+  <EM>for</EM>, and there is another child of the same parent which is 
+  a noun phrase (<code>np*</code>), this dependence is to be
+  labeled as <code>iobj</code>.
+
+<P>
+Yet another:
+<PRE>
+verb-phr    dobj   d.label=pp* d.lemma=to|for  As.label!=np*
+</PRE>
+  states that if a <code>verb-phr</code> has a descendant with a label
+  starting by <code>pp</code> (prepositional phrase) and lemma <EM>to</EM> or
+  <EM>for</EM>, and <EM>all</EM> the other children of the same parent are <EM>not</EM>
+  noun phrases (<code>np*</code>), this dependence is to be
+  labeled as <code>dobj</code>.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html893"
+  HREF="node56.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html889"
+  HREF="node53.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html883"
+  HREF="node54.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html891"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html894"
+  HREF="node56.html">Semantic database location</A>
+<B> Up:</B> <A NAME="tex2html890"
+  HREF="node53.html">Dependency Parsing Rule File</A>
+<B> Previous:</B> <A NAME="tex2html884"
+  HREF="node54.html">Parse-tree completion rules</A>
+ &nbsp; <B>  <A NAME="tex2html892"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Lluís Padró
+2010-09-02
+</ADDRESS>
+</BODY>
+</HTML>

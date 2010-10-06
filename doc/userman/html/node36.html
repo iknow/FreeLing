@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Quantity Recognition Data File</TITLE>
+<META NAME="description" CONTENT="Quantity Recognition Data File">
+<META NAME="keywords" CONTENT="userman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="userman.css">
+
+<LINK REL="previous" HREF="node35.html">
+<LINK REL="up" HREF="node35.html">
+<LINK REL="next" HREF="node37.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html657"
+  HREF="node37.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html653"
+  HREF="node35.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html649"
+  HREF="node35.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html655"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html658"
+  HREF="node37.html">Probability Assignment and Unkown</A>
+<B> Up:</B> <A NAME="tex2html654"
+  HREF="node35.html">Quantity Recognition Module</A>
+<B> Previous:</B> <A NAME="tex2html650"
+  HREF="node35.html">Quantity Recognition Module</A>
+ &nbsp; <B>  <A NAME="tex2html656"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION004101000000000000000">
+Quantity Recognition Data File</A>
+</H2>
+This file contains the data necessary to perform currency amount and
+physical magnitude recognition.  
+It consists of three sections:  <code>&lt;Currency&gt;</code>, <code>&lt;Measure&gt;</code>,
+and <code>&lt;/MeasureNames&gt;</code>.
+
+<P>
+Section <code>&lt;Currency&gt;</code> contains a single line indicating which is
+the code, among those used in section <code>&lt;Measure&gt;</code>, that stands for
+ 'currency amount'.  This is used to assign to currency ammounts a different
+ PoS tag than physical magnitudes.
+E.g.:
+<PRE>
+&lt;Currency&gt;
+CUR
+&lt;/Currency&gt;
+</PRE>
+
+<P>
+Section <code>&lt;Measure&gt;</code> indicates the type of measure corresponding
+to each possible unit. Each line contains two fields: the measure code
+and the unit code. The codes may be anything, at user's choice, and
+will be used to build the lemma of the recognized quantity multiword.
+
+<P>
+E.g., the following section states that <TT>USD</TT> and <TT>FRF</TT> are of
+type <TT>CUR</TT> (currency), <TT>mm</TT> is of type <TT>LN</TT> (length), and 
+<TT>ft/s</TT> is of type <TT>SP</TT> (speed):
+<PRE>
+&lt;Measure&gt;
+CUR USD
+CUR FRF
+LN mm
+SP ft/s
+&lt;/Measure&gt;
+</PRE>
+
+<P>
+Finally, section <code>&lt;MeasureNames&gt;</code> describes which multiwords have
+to be interpreted as a measure, and which unit they represent. The
+unit must appear in section <code>&lt;Measure&gt;</code> with its associated code.
+Each line has the format:
+<PRE>
+multiword_description code tag
+</PRE>
+where <TT>multiword_description</TT> is a multiword pattern as in
+multiwords file described in section&nbsp;<A HREF="node30.html#file-mw">3.8</A>, <TT>code</TT> is the
+type of magnitude the unit describes (currency, speed, etc.), and <TT>tag</TT> is a constraint on the lemmatized components of the multiword,
+following the same conventions than in multiwords file
+(section&nbsp;<A HREF="node30.html#file-mw">3.8</A>).
+
+<P>
+E.g., 
+<PRE>
+&lt;MeasureNames&gt;
+french_&lt;franc&gt; FRF $2:N
+&lt;franc&gt; FRF $1:N
+&lt;dollar&gt; USD $1:N
+american_&lt;dollar&gt; USD $2:N
+us_&lt;dollar&gt; USD $2:N
+&lt;milimeter&gt; mm $1:N
+&lt;foot&gt;_per_second ft/s $1:N
+&lt;foot&gt;_Fh_second ft/s $1:N
+&lt;foot&gt;_Fh_s ft/s $1:N
+&lt;foot&gt;_second ft/s $1:N
+&lt;/MeasureNames&gt;
+</PRE>
+
+<P>
+This section will recognize strings such as the following:
+<PRE>
+ 234_french_francs CUR_FRF:234 Zm
+ one_dollar CUR_USD:1 Zm
+ two_hundred_fifty_feet_per_second SP_ft/s:250 Zu
+</PRE>
+
+<P>
+Quantity multiwords will be recognized only when following a number,
+ that is, in the sentence <EM>There were many french francs</EM>, the
+ multiword won't be recognized since it is not assigning units to a
+ determined quantity.
+
+<P>
+It is important to note that the lemmatized multiword expressions
+ (the ones that containt angle brackets) will only be recognized if
+ the lemma is present in the dictionary with its corresponding
+ inflected forms.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html657"
+  HREF="node37.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html653"
+  HREF="node35.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html649"
+  HREF="node35.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html655"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html658"
+  HREF="node37.html">Probability Assignment and Unkown</A>
+<B> Up:</B> <A NAME="tex2html654"
+  HREF="node35.html">Quantity Recognition Module</A>
+<B> Previous:</B> <A NAME="tex2html650"
+  HREF="node35.html">Quantity Recognition Module</A>
+ &nbsp; <B>  <A NAME="tex2html656"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Lluís Padró
+2010-09-02
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Usage example</TITLE>
+<META NAME="description" CONTENT="Usage example">
+<META NAME="keywords" CONTENT="userman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="userman.css">
+
+<LINK REL="next" HREF="node73.html">
+<LINK REL="previous" HREF="node69.html">
+<LINK REL="up" HREF="node68.html">
+<LINK REL="next" HREF="node73.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html1101"
+  HREF="node73.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1097"
+  HREF="node68.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1091"
+  HREF="node71.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1099"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1102"
+  HREF="node73.html">Configuration File and Command</A>
+<B> Up:</B> <A NAME="tex2html1098"
+  HREF="node68.html">Using the sample main</A>
+<B> Previous:</B> <A NAME="tex2html1092"
+  HREF="node71.html">Client/server mode</A>
+ &nbsp; <B>  <A NAME="tex2html1100"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00620000000000000000">
+Usage example</A>
+</H1>
+
+<P>
+Assuming we have the following input file <TT>mytext.txt</TT>:
+
+<DIV ALIGN="CENTER"><TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=170><SMALL CLASS="SMALL"><TT>
+El gato come pescado. Pero a Don Jaime no le gustan los gatos.
+</TT></SMALL></TD>
+</TR>
+</TABLE></DIV>
+
+<P>
+we could issue the command:
+<PRE>
+  analyze -f myconfig.cfg &lt;mytext.txt &gt;mytext.mrf
+</PRE>
+   Assuming that <TT>myconfig.cfg</TT> is the file presented in
+   section&nbsp;<A HREF="node75.html#ss-config">5.3.2</A>. Given the options there, the produced
+   output would correspond to <TT>morfo</TT> format (i.e. morphological
+   analysis but no PoS tagging). The expected results are:
+<PRE>
+ El el DA0MS0 1 
+ gato gato NCMS000 1 
+ come comer VMIP3S0 0.75 comer VMM02S0 0.25 
+ pescado pescado NCMS000 0.833333 pescar VMP00SM 0.166667 
+ . . Fp 1 
+
+ Pero pero CC 0.99878 pero NCMS000 0.00121951 Pero NP00000 0.00121951 
+ a a NCFS000 0.0054008 a SPS00 0.994599 
+ Don_Jaime Don_Jaime NP00000 1 
+ no no NCMS000 0.00231911 no RN 0.997681 
+ le Èl PP3CSD00 1 
+ gustan gustar VMIP3P0 1 
+ los el DA0MP0 0.975719 lo NCMP000 0.00019425 Èl PP3MPA00 0.024087 
+ gatos gato NCMP000 1 
+ . . Fp 1
+</PRE>
+
+<P>
+If we also wanted PoS tagging, we could have issued the command:
+<PRE>
+  analyze -f myconfig.cfg --outf tagged &lt;mytext.txt &gt;mytext.tag
+</PRE>
+to obtain the tagged output:
+<PRE>
+ El el DA0MS0
+ gato gato NCMS000
+ come comer VMIP3S0
+ pescado pescado NCMS000
+ . . Fp
+
+ Pero pero CC
+ a a SPS00
+ Don_Jaime Don_Jaime NP00000
+ no no RN
+ le Èl PP3CSD00
+ gustan gustar VMIP3P0
+ los el DA0MP0
+ gatos gato NCMP000
+ . . Fp
+</PRE>
+
+<P>
+We can also ask for the synsets of the tagged words:
+<PRE>
+  analyze -f myconfig.cfg --outf sense --sense all  &lt;mytext.txt &gt;mytext.sen
+</PRE>
+obtaining the output:
+<PRE>
+ El el DA0MS0
+ gato gato NCMS000 01630731:07221232:01631653
+ come comer VMIP3S0 00794578:00793267
+ pescado pescado NCMS000 05810856:02006311
+ . . Fp
+
+ Pero pero CC
+ a a SPS00
+ Don_Jaime Don_Jaime NP00000
+ no no RN
+ le Èl PP3CSD00
+ gustan gustar VMIP3P0 01244897:01213391:01241953
+ los el DA0MP0
+ gatos gato NCMP000 01630731:07221232:01631653
+ . . Fp
+</PRE>
+
+<P>
+Alternatively, if we don't want to repeat the first steps that we
+   had already performed, we could use the output of the morphological
+   analyzer as input to the tagger:
+<PRE>
+analyzer -f myconfig.cfg --inpf morfo --outf tagged &lt;mytext.mrf &gt;mytext.tag
+</PRE>
+
+<P>
+See options InputFormat and OutputFormat in
+   section&nbsp;<A HREF="node74.html#ss-options">5.3.1</A> for details on which are valid input and
+   output formats.
+
+<P>
+<BR><HR>
+<ADDRESS>
+Llu√≠s Padr√≥
+2010-09-02
+</ADDRESS>
+</BODY>
+</HTML>

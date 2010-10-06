@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" href="$classdependency__parser.html" title="The class dependency_parser is just an abstract class generalizing any dependency..." alt="" coords="5,216,139,245"/>
+<area shape="rect" href="$classdepLabeler.html" title="depLabeler is class to set labels into a dependency tree" alt="" coords="163,216,245,245"/>
+<area shape="rect" href="$classsemanticDB.html" title="Class semanticDB implements a semantic DB interface." alt="" coords="159,120,249,149"/>
+<area shape="rect" href="$classdatabase.html" title="Class to wrap a berkeley DB database and unify access." alt="" coords="167,5,241,35"/>
+<area shape="rect" href="$classcompleter.html" title="The class completer implements a parse tree completer, which given a partial parse..." alt="" coords="269,216,347,245"/>
+</map>

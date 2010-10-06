@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" href="$classdates__ca.html" title="The derived class dates_ca implements a Catalan date/time recognizer." alt="" coords="5,160,80,189"/>
+<area shape="rect" href="$classdates__default.html" title="The derived class dates_default implements a default date/time recognizer (only simple..." alt="" coords="104,160,203,189"/>
+<area shape="rect" href="$classdates__en.html" title="The derived class dates_en implements an English date/time recognizer." alt="" coords="227,160,301,189"/>
+<area shape="rect" href="$classdates__es.html" title="The derived class dates_es implements a Spanish date/time recognizer." alt="" coords="325,160,400,189"/>
+<area shape="rect" href="$classautomat.html" title="Abstract class to implement a Finite&#45;State Automaton which is used by modules recognizing..." alt="" coords="175,5,241,35"/>
+</map>

@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Using the sample main program to process corpora</TITLE>
+<META NAME="description" CONTENT="Using the sample main program to process corpora">
+<META NAME="keywords" CONTENT="userman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="userman.css">
+
+<LINK REL="next" HREF="node76.html">
+<LINK REL="previous" HREF="node63.html">
+<LINK REL="up" HREF="userman.html">
+<LINK REL="next" HREF="node69.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html1046"
+  HREF="node69.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1042"
+  HREF="userman.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1036"
+  HREF="node67.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1044"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1047"
+  HREF="node69.html">The easy way: Using</A>
+<B> Up:</B> <A NAME="tex2html1043"
+  HREF="userman.html">userman</A>
+<B> Previous:</B> <A NAME="tex2html1037"
+  HREF="node67.html">Sample programs</A>
+ &nbsp; <B>  <A NAME="tex2html1045"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00600000000000000000"></A>
+<A NAME="cap-analyzer"></A>
+<BR>
+Using the sample main program to process corpora
+</H1>
+
+<P>
+The simplest way to use the FreeLing libraries is via the provided
+ <TT>analyzer</TT> sample main program, which allows the user to process an input text
+ to obtain several linguistic processings.
+
+<P>
+Since it is impossible to write a program that fits
+  everyone's needs, the <TT>analyzer</TT> program offers you almost all
+  functionalities included in FreeLing, but if you want it to output
+  more information, or do so in a specific format, or combine the
+  modules in a different way, the right path to follow is building
+  your own main program or adapting one of the existing, as described
+  in section <A HREF="node67.html#sec-main">4.2</A>
+
+<P>
+FreeLing also provides a couple of programs <TT>analyzer_server</TT>
+  and <TT>analyzer_client</TT> that perform the same task, but the
+  server remains loaded after analyzing each client's request, thus
+  reducing the starting-up overhead if many small files have to be
+  processed. Server-client pairs communicate via sockets.
+
+<P>
+Both <TT>analyzer</TT> and <TT>analyzer_server</TT> are usually called 
+  with an option <code>-f config-file</code>  (if ommitted, they will search
+  for a file named <TT>analyzer.cfg</TT> in the current directory).
+  The given <code>config-file</code> must be an absolute file name, or a 
+  relative path to the current directory.
+
+<P>
+You can use the default configuration files (located 
+  at <TT>/usr/local/share/FreeLing/config</TT> if you installed from tarball, 
+  or at <TT>/usr/share/FreeLing/config</TT> if you used a .deb package), or 
+  either a config file that suits your needs. 
+   Note that the default configuration
+  files require the environment variable <TT>FREELINGSHARE</TT> to be
+  defined and to point to a directory with valid FreeLing data files
+  (e.g. <TT>/usr/local/share/FreeLing</TT>). 
+
+<P>
+The <TT>analyze</TT> script described below handles all these default
+  paths and variables and makes everything easier if you want to use
+  the defaults
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html1048"
+  HREF="node69.html">The easy way: Using the <TT>analyze</TT> script</A>
+<UL>
+<LI><A NAME="tex2html1049"
+  HREF="node70.html">Straight mode</A>
+<LI><A NAME="tex2html1050"
+  HREF="node71.html">Client/server mode</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1051"
+  HREF="node72.html">Usage example</A>
+<LI><A NAME="tex2html1052"
+  HREF="node73.html">Configuration File and Command Line Options</A>
+<UL>
+<LI><A NAME="tex2html1053"
+  HREF="node74.html">Valid options</A>
+<LI><A NAME="tex2html1054"
+  HREF="node75.html">Sample Configuration File</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1046"
+  HREF="node69.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1042"
+  HREF="userman.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1036"
+  HREF="node67.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1044"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1047"
+  HREF="node69.html">The easy way: Using</A>
+<B> Up:</B> <A NAME="tex2html1043"
+  HREF="userman.html">userman</A>
+<B> Previous:</B> <A NAME="tex2html1037"
+  HREF="node67.html">Sample programs</A>
+ &nbsp; <B>  <A NAME="tex2html1045"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Lluís Padró
+2010-09-02
+</ADDRESS>
+</BODY>
+</HTML>

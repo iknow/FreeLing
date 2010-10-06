@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Install from SVN repositories</TITLE>
+<META NAME="description" CONTENT="Install from SVN repositories">
+<META NAME="keywords" CONTENT="userman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="userman.css">
+
+<LINK REL="previous" HREF="node12.html">
+<LINK REL="up" HREF="node10.html">
+<LINK REL="next" HREF="node14.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html342"
+  HREF="node14.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html338"
+  HREF="node10.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html334"
+  HREF="node12.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html340"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html343"
+  HREF="node14.html">Executing</A>
+<B> Up:</B> <A NAME="tex2html339"
+  HREF="node10.html">Installation</A>
+<B> Previous:</B> <A NAME="tex2html335"
+  HREF="node12.html">Install from .tar.gz source</A>
+ &nbsp; <B>  <A NAME="tex2html341"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00323000000000000000"></A>
+<A NAME="sec-install-svn"></A>
+<BR>
+Install from <TT>SVN</TT> repositories
+</H2>
+
+<P>
+Installing from the SVN is very similar to installing from source,
+  but you'll have the chance to easily update your FreeLing to the
+  latest development version.
+
+<P>
+
+<DL COMPACT>
+<DT><B><SPAN CLASS="arabic">1</SPAN>.</B>
+<DD><B>Install development tools</B>
+<BR>
+You'll need to install the C++ compiler, the GNU autotools, and a SVN client.
+<PRE>
+  sudo apt-get install build-essential automake libtool subversion
+</PRE>
+
+<P>
+If you use a distribution different than Debian or Ubuntu, these packages
+  may have different names. Use your package manager to locate and install
+  the appropriate ones.
+
+<P>
+<DT><B><SPAN CLASS="arabic">2</SPAN>.</B>
+<DD><B>Install packaged requirements</B>
+<BR>
+Follow the same procedure described in section <A HREF="node12.html#sec-install-tgz">2.2.2</A> for
+  these two steps.
+
+<P>
+<DT><B><SPAN CLASS="arabic">3</SPAN>.</B>
+<DD><B>Checkout FreeLing sources</B>
+<PRE>
+    mkdir mysrc
+    cd mysrc
+    svn checkout http://devel.cpl.upc.edu/freeling/svn/latest/freeling
+    svn checkout http://devel.cpl.upc.edu/freeling/svn/latest/omlet
+    svn checkout http://devel.cpl.upc.edu/freeling/svn/latest/fries
+</PRE>
+
+<P>
+<DT><B><SPAN CLASS="arabic">4</SPAN>.</B>
+<DD><B>Prepare local repositories for compilation</B>
+<PRE>
+    cd fries
+    aclocal; libtoolize; autoconf; automake -a
+    cd ../omlet
+    aclocal; libtoolize; autoconf; automake -a
+    cd ../freeling
+    aclocal; libtoolize; autoconf; automake -a
+    cd ..
+</PRE>
+
+<P>
+<DT><B><SPAN CLASS="arabic">5</SPAN>.</B>
+<DD><B>Build and install FreeLing</B>
+<PRE>
+    cd fries
+    ./configure &amp;&amp; make
+    sudo make install
+
+    cd ../omlet
+    ./configure &amp;&amp; make
+    sudo make install
+
+    cd ../freeling
+    ./configure &amp;&amp; make
+    sudo make install
+</PRE>
+
+<P>
+</DD>
+</DL>
+
+<P>
+If you keep the svn directories, you will be able to update to the latest version at any moment:
+<PRE>
+    cd freeling
+    svn update
+    ./configure &amp;&amp; make
+    sudo make install
+</PRE>
+  Obviously, you can also update <TT>fries</TT> or <TT>omlet</TT> versions in the same way.
+
+<P>
+<BR><HR>
+<ADDRESS>
+Lluís Padró
+2010-09-02
+</ADDRESS>
+</BODY>
+</HTML>

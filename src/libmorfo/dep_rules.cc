@@ -340,17 +340,14 @@ check_side::check_side(const string &n,const string &s) : rule_expression(n,s) {
 };
 bool check_side::check(dep_tree::iterator ancestor, dep_tree::iterator descendant) const {
   string side=*valueList.begin();
-  bool b=false;
-  TRACE(4,"      eval SIDE="+side+" node="+node);
-  TRACE(4,"          d="+util::int2string(descendant->info.get_word().get_span_start())
-	          +" p="+util::int2string(ancestor->info.get_word().get_span_start()) );
-  if ((side=="left" && node=="d") || (side=="right" && node=="p")) 
-    b= (descendant->info.get_word().get_span_start())<(ancestor->info.get_word().get_span_start());
-  else if ((side=="left" && node=="p") || (side=="right" && node=="d")) 
-    b = (descendant->info.get_word().get_span_start())>(ancestor->info.get_word().get_span_start());
-  
-  TRACE(4,"          result = "+string(b?"true":"false"));
-  return b;
+  TRACE(4,"      eval SIDE="+side);
+  if ((side=="left" && node=="d") || (side=="right" && node=="p")) {
+    return ((descendant->info.get_word().get_span_start())<(ancestor->info.get_word().get_span_start()));
+  }
+  else if ((side=="left" && node=="p") || (side=="right" && node=="d")) {
+    return ((descendant->info.get_word().get_span_start())>(ancestor->info.get_word().get_span_start()));
+  }
+  else return false;
 }
 
 /// check_wordclass
