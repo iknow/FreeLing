@@ -47,14 +47,18 @@ using namespace std;
 #define IN 1   // initial
 #define NP 2   // Capitalized word, much likely a NE component
 #define FUN 3  // Functional word inside a NE
-#define STOP 4
+#define PREF 4 // a possible NE prefix was found
+#define SUF  5 // a possible NE suffix was found
+#define STOP 6
 
 // Token codes
 #define TK_sUnkUpp  1   // non-functional, unknown word, begining of sentence, capitalized, with no analysis yet
 #define TK_sNounUpp 2   // non-functional, known as noun, begining of sentence, capitalized, with no analysis yet
 #define TK_mUpper 3     // capitalized, not at beggining of sentence
 #define TK_mFun  4   // functional word, non-capitalized, not at beggining of sentence
-#define TK_other 5
+#define TK_mPref 5   // lowercase word in the list of proper noun prefixes (mr., dr.) 
+#define TK_mSuf  6   // lowercase word in the list of proper noun suffixes (jr., sr.) 
+#define TK_other 7
 
 
 
@@ -99,6 +103,8 @@ np::np(const std::string &npFile): ner(), automat(), RE_NounAdj(RE_NA), RE_Close
     else if (line == "</RE_DateNumPunct>") reading=0;
     else if (line == "<SplitMultiwords>") reading = 10;
     else if (line == "</SplitMultiwords>") reading = 0;
+    else if (line == "<Affixes>") reading = 11;
+    else if (line == "</Affixes>") reading = 0;
     else if (reading==1)   // reading Function words
       func.insert(line);
     else if (reading==2)   // reading special punctuation tags
@@ -129,8 +135,21 @@ np::np(const std::string &npFile): ner(), automat(), RE_NounAdj(RE_NA), RE_Close
       RegEx re(line);     
       RE_DateNumPunct=re;
     }
-    else if (reading==10)
+    else if (reading==10) {
       splitNPs = (line.compare("yes")==0);
+    }
+    else if (reading==11) { // list of suffixes/prefixes
+      istringstream sin;
+      sin.str(line);
+      string word; string type;
+      sin>>word>>type;
+      if (type=="SUF") 
+	suffixes.insert(word);
+      else if (type=="PRE") 
+	prefixes.insert(word);
+      else 
+	WARNING("Ignored affix with unknown type '"+type+"' in file "+npFile);
+    }
   }
   fabr.close(); 
   
@@ -138,6 +157,7 @@ np::np(const std::string &npFile): ner(), automat(), RE_NounAdj(RE_NA), RE_Close
   initialState=IN; stopState=STOP;
   // Initialize Final state set 
   Final.insert(NP); 
+  Final.insert(SUF); 
   
   // Initialize transitions table. By default, stop state
   int s,t;
@@ -146,12 +166,21 @@ np::np(const std::string &npFile): ner(), automat(), RE_NounAdj(RE_NA), RE_Close
   // Initializing transitions table
   // State IN
   trans[IN][TK_sUnkUpp]=NP; trans[IN][TK_sNounUpp]=NP; trans[IN][TK_mUpper]=NP;
+  trans[IN][TK_mPref]=PREF; 
+  // State PREF
+  trans[PREF][TK_mPref]=PREF; 
+  trans[PREF][TK_mUpper]=NP;
   // State NP
   trans[NP][TK_mUpper]=NP;
   trans[NP][TK_mFun]=FUN;
+  trans[NP][TK_mSuf]=SUF; 
   // State FUN
-  trans[FUN][TK_sUnkUpp]=NP; trans[FUN][TK_sNounUpp]=NP; trans[FUN][TK_mUpper]=NP;
+  // trans[FUN][TK_sUnkUpp]=NP; trans[FUN][TK_sNounUpp]=NP;   // shouldn't be necessary... 
+  trans[FUN][TK_mUpper]=NP;
   trans[FUN][TK_mFun]=FUN;
+  // State SUF
+  trans[SUF][TK_mSuf]=SUF; 
+
 
   TRACE(3,"analyzer succesfully created");
 }
@@ -258,6 +287,10 @@ int np::ComputeToken(int state, sentence::iterator &j, sentence &se)
     else if (func.find(form)!=func.end())
       // in list of functional words
       token=TK_mFun;
+    else if (prefixes.find(form)!=prefixes.end())
+      token=TK_mPref;
+    else if (suffixes.find(form)!=suffixes.end())
+      token=TK_mSuf;
   }
  
   TRACE(3,"Next word form is: ["+formU+"] token="+util::int2string(token));
