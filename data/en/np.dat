@@ -32,6 +32,12 @@ NNP
 <TitleLimit>
 0
 </TitleLimit>
+<Affixes>
+mr.  PRE
+mrs. PRE
+jr. SUF
+sr. SUF
+</Affixes>
 <Ignore>
 i 0
 english 0
