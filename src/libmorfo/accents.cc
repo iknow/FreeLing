@@ -46,8 +46,8 @@ accents::accents(const std::string &Lang)
     /// Create Spanish accent handler
     who = new accents_es();
   else if (string(Lang)=="gl")
-    /// Create Galician accent handler !! (equal to Spanish ??) !!
-    who = new accents_es();
+    /// Create Galician accent handler 
+    who = new accents_gl();
   else if (string(Lang)=="ca")
     /// Create Catalan accent handler !! To be fixed !!
     who = new accents_default();
