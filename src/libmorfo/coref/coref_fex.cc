@@ -47,18 +47,19 @@
 #define COREFEX_FEATURE_UNK_GENDER		56
 #define COREFEX_FEATURE_SEMCLASS		57
 #define COREFEX_FEATURE_UNK_SEMCLASS	58
-#define COREFEX_FEATURE_PROPERNAME		59
-#define COREFEX_FEATURE_ACRONIM			60
-#define COREFEX_FEATURE_FIXLEFT			61
-#define COREFEX_FEATURE_FIXRIGHT		62
-#define COREFEX_FEATURE_ORDER			63
+#define COREFEX_FEATURE_IPROPERNAME		59
+#define COREFEX_FEATURE_JPROPERNAME		60
+#define COREFEX_FEATURE_ACRONIM			61
+#define COREFEX_FEATURE_FIXLEFT			62
+#define COREFEX_FEATURE_FIXRIGHT		63
+#define COREFEX_FEATURE_ORDER			64
 #define COREFEX_FEATURE_APPOS			70
 #define COREFEX_FEATURE_IQUOTE			80
 #define COREFEX_FEATURE_JQUOTE			81
 #define COREFEX_FEATURE_IPARENTHESIS	90
 #define COREFEX_FEATURE_JPARENTHESIS	91
-#define COREFEX_FEATURE_ITHIRT			100
-#define COREFEX_FEATURE_JTHIRT			101
+#define COREFEX_FEATURE_ITHIRD			100
+#define COREFEX_FEATURE_JTHIRD			101
 
 // DONE
 //	I/J IN QUOTES		mi/j is in quotes or inside a NP or a sentence in quotes: y,n
@@ -555,7 +556,8 @@ int coref_fex::get_number(const EXAMPLE &ex){
 
 	if(num1 == num2 && num1 != '0')
 		return COREFEX_FEATURE_NUMBER;
-	else if((num1 != '0' && num2 != '0' && num1 != num2) && typeVector == COREFEX_TYPE_THREE)
+//	else if((num1 != '0' && num2 != '0' && num1 != num2) && typeVector == COREFEX_TYPE_THREE)
+	else if((num1 == '0' || num2 == '0') && typeVector == COREFEX_TYPE_THREE)
 		return COREFEX_FEATURE_UNK_NUMBER;
 	else
 		return 0;
@@ -621,7 +623,7 @@ int coref_fex::get_semclass(const EXAMPLE &ex){
 					}
 					if(check_human && !check_group){
 						type1 = "sp";
-					} else if(check_human && check_group){
+					} else if(check_group){ // check_human &&
 						type1 = "o0";
 					} else if(check_place){
 						type1 = "g0";
@@ -660,11 +662,13 @@ int coref_fex::get_semclass(const EXAMPLE &ex){
 			}
 		}
 	}
-	if(type1 == type2 && type1 != ""){
+//	cout << ex.sample1.text << " | " << ex.sample2.text << " | " << tag1 << " | " << tag2 << " | " << type1 << " | " << type2 << endl;
+	if(type1 == type2 && type1 != "" && type1 != "v0"){
 		return COREFEX_FEATURE_SEMCLASS;
 	} else if(type1 == "sp" && tag2.compare(0, 2, "pp") == 0){
 		return COREFEX_FEATURE_SEMCLASS;
-//	} else if(type1 == "" && type2 ==
+	} else if(type1 == "" || type2 == "" || type1 == "v0" || type2 == "v0"){
+		return COREFEX_FEATURE_UNK_SEMCLASS;
 	}
 	return 0;
 }
@@ -700,7 +704,8 @@ int coref_fex::get_gender(const EXAMPLE &ex){
 
 	if(gen1 == gen2 && gen1 != '0')
 		return COREFEX_FEATURE_GENDER;
-	else if((gen1 != '0' && gen2 != '0' && gen1 != gen2) && typeVector == COREFEX_TYPE_THREE)
+//	else if((gen1 != '0' && gen2 != '0' && gen1 != gen2) && typeVector == COREFEX_TYPE_THREE)
+	else if((gen1 == '0' || gen2 == '0') && typeVector == COREFEX_TYPE_THREE)
 		return COREFEX_FEATURE_UNK_GENDER;
 	else
 		return 0;
@@ -710,13 +715,41 @@ int coref_fex::get_gender(const EXAMPLE &ex){
 ///    Returns if 'i' and 'j' are proper nouns
 //////////////////////////////////////////////////////////////////
 
-int coref_fex::get_proper_name(const EXAMPLE &ex){
-	int pos1, pos2;
+// int coref_fex::get_proper_name(const EXAMPLE &ex){
+// 	int pos1, pos2;
+//
+// 	pos1 = jump(ex.sample1.tags);
+// 	pos2 = jump(ex.sample2.tags);
+// 	if(ex.sample1.tags[pos1].compare(0, 2, "np") == 0 && ex.sample2.tags[pos2].compare(0, 2, "np") == 0)
+// 		return COREFEX_FEATURE_PROPERNAME;
+// 	else
+// 		return 0;
+// }
+
+//////////////////////////////////////////////////////////////////
+///    Returns if 'i' is proper noun
+//////////////////////////////////////////////////////////////////
+
+int coref_fex::get_proper_name_i(const EXAMPLE &ex){
+	int pos1;
 
 	pos1 = jump(ex.sample1.tags);
+	if(ex.sample1.tags[pos1].compare(0, 2, "np") == 0)
+		return COREFEX_FEATURE_IPROPERNAME;
+	else
+		return 0;
+}
+
+//////////////////////////////////////////////////////////////////
+///    Returns if 'j' is proper noun
+//////////////////////////////////////////////////////////////////
+
+int coref_fex::get_proper_name_j(const EXAMPLE &ex){
+	int pos2;
+
 	pos2 = jump(ex.sample2.tags);
-	if(ex.sample1.tags[pos1].compare(0, 2, "np") == 0 && ex.sample2.tags[pos2].compare(0, 2, "np") == 0)
-		return COREFEX_FEATURE_PROPERNAME;
+	if(ex.sample2.tags[pos2].compare(0, 2, "np") == 0)
+		return COREFEX_FEATURE_JPROPERNAME;
 	else
 		return 0;
 }
@@ -998,7 +1031,7 @@ int coref_fex::get_i_thirtperson(const EXAMPLE &ex){
 	if(ex.sample1.tags[pos].compare(0, 1, "d") == 0 || ex.sample1.tags[pos].compare(0, 1, "p") == 0)
 		p = ex.sample1.tags[pos][2];
 	if(p == '3')
-		return COREFEX_FEATURE_ITHIRT;
+		return COREFEX_FEATURE_ITHIRD;
 	else
 		return 0;
 }
@@ -1010,7 +1043,7 @@ int coref_fex::get_j_thirtperson(const EXAMPLE &ex){
 	if(ex.sample2.tags[pos].compare(0, 1, "d") == 0 || ex.sample2.tags[pos].compare(0, 1, "p") == 0)
 		p = ex.sample2.tags[pos][2];
 	if(p == '3')
-		return COREFEX_FEATURE_JTHIRT;
+		return COREFEX_FEATURE_JTHIRD;
 	else
 		return 0;
 }
@@ -1090,8 +1123,10 @@ void coref_fex::extract(EXAMPLE &ex, std::vector<int> &result){
 		put_feature(get_gender(ex), result);
 	if (vectors & COREFEX_SEMCLASS)
 		put_feature(get_semclass(ex), result);
-	if (vectors & COREFEX_PROPNAME)
-		put_feature(get_proper_name(ex), result);
+	if (vectors & COREFEX_PROPNAME){
+		put_feature(get_proper_name_i(ex), result);
+		put_feature(get_proper_name_j(ex), result);
+	}
 
 	if (vectors & COREFEX_ALIAS) {
 		put_feature(get_alias_acro(ex), result);
