@@ -789,67 +789,75 @@ int main (int argc, char **argv) {
   bool stop=false;    /// The server version will never stop. 
   while (not stop) {  /// The standalone version will stop after one iteration.
 
-    #ifdef SERVER
-      cerr<<"SERVER: opening channels. Waiting connections"<<endl;
-      sock->wait_client();
-    #endif
-
-    // --- Main loop: read an process all input lines up to EOF ---
-    while (ReadLine(text)) {
-
+    try {
       #ifdef SERVER
-        start = clock();
-        if (text=="RESET_STATS") { 
-  	  ResetStats();
-	  continue;
-	}
-	else if (text=="PRINT_STATS") {
-	  PrintStats();
-	  continue;
-	}
+        cerr<<"SERVER: opening channels. Waiting connections"<<endl;
+        sock->wait_client();
       #endif
 
-      if (cfg->UTF8) // input is utf, convert to latin-1
-	text=utf8toLatin(text.c_str());      
+      // --- Main loop: read an process all input lines up to EOF ---
+      while (ReadLine(text)) {
 
-      if (cfg->COREF_CoreferenceResolution)  // coreference requested, plain text input 
-        ProcessLineCoref(text,av,ls,par,doc);
-    
-      else if (cfg->InputFormat == PLAIN)    // Input is plain text.
-	ProcessLinePlain(text,offs);
-	  
-      else if (cfg->InputFormat == TOKEN)    // Input is tokenized.
-	ProcessLineToken(text,offs,av);
+        #ifdef SERVER
+          start = clock();
+	  if (text=="RESET_STATS") { 
+	    ResetStats();
+	    continue;
+	  }
+	  else if (text=="PRINT_STATS") {
+	    PrintStats();
+	    continue;
+	  }
+        #endif
+
+        if (cfg->UTF8) // input is utf, convert to latin-1
+	  text=utf8toLatin(text.c_str());      
+	
+	if (cfg->COREF_CoreferenceResolution)  // coreference requested, plain text input 
+	  ProcessLineCoref(text,av,ls,par,doc);
+	
+	else if (cfg->InputFormat == PLAIN)    // Input is plain text.
+	  ProcessLinePlain(text,offs);
+	
+	else if (cfg->InputFormat == TOKEN)    // Input is tokenized.
+	  ProcessLineToken(text,offs,av);
+	
+	else if (cfg->InputFormat >= SPLITTED) // Input is (at least) tokenized and splitted.
+	  ProcessLineSplitted(text,offs,sent);   
+	
+      } // --- end while(readline)
       
-      else if (cfg->InputFormat >= SPLITTED) // Input is (at least) tokenized and splitted.
-	ProcessLineSplitted(text,offs,sent);   
-
-    } // --- end while(readline)
-    
-    // Document has been processed. Perform required post-processing
-    // (or just make sure to empty splitter buffers).
-    
-    #ifdef SERVER
-      start = clock();
-    #endif
-
-    if (cfg->COREF_CoreferenceResolution)   // All document read, solve correferences.
-      PostProcessCoref(text,av,ls,par,doc);
-    
-    else {  // no coreferences, just flush buffers.
+      // Document has been processed. Perform required post-processing
+      // (or just make sure to empty splitter buffers).
       
-      if (cfg->InputFormat == PLAIN or cfg->InputFormat == TOKEN) {
-	// flush splitter buffer
-	if (cfg->OutputFormat >= SPLITTED) sp->split (av, true, ls);	
+      #ifdef SERVER
+        start = clock();
+      #endif
+      
+      if (cfg->COREF_CoreferenceResolution)   // All document read, solve correferences.
+	PostProcessCoref(text,av,ls,par,doc);
+    
+      else {  // no coreferences, just flush buffers.
+	
+	if (cfg->InputFormat == PLAIN or cfg->InputFormat == TOKEN) {
+	  // flush splitter buffer
+	  if (cfg->OutputFormat >= SPLITTED) sp->split (av, true, ls);	
+	}
+	else { // cfg->InputFormat >= SPLITTED.
+	  // add last sentence in case it was missing a blank line after it
+	  if (!sent.empty()) ls.push_back(sent);
+	}
+	
+	// process last sentence in buffer (if any)
+	AnalyzeSentences(ls);
+	WriteResults(ls,true);
       }
-      else { // cfg->InputFormat >= SPLITTED.
-	// add last sentence in case it was missing a blank line after it
-	if (!sent.empty()) ls.push_back(sent);
-      }
-      
-      // process last sentence in buffer (if any)
-      AnalyzeSentences(ls);
-      WriteResults(ls,true);
+    }   
+    catch( exception& e ) {
+      cerr << "analyzer. Caught exception: "<<e.what()<< endl;
+    }
+    catch (...) { 
+      cerr << "analyzer. Caught unknown exception."<<endl;
     }
     
     #ifdef SERVER

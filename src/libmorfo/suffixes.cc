@@ -143,7 +143,7 @@ void affixes::look_for_affixes_in_list(int kind, std::multimap<std::string,sufru
   string lws,form_term,form_root;
   unsigned int i,j, len;
 
-  lws=w.get_form();
+  lws=util::lowercase(w.get_form());
   len=lws.length();
   for (i=1; i<=Longest[kind] && i<len; i++) {
     // advance backwards in form

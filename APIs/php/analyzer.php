@@ -24,20 +24,20 @@ class FL_socket {
 
        $BUF_SZ=2048;
 
-       // receive chunks of BUF_SZ, until a shorter message 
-       // arrives (no more data), or an end-of-string ('\0') is detected.
+       // receive chunks of BUF_SZ, until an end-of-string ('\0') is detected.
 
-       $m = socket_read($this->sock, $BUF_SZ);
-       if ($m===FALSE) exit(socket_strerror(socket_last_error()));
+       $b = socket_recv($this->sock, $m, $BUF_SZ, 0);
+       if ($b===FALSE) exit(socket_strerror(socket_last_error()));
        $msg = $m;
 
-       while (strlen($m)==$BUF_SZ and strpos($m,"\0")===FALSE) {
-         $m = socket_read($this->sock, $BUF_SZ);
-         if ($m===FALSE) exit(socket_strerror(socket_last_error()));
+       while (strrpos($m,"\0")===FALSE) {
+         $b = socket_recv($this->sock, $m, $BUF_SZ, 0);
+         if ($b===FALSE) exit(socket_strerror(socket_last_error()));
 	 $msg .= $m;
        }
        return trim($msg,"\0");
    }
+
 
    // tell the server we're not sending anything else.
    function shutdown() {
