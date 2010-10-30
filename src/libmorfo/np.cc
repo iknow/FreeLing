@@ -426,7 +426,7 @@ sentence::iterator np::BuildMultiword(sentence &se, sentence::iterator start, se
 	else {
 	  TRACE(3,"Multiword found, but rejected. Sentence untouched");
 	  ResetActions();
-	  i=start;
+	  i=end;
 	  built=false;
 	}
 	

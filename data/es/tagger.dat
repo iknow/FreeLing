@@ -1,5 +1,14 @@
 <Forbidden>
 *.PT.NC
+*.DD.VMI
+*.DD.VMS
+*.DD.VMM
+*.DD.VSI
+*.DD.VSS
+*.DD.VSM
+*.DD.VAI
+*.DD.VAS
+*.DD.VAM
 *.VAI<haber>.SP
 *.VAI<haber>.DA
 *.VAI<haber>.DI
