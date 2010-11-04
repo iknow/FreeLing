@@ -260,8 +260,12 @@ int np::ComputeToken(int state, sentence::iterator &j, sentence &se)
   // non-ignorable
   else if (sbegin) { 
     TRACE(3,"non-ignorable word, sbegin ("+form+")");
+
+    if (util::all_caps(formU) and formU.size()>1)
+      token=TK_sNounUpp;
+    
     // first word in sentence (or word preceded by special punctuation sign), and not locked
-    if (!j->is_locked() && util::isuppercase(formU[0]) &&
+    else if (!j->is_locked() && util::isuppercase(formU[0]) &&
         func.find(form)==func.end() &&
         !j->is_multiword() && !j->find_tag_match(RE_DateNumPunct)) {
       // capitalized, not in function word list, no analysis except dictionary.
@@ -339,6 +343,7 @@ bool np::ValidMultiWord(const word &w) {
   // are more than Title_length words (it's probably a news title, e.g. "TITANIC WRECKS IN ARTIC SEAS!!")
   // Title_length==0 deactivates this feature
 
+  TRACE(3,"Checking NP for headlines. TitleLimit="+util::int2string(Title_length));
   list<word> mw = w.get_words_mw();
   if (Title_length>0 && mw.size() >= Title_length) {
     list<word>::const_iterator p;

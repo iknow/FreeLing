@@ -1,9 +1,9 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_INIT([FreeLing],[2.2])
+AC_INIT([FreeLing],[2.2.2])
 AC_PREREQ(2.59)
-AM_INIT_AUTOMAKE(FreeLing,2.2)
+AM_INIT_AUTOMAKE(FreeLing,2.2.2)
 
 AC_CANONICAL_HOST	
 AC_CONFIG_SRCDIR([src/main/sample_analyzer/analyzer.cc])
