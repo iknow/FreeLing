@@ -100,7 +100,7 @@ int socket_CS::read_message(std::string &s) {
   buffer[n]=0;
   s = s + std::string(buffer);
   nt = n;
-  while (n==BUFF_SZ && buffer[n-1]!=0) {
+  while (n>0 and buffer[n-1]!=0) {
     n = read(sock2,buffer,BUFF_SZ);
     if (n < 0) error("ERROR reading from socket",n);
     buffer[n]=0;
