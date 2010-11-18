@@ -242,6 +242,27 @@ void PrintDepTree (ostream &sout, dep_tree::iterator n, int depth, const documen
 
 
 //---------------------------------------------
+// print retokenization combinations for a word
+//---------------------------------------------
+
+list<analysis> printRetokenizable(ostream &sout, const list<word> &rtk, list<word>::const_iterator w, const string &lem, const string &tag) {
+  
+  list<analysis> s;
+  if (w==rtk.end()) 
+    s.push_back(analysis(lem.substr(1),tag.substr(1)));
+		
+  else {
+    list<analysis> s1;
+    list<word>::const_iterator w1=w; w1++;
+    for (word::const_iterator a=w->begin(); a!=w->end(); a++) {
+      s1=printRetokenizable(sout, rtk, w1, lem+"+"+a->get_lemma(), tag+"+"+a->get_parole());
+      s.splice(s.end(),s1);
+    }
+  }
+  return s;
+}  
+
+//---------------------------------------------
 // print analysis for a word
 //---------------------------------------------
 
@@ -260,15 +281,12 @@ void PrintWord (ostream &sout, const word &w, bool only_sel, bool probs) {
 
   for (ait = a_beg; ait != a_end; ait++) {
     if (ait->is_retokenizable ()) {
-      list < word > rtk = ait->get_retokenizable ();
-      list < word >::iterator r;
-      string lem, par;
-      for (r = rtk.begin (); r != rtk.end (); r++) {
-	lem = lem + "+" + r->get_lemma ();
-	par = par + "+" + r->get_parole ();
+      list <word> rtk = ait->get_retokenizable ();
+      list <analysis> la=printRetokenizable(sout, rtk, rtk.begin(), "", "");
+      for (list<analysis>::iterator x=la.begin(); x!=la.end(); x++) {
+	sout << " " << encode(x->get_lemma()) << " " << x->get_parole();
+	if (probs) sout << " " << ait->get_prob()/la.size();
       }
-      sout << " " << encode(lem.substr(1)) << " " << par.substr(1);
-      if (probs) sout << " " << ait->get_prob ();
     }
     else {
       sout << " " << encode(ait->get_lemma()) << " " << ait->get_parole ();
