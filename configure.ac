@@ -53,34 +53,34 @@ AC_CHECK_HEADERS([pcre.h],[],[echo "" && echo "   pcre.h not found." &&
                       echo "   Make sure pcre headers (package libpcre3-dev or the like)" &&
                       echo "   are installed and can be found in a standard path." &&
                       echo "   You may need to set CPPFLAGS to specify search path." &&
-                      echo "" && exit])
+                      echo "" && exit 1])
 AS_IF([test "x$enable_libDB" != "xno"], [
   AC_CHECK_HEADERS([db_cxx.h],[],[echo "" && echo "   db_cxx.h not found." &&
                       echo "   Make sure BerkeleyDB headers for C++ (package libdb4.6++-dev" &&
                       echo "   or the like) are installed and can be found in a standard path." &&
                       echo "   You may need to set CPPFLAGS to specify search path." &&
-                      echo "" && exit])
+                      echo "" && exit 1])
 ])
 AC_CHECK_HEADERS([boost/filesystem.hpp],[],[echo "" && echo "   boost/filesystem.hpp not found." &&
                       echo "   Make sure libboost headers (package libboost-dev or the like)" &&
                       echo "   installed and can be found in a standard path." &&
                       echo "   You may need to set CPPFLAGS to specify search path." &&
-                      echo "" && exit])
+                      echo "" && exit 1])
 AC_CHECK_HEADERS([boost/program_options.hpp],[],[echo "" && echo "   boost/program_options.hpp not found." &&
                       echo "   Make sure libboost headers (package libboost-dev or the like)" &&
                       echo "   are installed and can be found in a standard path." &&
                       echo "   You may need to set CPPFLAGS to specify search path." &&
-                      echo "" && exit])
+                      echo "" && exit 1])
 AC_CHECK_HEADERS([omlet.h],[],[echo "" && echo "   omlet.h not found." &&
                       echo "   Make sure libomlet headers are installed" &&
                       echo "   and can be found in a standard path." &&
                       echo "   You may need to set CPPFLAGS to specify search path." &&
-                      echo "" && exit])
+                      echo "" && exit 1])
 AC_CHECK_HEADERS([fries.h],[],[echo "" && echo "   fries.h not found." &&
                       echo "   Make sure libfries headers are installed" &&
                       echo "   and can be found in a standard path." &&
                       echo "   You may need to set CPPFLAGS to specify search path." &&
-                      echo "" && exit])
+                      echo "" && exit 1])
 
 # Checks for libraries.
 AC_CHECK_LIB([pcre],[main],[echo "OK">/dev/null],[echo "" && 
@@ -88,14 +88,14 @@ AC_CHECK_LIB([pcre],[main],[echo "OK">/dev/null],[echo "" &&
                       echo "   Make sure libpcre (package libpcre3 or the like)" &&
                       echo "   is installed and can be found in a standard path." &&
                       echo "   You may need to set LDFLAGS to specify search path." &&
-                      echo "" && exit])
+                      echo "" && exit 1])
 AS_IF([test "x$enable_libDB" != "xno"], [
   AC_CHECK_LIB([db_cxx],[main],[echo "OK">/dev/null],[echo "" &&
                       echo "   db library not found." &&
                       echo "   Make sure Berkeley DB for C++ (package libdb4.6++, libdb_cxx" &&
                       echo "   or the like) is installed and can be found in a standard path." &&
                       echo "   You may need to set LDFLAGS to specify search path." &&
-                      echo "" && exit])
+                      echo "" && exit 1])
 ])
 AM_CONDITIONAL([BOOST_MT],[test 1 = 0]) 
 AM_CONDITIONAL([BOOST_GCC],[test 1 = 0])
@@ -110,7 +110,7 @@ AC_CHECK_LIB([boost_filesystem],[main],
                                   echo "   Make sure libboost_filesystem is" &&
                                   echo "   installed and can be found in a standard path." &&
                                   echo "   You may need to set LDFLAGS to specify search path." &&
-                                  echo "" && exit])))
+                                  echo "" && exit 1])))
 
 AC_CHECK_LIB([boost_program_options],[main],
                       [echo "OK">/dev/null;],
@@ -123,20 +123,20 @@ AC_CHECK_LIB([boost_program_options],[main],
                                   echo "   Make sure libboost_program_options is" &&
                                   echo "   installed and can be found in a standard path." &&
                                   echo "   You may need to set LDFLAGS to specify search path." &&
-                                  echo "" && exit])))
+                                  echo "" && exit 1])))
 
 AC_CHECK_LIB([omlet],[main],[echo "OK">/dev/null],[echo "" &&
                       echo "   Omlet library not found." &&
                       echo "   Make sure libomlet is" &&
                       echo "   installed and can be found in a standard path." &&
                       echo "   You may need to set LDFLAGS to specify search path." &&
-                      echo "" && exit])
+                      echo "" && exit 1])
 AC_CHECK_LIB([fries],[main],[echo "OK">/dev/null],[echo "" &&
                       echo "   Fries library not found." &&
                       echo "   Make sure libfries is" &&
                       echo "   installed and can be found in a standard path." &&
                       echo "   You may need to set LDFLAGS to specify search path." &&
-                      echo "" && exit],[-lpcre])
+                      echo "" && exit 1],[-lpcre])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
