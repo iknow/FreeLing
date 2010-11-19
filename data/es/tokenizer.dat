@@ -4,7 +4,7 @@
 ALPHA      [^\]<>[(\.,";:?!에セ'`)^@~|}{_/\\+=&$ㄳ´#*+%\s\d\-]     
 ALPHANUM   [^\]<>[(\.,";:?!에セ'`)^@~|}{_/\\+=&$ㄳ´#*+%\s\-]
 NOALPHANUM [\]<>[(\.,";:?!에セ'`)^@~|}{_/\\+=&$ㄳ´#*+%\s\-]
-PARTNUM    [^\]<>[(";:?!에セ'`)^@~|}{\s]
+SYMNUM     [\.,_/\\=\*\+\-별&$ㄳ´#%]
 OTHERS     [\]<>[(\.,";:?!에セ'`)^@~|}{_/\\+=&$ㄳ´#*+%\-]
 </Macros>
 
@@ -21,12 +21,13 @@ OTHERS     [\]<>[(\.,";:?!에セ'`)^@~|}{_/\\+=&$ㄳ´#*+%\-]
 ##     created for each substring from 1 to the specified value.
 ##    -The third field is the regexp to match against the line
 ## 
+
 <RegExps>
 INDEX_SEQUENCE  0  (\.{4,}|-{2,}|\*{2,}|_{2,}|/{2,})
 INITIALS1       1  ([A-Z](\.[A-Z])+)(\.\.\.)
 INITIALS2 	0  ([A-Z]\.)+
 TIMES           0  (([01]?[0-9]|2[0-4]):[0-5][0-9])
-NAMES_CODES	0  ({PARTNUM}*[0-9]{PARTNUM}*{ALPHANUM})
+NAMES_CODES	0  ({ALPHA}|{SYMNUM})*[0-9]({ALPHA}|[0-9]|{SYMNUM}+{ALPHANUM})*
 THREE_DOTS 	0  (\.\.\.)
 QUOTES	        0  (``|<<|>>|'')
 MAILS 	        0  {ALPHANUM}+([\._]{ALPHANUM}+)*@{ALPHANUM}+([\._]{ALPHANUM}+)*
