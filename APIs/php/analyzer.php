@@ -76,7 +76,7 @@ class analyzer
            $this->port=$hp[0];
 
            ## create socket in required port
-	   $sock= socket_create(AF_INET,SOCK_DGRAM,0);
+	   $sock= socket_create(AF_INET,SOCK_STREAM,0);
 	   $ok=@socket_bind($sock,$this->host,$this->port);
            if (!$ok) {
 	     print "Error connecting to $this->host:$this->port\n";
