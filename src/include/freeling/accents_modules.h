@@ -142,6 +142,8 @@ class accents_gl: public accents_module {
       static void put_accent_gl(std::string &);
       /// check for Galician accent pattern
       static bool check_accent_gl(const std::string &);
+      /// check monosyllabous word
+      static bool is_monosyllabic(const std::string &);
       /// check for Galician accent pattern
       static bool check_add_gl(const std::string &);
       /// fix for Galician accent pattern

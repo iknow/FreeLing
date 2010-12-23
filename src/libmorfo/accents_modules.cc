@@ -335,7 +335,8 @@ void accents_gl::fix_accentuation(set<string> &candidates, const sufrule &suf) c
   unsigned int i;
   
   // Disambiguates phonological accent for roots with accusative allomorph before cheking if accent is right or wrong in roots (e. g. comelos -> comer + o / cómelos -> comes + o)
-  fix_accusative_allomorph_gl(candidates); 
+  fix_accusative_allomorph_gl(candidates);
+   
   TRACE(3,"Number of candidate roots: "+util::int2string(candidates.size()));
   roots.clear();
 
@@ -356,7 +357,7 @@ void accents_gl::fix_accentuation(set<string> &candidates, const sufrule &suf) c
       if (check_accent_gl(s)==false) {
        TRACE(3,"Remove wrong accents ");
        remove_accent_gl(s);
-	  }
+      }
      }
      roots.insert(s); // append to roots this element
    }
@@ -370,7 +371,7 @@ void accents_gl::fix_accentuation(set<string> &candidates, const sufrule &suf) c
     for (i=0; i<s.length(); i++) {
      if (is_vowel_notacc(s[i])) {
       put_accent_gl(s[i]);
-	  roots.insert(s);
+      roots.insert(s);
       remove_accent_gl(s[i]);
      }
     }
@@ -438,67 +439,67 @@ void accents_gl::put_accent_gl(char &c) {
 }
 
 void accents_gl::put_accent_gl(std::string &s) {
- string::iterator p0,p1,p2;
- p2=s.end(); p2--; 
- p1=p2; p1--;
- p0=p1; p0--;
- if ((*p1) =='r' && (*p2) =='a') {
-  put_accent_gl(*p2);   
- }
- else if ((*p0) =='r' && (*p1) =='a' && ((*p2) =='s' || (*p2) =='n' )) {
-  put_accent_gl(*p1);   
- }
+  string::iterator p1,p2;
+
+  p2=s.end(); p2--; 
+  p1=p2; p1--;
+
+  if ( is_monosyllabic(s)==false && ( is_vowel_notacc(*p2) && (*p2)!='u') ) {
+    put_accent_gl(*p2);   
+  }
+  else if ( is_monosyllabic(s)==false && ( is_vowel_notacc(*p1) && (*p1)!='u' ) && ( (*p2) =='s' || (*p2) =='n' ) ) {
+    put_accent_gl(*p1);   
+  }
 }
 
 
 bool accents_gl::check_add_gl(const std::string &p) {
-  
-  string s=(p);
-  string::iterator p0,p1,p2,p3;
+  string::iterator p1,p2;
+  string s;
+
+  // first lowercase string
+  s=util::lowercase(p);
 
   //Checks second person singular and third person of future forms (accentued when alone)
-  p3=s.end(); p3--; 
-  p2=p3; p2--;
+  p2=s.end(); p2--; 
   p1=p2; p1--;
-  p0=p1; p0--;
  
-  //Third singular person of indicative future	(e. g. darache -> dará)
-  if (is_vowel_notacc(*p1) && (*p1)!='u'  && (*p2)=='r' && (*p3)=='a') {
-   return true;
+  //Third singular person of indicative future	and some presents (e. g. darache -> dará)
+  if ( is_monosyllabic(s)==false && ( is_vowel_notacc(*p2) && (*p2)!='u' ) ) {
+    return true;
   }
-  //Second singular person and third plural person of future indicative (e. g. darasme -> darás)
-  else if (is_vowel_notacc(*p0) && (*p0)!='u'  && (*p1)=='r' && (*p2)=='a' && ((*p3)=='s'||(*p3)=='n')) {
-   return true;
+  //Second singular person and third plural person of future indicative and some presents (e. g. darasme -> darás)
+  else if ( is_monosyllabic(s)==false && ( is_vowel_notacc(*p1) && (*p1)!='u' ) && ( (*p2) =='s' || (*p2) =='n' ) ) {
+    return true;
   }
   return false;
 }
 
 bool accents_gl::check_accent_gl(const std::string &p) {
   string::iterator p0,p1,p2,p3,q0,q1,q2,q3;
-  string s=(p);
-  
+  string s;
+
+  // first lowercase string
+  s=util::lowercase(p);
+ 
   // Diacritic accent
-  if (s=="cómpre" || s=="cómpren" || s=="dá" || s=="dás" || s=="é" || s=="pór" || s=="sé" || s=="vén" || s=="vés"){
-   return true;
-  }
+  if (s=="cómpre" || s=="cómpren" || s=="dá" || s=="dás" || s=="é" || s=="pór" || s=="sé" || s=="vén" || s=="vés")
+    return true;
+
 
   //Checks second singular person and third singular and plural persons of future indicative forms for adding accent
-  p3=s.end(); p3--; 
-  p2=p3; p2--;
+  p2=s.end(); p2--; 
   p1=p2; p1--;
-  p0=p1; p0--;
 
-  //Third person singular of future (e. g. daráchemas)
-  if (is_vowel_notacc(*p1) && (*p1)!='u'  && (*p2)=='r' && (*p3)=='á')
-   return true;
-  //Second person singular of future (e. g. darásllela)
-  else if (is_vowel_notacc(*p0) && (*p0)!='u'  && (*p1)=='r' && (*p2)=='á' && (*p3)=='s') 
-   return true;
-  //Third plural person of future (e. g. daránvolas)
-  else if (is_vowel_notacc(*p0) && (*p0)!='u'  && (*p1)=='r' && (*p2)=='á' && (*p3)=='n') 
-   return true;
+  //Third singular person of future and some presents (e. g. daráchemas)
+  if ( is_monosyllabic(s)==false && ( (*p2)=='á' || (*p2)=='é' || (*p2)=='í' || (*p2)=='ó' ) )
+    return true;
+  //Second singular and third plural persons of future and some presents (e. g. darásllela)
+  else if ( is_monosyllabic(s)==false && ( (*p1)=='á' || (*p1)=='é' || (*p1)=='í' || (*p1)=='ó' ) && ( (*p2)=='s' || (*p2)=='n' ) ) 
+    return true;
   
   //First and second persons plural of past subjunctive (e. g. cantásemola) 
+  p1--;
   p3=p1;
   p2=p3; p2--;
   p1=p2; p1--;
@@ -509,32 +510,70 @@ bool accents_gl::check_accent_gl(const std::string &p) {
     
   //Checks accentued closed vowels 
   for (q2=s.end(); q2!=s.begin(); q2--){
-   if (is_accentued_gl(*q2) && !is_open(*q2)) {
-	// Accentued closed vowel found. Get previous and next letter
+    if (is_accentued_gl(*q2) && !is_open(*q2)) {
+    // Accentued closed vowel found. Get previous and next letter
     q3=q2; q3++;
     q1=q2; q1--;
     q0=q1; q0--;
  
       // Next is also a vowel. 
       if (is_accentued_gl(*q2) && !is_open(*q2) && is_vowel_notacc(*q3))
-         // Hiatus (e.g. comíalle). Accent is right.
-         return true;
-       // Previous is also a vowel.
-       else if (is_vowel_notacc(*q1) && !is_open(*q2) && is_accentued_gl(*q2)){
-         // Prevents digraphs: gu qu +í (e.g. quíxeno perseguíndoas).  Accent is wrong.
-         if (((*q0)=='g' || (*q0)=='q' ) && (*q1)=='u' && (*q2)=='í') {
-           return false;	
-         }
-         // Hiatus (e.g. roínlle). Accent is right. 
-         else return true;
-         }
-     }     
-   }
- // Accent is wrong (e. g. cáelle caéralle tróuxolle atéivolas cantáballe)  
- return false;
+        // Hiatus (e.g. comíalle, perseguíao). Accent is right.
+        return true;
+      // Previous is also a vowel.
+      else if (is_vowel_notacc(*q1) && !is_open(*q2) && is_accentued_gl(*q2)){
+        // Prevents digraphs: gu qu +í (e.g. quíxeno perseguíndoas).  Accent is wrong.
+        if (((*q0)=='g' || (*q0)=='q' ) && (*q1)=='u' && (*q2)=='í') {
+          return false;
+        }
+        // Hiatus (e.g. roínlle). Accent is right. 
+        else return true;
+      }
+    }     
+  }
+  // Accent is wrong (e. g. cáelle caéralle tróuxolle atéivolas cantáballe)  
+  return false;
 }
 
- 
+bool accents_gl::is_monosyllabic(const std::string &p) {
+  string::iterator p0,p1,p2,p3;
+  string s;
+  
+ // first lowercase string
+  s=util::lowercase(p);
+
+  // find last vowel
+  for (p2=s.end(), p2--; !is_vowel(*p2) && p2!=s.begin(); p2--);
+  // no vowels found, or the only vowel is first letter in word.
+  if (p2==s.begin()) return false;
+
+  p3=p2;p3++;
+  p1=p2; p1--;
+  p0=p1; p0--;
+
+  if (is_vowel(*p2)) {
+    
+    // Previous is also a vowel. Check for diphthongs
+    if (is_open(*p1) && is_open(*p2)) 
+      // Hiatus (e.g. "cacao"). Polysyllabic.
+      return false;
+    else if (is_accentued_gl(*p2) && !is_open(*p2) && is_vowel_notacc(*p3))
+      // Hiatus (e.g. comíalle). Polysyllabic.
+      return false;
+    else if (is_vowel_notacc(*p1) && !is_open(*p2) && is_accentued_gl(*p2))
+      // Hiatus (e.g. roínlle). Polysyllabic. 
+      return false;
+    else if ( ( ( (*p0)=='q' || (*p0)=='g' )  && (*p1)=='u' && ( (*p2)=='e' || (*p2)=='i' ||(*p2)=='é' ||(*p2)=='í' ) ) || ( is_vowel(*p1) && is_vowel(*p2) && ( ( !is_accentued_gl(*p1) && !is_open(*p1) ) || ( !is_accentued_gl(*p2) && !is_open(*p2) ) ) ) ) {
+      for(; !is_vowel(*p0) && p0!=s.begin(); p0--);
+        // If, no more vowels found, it is monosyllabous
+        return (!is_vowel(*p0));
+    }
+  }
+  for(; !is_vowel(*p1) && p1!=s.begin(); p1--);
+    // If, no more vowels found, it is monosyllabous
+    return (!is_vowel(*p1));
+}
+
 void accents_gl::fix_accusative_allomorph_gl(set<string> &s) {
   set<string>::iterator r1, r2;
   for (r2=s.end(),r2--; r2!=s.begin()++; r2--) {
@@ -546,18 +585,19 @@ void accents_gl::fix_accusative_allomorph_gl(set<string> &s) {
     l1=root2.end(); l1--;
     l0=l1; l0--;
     // Compares actual candidate and next candidate to disambiguate comelo / cómelo
-      if ((*k1)== 'r' && (*l1)=='s' && ((*k0)=='a' || (*k0)=='e') && (*k0)==(*l0) && root1.length()==root2.length())
-      {
-        if (is_accentued_gl(root1)==true  && is_accentued_gl(root2)==true)
-        {
-          s.erase (r1); // removes -r candidate (infinitive or future subjunctive: *cómelo is not comer + o [cómelo = comes + o])          
-        }
-        if (is_accentued_gl(root1)==false && is_accentued_gl(root2)==false) 
-        {
-          if (check_add_gl(root2)==false) // Prevents removing second person singular of future indicative (comeralo = comerás + o)
-          s.erase (r2); // removes -s candidate (second person singular of present indicative: *comelo is not comes + o [comelo = comer + o])
+    if ((*k1)== 'r' && (*l1)=='s' && ((*k0)=='a' || (*k0)=='e' || (*k0)=='o') && (*k0)==(*l0) && root1.length()==root2.length()){
+      if (is_accentued_gl(root1)==true  && is_accentued_gl(root2)==true){
+        // It removes -r candidate (infinitive or future subjunctive: '*cómelo' is not 'comer' + 'o' ['cómelo' = 'comes' + 'o']) 
+        s.erase (r1);          
+      }
+      if (is_accentued_gl(root1)==false && is_accentued_gl(root2)==false) {
+        if (check_add_gl(root2)==true) {
+          // It changes -s candidate to oxytone one: 'prevelo' = 'prevés' (second singular person  of present indicative) + 'o' || 'prever' (infinitive) + 'o' && '*comelo' is not 'comes' {'*comés' is not into de dictionary} + 'o' ['comelo' = 'comer' + 'o'])
+          put_accent_gl(root2);
+          s.insert(r2, root2);
         }
       }
+    }
   }
 }
 
