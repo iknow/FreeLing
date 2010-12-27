@@ -256,12 +256,18 @@ void dictionary:: annotate(sentence &se) {
         TRACE(2,"Contraction found, replacing... "+pos->get_form()+". span=("+util::int2string(pos->get_span_start())+","+util::int2string(pos->get_span_finish())+")");
 
         int st=pos->get_span_start(); 
-        int step=(pos->get_span_finish()-st+1)/lw.size(); 
+        int fin=pos->get_span_finish();
+        int step=(fin-st+1)/lw.size(); 
 	step=max(1,step);
 	int len=max(1,step-1);
 
-        for (i=lw.begin(); i!=lw.end(); i++) {
-	  i->set_span(st,st+len);
+        unsigned int n;
+        for (n=1,i=lw.begin(); i!=lw.end(); n++,i++) {
+          // span end for curent token. Make sure last token span 
+          // matches original token
+          int f= (n==lw.size()? fin : st+len);
+          // set span for current token.
+	  i->set_span(st,f);
 	  i->user=pos->user;
 
           TRACE(2,"  Inserting "+i->get_form()+". span=("+util::int2string(i->get_span_start())+","+util::int2string(i->get_span_finish())+")");
