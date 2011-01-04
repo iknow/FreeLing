@@ -25,13 +25,13 @@
 #	Universidade de Vigo
 #	http://sli.uvigo.es
 #--------------------------------------
-
-################ ENCLITICOS ###################
-
 <Prefixes>
 </Prefixes>
 
 <Suffixes>
+
+################ ENCLITICOS ###################
+
 
 lle	*	^V	*	0	1	0	L	1	$$+lle:$$+PP
 lles	*	^V	*	0	1	0	L	1	$$+lles:$$+PP
@@ -41,11 +41,13 @@ che	*	^V	*	0	1	0	L	1	$$+che:$$+PP
 nos	*	^V	*	0	1	0	L	1	$$+nos:$$+PP
 monos	mos	^V	*	0	1	0	L	1	$$+nos:$$+PP
 vos	*	^V	*	0	1	0	L	1	$$+vos:$$+PP
-se	*	^V	*	0	1	0	L	1	$$+se:$$+PP
-o	*	^V.[^(N((1|3)S|0000))|(SF(1|3)S)]	*	0	1	0	L	1	$$+o:$$+PP
-os	*	^V.[^(N((1|3)S|0000))|(SF(1|3)S)]	*	0	1	0	L	1	$$+os:$$+PP
-a	*	^V.[^(N((1|3)S|0000))|(SF(1|3)S)]	*	0	1	0	L	1	$$+a:$$+PP
-as	*	^V.[^(N((1|3)S|0000))|(SF(1|3)S)]	*	0	1	0	L	1	$$+as:$$+PP
+se	*	^V...[^1245]	*	0	1	0	L	1	$$+se:$$+PP
+o	*	^V.(G|N03P|IF3|SF3P|[IS][^F](1[^P]|[^12])|M0(1[^P]|[^14]))	*	0	1	0	L	1	$$+o:$$+PP
+os	*	^V.(G|N03P|IF3|SF3P|[IS][^F](1[^P]|[^12])|M0(1[^P]|[^14]))	*	0	1	0	L	1	$$+os:$$+PP
+a	*	^V.(G|N03P|IF3|SF3P|[IS][^F](1[^P]|[^12])|M0(1[^P]|[^14]))	*	0	1	0	L	1	$$+a:$$+PP
+as	*	^V.(G|N03P|IF3|SF3P|[IS][^F](1[^P]|[^12])|M0(1[^P]|[^14]))	*	0	1	0	L	1	$$+as:$$+PP
+
+
 
 ## mirareino mireinas
 eino	ei	^V	*	0	1	0	L	1	$$+o:$$+PP
@@ -124,12 +126,12 @@ llela	*	^V	*	0	1	0	L	1	$$+lles+a:$$+PP+PP
 llelas	*	^V	*	0	1	0	L	1	$$+lles+as:$$+PP+PP
 llelo	*	^V	*	0	1	0	L	1	$$+lles+o:$$+PP+PP
 llelos	*	^V	*	0	1	0	L	1	$$+lles+os:$$+PP+PP
-seme	*	^V	*	0	1	0	L	1	$$+se+me:$$+PP+PP
-seche	*	^V	*	0	1	0	L	1	$$+se+che:$$+PP+PP
-selle	*	^V	*	0	1	0	L	1	$$+se+lle:$$+PP+PP
-senos	*	^V	*	0	1	0	L	1	$$+se+nos:$$+PP+PP
-sevos	*	^V	*	0	1	0	L	1	$$+se+vos:$$+PP+PP
-selles	*	^V	*	0	1	0	L	1	$$+se+lles:$$+PP+PP
+seme	*	^V...[^1245]	*	0	1	0	L	1	$$+se+me:$$+PP+PP
+seche	*	^V...[^1245]	*	0	1	0	L	1	$$+se+che:$$+PP+PP
+selle	*	^V...[^1245]	*	0	1	0	L	1	$$+se+lle:$$+PP+PP
+senos	*	^V...[^1245]	*	0	1	0	L	1	$$+se+nos:$$+PP+PP
+sevos	*	^V...[^1245]	*	0	1	0	L	1	$$+se+vos:$$+PP+PP
+selles	*	^V...[^1245]	*	0	1	0	L	1	$$+se+lles:$$+PP+PP
 
 ## combinacións de tres enclíticos
 
@@ -181,10 +183,12 @@ ciña	z	^NCMS	NCFS00D	1	0	0	L	0	-
 ciños	z	^NCMS	NCMP00D	1	0	0	L	0	-
 ciño	z	^NCMS	NCMS00D	1	0	0	L	0	-
 
-# luciña
+# luciña rapciño
 
 ciñas	z	^NCFS	NCFP00D	1	0	0	L	0	-
 ciña	z	^NCFS	NCFS00D	1	0	0	L	0	-
+ciños	z	^NCMS	NCMP00D	1	0	0	L	0	-
+ciña	z	^NCMS	NCMS00D	1	0	0	L	0	-
 
 # francesiño
 

@@ -346,15 +346,15 @@ void accents_gl::fix_accentuation(set<string> &candidates, const sufrule &suf) c
    
    if (suf.enc) { // afixos.dat sixth field	is on
      TRACE(3,"enclitic suffix root="+s);
-     if (is_accentued_gl(s)==false) { // not accentued roots
-      if (check_add_gl(s)==true){ 
+     if (not is_accentued_gl(s)) { // not accentued roots
+      if (check_add_gl(s)){ 
         TRACE(3,"Add accent to second singular and third persons of future indicative ");
         put_accent_gl(s);
       }
      }
      else { // accentued roots
       TRACE(3,"Check if accent is wrong ");
-      if (check_accent_gl(s)==false) {
+      if (not check_accent_gl(s)) {
        TRACE(3,"Remove wrong accents ");
        remove_accent_gl(s);
       }
@@ -444,10 +444,10 @@ void accents_gl::put_accent_gl(std::string &s) {
   p2=s.end(); p2--; 
   p1=p2; p1--;
 
-  if ( is_monosyllabic(s)==false && ( is_vowel_notacc(*p2) && (*p2)!='u') ) {
+  if ( not is_monosyllabic(s) && ( is_vowel_notacc(*p2) && (*p2)!='u') ) {
     put_accent_gl(*p2);   
   }
-  else if ( is_monosyllabic(s)==false && ( is_vowel_notacc(*p1) && (*p1)!='u' ) && ( (*p2) =='s' || (*p2) =='n' ) ) {
+  else if ( not is_monosyllabic(s) && ( is_vowel_notacc(*p1) && (*p1)!='u' ) && ( (*p2) =='s' || (*p2) =='n' ) ) {
     put_accent_gl(*p1);   
   }
 }
@@ -464,12 +464,12 @@ bool accents_gl::check_add_gl(const std::string &p) {
   p2=s.end(); p2--; 
   p1=p2; p1--;
  
-  //Third singular person of indicative future	and some presents (e. g. darache -> dará)
-  if ( is_monosyllabic(s)==false && ( is_vowel_notacc(*p2) && (*p2)!='u' ) ) {
+  //Third singular person of indicative future and some presents (e. g. darache -> dará)
+  if ( not is_monosyllabic(s) && ( is_vowel_notacc(*p2) && (*p2)!='u' ) && !( is_open(*p1) && (*p2)=='i') ) {
     return true;
   }
   //Second singular person and third plural person of future indicative and some presents (e. g. darasme -> darás)
-  else if ( is_monosyllabic(s)==false && ( is_vowel_notacc(*p1) && (*p1)!='u' ) && ( (*p2) =='s' || (*p2) =='n' ) ) {
+  else if ( not is_monosyllabic(s) && ( is_vowel_notacc(*p1) && (*p1)!='u' ) && ( (*p2) =='s' || (*p2) =='n' ) ) {
     return true;
   }
   return false;
@@ -492,10 +492,10 @@ bool accents_gl::check_accent_gl(const std::string &p) {
   p1=p2; p1--;
 
   //Third singular person of future and some presents (e. g. daráchemas)
-  if ( is_monosyllabic(s)==false && ( (*p2)=='á' || (*p2)=='é' || (*p2)=='í' || (*p2)=='ó' ) )
+  if ( not is_monosyllabic(s) && ( (*p2)=='á' || (*p2)=='é' || (*p2)=='í' || (*p2)=='ó' ) )
     return true;
   //Second singular and third plural persons of future and some presents (e. g. darásllela)
-  else if ( is_monosyllabic(s)==false && ( (*p1)=='á' || (*p1)=='é' || (*p1)=='í' || (*p1)=='ó' ) && ( (*p2)=='s' || (*p2)=='n' ) ) 
+  else if ( not is_monosyllabic(s) && ( (*p1)=='á' || (*p1)=='é' || (*p1)=='í' || (*p1)=='ó' ) && ( (*p2)=='s' || (*p2)=='n' ) ) 
     return true;
   
   //First and second persons plural of past subjunctive (e. g. cantásemola) 
@@ -586,12 +586,12 @@ void accents_gl::fix_accusative_allomorph_gl(set<string> &s) {
     l0=l1; l0--;
     // Compares actual candidate and next candidate to disambiguate comelo / cómelo
     if ((*k1)== 'r' && (*l1)=='s' && ((*k0)=='a' || (*k0)=='e' || (*k0)=='o') && (*k0)==(*l0) && root1.length()==root2.length()){
-      if (is_accentued_gl(root1)==true  && is_accentued_gl(root2)==true){
+      if (is_accentued_gl(root1)  && is_accentued_gl(root2)){
         // It removes -r candidate (infinitive or future subjunctive: '*cómelo' is not 'comer' + 'o' ['cómelo' = 'comes' + 'o']) 
         s.erase (r1);          
       }
-      if (is_accentued_gl(root1)==false && is_accentued_gl(root2)==false) {
-        if (check_add_gl(root2)==true) {
+      if (not is_accentued_gl(root1) && not is_accentued_gl(root2)) {
+        if (check_add_gl(root2) && not check_add_gl(root1)) {
           // It changes -s candidate to oxytone one: 'prevelo' = 'prevés' (second singular person  of present indicative) + 'o' || 'prever' (infinitive) + 'o' && '*comelo' is not 'comes' {'*comés' is not into de dictionary} + 'o' ['comelo' = 'comer' + 'o'])
           put_accent_gl(root2);
           s.insert(r2, root2);
