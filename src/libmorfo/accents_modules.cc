@@ -542,6 +542,8 @@ bool accents_gl::is_monosyllabic(const std::string &p) {
  // first lowercase string
   s=util::lowercase(p);
 
+  if (s=="e") return true;
+  
   // find last vowel
   for (p2=s.end(), p2--; !is_vowel(*p2) && p2!=s.begin(); p2--);
   // no vowels found, or the only vowel is first letter in word.
