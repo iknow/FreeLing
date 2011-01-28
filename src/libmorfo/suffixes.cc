@@ -402,7 +402,7 @@ void affixes::ApplyRule(const string &r, const list<analysis> &la, const string 
 	for (list<string>::iterator s=suflem.begin(); s!=suflem.end(); s++) {
 	  if ( *s=="F") {
 	    TRACE(3,"Output lemma: add original word form");
-	    lem = lem + util::lowecase(wd.get_form());
+	    lem = lem + util::lowercase(wd.get_form());
 	  }
 	  else if ( *s=="R") {
 	    TRACE(3,"Output lemma: add root found in dictionary");
