@@ -676,28 +676,23 @@ void ProcessLinePlain(const string &text, unsigned long &offs) {
 void ProcessLineToken(const string &text, unsigned long &totlen, list<word> &av) {
 
   // get next word
-  cerr<<"PLTok - Rebut  ["<<text<<"]"<<endl;
   word w (text);
   w.set_span (totlen, totlen + text.size ());
   totlen += text.size () + 1;
   av.push_back (w);
 
-  cerr<<"PLTok - av.size = "<<av.size()<<endl;
   // check for splitting after some words have been accumulated, 
   if (av.size () > 10) {  
     list<sentence> ls;
     sp->split (av, false, ls);
     AnalyzeSentences(ls);    
-     cerr<<"PLTok - enviant results"<<endl;
     WriteResults(ls,true);
-     cerr<<"      - enviats"<<endl;
     
     av.clear ();		// clear list of words for next use
   }
   else {
     #ifdef SERVER
       SendACK();
-      cerr<<"Enviat ACK"<<endl;
     #endif
   }
 }
