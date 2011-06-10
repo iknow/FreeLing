@@ -777,7 +777,7 @@ int main (int argc, char **argv) {
   list<sentence> ls;
   paragraph par;
   document doc;
-  unsigned long offs=0;
+  unsigned long offs;
   
   #ifdef SERVER
     // read server port number
@@ -812,6 +812,9 @@ int main (int argc, char **argv) {
         cerr<<"SERVER: opening channels. Waiting connections"<<endl;
         sock->wait_client();
       #endif
+
+      // start offset count for this client
+      offs = 0;
 
       // --- Main loop: read an process all input lines up to EOF ---
       while (ReadLine(text)) {
