@@ -15,7 +15,8 @@ class FL_socket {
 
    // send text to the server
    function write($text) {
-      $i = socket_write($this->sock,$text); 
+      // send text, adding a C end-of-string (i.e. chr(0)) as termination mark
+      $i = socket_write($this->sock,$text.chr(0)); 
       if ($i===FALSE) exit(socket_strerror(socket_last_error()));
    }
 
@@ -24,20 +25,20 @@ class FL_socket {
 
        $BUF_SZ=2048;
 
-       // receive chunks of BUF_SZ, until an end-of-string ('\0') is detected.
+       // receive chunks of BUF_SZ, until an C end-of-string
+       // (i.e. chr(0)) is detected.
 
        $b = socket_recv($this->sock, $m, $BUF_SZ, 0);
        if ($b===FALSE) exit(socket_strerror(socket_last_error()));
        $msg = $m;
 
-       while (strrpos($m,"\0")===FALSE) {
+       while (strpos($m,chr(0))===FALSE) {
          $b = socket_recv($this->sock, $m, $BUF_SZ, 0);
          if ($b===FALSE) exit(socket_strerror(socket_last_error()));
 	 $msg .= $m;
        }
        return trim($msg,"\0");
    }
-
 
    // tell the server we're not sending anything else.
    function shutdown() {
@@ -76,7 +77,7 @@ class analyzer
            $this->port=$hp[0];
 
            ## create socket in required port
-	   $sock= socket_create(AF_INET,SOCK_STREAM,0);
+	   $sock= socket_create(AF_INET,SOCK_DGRAM,0);
 	   $ok=@socket_bind($sock,$this->host,$this->port);
            if (!$ok) {
 	     print "Error connecting to $this->host:$this->port\n";
