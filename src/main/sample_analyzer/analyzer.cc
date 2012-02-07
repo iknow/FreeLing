@@ -274,6 +274,9 @@ void PrintWord (ostream &sout, const word &w, bool only_sel, bool probs) {
       sout << " " << encode(ait->get_lemma()) << " " << ait->get_parole ();
       if (probs) sout << " " << ait->get_prob ();
     }
+    
+    // Cerego addition: output word span.
+    sout << " " << w.get_span_start() << "," << w.get_span_finish();
 
     if (cfg->SENSE_SenseAnnotation != NONE)
       sout << OutputSenses (*ait);
