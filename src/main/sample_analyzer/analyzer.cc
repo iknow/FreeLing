@@ -645,6 +645,9 @@ void ProcessLinePlain(const string &text, unsigned long &offs) {
   list<word> av;
   list<sentence> ls;
 
+#ifdef CERELING
+  offs = 0;
+#endif
   tk->tokenize (text, offs, av);
 
   if (cfg->OutputFormat == TOKEN) {
