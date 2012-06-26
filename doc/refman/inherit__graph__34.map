@@ -1,5 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="$classPOS__tagger.html" title="The class POS_tagger is just an abstract class generalizing a PoS tagger." alt="" coords="7,32,97,61"/>
-<area shape="rect" href="$classhmm__tagger.html" title="The class hmm_tagger implements the syntactic analyzer and is the main class, which..." alt="" coords="147,5,240,35"/>
-<area shape="rect" href="$classrelax__tagger.html" title="The class relax_tagger implements a PoS tagger based on relaxation labelling algorithm..." alt="" coords="148,59,239,88"/>
-</map>

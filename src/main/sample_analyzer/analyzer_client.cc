@@ -36,8 +36,8 @@ int main(int argc, char *argv[]) {
   string s,r;
   while (getline(cin,s)) { 
     if (utf) s= utf8toLatin(s.c_str());
-    sock.write_message(s);
 
+    sock.write_message(s);
     sock.read_message(r);
     if (r!="FL-SERVER-READY") 
       output_result(r,utf);
@@ -46,6 +46,7 @@ int main(int argc, char *argv[]) {
   // input ended. Make sure to flush server's buffer
   sock.shutdown_connection(SHUT_WR);
   sock.read_message(r);
+
   if (r!="FL-SERVER-READY")
     output_result(r,utf);
 

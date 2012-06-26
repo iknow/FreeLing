@@ -242,6 +242,27 @@ void PrintDepTree (ostream &sout, dep_tree::iterator n, int depth, const documen
 
 
 //---------------------------------------------
+// print retokenization combinations for a word
+//---------------------------------------------
+
+list<analysis> printRetokenizable(ostream &sout, const list<word> &rtk, list<word>::const_iterator w, const string &lem, const string &tag) {
+  
+  list<analysis> s;
+  if (w==rtk.end()) 
+    s.push_back(analysis(lem.substr(1),tag.substr(1)));
+		
+  else {
+    list<analysis> s1;
+    list<word>::const_iterator w1=w; w1++;
+    for (word::const_iterator a=w->begin(); a!=w->end(); a++) {
+      s1=printRetokenizable(sout, rtk, w1, lem+"+"+a->get_lemma(), tag+"+"+a->get_parole());
+      s.splice(s.end(),s1);
+    }
+  }
+  return s;
+}  
+
+//---------------------------------------------
 // print analysis for a word
 //---------------------------------------------
 
@@ -260,15 +281,12 @@ void PrintWord (ostream &sout, const word &w, bool only_sel, bool probs) {
 
   for (ait = a_beg; ait != a_end; ait++) {
     if (ait->is_retokenizable ()) {
-      list < word > rtk = ait->get_retokenizable ();
-      list < word >::iterator r;
-      string lem, par;
-      for (r = rtk.begin (); r != rtk.end (); r++) {
-	lem = lem + "+" + r->get_lemma ();
-	par = par + "+" + r->get_parole ();
+      list <word> rtk = ait->get_retokenizable ();
+      list <analysis> la=printRetokenizable(sout, rtk, rtk.begin(), "", "");
+      for (list<analysis>::iterator x=la.begin(); x!=la.end(); x++) {
+	sout << " " << encode(x->get_lemma()) << " " << x->get_parole();
+	if (probs) sout << " " << ait->get_prob()/la.size();
       }
-      sout << " " << encode(lem.substr(1)) << " " << par.substr(1);
-      if (probs) sout << " " << ait->get_prob ();
     }
     else {
       sout << " " << encode(ait->get_lemma()) << " " << ait->get_parole ();
@@ -767,7 +785,7 @@ int main (int argc, char **argv) {
   list<sentence> ls;
   paragraph par;
   document doc;
-  unsigned long offs=0;
+  unsigned long offs;
   
   #ifdef SERVER
     // read server port number
@@ -797,67 +815,81 @@ int main (int argc, char **argv) {
   bool stop=false;    /// The server version will never stop. 
   while (not stop) {  /// The standalone version will stop after one iteration.
 
-    #ifdef SERVER
-      cerr<<"SERVER: opening channels. Waiting connections"<<endl;
-      sock->wait_client();
-    #endif
-
-    // --- Main loop: read an process all input lines up to EOF ---
-    while (ReadLine(text)) {
-
+    try {
       #ifdef SERVER
-        start = clock();
-        if (text=="RESET_STATS") { 
-  	  ResetStats();
-	  continue;
-	}
-	else if (text=="PRINT_STATS") {
-	  PrintStats();
-	  continue;
-	}
+        cerr<<"SERVER: opening channels. Waiting connections"<<endl;
+        sock->wait_client();
       #endif
 
-      if (cfg->UTF8) // input is utf, convert to latin-1
-	text=utf8toLatin(text.c_str());      
+      // start offset count for this client
+      offs = 0;
 
-      if (cfg->COREF_CoreferenceResolution)  // coreference requested, plain text input 
-        ProcessLineCoref(text,av,ls,par,doc);
-    
-      else if (cfg->InputFormat == PLAIN)    // Input is plain text.
-	ProcessLinePlain(text,offs);
-	  
-      else if (cfg->InputFormat == TOKEN)    // Input is tokenized.
-	ProcessLineToken(text,offs,av);
+      // --- Main loop: read an process all input lines up to EOF ---
+      while (ReadLine(text)) {
+
+        #ifdef SERVER
+          start = clock();
+	  if (text=="RESET_STATS") { 
+	    ResetStats();
+	    continue;
+	  }
+	  else if (text=="PRINT_STATS") {
+	    PrintStats();
+	    continue;
+	  }
+        #endif
+
+        if (cfg->UTF8) // input is utf, convert to latin-1
+	  text=utf8toLatin(text.c_str());      
+	
+	if (cfg->COREF_CoreferenceResolution)  // coreference requested, plain text input 
+	  ProcessLineCoref(text,av,ls,par,doc);
+	
+	else if (cfg->InputFormat == PLAIN)    // Input is plain text.
+	  ProcessLinePlain(text,offs);
+	
+	else if (cfg->InputFormat == TOKEN)    // Input is tokenized.
+	  ProcessLineToken(text,offs,av);
+	
+	else if (cfg->InputFormat >= SPLITTED) // Input is (at least) tokenized and splitted.
+	  ProcessLineSplitted(text,offs,sent);   
+	
+      } // --- end while(readline)
       
-      else if (cfg->InputFormat >= SPLITTED) // Input is (at least) tokenized and splitted.
-	ProcessLineSplitted(text,offs,sent);   
-
-    } // --- end while(readline)
-    
-    // Document has been processed. Perform required post-processing
-    // (or just make sure to empty splitter buffers).
-    
-    #ifdef SERVER
-      start = clock();
-    #endif
-
-    if (cfg->COREF_CoreferenceResolution)   // All document read, solve correferences.
-      PostProcessCoref(text,av,ls,par,doc);
-    
-    else {  // no coreferences, just flush buffers.
+      // Document has been processed. Perform required post-processing
+      // (or just make sure to empty splitter buffers).
       
-      if (cfg->InputFormat == PLAIN or cfg->InputFormat == TOKEN) {
-	// flush splitter buffer
-	if (cfg->OutputFormat >= SPLITTED) sp->split (av, true, ls);	
+      #ifdef SERVER
+        start = clock();
+      #endif
+      
+      if (cfg->COREF_CoreferenceResolution)   // All document read, solve correferences.
+	PostProcessCoref(text,av,ls,par,doc);
+    
+      else {  // no coreferences, just flush buffers.
+	
+	if (cfg->InputFormat == PLAIN or cfg->InputFormat == TOKEN) {
+	  // flush splitter buffer
+	  if (cfg->OutputFormat >= SPLITTED) { 
+	    sp->split (av, true, ls);	
+	    av.clear();
+	  }
+	}
+	else { // cfg->InputFormat >= SPLITTED.
+	  // add last sentence in case it was missing a blank line after it
+	  if (!sent.empty()) ls.push_back(sent);
+	}
+	
+	// process last sentence in buffer (if any)
+	AnalyzeSentences(ls);
+	WriteResults(ls,true);
       }
-      else { // cfg->InputFormat >= SPLITTED.
-	// add last sentence in case it was missing a blank line after it
-	if (!sent.empty()) ls.push_back(sent);
-      }
-      
-      // process last sentence in buffer (if any)
-      AnalyzeSentences(ls);
-      WriteResults(ls,true);
+    }   
+    catch( exception& e ) {
+      cerr << "analyzer. Caught exception: "<<e.what()<< endl;
+    }
+    catch (...) { 
+      cerr << "analyzer. Caught unknown exception."<<endl;
     }
     
     #ifdef SERVER

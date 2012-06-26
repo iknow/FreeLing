@@ -1,5 +1,10 @@
 EXTRA_DIST = hmm_smooth.perl train-relax.perl make-probs-file.perl TRAIN unk-tags unk-tags.parole constr_gram.manual nec/README nec/TRAIN.sh nec/lexicon.cc nec/train.cc ner/README ner/TRAIN.sh ner/lexicon.cc ner/train.cc
-bin_PROGRAMS = indexdict convertdict dicc2phon compile_kb
+
+if USE_LIBDB
+  bin_PROGRAMS = indexdict convertdict dicc2phon compile_kb
+else 
+  bin_PROGRAMS = convertdict dicc2phon compile_kb
+endif 
 
 if BOOST_MT
   MT="-mt"
@@ -9,8 +14,10 @@ if BOOST_GCC
  MT="-gcc-mt"
 endif
 
-indexdict_SOURCES = indexdict.cc
-indexdict_LDADD = -ldb_cxx
+if USE_LIBDB
+ indexdict_SOURCES = indexdict.cc
+ indexdict_LDADD = -ldb_cxx
+endif
 
 convertdict_SOURCES = convertdict.cc
 convertdict_LDADD = -lfries -lpcre

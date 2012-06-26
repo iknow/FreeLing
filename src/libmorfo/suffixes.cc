@@ -143,7 +143,7 @@ void affixes::look_for_affixes_in_list(int kind, std::multimap<std::string,sufru
   string lws,form_term,form_root;
   unsigned int i,j, len;
 
-  lws=w.get_form();
+  lws=util::lowercase(w.get_form());
   len=lws.length();
   for (i=1; i<=Longest[kind] && i<len; i++) {
     // advance backwards in form
@@ -402,7 +402,7 @@ void affixes::ApplyRule(const string &r, const list<analysis> &la, const string 
 	for (list<string>::iterator s=suflem.begin(); s!=suflem.end(); s++) {
 	  if ( *s=="F") {
 	    TRACE(3,"Output lemma: add original word form");
-	    lem = lem + wd.get_form();
+	    lem = lem + util::lowercase(wd.get_form());
 	  }
 	  else if ( *s=="R") {
 	    TRACE(3,"Output lemma: add root found in dictionary");

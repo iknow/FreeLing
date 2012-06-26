@@ -12,10 +12,10 @@ import sys
 ## Modify this line to be your FreeLing installation directory
 FREELINGDIR = "/usr/local";
 DATA = FREELINGDIR+"/share/FreeLing/";
-LANG="es";
+LANG="en";
 
 # create options set for maco analyzer. Default values are Ok, except for data files.
-op= libmorfo_python.maco_options("es");
+op= libmorfo_python.maco_options("en");
 op.set_active_modules(1,1,1,1,1,1,1,1,0,0);
 op.set_data_files(DATA+LANG+"/locucions.dat", DATA+LANG+"/quantities.dat", DATA+LANG+"/afixos.dat",
                   DATA+LANG+"/probabilitats.dat", DATA+LANG+"/maco.db", DATA+LANG+"/np.dat",  
@@ -26,8 +26,8 @@ tk=libmorfo_python.tokenizer(DATA+LANG+"/tokenizer.dat");
 sp=libmorfo_python.splitter(DATA+LANG+"/splitter.dat");
 mf=libmorfo_python.maco(op);
 
-tg=libmorfo_python.hmm_tagger("es",DATA+LANG+"/tagger.dat",1,2);
-sen=libmorfo_python.senses(DATA+LANG+"/senses16.db",0);
+tg=libmorfo_python.hmm_tagger("en",DATA+LANG+"/tagger.dat",1,2);
+sen=libmorfo_python.senses(DATA+LANG+"/senses30.db",0);
 
 lin=sys.stdin.readline();
 while (lin) :

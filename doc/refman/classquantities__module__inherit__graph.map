@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="$classquantities__ca.html" title="The derived class quantities_ca implements a Catalan quantities recognizer." alt="" coords="5,160,104,189"/>
-<area shape="rect" href="$classquantities__default.html" title="The derived class quantities_default implements a default quantities recognizer (only..." alt="" coords="128,160,251,189"/>
-<area shape="rect" href="$classquantities__en.html" title="The derived class quantities_en implements an English quantities recognizer." alt="" coords="275,160,373,189"/>
-<area shape="rect" href="$classquantities__es.html" title="The derived class quantities_es implements a Spanish quantities recognizer." alt="" coords="397,160,496,189"/>
-<area shape="rect" href="$classquantities__gl.html" title="The derived class quantities_gl implements a Galician quantities recognizer." alt="" coords="520,160,613,189"/>
-<area shape="rect" href="$classautomat.html" title="Abstract class to implement a Finite&#45;State Automaton which is used by modules recognizing..." alt="" coords="291,5,357,35"/>
-</map>

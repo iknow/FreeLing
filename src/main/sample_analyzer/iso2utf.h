@@ -119,6 +119,10 @@ while (indice<=tamanyo)
     resultado[indice_salida++] = (char) u;
     resultado[indice_salida] = '\0';
   }
+  else if (u == 0x20AC) { // utf8 for euro sign
+    resultado[indice_salida++] = (char) 0xA4; // iso euro sign
+    resultado[indice_salida] = '\0';    
+  }
   else { /* this character can't be represented in Latin-1 */
     resultado[indice_salida++] = '?';
     resultado[indice_salida] = '\0';
@@ -151,21 +155,28 @@ string Latin1toUTF8( const char* szStr )
 	strResult.reserve( nLen + nLen/10 );
 	int cSource = *(pSource);
 	while ( cSource ){
-		if ( cSource >= 128 ){
-			if ( cSource <= 159 )	cSource = s_anLatin1_128to159[ cSource - 128 ];
-			if ( cSource < 0x800 ){
-				strResult += (char)(((cSource&0x7c0)>>6) | 0xc0);
-				strResult += (char)((cSource&0x3f) | 0x80);
-				}
-			else{
-				strResult += (char)(((cSource&0xf000)>>12) | 0xe0);
-				strResult += (char)(((cSource&0xfc0)>>6) | 0x80);
-				strResult += (char)((cSource&0x3f) | 0x80);
-			}
-		}
-		else
-			strResult += cSource;
-		cSource = *(++pSource);
+	  if (cSource==0xA4) { // latin9 euro sign
+	    // 0xE282AC => utf8 euro sign
+	    strResult += (char) 0xE2;
+	    strResult += (char) 0x82;
+	    strResult += (char) 0xAC;
+	  }
+	  else if ( cSource >= 128 ){  // >=0x80
+	    if ( cSource <= 159 )  // <=0x9F
+	      cSource = s_anLatin1_128to159[ cSource - 128 ];
+	    if ( cSource < 0x800 ){
+	      strResult += (char)(((cSource&0x7c0)>>6) | 0xc0);
+	      strResult += (char)((cSource&0x3f) | 0x80);
+	    }
+	    else{
+	      strResult += (char)(((cSource&0xf000)>>12) | 0xe0);
+	      strResult += (char)(((cSource&0xfc0)>>6) | 0x80);
+	      strResult += (char)((cSource&0x3f) | 0x80);
+	    }
+	  }
+	  else
+	    strResult += cSource;
+	  cSource = *(++pSource);
 	}
 	return strResult;
 }

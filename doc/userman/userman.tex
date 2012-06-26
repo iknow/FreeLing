@@ -1192,6 +1192,17 @@ china
 </Names>
 \end{verbatim}
 
+  \item Section \verb#<Affixes># contains a list of words that may be part of a NE --either prefixing or suffixing it-- even if they are lowercased.
+  For instance, this is the case of the word {\sl don} in Spanish (e.g. {\sl don\_Juan} should be a NE, even if {\sl don} is lowercased), or the word {\sl junior} or {\sl jr.} in English (e.g. {\sl Peter\_Grasswick\_jr.} should be a NE, even if {\sl jr.} is lowercased).
+ 
+  The section should containt a word per line, followed by the keyword {\tt PRE} or {\tt SUF} stating whether the word may be attached before or after an NE. It a word should be either a prefix or a suffix, it must be declared in two different lines, one with each keyword.
+\begin{verbatim}
+<Affixes>
+don  PRE
+doña PRE
+jr.  SUF
+<Affixes>
+\end{verbatim}
 
   \item Sections \verb#<RE_NounAdj># \verb#<RE_Closed># and \verb#<RE_DateNumPunct># allow to modify the default regular expressions for PAROLE Part-of-Speech tags. This regular expressions are used by the NER to determine whether a sentence-beginning word has some tag that is Noun or Adj, or any tag that is a closed category, or one of date/punctuation/number. The default is to check against PAROLE tags, thus, the recognizer will fail to identifiy these categories if your dictionary uses another tagset, unless you specify the right patterns to look for.
 

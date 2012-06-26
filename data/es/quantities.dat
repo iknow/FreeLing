@@ -964,7 +964,6 @@ rad rad NCMP000 I
 <segundo> s $1:NC I
 <shekel> ILS $1:NC I
 <shekel>_<israelita> ILS $1:NC I
-<sol> PEN $1:NC I
 <sol>_<peruano> PEN $1:NC I
 srad srad NCMP000 I
 s s NCMP000 I

@@ -145,6 +145,11 @@ bool dictionary::check_contracted(const word &w, std::list<word> &lw) {
   list<analysis>::const_iterator a;
   bool contr;
 
+  // remember the capitalization pattern of the word, to keep the format in its parts
+  int caps=0;  // no uppercase
+  if (util::all_caps(w.get_form())) caps=2; // all uppercase
+  else if (util::isuppercase(w.get_form()[0])) caps=1;  // first uppercase
+
   // we check only the first analysis, since contractions can have only one analysis.
   lem=w.get_lemma(); tag=w.get_parole();
   contr=false;
@@ -167,6 +172,11 @@ bool dictionary::check_contracted(const word &w, std::list<word> &lw) {
     search_form(cl,la);
 
     // create new word for the component
+    if (caps==2) // all uppercase
+      cl=util::uppercase(cl);
+    else if (caps==1 and lw.empty()) // capitalize first letter of first word
+      cl[0]=util::uppercase(cl.substr(0,1))[0];
+
     word c(cl);
     // add all matching analysis for the component
     for (a=la.begin(); a!=la.end(); a++) {
@@ -195,6 +205,11 @@ bool dictionary::check_contracted(const word &w, std::list<word> &lw) {
 
     list<analysis> la;
     search_form(cl,la);
+
+    if (caps==2) // all uppercase
+      cl=util::uppercase(cl);
+    else if (caps==1 and lw.empty()) // capitalize first letter of first word
+      cl[0]=util::uppercase(cl.substr(0,1))[0];
 
     word c(cl);
     for (a=la.begin(); a!=la.end(); a++) {
@@ -241,12 +256,18 @@ void dictionary:: annotate(sentence &se) {
         TRACE(2,"Contraction found, replacing... "+pos->get_form()+". span=("+util::int2string(pos->get_span_start())+","+util::int2string(pos->get_span_finish())+")");
 
         int st=pos->get_span_start(); 
-        int step=(pos->get_span_finish()-st+1)/lw.size(); 
+        int fin=pos->get_span_finish();
+        int step=(fin-st+1)/lw.size(); 
 	step=max(1,step);
 	int len=max(1,step-1);
 
-        for (i=lw.begin(); i!=lw.end(); i++) {
-	  i->set_span(st,st+len);
+        unsigned int n;
+        for (n=1,i=lw.begin(); i!=lw.end(); n++,i++) {
+          // span end for curent token. Make sure last token span 
+          // matches original token
+          int f= (n==lw.size()? fin : st+len);
+          // set span for current token.
+	  i->set_span(st,f);
 	  i->user=pos->user;
 
           TRACE(2,"  Inserting "+i->get_form()+". span=("+util::int2string(i->get_span_start())+","+util::int2string(i->get_span_finish())+")");
