@@ -1373,7 +1373,7 @@ aimed aim VBD aim VBN
 aiming aim VBG
 aimless aimless JJ
 aims aim NNS aim VBZ
-ain't ai+not VB+RB
+ain't ai+n't VB+RB
 air air NN air VB air VBP
 air-borne air-borne JJ
 air-conditioned air-conditioned JJ
@@ -3162,7 +3162,7 @@ area-wide area-wide JJ
 areae area NNS
 areal areal JJ
 areas area NNS
-aren't are+not VBP+RB
+aren't are+n't VBP+RB
 arena arena NN
 arenas arena NNS
 argent argent NN
@@ -8242,7 +8242,7 @@ cams cam NNS
 camshaft camshaft NN
 camshafts camshaft NNS
 can can MD can NN can VB can VBP
-can't can+not MD+RB
+can't can+n't MD+RB
 canadian canadian JJ
 canadians canadians NNS
 canal canal NN
@@ -8328,7 +8328,7 @@ cannon cannon NN cannon NNS
 cannonball cannonball NN
 cannonballs cannonball NNS
 cannons cannon NN cannon NNS
-cannot can+not MD+RB
+cannot can+n't MD+RB
 cannula cannula NN
 cannulae cannula NNS
 cannulas cannula NNS
@@ -13404,7 +13404,7 @@ coughed cough VBD cough VBN
 coughing cough VBG
 coughs cough NNS cough VBZ
 could can MD
-couldn't could+not MD+RB
+couldn't could+n't MD+RB
 coulomb coulomb NN
 coulombs coulomb NNS
 coumarin coumarin NN
@@ -14915,7 +14915,7 @@ dare dare NN dare VB dare VBP
 dared dare VBD dare VBN
 daredevil daredevil JJ daredevil NN
 daredevils daredevil NNS
-daren't dare+not VBP+RB
+daren't dare+n't VBP+RB
 dares dare NNS dare VBZ
 daring dare VBG
 dark dark JJ dark NN
@@ -16882,7 +16882,7 @@ did do VBD
 didactic didactic JJ
 didacticism didacticism NN
 didactics didactics NN didactics NNS
-didn't did+not VBD+RB
+didn't did+n't VBD+RB
 die die NN die VB die VBP
 die-back die-back NN
 die-hard die-hard JJ
@@ -18267,7 +18267,7 @@ doe doe NN doe NNS
 doer doer NN
 doers doer NNS
 does do VBZ doe NNS
-doesn't does+not VBZ+RB
+doesn't does+n't VBZ+RB
 doff doff VB doff VBP
 doffed doff VBD doff VBN
 doffing doff VBG
@@ -18369,7 +18369,7 @@ dominoes domino NNS
 dominos domino NN domino NNS
 domperidone domperidone NN
 don don NN don VB don VBP
-don't do+not VB+RB
+don't do+n't VB+RB
 donate donate VB donate VBP
 donated donate VBD donate VBN
 donates donate VBZ
@@ -27433,7 +27433,7 @@ hacks hack NNS hack VBZ
 had have VBD have VBN
 haddock haddock NN haddock NNS
 haddocks haddock NNS
-hadn't had+not VBD+RB
+hadn't had+n't VBD+RB
 hadron hadron NN
 hadrons hadron NNS
 haem haem NN
@@ -27945,7 +27945,7 @@ hashed hash VBD hash VBN
 hashes hash NNS hash VBZ
 hashing hash VBG
 hashish hashish NN
-hasn't has+not VBZ+RB
+hasn't has+n't VBZ+RB
 hasp hasp NN
 hasps hasp NNS
 hassle hassle NN hassle VB hassle VBP
@@ -28000,7 +28000,7 @@ haunts haunt NNS haunt VBZ
 haute haute JJ
 have have VB have VBP
 haven haven NN
-haven't have+not VB+RB
+haven't have+n't VB+RB
 havens haven NNS
 haversack haversack NN
 haversacks haversack NNS
@@ -28047,7 +28047,7 @@ hazing haze VBG
 hazy hazy JJ
 he he PRP
 he'd he+'d PRP+VBD/MD
-he'll he+will PRP+MD
+he'll he+'ll PRP+MD
 he's he+'s PRP+VB
 head head JJ head NN head VB head VBP
 head-on head-on JJ head-on RB
@@ -29932,9 +29932,9 @@ hysteroscopies hysteroscopy NNS
 hysteroscopy hysteroscopy NN
 i i PRP
 i'd i+'d PRP+VBD/MD
-i'll i+will PRP+MD
-i'm i+am PRP+VBP
-i've i+have PRP+VBP
+i'll i+'ll PRP+MD
+i'm i+'m PRP+VBP
+i've i+'ve PRP+VBP
 i-kiribati i-kiribati JJ i-kiribati NNS
 iambic iambic JJ
 iatrogenic iatrogenic JJ
@@ -32880,7 +32880,7 @@ isle isle NN
 isles isle NNS
 islet islet NN
 islets islet NNS
-isn't is+not VBZ+RB
+isn't is+n't VBZ+RB
 isobar isobar NN
 isobars isobar NNS
 isochrone isochrone NN
@@ -32958,7 +32958,7 @@ isthmuses isthmus NNS
 istrian istrian JJ
 it it PRP
 it'd it+'d PRP+VBD/MD
-it'll it+will PRP+MD
+it'll it+'ll PRP+MD
 it's it+'s PRP+VB
 italian italian JJ
 italians italians NNS
@@ -38139,10 +38139,10 @@ mifepristone mifepristone NN
 mifepristones mifepristone NNS
 mig mig NN
 might may MD
-mighta might+have MD+VB
+mighta might+'ve MD+VB
 mightier mighty JJR
 mightiest mighty JJS
-mightn't might+not MD+RB
+mightn't might+n't MD+RB
 mighty mighty JJ mighty RB
 migraine migraine NN
 migraines migraine NNS
@@ -39961,7 +39961,7 @@ muster muster VB muster VBP
 mustered muster VBD muster VBN
 mustering muster VBG
 musters muster VBZ
-mustn't must+not MD+RB
+mustn't must+n't MD+RB
 musts must NNS
 musty musty JJ
 mutabilities mutability NNS
@@ -40453,7 +40453,7 @@ needlestick needlestick NN
 needlesticks needlestick NNS
 needlework needlework NN
 needling needle VBG
-needn't need+not VB+RB
+needn't need+n't VB+RB
 needs need NNS need VBZ needs NN needs NNS
 needy needy JJ
 neem neem NN
@@ -42940,7 +42940,7 @@ ou ou NN ou NNS
 ouch ouch NN
 ouches ouch NNS
 ought ought MD
-oughtn't ought+not VBP+RB
+oughtn't ought+n't VBP+RB
 ounce ounce NN
 ounces ounce NNS
 our our PRP our PRP$
@@ -57253,7 +57253,7 @@ shampooing shampoo VBG
 shampoos shampoo NNS shampoo VBZ
 shamrock shamrock NN
 shamrocks shamrock NNS
-shan't shall+not MD+RB
+shan't shall+n't MD+RB
 shanghai shanghai VB shanghai VBP
 shanghaied shanghai VBD shanghai VBN
 shanghaiing shanghai VBG
@@ -57322,7 +57322,7 @@ shaykh shaykh NN
 shaykhs shaykh NNS
 she she PRP
 she'd she+'d PRP+VBD/MD
-she'll she+will PRP+MD
+she'll she+'ll PRP+MD
 she's she+'s PRP+VB
 sheaf sheaf NN
 shear shear VB shear VBP
@@ -57626,7 +57626,7 @@ shoulder shoulder NN shoulder VB shoulder VBP
 shouldered shoulder VBD shoulder VBN
 shouldering shoulder VBG
 shoulders shoulder NNS shoulder VBZ
-shouldn't should+not MD+RB
+shouldn't should+n't MD+RB
 shout shout NN shout VB shout VBP
 shouted shout VBD shout VBN
 shouter shouter NN
@@ -64069,7 +64069,7 @@ thar thar NN
 thars thar NNS
 that that DT that IN that PRP that RB that WDT that WP
 that'd that+'d PRP+VBD/MD
-that'll that+will PRP+MD
+that'll that+'ll PRP+MD
 that's that+'s PRP+VB
 thatch thatch NN thatch VB thatch VBP
 thatched thatch VBD thatch VBN
@@ -64149,7 +64149,7 @@ therapists therapist NNS
 therapy therapy NN
 there there EX there RB
 there'd there+'d RB+VBD/MD
-there'll there+will RB+MD
+there'll there+'ll RB+MD
 there's there+is RB+VBZ
 thereabouts thereabouts RB
 thereafter thereafter RB
@@ -64212,9 +64212,9 @@ theta theta NN
 thetas theta NNS
 they they PRP
 they'd they+'d PRP+VBD/MD
-they'll they+will PRP+MD
-they're they+are PRP+VBP
-they've they+have PRP+VBP
+they'll they+'ll PRP+MD
+they're they+'re PRP+VBP
+they've they+'ve PRP+VBP
 thiamin thiamin NN
 thiamine thiamine NN
 thiazide thiazide NN
@@ -69697,7 +69697,7 @@ washout washout NN washout NNS
 washouts washout NNS
 washroom washroom NN
 washrooms washroom NNS
-wasn't was+not VBD+RB
+wasn't was+n't VBD+RB
 wasp wasp NN
 waspish waspish JJ
 wasps wasp NNS
@@ -69861,9 +69861,9 @@ wayward wayward JJ
 waywardness waywardness NN
 we we PRP
 we'd we+'d PRP+VBD/MD
-we'll we+will PRP+MD
-we're we+are PRP+VBP
-we've we+have PRP+VBP
+we'll we+'ll PRP+MD
+we're we+'re PRP+VBP
+we've we+'ve PRP+VBP
 weak weak JJ
 weak-minded weak-minded JJ
 weaken weaken VB weaken VBP
@@ -70133,7 +70133,7 @@ wens wen NNS
 went go VBD
 wept weep VBD weep VBN
 were be VBD
-weren't were+not VBD+RB
+weren't were+n't VBD+RB
 werewolf werewolf NN
 werewolves werewolf NNS
 west west JJ west NN west RB
@@ -70379,10 +70379,10 @@ whizzes whiz VBZ whizz VBZ
 whizzing whiz VBG whizz VBG
 who who WP
 who'd who+'d WP+VBD/MD
-who'll who+will WP+MD
-who're who+are WP+VBP
+who'll who+'ll WP+MD
+who're who+'re WP+VBP
 who's who+'s WP+VB
-who've who+have WP+VBP
+who've who+'ve WP+VBP
 whoever whoever WP
 whole whole JJ whole NN
 whole-hearted whole-hearted JJ
@@ -70720,7 +70720,7 @@ wombats wombat NNS
 wombs womb NNS
 women woman NNS
 won win VBD win VBN
-won't will+not MD+RB
+won't will+n't MD+RB
 wonder wonder NN wonder VB wonder VBP
 wondered wonder VBD wonder VBN
 wonderful wonderful JJ
@@ -70923,7 +70923,7 @@ worthwhile worthwhile JJ
 worthy worthy JJ worthy NN
 worts wort NNS
 would would MD
-wouldn't would+not MD+RB
+wouldn't would+n't MD+RB
 wound wind VB wind VBD wind VBN wound NN wound VB wound VBD wound VBN wound VBP
 wounded wound VBD wound VBN
 wounding wound VBG
@@ -71208,9 +71208,9 @@ yorker yorker NN
 yorkers yorker NNS
 you you PRP
 you'd you+'d PRP+VBD/MD
-you'll you+will PRP+MD
-you're you+are PRP+VBP
-you've you+have PRP+VBP
+you'll you+'ll PRP+MD
+you're you+'re PRP+VBP
+you've you+'ve PRP+VBP
 young young JJ
 younger young JJR
 youngest young JJS
