@@ -1,0 +1,13 @@
+<map id="G" name="G">
+<area shape="rect" href="$classcheck__and.html" title="The following classes are implementations of different constraints." alt="" coords="185,5,268,35"/>
+<area shape="rect" href="$classcheck__asynon.html" title="lemma or any ancestor has given synonym" alt="" coords="175,59,279,88"/>
+<area shape="rect" href="$classcheck__category.html" title="check category category" alt="" coords="171,112,283,141"/>
+<area shape="rect" href="$classcheck__lemma.html" title="find lemma in list of lemmas (separator character is |)" alt="" coords="176,165,277,195"/>
+<area shape="rect" href="$classcheck__not.html" title="negation" alt="" coords="187,219,267,248"/>
+<area shape="rect" href="$classcheck__pos.html" title="match pos against regexp" alt="" coords="185,272,268,301"/>
+<area shape="rect" href="$classcheck__semfile.html" title="lemma has given WN semantic file" alt="" coords="175,325,279,355"/>
+<area shape="rect" href="$classcheck__side.html" title="side of descendant respect to ancestor (or viceversa)" alt="" coords="183,379,271,408"/>
+<area shape="rect" href="$classcheck__synon.html" title="lemma has given synonym" alt="" coords="179,432,275,461"/>
+<area shape="rect" href="$classcheck__tonto.html" title="lemma has given top ontology class" alt="" coords="181,485,272,515"/>
+<area shape="rect" href="$classcheck__wordclass.html" title="lemma belongs to a class" alt="" coords="167,539,287,568"/>
+</map>

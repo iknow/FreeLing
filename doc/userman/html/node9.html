@@ -1,0 +1,213 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Requirements</TITLE>
+<META NAME="description" CONTENT="Requirements">
+<META NAME="keywords" CONTENT="userman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="userman.css">
+
+<LINK REL="next" HREF="node10.html">
+<LINK REL="previous" HREF="node8.html">
+<LINK REL="up" HREF="node8.html">
+<LINK REL="next" HREF="node10.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html293"
+  HREF="node10.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html289"
+  HREF="node8.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html283"
+  HREF="node8.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html291"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html294"
+  HREF="node10.html">Installation</A>
+<B> Up:</B> <A NAME="tex2html290"
+  HREF="node8.html">Getting it to work</A>
+<B> Previous:</B> <A NAME="tex2html284"
+  HREF="node8.html">Getting it to work</A>
+ &nbsp; <B>  <A NAME="tex2html292"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00310000000000000000"></A>
+<A NAME="sec-requirements"></A>
+<BR>
+Requirements
+</H1>
+
+<P>
+To install FreeLing you'll need:
+
+<P>
+
+<DL COMPACT>
+<DT>
+<DD>A typical Linux box with usual development tools:
+
+    <DL COMPACT>
+<DT>
+<DD>bash
+    <DT>
+<DD>make
+    <DT>
+<DD>C++ compiler with basic STL support
+    
+</DD>
+</DL>
+
+<P>
+<DT>
+<DD>Enough hard disk space (about 400Mb)
+
+<P>
+<DT>
+<DD>Some external libraries are required to compile FreeLing:
+
+    <DL COMPACT>
+<DT>
+<DD><TT>libpcre</TT> (version 4.3 or higher)
+<BR>
+Perl C Regular
+      Expressions. Included in most Linux distributions. Just make
+      sure you have installed both development and runtime packages.
+
+<P>
+<I CLASS="slanted">Orientative package names</I> (check the package manager in your system):
+
+      <DL COMPACT>
+<DT>
+<DD>Ubuntu/Debian: <TT>libpcre3-dev libpcre3</TT>
+      <DT>
+<DD>OpenSuse/Fedora/Mandriva: <TT>libpcre libpcre-devel</TT>
+      <DT>
+<DD>Slackware: <TT>pcre</TT>
+      
+</DD>
+</DL>
+
+<P>
+<DT>
+<DD><TT>libdb</TT> (version 4.1.25 or higher) 
+<BR>
+Berkeley DB. Included in all Linux distributions. You probably have it
+       already installed. Just make sure you have installed both
+       runtime and development packages, as well as C++ support:
+
+<P>
+<I CLASS="slanted">Orientative package names</I> (check the package manager in your system):
+
+      <DL COMPACT>
+<DT>
+<DD>Ubuntu/Debian: <TT>libdb4.7 libdb4.7-dev libdb4.7++ libdb4.7++-dev</TT>
+      <DT>
+<DD>OpenSuse/Fedora/Mandriva: <TT>libdb-4.7 libdb-4.7-devel libdb_cxx-4.7</TT>
+<BR>                                      <TT>libdb_cxx-4.7-devel </TT>
+      <DT>
+<DD>Slackware: <TT>db4</TT>
+      
+</DD>
+</DL>
+
+<P>
+<DT>
+<DD><TT>libboost</TT> (version 1.31 or higher) 
+<BR>
+Boost library. Included in all Linux distributions. You probably <B>do not</B> have it
+       installed. Make sure to installed both runtime and development packages:
+
+<P>
+<I CLASS="slanted">Orientative package names</I> (check the package manager in your system):
+
+       <DL COMPACT>
+<DT>
+<DD>Ubuntu/Debian: <TT>libboost-dev libboost-filesystem libboost-program-options</TT>
+       <DT>
+<DD>OpenSuse/Fedora/Mandriva: <TT>libboost-devel libboost </TT>
+       <DT>
+<DD>Slackware: <TT>boost </TT>
+       
+</DD>
+</DL>
+
+<P>
+<DT>
+<DD><TT>Omlet &amp; Fries</TT> (omlet v.1.0.1 or higher, fries v.1.2 or higher)
+<BR>
+Machine Learning utility libraries, used by Named Entity Classifier.
+        These libraries contain linguistic data structures, so they are
+        required even if you do not plan to use the NEC ability of FreeLing.
+        Available from <TT>http://www.lsi.upc.edu/~ nlp/omlet+fries</TT>.
+        Already included in FreeLing binary <TT>.deb</TT> packages.
+
+<P>
+</DD>
+</DL>
+</DD>
+</DL>
+
+<P>
+See details on the installation procedure in section <A HREF="node10.html#sec-installation">2.2</A>.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html293"
+  HREF="node10.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html289"
+  HREF="node8.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html283"
+  HREF="node8.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html291"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html294"
+  HREF="node10.html">Installation</A>
+<B> Up:</B> <A NAME="tex2html290"
+  HREF="node8.html">Getting it to work</A>
+<B> Previous:</B> <A NAME="tex2html284"
+  HREF="node8.html">Getting it to work</A>
+ &nbsp; <B>  <A NAME="tex2html292"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Lluís Padró
+2010-09-02
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Class definitions</TITLE>
+<META NAME="description" CONTENT="Class definitions">
+<META NAME="keywords" CONTENT="userman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="userman.css">
+
+<LINK REL="previous" HREF="node56.html">
+<LINK REL="up" HREF="node53.html">
+<LINK REL="next" HREF="node58.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html915"
+  HREF="node58.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html911"
+  HREF="node53.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html907"
+  HREF="node56.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html913"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html916"
+  HREF="node58.html">Coreference Resolution Module</A>
+<B> Up:</B> <A NAME="tex2html912"
+  HREF="node53.html">Dependency Parsing Rule File</A>
+<B> Previous:</B> <A NAME="tex2html908"
+  HREF="node56.html">Semantic database location</A>
+ &nbsp; <B>  <A NAME="tex2html914"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION004181400000000000000">
+Class definitions</A>
+</H3>
+    Section <code>&lt;CLASS&gt;</code> contains class definitions which may
+   be used as attributes in the dependency labelling rules.
+
+<P>
+Each line contains a class assignation for a lemma, with two possible formats:
+<PRE>
+  class-name  lemma      comments
+  class-name  "filename"   comments
+</PRE>
+
+<P>
+For instance, the following lines assign to the class <code>mov</code>
+   the four listed verbs, and to the class <code>animal</code> all lemmas
+   found in <code>animals.dat</code> file.  In the later case, if the file
+   name is not an absolute path, it is interpreted as a relative path
+   based at the location of the rule file.
+
+<P>
+Anything to the right of the second field is considered a comment and ignored.
+<PRE>
+mov     go      prep= to,towards
+mov     come    prep= from
+mov     walk    prep= through
+mov     run     prep= to,towards   D.O.
+
+animal "animals.dat"
+</PRE>
+
+<P>
+<BR><HR>
+<ADDRESS>
+Lluís Padró
+2010-09-02
+</ADDRESS>
+</BODY>
+</HTML>

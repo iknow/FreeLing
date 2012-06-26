@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Semantic Database Module</TITLE>
+<META NAME="description" CONTENT="Semantic Database Module">
+<META NAME="keywords" CONTENT="userman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="userman.css">
+
+<LINK REL="previous" HREF="node58.html">
+<LINK REL="up" HREF="node16.html">
+<LINK REL="next" HREF="node61.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html948"
+  HREF="node61.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html944"
+  HREF="node16.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html940"
+  HREF="node59.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html946"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html949"
+  HREF="node61.html">Sense Dictionary File</A>
+<B> Up:</B> <A NAME="tex2html945"
+  HREF="node16.html">Analysis Modules</A>
+<B> Previous:</B> <A NAME="tex2html941"
+  HREF="node59.html">Coreference Solver configuration file</A>
+ &nbsp; <B>  <A NAME="tex2html947"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION004200000000000000000">
+Semantic Database Module</A>
+</H1>
+
+<P>
+This module is not a component in the default analysis chain, but it
+  can be used by the applications to enrich or post process the results of 
+  the analysis.
+
+<P>
+Moreover, this module is used by the other modules that need access
+  to the semantic database: The sense annotator <TT>senses</TT>, the
+  dependency parser <TT>dep_txala</TT>, and the coreference solver <TT>coref</TT>.
+
+<P>
+The API for this module is 
+
+<P>
+<PRE>
+class semanticDB {
+  public:
+    /// Constructor
+    semanticDB(const std::string &amp;, const std::string &amp;); 
+
+    /// get list of words for a sense+pos
+    std::list&lt;std::string&gt; get_sense_words(const std::string &amp;, const std::string &amp;);
+
+    /// get list of senses for a lemma+pos
+    std::list&lt;std::string&gt; get_word_senses(const std::string &amp;, const std::string &amp;);
+
+    /// get sense info for a sensecode+pos
+    sense_info get_sense_info(const std::string &amp;, const std::string &amp;);
+};
+</PRE>
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html950"
+  HREF="node61.html">Sense Dictionary File</A>
+<LI><A NAME="tex2html951"
+  HREF="node62.html">WordNet file</A>
+</UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+<ADDRESS>
+Lluís Padró
+2010-09-02
+</ADDRESS>
+</BODY>
+</HTML>

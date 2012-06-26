@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" href="$classcoref__fex.html" title="Class for the feature extractor." alt="" coords="13,216,88,245"/>
+<area shape="rect" href="$classsemanticDB.html" title="Class semanticDB implements a semantic DB interface." alt="" coords="5,120,96,149"/>
+<area shape="rect" href="$classdatabase.html" title="Class to wrap a berkeley DB database and unify access." alt="" coords="13,5,88,35"/>
+</map>

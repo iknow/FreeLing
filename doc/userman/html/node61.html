@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Sense Dictionary File</TITLE>
+<META NAME="description" CONTENT="Sense Dictionary File">
+<META NAME="keywords" CONTENT="userman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="userman.css">
+
+<LINK REL="next" HREF="node62.html">
+<LINK REL="previous" HREF="node60.html">
+<LINK REL="up" HREF="node60.html">
+<LINK REL="next" HREF="node62.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html962"
+  HREF="node62.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html958"
+  HREF="node60.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html952"
+  HREF="node60.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html960"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html963"
+  HREF="node62.html">WordNet file</A>
+<B> Up:</B> <A NAME="tex2html959"
+  HREF="node60.html">Semantic Database Module</A>
+<B> Previous:</B> <A NAME="tex2html953"
+  HREF="node60.html">Semantic Database Module</A>
+ &nbsp; <B>  <A NAME="tex2html961"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION004201000000000000000"></A>
+<A NAME="file-sense"></A>
+<BR>
+Sense Dictionary File
+</H2>
+
+<P>
+The sense dictionary file is a Berkeley DB indexed file.
+
+<P>
+It can be created with the <TT>indexdict</TT> program provided with
+  FreeLing, which is called with the command:
+  <PRE>
+   indexdict indexed-dict-name  &lt;source-dict
+</PRE>
+  See the (very simple) source code in <TT>src/main/utilities/indexdict.cc</TT>
+  if you're interested on how it is indexed.
+
+<P>
+The source file (e.g. <TT>senses16.src</TT> provided with FreeLing)
+  must contain the sense list of each lemma-PoS, one entry per line.
+
+<P>
+Each line has format: <TT>type:lemma:PoS synset1 synset2 ...</TT>.
+<BR>
+E.g. 
+<BR>  <code>W:cebolla:N 05760066 08734429 08734702</code>
+<BR>  <code>S:07389783:N chaval chico joven mozo muchacho</code>
+<BR>
+<P>
+The <EM>type</EM> field may be either <TT>W</TT> (for Word) or <TT>S</TT>
+  (for Sense), and indicates whether the rest of the line contains
+  either a word and all its sense codes, or a sense code and all
+  its synonym words.
+
+<P>
+For <TT>W</TT> entries, the sense code list is assumed to be ordered
+  from most to least frequent sense for that lemma-PoS by the sense
+  annotation module.  This is used when value <TT>msf</TT> is
+  selected for the <TT>SenseAnnotation</TT> option.
+
+<P>
+Type <TT>S</TT> entries are used by dependency parsing rules.
+
+<P>
+Sense codes can be anything (assuming your later processes know what
+  to do with them). The provided files contain WordNet 1.6 synset
+  codes.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html962"
+  HREF="node62.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html958"
+  HREF="node60.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html952"
+  HREF="node60.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html960"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html963"
+  HREF="node62.html">WordNet file</A>
+<B> Up:</B> <A NAME="tex2html959"
+  HREF="node60.html">Semantic Database Module</A>
+<B> Previous:</B> <A NAME="tex2html953"
+  HREF="node60.html">Semantic Database Module</A>
+ &nbsp; <B>  <A NAME="tex2html961"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Lluís Padró
+2010-09-02
+</ADDRESS>
+</BODY>
+</HTML>

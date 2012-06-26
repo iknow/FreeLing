@@ -1,0 +1,687 @@
+#--------------------------------------
+# Regras de sufixación para o galego
+#--------------------------------------
+#  Xavier Gómez Guinovart
+#  Seminario de Lingüística Informática
+#  Universidade de Vigo
+#  http://sli.uvigo.es
+#--------------------------------------
+#  Pablo Gamallo Otero
+#  Marcos Garcia González
+#  Grupo ProLNat
+#  Departamento de Língua Espanhola
+#  Universidade de Santiago de Compostela
+#  http://gramatica.usc.es/pln
+#--------------------------------------
+# Cada liña ten 7 campos:
+# 1 sufixo para quitar
+# 2 sufixo para engadir na reconstrución da raíz (*=nada)
+# 3 condición sobre a categoría Parole da entrada atopada
+# 4 parole de saída (* = conservar parole)
+# 5 cando é 1, a presenza do sufixo pode provocar a aparición dun til na base
+# 6 cando é 0, a base pode non levar ningún til
+# 7 o lema de saída é a palabra sufixada no canto do lema do dicionario
+# 8 cando é 1, próbase a regra mesmo coas palabras que xa están no dicionario
+# 9 retokenización
+
+
+## Contracções ambíguas.
+ola	    or	   ^V|S|P|D *	 0	0    0	     1	$$+a:SPS+DA
+olas	    or	   ^V|S|P|D *	 0	0    0	     1	$$+as:SPS+DA
+olo	    or	   ^V|S|P|D *	 0	0    0	     1	$$+o:SPS+DA
+olos	    or	   ^V|S|P|D *	 0	0    0	     1	$$+os:SPS+DA
+s	    *	   ^S	    *	 1	0    0	     1	a+as:SPS+DA
+
+
+#############################################
+################ CLITICOS ###################
+#############################################
+
+################ Verbo + lle ##################
+alle 	á    ^VMI  *    1    1    0    0        $$+lle:$$+PP	# Futuro e Mais-que-perfeito (1 e 3p do sg): pedirá/pedira + lle.
+alle 	a    ^VMM  *    1    1    0    0        $$+lle:$$+PP	# Imperativo: pida + lle
+álle 	á    ^VMM  *    1    1    0    0        $$+lle:$$+PP	# Imperativo (acento diacrítico): dá + lle.
+alle 	a    ^VMII *    0    1    0    0        $$+lle:$$+PP	# Imperfeito (1 e 3p do sg): pedía + lle.
+alle 	a    ^VMIC *    0    1    0    0        $$+lle:$$+PP	# Condicional (1 e 3p do sg): pediría + lle.
+rlle    r    ^V    *    1    1    0    0	$$+lle:$$+PP	# Infinitivo e Futuro do Subjuntivo: pedir + lle.
+aslle 	ás   ^VMI  *    1    1    0    0        $$+lle:$$+PP	# Futuro e Mais-que-perfeito (2p do sg): pedirás/pediras + lle.
+aslle   as   ^VMII *    0    1    0    0        $$+lle:$$+PP	# Imperfeito (2p do sg): varrías + lle.
+aslle   as   ^VMIC *    0    1    0    0        $$+lle:$$+PP	# Condicional (2p do sg): varrerías + lle.
+elle 	e    ^VM   *    1    1    0    0	$$+lle:$$+PP	# Imperativo: xogue + lle.
+eslle 	es   ^VM   *    1    1    0    0        $$+lle:$$+PP	# Presente e Imperfeito (2p do sg e do pl): varres/varriades + lle. (E Subjuntivo, Inf. Flex.)
+ille	i    ^V    *	1    1	  0    0	$$+lle:$$+PP    # Futuro (1p do sg): andarei/varrerei/partirei + lle.
+oslle 	os   ^VM   *    1    1    0    0        $$+lle:$$+PP	# Presente e Futuro (1p do pl): varremos/varreremos + lle. (E subjuntivo, Inf. Flex.)
+olle 	o    ^VM   *    1    1    0    0	$$+lle:$$+PP	# Presente (1p do sg): ando/varro/parto + lle.
+ulle	u    ^V    *	1    1	  0    0	$$+lle:$$+PP    # Pretérito (3p do sg): andou/varreu/partiu + lle.
+anlle   án   ^VMI  *    1    1    0    0	$$+lle:$$+PP	# Futuro e Mais-que-perfeito (3p do pl): andarán/andaran + lle.
+nlle 	n    ^VMIP *    1    1    0    0        $$+lle:$$+PP	# Presente (3p do pl): varren + lle.
+nlle 	n    ^VMIS *    1    1    0    0        $$+lle:$$+PP	# Pretérito (1p do sg): varrín + lle.
+nlle 	n    ^VMII *    1    1    0    0        $$+lle:$$+PP	# Imperfeito (3p do pl): varrían + lle.
+nlle 	n    ^VMIC *    1    1    0    0        $$+lle:$$+PP	# Condicional (3p do pl): varrerían + lle.
+nlle 	n    ^VMM  *    1    1    0    0        $$+lle:$$+PP	# Imperativo (2p do pl): varran + lle.
+nlle 	n    ^VMN  *    1    1    0    0        $$+lle:$$+PP	# Infinitivo(s): varreren + lle.
+
+################ Verbo + lles #################
+alles 	á    ^VMI  *    1    1    0    0        $$+lles:$$+PP	# Futuro e Mais-que-perfeito: (1 e 3p do sg): pedirá/pedira + lles.
+alles 	a    ^VMM  *    1    1    0    0        $$+lles:$$+PP	# Imperativo: pida + lles.
+álles 	á    ^VMM  *    1    1    0    0        $$+lles:$$+PP	# Imperativo (acento diacrítico): dá + lles.
+alles 	a    ^VMII *    0    1    0    0        $$+lles:$$+PP	# Imperfeito (1 e 3p do sg): varría + lles.
+alles 	a    ^VMIC *    0    1    0    0        $$+lles:$$+PP	# Condicional (1 e 3p do sg): varrería + lles.
+rlles   r    ^V    *    1    1    0    0	$$+lles:$$+PP	# Infinitivo: atacar + lles.
+aslles 	ás   ^VMI  *    1    1    0    0        $$+lles:$$+PP	# Futuro e Mais que perfeito (2p do sg): pedirás + lles.
+aslles  as   ^VMII *    0    1    0    0        $$+lles:$$+PP	# Imperfeito (2p do sg): varrías + lles.
+aslles  as   ^VMIC *    0    1    0    0        $$+lles:$$+PP	# Condicional (2p do sg): varrerías + lles.
+elles 	e    ^VM   *    1    1    0    0	$$+lles:$$+PP	# Imperativo: xogue + lles.
+eslles 	es   ^VM   *    1    1    0    0        $$+lles:$$+PP	# Presente e Imperfeito (2p do sg e do pl): varres/varriades + lles. (E subjuntivo, Inf. Flex.)
+illes	i    ^V    *	1    1	  0    0	$$+lles:$$+PP   # Futuro (1p do sg): andarei/varrerei/partirei + lles.
+oslles 	os   ^VM   *    1    1    0    0        $$+lles:$$+PP	# Presente e Futuro (1p do pl): varremos/varreremos + lles. (E subjuntivo, Inf. Flex.)
+olles 	o    ^VM   *    1    1    0    0	$$+lles:$$+PP	# Presente (1p do sg): ando/varro/parto + lles.
+ulles	u    ^V    *	1    1	  0    0	$$+lles:$$+PP   # Pretérito (3p do sg): andou/varreu/partiu + lles.
+nlles 	n    ^V    *    1    1    0    0        $$+lles:$$+PP	# Presente (3p do pl) e Pretérito (1 do sg): varren/varrín + lles.
+
+################ Verbo + me ###################
+ame 	á    ^VMI  *    1    1    0    0        $$+me:$$+PP	# Futuro e Mais-que-perfeito (1 e 3p do sg): pedirá/pedira + me.
+ame 	a    ^VMM  *    1    1    0    0        $$+me:$$+PP	# Imperativo: pida + me.
+áme 	á    ^VMM  *    1    1    0    0        $$+me:$$+PP	# Imperativo (acento diacrítico): dá + me.
+ame 	a    ^VMII *    0    1    0    0        $$+me:$$+PP	# Imperfeito (1 e 3p do sg): varría + me.
+ame 	a    ^VMIC *    0    1    0    0        $$+me:$$+PP	# Condicional (1 e 3p do sg): varrería + me.
+rme     r    ^V    *    1    1    0    0	$$+me:$$+PP	# Infinitivo: atacar + me.
+asme 	ás   ^VMI  *    1    1    0    0        $$+me:$$+PP	# Futuro e Mais-que-perfeito (2p do sg): pedirás/pediras + me.
+asme    as   ^VMII *    0    1    0    0        $$+me:$$+PP	# Imperfeito (2p do sg): varrías + me.
+asme    as   ^VMIC *    0    1    0    0        $$+me:$$+PP	# Condicional (2p do sg): varrerías + me.
+eme 	e    ^VM   *    1    1    0    0	$$+me:$$+PP	# Imperativo: xogue + me.
+esme 	es   ^VM   *    1    1    0    0        $$+me:$$+PP	# Presente e Imperfeito (2p do sg e do pl): varres/varriades + me. (E subjuntivo, Inf. Flex.)
+ime	i    ^V    *	1    1	  0    0	$$+me:$$+PP     # Futuro (1p do sg): andarei/varrerei/partirei + me.
+ome 	o    ^VM   *    1    1    0    0	$$+me:$$+PP	# Presente (1p do sg): ando/varro/parto + me.
+ume	u    ^V    *	1    1	  0    0	$$+me:$$+PP     # Pretérito (3p do sg): andou/varreu/partiu + me.
+nme 	n    ^V    *    1    1    0    0        $$+me:$$+PP	# Presente (3p do pl) e Pretérito (1 do sg): varren/varrín + me.
+
+################ Verbo + te ###################
+ate 	á    ^VMI  *    1    1    0    0        $$+te:$$+PP	# Futuro e Mais-que-perfeito (1 e 3p do sg): pedirá/pedira + te.
+ate 	a    ^VMM  *    1    1    0    0        $$+te:$$+PP	# Imperativo: xoga + te.
+áte 	á    ^VMM  *    1    1    0    0        $$+te:$$+PP	# Imperativo (acento diacrítico): dá + te.
+ate 	a    ^VMII *    0    1    0    0        $$+te:$$+PP	# Imperfeito (1 e 3p do sg): varría + te.
+ate 	a    ^VMIC *    0    1    0    0        $$+te:$$+PP	# Condicional (1 e 3p do sg): varrería + te.
+rte     r    ^V    *    1    1    0    0	$$+te:$$+PP	# Infinitivo: atacar + te.
+aste 	ás   ^VMI  *    1    1    0    0        $$+te:$$+PP	# Futuro e Mais-que-perfeito (2p do sg): pedirás/pediras + te.
+aste    as   ^VMII *    0    1    0    0        $$+te:$$+PP	# Imperfeito (2p do sh): varrías + te.
+aste    as   ^VMIC *    0    1    0    0        $$+te:$$+PP	# Condicional (2p do sg): varrerías + te.
+ete 	e    ^VM   *    1    1    0    0	$$+te:$$+PP	# Imperativo: pide + te.
+este 	es   ^VMIP2S *  1    1    0    0        $$+te:$$+PP	# Presente (2p do sg): varres + te.
+este 	es   ^VMIS2S *  1    1    0    0        $$+te:$$+PP	# Imperfeito (2p dp sg): varreches + te.
+este 	es   ^VMS  *    1    1    0    0        $$+te:$$+PP	# Subjuntivo (2p do dg): andes + te.
+este 	es   ^VMN  *    1    1    0    0        $$+te:$$+PP	# Infinitivo(s): comeres + te.
+ite	i    ^V    *	1    1	  0    0	$$+te:$$+PP     # Futuro (1p do sg): andarei/varrerei/partirei + te.
+oste 	os   ^VM   *    1    1    0    0        $$+te:$$+PP	# Presente e Futuro (1p do pl): varremos/varreremos + te. (E subjuntivo, Inf. Flex.).
+ote 	o    ^VM   *    1    1    0    0	$$+te:$$+PP	# Presente (1p do sg): ando/varro/parto + te.
+ute	u    ^V    *	1    1	  0    0	$$+te:$$+PP     # Pretérito (3p do sg): andou/varreu/partiu + te.
+nte 	n    ^V    *    1    1    0    0        $$+te:$$+PP	# Presente (3p do pl) e Pretérito (1 do sg): varren/varrín + te.
+
+################ Verbo + che ##################
+ache 	á    ^VMI  *    1    1    0    0        $$+che:$$+PP	# Futuro e Mais-que-perfeito (1 e 3p do sg): pedirá/pedira + che.
+áche 	á    ^VMIP3 *   1    1    0    0        $$+che:$$+PP	# Presente (acento diacrítco): dá + che.
+ache 	a    ^VMII *    0    1    0    0        $$+che:$$+PP	# Imperfeito (1 e 3p do sg): varría + che.
+ache 	a    ^VMIC *    0    1    0    0        $$+che:$$+PP	# Condicional (1 e 3p do sg): varrería + che.
+rche    r    ^V    *    1    1    0    0	$$+che:$$+PP	# Infinitivo: atacar + che.
+iche	i    ^V    *	1    1	  0    0	$$+che:$$+PP    # Futuro (1p do sg): andarei/varrerei/partirei + che.
+osche 	os   ^VM   *    1    1    0    0        $$+che:$$+PP	# Presente e Futuro (1p do pl): varremos/varreremos + che. (E subjuntivo, Inf. Flex.).
+oche 	o    ^VM   *    1    1    0    0	$$+che:$$+PP	# Presente (1p do sg): ando + che.
+uche	u    ^V    *	1    1	  0    0	$$+che:$$+PP    # Pretérito (3p do sg): andou/varreu/partiu + che.
+nche 	n    ^V    *    1    1    0    0        $$+che:$$+PP	# Presente (3p do pl) e Pretérito (1 do sg): varren/varrín + che.
+
+################ Verbo + nos ##################
+anos 	á    ^VMIM3  *  1    1    0    0        $$+nos:$$+PP	# Mais-que-perfeito (3p do sg): pedira + nos.
+anos 	á    ^VMIF3  *  1    1    0    0        $$+nos:$$+PP	# Futuro (3p do sg): pedirá + nos.
+anos 	a    ^VMM    *  1    1    0    0        $$+nos:$$+PP	# Imperativo: pida + nos.
+ános 	á    ^VM     *  1    1    0    0        $$+nos:$$+PP	# Imperativo/Presente (acento diacrítico): dá + nos.
+anos 	a    ^VMII3  *  0    1    0    0        $$+nos:$$+PP	# Imperfeito (3p do sg): varría + nos.
+anos 	a    ^VMIC3  *  0    1    0    0        $$+nos:$$+PP	# Condicional (3p do sg): varrería + nos.
+anos	a    ^VMIP3S *  1    1    0    0	$$+nos:$$+PP	# Presente (3p do sg): anda + nos.
+rnos    r    ^V    *    1    1    0    0	$$+nos:$$+PP	# Infinitivo: atacar + nos.
+asnos 	ás   ^VMI  *    1    1    0    0        $$+nos:$$+PP	# Futuro (2p do sg): pedirás + nos.
+asnos   as   ^VMII *    0    1    0    0        $$+nos:$$+PP	# Imperfeito (2p do sg): varrías + nos.
+asnos   as   ^VMIC *    0    1    0    0        $$+nos:$$+PP	# Condicional (2p do sg): varrerías + nos.
+enos 	e    ^VM   *    1    1    0    0	$$+nos:$$+PP	# Presente (3p do sg) e Imperativo: varre + nos.
+esnos 	es   ^VM   *    1    1    0    0        $$+nos:$$+PP	# Presente e Imperfeito (2p do sg e do pl): varres/varriades + nos. (E subjuntivo, Inf. Flex.)
+inos	i    ^V    *	1    1	  0    0	$$+nos:$$+PP    # Futuro (1p do sg): andarei/varrerei/partirei + nos.
+osnos 	os   ^VM   *    1    1    0    0        $$+nos:$$+PP	# Presente e Futuro (1p do pl): varremos/varreremos + nos. (E subjuntivo, Inf. Flex.).
+onos	o    ^VM   *	1    1	  0    0	$$+nos:$$+PP	# Gerúndio: reclamándonos.
+unos	u    ^V    *	1    1	  0    0	$$+nos:$$+PP    # Pretérito (3p do sg): andou/varreu/partiu + nos.
+nnos 	n    ^V    *    1    1    0    0        $$+nos:$$+PP	# Presente (3p do pl) e Pretérito (1 do sg): varren/varrín + nos.
+
+################ Verbo + vos ##################
+avos 	á    ^VMI  *    1    1    0    0        $$+vos:$$+PP	# Futuro e Mais-que-perfeito (1 e 3p do sg): pedirá/pedira + vos.
+ávos 	á    ^VM   *    1    1    0    0        $$+vos:$$+PP	# Imperativo/Presente (acento diacrítico): dá + vos.
+avos 	a    ^VMII *    0    1    0    0        $$+vos:$$+PP	# Imperfeito (3p do sg): varría + vos.
+avos 	a    ^VMIC *    0    1    0    0        $$+vos:$$+PP	# Condicional (3p do sg): varrería + vos.
+rvos    r    ^V    *    1    1    0    0	$$+vos:$$+PP	# Infinitivo: atacar + vos.
+esvos 	es   ^VMIC *    1    1    0    0        $$+vos:$$+PP	# Condicional (3p do pl): varreriades + vos.
+esvos 	es   ^VMIP2P *  1    1    0    0        $$+vos:$$+PP	# Presente (2p do pl): rides + vos.
+esvos 	es   ^VMIS2P *  1    1    0    0        $$+vos:$$+PP	# Pretérito (2p dp pl): andastes + vos.
+esvos 	es   ^VMSP2P *  1    1    0    0        $$+vos:$$+PP	# Subjuntivo (2p do pl): riades + vos.
+esvos 	es   ^VMII2P *  1    1    0    0        $$+vos:$$+PP	# Imperfeito (2p do pl): varriades + vos. (E subjuntivo, Inf. Flex.)
+esvos 	es   ^VMIM2P *  1    1    0    0        $$+vos:$$+PP	# Mais-que-perfeito (2p do pl): andarades + vos.
+esvos 	es   ^VMIF2P *  1    1    0    0        $$+vos:$$+PP	# Futuro (2p do pl): andaredes + vos.
+evos    e    ^VM   *    1    1    0    0	$$+vos:$$+PP	# Presente (3p do sg): inclúevos (bloqueia imperativos: (ti) inclúevos).
+ivos	i    ^V    *	1    1	  0    0	$$+vos:$$+PP    # Futuro (1p do sg): andarei/varrerei/partirei + vos.
+osvos 	os   ^VM   *    1    1    0    0        $$+vos:$$+PP	# Presente e Futuro (1p do pl): varremos/varreremos + vos. (E subjuntivo, Inf. Flex.).
+ovos 	o    ^VM   *    1    1    0    0	$$+vos:$$+PP	# Presente (1p do sg): ando/varro/parto + vos.
+uvos	u    ^V    *	1    1	  0    0	$$+vos:$$+PP    # Pretérito (3p do sg): andou/varreu/partiu + nos.
+nvos 	n    ^V    *    1    1    0    0        $$+vos:$$+PP	# Presente (3p do pl) e Pretérito (1 do sg): varren/varrín + nos.
+
+################ Verbo + se ###################
+ase 	á    ^VMIM3 *   1    1    0    0        $$+se:$$+PP	# Mais-que-perfeito (3p do sg): pedirá/pedira + se.
+ase	á    ^VMIP3 *   1    1    0    1	$$+se:$$+PP	# Presente (3p do sg): está + se.
+ase 	á    ^VMIF *    1    1    0    0        $$+se:$$+PP	# Futuro (3p do sg): pedirá + se.
+ase 	a    ^VMM  *    1    1    0    0        $$+se:$$+PP	# Imperativo: pida + se.
+áse 	á    ^VMI  *    1    1    0    0        $$+se:$$+PP	# Presente (3p do sg): dá + se.
+ase 	a    ^VMII VMII3S0 0 1    0    0        $$+se:$$+PP	# Imperfeito (3p do sg): varría + se.
+ase 	a    ^VMIC VMIC3S0 0 1    0    0        $$+se:$$+PP	# Condicional (3p do sg): varrería + se.
+rse     r    ^V    *    1    1    0    0	$$+se:$$+PP	# Infinitivo: atacar + se.
+ese 	e    ^VMM03 *   1    1    0    0	$$+se:$$+PP	# Imperativo: xogue + se.
+ese 	e    ^VMIP3 *   1    1    0    0	$$+se:$$+PP	# Imperativo: xogue + se.
+ose	o    ^VM   *	1    1	  0    0	$$+se:$$+PP	# Gerúndio: feríndose.
+use	u    ^V    *	1    1	  0    0	$$+se:$$+PP     # Pretérito (3p do sg): andou/varreu/partiu + se.
+nse 	n    ^VMIP *    1    1    0    0        $$+se:$$+PP	# Presente (3p do pl): varren + se.
+anse 	an   ^VMIC *    1    1    0    0        $$+se:$$+PP	# Condicional (3p do pl): andarían + se.
+nse 	n    ^VMM  *    1    1    0    0        $$+se:$$+PP	# Imperativo: anden + se. (Bloqueia o presente de subjuntivo: anden + se. (usa-se?)).
+nse 	n    ^VMII *    1    1    0    0        $$+se:$$+PP	# Imperfeito (3p do pl): varrían + se.
+anse 	án   ^VMIM3P *  1    1    0    0        $$+se:$$+PP	# Mais-que-perfeito (3p do pl): andaran + se.
+anse 	án   ^VMIF *    1    1    0    0        $$+se:$$+PP	# Futuro (3p do pl): andarán + se.
+nse 	n    ^VMIS3P *  1    1    0    0        $$+se:$$+PP	# Perfeito: (3p do pl): varreron + se.
+
+################ Verbo + o ####################
+ao 	á    ^VMI  *    1    1    0    0        $$+o:$$+PP	# Futuro e Mais-que-perfeito (1 e 3p do sg): pedirá/pedira + o.
+ao 	a    ^VMM  *    1    1    0    0        $$+o:$$+PP	# Imperativo: pida + o.
+áo 	á    ^VM   *    1    1    0    0        $$+o:$$+PP	# Imperativo/Presente (acento diacrítico): dá + o.
+ao 	a    ^VMII *    0    1    0    0        $$+o:$$+PP	# Imperfeito (1 e 3p do sg): varría + o.
+ao 	a    ^VMIC *    0    1    0    0        $$+o:$$+PP	# Condicional (1 e 3p do sg): varrería + o.
+alo 	ás   ^VMI  *    1    1    0    0        $$+o:$$+PP	# Futuro (2p do sg): pedirás + o.
+alo 	ar   ^VMN  *    1    1    0    0        $$+o:$$+PP	# Infinitivo: atacar + o.
+alo     as   ^VMII *    0    1    0    0        $$+o:$$+PP	# Imperfeito (2p do sg): varrías + o.
+alo     as   ^VMIC *    0    1    0    0        $$+o:$$+PP	# Condicional (2p do sg): varrerías + o.
+eo 	e    ^VM   *    1    1    0    0	$$+o:$$+PP	# Imperativo: xogue + o.
+elo 	es   ^VM   *    1    1    0    0        $$+o:$$+PP	# Presente e Imperfeito (2p do sg e do pl): varres/varriades + o. (E subjuntivo, Inf. Flex.)
+elo 	er   ^VM   *    0    0    0    0        $$+o:$$+PP	# Infinitivo: varrer + o.
+eino	ei   ^V    *	1    1	  0    0	$$+o:$$+PP      # Futuro (1p do sg): andarei/varrerei/partirei + o.
+ílo	ír   ^V	   *    1    1    0    0 	$$+o:$$+PP	# Infinitivo: substituír + o.
+ino	ín   ^VMIS *    1    1    0    0	$$+o:$$+PP	# Pretérito (1p do sg): varrín + o.
+olo 	os   ^VM   *    1    1    0    0        $$+o:$$+PP	# Presente e Futuro (1p do pl): varremos/varreremos + o.
+oo 	o    ^VMI  *    1    1    0    0	$$+o:$$+PP	# Presente (1p do sg): ando/varro/parto + o.
+uno	u    ^V    *	1    1	  0    0	$$+o:$$+PP      # Pretérito (3p do sg): andou/varreu/partiu + o.
+no 	n    ^V    *    1    1    0    0        $$+o:$$+PP	# Presente e Mais-que-perfeito (3p do pl): varren/andaran + o.
+
+################ Verbo + os ###################
+aos 	á    ^VMI  *    1    1    0    0        $$+os:$$+PP	# Futuro e Mais-que-perfeito (1 e 3p do sg): pedirá/pedira + os.
+aos 	a    ^VMM  *    1    1    0    0        $$+os:$$+PP	# Imperativo: pida + os.
+áos 	á    ^VM   *    1    1    0    0        $$+os:$$+PP	# Imperativo/Presente (diacrítico): dá + os.
+aos 	a    ^VMII *    0    1    0    0        $$+os:$$+PP	# Imperfeito (1 e 3p do sg): varría + os.
+aos 	a    ^VMIC *    0    1    0    0        $$+os:$$+PP	# Condicional (1 e 3p do sg): varrería + os.
+alos 	ás   ^VMI  *    1    1    0    0        $$+os:$$+PP	# Futuro (2p do sg): pedirás + os.
+alos 	ar   ^VMN  *    1    1    0    0        $$+os:$$+PP	# Infinitivo: atacar + os.
+alos    as   ^VMII *    0    1    0    0        $$+os:$$+PP	# Imperfeito (2p do sg): varrías + os.
+alos    as   ^VMIC *    0    1    0    0        $$+os:$$+PP	# Condicional (2p do sg): varrerías + os.
+eos 	e    ^VM   *    1    1    0    0	$$+os:$$+PP	# Imperativo: xogue + os.
+elos 	es   ^VM   *    1    1    0    0        $$+os:$$+PP	# Presente e Imperfeito (2p do sg e do pl): varres/varriades + os. (E subjuntivo, Inf. Flex.)
+elos 	er   ^VM   *    0    0    0    0        $$+os:$$+PP	# Infinitivo: varrer + os.
+inos	i    ^V    *	1    1	  0    0	$$+os:$$+PP     # Futuro (1p do sg): andarei/varrerei/partirei + os.
+ílos	ír   ^V	   *    1    1    0    0 	$$+os:$$+PP	# Infinitivo: substituír + os.
+olos 	os   ^VM   *    1    1    0    0        $$+os:$$+PP	# Presente e Futuro (1p do pl): varremos/varreremos + os. (E subjuntivo, Inf. Flex.).
+oos 	o    ^VM   *    1    1    0    0	$$+os:$$+PP	# Presente (1p do sg): ando/varro/parto + os.
+unos	u    ^V    *	1    1	  0    0	$$+os:$$+PP     # Pretérito (3p do sg): andou/varreu/partiu + os.
+enos 	en   ^VM   *    1    1    0    0        $$+os:$$+PP	# Presente (3p do pl): varren + os. Infinitivo Flexionado: faceren + os.
+inos 	ín   ^VM   *    1    1    0    0        $$+os:$$+PP	# Pretérito (1p do sg): varrín + os.
+anos 	án   ^VMIM3P *  1    1    0    0        $$+os:$$+PP	# Mais-que-perfeito (3p do pl): andaran + os.
+anos 	an   ^VMIP3P *  1    1    0    0        $$+os:$$+PP	# Presente (3p do pl): andan + os.
+anos 	an   ^VMIS3P *  1    1    0    0        $$+os:$$+PP	# Pretérito (3p do pl): andaron + os.
+anos 	an   ^VMII3P *  1    1    0    0        $$+os:$$+PP	# Imperfeito (3p do pl): andaban + os.
+anos 	an   ^VMIC3P *  1    1    0    0        $$+os:$$+PP	# Condicional (3p do pl): andarían + os.
+anos 	án   ^VMIF *    1    1    0    0        $$+os:$$+PP	# Futuro (3p do pl): andarán + os.
+onos 	on   ^VM   *    1    1    0    0        $$+os:$$+PP	# Pretérito (3p do pl): andaron + os.
+
+################ Verbo + a ####################
+aa 	á    ^VMI  *    1    1    0    0        $$+a:$$+PP	# Futuro e Mais-que-perfeito (1 e 3p do sg): pedirá/pedira + a.
+aa 	a    ^VMM  *    1    1    0    0        $$+a:$$+PP	# Imperativo: pida + a.
+áa 	á    ^VM   *    1    1    0    0        $$+a:$$+PP	# Imperativo/Presente (acento diacrítico): dá + a.
+aa 	a    ^VMII *    0    1    0    0        $$+a:$$+PP	# Imperfeito (1 e 3p do sg): varría + a.
+aa 	a    ^VMIC *    0    1    0    0        $$+a:$$+PP	# Condicional (1 e 3p do sg): varrería + a.
+ala 	ás   ^VMI  *    1    1    0    0        $$+a:$$+PP	# Futuro (2p do sg): pedirás + a.
+ala 	ar   ^VMN  *    1    1    0    0        $$+a:$$+PP	# Infinitivo: atacar + a.
+ala     as   ^VMII *    0    1    0    0        $$+a:$$+PP	# Imperfeito (2p do sg): varrías + a.
+ala     as   ^VMIC *    0    1    0    0        $$+a:$$+PP	# Condicional (2p do sg): varrerías + a.
+ea 	e    ^VM   *    1    1    0    0	$$+a:$$+PP	# Imperativo: xogue + a.
+ela 	es   ^VM   *    1    1    0    0        $$+a:$$+PP	# Presente e Imperfeito (2p do sg e do pl): varres/varriades + a. (E subjuntivo, Inf. Flex.)
+ela 	er   ^VM   *    0    0    0    0        $$+a:$$+PP	# Infinitivo: varrer + a.
+ina	i    ^V    *	1    1	  0    0	$$+a:$$+PP      # Futuro (1p do sg): andarei/varrerei/partirei + a.
+íla	ír   ^V	   *    1    1    0    0 	$$+a:$$+PP	# Infinitivo: substituír + a.
+ola 	os   ^VM   *    1    1    0    0        $$+a:$$+PP	# Presente e Futuro (1p do sg e do pl): varremos/varreremos + a. (E subjuntivo, Inf. Flex.).
+oa 	o    ^VM   *    1    1    0    0	$$+a:$$+PP	# Presente (1p do sg): ando/varro/parto + a.
+una	u    ^V    *	1    1	  0    0	$$+a:$$+PP      # Pretérito (3p do sg): andou/varreu/partiu + a.
+na 	n    ^V    *    1    1    0    0        $$+a:$$+PP	# Presente (1 e 3p do sg)e Mais-que-perfeito (3p do pl): varrínvarren/andaran + a.
+
+################ Verbo + as ###################
+aas 	á    ^VMI  *    1    1    0    0        $$+as:$$+PP	# Futuro e Mais-que-perfeito (1 e 3p do sg): pedirá/pedira + as.
+aas 	a    ^VMM  *    1    1    0    0        $$+as:$$+PP	# Imperativo: pida + as.
+áas 	á    ^VM   *    1    1    0    0        $$+as:$$+PP	# Imperativo/Presente (acento diacrítico): dá + as.
+aas 	a    ^VMII *    0    1    0    0        $$+as:$$+PP	# Imperfeito (1 e 3p do sg): varría + as.
+aas 	a    ^VMIC *    0    1    0    0        $$+as:$$+PP	# Condicional (1 e 3p do sg): varrería + as.
+alas 	ás   ^VMI  *    1    1    0    0        $$+as:$$+PP	# Futuro (2p do sg): pedirás + as.
+alas 	ar   ^VMN  *    1    1    0    0        $$+as:$$+PP	# Inf: atacalas.
+alas    as   ^VMII *    0    1    0    0        $$+as:$$+PP	# Imperfeito (2p do sg): varrías + as.
+alas    as   ^VMIC *    0    1    0    0        $$+as:$$+PP	# Condicional (2p do sg): varrerías + as.
+eas 	e    ^VM   *    1    1    0    0	$$+as:$$+PP	# Imperativo: xogue + as.
+elas 	es   ^VM   *    1    1    0    0        $$+as:$$+PP	# Presente e Imperfeito (2p do sg e do pl): varres/varriades + as. (E subjuntivo, Inf. Flex.)
+elas 	er   ^VM   *    0    0    0    0        $$+as:$$+PP	# Infinitivo: varrer + as.
+inas	i    ^V    *	1    1	  0    0	$$+as:$$+PP     # Futuro (1p do sg): andarei/varrerei/partirei + as.
+ílas	ír   ^V	   *    1    1    0    0 	$$+as:$$+PP	# Infinitivo: substituír + as.
+olas 	os   ^VM   *    1    1    0    0        $$+as:$$+PP	# Presente e Futuro (1p do sg e do pl): varremos/varreremos + as. (E subjuntivo, Inf. Flex.).
+oas 	o    ^VM   *    1    1    0    0	$$+as:$$+PP	# Presente (1p do sg): ando/varro/parto + as.
+unas	u    ^V    *	1    1	  0    0	$$+as:$$+PP     # Pretérito (3p do sg): andou/varreu/partiu + as.
+nas 	n    ^V    *    1    1    0    0        $$+as:$$+PP	# Presente (1 e 3p do sg) e Mais-que-perfeito (3p do pl): varrín/varren/andaran + as.
+
+
+
+###############################################
+################ dous clíticos ################
+###############################################
+
+################ Verbo + ma ###################
+ama 	á    ^VMI  *    1    1    0    0        $$+me+a:$$+PP+PP	# Futuro e Mais-que-perfeito (1 e 3p do sg): pedirá/pedira + ma.
+ama 	a    ^VMM  *    1    1    0    0        $$+me+a:$$+PP+PP	# Imperativo: pida + ma.
+áma 	á    ^VMM  *    1    1    0    0        $$+me+a:$$+PP+PP	# Imperativo (acento diacrítico): dá + ma.
+ama 	a    ^VMII *    0    1    0    0        $$+me+a:$$+PP+PP	# Imperfeito (1 e 3p do sg): varría + ma.
+ama 	a    ^VMIC *    0    1    0    0        $$+me+a:$$+PP+PP	# Condicional (1 e 3p do sg): varrería + ma.
+rma     r    ^V    *    1    1    0    0	$$+me+a:$$+PP+PP	# Infinitivo: atacar + ma.
+asma 	ás   ^VMI  *    1    1    0    0        $$+me+a:$$+PP+PP	# Futuro e Mais-que-perfeito (2p do sg): pedirás/pediras + ma.
+asma    as   ^VMII *    0    1    0    0        $$+me+a:$$+PP+PP	# Imperfeito (2p do sg): varrías + ma.
+asma    as   ^VMIC *    0    1    0    0        $$+me+a:$$+PP+PP	# Condicional (2p do sg): varrerías + ma.
+ema 	e    ^VMM  *    1    1    0    0	$$+me+a:$$+PP+PP	# Imperativo: xogue + ma.
+esma 	es   ^VM   *    1    1    0    0        $$+me+a:$$+PP+PP	# Presente e Imperfeito (2p do sg e do pl): varres/varriades + ma. (E subjuntivo, Inf. Flex.)
+ima	i    ^V    *	1    1	  0    0	$$+me+a:$$+PP+PP	# Futuro (1p do sg): andarei/varrerei/partirei + ma.
+oma 	o    ^VMI  *    1    1    0    0	$$+me+a:$$+PP+PP	# Presente (1p do sg): ando/varro/parto + ma.
+uma	u    ^V    *	1    1	  0    0	$$+me+a:$$+PP+PP	# Pretérito (3p do sg): andou/varreu/partiu + ma.
+nma 	n    ^V    *    1    1    0    0        $$+me+a:$$+PP+PP	# Presente (3p do pl) e Pretérito (1 do sg): varren/varrín + ma.
+#ma    	*    ^V    *    1    1    0    1	$$+me+a:$$+PP+PP
+
+################ Verbo + mas ##################
+amas 	á    ^VMI  *    1    1    0    0        $$+me+as:$$+PP+PP	# Futuro e masis-que-perfeito (1 e 3p do sg): pedirá/pedira + mas.
+amas 	a    ^VMM  *    1    1    0    0        $$+me+as:$$+PP+PP	# Imperativo: pida + mas.
+ámas 	á    ^VMM  *    1    1    0    0        $$+me+as:$$+PP+PP	# Imperativo (acento diacrítico): dá + mas.
+amas 	a    ^VMII *    0    1    0    0        $$+me+as:$$+PP+PP	# Imperfeito (1 e 3p do sg): varría + mas.
+amas 	a    ^VMIC *    0    1    0    0        $$+me+as:$$+PP+PP	# Condicional (1 e 3p do sg): varrería + mas.
+rmas    r    ^V    *    1    1    0    0	$$+me+as:$$+PP+PP	# Infinitivo: atacar + mas.
+asmas 	ás   ^VMI  *    1    1    0    0        $$+me+as:$$+PP+PP	# Futuro e masis-que-perfeito (2p do sg): pedirás/pediras + mas.
+asmas   as   ^VMII *    0    1    0    0        $$+me+as:$$+PP+PP	# Imperfeito (2p do sg): varrías + mas.
+asmas   as   ^VMIC *    0    1    0    0        $$+me+as:$$+PP+PP	# Condicional (2p do sg): varrerías + mas.
+emas 	e    ^VMM  *    1    1    0    0	$$+me+as:$$+PP+PP	# Imperativo: xogue + mas.
+esmas 	es   ^VM   *    1    1    0    0        $$+me+as:$$+PP+PP	# Presente e Imperfeito (2p do sg e do pl): varres/varriades + mas. (E subjuntivo, Inf. Flex.)
+imas	i    ^V    *	1    1	  0    0	$$+me+as:$$+PP+PP	# Futuro (1p do sg): andarei/varrerei/partirei + mas.
+omas 	o    ^VMI  *    1    1    0    0	$$+me+as:$$+PP+PP	# Presente (1p do sg): ando/varro/parto + mas.
+umas	u    ^V    *	1    1	  0    0	$$+me+as:$$+PP+PP	# Pretérito (3p do sg): andou/varreu/partiu + mas.
+nmas 	n    ^V    *    1    1    0    0        $$+me+as:$$+PP+PP	# Presente (3p do pl) e Pretérito (1 do sg): varren/varrín + mas.
+#mas   	*    ^V    *    1    1    0    1	$$+me+as:$$+PP+PP
+
+################ Verbo + mo ###################
+amo 	á    ^VMI  *    1    1    0    0        $$+me+o:$$+PP+PP	# Futuro e mois-que-perfeito (1 e 3p do sg): pedirá/pedira + mo.
+amo 	a    ^VMM  *    1    1    0    0        $$+me+o:$$+PP+PP	# Imperativo: pida + mo.
+ámo 	á    ^VMM  *    1    1    0    0        $$+me+o:$$+PP+PP	# Imperativo (acento diacrítico): dá + mo.
+amo 	a    ^VMII *    0    1    0    0        $$+me+o:$$+PP+PP	# Imperfeito (1 e 3p do sg): varría + mo.
+amo 	a    ^VMIC *    0    1    0    0        $$+me+o:$$+PP+PP	# Condicional (1 e 3p do sg): varrería + mo.
+rmo     r    ^V    *    1    1    0    0	$$+me+o:$$+PP+PP	# Infinitivo: atacar + mo.
+asmo 	ás   ^VMI  *    1    1    0    0        $$+me+o:$$+PP+PP	# Futuro e mois-que-perfeito (2p do sg): pedirás/pediras + mo.
+asmo    as   ^VMII *    0    1    0    0        $$+me+o:$$+PP+PP	# Imperfeito (2p do sg): varrías + mo.
+asmo    as   ^VMIC *    0    1    0    0        $$+me+o:$$+PP+PP	# Condicional (2p do sg): varrerías + mo.
+emo 	e    ^VMM  *    1    1    0    0	$$+me+o:$$+PP+PP	# Imperativo: xogue + mo.
+esmo 	es   ^VM   *    1    1    0    0        $$+me+o:$$+PP+PP	# Presente e Imperfeito (2p do sg e do pl): varres/varriades + mo. (E subjuntivo, Inf. Flex.)
+imo	i    ^V    *	1    1	  0    0	$$+me+o:$$+PP+PP	# Futuro (1p do sg): andarei/varrerei/partirei + mo.
+omo 	o    ^VMI  *    1    1    0    0	$$+me+o:$$+PP+PP	# Presente (1p do sg): ando/varro/parto + mo.
+umo	u    ^V    *	1    1	  0    0	$$+me+o:$$+PP+PP	# Pretérito (3p do sg): andou/varreu/partiu + mo.
+nmo 	n    ^V    *    1    1    0    0        $$+me+o:$$+PP+PP	# Presente (3p do pl) e Pretérito (1 do sg): varren/varrín + mo.
+#mo    	*    ^V    *    1    1    0    1	$$+me+o:$$+PP+PP
+
+################ Verbo + mos ##################
+amos 	á    ^VMI  *    1    1    0    0        $$+me+os:$$+PP+PP	# Futuro e mosis-que-perfeito (1 e 3p do sg): pedirá/pedira + mos.
+amos 	a    ^VMM  *    1    1    0    0        $$+me+os:$$+PP+PP	# Imperativo: pida + mos.
+ámos 	á    ^VMM  *    1    1    0    0        $$+me+os:$$+PP+PP	# Imperativo (acento diacrítico): dá + mos.
+amos 	a    ^VMII *    0    1    0    0        $$+me+os:$$+PP+PP	# Imperfeito (1 e 3p do sg): varría + mos.
+amos 	a    ^VMIC *    0    1    0    0        $$+me+os:$$+PP+PP	# Condicional (1 e 3p do sg): varrería + mos.
+rmos    r    ^V    *    1    1    0    0	$$+me+os:$$+PP+PP	# Infinitivo: atacar + mos.
+asmos 	ás   ^VMI  *    1    1    0    0        $$+me+os:$$+PP+PP	# Futuro e mosis-que-perfeito (2p do sg): pedirás/pediras + mos.
+asmos   as   ^VMII *    0    1    0    0        $$+me+os:$$+PP+PP	# Imperfeito (2p do sg): varrías + mos.
+asmos   as   ^VMIC *    0    1    0    0        $$+me+os:$$+PP+PP	# Condicional (2p do sg): varrerías + mos.
+emos 	e    ^VMM  *    1    1    0    0	$$+me+os:$$+PP+PP	# Imperativo: xogue + mos.
+esmos 	es   ^VM   *    1    1    0    0        $$+me+os:$$+PP+PP	# Presente e Imperfeito (2p do sg e do pl): varres/varriades + mos. (E subjuntivo, Inf. Flex.)
+imos	i    ^V    *	1    1	  0    0	$$+me+os:$$+PP+PP	# Futuro (1p do sg): andarei/varrerei/partirei + mos.
+omos 	o    ^VMI  *    1    1    0    0	$$+me+os:$$+PP+PP	# Presente (1p do sg): ando/varro/parto + mos.
+umos	u    ^V    *	1    1	  0    0	$$+me+os:$$+PP+PP	# Pretérito (3p do sg): andou/varreu/partiu + mos.
+nmos 	n    ^V    *    1    1    0    0        $$+me+os:$$+PP+PP	# Presente (3p do pl) e Pretérito (1 do sg): varren/varrín + mos.
+#mos   	*    ^V    *    1    1    0    1	$$+me+os:$$+PP+PP
+
+################ Verbo + cha ##################
+acha 	á    ^VMI  *    1    1    0    0        $$+che+a:$$+PP+PP	# Futuro e Mais-que-perfeito (1 e 3p do sg): pedirá/pedira + cha.
+ácha 	á    ^VMIP3 *   1    1    0    0        $$+che+a:$$+PP+PP	# Presente (acento diacrítco): dá + cha.
+acha 	a    ^VMII *    0    1    0    0        $$+che+a:$$+PP+PP	# Imperfeito (1 e 3p do sg): varría + cha.
+acha 	a    ^VMIC *    0    1    0    0        $$+che+a:$$+PP+PP	# Condicional (1 e 3p do sg): varrería + cha.
+rcha    r    ^V    *    1    1    0    0	$$+che+a:$$+PP+PP	# Infinitivo: atacar + cha.
+icha	i    ^V    *	1    1	  0    0	$$+che+a:$$+PP+PP	# Futuro (1p do sg): andarei/varrerei/partirei + cha.
+oscha 	os   ^VM   *    1    1    0    0        $$+che+a:$$+PP+PP	# Presente e Futuro (1p do pl): varremos/varreremos + cha. (E subjuntivo, Inf. Flex.).
+ocha 	o    ^VMI  *    1    1    0    0	$$+che+a:$$+PP+PP	# Presente (1p do sg): ando + cha.
+ucha	u    ^V    *	1    1	  0    0	$$+che+a:$$+PP+PP	# Pretérito (3p do sg): andou/varreu/partiu + cha.
+ncha 	n    ^V    *    1    1    0    0        $$+che+a:$$+PP+PP	# Presente (3p do pl) e Pretérito (1 do sg): varren/varrín + cha.
+#cha   	*    ^V    *    1    1    0    1	$$+che+a:$$+PP+PP
+
+################ Verbo + chas #################
+achas 	á    ^VMI  *    1    1    0    0        $$+che+as:$$+PP+PP	# Futuro e Mais-que-perfeito (1 e 3p do sg): pedirá/pedira + chas.
+áchas 	á    ^VMIP3 *   1    1    0    0        $$+che+as:$$+PP+PP	# Presente (acento diacrítco): dá + chas.
+achas 	a    ^VMII *    0    1    0    0        $$+che+as:$$+PP+PP	# Imperfeito (1 e 3p do sg): varría + chas.
+achas 	a    ^VMIC *    0    1    0    0        $$+che+as:$$+PP+PP	# Condicional (1 e 3p do sg): varrería + chas.
+rchas    r    ^V    *    1    1    0    0	$$+che+as:$$+PP+PP	# Infinitivo: atacar + chas.
+ichas	i    ^V    *	1    1	  0    0	$$+che+as:$$+PP+PP	# Futuro (1p do sg): andarei/varrerei/partirei + chas.
+oschas 	os   ^VM   *    1    1    0    0        $$+che+as:$$+PP+PP	# Presente e Futuro (1p do pl): varremos/varreremos + chas. (E subjuntivo, Inf. Flex.).
+ochas 	o    ^VMI  *    1    1    0    0	$$+che+as:$$+PP+PP	# Presente (1p do sg): ando + chas.
+uchas	u    ^V    *	1    1	  0    0	$$+che+as:$$+PP+PP	# Pretérito (3p do sg): andou/varreu/partiu + chas.
+nchas 	n    ^V    *    1    1    0    0        $$+che+as:$$+PP+PP	# Presente (3p do pl) e Pretérito (1 do sg): varren/varrín + chas.
+#chas   *    ^V    *    1    1    0    1	$$+che+as:$$+PP+PP
+
+################ Verbo + cho #################
+acho 	á    ^VMI  *    1    1    0    0        $$+che+o:$$+PP+PP	# Futuro e Mais-que-perfeito (1 e 3p do sg): pedirá/pedira + cho.
+ácho 	á    ^VMIP3 *   1    1    0    0        $$+che+o:$$+PP+PP	# Presente (acento diacrítco): dá + cho.
+acho 	a    ^VMII *    0    1    0    0        $$+che+o:$$+PP+PP	# Imperfeito (1 e 3p do sg): varría + cho.
+acho 	a    ^VMIC *    0    1    0    0        $$+che+o:$$+PP+PP	# Condicional (1 e 3p do sg): varrería + cho.
+rcho    r    ^V    *    1    1    0    0	$$+che+o:$$+PP+PP	# Infinitivo: atacar + cho.
+icho	i    ^V    *	1    1	  0    0	$$+che+o:$$+PP+PP	# Futuro (1p do sg): andarei/varrerei/partirei + cho.
+oscho 	os   ^VM   *    1    1    0    0        $$+che+o:$$+PP+PP	# Presente e Futuro (1p do pl): varremos/varreremos + cho. (E subjuntivo, Inf. Flex.).
+ocho 	o    ^VMI  *    1    1    0    0	$$+che+o:$$+PP+PP	# Presente (1p do sg): ando + cho.
+ucho	u    ^V    *	1    1	  0    0	$$+che+o:$$+PP+PP	# Pretérito (3p do sg): andou/varreu/partiu + cho.
+ncho 	n    ^V    *    1    1    0    0        $$+che+o:$$+PP+PP	# Presente (3p do pl) e Pretérito (1 do sg): varren/varrín + cho.
+#cho   	*    ^V    *    1    1    0    1	$$+che+o:$$+PP+PP
+
+################ Verbo + chos #################
+achos 	á    ^VMI  *    1    1    0    0        $$+che+os:$$+PP+PP	# Futuro e Mais-que-perfeito (1 e 3p do sg): pedirá/pedira + chos.
+áchos 	á    ^VMIP3 *   1    1    0    0        $$+che+os:$$+PP+PP	# Presente (acento diacrítco): dá + chos.
+achos 	a    ^VMII *    0    1    0    0        $$+che+os:$$+PP+PP	# Imperfeito (1 e 3p do sg): varría + chos.
+achos 	a    ^VMIC *    0    1    0    0        $$+che+os:$$+PP+PP	# Condicional (1 e 3p do sg): varrería + chos.
+rchos   r    ^V    *    1    1    0    0	$$+che+os:$$+PP+PP	# Infinitivo: atacar + chos.
+ichos	i    ^V    *	1    1	  0    0	$$+che+os:$$+PP+PP	# Futuro (1p do sg): andarei/varrerei/partirei + chos.
+oschos 	os   ^VM   *    1    1    0    0        $$+che+os:$$+PP+PP	# Presente e Futuro (1p do pl): varremos/varreremos + chos. (E subjuntivo, Inf. Flex.).
+ochos 	o    ^VMI  *    1    1    0    0	$$+che+os:$$+PP+PP	# Presente (1p do sg): ando + chos.
+uchos	u    ^V    *	1    1	  0    0	$$+che+os:$$+PP+PP	# Pretérito (3p do sg): andou/varreu/partiu + chos.
+nchos 	n    ^V    *    1    1    0    0        $$+che+os:$$+PP+PP	# Presente (3p do pl) e Pretérito (1 do sg): varren/varrín + chos.
+#chos   *    ^V    *    1    1    0    1	$$+che+os:$$+PP+PP
+
+################ Verbo + lla ##################
+alla 	á    ^VMI  *    1    1    0    0        $$+lle+a:$$+PP+PP	# Futuro e Mais-que-perfeito (1 e 3p do sg): pedirá/pedira + lla.
+alla 	a    ^VMM  *    1    1    0    0        $$+lle+a:$$+PP+PP	# Imperativo: pida + lla
+álla 	á    ^VMM  *    1    1    0    0        $$+lle+a:$$+PP+PP	# Imperativo (acento diacrítico): dá + lla.
+alla 	a    ^VMII *    0    1    0    0        $$+lle+a:$$+PP+PP	# Imperfeito (1 e 3p do sg): pedía + lla.
+alla 	a    ^VMIC *    0    1    0    0        $$+lle+a:$$+PP+PP	# Condicional (1 e 3p do sg): pediría + lla.
+rlla    r    ^V    *    1    1    0    0	$$+lle+a:$$+PP+PP	# Infinitivo e Futuro do Subjuntivo: pedir + lla.
+aslla 	ás   ^VMI  *    1    1    0    0        $$+lle+a:$$+PP+PP	# Futuro e Mais-que-perfeito (2p do sg): pedirás/pediras + lla.
+aslla   as   ^VMII *    0    1    0    0        $$+lle+a:$$+PP+PP	# Imperfeito (2p do sg): varrías + lla.
+aslla   as   ^VMIC *    0    1    0    0        $$+lle+a:$$+PP+PP	# Condicional (2p do sg): varrerías + lla.
+ella 	e    ^VMM  *    1    1    0    0	$$+lle+a:$$+PP+PP	# Imperativo: xogue + lla.
+eslla 	es   ^VM   *    1    1    0    0        $$+lle+a:$$+PP+PP	# Presente e Imperfeito (2p do sg e do pl): varres/varriades + lla. (E Subjuntivo, Inf. Flex.)
+illa	i    ^V    *	1    1	  0    0	$$+lle+a:$$+PP+PP	# Futuro (1p do sg): andarei/varrerei/partirei + lla.
+oslla 	os   ^VM   *    1    1    0    0        $$+lle+a:$$+PP+PP	# Presente e Futuro (1p do pl): varremos/varreremos + lla. (E subjuntivo, Inf. Flex.)
+olla 	o    ^VMI  *    1    1    0    0	$$+lle+a:$$+PP+PP	# Presente (1p do sg): ando/varro/parto + lla.
+ulla	u    ^V    *	1    1	  0    0	$$+lle+a:$$+PP+PP	# Pretérito (3p do sg): andou/varreu/partiu + lla.
+anlla   án   ^VMI  *    1    1    0    0	$$+lle+a:$$+PP+PP	# Futuro e Mais-que-perfeito (3p do pl): andarán/andaran + lla.
+nlla 	n    ^VMIP *    1    1    0    0        $$+lle+a:$$+PP+PP	# Presente (3p do pl): varren + lla.
+nlla 	n    ^VMIS *    1    1    0    0        $$+lle+a:$$+PP+PP	# Pretérito (1p do sg): varrín + lla.
+nlla 	n    ^VMII *    1    1    0    0        $$+lle+a:$$+PP+PP	# Imperfeito (3p do pl): varrían + lla.
+nlla 	n    ^VMIC *    1    1    0    0        $$+lle+a:$$+PP+PP	# Condicional (3p do pl): varrerían + lla.
+nlla 	n    ^VMM  *    1    1    0    0        $$+lle+a:$$+PP+PP	# Imperativo (2p do pl): varran + lla.
+nlla 	n    ^VMN  *    1    1    0    0        $$+lle+a:$$+PP+PP	# Infinitivo(s): varreren + lla.
+#lla   	*    ^V    *    1    1    0    1	$$+lle+a:$$+PP+PP
+
+################ Verbo + llas #################
+allas 	á    ^VMI  *    1    1    0    0        $$+lle+as:$$+PP+PP	# Futuro e Mais-que-perfeito (1 e 3p do sg): pedirá/pedira + llas.
+allas 	a    ^VMM  *    1    1    0    0        $$+lle+as:$$+PP+PP	# Imperativo: pida + llas
+állas 	á    ^VMM  *    1    1    0    0        $$+lle+as:$$+PP+PP	# Imperativo (acento diacrítico): dá + llas.
+allas 	a    ^VMII *    0    1    0    0        $$+lle+as:$$+PP+PP	# Imperfeito (1 e 3p do sg): pedía + llas.
+allas 	a    ^VMIC *    0    1    0    0        $$+lle+as:$$+PP+PP	# Condicional (1 e 3p do sg): pediría + llas.
+rllas   r    ^V    *    1    1    0    0	$$+lle+as:$$+PP+PP	# Infinitivo e Futuro do Subjuntivo: pedir + llas.
+asllas 	ás   ^VMI  *    1    1    0    0        $$+lle+as:$$+PP+PP	# Futuro e Mais-que-perfeito (2p do sg): pedirás/pediras + llas.
+asllas  as   ^VMII *    0    1    0    0        $$+lle+as:$$+PP+PP	# Imperfeito (2p do sg): varrías + llas.
+asllas  as   ^VMIC *    0    1    0    0        $$+lle+as:$$+PP+PP	# Condicional (2p do sg): varrerías + llas.
+ellas 	e    ^VMM  *    1    1    0    0	$$+lle+as:$$+PP+PP	# Imperativo: xogue + llas.
+esllas 	es   ^VM   *    1    1    0    0        $$+lle+as:$$+PP+PP	# Presente e Imperfeito (2p do sg e do pl): varres/varriades + llas. (E Subjuntivo, Inf. Flex.)
+illas	i    ^V    *	1    1	  0    0	$$+lle+as:$$+PP+PP	# Futuro (1p do sg): andarei/varrerei/partirei + llas.
+osllas 	os   ^VM   *    1    1    0    0        $$+lle+as:$$+PP+PP	# Presente e Futuro (1p do pl): varremos/varreremos + llas. (E subjuntivo, Inf. Flex.)
+ollas 	o    ^VMI  *    1    1    0    0	$$+lle+as:$$+PP+PP	# Presente (1p do sg): ando/varro/parto + llas.
+ullas	u    ^V    *	1    1	  0    0	$$+lle+as:$$+PP+PP	# Pretérito (3p do sg): andou/varreu/partiu + llas.
+anllas  án   ^VMI  *    1    1    0    0	$$+lle+as:$$+PP+PP	# Futuro e Mais-que-perfeito (3p do pl): andarán/andaran + llas.
+nllas 	n    ^VMIP *    1    1    0    0        $$+lle+as:$$+PP+PP	# Presente (3p do pl): varren + llas.
+nllas 	n    ^VMIS *    1    1    0    0        $$+lle+as:$$+PP+PP	# Pretérito (1p do sg): varrín + llas.
+nllas 	n    ^VMII *    1    1    0    0        $$+lle+as:$$+PP+PP	# Imperfeito (3p do pl): varrían + llas.
+nllas 	n    ^VMIC *    1    1    0    0        $$+lle+as:$$+PP+PP	# Condicional (3p do pl): varrerían + llas.
+nllas 	n    ^VMM  *    1    1    0    0        $$+lle+as:$$+PP+PP	# Imperativo (2p do pl): varran + llas.
+nllas 	n    ^VMN  *    1    1    0    0        $$+lle+as:$$+PP+PP	# Infinitivo(s): varreren + llas.
+#llas   *    ^V    *    1    1    0    1	$$+lle+as:$$+PP+PP
+
+################ Verbo + llo ##################
+allo 	á    ^VMI  *    1    1    0    0        $$+lle+o:$$+PP+PP	# Futuro e Mais-que-perfeito (1 e 3p do sg): pedirá/pedira + llo.
+allo 	a    ^VMM  *    1    1    0    0        $$+lle+o:$$+PP+PP	# Imperativo: pida + llo
+állo 	á    ^VMM  *    1    1    0    0        $$+lle+o:$$+PP+PP	# Imperativo (acento diacrítico): dá + llo.
+allo 	a    ^VMII *    0    1    0    0        $$+lle+o:$$+PP+PP	# Imperfeito (1 e 3p do sg): pedía + llo.
+allo 	a    ^VMIC *    0    1    0    0        $$+lle+o:$$+PP+PP	# Condicional (1 e 3p do sg): pediría + llo.
+rllo    r    ^V    *    1    1    0    0	$$+lle+o:$$+PP+PP	# Infinitivo e Futuro do Subjuntivo: pedir + llo.
+asllo 	ás   ^VMI  *    1    1    0    0        $$+lle+o:$$+PP+PP	# Futuro e Mais-que-perfeito (2p do sg): pedirás/pediras + llo.
+asllo   as   ^VMII *    0    1    0    0        $$+lle+o:$$+PP+PP	# Imperfeito (2p do sg): varrías + llo.
+asllo   as   ^VMIC *    0    1    0    0        $$+lle+o:$$+PP+PP	# Condicional (2p do sg): varrerías + llo.
+ello 	e    ^VMM  *    1    1    0    0	$$+lle+o:$$+PP+PP	# Imperativo: xogue + llo.
+esllo 	es   ^VM   *    1    1    0    0        $$+lle+o:$$+PP+PP	# Presente e Imperfeito (2p do sg e do pl): varres/varriades + llo. (E Subjuntivo, Inf. Flex.)
+illo	i    ^V    *	1    1	  0    0	$$+lle+o:$$+PP+PP	# Futuro (1p do sg): andarei/varrerei/partirei + llo.
+osllo 	os   ^VM   *    1    1    0    0        $$+lle+o:$$+PP+PP	# Presente e Futuro (1p do pl): varremos/varreremos + llo. (E subjuntivo, Inf. Flex.)
+ollo 	o    ^VMI  *    1    1    0    0	$$+lle+o:$$+PP+PP	# Presente (1p do sg): ando/varro/parto + llo.
+ullo	u    ^V    *	1    1	  0    0	$$+lle+o:$$+PP+PP	# Pretérito (3p do sg): andou/varreu/partiu + llo.
+anllo   án   ^VMI  *    1    1    0    0	$$+lle+o:$$+PP+PP	# Futuro e Mais-que-perfeito (3p do pl): andarán/andaran + llo.
+nllo 	n    ^VMIP *    1    1    0    0        $$+lle+o:$$+PP+PP	# Presente (3p do pl): varren + llo.
+nllo 	n    ^VMIS *    1    1    0    0        $$+lle+o:$$+PP+PP	# Pretérito (1p do sg): varrín + llo.
+nllo 	n    ^VMII *    1    1    0    0        $$+lle+o:$$+PP+PP	# Imperfeito (3p do pl): varrían + llo.
+nllo 	n    ^VMIC *    1    1    0    0        $$+lle+o:$$+PP+PP	# Condicional (3p do pl): varrerían + llo.
+nllo 	n    ^VMM  *    1    1    0    0        $$+lle+o:$$+PP+PP	# Imperativo (2p do pl): varran + llo.
+nllo 	n    ^VMN  *    1    1    0    0        $$+lle+o:$$+PP+PP	# Infinitivo(s): varreren + llo.
+#llo   	*    ^V    *    1    1    0    1	$$+lle+o:$$+PP+PP
+
+################ Verbo + llos #################
+allos 	á    ^VMI  *    1    1    0    0        $$+lle+os:$$+PP+PP	# Futuro e Mais-que-perfeito (1 e 3p do sg): pedirá/pedira + llos.
+allos 	a    ^VMM  *    1    1    0    0        $$+lle+os:$$+PP+PP	# Imperativo: pida + llos
+állos 	á    ^VMM  *    1    1    0    0        $$+lle+os:$$+PP+PP	# Imperativo (acento diacrítico): dá + llos.
+allos 	a    ^VMII *    0    1    0    0        $$+lle+os:$$+PP+PP	# Imperfeito (1 e 3p do sg): pedía + llos.
+allos 	a    ^VMIC *    0    1    0    0        $$+lle+os:$$+PP+PP	# Condicional (1 e 3p do sg): pediría + llos.
+rllos   r    ^V    *    1    1    0    0	$$+lle+os:$$+PP+PP	# Infinitivo e Futuro do Subjuntivo: pedir + llos.
+asllos 	ás   ^VMI  *    1    1    0    0        $$+lle+os:$$+PP+PP	# Futuro e Mais-que-perfeito (2p do sg): pedirás/pediras + llos.
+asllos  as   ^VMII *    0    1    0    0        $$+lle+os:$$+PP+PP	# Imperfeito (2p do sg): varrías + llos.
+asllos  as   ^VMIC *    0    1    0    0        $$+lle+os:$$+PP+PP	# Condicional (2p do sg): varrerías + llos.
+ellos 	e    ^VMM  *    1    1    0    0	$$+lle+os:$$+PP+PP	# Imperativo: xogue + llos.
+esllos 	es   ^VM   *    1    1    0    0        $$+lle+os:$$+PP+PP	# Presente e Imperfeito (2p do sg e do pl): varres/varriades + llos. (E Subjuntivo, Inf. Flex.)
+illos	i    ^V    *	1    1	  0    0	$$+lle+os:$$+PP+PP	# Futuro (1p do sg): andarei/varrerei/partirei + llos.
+osllos 	os   ^VM   *    1    1    0    0        $$+lle+os:$$+PP+PP	# Presente e Futuro (1p do pl): varremos/varreremos + llos. (E subjuntivo, Inf. Flex.)
+ollos 	o    ^VMI  *    1    1    0    0	$$+lle+os:$$+PP+PP	# Presente (1p do sg): ando/varro/parto + llos.
+ullos	u    ^V    *	1    1	  0    0	$$+lle+os:$$+PP+PP	# Pretérito (3p do sg): andou/varreu/partiu + llos.
+anllos  án   ^VMI  *    1    1    0    0	$$+lle+os:$$+PP+PP	# Futuro e Mais-que-perfeito (3p do pl): andarán/andaran + llos.
+nllos 	n    ^VMIP *    1    1    0    0        $$+lle+os:$$+PP+PP	# Presente (3p do pl): varren + llos.
+nllos 	n    ^VMIS *    1    1    0    0        $$+lle+os:$$+PP+PP	# Pretérito (1p do sg): varrín + llos.
+nllos 	n    ^VMII *    1    1    0    0        $$+lle+os:$$+PP+PP	# Imperfeito (3p do pl): varrían + llos.
+nllos 	n    ^VMIC *    1    1    0    0        $$+lle+os:$$+PP+PP	# Condicional (3p do pl): varrerían + llos.
+nllos 	n    ^VMM  *    1    1    0    0        $$+lle+os:$$+PP+PP	# Imperativo (2p do pl): varran + llos.
+nllos 	n    ^VMN  *    1    1    0    0        $$+lle+os:$$+PP+PP	# Infinitivo(s): varreren + llos.
+#llos   *    ^V    *    1    1    0    1	$$+lle+os:$$+PP+PP
+
+
+## As seguintes formas serão sempre esdrúxulas; podem criar-se restrições para evitar análises do tipo: "(eu) partíraseme" ##
+
+nola    *    ^V    *    1    1    0    1	$$+nos+a:$$+PP+PP
+nolas   *    ^V    *    1    1    0    1	$$+nos+as:$$+PP+PP
+nolo    *    ^V    *    1    1    0    1	$$+nos+o:$$+PP+PP
+nolos   *    ^V    *    1    1    0    1	$$+nos+os:$$+PP+PP
+vola    *    ^V    *    1    1    0    1	$$+vos+a:$$+PP+PP
+volas   *    ^V    *    1    1    0    1	$$+vos+as:$$+PP+PP
+volo    *    ^V    *    1    1    0    1	$$+vos+o:$$+PP+PP
+volos   *    ^V    *    1    1    0    1	$$+vos+os:$$+PP+PP
+llela   *    ^V    *    1    1    0    1	$$+lles+a:$$+PP+PP
+llelas  *    ^V    *    1    1    0    1	$$+lles+as:$$+PP+PP
+llelo   *    ^V    *    1    1    0    1	$$+lles+o:$$+PP+PP
+llelos  *    ^V    *    1    1    0    1	$$+lles+os:$$+PP+PP
+seme    *    ^V    *    1    1    0    1	$$+se+me:$$+PP+PP
+selle   *    ^V    *    1    1    0    1	$$+se+lle:$$+PP+PP
+senos   *    ^V    *    1    1    0    1	$$+se+nos:$$+PP+PP
+sevos   *    ^V    *    1    1    0    1	$$+se+vos:$$+PP+PP
+selles  *    ^V    *    1    1    0    1	$$+se+lles:$$+PP+PP
+
+
+###############################################
+################ três clíticos ################
+###############################################
+
+chema     *     ^V    *    1    1    0    1	$$+che+me+a:$$+PP+PP+PP
+chemas    *     ^V    *    1    1    0    1	$$+che+me+as:$$+PP+PP+PP
+chemo     *     ^V    *    1    1    0    1	$$+che+me+o:$$+PP+PP+PP
+chemos    *     ^V    *    1    1    0    1	$$+che+me+os:$$+PP+PP+PP
+chella    *     ^V    *    1    1    0    1	$$+che+lle+a:$$+PP+PP+PP
+chellas    *    ^V    *    1    1    0    1	$$+che+lle+as:$$+PP+PP+PP
+chello     *    ^V    *    1    1    0    1	$$+che+lle+o:$$+PP+PP+PP
+chellos    *    ^V    *    1    1    0    1	$$+che+lle+os:$$+PP+PP+PP
+chenola    *    ^V    *    1    1    0    1	$$+che+nos+a:$$+PP+PP+PP
+chenolas   *    ^V    *    1    1    0    1	$$+che+nos+as:$$+PP+PP+PP
+chenolo    *    ^V    *    1    1    0    1	$$+che+nos+o:$$+PP+PP+PP
+chenolos   *    ^V    *    1    1    0    1	$$+che+nos+os:$$+PP+PP+PP
+chevola    *    ^V    *    1    1    0    1	$$+che+vos+a:$$+PP+PP+PP
+chevolas   *    ^V    *    1    1    0    1	$$+che+vos+as:$$+PP+PP+PP
+chevolo    *    ^V    *    1    1    0    1	$$+che+vos+o:$$+PP+PP+PP
+chevolos   *    ^V    *    1    1    0    1	$$+che+vos+os:$$+PP+PP+PP
+chellela   *    ^V    *    1    1    0    1	$$+che+lles+a:$$+PP+PP+PP
+chellelas  *    ^V    *    1    1    0    1	$$+che+lles+as:$$+PP+PP+PP
+chellelo   *    ^V    *    1    1    0    1	$$+che+lles+o:$$+PP+PP+PP
+chellelos  *    ^V    *    1    1    0    1	$$+che+lles+os:$$+PP+PP+PP
+
+
+##############################################
+############## ADVERBIOS -mente ##############
+##############################################
+
+mente    *    ^AQ0CS    RG    0    0    0    1 -
+mente    *    ^AQ0FS    RG    0    0    0    1 -
+
+
+#############################################
+################# DIMINUTIVOS ###############
+#############################################
+
+# irmanciño
+
+nciñas	n	^NCMS	NCFP00D	1	0	0	0	-
+nciña	n	^NCMS	NCFS00D	1	0	0	0	-
+nciños	n	^NCMS	NCMP00D	1	0	0	0	-
+nciño	n	^NCMS	NCMS00D	1	0	0	0	-
+
+# leccionciña
+
+nciñas	n	^NCFS	NCFP00D	1	0	0	0	-
+nciña	n	^NCFS	NCFS00D	1	0	0	0	-
+
+# rapaciño
+
+ciñas	z	^NCMS	NCFP00D	1	0	0	0	-
+ciña	z	^NCMS	NCFS00D	1	0	0	0	-
+ciños	z	^NCMS	NCMP00D	1	0	0	0	-
+ciño	z	^NCMS	NCMS00D	1	0	0	0	-
+
+# luciña
+
+ciñas	z	^NCFS	NCFP00D	1	0	0	0	-
+ciña	z	^NCFS	NCFS00D	1	0	0	0	-
+
+# francesiño
+
+siñas	s	^NCMS	NCFP00D	1	0	0	0	-
+siña	s	^NCMS	NCFS00D	1	0	0	0	-
+siños	s	^NCMS	NCMP00D	1	0	0	0	-
+siño	s	^NCMS	NCMS00D	1	0	0	0	-
+
+# directoriño
+
+riñas	r	^NCMS	NCFP00D	1	0	0	0	-
+riña	r	^NCMS	NCFS00D	1	0	0	0	-
+riños	r	^NCMS	NCMP00D	1	0	0	0	-
+riño	r	^NCMS	NCMS00D	1	0	0	0	-
+
+# directorciño
+
+rciñas	r	^NCMS	NCFP00D	1	0	0	0	-
+rciña	r	^NCMS	NCFS00D	1	0	0	0	-
+rciños	r	^NCMS	NCMP00D	1	0	0	0	-
+rciño	r	^NCMS	NCMS00D	1	0	0	0	-
+
+# españoliño
+
+liñas	l	^NCMS	NCFP00D	1	0	0	0	-
+liña	l	^NCMS	NCFS00D	1	0	0	0	-
+liños	l	^NCMS	NCMP00D	1	0	0	0	-
+liño	l	^NCMS	NCMS00D	1	0	0	0	-
+
+# avociño
+
+ciñas	*	^NCMS	NCFP00D	1	0	0	0	-
+ciña	*	^NCMS	NCFS00D	1	0	0	0	-
+ciños	*	^NCMS	NCMP00D	1	0	0	0	-
+ciño	*	^NCMS	NCMS00D	1	0	0	0	-
+
+# naiciña
+
+ciñas	*	^NCFS	NCFP00D	1	0	0	0	-
+ciña	*	^NCFS	NCFS00D	1	0	0	0	-
+
+# avoíño
+
+íñas	*	^NCMS	NCFP00D	1	0	0	0	-
+íña	*	^NCMS	NCFS00D	1	0	0	0	-
+íños	*	^NCMS	NCMP00D	1	0	0	0	-
+íño	*	^NCMS	NCMS00D	1	0	0	0	-
+
+# neniño
+
+iñas  a|e|i|u	^NCMS	NCFP00D	1	0	0	0	-
+iña   a|e|i|u	^NCMS	NCFS00D	1	0	0	0	-
+iños  a|e|i|o|u	^NCMS	NCMP00D	1	0	0	0	-
+iño   a|e|i|o|u	^NCMS	NCMS00D	1	0	0	0	-
+
+# mesiña
+
+iñas  a|e|i|o|u	^NCFS	NCFP00D	1	0	0	0	-
+iña  a|e|i|o|u	^NCFS	NCFS00D	1	0	0	0	-
+
+# brutanciño
+
+nciñas	n	^AQ0MS	AQDFP0	1	0	0	0	-
+nciña	n	^AQ0MS	AQDFS0	1	0	0	0	-
+nciños	n	^AQ0MS	AQDMP0	1	0	0	0	-
+nciño	n	^AQ0MS	AQDMS0	1	0	0	0	-
+
+# bonitiño
+
+iñas  a|e|i|o|u	^AQ0MS	AQDFP0	1	0	0	0	-
+iña   a|e|i|o|u	^AQ0MS	AQDFS0	1	0	0	0	-
+iños  a|e|i|o|u	^AQ0MS	AQDMP0	1	0	0	0	-
+iño   a|e|i|o|u	^AQ0MS	AQDMS0	1	0	0	0	-
+
+
+############################################
+################ SUPERLATIVOS ##############
+############################################
+
+# altísimo
+
+ísimo   a|e|o|*	^AQ0MS	AQDMS0	1	0	0	0	-
+ísimos  a|e|o|*	^AQ0MS	AQDMP0	1	0	0	0	-
+ísima   a|e|o|*	^AQ0MS	AQDFS0	1	0	0	0	-
+ísimas  a|e|o|*	^AQ0MS	AQDFP0	1	0	0	0	-
+
+# amabilísimo
+bilísimo  bel	^AQ0CS	AQSMS0	1	0	0	0	-
+bilísimos beis	^AQ0CP	AQSMP0	1	0	0	0	-
+bilísima  bel	^AQ0CS	AQSFS0	1	0	0	0	-
+bilísimas beis	^AQ0CP	AQSFP0	1	0	0	0	-
+
+

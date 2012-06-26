@@ -1,0 +1,4 @@
+<map id="G" name="G">
+<area shape="rect" href="$classner.html" title="The class ner is an abstract class that implements a general NE Recognizer." alt="" coords="5,5,45,35"/>
+<area shape="rect" href="$classautomat.html" title="Abstract class to implement a Finite&#45;State Automaton which is used by modules recognizing..." alt="" coords="69,5,136,35"/>
+</map>

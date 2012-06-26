@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Processing modules</TITLE>
+<META NAME="description" CONTENT="Processing modules">
+<META NAME="keywords" CONTENT="userman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="userman.css">
+
+<LINK REL="previous" HREF="node65.html">
+<LINK REL="up" HREF="node64.html">
+<LINK REL="next" HREF="node67.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html1024"
+  HREF="node67.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1020"
+  HREF="node64.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1016"
+  HREF="node65.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1022"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1025"
+  HREF="node67.html">Sample programs</A>
+<B> Up:</B> <A NAME="tex2html1021"
+  HREF="node64.html">Basic Classes</A>
+<B> Previous:</B> <A NAME="tex2html1017"
+  HREF="node65.html">Linguistic Data Classes</A>
+ &nbsp; <B>  <A NAME="tex2html1023"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00512000000000000000">
+Processing modules</A>
+</H2>
+
+<P>
+The main processing classes in the library are:
+
+<UL>
+<LI><TT>tokenizer</TT>: Receives plain text and returns a list of <TT>word</TT> objects.
+</LI>
+<LI><TT>splitter</TT>: Receives a list of <TT>word</TT> objects and
+  returns a list of <TT>sentence</TT> objects.
+</LI>
+<LI><TT>maco</TT>: Receives a list of <TT>sentence</TT> objects and
+  morphologically annotates each <TT>word</TT> object in the given
+  sentences. Includes specific submodules (e.g, detection of date,
+  number, multiwords, etc.) which can be activated at will.
+</LI>
+<LI><TT>tagger</TT>: Receives a list of <TT>sentence</TT> objects and
+  disambiguates the PoS of each <TT>word</TT> object in the given
+  sentences.
+</LI>
+<LI><TT>parser</TT>: Receives a list of <TT>sentence</TT> objects and
+  associates to each of them a <TT>parse_tree</TT> object.
+</LI>
+<LI><TT>dependency</TT>: Receives a list of parsed <TT>sentence</TT>
+ objects and associates to each of them a <TT>dep_tree</TT> object.
+</LI>
+<LI><TT>coref</TT>: Receives a document (containing a list of parsed
+  <TT>sentence</TT> objects) and labels each noun phrase as belonging
+  to a <EM>coreference group</EM>, if appropriate.
+</LI>
+</UL>
+
+<P>
+You may create as many instances of each as you need. 
+  Constructors for each of them receive the appropriate options
+  (e.g. the name of a dictionary, hmm, or grammar file), so you can 
+  create each instance with the required capabilities (for instance,
+  a tagger for English and another for Spanish).
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1024"
+  HREF="node67.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1020"
+  HREF="node64.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1016"
+  HREF="node65.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1022"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1025"
+  HREF="node67.html">Sample programs</A>
+<B> Up:</B> <A NAME="tex2html1021"
+  HREF="node64.html">Basic Classes</A>
+<B> Previous:</B> <A NAME="tex2html1017"
+  HREF="node65.html">Linguistic Data Classes</A>
+ &nbsp; <B>  <A NAME="tex2html1023"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Lluís Padró
+2010-09-02
+</ADDRESS>
+</BODY>
+</HTML>

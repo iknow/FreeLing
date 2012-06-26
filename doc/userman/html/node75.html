@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Sample Configuration File</TITLE>
+<META NAME="description" CONTENT="Sample Configuration File">
+<META NAME="keywords" CONTENT="userman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="userman.css">
+
+<LINK REL="previous" HREF="node74.html">
+<LINK REL="up" HREF="node73.html">
+<LINK REL="next" HREF="node76.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html1135"
+  HREF="node76.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1131"
+  HREF="node73.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1127"
+  HREF="node74.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1133"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1136"
+  HREF="node76.html">Extending the library with</A>
+<B> Up:</B> <A NAME="tex2html1132"
+  HREF="node73.html">Configuration File and Command</A>
+<B> Previous:</B> <A NAME="tex2html1128"
+  HREF="node74.html">Valid options</A>
+ &nbsp; <B>  <A NAME="tex2html1134"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00632000000000000000"></A>
+<A NAME="ss-config"></A>
+<BR>
+Sample Configuration File
+</H2>
+
+<P>
+A sample configuration file follows.  This is only a sample, and
+  probably won't work if you use it as is.  You can start using
+  freeling with the default configuration files which -after
+  installation- are located in <TT>/usr/local/share/FreeLing/config</TT>
+  (note than prefix <TT>/usr/local</TT> may differ if you specified an
+  alternative location when installing FreeLing. If you
+  installed from a binary <TT>.deb</TT> package), it will be 
+  at <TT>/usr/share/FreeLing/config</TT>.
+
+<P>
+You can use those files as a starting point to customize 
+  one configuration file to suit your needs.
+
+<P>
+Note that file paths in the sample configuration file contain
+  <code>$FREELINGSHARE</code>, which is supposed to be an environment
+  variable.  If this variable is not defined, the analyzer will
+  abort, complaining about not finding the files.
+
+<P>
+If you use the <TT>analyze</TT> script, it will define the variable for
+  you as <TT>/usr/local/share/Freeling</TT> (or the right installation
+  path), unless you define it to point somewhere else.
+
+<P>
+You can also adjust your configuration files to use normal paths for
+  the files (either relative or absolute) instead of using variables.
+
+<P>
+<PRE>
+# ---- sample configuration file for Spanish analyzer
+
+#### General options 
+Lang=es
+
+#### Trace options. Only effective if we have compiled with -DVERBOSE
+TraceLevel=0
+TraceModule=0x0000
+
+## Options to control the applied modules. The input may be partially
+## processed, or not a full analysis may me wanted. The specific 
+## formats are a choice of the main program using the library, as well
+## as the responsability of calling only the required modules.
+InputFormat=plain
+OutputFormat=morfo
+
+# consider each newline as a sentence end
+AlwaysFlush=no
+
+#### Tokenizer options
+TokenizerFile="$FREELINGSHARE/es/tokenizer.dat"
+
+#### Splitter options
+SplitterFile="$FREELINGSHARE/es/splitter.dat"
+
+#### Morfo options
+AffixAnalysis=yes
+MultiwordsDetection=yes
+NumbersDetection=yes
+PunctuationDetection=yes
+DatesDetection=yes
+QuantitiesDetection=yes
+DictionarySearch=yes
+ProbabilityAssignment=yes
+DecimalPoint=","
+ThousandPoint="."
+LocutionsFile=$FREELINGSHARE/es/locucions.dat 
+QuantitiesFile=$FREELINGSHARE/es/quantities.dat
+AffixFile=$FREELINGSHARE/es/afixos.dat
+ProbabilityFile=$FREELINGSHARE/es/probabilitats.dat
+DictionaryFile=$FREELINGSHARE/es/maco.db
+PunctuationFile=$FREELINGSHARE/common/punct.dat
+ProbabilityThreshold=0.001
+#NER options
+NERecognition=basic
+NPDataFile=$FREELINGSHARE/es/np.dat
+## --- comment lines above and uncomment those below, if you want 
+## --- a better NE recognizer (higer accuracy, lower speed)
+#NERecognition=bio
+#NPDataFile=$FREELINGSHARE/es/ner/ner.dat
+
+## NEC options
+NEClassification=no
+NECFilePrefix=$FREELINGSHARE/es/nec/nec
+
+## Sense annotation options (none,all,mfs)
+SenseAnnotation=none
+SenseFile=$FREELINGSHARE/es/senses16.db
+DuplicateAnalysis=false
+UKBRelations=$FREELINGSHARE/common/wn16-ukb.bin
+UKBDictionary=$FREELINGSHARE/es/senses16.ukb
+UKBEpsilon=0.03
+UKBMaxIter=10
+
+#### Tagger options
+Tagger=hmm
+#Tagger=relax
+TaggerHMMFile=$FREELINGSHARE/es/tagger.dat
+TaggerRelaxFile=$FREELINGSHARE/es/constr_gram.dat
+TaggerRelaxMaxIter=500
+TaggerRelaxScaleFactor=670.0
+TaggerRelaxEpsilon=0.001
+TaggerRetokenize=yes
+TaggerForceSelect=retok
+
+#### Parser options
+GrammarFile=$FREELINGSHARE/es/grammar-dep.dat
+
+#### Dependence Parser options
+DepParser=txala
+DepTxalaFile=$FREELINGSHARE/es/dep/dependences.dat
+DepMaltFile=$FREELINGSHARE/es/malt/malt.dat
+
+#### Coreference Solver options
+CoreferenceResolution=no
+CorefFile=$FREELINGSHARE/es/coref/coref.dat
+</PRE>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1135"
+  HREF="node76.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1131"
+  HREF="node73.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1127"
+  HREF="node74.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1133"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1136"
+  HREF="node76.html">Extending the library with</A>
+<B> Up:</B> <A NAME="tex2html1132"
+  HREF="node73.html">Configuration File and Command</A>
+<B> Previous:</B> <A NAME="tex2html1128"
+  HREF="node74.html">Valid options</A>
+ &nbsp; <B>  <A NAME="tex2html1134"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Lluís Padró
+2010-09-02
+</ADDRESS>
+</BODY>
+</HTML>

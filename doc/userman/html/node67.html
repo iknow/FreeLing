@@ -1,0 +1,277 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Sample programs</TITLE>
+<META NAME="description" CONTENT="Sample programs">
+<META NAME="keywords" CONTENT="userman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="userman.css">
+
+<LINK REL="previous" HREF="node64.html">
+<LINK REL="up" HREF="node63.html">
+<LINK REL="next" HREF="node68.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html1034"
+  HREF="node68.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1030"
+  HREF="node63.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1026"
+  HREF="node66.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1032"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1035"
+  HREF="node68.html">Using the sample main</A>
+<B> Up:</B> <A NAME="tex2html1031"
+  HREF="node63.html">Using the library from</A>
+<B> Previous:</B> <A NAME="tex2html1027"
+  HREF="node66.html">Processing modules</A>
+ &nbsp; <B>  <A NAME="tex2html1033"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00520000000000000000"></A>
+<A NAME="sec-main"></A>
+<BR>
+Sample programs
+</H1>
+
+<P>
+The directory <TT>src/main/simple_examples</TT> in the tarball contains 
+ some example programs to illustrate how to call the library.
+
+<P>
+See the README file in that directory for details on what does each of the 
+ programs.
+
+<P>
+The most complete program in that directory is <TT>sample.cc</TT>, which
+ is very similar to the program depicted below, which
+ reads text from stdin, morphologically analyzes it, and processes 
+ the obtained results. 
+
+<P>
+Note that depending on the application, the input text
+  could be obtained from a speech recongnition system, or from a 
+  XML parser, or from any source suiting the application goals. 
+  Similarly, the obtained analysis, instead of being output, could
+  be used in a translation system, or sent to a dialogue control module, etc.
+
+<P>
+<PRE>
+int main() {
+  string text;
+  list&lt;word&gt; lw;
+  list&lt;sentence&gt; ls;
+
+  string path="/usr/local/share/FreeLing/es/";
+
+  // create analyzers
+  tokenizer tk(path+"tokenizer.dat"); 
+  splitter sp(path+"splitter.dat");
+  
+  // morphological analysis has a lot of options, and for simplicity they are packed up
+  // in a maco_options object. First, create the maco_options object with default values.
+  maco_options opt("es");  
+  // then, set required options on/off  
+  opt.QuantitiesDetection = false;  //deactivate ratio/currency/magnitudes detection 
+  opt.AffixAnalysis = true; opt.MultiwordsDetection = true; opt.NumbersDetection = true; 
+  opt.PunctuationDetection = true; opt.DatesDetection = true; opt.QuantitiesDetection = false; 
+  opt.DictionarySearch = true; opt.ProbabilityAssignment = true; opt.NERecognition = NER_BASIC;   
+  // alternatively, you can set active modules in a single call:
+  //     opt.set_active_modules(true, true, true, true, true, false, true, true, NER_BASIC, false);
+
+  // and provide files for morphological submodules. Note that it is not necessary
+  // to set opt.QuantitiesFile, since Quantities module was deactivated.
+  opt.LocutionsFile=path+"locucions.dat"; opt.AffixFile=path+"afixos.dat";
+  opt.ProbabilityFile=path+"probabilitats.dat"; opt.DictionaryFile=path+"maco.db";
+  opt.NPdataFile=path+"np.dat"; opt.PunctuationFile=path+"../common/punct.dat"; 
+  // alternatively, you can set the files in a single call:
+  //  opt.set_data_files(path+"locucions.dat", "", path+"afixos.dat", 
+  //                     path+"probabilitats.dat", path+"maco.db", 
+  //                     path+"np.dat", path+"../common/punct.dat", "");
+  
+  // create the analyzer with the just build set of maco_options
+  maco morfo(opt); 
+  // create a hmm tagger for spanish (with retokenization ability, and forced 
+  // to choose only one tag per word)
+  hmm_tagger tagger("es", path+"tagger.dat", true, true); 
+  // create chunker
+  chart_parser parser(path+"grammar-dep.dat");
+  // create dependency parser 
+  dep_txala dep(path+"dep/dependences.dat", parser.get_start_symbol());
+  
+  // get plain text input lines while not EOF.
+  while (getline(cin,text)) {
+    
+    // tokenize input line into a list of words
+    lw=tk.tokenize(text);
+    
+    // accumulate list of words in splitter buffer, returning a list of sentences.
+    // The resulting list of sentences may be empty if the splitter has still not 
+    // enough evidence to decide that a complete sentence has been found. The list
+    // may contain more than one sentence (since a single input line may consist 
+    // of several complete sentences).
+    ls=sp.split(lw, false);
+    
+    // perform and output morphosyntactic analysis and disambiguation
+    morfo.analyze(ls);
+    tagger.analyze(ls);
+
+    // Do whatever our application does with the analyzed sentences
+    ProcessResults(ls);
+    
+    // clear temporary lists;
+    lw.clear(); ls.clear();    
+  }
+  
+  // No more lines to read. Make sure the splitter doesn't retain anything  
+  ls=sp.split(lw, true);   
+ 
+  // analyze sentence(s) which might be lingering in the buffer, if any.
+  morfo.analyze(ls);
+  tagger.analyze(ls);
+
+  // Process last sentence(s)
+  ProcessResults(ls);
+}
+</PRE>
+
+<P>
+The processing performed on the obtained results would obviously
+ depend on the goal of the application (translation, indexation,
+ etc.). In order to illustrate the structure of the linguistic data
+ objects, a simple procedure is presented below, in which the processing
+ consists of merely printing the results to stdout in XML format.
+
+<P>
+<PRE>
+void ProcessResults(const list&lt;sentence&gt; &amp;ls) {
+  
+  list&lt;sentence&gt;::const_iterator s;
+  word::const_iterator a;   //iterator over all analysis of a word
+  sentence::const_iterator w;
+  
+  // for each sentence in list
+  for (s=ls.begin(); s!=ls.end(); s++) {
+    
+    // print sentence XML tag
+    cout&lt;&lt;"&lt;SENT&gt;"&lt;&lt;endl;
+      
+    // for each word in sentence
+    for (w=s-&gt;begin(); w!=s-&gt;end(); w++) {
+      
+      // print word form, with PoS and lemma chosen by the tagger
+      cout&lt;&lt;"  &lt;WORD form=\""&lt;&lt;w-&gt;get_form();
+      cout&lt;&lt;"\" lemma=\""&lt;&lt;w-&gt;get_lemma();
+      cout&lt;&lt;"\" pos=\""&lt;&lt;w-&gt;get_parole();
+      cout&lt;&lt;"\"&gt;"&lt;&lt;endl;
+      
+      // for each possible analysis in word, output lemma, parole and probability
+      for (a=w-&gt;analysis_begin(); a!=w-&gt;analysis_end(); ++a) {
+	
+        // print analysis info
+        cout&lt;&lt;"    &lt;ANALYSIS lemma=\""&lt;&lt;a-&gt;get_lemma();
+        cout&lt;&lt;"\" pos=\""&lt;&lt;a-&gt;get_parole();
+        cout&lt;&lt;"\" prob=\""&lt;&lt;a-&gt;get_prob();
+        cout&lt;&lt;"\"/&gt;"&lt;&lt;endl;
+      }
+      
+      // close word XML tag after list of analysis
+      cout&lt;&lt;"&lt;/WORD&gt;"&lt;&lt;endl;
+    }
+    
+    // close sentence XML tag
+    cout&lt;&lt;"&lt;/SENT&gt;"&lt;&lt;endl;
+  }
+}
+</PRE>
+
+<P>
+The above sample program may be found in <TT>/src/main/simple_examples/sample.cc</TT>
+ in FreeLing tarball.
+
+<P>
+Once you have compiled and installed FreeLing, you can build this
+ sample program (or any other you may want to write) with the command:
+<BR> <TT>g++ -o sample sample.cc -lmorfo -ldb_cxx -lpcre -lomlet -fries -lboost_filesystem</TT>
+
+<P>
+Check the README file in the directory to learn more about compiling and using
+ the sample programs.
+
+<P>
+Option <TT>-lmorfo</TT> links with libmorfo library, which is the final result of the
+ FreeLing compilation process.  The oher options refer to other
+ libraries required by FreeLing.
+
+<P>
+You may have to add some  <TT>-I</TT> and/or  <TT>-L</TT> options to the
+ compilation command depending on where the headers and code of
+ required libraries are located. For instance, if you installed some
+ of the libraries in <TT>/usr/local/mylib</TT> instead of the default 
+place <TT>/usr/local</TT>, you'll have to add the options 
+ <TT>-I/usr/local/mylib/include -L/usr/local/mylib/lib</TT> 
+to the command above.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1034"
+  HREF="node68.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html1030"
+  HREF="node63.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html1026"
+  HREF="node66.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html1032"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html1035"
+  HREF="node68.html">Using the sample main</A>
+<B> Up:</B> <A NAME="tex2html1031"
+  HREF="node63.html">Using the library from</A>
+<B> Previous:</B> <A NAME="tex2html1027"
+  HREF="node66.html">Processing modules</A>
+ &nbsp; <B>  <A NAME="tex2html1033"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Lluís Padró
+2010-09-02
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,230 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Constraint definition</TITLE>
+<META NAME="description" CONTENT="Constraint definition">
+<META NAME="keywords" CONTENT="userman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="userman.css">
+
+<LINK REL="next" HREF="node47.html">
+<LINK REL="previous" HREF="node45.html">
+<LINK REL="up" HREF="node44.html">
+<LINK REL="next" HREF="node47.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html782"
+  HREF="node47.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html778"
+  HREF="node44.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html772"
+  HREF="node45.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html780"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html783"
+  HREF="node47.html">Examples</A>
+<B> Up:</B> <A NAME="tex2html779"
+  HREF="node44.html">Relaxation-Labelling Constraint Grammar File</A>
+<B> Previous:</B> <A NAME="tex2html773"
+  HREF="node45.html">Set definition</A>
+ &nbsp; <B>  <A NAME="tex2html781"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION004152200000000000000">
+Constraint definition</A>
+</H3>
+   The <TT>CONSTRAINTS</TT> section consists of a series of context
+   constraits, each of the form: <TT>weight core context;</TT>
+
+<P>
+Where:
+    
+<UL>
+<LI><TT>weight</TT> is a real value stating the compatibility (or
+	incompatibility if negative) degree of the <TT>label</TT> with the
+	<TT>context</TT>.
+</LI>
+<LI><TT>core</TT> indicates the analysis or
+	analyses  (form interpretation) in a word that will 
+        be affected by the constraint. It may be:
+	
+<UL>
+<LI>Plain tag:  A plain complete PoS tag,  e.g. <TT>VMIP3S0</TT>
+</LI>
+<LI>Wildcarded tag:  A PoS tag prefix, right-wilcarded, 
+              e.g. <TT>VMI*</TT>, <TT>VMIP*</TT>. 
+</LI>
+<LI>Lemma: A lemma enclosed in angle brackets, optionaly
+	  preceded by a tag or a wildcarded tag.
+	  e.g.  <code>&lt;comer&gt;</code>, <code>VMIP3S0&lt;comer&gt;</code>,
+	  <code>VMI*&lt;comer&gt;</code> will match any
+	  word analysis with those tag/prefix and lemma.
+</LI>
+<LI>Form: Form enclosed in parenthesis, preceded by a PoS tag (or a
+	  wilcarded tag).
+	  e.g.  <TT>VMIP3S0(comi&#243;)</TT>,  <TT>VMI*(comi&#243;)</TT> will match any
+	  word analysis with those tag/prefix and form.
+          Note that the form alone <EM>is not</EM> allowed in the rule core,
+	  since the rule woull to distinguish among different analysis of
+	  the same form.
+</LI>
+<LI>Sense: A sense code enclosed in square brackets, optionaly
+	  preceded by a tag or a wildcarded tag.
+	  e.g.  <code>[00862617]</code>, <code>NCMS000[00862617]</code>,
+          <code>NC*[00862617]</code> will match any
+	  word analysis with those tag/prefix and sense.
+	
+</LI>
+</UL>
+</LI>
+<LI><TT>context</TT> is a list of conditions that the context of
+        the word must satisfy for the constraint to be applied.
+	Each condition is enclosed in parenthesis and the list (and
+        thus the constraint) is finished with a semicolon.
+	Each condition has the form: 
+<BR>	<TT>(position terms)</TT> 
+<BR>
+or either:
+<BR>	<TT>(position terms barrier terms)</TT> 
+
+<P>
+Conditions may be negated using the token <TT>not</TT>,
+         i.e. <TT>(not pos terms)</TT>
+
+<P>
+Where: 
+	
+<UL>
+<LI><TT>position</TT> is the relative position where the condition
+	  must be satisfied: -1 indicates the previous word and +1 the
+	  next word. A position with a star (e.g. -2*) indicates that
+	  any word is allowed to match starting from the indicated
+	  position and advancing towards the beggining/end of the sentence.
+</LI>
+<LI><TT>terms</TT> is a list of one or more terms separated by
+ 	the token <TT>or</TT>. Each term may be:
+    	   
+<UL>
+<LI>Plain tag:  A plain complete PoS tag,  e.g. <TT>VMIP3S0</TT>
+</LI>
+<LI>Wildcarded tag:  A PoS tag prefix, right-wilcarded, 
+               e.g. <TT>VMI*</TT>, <TT>VMIP*</TT>. 
+</LI>
+<LI>Lemma: A lemma enclosed in angle brackets, optionaly
+	       preceded by a tag or a wildcarded tag.
+	       e.g.  <code>&lt;comer&gt;</code>, <code>VMIP3S0&lt;comer&gt;</code>,
+	       <code>VMI*&lt;comer&gt;</code> will match any
+	       word analysis with those tag/prefix and lemma.
+</LI>
+<LI>Form: Form enclosed in parenthesis, optionally
+	       preceded by a PoS tag (or a wilcarded tag).
+	       e.g.  <TT>(comi&#243;)</TT>, <TT>VMIP3S0(comi&#243;)</TT>, 
+               <TT>VMI*(comi&#243;)</TT> will match any
+	       word analysis with those tag/prefix and form.
+               Note that -contrarily to when defining the rule core- 
+               the form alone <EM>is</EM> allowed in the context.
+</LI>
+<LI>Sense: A sense code enclosed in square brackets, optionaly
+	       preceded by a tag or a wildcarded tag.
+	       e.g.  <code>[00862617]</code>, <code>NCMS000[00862617]</code>, 
+               <code>NC*[00862617]</code> will match any
+	       word analysis with those tag/prefix and sense.
+</LI>
+<LI>Set reference: A name of a previously defined <EM>SET</EM>
+	       in curly brackets.
+	       e.g.  <code>{DetMasc}</code>, <code>{VerbPron}</code>  will match any
+	       word analysis with a tag, lemma or sense in the
+	       specified set.
+	   
+</LI>
+</UL>
+
+<P>
+</LI>
+<LI><TT>barrier</TT> states that the a match of the first term
+	list is only acceptable if between the focus word and the
+	matching word there is no match for the second term list.
+	
+</LI>
+</UL>
+</LI>
+</UL>
+
+<P>
+Note that the use of sense information in the rules of 
+    the constraint grammar (either in the core or in the context) 
+    only makes sense when this information distinguishes one analysis
+    from another. If the sense tagging has been performed with the 
+    option <code>DuplicateAnalysis=no</code>, each PoS tag will have a list
+    with all analysis, so the sense information will not distinguish
+    one analysis from the other (there will be only one analysis with
+    that sense, which will have at the same time all the other senses
+    as well). 
+    If the option <code>DuplicateAnalysis</code> was active, the sense
+    tagger duplicates the analysis, creating a new entry for each
+    sense. So, when a rule selects an analysis having a certain sense,
+    it is unselecting the other copies of the same analysis with 
+    different senses.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html782"
+  HREF="node47.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html778"
+  HREF="node44.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html772"
+  HREF="node45.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html780"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html783"
+  HREF="node47.html">Examples</A>
+<B> Up:</B> <A NAME="tex2html779"
+  HREF="node44.html">Relaxation-Labelling Constraint Grammar File</A>
+<B> Previous:</B> <A NAME="tex2html773"
+  HREF="node45.html">Set definition</A>
+ &nbsp; <B>  <A NAME="tex2html781"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Lluís Padró
+2010-09-02
+</ADDRESS>
+</BODY>
+</HTML>
