@@ -274,6 +274,11 @@ void PrintWord (ostream &sout, const word &w, bool only_sel, bool probs) {
       sout << " " << encode(ait->get_lemma()) << " " << ait->get_parole ();
       if (probs) sout << " " << ait->get_prob ();
     }
+    
+    #ifdef CERELING
+      // output word span
+      sout << " " << w.get_span_start() << "," << w.get_span_finish();
+    #endif
 
     if (cfg->SENSE_SenseAnnotation != NONE)
       sout << OutputSenses (*ait);
@@ -640,6 +645,9 @@ void ProcessLinePlain(const string &text, unsigned long &offs) {
   list<word> av;
   list<sentence> ls;
 
+#ifdef CERELING
+  offs = 0;
+#endif
   tk->tokenize (text, offs, av);
 
   if (cfg->OutputFormat == TOKEN) {
