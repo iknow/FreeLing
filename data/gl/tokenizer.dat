@@ -1,11 +1,11 @@
 
 ## macros to be used in RegExps rules
 <Macros>
-ALPHA      [^\]<>[(\.,";:?!에セ'`)^@~|}{_/\\+=&$#*+%\s\d\-]     
-ALPHANUM   [^\]<>[(\.,";:?!에セ'`)^@~|}{_/\\+=&$#*+%\s\-]
-NOALPHANUM [\]<>[(\.,";:?!에セ'`)^@~|}{_/\\+=&$#*+%\s\-]
-PARTNUM    [^\]<>[(";:?!에セ'`)^@~|}{\s]
-OTHERS     [\]<>[(\.,";:?!에セ'`)^@~|}{_/\\+=&$#*+%\-]
+ALPHA      [^\]<>[(\.,";:?!에セ'`)^@~|}{_/\\+=&$ㄳ´#*+%\s\d\-]     
+ALPHANUM   [^\]<>[(\.,";:?!에セ'`)^@~|}{_/\\+=&$ㄳ´#*+%\s\-]
+NOALPHANUM [\]<>[(\.,";:?!에セ'`)^@~|}{_/\\+=&$ㄳ´#*+%\s\-]
+SYMNUM     [\.,_/\\=\*\+\-별&$ㄳ´#%]
+OTHERS     [\]<>[(\.,";:?!에セ'`)^@~|}{_/\\+=&$ㄳ´#*+%\-]
 </Macros>
 
 ## Tokenization rules. They are applied in the order of definition.
@@ -26,7 +26,7 @@ INDEX_SEQUENCE  0  (\.{4,}|-{2,}|\*{2,}|_{2,}|/{2,})
 INITIALS1       1  ([A-Z](\.[A-Z])+)(\.\.\.)
 INITIALS2 	0  ([A-Z]\.)+
 TIMES           0  (([01]?[0-9]|2[0-4]):[0-5][0-9])
-NAMES_CODES	0  ({PARTNUM}*[0-9]{PARTNUM}*{ALPHANUM})
+NAMES_CODES	0  ({ALPHA}|{SYMNUM})*[0-9]({ALPHA}|[0-9]|{SYMNUM}+{ALPHANUM})*
 THREE_DOTS 	0  (\.\.\.)
 QUOTES	        0  (``|<<|>>|'')
 MAILS 	        0  {ALPHANUM}+([\._]{ALPHANUM}+)*@{ALPHANUM}+([\._]{ALPHANUM}+)*

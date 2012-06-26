@@ -362,10 +362,14 @@ double hmm_tagger::ProbB_log(const std::string &state_i, const word & obs) const
 
   // Compute emission probability pb. 
 
-  // We need first P(t2|w). (The tag will be in the list, since
-  // the states are computed consistently with observations).
-  for(a=obs.begin(); a->get_short_parole(Language)!=tag; a++);
-  plog_word_tag=log(a->get_prob());
+  // We need P(t2|w). Add prob for any matching tag
+  // (The tag will be in the list, since the states 
+  // are computed consistently with observations).
+  double pa=0;
+  for(a=obs.begin(); a!=obs.end(); a++) 
+    if (a->get_short_parole(Language)==tag)
+      pa+=a->get_prob();
+  plog_word_tag=log(pa);
 
   // Compute pb  Pb ~= P(t2|w)*P(w)/P(t2)
   pb_log = plog_word_tag + plog_word - plog_tag;

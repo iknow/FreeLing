@@ -99,7 +99,9 @@ class coref_fex{
 		int get_number(const EXAMPLE &);
 		int get_semclass(const EXAMPLE &);
 		int get_gender(const EXAMPLE &);
-		int get_proper_name(const EXAMPLE &);
+// 		int get_proper_name(const EXAMPLE &);
+		int get_proper_name_i(const EXAMPLE &);
+		int get_proper_name_j(const EXAMPLE &);
 		bool check_word(string, string);
 		int check_acronim(const EXAMPLE &);
 		int check_fixesleft(const EXAMPLE &);

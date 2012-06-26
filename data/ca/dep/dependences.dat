@@ -3298,10 +3298,9 @@
 
 
 <SEMDB>
-SenseFile  /usr/local/share/FreeLing/ca/senses30.db
-WNFile  /usr/local/share/FreeLing/common/wn30.db
+SenseFile  ../senses30.db
+WNFile  ../../common/wn30.db
 </SEMDB>
-
 
 <GRLAB>
 %% ----------- FORMAT of GRLAB rules ---------- %%

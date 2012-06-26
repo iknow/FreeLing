@@ -15,7 +15,8 @@ class FL_socket {
 
    // send text to the server
    function write($text) {
-      $i = socket_write($this->sock,$text); 
+      // send text, adding a C end-of-string (i.e. chr(0)) as termination mark
+      $i = socket_write($this->sock,$text.chr(0)); 
       if ($i===FALSE) exit(socket_strerror(socket_last_error()));
    }
 
@@ -24,16 +25,16 @@ class FL_socket {
 
        $BUF_SZ=2048;
 
-       // receive chunks of BUF_SZ, until a shorter message 
-       // arrives (no more data), or an end-of-string ('\0') is detected.
+       // receive chunks of BUF_SZ, until an C end-of-string
+       // (i.e. chr(0)) is detected.
 
-       $m = socket_read($this->sock, $BUF_SZ);
-       if ($m===FALSE) exit(socket_strerror(socket_last_error()));
+       $b = socket_recv($this->sock, $m, $BUF_SZ, 0);
+       if ($b===FALSE) exit(socket_strerror(socket_last_error()));
        $msg = $m;
 
-       while (strlen($m)==$BUF_SZ and strpos($m,"\0")===FALSE) {
-         $m = socket_read($this->sock, $BUF_SZ);
-         if ($m===FALSE) exit(socket_strerror(socket_last_error()));
+       while (strpos($m,chr(0))===FALSE) {
+         $b = socket_recv($this->sock, $m, $BUF_SZ, 0);
+         if ($b===FALSE) exit(socket_strerror(socket_last_error()));
 	 $msg .= $m;
        }
        return trim($msg,"\0");

@@ -57,6 +57,9 @@ class np: public ner, public automat {
     /// set of words/tags to be ignored as NE parts, even if they are capitalized
     std::map<std::string,int> ignore_tags;
     std::map<std::string,int> ignore_words;
+    /// sets of NE affixes
+    std::set<std::string> prefixes;
+    std::set<std::string> suffixes;
 
     /// it is a noun at the beggining of the sentence
     bool initialNoun;

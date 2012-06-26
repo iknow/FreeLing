@@ -186,6 +186,8 @@ void tokenizer::tokenize(const std::string &p, unsigned long &offset, list<word>
       TRACE(3,"  remaining... ["+string(c)+"]");
     }
   }
+
+  offset++; // count newline
   
   TRACE_WORD_LIST(1,v);
 }

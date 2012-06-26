@@ -72,29 +72,30 @@ void punts::annotate(sentence &se) {
   sentence::iterator i;
   map <string,string>::const_iterator im;
   string form;
-  string::iterator ch;
 
-  for(i=se.begin();i!=se.end();++i) {
+  for (i=se.begin(); i!=se.end(); ++i) {
 
     form=i->get_form();
     TRACE(3,"checking "+form);
-    // search for alphanumeric char in the word
-    for(ch=form.begin(); ch!=form.end() && !util::isalphanum(*ch); ++ch);
-    TRACE(3," search alphanum char ");
- 
-    if (ch==form.end()) {
-      TRACE(3,"   ...but not found ");
-      // No alphanum found.  Must be a punctuation sign
-      im = punct.find(form);
-      TRACE(3,"     ["+form+"] searched in map");
-      if (im!=punct.end()) {
-        TRACE(3,"         ...and found: known punctuation");
-	// punctuation sign found in the hash
-	i->set_analysis(analysis(form,(*im).second));
-      }
-      else { 
-        TRACE(3,"         ...and not found: other punctuation");
-	// Not found. Tag it as "others"
+
+    // search for word in punctuation list
+    im = punct.find(form);
+    if (im!=punct.end()) {
+      TRACE(3,"     ["+form+"] found in map: known punctuation");
+      // punctuation sign found in the hash
+      i->set_analysis(analysis(form,(*im).second));
+      // prevent any other module from reinterpreting this.
+      i->lock_analysis();
+    }
+    else { 
+      TRACE(3,"     ["+form+"] Not found in map: check if it is punctuation..");
+      // Not found. If non-alphanumeric, tag it as "others"
+      
+      // search for alphanumeric char in the word
+      string::iterator ch;
+      for(ch=form.begin(); ch!=form.end() && !util::isalphanum(*ch); ++ch);      
+      if (ch==form.end()) {
+	TRACE(3,"   .. no alphanumeric char found. tag as "+punct[OTHER]);
 	i->set_analysis(analysis(form,punct[OTHER]));
       }
     }

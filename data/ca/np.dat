@@ -39,6 +39,14 @@ NP00000
 <TitleLimit>
 0
 </TitleLimit>
+<Affixes>
+sr.  PRE
+sra. PRE
+sres. PRE
+srs.  PRE
+srta. PRE
+jr. SUF
+</Affixes>
 <SplitMultiwords>
 no
 </SplitMultiwords>

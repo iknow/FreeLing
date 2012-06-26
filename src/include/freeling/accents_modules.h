@@ -113,5 +113,48 @@ class accents_es: public accents_module {
       void fix_accentuation(std::set<std::string> &, const sufrule &) const;
 };
 
+////////////////////////////////////////////////////////////////
+///
+///  Derived accents_module for Galician accentuation.
+///
+////////////////////////////////////////////////////////////////
+
+class accents_gl: public accents_module {
+
+   private:
+      /// check for a vowel (maybe with latin accents)
+      static bool is_vowel(char);
+      /// check for a vowel (strictly)
+      static bool is_vowel_notacc(char);
+      /// check for weak Galician vowels
+      static bool is_open(char);
+      /// check for Galician accents
+      static bool is_accentued_gl(char);
+      /// check for Galician accents
+      static bool is_accentued_gl(const std::string &);
+      /// remove Galician accents
+      static void remove_accent_gl(std::string &);
+      /// remove Galician accents
+      static void remove_accent_gl(char &);
+      /// set Galician accents
+      static void put_accent_gl(char &);
+      /// set Galician accents
+      static void put_accent_gl(std::string &);
+      /// check for Galician accent pattern
+      static bool check_accent_gl(const std::string &);
+      /// check monosyllabous word
+      static bool is_monosyllabic(const std::string &);
+      /// check for Galician accent pattern
+      static bool check_add_gl(const std::string &);
+      /// fix for Galician accent pattern
+      static void fix_accusative_allomorph_gl(std::set<std::string> &);
+
+   public:
+      /// Constructor
+      accents_gl();
+
+      /// Specific accentuation patterns for Galician
+      void fix_accentuation(std::set<std::string> &, const sufrule &) const;
+};
 
 #endif
