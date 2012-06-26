@@ -32,8 +32,8 @@ analyzer_cereling_LDFLAGS = $(analyzer_LDFLAGS)
 analyzer_cereling_CPPFLAGS = -DCERELING
 
 install-exec-hook:
-	cp sample_analyzer/analyze sample_analyzer/analyze_cereling sample_analyzer/initialize $(bindir)
-	chmod +x $(bindir)/analyze $(bindir)/analyze_cereling
+	cp sample_analyzer/analyze sample_analyzer/initialize $(bindir)
+	chmod +x $(bindir)/analyze
 
 uninstall-hook:
-	@rm -rf $(bindir)/analyze $(bindir)/analyze_cereling $(bindir)/initialize
+	@rm -rf $(bindir)/analyze $(bindir)/initialize
