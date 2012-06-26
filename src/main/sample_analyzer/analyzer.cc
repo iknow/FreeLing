@@ -275,8 +275,10 @@ void PrintWord (ostream &sout, const word &w, bool only_sel, bool probs) {
       if (probs) sout << " " << ait->get_prob ();
     }
     
-    // Cerego addition: output word span.
-    sout << " " << w.get_span_start() << "," << w.get_span_finish();
+    #ifdef CERELING
+      // output word span
+      sout << " " << w.get_span_start() << "," << w.get_span_finish();
+    #endif
 
     if (cfg->SENSE_SenseAnnotation != NONE)
       sout << OutputSenses (*ait);
