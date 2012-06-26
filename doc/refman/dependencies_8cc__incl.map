@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="$traces_8h.html" title="freeling/traces.h" alt="" coords="128,160,243,189"/>
-<area shape="rect" href="$dep__rules_8h.html" title="freeling/dep_rules.h" alt="" coords="671,160,804,189"/>
-<area shape="rect" href="$dependencies_8h.html" title="freeling/dependencies.h" alt="" coords="813,83,971,112"/>
-<area shape="rect" href="$semdb_8h.html" title="freeling/semdb.h" alt="" coords="1060,237,1177,267"/>
-<area shape="rect" href="$database_8h.html" title="freeling/database.h" alt="" coords="1240,315,1371,344"/>
-<area shape="rect" href="$dependency__parser_8h.html" title="freeling/dependency_parser.h" alt="" coords="793,237,985,267"/>
-</map>

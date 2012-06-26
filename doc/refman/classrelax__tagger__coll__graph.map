@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="$classPOS__tagger.html" title="The class POS_tagger is just an abstract class generalizing a PoS tagger." alt="" coords="5,85,96,115"/>
-<area shape="rect" href="$classconstraint__grammar.html" title="Class constraint_grammar implements a pseudo CG, ready to be used from a relax PoS..." alt="" coords="120,85,256,115"/>
-<area shape="rect" href="$classstd_1_1multimap.html" title="std::multimap\&lt;std::string,ruleCG\&gt;" alt="" coords="79,5,297,35"/>
-<area shape="rect" href="$classrelax.html" title="The class relax implements a generic solver for consistent labelling problems, using..." alt="" coords="280,85,328,115"/>
-</map>

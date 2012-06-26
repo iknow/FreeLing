@@ -1,4 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="$classhmm__tagger.html" title="The class hmm_tagger implements the syntactic analyzer and is the main class, which..." alt="" coords="5,83,99,112"/>
-<area shape="rect" href="$classrelax__tagger.html" title="The class relax_tagger implements a PoS tagger based on relaxation labelling algorithm..." alt="" coords="123,83,213,112"/>
-</map>

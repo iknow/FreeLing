@@ -1,4 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="$classemission__states.html" title="The class emission_states stores the list of states in the HMM that *may* be generating..." alt="" coords="5,83,203,112"/>
-<area shape="rect" href="$classsetCG.html" title="auxiliary class to store sets defined in the CG" alt="" coords="227,83,365,112"/>
-</map>

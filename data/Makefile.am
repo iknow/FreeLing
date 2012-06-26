@@ -2,6 +2,12 @@ languages = as ca cy en es gl it pt
 
 ZCAT=gunzip -c
 
+if USE_LIBDB
+  libdb="yes"
+else 
+  libdb="no"
+endif
+
 pkgdata_DATA =
 
 esdatadir = $(pkgdatadir)/es
@@ -83,28 +89,37 @@ configdata_DATA = config/*
 install-data-hook:
 	@echo "Indexing language dictionaries. This will take some minutes."
 	@for lg in $(languages); do \
-	   if [ -f "$(pkgdatadir)/$$lg/corrector/corrector.db" ]; \
-	   	then rm -f $(pkgdatadir)/$$lg/corrector/corrector.db; \
+	   if [ -f "$(pkgdatadir)/$$lg/corrector/corrector.db" ]; then \
+		rm -f $(pkgdatadir)/$$lg/corrector/corrector.db; \
 	   fi; \
-	   if [ -f "$(pkgdatadir)/$$lg/corrector/corrector.rules" ]; \
-		then echo "...Creating sound database for "$$lg" dictionary, please wait."; \
-		     $(ZCAT) -f $(pkgdatadir)/$$lg/dicc.src | $(bindir)/dicc2phon $(pkgdatadir)/$$lg/corrector/corrector.rules $(pkgdatadir)/common/corrector/corrector.soundDicFile $(pkgdatadir)/common/corrector/corrector.sampa  |$(bindir)/indexdict $(pkgdatadir)/$$lg/corrector/corrector.db; \
+	   if [ -f "$(pkgdatadir)/$$lg/corrector/corrector.rules" ]; then \
+		echo "...Creating sound database for "$$lg" dictionary, please wait."; \
+		$(ZCAT) -f $(pkgdatadir)/$$lg/dicc.src | $(bindir)/dicc2phon $(pkgdatadir)/$$lg/corrector/corrector.rules $(pkgdatadir)/common/corrector/corrector.soundDicFile $(pkgdatadir)/common/corrector/corrector.sampa > $(pkgdatadir)/$$lg/corrector/corrector.src; \
+	        if [ "x"$(libdb) == "xyes" ]; then \
+                    $(ZCAT) -f $(pkgdatadir)/$$lg/corrector/corrector.src | $(bindir)/indexdict $(pkgdatadir)/$$lg/corrector/corrector.db; \
+                fi; \
            fi; \
 	   echo "...Indexing "$$lg" dictionary, please wait."; \
 	   rm -f $(pkgdatadir)/$$lg/maco.db; \
-	   $(ZCAT) -f $(pkgdatadir)/$$lg/dicc.src | $(bindir)/indexdict $(pkgdatadir)/$$lg/maco.db; \
+	   if [ "x"$(libdb) == "xyes" ]; then \
+	      $(ZCAT) -f $(pkgdatadir)/$$lg/dicc.src | $(bindir)/indexdict $(pkgdatadir)/$$lg/maco.db; \
+	   fi; \
 	   echo "...Indexing "$$lg" sense dictionary, please wait."; \
 	   for src in $(pkgdatadir)/$$lg/senses*.src; do \
-             name=`echo $$src | sed 's/.src//' `; \
-             rm -f $$name.db; \
-	     $(ZCAT) -f $$src | $(bindir)/indexdict $$name.db; \
-	     $(ZCAT) -f $$src | $(bindir)/convertdict > $$name.ukb; \
-	   done \
+              name=`echo $$src | sed 's/.src//' `; \
+	      $(ZCAT) -f $$src | $(bindir)/convertdict > $$name.ukb; \
+	      rm -f $$name.db; \
+	      if [ "x"$(libdb) == "xyes" ]; then \
+	         $(ZCAT) -f $$src | $(bindir)/indexdict $$name.db; \
+	      fi; \
+	   done; \
 	done 
 	@echo "Indexing WN-based semantic database"
-	@rm -f $(pkgdatadir)/common/wn30.db;
-	@$(ZCAT) -f $(pkgdatadir)/common/wn30.src | $(bindir)/indexdict $(pkgdatadir)/common/wn30.db;
-	@$(bindir)/compile_kb -o $(pkgdatadir)/common/wn30-ukb.bin $(pkgdatadir)/common/wnet30_rels.txt;
+	@rm -f $(pkgdatadir)/common/wn30.db
+	@if [ "x"$(libdb) == "xyes" ]; then \
+	   $(ZCAT) -f $(pkgdatadir)/common/wn30.src | $(bindir)/indexdict $(pkgdatadir)/common/wn30.db;\
+	fi
+	@$(bindir)/compile_kb -o $(pkgdatadir)/common/wn30-ukb.bin $(pkgdatadir)/common/wnet30_rels.txt
 	@$(bindir)/compile_kb -o $(pkgdatadir)/common/xwn30-ukb.bin $(pkgdatadir)/common/wnet30_rels.txt $(pkgdatadir)/common/wnet30g_rels.txt
 
 uninstall-hook:
