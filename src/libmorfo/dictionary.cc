@@ -257,15 +257,15 @@ void dictionary:: annotate(sentence &se) {
 
         int st=pos->get_span_start(); 
         int fin=pos->get_span_finish();
-        int step=(fin-st+1)/lw.size(); 
-	step=max(1,step);
-	int len=max(1,step-1);
+        int approx_len=(fin-st+1)/lw.size(); 
+	approx_len=max(1,approx_len);
 
         unsigned int n;
         for (n=1,i=lw.begin(); i!=lw.end(); n++,i++) {
           // span end for curent token. Make sure last token span 
           // matches original token
-          int f= (n==lw.size()? fin : st+len);
+          int f= (n==lw.size()? fin : min(st+approx_len, fin));
+          
           // set span for current token.
 	  i->set_span(st,f);
 	  i->user=pos->user;
@@ -273,7 +273,7 @@ void dictionary:: annotate(sentence &se) {
           TRACE(2,"  Inserting "+i->get_form()+". span=("+util::int2string(i->get_span_start())+","+util::int2string(i->get_span_finish())+")");
           pos=se.insert(pos,*i); 
           pos++;
-	  st=st+step;
+	  st=f;
          }
 
 	TRACE(2,"  Erasing "+pos->get_form());
