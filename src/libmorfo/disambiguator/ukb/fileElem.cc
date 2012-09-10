@@ -2,6 +2,9 @@
 #include <iostream>
 #include <stdexcept>
 
+// Needed for boost >=1.44
+#define BOOST_FILESYSTEM_VERSION 2
+
 // Boost filesystem
 #include <boost/version.hpp>
 #include <boost/filesystem/operations.hpp>
