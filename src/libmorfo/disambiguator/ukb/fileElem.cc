@@ -13,22 +13,12 @@ namespace ukb {
   namespace fs = boost::filesystem;
 
   static inline string path_string(const boost::filesystem::path & p) {
-
-#if (BOOST_VERSION / 100 % 1000 < 34) 
-	return p.native_file_string();
-#else
-	return p.file_string();
-#endif
+	return p.string();
   }
 
   template<class Dir> string dir_string(const Dir & p) {
-#if (BOOST_VERSION / 100 % 1000 < 34) 
-	// Dir is a path object
-	return p.native_file_string();
-#else
 	// Dir is a basic_directory object
-	return p.path().file_string();
-#endif
+	return p.path().string();
   }
 
   vector<string> extract_input_files(const string & fullname,
@@ -53,7 +43,7 @@ namespace ukb {
 			++dir_itr ) {
 		if (fs::is_directory(*dir_itr)) continue;
 		if (extension.size()) {
-		  string dfile = dir_itr->leaf();
+		  string dfile = dir_itr->path().filename().native();
 		  size_t ext_i = dfile.find_last_of('.');
 		  if (ext_i == string::npos) continue;
 		  string dext(dfile.begin() + ext_i + 1, dfile.end());
@@ -75,7 +65,7 @@ namespace ukb {
 
 	fs::path full_path( fs::initial_path() );
   
-	full_path = fs::system_complete( fs::path( fname, fs::native ) );
+	full_path = fs::system_complete( fs::path( fname ) );
 	return exists(full_path);
   }
 
@@ -88,9 +78,9 @@ namespace ukb {
 
 	fs::path full_path( fs::initial_path() );
   
-	full_path = fs::system_complete( fs::path( fname, fs::native ) );
+	full_path = fs::system_complete( fs::path( fname ) );
 
-	return full_path.leaf();
+	return full_path.filename().native();
   }
 
 
@@ -133,7 +123,7 @@ namespace ukb {
 	path = p.branch_path().string();
 	if (path == "") path = ".";
 
-	string file_fname = p.leaf(); // name + extension
+	string file_fname = p.filename().native(); // name + extension
 
 	string::const_iterator beg = file_fname.begin();
 	string::const_iterator end = file_fname.end();
