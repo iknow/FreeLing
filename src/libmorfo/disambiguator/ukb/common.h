@@ -6,7 +6,7 @@
 // + singletons
 
 #ifndef COMMON_H
-#define COMMOM_H
+#define COMMON_H
 
 #include <string>
 #include <iterator>
@@ -225,7 +225,7 @@ namespace ukb {
 	// verbose mode.
 	//
 	typename boost::graph_traits<G>::vertex_iterator vIt, vItEnd;
-	tie(vIt, vItEnd) = boost::vertices(g);
+	boost::tuples::tie(vIt, vItEnd) = boost::vertices(g);
 	size_t erpin_onak = std::accumulate(vIt, vItEnd, size_t(0), sum_connected_vertex_<G>(g));
 	return erpin_onak;
   }

@@ -411,7 +411,7 @@ namespace ukb {
 
 	graph_traits<DisambG>::vertex_iterator vIt, vItEnd;
 	tie(vIt, vItEnd) = vertices(g);
-	copy_if(vIt, vItEnd, V.begin(), vertex_is_connected<DisambG>(g));
+	ukb::copy_if(vIt, vItEnd, V.begin(), vertex_is_connected<DisambG>(g));
 
 	hits_iterate(g, V.begin(), V.end(), hRank, aRank, 50); // 50 iterations
 
@@ -508,7 +508,7 @@ namespace ukb {
 	vector<Dis_vertex_t> V(N);
 
 	tie(u, end) = vertices(g);
-	copy_if(u, end, V.begin(), vertex_is_connected<DisambG>(g));
+	ukb::copy_if(u, end, V.begin(), vertex_is_connected<DisambG>(g));
 
 	// property maps
 
