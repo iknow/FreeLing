@@ -31,6 +31,9 @@
 #include <sstream>
 #include <math.h>
 
+#include <boost/core/swap.hpp>
+#include <boost/scoped_array.hpp>
+
 #include "freeling/ner.h"
 #include "freeling/bioner.h"
 #include "fries/util.h"
@@ -448,16 +451,17 @@ vector<int> vis_viterbi::find_best_path(double** predictions, int sent_size) con
   TRACE(3,"  Viterbi: processing sentence of size: "+util::int2string(sent_size));
   
   // vector with the most likely class for each word
-  vector<int> bestp[2][N];
-  vector<int> *best_path=bestp[0];
-  vector<int> *best_path_new=bestp[1];
+  
+  boost::scoped_array<vector<int> > bestp1(new vector<int>[N]);
+  boost::scoped_array<vector<int> > bestp2(new vector<int>[N]);
+
+  vector<int> *best_path=bestp1.get();
+  vector<int> *best_path_new=bestp2.get();
   // array with the best path for reaching current word with each 
   //  possible class
   double paths[2][N];
   double *p_path=paths[0];
   double *p_path_new=paths[1];
-  // who is currently holding new path
-  int newpath=1;
  
   // initialize this array with the weights for the first word
   //  multiplied by initial probability
@@ -508,9 +512,8 @@ vector<int> vis_viterbi::find_best_path(double** predictions, int sent_size) con
     }
     
     // swap path new and path_new for next iteration
-    p_path = paths[newpath];      p_path_new = paths[1-newpath];
-    best_path = bestp[newpath];   best_path_new = bestp[1-newpath];
-    newpath = 1-newpath;
+    boost::swap(p_path,    p_path_new);
+    boost::swap(best_path, best_path_new);
   }
   
   // once the last word is reached, choose the best path
