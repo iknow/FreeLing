@@ -31,7 +31,7 @@
 #include <sstream>
 #include <math.h>
 
-#include <boost/core/swap.hpp>
+#include <boost/swap.hpp>
 #include <boost/scoped_array.hpp>
 
 #include "freeling/ner.h"
