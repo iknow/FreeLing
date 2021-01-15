@@ -5,6 +5,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <unistd.h>
 #include <netdb.h>
 #include <string.h>
 #include <cstdlib>
@@ -50,7 +51,7 @@ socket_CS::socket_CS(int port) {
   server.sin_addr.s_addr = INADDR_ANY;
   server.sin_port = htons(port);
   
-  int n=bind(sock, (struct sockaddr *) &server,len);
+  int n=::bind(sock, (struct sockaddr *) &server,len);
   if (n < 0) error("ERROR on binding",n);
 }
 

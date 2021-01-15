@@ -62,12 +62,12 @@ namespace ukb {
 	  typedef typename graph_traits<G>::vertex_descriptor vertex_t;
 	  typename graph_traits<G>::vertex_iterator v;
 	  typename graph_traits<G>::vertex_iterator end;
-	  tie(v, end) = vertices(g);
+	  boost::tuples::tie(v, end) = vertices(g);
 	  size_t N = 0;
 	  for (; v != end; ++v) {
 		size_t i = 0;
 		typename graph_traits<G>::out_edge_iterator e, e_end;
-		tie(e, e_end) = out_edges(*v, g);
+		boost::tuples::tie(e, e_end) = out_edges(*v, g);
 		float total_w = 0.0;
 		for(; e != e_end; ++e) {
 		  ++i;
@@ -79,7 +79,7 @@ namespace ukb {
 		} else {
 		  // See if isolated
 		  typename graph_traits<G>::in_edge_iterator ie, ie_end;
-		  tie(ie, ie_end) = in_edges(*v, g);
+		  boost::tuples::tie(ie, ie_end) = in_edges(*v, g);
 		  if (ie == ie_end) {
 			W[*v] = -1.0;
 		  } else {
@@ -126,7 +126,7 @@ namespace ukb {
 		vertex_descriptor v(*v_it);
 		if (-1.0 == out_coef[v]) continue;
 		typename graph_traits<G>::in_edge_iterator e, e_end;
-		tie(e, e_end) = in_edges(v, g);
+		boost::tuples::tie(e, e_end) = in_edges(v, g);
 		for(; e != e_end; ++e) {
 		  vertex_descriptor u = source(*e, g);
 		  rank += rank_map1[u] * wmap[*e] * out_coef[u];
@@ -254,7 +254,7 @@ namespace ukb {
 
 	  typename graph_traits<G>::vertex_iterator v, v_end;
 
-	  tie(v, v_end) = vertices(g);
+	  boost::tuples::tie(v, v_end) = vertices(g);
 	  for(; v != v_end; ++v) {
 		In[*v] = out_degree(*v, g);
 	  }

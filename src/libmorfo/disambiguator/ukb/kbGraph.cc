@@ -30,7 +30,7 @@
 #include <boost/graph/visitors.hpp>
 #include <boost/graph/breadth_first_search.hpp>
 #include <boost/pending/indirect_cmp.hpp>
-#include <boost/pending/integer_range.hpp>
+#include <boost/range/irange.hpp>
 #include <boost/graph/graph_utility.hpp> // for boost::make_list
 
 // dijkstra
@@ -162,8 +162,10 @@ namespace ukb {
 
 	dijkstra_shortest_paths(g,
 							src,
-							predecessor_map(&parents[0]).
-							distance_map(&dist[0]));
+							predecessor_map(boost::make_iterator_property_map(parents.begin(), get(boost::vertex_index, g))).
+							distance_map(boost::make_iterator_property_map(dist.begin(), get(boost::vertex_index, g))));
+							// predecessor_map(&parents[0]).
+							// distance_map(&dist[0]));
 	return true;
   }
 
@@ -200,7 +202,7 @@ namespace ukb {
 
 	  Kb_edge_t aux;
 	  bool existsP;
-	  tie(aux, existsP) = edge(v, u, g);
+	  boost::tuples::tie(aux, existsP) = edge(v, u, g);
 	  if (existsP) add_e(v_i, u_i); // as this edge is no more traversed.
 	}
 
@@ -258,7 +260,7 @@ namespace ukb {
 
 	Kb_vertex_t u;
 	bool aux;
-	tie(u,aux) = get_vertex_by_name(src);
+	boost::tuples::tie(u,aux) = get_vertex_by_name(src);
 	if(!aux) return;
 
 	subg sg;
@@ -315,7 +317,7 @@ namespace ukb {
   Kb_vertex_t Kb::find_or_insert_synset(const string & str) {
 	map<string, Kb_vertex_t>::iterator it;
 	bool insertedP;
-	tie(it, insertedP) = synsetMap.insert(make_pair(str, Kb_vertex_t()));
+	boost::tuples::tie(it, insertedP) = synsetMap.insert(make_pair(str, Kb_vertex_t()));
 	if(insertedP) {
 	  // new vertex
 	  it->second = InsertNode(str, Kb::is_concept);
@@ -326,7 +328,7 @@ namespace ukb {
   Kb_vertex_t Kb::find_or_insert_word(const string & str) {
 	map<string, Kb_vertex_t>::iterator it;
 	bool insertedP;
-	tie(it, insertedP) = wordMap.insert(make_pair(str, Kb_vertex_t()));
+	boost::tuples::tie(it, insertedP) = wordMap.insert(make_pair(str, Kb_vertex_t()));
 	if(insertedP) {
 	  // new vertex
 	  it->second = InsertNode(str, Kb::is_word);
@@ -343,7 +345,7 @@ namespace ukb {
 	if (u == v)
 	  throw runtime_error("Can't insert self loop !");
 	//if (w != 1.0) ++w; // minimum weight is 1
-	tie(e, existsP) = edge(u, v, g);
+	boost::tuples::tie(e, existsP) = edge(u, v, g);
 	if(!existsP) {
 	  coef_status = 0; // reset out degree coefficients
 	  if (static_ranks.size()) vector<float>().swap(static_ranks); // empty static rank vector
@@ -362,7 +364,7 @@ namespace ukb {
 
 	size_t n = 0;
 	graph_traits<KbGraph>::vertex_iterator it, end;
-	tie(it, end) = vertices(g);
+	boost::tuples::tie(it, end) = vertices(g);
 	for(; it != end; ++it) {
 	  if(out_degree(*it, g) == 0 && in_degree(*it, g) != 0) {
 		clear_vertex(*it, g);
@@ -747,13 +749,13 @@ namespace ukb {
 	size_t d;
 
 	graph_traits<KbGraph>::vertex_iterator it, end;
-	tie(it, end) = vertices(g);
+	boost::tuples::tie(it, end) = vertices(g);
 	for(; it != end; ++it) {
 	  d = in_degree(*it, g);
 	  if (d > M) M = d;
 	  if (d < m) m = d;
 	}
-	return make_pair<size_t, size_t>(m, M);
+	return make_pair(m, M);
   }
 
   std::pair<size_t, size_t> Kb::outdeg_maxmin() const {
@@ -764,26 +766,27 @@ namespace ukb {
 	size_t d;
 
 	graph_traits<KbGraph>::vertex_iterator it, end;
-	tie(it, end) = vertices(g);
+	boost::tuples::tie(it, end) = vertices(g);
 	for(; it != end; ++it) {
 	  d = out_degree(*it, g);
 	  if (d > M) M = d;
 	  if (d < m) m = d;
 	}
-	return make_pair<size_t, size_t>(m, M);
+	return make_pair(m, M);
   }
 
 
   int Kb::components() const {
-
-	//	std::vector<int> component(num_vertices(g)), discover_time(num_vertices(g));
-	//	std::vector<default_color_type> color(num_vertices(g));
-	//	std::vector<Vertex> root(num_vertices(g));
-	vector<int> v(num_vertices(g));
-	int i = boost::strong_components(g,&v[0]);
-
-	return i;
-
+	// IteratorPropertyMap construction taken directly from documentation:
+	// http://www.boost.org/doc/libs/1_55_0/libs/graph/example/strong_components.cpp
+	std::vector<int> component(num_vertices(g)), discover_time(num_vertices(g));
+	std::vector<default_color_type> color(num_vertices(g));
+	std::vector<Kb_vertex_t> root(num_vertices(g));
+	int num = strong_components(g, make_iterator_property_map(component.begin(), get(vertex_index, g)),
+								root_map(make_iterator_property_map(root.begin(), get(vertex_index, g))).
+								color_map(make_iterator_property_map(color.begin(), get(vertex_index, g))).
+								discover_time_map(make_iterator_property_map(discover_time.begin(), get(vertex_index, g))));
+	return num;
   }
 
 
@@ -813,7 +816,7 @@ namespace ukb {
 	  }
 
 	  Kb_vertex_t u;
-	  tie(u, auxP) = kb.get_vertex_by_name(syns.get_entry(i), Kb::is_concept);
+	  boost::tuples::tie(u, auxP) = kb.get_vertex_by_name(syns.get_entry(i), Kb::is_concept);
 	  if(!auxP) {
 		if (glVars::debug::warning)
 		  cerr << "W:Kb::add_tokens: warning: " << syns.get_entry(i) << " is not in KB.\n";
@@ -822,7 +825,7 @@ namespace ukb {
 
 	  map<string, vector<Syn_elem> >::iterator m_it;
 
-	  tie(m_it, auxP) = wPos2Syns.insert(make_pair(wpos, vector<Syn_elem>()));
+	  boost::tuples::tie(m_it, auxP) = wPos2Syns.insert(make_pair(wpos, vector<Syn_elem>()));
 	  if (auxP) {
 		// first appearence of word#pos
 		wPosV.push_back(wpos);
@@ -874,7 +877,7 @@ namespace ukb {
 	for(size_t i = 0; i < syns.size(); ++i) {
 	  bool auxP;
 	  Kb_vertex_t v;
-	  tie(v, auxP) = kb.get_vertex_by_name(syns.get_entry(i), Kb::is_concept);
+	  boost::tuples::tie(v, auxP) = kb.get_vertex_by_name(syns.get_entry(i), Kb::is_concept);
 	  if(!auxP) {
 		if (glVars::debug::warning)
 		  cerr << "W:Kb::add_tokens: warning: " << syns.get_entry(i) << " is not in KB.\n";
@@ -920,7 +923,7 @@ namespace ukb {
 
 	graph_traits<KbGraph>::edge_iterator it, end;
 
-	tie(it, end) = edges(g);
+	boost::tuples::tie(it, end) = edges(g);
 	for(; it != end; ++it) {
 	  put(edge_weight, g, *it,
 		  ppv[target(*it, g)]);
@@ -990,11 +993,11 @@ namespace ukb {
 	writeS(o, relsSource);
 	o << endl;
 	graph_traits<KbGraph>::vertex_iterator it, end;
-	tie(it, end) = vertices(g);
+	boost::tuples::tie(it, end) = vertices(g);
 	for(;it != end; ++it) {
 	  o << get(vertex_name, g, *it);
 	  graph_traits<KbGraph>::out_edge_iterator e, e_end;
-	  tie(e, e_end) = out_edges(*it, g);
+	  boost::tuples::tie(e, e_end) = out_edges(*it, g);
 	  if (e != e_end)
 		o << "\n";
 	  for(; e != e_end; ++e) {
@@ -1042,7 +1045,7 @@ namespace ukb {
 	read_atom_from_stream(is, w);
 	//read_atom_from_stream(is, id);
 	//read_atom_from_stream(is, source);
-	tie(e, insertedP) = add_edge(sIdx, tIdx, g);
+	boost::tuples::tie(e, insertedP) = add_edge(sIdx, tIdx, g);
 	assert(insertedP);
 	put(edge_weight, g, e, w);
 	//put(edge_source, g, e, source);
@@ -1079,7 +1082,7 @@ namespace ukb {
 	read_atom_from_stream(is, w);
 	read_atom_from_stream(is, rtype);
 	//read_atom_from_stream(is, source);
-	tie(e, insertedP) = add_edge(sIdx, tIdx, g);
+	boost::tuples::tie(e, insertedP) = add_edge(sIdx, tIdx, g);
 	assert(insertedP);
 	put(edge_weight, g, e, w);
 	put(edge_rtype, g, e, rtype);
@@ -1207,7 +1210,7 @@ namespace ukb {
 	size_t d = 0;
 
 	graph_traits<KbGraph>::vertex_iterator vit, vend;
-	tie(vit, vend) = vertices(g);
+	boost::tuples::tie(vit, vend) = vertices(g);
 	for(;vit != vend; ++vit) {
 	  if (out_degree(*vit, g) + in_degree(*vit, g) == 0) {
 		// isolated vertex
@@ -1310,7 +1313,7 @@ namespace ukb {
 	write_atom_to_stream(o, vertex_n);
 	graph_traits<KbGraph>::vertex_iterator v_it, v_end;
 
-	tie(v_it, v_end) = vertices(g);
+	boost::tuples::tie(v_it, v_end) = vertices(g);
 	for(; v_it != v_end; ++v_it) {
 	  write_vertex_to_stream(o, g, vdelta, *v_it);
 	}
@@ -1322,7 +1325,7 @@ namespace ukb {
 	write_atom_to_stream(o, edge_n);
 	graph_traits<KbGraph>::edge_iterator e_it, e_end;
 
-	tie(e_it, e_end) = edges(g);
+	boost::tuples::tie(e_it, e_end) = edges(g);
 	for(; e_it != e_end; ++e_it) {
 	  write_edge_to_stream(o, g, vdelta, *e_it);
 	}
@@ -1347,7 +1350,7 @@ namespace ukb {
 
 	graph_traits<KbGraph>::edge_iterator e_it, e_end;
 
-	tie(e_it, e_end) = edges(g);
+	boost::tuples::tie(e_it, e_end) = edges(g);
 	for(; e_it != e_end; ++e_it) {
 	  o << "u:" << get(vertex_name, g, source(*e_it, g)) << " ";
 	  o << "v:" << get(vertex_name, g, target(*e_it, g)) << " d:1\n";
